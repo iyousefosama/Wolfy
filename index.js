@@ -22,7 +22,6 @@ const snipes = new Discord.Collection()
 
 const mongodb = require('./mongo')()
 
-const prefix =('!')
 // it creates a new function for our cooldowns
 const cooldown = new Set();
 
@@ -121,24 +120,18 @@ Client.on("ready", async () => {
 });
 
 
-Client.on("message", async (message, guild) => {
+
+
+Client.on("message", async message => {
     if(message.author.Client || message.channel.type === "dm") return;
 
-    let prefix;
-    let data = await PrefixSchema.findOne({
-        _id: message.guild.id
-    })
-    if(data === null) {
-        prefix = "!"
-    } else {
-        prefix = data.newPrefix
-    }
+    let prefix = config.prefix;
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0];
     let args = messageArray.slice(1)
 
     // it will make the cmd work with him orginal name and his aliases
-    let commands = Client.commands.get(cmd.slice(prefix.length)) || Client.commands.get(Client.aliases.get(cmd.slice(prefix.length)));
+    let commands = Client.commands.get(cmd.slice(prefix.length))
 
     if(commands) commands.run(Client, message, args, prefix);
 })
