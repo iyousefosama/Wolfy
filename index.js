@@ -106,4 +106,4 @@ Client.on("message", async (message, guild) => {
 
 // Login To Discord with your app's Token
 
-Client.login(config.token)
+Client.login(process.env.token)
