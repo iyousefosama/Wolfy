@@ -74,7 +74,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 Client.on("ready", async () => {
     console.log(`${Client.user.username} is Online!`)
     // This Will be the Status Of our Bot
-    Client.user.setActivity("🛠️ Bot is on maintance mode please don't use anycommand!", ({type: "PLAYING"}))
+    Client.user.setActivity("!help", ({type: "PLAYING"}))
 });
 
 
