@@ -5,7 +5,7 @@ const Discord = require('discord.js')
 const config = require('./config.json');
 
 // create a new Discord Client 
-const Client = new Discord.Client({disableEveryone: true});
+const Client = new Discord.Client({disableEveryone: true, partials: ['MESSAGE', 'REACTION']});
 
 // we make a new system for the cmds
 Client.commands = new Discord.Collection();
@@ -16,11 +16,54 @@ const fs = require('fs');
 // it creates a new function for our aliases
 Client.aliases = new Discord.Collection();
 
+const map = new Map();
+
+const snipes = new Discord.Collection()
+
 const mongodb = require('./mongo')()
 
 const prefix =('!')
 // it creates a new function for our cooldowns
 const cooldown = new Set();
+
+Client.on('messageDelete', message => {
+    snipes.set(message.channel.id, message)
+
+    const LogChannel = Client.channels.cache.get('831412872852013066')
+    const DeletedLog = new Discord.MessageEmbed()
+    .setTitle("Deleted Message")
+    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+    .setColor('RANDOM')
+    .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
+    LogChannel.send(DeletedLog)
+
+})
+
+Client.on('messageUpdate', async(oldMessage, newMessage) => {
+    const LogChannel = Client.channels.cache.get('831412872852013066')
+    const EditedLog = new Discord.MessageEmbed()
+    .setTitle("Edited Message")
+    .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${newMessage.content}\`\`\``)
+    .setColor('RANDOM')
+    .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
+    await LogChannel.send(EditedLog)
+
+})
+// Welcome message 
+
+Client.on("guildMemberAdd", member => {
+    const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === '✎・𝐆𝐞𝐧𝐞𝐫𝐚𝐥')
+    welcomeChannel.send (`Welcome to the server! ${member}`)
+})
+
+// Bye Message
+
+Client.on("guildMemberRemove", member => {
+    const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === '✎・𝐆𝐞𝐧𝐞𝐫𝐚𝐥')
+    welcomeChannel.send (`${member}, Leaved the server`)
+})
+
+
 
 // Commands Handler 
 
