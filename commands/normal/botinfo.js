@@ -13,7 +13,7 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
         `<a:pp855:768869639786463242> **Tag:** ${Client.user.tag}`, // the actual name for the bot
         `🆔 **ID:** ${Client.user.id}`, // this will be the ID for the bot
         `📆 **Created At:** ${moment(Client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, // this will say when the bot is created 
-        `👑 **Owner:** <@742682490216644619>`, // who created the bot
+        `👑 **Owner:** <@742682490216644619>,<@501431027013517333>`, // who created the bot
         '\u200b'
     ])
     .addField(`**Stats**`,[ // it will say stats then...
