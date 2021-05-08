@@ -13,7 +13,7 @@ Client.commands = new Discord.Collection();
 // require the fs module
 const fs = require('fs');
 
-const prefix = ('!'); 
+const prefix = ('!');
 
 // it creates a new function for our aliases
 Client.aliases = new Discord.Collection();
@@ -26,6 +26,8 @@ const mongodb = require('./mongo')()
 
 // it creates a new function for our cooldowns
 const cooldown = new Set();
+
+const userSchema = require("./schema/user-schema")
 
 Client.on('messageDelete', message => {
     snipes.set(message.channel.id, message)
@@ -126,6 +128,21 @@ Client.on("ready", async () => {
 
 Client.on("message", async message => {
     if(message.author.Client || message.channel.type === "dm") return;
+
+    let UserData;
+    try {
+        UserData = await userSchema.findOne({
+            userId: message.author.id
+        })
+        if(!UserData) {
+            UserData = await userSchema.create({
+                userId: message.author.id
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+    if(UserData.blacklisted == true) return //message.channel.send("you're blacklisted")
 
     let prefix = config.prefix;
     let messageArray = message.content.split(" ");
