@@ -10,9 +10,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: 'Commands helplist', value: `\`\`\`${prefix}helpcmd\`\`\``, inline: true},
         { name: 'Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
         { name: 'Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
-        { name: 'Fun helplist', value: `\`\`\`${prefix}helpfun\`\`\``, inline: true},
-        { name: 'Music helplist', value: `\`\`\`Soon\`\`\``, inline: true},
-        { name: 'Logs helplist', value: `\`\`\`Soon\`\`\``, inline: true},
+        { name: 'Fun helplist', value: `\`\`\`${prefix}helpfun\`\`\``, inline: true}
     )
     
     

@@ -13,19 +13,17 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
-        { name: `${prefix}botinv`, value: `> \`Get the bot invite to add it to the server\``},
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
         { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
         { name: `${prefix}wikipedia`, value: `> \`To search for anything in wikipedia\``},
         { name: `${prefix}findid`, value: `> \`Get a user's id.\``},
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
-        { name: `${prefix}invite`, value: `> \`Generat for new invite for a server\``},
+        { name: `${prefix}invite`, value: `> \`To see your invites count\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}uptime`, value: `> \`Show you the bot uptime\``},
-        { name: `${prefix}calc`, value: `> \`To calculate any thing in math\``},
-        { name: `${prefix}setprefix`, value: `> \`set a new prefix for the server\``}
+        { name: `${prefix}calc`, value: `> \`To calculate any thing in math\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()

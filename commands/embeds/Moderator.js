@@ -17,12 +17,9 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}moveall`, value: `> \`Moves everyone in voice channel to your voice channel\``},
         { name: `${prefix}mute/unmute`, value: `> \`Mutes/unmute a member from texting\``},
-        { name: `${prefix}role`, value: `> \`Add/remove a role for a user\``},
         { name: `${prefix}vkick`, value: `> \`Kick a member from voice chat\``},
-        { name: `${prefix}warn`, value: `> \`Warns a member in the server\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}giveaway`, value: `> \`Start a giveaway for your server\``}
+        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()
