@@ -32,5 +32,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "invitegenerator",
-    aliases: ['invite', 'invitegenerat']
+    aliases: ['invitegenerat']
 }
