@@ -32,8 +32,8 @@ Client.on('messageDelete', message => {
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const DeletedLog = new Discord.MessageEmbed()
     .setTitle("Deleted Message")
-    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
-    .setColor('RANDOM')
+    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**In: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+    .setColor('RED')
     .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
     LogChannel.send(DeletedLog)
 
@@ -44,7 +44,7 @@ Client.on('messageUpdate', async(oldMessage, newMessage) => {
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
     .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${newMessage.content}\`\`\``)
-    .setColor('RANDOM')
+    .setColor('GOLD')
     .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
     await LogChannel.send(EditedLog)
 
