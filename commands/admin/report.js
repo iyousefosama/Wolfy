@@ -10,7 +10,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if (!reason) return message.channel.send("please provide a reason!")
 
     let Avatar = user.displayAvatarURL();
-    let Channel = message.guild.channels.cache.find((ch) => ch.name === "『reports』") //report
+    let Channel = message.guild.channels.cache.find((ch) => ch.name === "reports") //report
     if (!Channel) return message.channel.send("There is no channel called reports, please contact a mod or create a channel called `reports`");
 
     const embed = new discord.MessageEmbed()
