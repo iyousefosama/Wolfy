@@ -12,7 +12,9 @@ Client.commands = new Discord.Collection();
 
 // require the fs module
 const fs = require('fs');
- 
+
+const prefix = ('!'); 
+
 // it creates a new function for our aliases
 Client.aliases = new Discord.Collection();
 
@@ -131,7 +133,7 @@ Client.on("message", async message => {
     let args = messageArray.slice(1)
 
     // it will make the cmd work with him orginal name and his aliases
-    let commands = Client.commands.get(cmd.slice(prefix.length))
+    let commands = Client.commands.get(cmd.slice(prefix.length)) || Client.commands.get(Client.aliases.get(cmd.slice(prefix.length)));
 
     if(commands) commands.run(Client, message, args, prefix);
 })
