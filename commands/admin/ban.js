@@ -8,6 +8,35 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.member.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
     if(!message.guild.me.permissions.has('BAN_MEMBERS', 'ADMINISTRATOR')) return;
 
+     /////////////////////////////////////////////// Errors /////////////////////////////////////////////
+        const Err1 = new discord.MessageEmbed()
+        .setTitle('Muting Error!')
+        .setDescription('<a:pp802:768864899543466006> Please mention a user!')
+        .setColor('RED')
+        const Err2 = new discord.MessageEmbed()
+        .setTitle('Muting Error!')
+        .setDescription('<a:pp802:768864899543466006> You can\'t mute me!')
+        .setColor('RED')
+        const Err3 = new discord.MessageEmbed()
+        .setTitle('Muting Error!')
+        .setDescription('<a:pp802:768864899543466006> You can\'t mute yourself!')
+        .setColor('RED')
+        const Err4 = new discord.MessageEmbed()
+        .setTitle('Muting Error!')
+        .setDescription('<a:pp802:768864899543466006> User could not be muted!')
+        .setColor('RED')
+        const Err5 = new discord.MessageEmbed()
+        .setTitle('Muting Error!')
+        .setDescription('<a:pp802:768864899543466006> User is already muted!')
+        .setColor('RED')
+    ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
+        if (!member) return message.reply(Err1)
+        if (member.id === Client.user.id) return message.reply(Err2)
+        if (member.id === message.author.id) return message.reply(Err3)
+        if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
+        if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) return message.channel.send(Err5)
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     else {
       if (!message.guild) return;
   
@@ -33,10 +62,6 @@ module.exports.run = async (Client, message, args, prefix) => {
             .setThumbnail(member.user.displayAvatarURL())
             .setAuthor('Successfully banned the user from the server')
             .setDescription(`User: ${member}\nBanned by: \`${message.author.username}\`\nReason: ${reason}`);
-            
-            
-            
-            
             message.channel.send(ban);
             })
             // log err in the console
