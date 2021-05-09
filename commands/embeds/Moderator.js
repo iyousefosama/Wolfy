@@ -15,9 +15,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}say`, value: `> \`The bot will repeat what you say\``},
         { name: `${prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
-        { name: `${prefix}moveall`, value: `> \`Moves everyone in voice channel to your voice channel\``},
         { name: `${prefix}mute/unmute`, value: `> \`Mutes/unmute a member from texting\``},
-        { name: `${prefix}vkick`, value: `> \`Kick a member from voice chat\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
     )

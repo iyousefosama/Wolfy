@@ -16,7 +16,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
         { name: `${prefix}reminde`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}rpc`, value: `> \`Playing rock/paper/scissors vs the bot\``},
-        { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
