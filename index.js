@@ -127,8 +127,17 @@ Client.on("ready", async () => {
 
 
 Client.on("message", async message => {
-    if(message.author.Client || message.channel.type === "dm") return;
-
+    if(message.author.Client) return;
+    if (message.channel.type === "dm") {
+    const dmEmbed = new Discord.MessageEmbed()
+    .setTitle('New DM')
+    .setColor("RANDOM")
+    .setTimestamp()
+    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+    
+    const DMC = Client.channels.cache.get('840892477614587914')
+    DMC.send(dmEmbed)
+}
     let UserData;
     try {
         UserData = await userSchema.findOne({
