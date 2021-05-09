@@ -8,12 +8,16 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setColor(`YELLOW`)
     .setDescription(`<a:Loading_Color:759734580122484757> Loading...`)
     var msg = await message.channel.send(loading)
+
         let text = args.slice(0).join(" ");
 
+        const ERR = new Discord.MessageEmbed()
+        .setColor('RED')
+        .setDescription('<a:pp681:774089750373597185> You must enter a message!')
 
         if(!text){
 
-            return m.edit("You must enter a message! <a:pp681:774089750373597185>");
+            return msg.edit(ERR);
         }
 if(text.length > 100) return message.channel.send('Sorry you can\`t type more than 100 letters!')
 
@@ -25,7 +29,7 @@ if(text.length > 100) return message.channel.send('Sorry you can\`t type more th
             await message.channel.send(``, attachment);
             msg.delete();
         } catch(e){
-            m.edit("Error, Try Again! Mention Someone");
+            m.edit("<a:pp681:774089750373597185> Error, Try Again!");
             
         }
 };

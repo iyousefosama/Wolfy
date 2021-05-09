@@ -2,12 +2,11 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if (!message.member.hasPermission('ADMINISTRATOR'))
-    var Messingperms = new discord.MessageEmbed()
-      .setColor(`RED`)
-      .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-      message.channel.send(Messingperms)
-      if (!message.member.hasPermission('ADMINISTRATOR')) return;
+    const Messingperms = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
+    if(!message.member.hasPermission('MANAGE_ROLES', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
+    if(!message.guild.me.permissions.has('MANAGE_ROLES', 'ADMINISTRATOR')) return;
 
       if(!message.guild.me.permissions.has('ADMINISTRATOR')) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
 // this code check if the member have the perm to mute or the bot hv the perm to mute ppl

@@ -6,12 +6,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(cooldown.has(message.author.id)) {
         message.reply('Please wait \`3 seconds\` between using the command, because you are on cooldown')
     } else {
-    if (!message.member.hasPermission("ADMINISTRATOR"))
-    var Messingperms = new discord.MessageEmbed()
-    .setColor(`RED`)
-    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-    message.channel.send(Messingperms)
-    if (!message.member.hasPermission("ADMINISTRATOR")) return;
+        const Messingperms = new discord.MessageEmbed()
+        .setColor(`RED`)
+        .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
+        if(!message.member.hasPermission('MANAGE_MESSAGES', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
+        if(!message.guild.me.permissions.has('MANAGE_MESSAGES', 'ADMINISTRATOR')) return;
      
     let color = args[0] // Embed args color   
     let text = args.slice(1).join(" ")

@@ -2,7 +2,12 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    let user = message.mentions.users.first()
+    const Messingperms = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
+    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(Messingperms)
+    if(!message.guild.me.permissions.has('ADMINISTRATOR')) return;
+    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
     if(!user){ 
         let em = new discord.MessageEmbed()
         .setTitle('Error :')

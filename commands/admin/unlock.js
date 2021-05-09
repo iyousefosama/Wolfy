@@ -2,14 +2,11 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(!message.member.hasPermission("MANAGE_CHANNELS"))
-    var Messingperms = new discord.MessageEmbed()
+    const Messingperms = new discord.MessageEmbed()
     .setColor(`RED`)
     .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-    message.channel.send(Messingperms)
-    if(!message.member.hasPermission("MANAGE_CHANNELS")) return;
-    if(!message.guild.me.permissions.has("MANAGE_CHANNELS")) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
-
+    if(!message.member.hasPermission('MANAGE_CHANNELS', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
+    if(!message.guild.me.permissions.has('MANAGE_CHANNELS', 'ADMINISTRATOR')) return;
     var  loading = new discord.MessageEmbed()
         .setColor(`YELLOW`)
         .setDescription(`<a:Loading_Color:759734580122484757> Loading...`)

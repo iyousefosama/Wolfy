@@ -12,7 +12,7 @@ module.exports.run = async (Client, message, args, prefix) => {
       if(!message.member.hasPermission('ADMINISTRATOR')) return;
     if(!message.guild.me.permissions.has('ADMINISTRATOR')) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
 
-    let user = message.mentions.users.first()
+    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
     if(!user) return message.reply("**Please mention a User to change his nickname!**")
 
     let nickname = args.slice(1).join(" ") // =nickname (user) (nickname kdjv)
