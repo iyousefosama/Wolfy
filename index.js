@@ -55,14 +55,14 @@ Client.on('messageUpdate', async(oldMessage, newMessage) => {
 // Welcome message 
 
 Client.on("guildMemberAdd", member => {
-    const channel = member.guild.channels.cache.find(channel => channel.name === '✎・𝐆𝐞𝐧𝐞𝐫𝐚𝐥')
+    const channel = member.guild.channels.cache.get("828659000814862361")
     channel.send (`Welcome to the server! ${member}`)
 })
 
 // Bye Message
 
 Client.on("guildMemberRemove", member => {
-    const channel = member.guild.channels.cache.find(channel => channel.name === '✎・𝐆𝐞𝐧𝐞𝐫𝐚𝐥')
+    const channel = member.guild.channels.cache.get("828659000814862361")
     channel.send (`${member}, Leaved the server`)
 })
 
