@@ -14,7 +14,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}cookie`, value: `> \`Give a cookie for a user\``},
         { name: `${prefix}fastTyper`, value: `> \`Start playing fastTyper game\``},
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
-        { name: `${prefix}reminde`, value: `> \`The bot will reminde you for anything\``},
+        { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}rpc`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
