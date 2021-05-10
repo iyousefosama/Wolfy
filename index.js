@@ -30,6 +30,7 @@ const cooldown = new Set();
 const userSchema = require("./schema/user-schema")
 
 Client.on('messageDelete', message => {
+if(message.author.Client) return;
     snipes.set(message.channel.id, message)
 
     const LogChannel = Client.channels.cache.get('831412872852013066')
@@ -43,6 +44,7 @@ Client.on('messageDelete', message => {
 })
 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
+if(message.author.Client) return;
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
