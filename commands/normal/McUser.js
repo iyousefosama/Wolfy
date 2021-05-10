@@ -5,7 +5,7 @@ module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     let embed1 = new Discord.MessageEmbed()
     .setTitle('Error!')
-    .setDescription(`**Required Arguments** \n \`\`\`-mcuser <username> \`\`\``)
+    .setDescription(`**Required Arguments** \n \`\`\`${prefix}mcuser <username> \`\`\``)
     .setColor('ORANGE')
 
     if(!args[0]) return message.channel.send(embed1)
