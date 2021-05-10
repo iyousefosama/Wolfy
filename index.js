@@ -130,6 +130,7 @@ Client.on("ready", async () => {
 
 Client.on("message", async message => {
     if(message.author.Client) return;
+    if(!message.author.me) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
