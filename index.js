@@ -44,7 +44,7 @@ if(message.author.Client) return;
 })
 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
-if(message.author.Client) return;
+if(oldMessage, newMessage.author.Client) return;
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
@@ -130,7 +130,6 @@ Client.on("ready", async () => {
 
 Client.on("message", async message => {
     if(message.author.Client) return;
-    if(!message.author.me) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
