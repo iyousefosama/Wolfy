@@ -54,21 +54,6 @@ if(oldMessage, newMessage.author.Client) return;
     await LogChannel.send(EditedLog)
 
 })
-// Welcome message 
-
-Client.on("guildMemberAdd", member => {
-    const channel = member.guild.channels.cache.get("828659000814862361")
-    channel.send (`Welcome to the server! ${member}`)
-})
-
-// Bye Message
-
-Client.on("guildMemberRemove", member => {
-    const channel = member.guild.channels.cache.get("828659000814862361")
-    channel.send (`${member}, Leaved the server`)
-})
-
-
 
 // Commands Handler 
 
