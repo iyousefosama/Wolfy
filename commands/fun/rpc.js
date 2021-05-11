@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const arg2 = messageArray.slice(1);;
     let search = arg2.slice(0).join(' ');
 
-    if (!search) return message.channel.send('You must send a valid option! `i.e`**rock, paper, scissors.**')
+    if (!search) return;
 
     const options = [
         "rock 🪨",
@@ -30,5 +30,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "rpc",
-    aliases: ['']
+    aliases: ['Rpc']
 }

@@ -4,7 +4,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const Fun = new discord.MessageEmbed()
     .setColor('RANDOM')
-    .setTitle('**Fun help list**')
+    .setTitle('**Fun Commands**')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
@@ -31,5 +31,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "helpfun",
-    aliases: ['Fun', 'help-fun']
+    aliases: ['helpFun', 'help-fun']
 }
