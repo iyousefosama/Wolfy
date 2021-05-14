@@ -116,6 +116,7 @@ const prefixembed = new discord.MessageEmbed()
 
 message.channel.send(prefixembed);
 }
+});
 
 Client.on("message", async message => {
     if(message.author.Client) return;
