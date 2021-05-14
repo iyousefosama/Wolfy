@@ -108,16 +108,6 @@ Client.on("ready", async () => {
     console.log(`${Client.user.username} is Online!`)
 });
 
-client.on('message', message => {
-    if (message.content === '<@724580315481243668>') {
-const prefixembed = new discord.MessageEmbed()
-    .setColor("RANDOM")
-    .setAuthor(Client.user.displayAvatarURL(), `The current prefix is ${prefix}`)
-
-message.channel.send(prefixembed);
-}
-});
-
 Client.on("message", async message => {
     if(message.author.Client) return;
     if (message.channel.type === "dm") {
