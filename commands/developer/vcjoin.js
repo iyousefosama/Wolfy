@@ -7,7 +7,10 @@ module.exports.run = async (Client, message, args, prefix) => {
 
           if (message.member.voice.channel) {
             const connection = await message.member.voice.channel.join();
-            message.channel.send("<a:Right:812104211386728498> I joined the vc!")
+            var  loading = new discord.MessageEmbed()
+            .setColor(`GREEN`)
+            .setDescription(`<a:Right:812104211386728498> I joined the vc!`)
+            var msg = message.channel.send(loading)
           } else {
             message.reply('You must be in voicechannel');
           }
