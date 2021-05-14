@@ -2,7 +2,10 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.guild.me.permissions.has('MANAGE_CHANNELS', 'ADMINISTRATOR')) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
+    if(!message.guild.me.permissions.has('MANAGE_CHANNELS', 'ADMINISTRATOR')) return;
+    if(cooldown.has(message.author.id)) {
+        message.reply('Please wait \`3 seconds\` between using the command, because you are on cooldown')
+    } else { 
     // getting the tickets category
     const categoryID = message.member.guild.channels.cache.find(c => c.name == "TICKETS")
     
@@ -40,6 +43,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     } else {
         return message.channel.send("<a:pp681:774089750373597185> \`Err 404:\`\n\n🙄 You can use this cmd only in the ticket")
     }
+    cooldown.add(message.author.id);
+    setTimeout(() => {
+        cooldown.delete(message.author.id)
+    }, 3000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+}
 }
 module.exports.help = {
     name: "delete",

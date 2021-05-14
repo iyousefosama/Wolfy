@@ -21,9 +21,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()
-    
-    
     message.channel.send(moderator);
+    if (args[0] =="mod" || args[0] == "Mode") return
 
 }
 

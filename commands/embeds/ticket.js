@@ -9,7 +9,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
-        { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``},
+        { name: `${prefix}rename`, value: `> \`Change ticket name\``},
+        { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()

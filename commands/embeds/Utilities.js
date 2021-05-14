@@ -13,8 +13,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calc`, value: `> \`To calculate any thing in math\``}
     )
-    
-    
     message.channel.send(Utl);
 
 }
@@ -23,5 +21,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "helpUtilities",
-    aliases: ['Help-Utilities', 'helpUtl','helputl']
+    aliases: ['Help-Utilities', 'helpUtl', 'helputl']
 }

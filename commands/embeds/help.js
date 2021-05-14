@@ -14,8 +14,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: 'Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
         { name: 'Fun helplist', value: `\`\`\`${prefix}helpfun\`\`\``, inline: true}
     )
-    
-    
     message.channel.send(help);
 
 }
