@@ -3,7 +3,7 @@ const schema = require('../../schema/user-schema')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(message.author.id !== '821655420410003497') return
+    if(message.author.id !== '724580315481243668') return
 
     let user = message.mentions.users.first()
     if(!user) return message.channel.send("<a:pp802:768864899543466006> **Please mentions a user!**")
