@@ -23,5 +23,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "helpUtilities",
-    aliases: ['Help-Utilities', 'helpUtl']
+    aliases: ['Help-Utilities', 'helpUtl','helputl']
 }
