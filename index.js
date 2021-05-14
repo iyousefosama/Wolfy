@@ -106,8 +106,6 @@ fs.readdirSync('./commands/').forEach(dir => {
 // The message that we will get in terminal when we lunch the bot
 Client.on("ready", async () => {
     console.log(`${Client.user.username} is Online!`)
-    // This Will be the Status Of our Bot
-    Client.user.setActivity("!help", ({type: "PLAYING"}))
 });
 
 
