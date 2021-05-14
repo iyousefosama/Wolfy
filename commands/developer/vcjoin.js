@@ -3,7 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if(message.author.bot) return;
-    if(message.author.id !== '821655420410003497') return;
+    if(message.author.id !== '724580315481243668') return;
 
           if (message.member.voice.channel) {
             const connection = await message.member.voice.channel.join();
