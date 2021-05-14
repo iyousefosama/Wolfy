@@ -31,5 +31,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "helpmod",
-    aliases: ['helpModerator', 'help-moderator']
+    aliases: ['helpModerator', 'help-moderator', 'helpMod']
 }
