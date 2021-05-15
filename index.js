@@ -113,7 +113,7 @@ Client.on("message", async message => {
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
-    .setColor("RANDOM")
+    .setColor("738ADB")
     .setTimestamp()
     .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
     .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
