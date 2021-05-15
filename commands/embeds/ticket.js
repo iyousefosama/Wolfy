@@ -3,7 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const ticket = new discord.MessageEmbed()
-    .setColor('RANDOM')
+    .setColor('738ADB')
     .setTitle('**Ticket help list**\n\`Note: you must add category with name TICKETS\`')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')

@@ -3,7 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const help = new discord.MessageEmbed()
-    .setColor('RANDOM')
+    .setColor('738ADB')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
