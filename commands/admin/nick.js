@@ -2,6 +2,7 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
+    if (message.channel.type === "dm") return;
     // the perm. that the member need it to ban someone
     if(!message.member.hasPermission('ADMINISTRATOR'))
     // if someone dont hv perm it will send this message

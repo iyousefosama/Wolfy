@@ -2,6 +2,7 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
+    if (message.channel.type === "dm") return;
     const Messingperms = new discord.MessageEmbed()
     .setColor(`RED`)
     .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
@@ -32,11 +33,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     const dmembed = new discord.MessageEmbed()
       .setColor('AQUA')
       .setTimestamp()
-      .setFooter(message.guild.name, message.guild.iconURL())
+      .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
       .setDescription(`
-      <a:Notification:811283631380234250> **${message.author.username}** : ${dm}
+      <a:Notification:811283631380234250> **${message.author.username}**: ${dm}
       `)
-      .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+      .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
 
     const err = new discord.MessageEmbed()
         .setColor(`RED`)

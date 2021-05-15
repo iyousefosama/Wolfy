@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     const Messingperms = new discord.MessageEmbed()
     .setColor(`RED`)
     .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
@@ -15,26 +16,21 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setColor('RED')
         const Err2 = new discord.MessageEmbed()
         .setTitle('Muting Error!')
-        .setDescription('<a:pp802:768864899543466006> You can\'t mute me!')
+        .setDescription('<a:pp802:768864899543466006> You can\'t ban me!')
         .setColor('RED')
         const Err3 = new discord.MessageEmbed()
         .setTitle('Muting Error!')
-        .setDescription('<a:pp802:768864899543466006> You can\'t mute yourself!')
+        .setDescription('<a:pp802:768864899543466006> You can\'t ban yourself!')
         .setColor('RED')
         const Err4 = new discord.MessageEmbed()
         .setTitle('Muting Error!')
-        .setDescription('<a:pp802:768864899543466006> User could not be muted!')
-        .setColor('RED')
-        const Err5 = new discord.MessageEmbed()
-        .setTitle('Muting Error!')
-        .setDescription('<a:pp802:768864899543466006> User is already muted!')
+        .setDescription('<a:pp802:768864899543466006> User could not be baned!')
         .setColor('RED')
     ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
         if (!member) return message.reply(Err1)
         if (member.id === Client.user.id) return message.reply(Err2)
         if (member.id === message.author.id) return message.reply(Err3)
         if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
-        if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) return message.channel.send(Err5)
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     else {

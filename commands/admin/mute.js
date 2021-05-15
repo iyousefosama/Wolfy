@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     const author = message.author
     const Messingperms = new discord.MessageEmbed()
     .setColor(`RED`)

@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     if(message.author.bot) return;
     if(message.author.id !== '724580315481243668') return;
 

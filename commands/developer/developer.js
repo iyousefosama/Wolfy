@@ -11,7 +11,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}blacklist/whitelist`, value: `> \`To prevent/allow people from using the bot\``},
-        { name: `${prefix}blacklist/whitelist`, value: `> \`To prevent/allow people from using the bot\``},
         { name: `${prefix}line`, value: `> \`Send your line sir\``},
         { name: `${prefix}shutdown`, value: `> \`Shutdown the bot\``},
         { name: `${prefix}vcjoin`, value: `> \`Make's bot join the vc you are in\``},
