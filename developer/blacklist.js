@@ -1,0 +1,38 @@
+const discord = require('discord.js')
+const schema = require('../../schema/user-schema')
+
+module.exports.run = async (Client, message, args, prefix) => {
+    if(!message.content.startsWith(prefix)) return
+    if(message.author.id !== '724580315481243668') return
+
+    let user = message.mentions.users.first()
+    if(!user) return message.channel.send("<a:pp802:768864899543466006> **Please mentions a user!**")
+
+    const done = new discord.MessageEmbed()
+    .setColor(`GREEN`)
+    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted \`${user.tag}\``)
+
+    let data;
+    try {
+        data = await schema.findOne({
+            userId: user.id
+        })
+        if(!data) {
+            data = await schema.create({
+                userId: user.id
+            })
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
+    data.blacklisted = true
+    await data.save()
+    return message.channel.send(done)
+
+}
+
+module.exports.help = {
+    name: 'blacklist',
+    aliases: []
+}
