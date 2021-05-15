@@ -107,7 +107,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 Client.on("ready", async () => {
     console.log(`${Client.user.username} is Online!`)
     function randomStatus() {
-    let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Aid mubark", "🤖 Poob Beep", ""]
+    let status = ["🤖 Wolfy Bot", "🤖 w!help", "🎉 Aid mubark", "🤖 Poob Beep"]
     let rstatus = Math.floor(Math.random() * status.length);
 
     Client.user.setActivity(status[rstatus], {type: "PLAYING"});
