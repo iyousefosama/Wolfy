@@ -1,4 +1,4 @@
 {
-    "prefix": "!",
+    "prefix": "w!",
     "mongoPath": "mongodb+srv://Yousef:yoyo01229988936@lunar.3upfk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 }
