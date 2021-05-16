@@ -22,7 +22,7 @@ module.exports.run = async (Client, message, args, prefix) => {
                 .setTitle('Invite Link Generated')
                 .setDescription('<:yes:759734212223172660> Server invite link: https://discord.gg/' + invite.code)
                 .setFooter(`This link ${timeInfo}`)
-                .setColor(`RANDOM`)
+                .setColor(`WHITE`)
             message.channel.send(Embed)
         })
         .catch(console.error)
