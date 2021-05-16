@@ -105,7 +105,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 
 // The message that we will get in terminal when we lunch the bot
 Client.on("ready", async () => {
-    console.log(`${Client.user.username} is Online!`)
+    console.log(`🤖 ${Client.user.username} is Online!`)
     function randomStatus() {
     let status = ["🤖 Wolfy Bot", "🤖 w!help", "🎉 Aid mubark", "🤖 Poob Beep"]
     let rstatus = Math.floor(Math.random() * status.length);
