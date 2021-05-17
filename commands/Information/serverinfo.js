@@ -32,6 +32,7 @@ const regions = {
 
 module.exports.run = async (Client, message, prefix, args) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     if(cooldown.has(message.author.id)) {
         message.reply('Please wait \`5 seconds\` between using the command, because you are on cooldown')
     } else {

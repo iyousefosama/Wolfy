@@ -36,7 +36,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     let i = 0
   const setting = new Discord.MessageEmbed()
   .setColor(`YELLOW`)
-  .setDescription(`<a:pp527:768869552871571496>  Please wait 10 seconds as we're setting up the jumps!`)
+  .setDescription(`<a:pp527:768869552871571496> Please wait 10 seconds as we're setting up the jumps!`)
   message.channel.send(setting).then(message => message.delete({ timeout: 10000 })).catch(console.error);
 
     const waterdrop = setInterval(() => {

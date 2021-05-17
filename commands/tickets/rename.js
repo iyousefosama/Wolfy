@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     if(!message.guild.me.permissions.has('MANAGE_CHANNELS', 'ADMINISTRATOR')) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
     // getting the tickets category
     const categoryID = message.member.guild.channels.cache.find(c => c.name == "TICKETS")

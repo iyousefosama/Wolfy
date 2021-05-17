@@ -11,10 +11,19 @@ module.exports.run = async (Client, message, args, prefix) => { // for the cmd h
     } else {
 
 
-    message.channel.send(`Finding the bot ping...`).then(msg => { // sends this once you send the cmd
+        var loading = new discord.MessageEmbed()
+        .setColor(`GOLD`)
+        .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
+        var msg = message.channel.send(loading).then(msg => { // sends this once you send the cmd
         const ping = msg.createdTimestamp - message.createdTimestamp; // calculation the time between when u send the message and when the bot reply
-        msg.edit(`Pong!`)
-        msg.edit(`The Ping of the bot is \`${ping}ms\`!`) // it will edit the msg to this after it gets the ping!
+        let Pong = new discord.MessageEmbed()
+        .setColor(`Yellow`)
+        .setDescription(`Pong!`)
+        msg.edit(Pong)
+        let Ping = new discord.MessageEmbed()
+        .setColor(`DARK_GREEN`)
+        .setDescription(`The Ping of the bot is \`${ping}ms\`!`)
+        msg.edit(Ping)
     })
 
     cooldown.add(message.author.id);

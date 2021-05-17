@@ -2,6 +2,7 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
+    if (message.channel.type === "dm") return;
     let user = message.mentions.users.first() || message.author
     let invites = await message.guild.fetchInvites();
     let userInv = invites.filter(u => u.inviter && u.inviter.id === user.id)

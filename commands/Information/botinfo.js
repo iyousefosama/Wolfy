@@ -20,7 +20,6 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
         `<a:pp594:768866151827767386> **Servers:** ${Client.guilds.cache.size}`, // how many servers the bot is in
         `⌨️ **Channels:** ${Client.channels.cache.size}`, // how many channels the bot have access to
         `<a:pp17:768866435681878039> **Users:** ${Client.users.cache.size}`, // how many users the bot serve on
-        `<a:4448_cat_glitchy:743997440168034336> **Bot version:** 0.01`
         ])
     message.channel.send(botEmbed) // it sends the embed
 }
