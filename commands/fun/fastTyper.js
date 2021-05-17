@@ -32,7 +32,7 @@ module.exports.run = async (Client, message, args, prefix) => {
             inGame.delete(message.author.id)
             break
         } else if (msg.first().content.toLowerCase().trim() === ogSentence.toLowerCase()) {
-            var gg = new discord.MessageEmbed()
+            var gg = new Discord.MessageEmbed()
             .setColor(`DARK_GREEN`)
             .setDescription(`<a:pp102:768869217805140008> **Good job!**\nIt took you **${ms(Date.now() - time, {long: true})}** to type it!`)
             var msg = message.channel.send(gg)
