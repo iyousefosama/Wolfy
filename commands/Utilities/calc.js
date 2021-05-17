@@ -7,6 +7,7 @@ module.exports.run = async (Client, message, args, prefix) => {
 
     var question = args.join(' ') // =calc 1 + 1
 
+    if(question.length > 100) return message.channel.send('Sorry you can\`t type more than 100 numbers!')
     if(!question) return message.channel.send('please provide a maths equation')
 
     let result;

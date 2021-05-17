@@ -32,7 +32,10 @@ module.exports.run = async (Client, message, args, prefix) => {
             inGame.delete(message.author.id)
             break
         } else if (msg.first().content.toLowerCase().trim() === ogSentence.toLowerCase()) {
-            message.channel.send(`Good job!\nIt took you ${ms(Date.now() - time, {long: true})} to type it!`)
+            var gg = new discord.MessageEmbed()
+            .setColor(`DARK_GREEN`)
+            .setDescription(`<a:pp102:768869217805140008> **Good job!**\nIt took you **${ms(Date.now() - time, {long: true})}** to type it!`)
+            var msg = message.channel.send(gg)
         } else {
             message.channel.send('You failed! <a:Wrong:812104211361693696>')
             inGame.delete(message.author.id)
@@ -52,5 +55,5 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 module.exports.help = {
     name: "fast",
-    aliases: ['Fast', 'FastTyper', 'Fasttyper', 'fasttyper', 'faster', 'fast-typer']
+    aliases: ['Fast', 'FastTyper', 'Fasttyper', 'fasttyper', 'faster', 'fast-typer', 'fastTyper']
 }

@@ -12,7 +12,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(Messingperms)
     if(!message.guild.me.permissions.has('ADMINISTRATOR')) return;
-    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
+    let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0]);
     if(!user){ 
         let em = new discord.MessageEmbed()
         .setTitle('Error :')
@@ -29,7 +29,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
   
           return message.channel.send(em)
-  }
+}
 
     let dm = args.slice(1).join(" ")
     if(!dm) return message.channel.send("I can't dm an empty message")
