@@ -1,5 +1,4 @@
 const discord = require('discord.js')
-const pagination = require('discord.js-pagination');
 const moment = require(`moment`)
 const cooldown = new Set();
 

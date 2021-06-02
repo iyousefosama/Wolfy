@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const arg2 = messageArray.slice(1);;
     let search = arg2.slice(0).join(' ');
 
-    if (!search) return;
+    if (!search) return message.channel.send(`You must send a valid option! \`i.e\`**Rock, Paper, Scissors.**`)
 
     const options = [
         "rock 🪨",
@@ -21,7 +21,7 @@ module.exports.run = async (Client, message, args, prefix) => {
             }else if (search === 'scissors') {
         message.channel.send(`My choice was ${option}!`)
     }else {
-        message.channel.send(`**"${search}**" is not a valid Option! You must send a valid option! \`i.e\`**Rock, Paper, Scissors.** `)
+        message.channel.send(`**"${search}**" is not a valid Option! You must send a valid option! \`i.e\`**Rock, Paper, Scissors.**`)
     }
 
 }

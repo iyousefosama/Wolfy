@@ -30,7 +30,6 @@ module.exports.run = async (Client, message, args, prefix) => {
                 message.channel.delete()
             }, 5000);
         })
-        if(!LogChannel) return;
         const LogChannel = message.guild.channels.cache.find((ch) => ch.name === "ticket-log")
         const DeletedLog = new discord.MessageEmbed()
         .setTitle('New ticket deleted')
@@ -40,6 +39,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         )
         .setColor('RED')
         LogChannel.send(DeletedLog)
+        if(!LogChannel) return;
 
     // if its not a ticket channel return
     } else {

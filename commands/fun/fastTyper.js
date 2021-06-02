@@ -15,7 +15,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         ogSentence.split(' ').forEach(argument => {
             sentence += '`' + argument.split('').join(' ') + '` '
         })
-        message.reply(`**Write the following message (You have 15 seconds!)**:\n${sentence}`)
+        message.reply(`Write the following message **(You have 15 seconds!)**:\n${sentence}`)
         try {
             msg = await message.channel.awaitMessages(filter, {
                 max: 1,
@@ -23,12 +23,18 @@ module.exports.run = async (Client, message, args, prefix) => {
                 errors: ['time']
             })
         } catch (ex) {
-            message.reply('<a:pp681:774089750373597185> Time\'s up! <a:pp681:774089750373597185>')
+            var timeE = new Discord.MessageEmbed()
+            .setColor(`RED`)
+            .setDescription(`<a:pp681:774089750373597185> Time\'s up! <a:pp681:774089750373597185>`)
+            var end = message.channel.send(timeE)
             inGame.delete(message.author.id)
             break
         }
-        if (['cancel', 'end'].includes(msg.first().content.toLowerCase().trim())) {
-            message.channel.send('Ended!')
+        if (['cancel', 'end', 'End', 'Cancel'].includes(msg.first().content.toLowerCase().trim())) {
+            var end = new Discord.MessageEmbed()
+            .setColor(`RED`)
+            .setDescription(`<a:pp802:768864899543466006> **Ended!**`)
+            var end = message.channel.send(fail)
             inGame.delete(message.author.id)
             break
         } else if (msg.first().content.toLowerCase().trim() === ogSentence.toLowerCase()) {
@@ -37,13 +43,19 @@ module.exports.run = async (Client, message, args, prefix) => {
             .setDescription(`<a:pp102:768869217805140008> **Good job!**\nIt took you **${ms(Date.now() - time, {long: true})}** to type it!`)
             var msg = message.channel.send(gg)
         } else {
-            message.channel.send('You failed! <a:Wrong:812104211361693696>')
+            var fail = new Discord.MessageEmbed()
+            .setColor(`RED`)
+            .setDescription(`<a:Wrong:812104211361693696> **You failed!** <a:Wrong:812104211361693696>!**\nIt took you **${ms(Date.now() - time, {long: true})}** to type it!`)
+            var msg = message.channel.send(fail)
             inGame.delete(message.author.id)
             break
         }
 
         if (i === 25) {
-            message.reply('**GG!** You win! <a:pp102:768869217805140008>')
+            var win = new Discord.MessageEmbed()
+            .setColor(`DARK_GREEN`)
+            .setDescription(`**GG!** You win the game! <a:pp102:768869217805140008>`)
+            var msg = message.channel.send(win)
             inGame.delete(message.author.id)
             break
         }

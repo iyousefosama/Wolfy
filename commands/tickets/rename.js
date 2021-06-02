@@ -28,7 +28,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         .then(channel => {
             message.channel.setName(`${name}`)
         })
-
     // if its not a ticket channel return
     } else {
         return message.channel.send("<a:pp681:774089750373597185> \`Err 404:\`\n\n🙄 You can use this cmd only in the ticket")

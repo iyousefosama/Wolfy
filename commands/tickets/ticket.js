@@ -40,7 +40,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 
     // if the user already have a ticket return ( dont create another ticket for him)
     if(ticketexist) return message.channel.send("<a:pp681:774089750373597185> You already have a ticket!")
-    if(ticketexist) return;
     // making the ticket channel
     message.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {type: 'text'}).then(
         (createdChannel) => {
@@ -74,9 +73,8 @@ module.exports.run = async (Client, message, args, prefix) => {
                     UserID: ${message.author.id}`)
                     .setTimestamp()
                     settedParent.send(ticketEmbed).then(sentEmbed => {
-                        sentEmbed.react("768869552871571496")
+                        message.react('758141943833690202')
                         settedParent.send(`<@${message.author.id}>`)
-                       message.react('758141943833690202')
                     })
                 }
             ).catch(err => {

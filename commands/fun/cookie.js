@@ -18,9 +18,8 @@ module.exports.run = async (Client, message, args, prefix) => {
 
       const RCC = Math.floor(Math.random() * cookieOptions.length);
 
-      await message.delete().then(() => {
+      
         channel.send(cookieOptions[RCC]);
-      });
     }
 
 
