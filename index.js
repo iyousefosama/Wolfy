@@ -29,22 +29,32 @@ const cooldown = new Set();
 
 const userSchema = require("./schema/user-schema")
 
+const { passGen } = require("ultrax")
+
+const { MessageButton } = require("discord-buttons")
+
+require('ultrax').inviteLogger(Client)
+require('discord-buttons')(Client)
+
+Client.on('inviteJoin', async (member, invite, inviter) => {
+    const channel = Client.channels.cache.get('830926767728492565')
+    channel.send(`${member} Just join, he was invited by ${inviter}`)
+})
+
 Client.on('messageDelete', message => {
-if(message.author.Client) return;
+    if(message.author.Client) return
     snipes.set(message.channel.id, message)
 
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const DeletedLog = new Discord.MessageEmbed()
     .setTitle("Deleted Message")
-    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**In: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
     .setColor('RED')
     .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
     LogChannel.send(DeletedLog)
-
-})
-
+}) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
-if(oldMessage, newMessage.author.Client) return;
+    if(oldMessage, newMessage.author.Client) return
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
