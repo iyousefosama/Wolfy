@@ -2,7 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if (message.author != '724580315481243668') return
+    if (message.author != '829819269806030879') return
 
     var  loading = new discord.MessageEmbed()
     .setColor(`RED`)

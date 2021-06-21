@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if(message.author.bot) return;
-    if(message.author.id !== '724580315481243668') return;
+    if(message.author.id !== '829819269806030879') return;
 
     const content = args.join(" ")
     const splitt = content.split('');
