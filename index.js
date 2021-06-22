@@ -37,8 +37,8 @@ require('ultrax').inviteLogger(Client)
 require('discord-buttons')(Client)
 
 Client.on('inviteJoin', async (member, invite, inviter) => {
-    const channel = Client.channels.cache.get('830926767728492565')
-    channel.send(`${member} Just join, he was invited by ${inviter}`)
+    const channel = Client.channels.cache.get('830930561232273419')
+    channel.send(`<a:CHECKCHECK:841321920456556554>${member} **Just joined,** invited by ${inviter}`)
 })
 
 Client.on('messageDelete', message => {
