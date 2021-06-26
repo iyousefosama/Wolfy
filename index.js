@@ -22,7 +22,7 @@ const map = new Map();
 
 const snipes = new Discord.Collection()
 
-const mongodb = require('./mongo')()
+require('./mongo').run() 
 
 // it creates a new function for our cooldowns
 const cooldown = new Set();
