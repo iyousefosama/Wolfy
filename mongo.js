@@ -1,15 +1,16 @@
-const Mongoose = require ('mongoose');
-const Config   = require ('./config.json')
+const mongo = require('mongoose')
+const { mongoPath } = require('./config.json')
 
-module.exports = {
-name : 'mongo-connection',
+module.exports = async () => {
+    await mongo.connect(mongoPath, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+    })
 
-run: async (/* no parameter here*/) => {
-await Mongoose.connect ( Config.mongoPath, {
-useNewUrlParser: true, /*put this to true */
-useUnifiedTopology: true, /* put this to tue */
-} ).then(() => {
-console.log ('Connected to the db')
+    return mongo
+}
+
+mongo.connection.on('connected', () => {
+    console.log('✅ Sucessfully connected to mongo')
 })
-}
-}
