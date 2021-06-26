@@ -5,7 +5,6 @@ module.exports = async () => {
     await mongo.connect(mongoPath, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false,
     })
 
     return mongo
