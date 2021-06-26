@@ -36,6 +36,56 @@ const { MessageButton } = require("discord-buttons")
 require('ultrax').inviteLogger(Client)
 require('discord-buttons')(Client)
 
+const Guard = require('discord.js-guard');
+
+Guard({ 
+    whitelist: ["829819269806030879", "547905866255433758", "159985870458322944", "282859044593598464", "550613223733329920", "172002275412279296"],
+    server_id: "828659000814862357",
+    log_channel_id: "840892477614587914",
+    slave_role:"858301783218192414",
+    
+    //1 active 0 deactive
+    
+    channel_create: 1, //When a channel is create on the server, it deletes that channel
+    channel_delete: 1, //If a channel is deleted on the server, it clone that channel
+    channel_update: 1, //When a channel is edited on the server, it restores that channel
+    
+    role_create: 1, //When a role is create on the server, it deletes that role
+    role_delete: 1, //If a role is deleted on the server, it clone that role
+    role_update: 1, //When a role is edited on the server, it restores that role
+    
+    emoji_create: 0, //When created an emoji deletes that emoji
+    emoji_delete: 1, //When an emoji is deleted it that emoji create
+    
+    webhook_update: 0, //When the webhook is created it deletes the webhook
+    
+    guild_ban_add: 1, 
+    guild_kick_add: 1,
+    guild_member_role_update: 1, //Prevents administrative roles from being given to a user
+    guild_bot_add: 1, //prevents malicious bots from join the server
+    guild_update: 1,
+    
+    channel_create_log_message: '-user- created \`-channel-\` and deleted <a:pp681:774089750373597185>',
+    channel_delete_log_message: '-user- deleted \`-channel-\` and restored <a:pp681:774089750373597185>',
+    channel_update_log_message: '-user- updated \`-channel-\` and restored <a:pp681:774089750373597185>',
+    
+    role_create_log_message: '-user- created \`-role-\` <a:pp681:774089750373597185>',
+    role_delete_log_message: '-user- deleted \`-role-\` <a:pp681:774089750373597185>',
+    role_update_log_message: '-user- updated \`-role-\` <a:pp681:774089750373597185>',
+    
+    emoji_create_log_message: '-user- created \`-emoji-\` <a:pp681:774089750373597185>',
+    emoji_delete_log_message: '-user- deleted \`-emoji-\` <a:pp681:774089750373597185>',
+    
+    webhook_update_log_message: '-user- updated \`-webhook-\` <a:pp681:774089750373597185>',
+
+    guild_ban_add_log_message: '-user- banned \`-target-\` <a:pp681:774089750373597185>',
+    guild_kick_add_log_message: '-user- kicked \`-target-\` <a:pp681:774089750373597185>',
+    guild_member_role_update_log_message: '-user- given a role to user \`-role-\`',
+    guild_bot_add_log_message: '-user- added a bot \`-bot-\` <a:pp681:774089750373597185>',
+    guild_update_log_message: '-user- updated \`guild\` <a:pp681:774089750373597185>',
+  
+},Client);
+
 Client.on('inviteJoin', async (member, invite, inviter) => {
     const channel = Client.channels.cache.get('830930561232273419')
     channel.send(`<a:CHECKCHECK:841321920456556554>${member} **Just joined,** invited by ${inviter}`)
