@@ -1,6 +1,10 @@
+// Defining the package
+const ultrax = require('ultrax')
 const discord = require('discord.js')
 const moment = require(`moment`)
 const cooldown = new Set();
+// getting the MessageEmbed from discord.js
+const { MessageEmbed } = require("discord.js")
 
 // setting all the verifiaction levels so it looks nice
 const verificationLevels = {
@@ -35,42 +39,40 @@ module.exports.run = async (Client, message, prefix, args) => {
     if(cooldown.has(message.author.id)) {
         message.reply('Please wait \`5 seconds\` between using the command, because you are on cooldown')
     } else {
-        // getting all the roles of the server
-        const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)
+    const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)
 
-        // getting all the members of the server
-        const members = message.guild.members.cache;
-        
-        // getting all the channels of the server
-        const channels = message.guild.channels.cache;
-        
-        // getting all the emojis of the server
-        const emojis = message.guild.emojis.cache
+    // getting all the members of the server
+    const members = message.guild.members.cache;
     
-        
-        let rolesdisplay;
+    // getting all the channels of the server
+    const channels = message.guild.channels.cache;
     
-        // if the lenght is lower then 20, display all roles
-        if(roles.length < 20) {
-            rolesdisplay = roles.join(' ')
-        } else {
-        
-            //if the lenght is more then 20, display only 20
-            rolesdisplay = roles.slice(20).join(' ')
-        }
-    
-        // if i typed guild it make ref to message.guild
-        const { guild } = message
-        
-        // tyeping name, region, memberCount, owner isntead of guild.name
-        const { name, region, memberCount, owner } = guild
-        
-        // getting the server's pfp
-        const icon = guild.iconURL()
+    // getting all the emojis of the server
+    const emojis = message.guild.emojis.cache
 
-    const page1 = new discord.MessageEmbed()
-    // sets the title of the embed
-    .setTitle(`${name} server info (page 1/2)`)
+    
+    let rolesdisplay;
+
+    // if the lenght is lower then 20, display all roles
+    if(roles.length < 20) {
+        rolesdisplay = roles.join(' ')
+    } else {
+    
+        //if the lenght is more then 20, display only 20
+        rolesdisplay = roles.slice(20).join(' ')
+    }
+
+    // if i typed guild it make ref to message.guild
+    const { guild } = message
+    
+    // tyeping name, region, memberCount, owner isntead of guild.name
+    const { name, region, memberCount, owner } = guild
+    
+    // getting the server's pfp
+    const icon = guild.iconURL()
+	// creating embed1
+	const embed1 = new MessageEmbed() 			 
+	.setTitle(`${name} server info (page 1/2)`)
     
     .setURL(message.guild.iconURL())
 
@@ -90,9 +92,10 @@ module.exports.run = async (Client, message, prefix, args) => {
         `📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}`, // when did the server got created 
         '\u200b'
     ])
-
-    const page2 = new discord.MessageEmbed()
-   .setTitle(`${name} server info (page 2/2)`)
+	
+	// creating embed2
+	const embed2 = new MessageEmbed() 	
+	.setTitle(`${name} server info (page 2/2)`)
     
    .setURL(message.guild.iconURL())
 
@@ -115,26 +118,31 @@ module.exports.run = async (Client, message, prefix, args) => {
     `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === 'text').size}`, // how many text channels
     `<:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'voice').size}`, // how many voice channels
     '\u200b'
-])
+]) 
+	
+	
+	// creating the buttons pages
+	await ultrax.ButtonPaginator(message, [embed1, embed2], [{
+	 style: 'green', 
+	 label: 'back', 
+	 id: 'back' // don't change this line 
+	 },
 
-
-    const pages = [
-        page1,
-        page2
-    ]
-
-    const emoji = ["⏪", "⏩"]
-
-    const timeout = '40000'
-
-    pagination(message, pages, emoji, timeout)}
+	 { 
+	  style: 'blurple',
+	  label: 'next', 	
+	  id: 'next'  // don't change this line 
+	 }
+	  
+	]);
     cooldown.add(message.author.id);
     setTimeout(() => {
         cooldown.delete(message.author.id)
     }, 5000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+    }
 }
 
-module.exports.help = {
-    name: "serverinfo",
-    aliases: ['server', 'Serverinfo', 'Server']
-}
+    module.exports.help = {
+        name: "serverinfo",
+        aliases: ['server', 'Serverinfo', 'Server']
+    }

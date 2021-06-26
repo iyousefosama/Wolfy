@@ -20,7 +20,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .addField('User Total Invites', i)
     .addField('Invite Codes', invCodes)
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    .setColor('RANDOM')
     .setTimestamp()
     message.channel.send(embed)
 }

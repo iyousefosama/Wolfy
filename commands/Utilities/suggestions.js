@@ -2,6 +2,9 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(cooldown.has(message.author.id)) {
+        message.reply('<a:Wrong:812104211361693696> You can send you suggestion only every \`30 minutes\`')
+    } else {
 
     let suggestion = args.slice(0).join(" ")
     if (!suggestion) return message.channel.send("please provide a suggestions!")
@@ -23,6 +26,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     })
     message.delete()
     message.channel.send('<a:Right:812104211386728498> **successfully sent the suggestion!**')
+    cooldown.add(message.author.id);
+    setTimeout(() => {
+        cooldown.delete(message.author.id)
+    }, 1800000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+    }
 
 }
 
