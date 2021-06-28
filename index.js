@@ -15,8 +15,6 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
-const snipes = new Discord.Collection()
-
 const prefix = ('w!');
 
 // it creates a new function for our aliases
