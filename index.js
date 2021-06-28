@@ -40,7 +40,7 @@ const Guard = require('discord.js-guard');
 
 Client.on('messageReactionAdd', async (reaction, user) => {
     const handleStarboard = async () => {
-        const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === 'starboard');
+        const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝');
         const msgs = await SBChannel.messages.fetch({ limit: 100 });
         const SentMessage = msgs.find(msg => 
             msg.embeds.length === 1 ?
@@ -58,7 +58,7 @@ Client.on('messageReactionAdd', async (reaction, user) => {
         }
     }
     if(reaction.emoji.name === '⭐') {
-        if(reaction.message.channel.name.toLowerCase() === 'starboard') return;
+        if(reaction.message.channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝') return;
         if(reaction.message.partial) {
             await reaction.fetch();
             await reaction.message.fetch();
@@ -219,6 +219,16 @@ Client.on("message", async message => {
     const DMC = Client.channels.cache.get('840892477614587914')
     DMC.send(dmEmbed)
 }
+if(message.channel.id === '859100693365653515') {
+    if(message.author.bot) return;
+    fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
+    .then(res => res.json())
+    .then(data => {
+        message.channel.send(data.response)
+    })
+    .catch(err => {
+        message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
+      })
     let UserData;
     try {
         UserData = await userSchema.findOne({
