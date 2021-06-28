@@ -13,6 +13,8 @@ Client.commands = new Discord.Collection();
 // require the fs module
 const fs = require('fs');
 
+const fetch = require('node-fetch')
+
 const prefix = ('w!');
 
 // it creates a new function for our aliases
