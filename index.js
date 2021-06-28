@@ -260,4 +260,4 @@ if(message.channel.id === '859100693365653515') {
 
 // Login To Discord with your app's Token
 
-Client.login(config.token);
+Client.login(process.env.token);
