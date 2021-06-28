@@ -229,6 +229,8 @@ if(message.channel.id === '859100693365653515') {
     .catch(err => {
         message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
       })
+}
+
     let UserData;
     try {
         UserData = await userSchema.findOne({
