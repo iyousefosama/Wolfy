@@ -15,8 +15,6 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
-const map = new Map();
-
 const snipes = new Discord.Collection()
 
 const prefix = ('w!');
