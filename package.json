@@ -29,6 +29,7 @@
     "djs-games": "^1.4.6",
     "event-target-shim": "^6.0.2",
     "ffmpeg-static": "^4.2.7",
+    "fortnite": "^4.3.2",
     "fs-extra": "^10.0.0",
     "got": "^11.8.1",
     "jsdom": "^16.4.0",
