@@ -123,7 +123,6 @@ Client.on('inviteJoin', async (member, invite, inviter) => {
 })
 
 Client.on('messageDelete', message => {
-    if(message.author.Client) return;
     if(message.author.bot) return;
     snipes.set(message.channel.id, message)
 
@@ -136,7 +135,7 @@ Client.on('messageDelete', message => {
     LogChannel.send(DeletedLog)
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
-    if(oldMessage, newMessage.author.Client) return;
+    if(oldMessage, newMessage.author.bot) return;
     if(message.author.bot) return;
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const EditedLog = new Discord.MessageEmbed()
@@ -208,7 +207,7 @@ Client.on("ready", async () => {
 })
 
 Client.on("message", async message => {
-    if(message.author.Client) return;
+    if(message.author.bot) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
