@@ -15,6 +15,10 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
+const map = new Map();
+
+const snipes = new Discord.Collection()
+
 const prefix = ('w!');
 
 // it creates a new function for our aliases
@@ -221,7 +225,6 @@ Client.on("message", async message => {
     DMC.send(dmEmbed)
 }
 if(message.channel.id === '859100693365653515') {
-    if(message.author.Client) return;
     if(message.author.bot) return;
     fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
     .then(res => res.json())
