@@ -213,7 +213,7 @@ Client.on("ready", async () => {
 })
 
 Client.on("message", async message => {
-    if(message.author.Client) return;
+    if(message.author.bot) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
@@ -264,4 +264,4 @@ if(message.channel.id === '859100693365653515') {
 
 // Login To Discord with your app's Token
 
-Client.login(process.env.token)
+Client.login(config.token);
