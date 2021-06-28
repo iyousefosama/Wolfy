@@ -22,7 +22,10 @@ const map = new Map();
 
 const snipes = new Discord.Collection()
 
-require('./mongo').run() 
+const mongodb = require('./mongo')()
+
+// it creates a new function for our aliases
+Client.aliases = new Discord.Collection();
 
 // it creates a new function for our cooldowns
 const cooldown = new Set();
@@ -31,12 +34,40 @@ const userSchema = require("./schema/user-schema")
 
 const { passGen } = require("ultrax")
 
-const { MessageButton } = require("discord-buttons")
-
 require('ultrax').inviteLogger(Client)
-require('discord-buttons')(Client)
 
 const Guard = require('discord.js-guard');
+
+Client.on('messageReactionAdd', async (reaction, user) => {
+    const handleStarboard = async () => {
+        const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === 'starboard');
+        const msgs = await SBChannel.messages.fetch({ limit: 100 });
+        const SentMessage = msgs.find(msg => 
+            msg.embeds.length === 1 ?
+            (msg.embeds[0].footer.text.startsWith(reaction.message.id) ? true : false) : false);
+        if(SentMessage) SentMessage.edit(`${reaction.count} - ⭐`);
+        else {
+            const embed = new Discord.MessageEmbed()
+            .setAuthor(reaction.message.author.tag, reaction.message.author.displayAvatarURL())
+            .setDescription(`**[Jump to the message](${reaction.message.url})**\n\n${reaction.message.content}\n`)
+            .setColor('YELLOW')
+            .setFooter(reaction.message.id)
+            .setTimestamp();
+            if(SBChannel)
+            SBChannel.send('1 - ⭐', embed);
+        }
+    }
+    if(reaction.emoji.name === '⭐') {
+        if(reaction.message.channel.name.toLowerCase() === 'starboard') return;
+        if(reaction.message.partial) {
+            await reaction.fetch();
+            await reaction.message.fetch();
+            handleStarboard();
+        }
+        else
+        handleStarboard();
+    }
+});
 
 Guard({ 
     whitelist: ["829819269806030879", "547905866255433758", "159985870458322944", "282859044593598464", "550613223733329920", "172002275412279296"],
@@ -93,6 +124,7 @@ Client.on('inviteJoin', async (member, invite, inviter) => {
 
 Client.on('messageDelete', message => {
     if(message.author.Client) return;
+    if(message.author.bot) return;
     snipes.set(message.channel.id, message)
 
     const LogChannel = Client.channels.cache.get('831412872852013066')
@@ -105,6 +137,7 @@ Client.on('messageDelete', message => {
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
     if(oldMessage, newMessage.author.Client) return;
+    if(message.author.bot) return;
     const LogChannel = Client.channels.cache.get('831412872852013066')
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
