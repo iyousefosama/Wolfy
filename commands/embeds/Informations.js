@@ -4,7 +4,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle(`Informations Commands`)
+    .setTitle(`<a:UltraPin:836169056926564362> Informations Commands`)
+    .setURL('https://discord.js.org/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(

@@ -4,7 +4,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle('Utilities Commands')
+    .setTitle('<a:pp350:836168684379701279> Utilities Commands')
+    .setURL('https://discord.js.org/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
