@@ -40,6 +40,44 @@ require('ultrax').inviteLogger(Client)
 
 const Guard = require('discord.js-guard');
 
+const { registerFont } = require('canvas')
+
+// Event
+Client.on('guildMemberAdd', async member => {
+
+    const channel = Client.channels.cache.get('830926767728492565')
+
+	// defining the background as bg
+	let  bg = 'https://cdn.discordapp.com/attachments/850808002545319957/859359637106065408/bg.png'
+	
+	// defining the member's avatar with "PNG" as format.
+    let  avatar = member.user.displayAvatarURL({ format:  "png" })
+	
+	// defining text_1 (title)
+	let  text1 = "Welcome to the server"
+	
+	// defining text_2 (subtitle)
+	let  text2 = member.user.tag
+	
+	// defining text_3 (footer)
+	let  text3 = `You're the ${member.guild.memberCount}th member`
+
+	// defining the color, here its white
+	let  color = '#ffffff'
+
+	// defining the options and setting them
+	const options = {
+		font: "Shadows Into Light",
+		attachmentName: `welcome-${member.id}`
+	}
+	
+	// creating the image
+	const  image = await  ultrax.welcomeImage(bg, avatar, text1, text2, text3, color, options)
+
+	// sending the image:
+	channel.send(image)
+})
+
 Client.on('messageReactionAdd', async (reaction, user) => {
     const handleStarboard = async () => {
         const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝');
@@ -121,7 +159,7 @@ Guard({
 
 Client.on('inviteJoin', async (member, invite, inviter) => {
     const channel = Client.channels.cache.get('830930561232273419')
-    channel.send(`<a:CHECKCHECK:841321920456556554>${member} **Just joined,** invited by ${inviter}`)
+    channel.send(`${member} **Just joined,** invited by \`${inviter.tag}\` <a:CHECKCHECK:841321920456556554>`)
 })
 
 Client.on('messageDelete', message => {
