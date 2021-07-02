@@ -34,10 +34,6 @@ const cooldown = new Set();
 
 const userSchema = require("./schema/user-schema")
 
-const { passGen } = require("ultrax")
-
-require('ultrax').inviteLogger(Client)
-
 const Guard = require('discord.js-guard');
 
 Client.on('messageReactionAdd', async (reaction, user) => {
@@ -118,11 +114,6 @@ Guard({
     guild_update_log_message: '-user- updated \`guild\` <a:pp681:774089750373597185>',
   
 },Client);
-
-Client.on('inviteJoin', async (member, invite, inviter) => {
-    const channel = Client.channels.cache.get('830930561232273419')
-    channel.send(`${member} **Just joined,** invited by \`${inviter.tag}\` <a:CHECKCHECK:841321920456556554>`)
-})
 
 Client.on('messageDelete', message => {
     if(message.author.bot) return;
