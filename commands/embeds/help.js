@@ -128,25 +128,23 @@ module.exports.run = async (Client, message, args, prefix) => {
 
         {
 
-        style:  'green',
-        
-        label:  'back',
-        
-        id:  'back'  // don't change this line
-        
-        },
-        
-          
-        
-        {
-        
-        style:  'blurple',
-        
-        label:  'next',
-        
-        id:  'next'  // don't change this line
-        
-        }
+            style:  'red',
+            label:  'Backwards',
+            emoji: {
+                name:  '◀',
+                animated:  false
+                },
+            id:  'back'  // don't change this line
+            },
+            {
+            style:  'green',
+            label:  'Forward',
+            emoji: {
+                name:  '▶',
+                animated:  false
+                },
+            id:  'next'  // don't change this line
+            }
         ]);
 }
 
