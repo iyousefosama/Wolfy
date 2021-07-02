@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     const ticket = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
@@ -15,8 +16,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()
-    
-    
     message.channel.send(ticket);
 
 }

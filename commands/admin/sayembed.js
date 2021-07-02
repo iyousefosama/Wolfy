@@ -25,6 +25,10 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setTimestamp()
     message.channel.send(sayembed)
     message.delete()
+    .catch(err => {
+        message.reply('<a:Error:836169051310260265> Unknown Error, report this for bot developer!');
+        console.error(err);
+      });
 
     cooldown.add(message.author.id);
     setTimeout(() => {

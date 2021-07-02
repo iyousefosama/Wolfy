@@ -1,5 +1,6 @@
 const discord = require('discord.js'); // requiring discord modules
 const moment = require(`moment`) // requiring moment
+const  ultrax = require('ultrax')
 
 module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds handler
     if(!message.content.startsWith(prefix)) return; // check if the cmd start with the prefix
@@ -13,7 +14,7 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
         `<a:pp855:768869639786463242> **Tag:** ${Client.user.tag}`, // the actual name for the bot
         `🆔 **ID:** ${Client.user.id}`, // this will be the ID for the bot
         `📆 **Created At:** ${moment(Client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, // this will say when the bot is created 
-        `👑 **Owner:** <@742682490216644619>,<@501431027013517333>`, // who created the bot
+        `👑 **Owner:** <@829819269806030879>`, // who created the bot
         '\u200b'
     ])
     .addField(`**Stats**`,[ // it will say stats then...
@@ -21,7 +22,17 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
         `⌨️ **Channels:** ${Client.channels.cache.size}`, // how many channels the bot have access to
         `<a:pp17:768866435681878039> **Users:** ${Client.users.cache.size}`, // how many users the bot serve on
         ])
-    message.channel.send(botEmbed) // it sends the embed
+    message.channel.send(botEmbed)
+    await  ultrax.ButtonPaginator(message, [botEmbed], [{
+
+        style:  'url',
+        
+        label:  'BotWeb lnk',
+        
+        url:  'http://wolfy.tk'
+        
+        }
+    ]);
 }
 module.exports.help = { // 5 my cmds handler
     name: "botinfo", // name of the cmd

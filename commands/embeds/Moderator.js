@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:Rules:840126839938482217> Moderator Commands')
@@ -18,15 +19,13 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
-        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
+        { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()
     message.channel.send(moderator);
-    if (args[0] =="mod" || args[0] == "Mode") return
-
 }
 
     

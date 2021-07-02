@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if (message.channel.type === "dm") return;
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`<a:UltraPin:836169056926564362> Informations Commands`)

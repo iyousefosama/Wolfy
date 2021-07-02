@@ -77,7 +77,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
-        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
+        { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
     )
@@ -112,7 +112,9 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    .setTimestamp()
+    .setTimestamp().catch(err => {
+        message.channel.send('<a:Error:836169051310260265> Unknown Error, please try again!');
+    })
 
 
     await  ultrax.ButtonPaginator(message, [help, info, search, Utl, moderator, ticket, Fun], [{
@@ -120,9 +122,9 @@ module.exports.run = async (Client, message, args, prefix) => {
 
         style:  'url',
         
-        label:  'Youtube lnk',
+        label:  'Website Lnk',
         
-        url:  'https://www.youtube.com/channel/UCWoSOegH2nYnng-B4CknXjA'
+        url:  'http://wolfy.tk'
 
         },
 
