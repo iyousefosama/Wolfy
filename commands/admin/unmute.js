@@ -50,10 +50,6 @@ const unmute = new discord.MessageEmbed()
 
 message.channel.send(unmute)
 .setTimestamp()
-.catch(err => {
-    message.reply('<a:Error:836169051310260265> Unknown Error, report this for bot developer!');
-    console.error(err);
-  });
     }
 }
 
