@@ -1,12 +1,10 @@
-// Defining the package
-const ultrax = require('ultrax')
 const discord = require('discord.js')
 const moment = require(`moment`)
 const cooldown = new Set();
-// getting the MessageEmbed from discord.js
 const { MessageEmbed } = require("discord.js")
+const pagination = require('discord.js-pagination');
 
-// setting all the verifiaction levels so it looks nice
+
 const verificationLevels = {
     NONE: 'None',
     LOW: 'Low',
@@ -107,7 +105,7 @@ module.exports.run = async (Client, message, prefix, args) => {
     `<a:pp289:782760183420026881> **Role Count:** ${roles.length}`, // how many roles in the server
     `<:pp944:768867378682527764> **Emoji Count:** ${emojis.size}`, // how many emojis
     `<:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`, // how many not animated emojis
-    `<a:4448_cat_glitchy:743997440168034336> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`, // how many animated emoji
+    `<a:pp320:836169046508306432> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`, // how many animated emoji
     `<a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}`, // how many members in the server
     `👥 **Humans:** ${members.filter(member => !member.user.bot).size}`, // how many are humans
     `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`, // how many are bots
@@ -121,20 +119,19 @@ module.exports.run = async (Client, message, prefix, args) => {
 ]) 
 	
 	
-	// creating the buttons pages
-	await ultrax.ButtonPaginator(message, [embed1, embed2], [{
-	 style: 'green', 
-	 label: 'back', 
-	 id: 'back' // don't change this line 
-	 },
+const pages = [
+    embed1,
+    embed2
+]
 
-	 { 
-	  style: 'blurple',
-	  label: 'next', 	
-	  id: 'next'  // don't change this line 
-	 }
-	  
-	]);
+const emoji = ["⏪", "⏩"]
+
+const timeout = '30000'
+
+pagination(message, pages, emoji, timeout)
+
+
+
     cooldown.add(message.author.id);
     setTimeout(() => {
         cooldown.delete(message.author.id)

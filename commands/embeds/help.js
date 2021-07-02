@@ -1,12 +1,12 @@
 const discord = require('discord.js');
-const  ultrax = require('ultrax')
+const pagination = require('discord.js-pagination');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     const help = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
-	.setURL('https://discord.js.org/')
+	.setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
@@ -20,7 +20,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`<a:UltraPin:836169056926564362> Informations Commands`)
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
@@ -36,7 +36,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
@@ -50,7 +50,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
@@ -64,7 +64,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:Rules:840126839938482217> Moderator Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
@@ -84,7 +84,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const ticket = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
@@ -97,7 +97,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp320:836169046508306432> **Fun Commands**')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
@@ -112,28 +112,22 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    .setTimestamp()
 
-
-    await  ultrax.ButtonPaginator(message, [help, info, search, Utl, moderator, ticket, Fun], [{
-            style:  'red',
-            label:  'Backwards',
-            emoji: {
-                name:  '◀',
-                animated:  false
-                },
-            id:  'back'  // don't change this line
-            },
-            {
-            style:  'green',
-            label:  'Forward',
-            emoji: {
-                name:  '▶',
-                animated:  false
-                },
-            id:  'next'  // don't change this line
-            }
-        ]);
+        const pages = [
+            help,
+            info,
+            search,
+            Utl,
+            moderator,
+            ticket,
+            Fun
+        ]
+    
+        const emoji = ["⏪", "⏩"]
+    
+        const timeout = '60000'
+    
+        pagination(message, pages, emoji, timeout)
 }
 
     
