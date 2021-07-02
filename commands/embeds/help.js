@@ -116,18 +116,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 
     await  ultrax.ButtonPaginator(message, [help, info, search, Utl, moderator, ticket, Fun], [{
-
-
-        style:  'url',
-        
-        label:  'Website Lnk',
-        
-        url:  'http://wolfy.tk'
-
-        },
-
-        {
-
             style:  'red',
             label:  'Backwards',
             emoji: {
