@@ -6,9 +6,10 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
+    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},

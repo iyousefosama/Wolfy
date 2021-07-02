@@ -6,9 +6,10 @@ module.exports.run = async (Client, message, args, prefix) => {
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
+    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
         { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},

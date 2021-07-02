@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:Rules:840126839938482217> Moderator Commands')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(

@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp320:836169046508306432> **Fun Commands**')
-    .setURL('https://discord.js.org/')
+    .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
