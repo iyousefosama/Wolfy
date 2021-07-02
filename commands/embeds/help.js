@@ -112,9 +112,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    .setTimestamp().catch(err => {
-        message.channel.send('<a:Error:836169051310260265> Unknown Error, please try again!');
-    })
+    .setTimestamp()
 
 
     await  ultrax.ButtonPaginator(message, [help, info, search, Utl, moderator, ticket, Fun], [{
