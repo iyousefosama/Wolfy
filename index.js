@@ -36,6 +36,27 @@ const userSchema = require("./schema/user-schema")
 
 const Guard = require('discord.js-guard');
 
+Client.on("guildCreate", guild => {
+    const embed = new Discord.MessageEmbed()
+    .setTitle(`${Client.user.username} added to a new server!`)
+    .setColor("GREEN")
+    .setDescription(`I'm added to ${guild.name}, with ${guild.memberCount}\n\nTotal server: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setTimestamp()
+    const LogChannel = Client.channels.cache.get('840892477614587914')
+    LogChannel.send(embed)
+})
+
+
+Client.on("guildDelete", guild => {
+    const embed = new Discord.MessageEmbed()
+    .setTitle(`${Client.user.username} left a server`)
+    .setColor("RED")
+    .setDescription(`I left ${guild.name}, that had ${guild.memberCount}\n\nTotal server: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setTimestamp()
+    const LogChannel = Client.channels.cache.get('840892477614587914')
+    LogChannel.send(embed)
+})
+
 Client.on('messageReactionAdd', async (reaction, user) => {
     const handleStarboard = async () => {
         const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝');
@@ -119,7 +140,8 @@ Client.on('messageDelete', message => {
     if(message.author.bot) return;
     snipes.set(message.channel.id, message)
 
-    const LogChannel = Client.channels.cache.get('831412872852013066')
+    const LogChannel = message.guild.channels.cache.get('831412872852013066')
+    if (!LogChannel) return
     const DeletedLog = new Discord.MessageEmbed()
     .setTitle("Deleted Message")
     .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
@@ -129,14 +151,14 @@ Client.on('messageDelete', message => {
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
     if(oldMessage, newMessage.author.bot) return;
-    const LogChannel = Client.channels.cache.get('831412872852013066')
+    const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
+    if (!LogChannel) return
     const EditedLog = new Discord.MessageEmbed()
     .setTitle("Edited Message")
     .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${newMessage.content}\`\`\``)
     .setColor('GOLD')
     .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
     await LogChannel.send(EditedLog)
-
 })
 
 // Commands Handler 
