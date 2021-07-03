@@ -21,7 +21,8 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
         { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
+        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
+        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()

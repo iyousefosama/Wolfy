@@ -17,6 +17,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
         { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
+        { name: `${prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\``}
     )
     
     
