@@ -8,7 +8,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     message.guild.channels.cache.forEach(channel => {
         try {
             channel.updateOverwrite(message.guild.roles.cache.find(e => e.name.toLowerCase().trim() == "@everyone"), {
-                SEND_MESSAGES: true
+                SEND_MESSAGES: false
             })
         }catch(e) {
             console.log(e)
