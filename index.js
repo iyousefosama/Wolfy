@@ -87,6 +87,7 @@ Client.on('messageReactionAdd', async (reaction, user) => {
 });
 
 Client.on('messageDelete', message => {
+    if (message.channel.type === "dm") return;
     if(message.author.bot) return;
     snipes.set(message.channel.id, message)
 
@@ -100,6 +101,7 @@ Client.on('messageDelete', message => {
     LogChannel.send(DeletedLog)
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
+    if (oldMessage.channel.type === "dm") return;
     if(oldMessage, newMessage.author.bot) return;
     const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
     if (!LogChannel) return
