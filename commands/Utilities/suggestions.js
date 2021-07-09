@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
@@ -10,7 +11,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if (!suggestion) return message.channel.send("please provide a suggestions!")
 
     let Channel = message.guild.channels.cache.find((ch) => ch.name === "💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤")
-    if (!Channel) return message.channel.send("There is no channel called suggestions, please contact a mod or create a channel called `reports`");
+    if (!Channel) return message.channel.send("There is no channel called suggestions, please contact a mod or create a channel called `💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤`");
 
     const embed = new discord.MessageEmbed()
     .setTitle('New suggestions!')

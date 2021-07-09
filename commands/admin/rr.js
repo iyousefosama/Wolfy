@@ -2,7 +2,6 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(message.id === '859813385063104544' ) {
     // gets the role for the reaction
     let reactRole = message.mentions.roles.first()
 
@@ -50,7 +49,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         // adds the role to the member!
         member.roles.add(reactRole.id)
     })
-}
 }
 
 module.exports.help = {

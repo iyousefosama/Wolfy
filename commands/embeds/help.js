@@ -48,6 +48,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
         { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
+        { name: `${prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\``}
     )
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
@@ -82,7 +83,8 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
         { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``}
+        { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
+        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``}
     )
     const ticket = new discord.MessageEmbed()
     .setColor('738ADB')
