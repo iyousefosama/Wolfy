@@ -38,53 +38,22 @@ Client.on("guildCreate", guild => {
     const embed = new Discord.MessageEmbed()
     .setTitle(`${Client.user.username} added to a new server!`)
     .setColor("GREEN")
-    .setDescription(`I'm added to ${guild.name}, with ${guild.memberCount}\n\nTotal server: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
+    .setDescription(`I'm added to **${guild.name}**, with **${guild.memberCount}** members count\n\nTotal servers: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
     LogChannel.send(embed)
 })
-
-
 Client.on("guildDelete", guild => {
     const embed = new Discord.MessageEmbed()
-    .setTitle(`${Client.user.username} left a server`)
+    .setTitle(`**${Client.user.username}** left a server`)
+    .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
     .setColor("RED")
-    .setDescription(`I left ${guild.name}, that had ${guild.memberCount}\n\nTotal server: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setDescription(`I left **${guild.name}**, with **${guild.memberCount}** members\n\nTotal servers: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
     LogChannel.send(embed)
 })
-
-Client.on('messageReactionAdd', async (reaction, user) => {
-    const handleStarboard = async () => {
-        const SBChannel = Client.channels.cache.find(channel => channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝');
-        const msgs = await SBChannel.messages.fetch({ limit: 100 });
-        const SentMessage = msgs.find(msg => 
-            msg.embeds.length === 1 ?
-            (msg.embeds[0].footer.text.startsWith(reaction.message.id) ? true : false) : false);
-        if(SentMessage) SentMessage.edit(`${reaction.count} - ⭐`);
-        else {
-            const embed = new Discord.MessageEmbed()
-            .setAuthor(reaction.message.author.tag, reaction.message.author.displayAvatarURL())
-            .setDescription(`**[Jump to the message](${reaction.message.url})**\n\n${reaction.message.content}\n`)
-            .setColor('YELLOW')
-            .setFooter(reaction.message.id)
-            .setTimestamp();
-            if(SBChannel)
-            SBChannel.send('1 - ⭐', embed);
-        }
-    }
-    if(reaction.emoji.name === '⭐') {
-        if(reaction.message.channel.name.toLowerCase() === '🌟┃𝐒𝐭𝐚𝐫𝐛𝐨𝐚𝐫𝐝') return;
-        if(reaction.message.partial) {
-            await reaction.fetch();
-            await reaction.message.fetch();
-            handleStarboard();
-        }
-        else
-        handleStarboard();
-    }
-});
 
 Client.on('messageDelete', message => {
     if (message.channel.type === "dm") return;
