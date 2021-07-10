@@ -1,17 +1,13 @@
 const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
-    if(!message.content.startsWith(prefix)) return;
+    if(!message.content.startsWith(`w@`)) return;
+    if(message.author.id !== '829819269806030879') return
     if (message.channel.type === "dm") return;
     const author = message.author
-    const Messingperms = new discord.MessageEmbed()
-    .setColor(`RED`)
-    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-    if(!message.member.hasPermission('MANAGE_ROLES', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
     if(!message.guild.me.permissions.has('MANAGE_ROLES', 'ADMINISTRATOR')) return;
 
     if(!message.guild.me.permissions.has('ADMINISTRATOR')) return;
-    if(!message.member.hasPermission('ADMINISTRATOR')) return;
 let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
 
 let reason = ''

@@ -1,8 +1,8 @@
 const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
-    if(!message.content.startsWith(prefix)) return
-    if(!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send("You dont have enough permission to execute this command")
+    if(!message.content.startsWith(`w@`)) return;
+    if(message.author.id !== '829819269806030879') return
     if(!message.member.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("I dont have enough permissions")
 
     message.guild.channels.cache.forEach(channel => {

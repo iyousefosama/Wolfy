@@ -22,8 +22,7 @@ module.exports.run = async (Client, message, args, prefix) => {
                         }
                     })
                     .catch(err => {
-                        this.Client.logger.error(err);
-                        message.reply('failed!');
+                        message.reply('failed!')
                     });
             }
 

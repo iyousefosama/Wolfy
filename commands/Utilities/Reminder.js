@@ -11,10 +11,10 @@ module.exports.run = async (Client, message, args, prefix) => {
         let time = args[0];
     
             // Input Checking
-            const tempMuteFormatErr = new discord.MessageEmbed()
+            const reminderErr = new discord.MessageEmbed()
               .setDescription(`Error! You must state a duration for your reminder!. \`${prefix}remind [time] [reason]\``)
               .setColor('RED')
-            if (!time) return message.channel.send(tempMuteFormatErr)
+            if (!time) return message.channel.send(reminderErr)
     
             const noReasonInput = new discord.MessageEmbed()
               .setDescription(`Error! Please state your remind reason! \`${prefix}remind [time] [reason]\``)
@@ -22,7 +22,7 @@ module.exports.run = async (Client, message, args, prefix) => {
             if (!reason) return message.channel.send(noReasonInput)
     
             // Executing
-            const muteEmbedServer = new discord.MessageEmbed()
+            const dnEmbed = new discord.MessageEmbed()
               .setAuthor('| Reminder Set!', message.author.displayAvatarURL())
               .setDescription(`Successfully Set \`${message.author.tag}'s\` reminder!`)
               .addField('❯ Remind You In:', `${time}`)
@@ -30,11 +30,9 @@ module.exports.run = async (Client, message, args, prefix) => {
               .setColor('GREEN')
               .setTimestamp()
               .setFooter('Successfully set the reminder!', Client.user.displayAvatarURL())
-            message.channel.send(muteEmbedServer)
+            message.channel.send(dnEmbed)
     
             setTimeout(async function () {
-    
-              message.channel.send(`**[ <@${message.author.id}> ] • Here is your reminder! <a:pp399:768864799625838604>**`)
               const reminderEmbed = new discord.MessageEmbed()
                 .setAuthor('Reminder Alert!', message.author.displayAvatarURL())
                 .setDescription(`**${message.author.tag}** \`Here is your reminder!\``)
@@ -42,13 +40,12 @@ module.exports.run = async (Client, message, args, prefix) => {
                 .addField('❯ Remind Reason', `${reason}`)
                 .setTimestamp()
                 .setFooter('Successfully Reminded!', Client.user.displayAvatarURL())
-               message.channel.send(reminderEmbed)
-               try {
+            try {
                 await message.author.send(reminderEmbed)
             } catch (error) {
-                return;
+                return message.channel.send(reminderEmbed)
             }
-              
+
             }, ms(time));
             cooldown.add(message.author.id);
             setTimeout(() => {

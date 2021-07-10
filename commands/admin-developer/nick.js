@@ -1,16 +1,9 @@
 const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
-    if(!message.content.startsWith(prefix)) return
+  if(!message.content.startsWith(`w@`)) return;
+  if(message.author.id !== '829819269806030879') return
     if (message.channel.type === "dm") return;
-    // the perm. that the member need it to ban someone
-    if(!message.member.hasPermission('ADMINISTRATOR'))
-    // if someone dont hv perm it will send this message
-    var Messingperms = new discord.MessageEmbed()
-      .setColor(`RED`)
-      .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-      message.channel.send(Messingperms)
-      if(!message.member.hasPermission('ADMINISTRATOR')) return;
     if(!message.guild.me.permissions.has('ADMINISTRATOR')) return message.channel.send('<a:pp297:768866022081036319> Please Check My Permission <a:pp297:768866022081036319>')
 
     let user = message.mentions.users.first() || message.guild.members.cache.get(args[0]);

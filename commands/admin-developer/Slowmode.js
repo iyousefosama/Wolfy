@@ -1,11 +1,8 @@
 const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
-    if(!message.content.startsWith(prefix)) return
-    const Messingperms = new discord.MessageEmbed()
-    .setColor(`RED`)
-    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
-    if(!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send(Messingperms)
+    if(!message.content.startsWith(`w@`)) return;
+    if(message.author.id !== '829819269806030879') return
 
     let time = args[0]
     if(!time) return message.channel.send("<a:pp802:768864899543466006> Please provide a time in seconds")
