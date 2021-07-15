@@ -30,10 +30,10 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setTitle(`Click here!`)
         .setColor(`f90505`)
         .setThumbnail(`https://cdn.discordapp.com/attachments/830926767728492565/844596072473952316/395_Youtube_logo-512.png`)
-        .setDescription(`Done choosen the channel, click the link above`)
+        .setDescription(`<:pp493:836169029085298698> Done choosen the channel, click the link above`)
         .setURL(`https://discord.com/invite/${invite.code}`)
         .addFields(
-            { name: `Channel:`, value: `<#${channel.id}>`}
+            { name: `Channel:`, value: `<#${channel.id}>`},
         )
         .setFooter(`Requested by: ${message.member.displayName}`, message.member.user.displayAvatarURL())
         .setTimestamp()

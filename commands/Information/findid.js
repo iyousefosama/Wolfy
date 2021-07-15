@@ -10,7 +10,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setColor("WHITE")
     .setAuthor(`Requested by ${message.author.username}`, message.author.displayAvatarURL())
     .setThumbnail(avatar)
-    .setDescription(`**ID USER:** ${user.id}`)
+    .setDescription(`**USER ID:** ${user.id}`)
     .setTimestamp()
     message.channel.send(embed);
     

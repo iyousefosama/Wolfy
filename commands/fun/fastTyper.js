@@ -45,7 +45,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         } else {
             var fail = new Discord.MessageEmbed()
             .setColor(`RED`)
-            .setDescription(`<a:Wrong:812104211361693696> **You failed!** <a:Wrong:812104211361693696>!**\nIt took you **${ms(Date.now() - time, {long: true})}** to type it!`)
+            .setDescription(`<a:Wrong:812104211361693696> **You failed!** <a:Wrong:812104211361693696>!`)
             var msg = message.channel.send(fail)
             inGame.delete(message.author.id)
             break

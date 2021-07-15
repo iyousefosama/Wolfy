@@ -16,7 +16,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setDescription('<a:pp681:774089750373597185> You must enter a message!')
 
         if(!text){
-
             return msg.edit(ERR);
         }
 if(text.length > 100) return message.channel.send('Sorry you can\`t type more than 100 letters!')
@@ -29,8 +28,7 @@ if(text.length > 100) return message.channel.send('Sorry you can\`t type more th
             await message.channel.send(``, attachment);
             msg.delete();
         } catch(e){
-            m.edit("<a:pp681:774089750373597185> Error, Try Again!");
-            
+            msg.edit("<a:pp681:774089750373597185> Error, Try Again!");
         }
 };
 

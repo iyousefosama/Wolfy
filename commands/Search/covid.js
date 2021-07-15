@@ -38,7 +38,7 @@ module.exports.run = async (Client, message, args, prefix) => {
                 .setTitle(`Worldwide COVID-19 Stats 🌎`)
                 .addField('Confirmed Cases', confirmed)
                 .addField('Recovered', recovered)
-                .addField('Deaths', deaths)
+                .addField('💀 Deaths', deaths)
 
                 message.channel.send(embed)
             })
@@ -60,7 +60,7 @@ module.exports.run = async (Client, message, args, prefix) => {
                 .setTitle(`COVID-19 Stats for **${countries}**`)
                 .addField('Confirmed Cases', confirmed)
                 .addField('Recovered', recovered)
-                .addField('Deaths', deaths)
+                .addField('💀 Deaths', deaths)
 
                 message.channel.send(embed)
             }).catch(e => {

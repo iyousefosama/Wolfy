@@ -2,7 +2,10 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send("You dont have enough permission to execute this command")
+    const Messingperms = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
+    if(!message.member.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
     if(!message.member.guild.me.hasPermission("MANAGE_CHANNELS")) return message.channel.send("I dont have enough permissions")
 
     message.guild.channels.cache.forEach(channel => {

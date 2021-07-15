@@ -9,7 +9,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!user) return message.channel.send("<a:pp802:768864899543466006> **Please mentions a user!**")
 
     const done = new discord.MessageEmbed()
-    .setColor(`GREEN`)
+    .setColor(`RED`)
     .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted \`${user.tag}\``)
 
     let data;

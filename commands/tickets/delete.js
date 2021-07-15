@@ -38,8 +38,6 @@ module.exports.run = async (Client, message, args, prefix) => {
             { name: 'Ticket username', value: `\`\`\`${message.channel.name}\`\`\``}
         )
         .setColor('RED')
-        LogChannel.send(DeletedLog)
-        if(!LogChannel) return;
 
     // if its not a ticket channel return
     } else {

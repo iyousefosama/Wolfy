@@ -26,7 +26,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: "Reason", value: `${reason}`, inline: true}
     )
     Channel.send(embed)
-    message.channel.send('<a:Right:812104211386728498> **successfully sent the report!**')
+    message.channel.send('<a:Right:812104211386728498> **Successfully sent the report!**')
 
 }
 
