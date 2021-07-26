@@ -15,10 +15,10 @@ module.exports.run = async (Client, message, args, prefix) => {
     var status = mentionedMember.presence.status; // whenever i type status, it makes ref. to the user's status
     
     // organising the code so it don't look bad
-    if(status == 'dnd') status = "Do Not Disturb" // if the person is dnd  so it will type in the embed Do no Distrub
-    if(status == 'online') status = "Online"
-    if(status == 'offline') status = "Offline"
-    if(status === 'idle') status = "Idle"
+    if(status == 'dnd') status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb" // if the person is dnd  so it will type in the embed Do no Distrub
+    if(status == 'online') status = "<:online:809995753921576960> Online"
+    if(status == 'offline') status = "<:offline:809995754021978112> Offline"
+    if(status === 'idle') status = "<:Idle:809995753656549377> Idle"
 
     
     const roles = mentionedMember.roles.cache // getting the roles of the person
@@ -42,17 +42,20 @@ module.exports.run = async (Client, message, args, prefix) => {
     
     const userEmbed = new discord.MessageEmbed() // create an embed
      .setAuthor(`User information of ${mentionedMember.user.username}`, mentionedMember.user.displayAvatarURL({dynamic: true, size: 2048})) // User information of: KarimX and it will display my pfp
-     .addField(`<a:pp289:782760183420026881> **Tag: **`, `${mentionedMember.user.tag}`) // it will show my tags (e.g. KarimX#9586)
-     .addField(`<a:rainbow_excited:759734576519053322> **Username: **`, mentionedMember.user.username || "None") // show the username 
-     .addField(`🆔 **ID: **`, `${mentionedMember.id}`) // show the ID
-     .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${mentionedMember.user.displayAvatarURL({ dynamic: true})})`) // show the person avatar in a link
-     .addField(`<a:pp829:768865070263304214> **Status: **`, `${status}`) // the status of the user
-     .addField(`🎮 **Game: **`, `${game || 'None'}`) // what is he playing
-     .addField(`📆 **Account Created At: **`, `${moment(mentionedMember.createdAt).format("DD-MM-YYYY [at] HH:mm")}`) // when did the acc got created
-     .addField(`📥 **Joined The Server At: **`, `${moment(mentionedMember.joinedAt).format("DD-MM-YYYY [at] HH:mm")}`) // when did he join the server
      .addFields(
-     { name: "Roles", value: `${roles.length < 10 ? roles.join(", ") : roles.length > 10 ? trimArray(roles).join(", ") : "None"}`, inline:false },
-     )
+		{ name: '<a:pp289:782760183420026881> **Tag: **', value: `${mentionedMember.user.tag}` },
+        { name: '<a:rainbow_excited:759734576519053322> **Username: **', value: mentionedMember.user.username || "None" },
+		{ name: '\u200B', value: '\u200B' },
+		{ name: '<:pp198:853494893439352842> **ID: **', value: `${mentionedMember.id}`, inline: true },
+		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${game || 'None'}`, inline: true },
+        { name: '📆 **Account Created At: **', value: `${moment(mentionedMember.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, inline: true },
+        { name: '📥 **Joined The Server At: **', value: `${moment(mentionedMember.joinedAt).format("DD-MM-YYYY [at] HH:mm")}`, inline: true },
+	)
+    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${mentionedMember.user.displayAvatarURL({ dynamic: true})})`)
+    .addFields(
+        { name: "Roles", value: `${roles.length < 10 ? roles.join(", ") : roles.length > 10 ? trimArray(roles).join(", ") : "None"}`, inline:false },
+        )
     message.channel.send(userEmbed) // sends the embed
     
 }

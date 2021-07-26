@@ -6,7 +6,7 @@ const pagination = require('discord.js-pagination');
 
 
 const verificationLevels = {
-    NONE: 'None',
+    NONE: '<a:Error:836169051310260265> None',
     LOW: 'Low',
     MEDIUM: 'Medium',
     HIGH: 'High',
@@ -81,8 +81,8 @@ module.exports.run = async (Client, message, prefix, args) => {
     // adding a field with the general info
     .addField(`General`, [
         `🇳 **Name:** ${name}`, // server name
-        `🆔 **ID:** ${message.guild.id}`, // server's id
-        `👑 **Owner:** ${message.guild.owner.user.tag}`, // server's owner
+        `<:pp198:853494893439352842> **ID:** ${message.guild.id}`, // server's id
+        `<:Owner:841321887882805289> **Owner:** ${message.guild.owner.user.tag}`, // server's owner
         `🌐 **Region:** ${regions[message.guild.region]}`, // the region of the server
         `<:Boost:776670897545150465> **Boost Tier:** ${message.guild.premiumTier ? `Tier ${message.guild.premiumTier}` : 'None'}`, // boost tier
         `<a:Enchanted_netherite_sword:758070334879563786> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}`, // the verification level
@@ -107,12 +107,12 @@ module.exports.run = async (Client, message, prefix, args) => {
     `<:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`, // how many not animated emojis
     `<a:pp320:836169046508306432> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`, // how many animated emoji
     `<a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}`, // how many members in the server
-    `👥 **Humans:** ${members.filter(member => !member.user.bot).size}`, // how many are humans
+    `<:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}`, // how many are humans
     `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`, // how many are bots
-    `<:online:809995753921576960> **Online:** ${members.filter(member => member.presence.status === 'online').size}`, // how many are online
-    `<:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence.status === 'offline').size}`, // how many are offline
-    `<a:pp802:768864899543466006> **Do Not Disturb:** ${members.filter(member => member.presence.status === 'dnd').size}`, // how many have DND
-    `<:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence.status === 'idle').size}`, // how many have idle
+    `<:online:809995753921576960> **Online:** ${members.filter(member => member.presence.status === '<:online:809995753921576960> online').size}`, // how many are online
+    `<:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence.status === '<:offline:809995754021978112> offline').size}`, // how many are offline
+    `<a:pp802:768864899543466006> **Do Not Disturb:** ${members.filter(member => member.presence.status === '<:8608_do_not_disturb:809995753577644073> dnd').size}`, // how many have DND
+    `<:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence.status === '<:Idle:809995753656549377> idle').size}`, // how many have idle
     `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === 'text').size}`, // how many text channels
     `<:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'voice').size}`, // how many voice channels
     '\u200b'
