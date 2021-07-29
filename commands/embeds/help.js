@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const pagination = require('discord.js-pagination');
+const { MessageButton, MessageActionRow } = require('discord-buttons');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
@@ -117,22 +117,59 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
+    let button = new MessageButton()
+    .setLabel(`Info`)
+    .setID("1")
+    .setStyle("blurple");
+    let button2 = new MessageButton()
+    .setLabel(`Search`)
+    .setID("2")
+    .setStyle("blurple");
+    let button3 = new MessageButton()
+    .setLabel(`Utilities`)
+    .setID("3")
+    .setStyle("blurple");
+    let button4 = new MessageButton()
+    .setLabel(`Moderator`)
+    .setID("4")
+    .setStyle("red");
+    let button5 = new MessageButton()
+    .setLabel(`Fun`)
+    .setID("5")
+    .setStyle("green");
 
-        const pages = [
-            help,
-            info,
-            search,
-            Utl,
-            moderator,
-            ticket,
-            Fun
-        ]
-    
-        const emoji = ["⏪", "⏩"]
-    
-        const timeout = '60000'
-    
-        pagination(message, pages, emoji, timeout)
+    let row = new MessageActionRow()
+  .addComponents(button, button2, button3, button4, button5);
+
+
+  message.channel.send(help, row);
+
+
+  Client.on('clickButton', async (button) => {
+    if(button.id === '1'){
+    await button.reply.think(true)
+    button.reply.edit(info)
+    }
+    if(button.id === '2'){
+        await button.reply.think(true)
+        button.reply.edit(search)
+    }
+    if(button.id === '3'){
+        await button.reply.think(true)
+        button.reply.edit(Utl)
+    }
+    if(button.id === '4'){
+        await button.reply.think(true)
+        button.reply.edit(moderator)
+    }
+    if(button.id === '5'){
+        await button.reply.think(true)
+        button.reply.edit(Fun)
+    }
+});
+
+
+
 }
 
     
