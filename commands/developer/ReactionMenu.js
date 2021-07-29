@@ -32,11 +32,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     
 let select = new MessageMenu()
     .setID('customid')
-    .setPlaceholder('Click here to drop the menu! :D')
+    .setPlaceholder('Click here to drop the menu!')
     .addOptions([option, option2, option3, option4, option5])
 
 
-message.channel.send('Choose your roles!', select);
+message.channel.send('<:pp499:836168214525509653> **Choose your roles!**', select);
 }
 
     
