@@ -7,6 +7,8 @@ const config = require('./config.json');
 // create a new Discord Client 
 const Client = new Discord.Client({disableEveryone: true, partials: ['MESSAGE', 'REACTION']});
 
+require('discord-buttons')(Client);
+
 // we make a new system for the cmds
 Client.commands = new Discord.Collection();
 
@@ -34,6 +36,60 @@ const cooldown = new Set();
 
 const userSchema = require("./schema/user-schema")
 
+Client.on('clickMenu', async menu => {
+    const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
+    if(menu.values[0] == 'DR1') {
+        if(!Member.roles.cache.has('836422893696450590')) {
+            await Member.roles.add('836422893696450590')
+            return menu.reply.send("You got the All Annoucments mention role", true)
+        } else if(Member.roles.cache.has('836422893696450590')) {
+            await Member.roles.remove('836422893696450590')
+            return menu.reply.send("remove the All Annoucments mention role", true)
+        }
+    }
+
+    if(menu.values[0] == 'DR2') {
+        if(!Member.roles.cache.has('836422786247294976')) {
+            await Member.roles.add('836422786247294976')
+            return menu.reply.send("You got the Free Games Mention role", true)
+        } else if(Member.roles.cache.has('836422786247294976')) {
+            await Member.roles.remove('836422786247294976')
+            return menu.reply.send("remove the Free Games Mention role", true)
+        }
+    }
+    if(menu.values[0] == 'DR3') {
+        if(!Member.roles.cache.has('836423291601944596')) {
+            await Member.roles.add('836423291601944596')
+            return menu.reply.send("You got the Looking For group mention role", true)
+        } else if(Member.roles.cache.has('836423291601944596')) {
+            await Member.roles.remove('836423291601944596')
+            return menu.reply.send("remove the Looking For group mention role", true)
+        }
+    }
+    if(menu.values[0] == 'DR4') {
+        if(!Member.roles.cache.has('836422784317259777')) {
+            await Member.roles.add('836422784317259777')
+            return menu.reply.send("You got the Watching party mention role", true)
+        } else if(Member.roles.cache.has('836422784317259777')) {
+            await Member.roles.remove('836422784317259777')
+            return menu.reply.send("remove the Watching party mention role", true)
+        }
+    }
+    if(menu.values[0] == 'DR5') {
+        if(!Member.roles.cache.has('870351250502340680')) {
+            await Member.roles.add('870351250502340680')
+            return menu.reply.send("You got the Partner mention role", true)
+        } else if(Member.roles.cache.has('870351250502340680')) {
+            await Member.roles.remove('870351250502340680')
+            return menu.reply.send("remove the highest hit role", true)
+        }
+    }
+
+    if(menu.values[0] == 'DRreturn') {
+        return menu.reply.defer()
+    }
+})
+
 Client.on("guildCreate", guild => {
     const embed = new Discord.MessageEmbed()
     .setTitle(`${Client.user.username} added to a new server!`)
@@ -57,7 +113,7 @@ Client.on("guildDelete", guild => {
 
 Client.on('messageDelete', message => {
     if (message.channel.type === "dm") return;
-    if(message.author.bot) return;
+    if(message.author.Client) return;
     snipes.set(message.channel.id, message)
 
     const LogChannel = message.guild.channels.cache.get('831412872852013066')
