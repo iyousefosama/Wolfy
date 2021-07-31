@@ -1,23 +1,12 @@
 const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
-
     if(!message.content.startsWith(prefix)) return;
-
+    if(cooldown.has(message.author.id)) {
+        message.reply('Please wait \`2 seconds\` between using the command, because you are on cooldown')
+    } else {
     // if the member don't have this perm return by sending this msg
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have the perms for the nuke command')
-
-    let alert = new discord.MessageEmbed()
-    .setColor(`RED`)
-    .setDescription(`<a:Error:836169051310260265> are you sure ?`)
-    channel.send(alert)
-    await message.react("✅")
-    await message.react("❌")
-
-    const filtro = (reaction, user) => ['✅', '❌'].includes(reaction.emoji.name) && user.id === author.id
-    const collector = message.createReactionCollector(filtro)
-
-
 
     // getting the channel's id that is gonna be nuked
     var channel = Client.channels.cache.get(message.channel.id)
@@ -40,6 +29,10 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setDescription(`<a:Error:836169051310260265> Channel nuked by **${message.author.username}**`)
     channel2.send(nuke)
     })
+    setTimeout(() => {
+        cooldown.delete(message.author.id)
+    }, 2000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+    }
 }
     
 

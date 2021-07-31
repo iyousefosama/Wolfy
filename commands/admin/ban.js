@@ -50,21 +50,25 @@ module.exports.run = async (Client, message, args, prefix) => {
             // it will send this message once the person is banned
             const ban = new discord.MessageEmbed()
             .setTimestamp()
-            .setThumbnail(member.user.displayAvatarURL())
-            .setAuthor('Successfully banned the user from the server')
-            .setDescription(`User: ${member}\nBanned by: \`${message.author.username}\`\nReason: ${reason}`);
+            .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n<:pp833:853495153280155668> Kicked By: ${message.author.username}\n<:Rules:840126839938482217> Reason: ${reason}`);
             message.channel.send(ban);
             })
             // log err in the console
             .catch(err => {
               // if the bot wasnt able to ban the member bcz he hv a higher role it will not ban him and if the bot dont hv to perm it will not ban him and send this messge
-              message.reply('I was unable to ban the member');
-
+              const Err = new discord.MessageEmbed()
+              .setColor(`RED`)
+              .setDescription(`<a:pp802:768864899543466006> I was unable to ban the member`)
+              message.channel.send(Err)
               console.error(err);
             });
         } else {
           // if the member isnt in the server and u typed e.g. =ban @karimx it will send this message
-          message.reply("That user isn't in this guild!");
+          const Err2 = new discord.MessageEmbed()
+          .setColor(`RED`)
+          .setDescription(`<a:pp802:768864899543466006> That user isn't in this guild!`)
+          message.channel.send(Err2)
         }
       }
   };

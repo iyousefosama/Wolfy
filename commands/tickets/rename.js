@@ -26,6 +26,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setDescription('<a:pp399:768864799625838604> Ticket name changed')
         message.channel.send(rename)
         .then(channel => {
+            message.delete()
             message.channel.setName(`${name}`)
         })
     // if its not a ticket channel return

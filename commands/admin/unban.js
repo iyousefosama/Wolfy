@@ -13,15 +13,31 @@ module.exports.run = async (Client, message, args, prefix) => {
     let reason = args.slice(1).join(" ")
 
     if(!reason) reason = 'No reason provided';
-    if(!user) return message.channel.send('Please provide a ID to unban')
-    if(isNaN(user)) return message.channel.send("Please provide a valid ID that is numbers")
+    
+    const user1 = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> Please provide a ID to unban`)
+    const user2 = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> Please provide a valid ID that is numbers`)
+    const no = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> No one is banned in this server`)
+    const not = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> This user isnt banned!`)
+    const wrong1 = new discord.MessageEmbed()
+    .setColor(`RED`)
+    .setDescription(`<a:pp802:768864899543466006> This user isnt banned!`)
+    if(!user) return message.channel.send(user1)
+    if(isNaN(user)) return message.channel.send(user2)
 
     message.guild.fetchBans().then(async bans => {
-        if(bans.size === 0) return message.channel.send("No one is banned in this server")
+        if(bans.size === 0) return message.channel.send(no)
         let BannedUser = bans.find(ban => ban.user.id == user)
-        if(!BannedUser) return message.channel.send('This user isnt banned!')
+        if(!BannedUser) return message.channel.send(not)
         await message.guild.members.unban(BannedUser.user, reason).catch(err =>{
-            return message.channel.send("Something went wrong!")
+            return message.channel.send(wrong1)
         }).then(() => {
             var dn = new discord.MessageEmbed()
             .setColor(`DARK_GREEN`)

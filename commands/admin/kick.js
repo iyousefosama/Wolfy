@@ -30,28 +30,32 @@ module.exports.run = async (Client, message, args, prefix) => {
             // it will send this message once the person is kicked
             const kick = new discord.MessageEmbed()
             .setTimestamp()
-            .setAuthor('Successfully Kicked the user from the server')
-            .setDescription(`User: ${member}\nKicked by: ${message.author.username}`);
-            
-            
-            
-            
+            .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n<:pp833:853495153280155668> Kicked By: ${message.author.username}`);
             message.channel.send(kick);
             })
             // log err in the console
             .catch(err => {
               // if the bot wasnt able to kick the member bcz he hv a higher role it will not kick him and if the bot dont hv to perm it will not kick him and send this messge
-              message.reply('I was unable to kick the member');
-  
+              const Err = new discord.MessageEmbed()
+              .setColor(`RED`)
+              .setDescription(`<a:pp802:768864899543466006> I was unable to kick the member`)
+              message.channel.send(Err)
               console.error(err);
             });
         } else {
           // if the member isnt in the server and u typed e.g. =kick @karimx it will send this message
-          message.reply("That user isn't in this guild!");
+          const Err2 = new discord.MessageEmbed()
+          .setColor(`RED`)
+          .setDescription(`<a:pp802:768864899543466006> That user isn't in this guild!`)
+          message.channel.send(Err2)
         }
       } else {
        // if u typed =kick without mentioning some1 it will send this message
-        message.reply("You didn't mention the user to kick!");
+        const Err3 = new discord.MessageEmbed()
+        .setColor(`RED`)
+        .setDescription(`<a:pp802:768864899543466006> You didn't mention the user to kick!`)
+        message.channel.send(Err3)
       }
   };
 }
