@@ -218,8 +218,9 @@ message.channel.startTyping()
         message.channel.send(data.response)
     })
     .catch(err => {
-        message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
+        message.channel.send('Sorry, i can\'t reply this message!');
       })
+message.channel.stopTyping()
 }
 
     let UserData;
