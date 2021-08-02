@@ -15,8 +15,9 @@ module.exports.run = async (Client, message, args, prefix) => {
     };
 
 
+    let mentionedMember = message.member;
     let singerEmb = new discord.MessageEmbed()
-    .setColor(`GREEN`)
+    .setColor(`GOLD`)
     .setDescription(`<a:Loading:841321898302373909> **Who is the singer?**`)
     .setFooter(`1/2`)
     message.channel.send(singerEmb)
@@ -25,7 +26,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     singer = col.first().content
 
     let songEmb = new discord.MessageEmbed()
-    .setColor(`DARK_GREEN`)
+    .setColor(`GREEN`)
     .setDescription(`<a:Loading:841321898302373909> **What is the name of the song?**`)
     .setFooter(`2/2`)
     message.channel.send(songEmb)
@@ -38,12 +39,18 @@ module.exports.run = async (Client, message, args, prefix) => {
     for(let i = 0; i < res.length; i += 2048) {
         let lyrics = res.substring(i, Math.min(res.length, i + 2048))
         let page = new discord.MessageEmbed()
+        .setAuthor(`${mentionedMember.user.username}`, mentionedMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setImage(`https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif`)
+        .addFields(
+            { name: '<:pp421:853495091338674206> Singer', value: `\`\`\`${singer}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${song}\`\`\``, inline: true },
+        )
         .setDescription(lyrics)
         pages.push(page)
     }
 
     const filter2 = (reaction, user) => ['⬅️', '➡️'].includes(reaction.emoji.name) && (message.author.id == user.id)
-    const Embed = await message.channel.send(`Page: ${current+1}/${pages.length}`, pages[current])
+    const Embed = await message.channel.send(`<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, pages[current])
     await Embed.react('⬅️')
     await Embed.react('➡️')
 
@@ -55,13 +62,13 @@ module.exports.run = async (Client, message, args, prefix) => {
         if(reaction.emoji.name == '➡️') {
             if(current < pages.length - 1) {
                 current += 1
-                Embed.edit(`Page: ${current+1}/${pages.length}`, pages[current])
+                Embed.edit(`<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, pages[current])
             }
         } else {
             if(reaction.emoji.name === '⬅️') {
                 if(current !== 0) {
                     current -= 1
-                    Embed.edit(`Page: ${current+1}/${pages.length}`, pages[current])
+                    Embed.edit(`<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, pages[current])
                 }
             }
         }
