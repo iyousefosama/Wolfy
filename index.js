@@ -210,6 +210,7 @@ Client.on("message", async message => {
     DMC.send(dmEmbed)
 }
 if(message.channel.id === '859100693365653515') {
+message.channel.startTyping()
     if(message.author.bot) return;
     fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
     .then(res => res.json())
