@@ -5,7 +5,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if (message.channel.type === "dm") return;
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle(`<a:UltraPin:836169056926564362> Informations Commands`)
+    .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
     .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')

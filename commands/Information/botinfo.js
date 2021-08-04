@@ -11,9 +11,9 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
     .setURL(`http://wolfy.tk/`)
     .setThumbnail(Client.user.displayAvatarURL()) // it will put the bot avatar (pfp) in the embed
     .addField(`**General**`, [ // say general then...
-        `<a:UltraPin:836169056926564362> **Username:** ${Client.user.username}`, // this will be the username of the bot
+        `<a:Fire:841321886365122660> **Username:** ${Client.user.username}`, // this will be the username of the bot
         `<a:pp855:768869639786463242> **Tag:** ${Client.user.tag}`, // the actual name for the bot
-        `🆔 **ID:** ${Client.user.id}`, // this will be the ID for the bot
+        `<:pp198:853494893439352842> **ID:** ${Client.user.id}`, // this will be the ID for the bot
         `📆 **Created At:** ${moment(Client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, // this will say when the bot is created 
         `<:Developer:841321892060201021> **Developer:** <@829819269806030879>`, // who created the bot
         `<a:LightUp:776670894126006302> Bot Website: http://wolfy.tk/`,

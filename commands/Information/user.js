@@ -50,8 +50,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     const userEmbed = new discord.MessageEmbed() // create an embed
      .setAuthor(`User information of ${mentionedMember.user.username}`, mentionedMember.user.displayAvatarURL({dynamic: true, size: 2048}))
      .addFields(
-		{ name: '<a:pp289:782760183420026881> **Tag: **', value: `${mentionedMember.user.tag}` },
-        { name: '<a:rainbow_excited:759734576519053322> **Username: **', value: mentionedMember.user.username || "None" },
+		{ name: '<a:pp224:853495450111967253> **Tag: **', value: `${mentionedMember.user.tag}` },
+        { name: '<:pp499:836168214525509653> **Username: **', value: mentionedMember.user.username || "None" },
 		{ name: '\u200B', value: '\u200B' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: `${mentionedMember.id}`, inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status}`, inline: true },

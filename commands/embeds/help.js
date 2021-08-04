@@ -10,7 +10,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
-        { name: '<a:UltraPin:836169056926564362> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
+        { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
         { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}helpsearch\`\`\``, inline: true},
         { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}helpUtl\`\`\``, inline: true},
         { name: '<a:Enchanted_netherite_sword:758070334879563786> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
@@ -19,7 +19,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     )
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle(`<a:UltraPin:836169056926564362> Informations Commands`)
+    .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
     .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())

@@ -102,10 +102,10 @@ module.exports.run = async (Client, message, prefix, args) => {
    .setTimestamp()
 
    .addField('Stats', [
-    `<a:pp289:782760183420026881> **Role Count:** ${roles.length}`, // how many roles in the server
-    `<:pp944:768867378682527764> **Emoji Count:** ${emojis.size}`, // how many emojis
+    `<:pp444:853496229677629490> **Role Count:** ${roles.length}`, // how many roles in the server
+    `<:pp697:853494953560375337> **Emoji Count:** ${emojis.size}`, // how many emojis
     `<:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`, // how many not animated emojis
-    `<a:pp320:836169046508306432> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`, // how many animated emoji
+    `<a:Fire:841321886365122660> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`, // how many animated emoji
     `<a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}`, // how many members in the server
     `<:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}`, // how many are humans
     `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`, // how many are bots
