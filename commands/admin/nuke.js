@@ -29,6 +29,14 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setDescription(`<a:Error:836169051310260265> Channel nuked by **${message.author.username}**`)
     channel2.send(nuke)
     })
+    .catch(err => {
+        const UnknownErr = new discord.MessageEmbed()
+        .setColor(`RED`)
+        .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
+        .setURL(`https://discord.gg/qYjus2rujb`)
+        message.channel.send(UnknownErr)
+        console.error(err);
+      })
     setTimeout(() => {
         cooldown.delete(message.author.id)
     }, 2000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds

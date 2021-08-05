@@ -13,7 +13,15 @@ module.exports.run = async (Client, message, args, prefix) => {
               if(!message.member.hasPermission('MANAGE_MESSAGES', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
               if(!message.guild.me.permissions.has('MANAGE_MESSAGES', 'ADMINISTRATOR')) return;
           message.delete()
-          message.channel.send(args.join(" "));
+          message.channel.send(args.join(" "))
+          .catch(err => {
+            const UnknownErr = new discord.MessageEmbed()
+            .setColor(`RED`)
+            .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
+            .setURL(`https://discord.gg/qYjus2rujb`)
+            message.channel.send(UnknownErr)
+            console.error(err);
+          })
         cooldown.add(message.author.id);
         setTimeout(() => {
             cooldown.delete(message.author.id)

@@ -25,6 +25,14 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setTimestamp()
     message.channel.send(sayembed)
     message.delete()
+    .catch(err => {
+        const UnknownErr = new discord.MessageEmbed()
+        .setColor(`RED`)
+        .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
+        .setURL(`https://discord.gg/qYjus2rujb`)
+        message.channel.send(UnknownErr)
+        console.error(err);
+      })
     cooldown.add(message.author.id);
     setTimeout(() => {
         cooldown.delete(message.author.id)

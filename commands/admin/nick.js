@@ -27,6 +27,14 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setColor('DARK_GREEN')
     .setTimestamp()
     message.channel.send(embed)
+    .catch(err => {
+      const UnknownErr = new discord.MessageEmbed()
+      .setColor(`RED`)
+      .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
+      .setURL(`https://discord.gg/qYjus2rujb`)
+      message.channel.send(UnknownErr)
+      console.error(err);
+    })
 }
 
 module.exports.help = {
