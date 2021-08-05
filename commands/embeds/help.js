@@ -149,23 +149,23 @@ module.exports.run = async (Client, message, args, prefix) => {
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
     await button.reply.think(true)
-    button.reply.edit(info)
+    await button.reply.edit(info)
     }
     if(button.id === '2'){
         await button.reply.think(true)
-        button.reply.edit(search)
+        await button.reply.edit(search)
     }
     if(button.id === '3'){
         await button.reply.think(true)
-        button.reply.edit(Utl)
+        await button.reply.edit(Utl)
     }
     if(button.id === '4'){
         await button.reply.think(true)
-        button.reply.edit(moderator)
+        await button.reply.edit(moderator)
     }
     if(button.id === '5'){
         await button.reply.think(true)
-        button.reply.edit(Fun)
+        await button.reply.edit(Fun)
     }
 })
 }
