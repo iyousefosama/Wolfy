@@ -113,7 +113,6 @@ Client.on("guildDelete", guild => {
 
 Client.on('messageDelete', message => {
     if (message.channel.type === "dm") return;
-    if(message.author.Client) return;
     snipes.set(message.channel.id, message)
 
     const LogChannel = message.guild.channels.cache.get('831412872852013066')
