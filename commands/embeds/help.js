@@ -14,7 +14,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
         { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}helpsearch\`\`\``, inline: true},
         { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}helpUtl\`\`\``, inline: true},
-        { name: '<a:Enchanted_netherite_sword:758070334879563786> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
+        { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
         { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
         { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}helpfun\`\`\``, inline: true}
     )
@@ -68,7 +68,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     )
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle('<:Rules:840126839938482217> Moderator Commands')
+    .setTitle('<a:pp989:853496185443319809> Moderator Commands')
     .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')

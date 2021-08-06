@@ -5,7 +5,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if (message.channel.type === "dm") return;
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
-    .setTitle('<:Rules:840126839938482217> Moderator Commands')
+    .setTitle('<a:pp989:853496185443319809> Moderator Commands')
     .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
     .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
