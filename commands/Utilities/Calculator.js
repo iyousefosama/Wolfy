@@ -20,7 +20,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 
         // embed message
         const embed = new Discord.MessageEmbed()
-        .setColor("BLUE")
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
         .setDescription("```0```")
         
