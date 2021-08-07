@@ -147,7 +147,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 
 
   try {
-    await user.send(dmembed)
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
     await button.reply.think(true)
@@ -171,7 +170,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     }
 })
 } catch (error) {
-    return;
+    console.log(error)
 }
 }
 
