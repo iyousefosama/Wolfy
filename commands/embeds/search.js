@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(

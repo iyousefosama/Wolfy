@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(

@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}8ball`, value: `> \`Ask the 8ball anything and it will answer\``},

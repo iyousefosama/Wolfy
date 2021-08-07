@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const ticket = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},

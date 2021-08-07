@@ -7,7 +7,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const help = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
-	.setURL('http://wolfy.tk/')
+	.setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
@@ -21,10 +21,9 @@ module.exports.run = async (Client, message, args, prefix) => {
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
         { name: `${prefix}bot`, value: `> \`Shows informations about the bot\``},
@@ -38,10 +37,9 @@ module.exports.run = async (Client, message, args, prefix) => {
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
         { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
@@ -54,10 +52,9 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
@@ -69,9 +66,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
@@ -90,9 +86,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     const ticket = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
         { name: `${prefix}rename`, value: `> \`Change ticket name\``},
@@ -103,9 +98,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}8ball`, value: `> \`Ask the 8ball anything and it will answer\``},
         { name: `${prefix}clyed`, value: `> \`Send your message as clyed text message\``},

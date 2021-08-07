@@ -6,7 +6,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
-    .setURL('http://wolfy.tk/')
+    .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
