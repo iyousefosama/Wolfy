@@ -3,7 +3,6 @@ const { MessageButton, MessageActionRow } = require('discord-buttons');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    
     const help = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
@@ -84,16 +83,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``}
     )
-    const ticket = new discord.MessageEmbed()
-    .setColor('738ADB')
-    .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
-    .setURL('https://Wolfy.yoyojoe.repl.co')
-    .setThumbnail(Client.user.displayAvatarURL())
-    .addFields(
-        { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
-        { name: `${prefix}rename`, value: `> \`Change ticket name\``},
-        { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``}
-    )
     .setFooter(Client.user.username, Client.user.displayAvatarURL())
     .setTimestamp()
     const Fun = new discord.MessageEmbed()
@@ -144,24 +133,19 @@ module.exports.run = async (Client, message, args, prefix) => {
   try {
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
-    await button.reply.think(true)
-    await button.reply.edit(info)
+    message.channel.edit(info)
     }
     if(button.id === '2'){
-        await button.reply.think(true)
-        await button.reply.edit(search)
+        message.channel.edit(search)
     }
     if(button.id === '3'){
-        await button.reply.think(true)
-        await button.reply.edit(Utl)
+        message.channel.edit(Utl)
     }
     if(button.id === '4'){
-        await button.reply.think(true)
-        await button.reply.edit(moderator)
+        message.channel.edit(moderator)
     }
     if(button.id === '5'){
-        await button.reply.think(true)
-        await button.reply.edit(Fun)
+        message.channel.edit(Fun)
     }
 })
 } catch (error) {
