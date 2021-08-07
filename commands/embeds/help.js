@@ -133,19 +133,19 @@ module.exports.run = async (Client, message, args, prefix) => {
   try {
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
-    message.channel.edit(info)
+    await button.reply.send(info, true)
     }
     if(button.id === '2'){
-        message.channel.edit(search)
+        await button.reply.send(search, true)
     }
     if(button.id === '3'){
-        message.channel.edit(Utl)
+        await button.reply.send(Utl, true)
     }
     if(button.id === '4'){
-        message.channel.edit(moderator)
+    await button.reply.send(moderator, true)
     }
     if(button.id === '5'){
-        message.channel.edit(Fun)
+    await button.reply.send(Fun, true)
     }
 })
 } catch (error) {
