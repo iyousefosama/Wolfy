@@ -7,8 +7,6 @@ const config = require('./config.json');
 // create a new Discord Client 
 const Client = new Discord.Client({disableEveryone: true, partials: ['MESSAGE', 'REACTION']});
 
-const bot = Client
-
 require('discord-buttons')(Client);
 
 // we make a new system for the cmds
@@ -114,7 +112,6 @@ Client.on("guildDelete", guild => {
 })
 
 Client.on('messageDelete', message => {
-if(message.author.bot) return;
     if (message.channel.type === "dm") return;
     snipes.set(message.channel.id, message)
 
