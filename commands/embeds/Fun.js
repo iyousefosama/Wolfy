@@ -8,7 +8,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
     .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}8ball`, value: `> \`Ask the 8ball anything and it will answer\``},
         { name: `${prefix}clyed`, value: `> \`Send your message as clyed text message\``},

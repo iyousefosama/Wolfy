@@ -9,7 +9,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},

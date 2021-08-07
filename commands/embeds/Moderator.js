@@ -8,7 +8,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
     .setURL('http://wolfy.tk/')
     .setThumbnail(Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},

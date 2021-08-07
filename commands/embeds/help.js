@@ -146,6 +146,8 @@ module.exports.run = async (Client, message, args, prefix) => {
   message.channel.send(help, row);
 
 
+  try {
+    await user.send(dmembed)
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
     await button.reply.think(true)
@@ -168,6 +170,9 @@ module.exports.run = async (Client, message, args, prefix) => {
         await button.reply.edit(Fun)
     }
 })
+} catch (error) {
+    return;
+}
 }
 
     

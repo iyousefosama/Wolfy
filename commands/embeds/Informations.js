@@ -8,7 +8,6 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
     .setURL('http://wolfy.tk/')
     .setAuthor(Client.user.username, Client.user.displayAvatarURL())
-    .setImage('https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif')
     .setThumbnail(Client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
