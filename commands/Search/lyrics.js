@@ -40,7 +40,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         let lyrics = res.substring(i, Math.min(res.length, i + 2048))
         let page = new discord.MessageEmbed()
         .setAuthor(`${mentionedMember.user.username}`, mentionedMember.user.displayAvatarURL({dynamic: true, size: 2048}))
-        .setImage(`https://cdn.discordapp.com/attachments/804847293118808074/808859216064413716/Line.gif`)
         .addFields(
             { name: '<:pp421:853495091338674206> Singer', value: `\`\`\`${singer}\`\`\``, inline: true },
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${song}\`\`\``, inline: true },
