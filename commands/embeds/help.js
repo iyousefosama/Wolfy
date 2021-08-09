@@ -3,6 +3,8 @@ const { MessageButton, MessageActionRow } = require('discord-buttons');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    let current = 0;
+
     const help = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
@@ -59,7 +61,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
-        { name: `${prefix}calc`, value: `> \`To calculate any thing in math\``},
+
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
         { name: `${prefix}yt`, value: `> \`Start new youtube together party\``}
     )
@@ -126,31 +128,39 @@ module.exports.run = async (Client, message, args, prefix) => {
     let row = new MessageActionRow()
   .addComponents(button, button2, button3, button4, button5);
 
+  message.channel.send({
+    embed: help,
+    components: row
+})
 
-  message.channel.send(help, row);
 
-
-  try {
   Client.on('clickButton', async (button) => {
     if(button.id === '1'){
-    await button.reply.send(info, true)
+    await button.reply.think(true)
+    button.reply.edit(info, true)
+    return button;
     }
     if(button.id === '2'){
-        await button.reply.send(search, true)
+        await button.reply.think(true)
+        button.reply.edit(search, true)
+        return button;
     }
     if(button.id === '3'){
-        await button.reply.send(Utl, true)
+        await button.reply.think(true)
+        button.reply.edit(Utl, true)
+        return button;
     }
     if(button.id === '4'){
-    await button.reply.send(moderator, true)
+    await button.reply.think(true)
+    button.reply.edit(moderator, true)
+    return button;
     }
     if(button.id === '5'){
-    await button.reply.send(Fun, true)
+    await button.reply.think(true)
+    button.reply.edit(Fun, true)
+    return button;
     }
 })
-} catch (error) {
-    console.log(error)
-}
 }
 
     

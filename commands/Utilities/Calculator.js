@@ -33,7 +33,7 @@ module.exports.run = async (Client, message, args, prefix) => {
             let value = "";
             let embed1 = new Discord.MessageEmbed()
             .setAuthor(message.author.tag, message.author.displayAvatarURL())
-            .setColor("BLUE")
+
 
             function createCollector(val, result = false) {
                 let filter = (buttons1) => buttons1.clicker.user.id === message.author.id && buttons1.id === "cal" + val;
