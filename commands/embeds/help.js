@@ -1,9 +1,31 @@
-const discord = require('discord.js');
-const { MessageButton, MessageActionRow } = require('discord-buttons');
+const discord = require('discord.js')
+const { MessageActionRow, MessageButton } = require('discord-buttons')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    let current = 0;
+    const button = new MessageButton()
+    .setLabel(`Info`)
+    .setID("1")
+    .setStyle("blurple");
+    const button2 = new MessageButton()
+    .setLabel(`Search`)
+    .setID("2")
+    .setStyle("blurple");
+    const button3 = new MessageButton()
+    .setLabel(`Utilities`)
+    .setID("3")
+    .setStyle("blurple");
+    const button4 = new MessageButton()
+    .setLabel(`Moderator`)
+    .setID("4")
+    .setStyle("red");
+    const button5 = new MessageButton()
+    .setLabel(`Fun`)
+    .setID("5")
+    .setStyle("green");
+
+    const row = new MessageActionRow()
+  .addComponents(button, button2, button3, button4, button5);
 
     const help = new discord.MessageEmbed()
     .setColor('738ADB')
@@ -85,8 +107,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``}
     )
-    .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    .setTimestamp()
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
@@ -103,63 +123,32 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
-    .setFooter(Client.user.username, Client.user.displayAvatarURL())
-    let button = new MessageButton()
-    .setLabel(`Info`)
-    .setID("1")
-    .setStyle("blurple");
-    let button2 = new MessageButton()
-    .setLabel(`Search`)
-    .setID("2")
-    .setStyle("blurple");
-    let button3 = new MessageButton()
-    .setLabel(`Utilities`)
-    .setID("3")
-    .setStyle("blurple");
-    let button4 = new MessageButton()
-    .setLabel(`Moderator`)
-    .setID("4")
-    .setStyle("red");
-    let button5 = new MessageButton()
-    .setLabel(`Fun`)
-    .setID("5")
-    .setStyle("green");
 
-    let row = new MessageActionRow()
-  .addComponents(button, button2, button3, button4, button5);
-
-  message.channel.send({
-    embed: help,
-    components: row
-})
+    const msg = await message.channel.send({embed : help, components : row})
 
 
-  Client.on('clickButton', async (button) => {
+
+Client.on('clickButton', async (button) => {
     if(button.id === '1'){
-    await button.reply.think(true)
-    button.reply.edit(info, true)
-    return button;
-    }
-    if(button.id === '2'){
         await button.reply.think(true)
-        button.reply.edit(search, true)
-        return button;
-    }
-    if(button.id === '3'){
+        await button.reply.edit(info, true)
+        }
+        if(button.id === '2'){
+            await button.reply.think(true)
+            await button.reply.edit(search, true)
+        }
+        if(button.id === '3'){
+            await button.reply.think(true)
+            await button.reply.edit(Utl, true)
+        }
+        if(button.id === '4'){
         await button.reply.think(true)
-        button.reply.edit(Utl, true)
-        return button;
-    }
-    if(button.id === '4'){
-    await button.reply.think(true)
-    button.reply.edit(moderator, true)
-    return button;
-    }
-    if(button.id === '5'){
-    await button.reply.think(true)
-    button.reply.edit(Fun, true)
-    return button;
-    }
+        await button.reply.edit(moderator, true)
+        }
+        if(button.id === '5'){
+        await button.reply.think(true)
+        await button.reply.edit(Fun, true)
+        }
 })
 }
 
