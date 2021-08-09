@@ -1,8 +1,12 @@
 const discord = require('discord.js')
 const { MessageActionRow, MessageButton } = require('discord-buttons')
+const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(cooldown.has(message.author.id)) {
+        message.reply(`Please wait \`5 seconds\` between using the command, because you are on cooldown`)
+    } else {
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
@@ -131,25 +135,30 @@ module.exports.run = async (Client, message, args, prefix) => {
 Client.on('clickButton', async (button) => {
     if(button.id === '1'){
         await button.reply.think(true)
-        await button.reply.edit(info, true)
+        button.reply.edit(info, true)
         }
         if(button.id === '2'){
             await button.reply.think(true)
-            await button.reply.edit(search, true)
+            button.reply.edit(search, true)
         }
         if(button.id === '3'){
             await button.reply.think(true)
-            await button.reply.edit(Utl, true)
+            button.reply.edit(Utl, true)
         }
         if(button.id === '4'){
         await button.reply.think(true)
-        await button.reply.edit(moderator, true)
+        button.reply.edit(moderator, true)
         }
         if(button.id === '5'){
         await button.reply.think(true)
-        await button.reply.edit(Fun, true)
+        button.reply.edit(Fun, true)
         }
 })
+cooldown.add(message.author.id);
+setTimeout(() => {
+    cooldown.delete(message.author.id)
+}, 5000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+    }
 }
 
     
