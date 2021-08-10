@@ -95,23 +95,25 @@ Client.on("guildCreate", guild => {
     .setTitle(`${Client.user.username} added to a new server!`)
     .setColor("GREEN")
     .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
-    .setDescription(`I'm added to **${guild.name}**, with **${guild.memberCount}** members count\n\nTotal servers: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp330:853495519455215627> Total servers: \`\`\`\n${Client.guilds.cache.size}\`\`\`\n<a:pp330:853495519455215627> Total users: \n\`\`\`${Client.users.cache.size}\`\`\``)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
     LogChannel.send(embed)
 })
 Client.on("guildDelete", guild => {
     const embed = new Discord.MessageEmbed()
-    .setTitle(`**${Client.user.username}** left a server`)
+    .setTitle(`${Client.user.username} left a server!`)
     .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
     .setColor("RED")
     .setDescription(`I left **${guild.name}**, with **${guild.memberCount}** members\n\nTotal servers: ${Client.guilds.cache.size}\nTotal users: ${Client.users.cache.size}`)
+    .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp833:853495989796470815> Total servers: \`\`\`\n${Client.guilds.cache.size}\`\`\`\n<a:pp833:853495989796470815> Total users: \n\`\`\`${Client.users.cache.size}\`\`\``)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
     LogChannel.send(embed)
 })
 
 Client.on('messageDelete', message => {
+    if (message.author.Client) return;
     if (message.channel.type === "dm") return;
     snipes.set(message.channel.id, message)
 
@@ -125,6 +127,7 @@ Client.on('messageDelete', message => {
     LogChannel.send(DeletedLog)
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
+    if (oldMessage.author.Client) return;
     if (oldMessage.channel.type === "dm") return;
     const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
     if (!LogChannel) return
@@ -196,6 +199,7 @@ Client.on("ready", async () => {
 })
 
 Client.on("message", async message => {
+    if(message.author.bot) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
@@ -207,16 +211,16 @@ Client.on("message", async message => {
     DMC.send(dmEmbed)
 }
 if(message.channel.id === '859100693365653515') {
-message.channel.startTyping()
+    if(message.author.bot) return;
+    message.channel.startTyping()
     fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
     .then(res => res.json())
     .then(data => {
         message.channel.send(data.response)
     })
     .catch(err => {
-        message.channel.send('Sorry, i can\'t reply this message!');
+        message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
       })
-message.channel.stopTyping()
 }
 
     let UserData;
