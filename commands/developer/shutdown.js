@@ -4,8 +4,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.author != '829819269806030879') return
 
-    var  loading = new discord.MessageEmbed()
-    .setColor(`RED`)
+    var loading = new discord.MessageEmbed()
+    .setColor(`YELLOW`)
     .setDescription(`<a:Loading_Color:759734580122484757> Shutting down now...`)
     var msg = await message.channel.send(loading)
   

@@ -84,8 +84,8 @@ module.exports.run = async (Client, message, prefix, args) => {
         `<:pp198:853494893439352842> **ID:** ${message.guild.id}`, // server's id
         `<:Owner:841321887882805289> **Owner:** ${message.guild.owner.user.tag}`, // server's owner
         `🌐 **Region:** ${regions[message.guild.region]}`, // the region of the server
-        `<:Boost:776670897545150465> **Boost Tier:** ${message.guild.premiumTier ? `Tier ${message.guild.premiumTier}` : 'None'}`, // boost tier
-        `<a:Enchanted_netherite_sword:758070334879563786> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}`, // the verification level
+        `<a:pp891:853493740579717131> **Boost Tier:** ${message.guild.premiumTier ? `Tier ${message.guild.premiumTier}` : 'None'}`, // boost tier
+        `<a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}`, // the verification level
         `<a:server_boosting:809994218759782411> **Boost Level:** ${message.guild.premiumSubscriptionCount || '0'}`, // how many times it got boosted
         `📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}`, // when did the server got created 
         '\u200b'

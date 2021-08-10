@@ -43,5 +43,5 @@ message.channel.send('<:pp499:836168214525509653> **Choose your roles!**', selec
 
 module.exports.help = {
     name: "rm",
-    aliases: ['']
+    aliases: ['RM']
 }
