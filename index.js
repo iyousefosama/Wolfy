@@ -217,6 +217,7 @@ if(message.channel.id === '859100693365653515') {
     .then(res => res.json())
     .then(data => {
         message.channel.send(data.response)
+        message.channel.stopTyping()
     })
     .catch(err => {
         message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
