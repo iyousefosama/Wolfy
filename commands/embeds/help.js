@@ -130,28 +130,44 @@ module.exports.run = async (Client, message, args, prefix) => {
 
     const msg = await message.channel.send({embed : help, components : row})
 
-
-
-Client.on('clickButton', async (button) => {
+        
+        const filter = (button) => button.clicker.user.id === message.author.id; //user filter (author only)
+        const collector = message.createButtonCollector(filter, { time: 30000 }); 
+        Client.on('clickButton', async (button) => {
     if(button.id === '1'){
         await button.reply.think(true)
-        button.reply.edit(info, true)
+        button.reply.edit({
+            embed : info,
+            components : row
+          })
         }
         if(button.id === '2'){
             await button.reply.think(true)
-            button.reply.edit(search, true)
+            button.reply.edit({
+                embed : search,
+                components : row
+              })
         }
         if(button.id === '3'){
             await button.reply.think(true)
-            button.reply.edit(Utl, true)
+            button.reply.edit({
+                embed : Utl,
+                components : row
+              })
         }
         if(button.id === '4'){
-        await button.reply.think(true)
-        button.reply.edit(moderator, true)
+            await button.reply.think(true)
+            button.reply.edit({
+                embed : moderator,
+                components : row
+              })
         }
         if(button.id === '5'){
-        await button.reply.think(true)
-        button.reply.edit(Fun, true)
+            await button.reply.think(true)
+            button.reply.edit({
+                embed : Fun,
+                components : row
+              })
         }
 })
 cooldown.add(message.author.id);
