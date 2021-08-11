@@ -127,7 +127,7 @@ Client.on('messageDelete', message => {
     LogChannel.send(DeletedLog)
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
-    if (oldMessage.bot) return;
+    if (oldMessage.author.bot) return;
     if (oldMessage.channel.type === "dm") return;
     const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
     if (!LogChannel) return
@@ -199,7 +199,7 @@ Client.on("ready", async () => {
 })
 
 Client.on("message", async message => {
-    if(message.bot) return;
+    if(message.author.bot) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
@@ -211,7 +211,7 @@ Client.on("message", async message => {
     DMC.send(dmEmbed)
 }
 if(message.channel.id === '859100693365653515') {
-    if(message.bot) return;
+    if(message.author.bot) return;
     fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
     .then(res => res.json())
     .then(data => {
