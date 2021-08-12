@@ -47,10 +47,15 @@ module.exports.run = async (Client, message, args, prefix) => {
                .setTitle('Error!')
                .setDescription('<a:pp802:768864899543466006> You can\'t ban yourself!')
                .setColor('RED')
+               const Err4 = new discord.MessageEmbed()
+               .setTitle('Error!')
+               .setDescription('<a:pp802:768864899543466006> User could not be muted!')
+               .setColor('RED')
            ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
                if (!user) return message.reply(Err1)
                if (user.id === Client.user.id) return message.reply(Err2)
                if (user.id === message.author.id) return message.reply(Err3)
+               if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
            //////////////////////////////////////////////////////////////////////////////////////////////////////////
             .catch(err => {
               const Err = new discord.MessageEmbed()
