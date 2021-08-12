@@ -91,17 +91,17 @@ Client.on('clickMenu', async menu => {
 })
 
 Client.on("guildCreate", guild => {
-    const embed = new Discord.MessageEmbed()
+    const join = new Discord.MessageEmbed()
     .setTitle(`${Client.user.username} added to a new server!`)
     .setColor("GREEN")
     .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
     .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp330:853495519455215627> Total servers: \`\`\`\n${Client.guilds.cache.size}\`\`\`\n<a:pp330:853495519455215627> Total users: \n\`\`\`${Client.users.cache.size}\`\`\``)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
-    LogChannel.send(embed)
+    LogChannel.send(join)
 })
 Client.on("guildDelete", guild => {
-    const embed = new Discord.MessageEmbed()
+    const left = new Discord.MessageEmbed()
     .setTitle(`${Client.user.username} left a server!`)
     .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))
     .setColor("RED")
@@ -109,7 +109,7 @@ Client.on("guildDelete", guild => {
     .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp833:853495989796470815> Total servers: \`\`\`\n${Client.guilds.cache.size}\`\`\`\n<a:pp833:853495989796470815> Total users: \n\`\`\`${Client.users.cache.size}\`\`\``)
     .setTimestamp()
     const LogChannel = Client.channels.cache.get('840892477614587914')
-    LogChannel.send(embed)
+    LogChannel.send(left)
 })
 
 Client.on('messageDelete', message => {
