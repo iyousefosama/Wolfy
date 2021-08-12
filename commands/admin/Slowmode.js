@@ -14,7 +14,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 
     message.channel.setRateLimitPerUser(time, 'No Reason')
 
-    message.channel.send(`Successfully set the slowmode on this channel ${time} seconds`)
     var dn = new discord.MessageEmbed()
     .setColor(`DARK_GREEN`)
     .setDescription(`<a:Correct:812104211386728498> Successfully set the slowmode on this channel ${time} seconds`)
