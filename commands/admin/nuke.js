@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
