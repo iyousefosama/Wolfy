@@ -160,6 +160,6 @@ module.exports.run = async (Client, message, args, prefix) => {
 }
 
 module.exports.help = {
-    name: 'test4',
-    aliases: []
+    name: 'help',
+    aliases: ['HELP', 'Help']
 }
