@@ -34,28 +34,42 @@ module.exports.run = async (Client, message, args, prefix) => {
             .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n<:pp833:853495153280155668> Kicked By: ${message.author.username}`);
             message.channel.send(kick);
             })
-            // log err in the console
+               /////////////////////////////////////////////// Errors /////////////////////////////////////////////
+               const Err1 = new discord.MessageEmbed()
+               .setTitle('Error!')
+               .setDescription('<a:pp802:768864899543466006> Please mention a user!')
+               .setColor('RED')
+               const Err2 = new discord.MessageEmbed()
+               .setTitle('Error!')
+               .setDescription('<a:pp802:768864899543466006> You can\'t ban me!')
+               .setColor('RED')
+               const Err3 = new discord.MessageEmbed()
+               .setTitle('Error!')
+               .setDescription('<a:pp802:768864899543466006> You can\'t ban yourself!')
+               .setColor('RED')
+           ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
+               if (!user) return message.reply(Err1)
+               if (user.id === Client.user.id) return message.reply(Err2)
+               if (user.id === message.author.id) return message.reply(Err3)
+           //////////////////////////////////////////////////////////////////////////////////////////////////////////
             .catch(err => {
-              // if the bot wasnt able to kick the member bcz he hv a higher role it will not kick him and if the bot dont hv to perm it will not kick him and send this messge
               const Err = new discord.MessageEmbed()
               .setColor(`RED`)
               .setDescription(`<a:pp802:768864899543466006> I was unable to kick the member`)
               message.channel.send(Err)
-              console.error(err);
+              console.error(err)
             });
         } else {
-          // if the member isnt in the server and u typed e.g. =kick @karimx it will send this message
           const Err2 = new discord.MessageEmbed()
           .setColor(`RED`)
           .setDescription(`<a:pp802:768864899543466006> That user isn't in this guild!`)
-          message.channel.send(Err2)
+          message.channel.send(Err22)
         }
       } else {
-       // if u typed =kick without mentioning some1 it will send this message
         const Err3 = new discord.MessageEmbed()
         .setColor(`RED`)
         .setDescription(`<a:pp802:768864899543466006> You didn't mention the user to kick!`)
-        message.channel.send(Err3)
+        message.channel.send(Err33)
       }
   };
 }
