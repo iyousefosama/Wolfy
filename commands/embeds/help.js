@@ -1,29 +1,25 @@
 const discord = require('discord.js')
 const { MessageActionRow, MessageButton } = require('discord-buttons')
-const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
-    if(!message.content.startsWith(prefix)) return;
-    if(cooldown.has(message.author.id)) {
-        message.reply(`Please wait \`5 seconds\` between using the command, because you are on cooldown`)
-    } else {
-   let button = new MessageButton()
+    if(!message.content.startsWith(prefix)) return
+    const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
     .setStyle("blurple");
-   let button2 = new MessageButton()
+    const button2 = new MessageButton()
     .setLabel(`Search`)
     .setID("2")
     .setStyle("blurple");
-    let button3 = new MessageButton()
+    const button3 = new MessageButton()
     .setLabel(`Utilities`)
     .setID("3")
     .setStyle("blurple");
-    let button4 = new MessageButton()
+    const button4 = new MessageButton()
     .setLabel(`Moderator`)
     .setID("4")
     .setStyle("red");
-    let button5 = new MessageButton()
+    const button5 = new MessageButton()
     .setLabel(`Fun`)
     .setID("5")
     .setStyle("green");
@@ -127,59 +123,43 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
-
     const msg = await message.channel.send({embed : help, components : row})
-
-        
-        const filter = (button) => button.clicker.user.id === message.author.id; //user filter (author only)
-        const collector = message.createButtonCollector(filter, { time: 30000 }); 
-        Client.on('clickButton', async (button) => {
-    if(button.id === '1'){
-        await button.reply.think(true)
-        button.reply.edit({
-            embed : info,
-            components : row
-          })
-        }
-        if(button.id === '2'){
-            await button.reply.think(true)
-            button.reply.edit({
-                embed : search,
-                components : row
-              })
-        }
-        if(button.id === '3'){
-            await button.reply.think(true)
-            button.reply.edit({
-                embed : Utl,
-                components : row
-              })
-        }
-        if(button.id === '4'){
-            await button.reply.think(true)
-            button.reply.edit({
-                embed : moderator,
-                components : row
-              })
-        }
-        if(button.id === '5'){
-            await button.reply.think(true)
-            button.reply.edit({
-                embed : Fun,
-                components : row
-              })
-        }
-})
-cooldown.add(message.author.id);
-setTimeout(() => {
-    cooldown.delete(message.author.id)
-}, 5000); // here will be the time in miliseconds 5 seconds = 5000 miliseconds
+    const filter = async (button) => {
+            if(button.id === '1'){
+                if (button.clicker.id !== message.author.id) return button.reply.defer()
+                button.reply.send(info, true)
+                }
+                if(button.id === '2'){
+                    if (button.clicker.id !== message.author.id) return button.reply.defer()
+                    button.reply.send(search, true)
+                }
+                if(button.id === '3'){
+                    if (button.clicker.id !== message.author.id) return button.reply.defer()
+                    button.reply.send(Utl, true)
+                }
+                if(button.id === '4'){
+                    if (button.clicker.id !== message.author.id) return button.reply.defer()
+                    button.reply.send(moderator, true)
+                }
+                if(button.id === '5'){
+                    if (button.clicker.id !== message.author.id) return button.reply.defer()
+                    button.reply.send(Fun, true)
+            }
     }
+    const collector = msg.createButtonCollector(filter, { time: 30000 }); 
+    collector.on('end', message => {
+        button.setDisabled(true)
+        button2.setDisabled(true)
+        button3.setDisabled(true)
+        button4.setDisabled(true)
+        button5.setDisabled(true)
+        const newrow = new MessageActionRow()
+        .addComponents(button, button2, button3, button4, button5);
+        msg.edit({embed : help, components : newrow})
+    })
 }
 
-    
-
 module.exports.help = {
-    name: "help",
-    aliases: ['Help']
+    name: 'test4',
+    aliases: []
 }
