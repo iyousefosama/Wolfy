@@ -12,8 +12,9 @@ module.exports.run = async (Client, message, args, prefix) => {
     else {
       if (!message.guild) return;
   
-      const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+      const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
       let reason = args.slice(1).join(" ")
+      if (!args[1]) reason = 'No reason specified'
 
      /////////////////////////////////////////////// Errors /////////////////////////////////////////////
      const Err1 = new discord.MessageEmbed()
@@ -41,22 +42,17 @@ module.exports.run = async (Client, message, args, prefix) => {
         if (member) {
   
           member
-          // banning code 
             .ban({
-                // the reason
               reason: `${reason}`,
             })
             .then(() => {
-            // it will send this message once the person is banned
             const ban = new discord.MessageEmbed()
             .setTimestamp()
             .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n<:pp833:853495153280155668> Kicked By: ${message.author.username}\n<:Rules:840126839938482217> Reason: ${reason}`);
+            .setDescription(`<:tag:813830683772059748> Successfully Banned the user from the server\n<:pp833:853495153280155668> Banned By: ${message.author.username}\n<:Rules:840126839938482217> Reason: ${reason}`);
             message.channel.send(ban);
             })
-            // log err in the console
             .catch(err => {
-              // if the bot wasnt able to ban the member bcz he hv a higher role it will not ban him and if the bot dont hv to perm it will not ban him and send this messge
               const Err = new discord.MessageEmbed()
               .setColor(`RED`)
               .setDescription(`<a:pp802:768864899543466006> I was unable to ban the member`)
@@ -64,7 +60,6 @@ module.exports.run = async (Client, message, args, prefix) => {
               console.error(err);
             });
         } else {
-          // if the member isnt in the server and u typed e.g. =ban @karimx it will send this message
           const Err2 = new discord.MessageEmbed()
           .setColor(`RED`)
           .setDescription(`<a:pp802:768864899543466006> That user isn't in this guild!`)

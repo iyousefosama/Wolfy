@@ -11,7 +11,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     else {
       if (!message.guild) return;
   
-      const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+      const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
   
       if (user) {
   

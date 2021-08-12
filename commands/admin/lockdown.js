@@ -26,8 +26,8 @@ message.channel.send(sure, button).then(message => {
     }, 5000);
 })
 
-
 Client.on('clickButton', async (button) => {
+    
     await button.reply.think()
     message.guild.channels.cache.forEach(channel => {
         try {

@@ -9,7 +9,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(!message.member.hasPermission('BAN_MEMBERS', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
     if(!message.guild.me.permissions.has('BAN_MEMBERS', 'ADMINISTRATOR')) return;
 
-    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
     let reason = args.slice(1).join(" ")
 
     if(!reason) reason = 'No reason provided';
