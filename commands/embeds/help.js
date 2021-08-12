@@ -7,23 +7,23 @@ module.exports.run = async (Client, message, args, prefix) => {
     if(cooldown.has(message.author.id)) {
         message.reply(`Please wait \`5 seconds\` between using the command, because you are on cooldown`)
     } else {
-    const button = new MessageButton()
+   let button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
     .setStyle("blurple");
-    const button2 = new MessageButton()
+   let button2 = new MessageButton()
     .setLabel(`Search`)
     .setID("2")
     .setStyle("blurple");
-    const button3 = new MessageButton()
+    let button3 = new MessageButton()
     .setLabel(`Utilities`)
     .setID("3")
     .setStyle("blurple");
-    const button4 = new MessageButton()
+    let button4 = new MessageButton()
     .setLabel(`Moderator`)
     .setID("4")
     .setStyle("red");
-    const button5 = new MessageButton()
+    let button5 = new MessageButton()
     .setLabel(`Fun`)
     .setID("5")
     .setStyle("green");
