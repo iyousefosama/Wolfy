@@ -31,7 +31,7 @@ module.exports.run = async (Client, message, args, prefix) => {
      .setColor('RED')
      const Err4 = new discord.MessageEmbed()
      .setTitle('Error!')
-     .setDescription('<a:pp802:768864899543466006> User could not be muted!')
+     .setDescription('<a:pp802:768864899543466006> User could not be banned!')
      .setColor('RED')
  ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
      if (!user) return message.reply(Err1)
