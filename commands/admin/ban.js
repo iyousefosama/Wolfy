@@ -37,7 +37,7 @@ module.exports.run = async (Client, message, args, prefix) => {
      if (!user) return message.reply(Err1)
      if (user.id === Client.user.id) return message.reply(Err2)
      if (user.id === message.author.id) return message.reply(Err3)
-     if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
+     if (user.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
  //////////////////////////////////////////////////////////////////////////////////////////////////////////
   
       if (user) {
