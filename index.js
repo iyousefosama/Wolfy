@@ -202,7 +202,7 @@ Client.on('message', async message => {
         const User = await Levels.fetch(message.author.id, message.guild.id);
 
         const LevelUp = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.user.username}`, message.author.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setDescription(`${message.author}, You have leveled up to level **${User.level}!** <a:pp330:853495519455215627>`)
         .setColor("DARK_GREEN")
         .setTimestamp()
