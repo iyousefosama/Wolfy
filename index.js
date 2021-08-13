@@ -36,6 +36,10 @@ const cooldown = new Set();
 
 const userSchema = require("./schema/user-schema")
 
+const Levels = require("discord-xp");
+
+const canvacord = require("canvacord");
+
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
     if(menu.values[0] == 'DR1') {
@@ -187,7 +191,47 @@ fs.readdirSync('./commands/').forEach(dir => {
     });
 });
 
+//XP
+Client.on('message', async message => {
+    if(message.author.bot === true) return;
 
+    const randomXp = Math.floor(Math.random() * 46) + 1;
+    const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
+
+    if(hasLeveledUp) {
+        const User = await Levels.fetch(message.author.id, message.guild.id);
+
+        const LevelUp = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.user.username}`, message.author.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setDescription(`${message.author}, You have leveled up to level **${User.level}!** <a:pp330:853495519455215627>`)
+        .setColor("DARK_GREEN")
+        .setTimestamp()
+        message.channel.send(LevelUp);
+        
+        const Level_Roles_Storage = fs.readFileSync('Storages/Level-Roles.json')
+        const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
+        
+        const Guild_Check = Level_Roles.find(guild => {
+            return guild.guildID === `${message.guild.id}`
+        })
+        if(!Guild_Check) return;
+    
+        const Guild_Roles = Level_Roles.filter(guild => {
+            return guild.guildID === `${message.guild.id}`
+        })
+        //For Loop Works for Checking
+        for (let i = 0; i < Guild_Roles.length; i++) {
+            const User = await Levels.fetch(message.author.id, message.guild.id);
+            if(User.level == parseInt(Guild_Roles[i].Level_To_Reach)) {
+                const AuthorID = message.guild.members.cache.get(message.author.id);
+                const Given_Level_Role = Guild_Roles[i].Level_Role_ID
+                
+                return AuthorID.roles.add(Given_Level_Role)
+                // .then(console.log('success'))
+            }
+        }
+    }
+})
 
 
 
