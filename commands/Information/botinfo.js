@@ -17,6 +17,7 @@ module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds han
         `<:pp198:853494893439352842> **ID:** ${Client.user.id}`, // this will be the ID for the bot
         `📆 **Created At:** ${moment(Client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, // this will say when the bot is created 
         `<:Developer:841321892060201021> **Developer:** <@829819269806030879>`, // who created the bot
+        `<:pp228:836168687891382312> **Tester:** <@829819269806030879>`,
         `<a:LightUp:776670894126006302> **Bot Website:** https://Wolfy.yoyojoe.repl.co`,
         '\u200b'
     ])
