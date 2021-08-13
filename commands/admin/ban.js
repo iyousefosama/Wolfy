@@ -65,10 +65,10 @@ module.exports.run = async (Client, message, args, prefix) => {
               console.error(err);
             });
         } else {
-          const Err2 = new discord.MessageEmbed()
+          const Err22 = new discord.MessageEmbed()
           .setColor(`RED`)
           .setDescription(`<a:pp802:768864899543466006> That user isn't in this guild!`)
-          message.channel.send(Err2)
+          message.channel.send(Err22)
         }
       }
   };
