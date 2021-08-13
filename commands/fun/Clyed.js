@@ -12,6 +12,9 @@ module.exports.run = async (Client, message, args, prefix) => {
         .setImage(res.data.message)
         message.channel.send(embed)
     })
+    .catch(err => {
+        message.channel.send('<a:Error:836169051310260265> Error!');
+      })
 
 }
     

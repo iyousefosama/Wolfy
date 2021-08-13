@@ -55,6 +55,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
         { name: `${prefix}findid`, value: `> \`Get a user's id.\``},
         { name: `${prefix}invite`, value: `> \`To see your invites count\``},
+        { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
         { name: `${prefix}uptime`, value: `> \`Show you the bot uptime\``}
     )
     const search = new discord.MessageEmbed()
@@ -105,7 +106,11 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``}
+        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
+        { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
+        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
+        { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
+        { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
     )
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
