@@ -3,7 +3,7 @@ const moment = require(`moment`) // requiring moment
 
 module.exports.run = async (Client, message, args, prefix) => { // 4 my cmds handler
     if(!message.content.startsWith(prefix)) return; // check if the cmd start with the prefix
-    if(!message.member.guild.me.hasPermission(["SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"])) return;
+    if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("EMBED_LINKS") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("ADD_REACTIONS") || !message.guild.me.permissions.has("VIEW_CHANNEL") || !message.guild.me.permissions.has("ATTACH_FILES") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;
     var botEmbed = new discord.MessageEmbed() // creates a embed that we gonna call botEmbed
     .setColor('738ADB') // will set the color for the embed
     .setAuthor(Client.user.username, Client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
