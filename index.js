@@ -41,7 +41,7 @@ const Levels = require("discord-xp");
 const canvacord = require("canvacord");
 
 Client.on("message", async () => {
-    if(!message.channel.permissionFor(client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "EMBED_LINKS"])) return;
+    if(!message.channel.permissionFor(Client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "EMBED_LINKS"])) return;
 })
  
 Client.on('clickMenu', async menu => {
@@ -194,7 +194,6 @@ fs.readdirSync('./commands/').forEach(dir => {
 //XP
 Client.on('message', async message => {
     if (message.channel.type === "dm") return;
-    if(!message.member.guild.me.hasPermission(["SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"])) return;
     if (message.author == Client.user) return;
 
     const randomXp = Math.floor(Math.random() * 46) + 1;
