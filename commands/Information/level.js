@@ -1,6 +1,7 @@
 const discord = require('discord.js')
 const canvacord = require('canvacord')
 const Levels = require('discord-xp')
+if (message.channel.type === "dm") return;
 const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
