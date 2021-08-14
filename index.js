@@ -39,16 +39,6 @@ const userSchema = require("./schema/user-schema")
 const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
-
-const DBL = require('top.gg');
-const dbl = new DBL(eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI4OTI1MTc4fQ.JtkWJ6fP0AWklXLIDdj0gODQWlU3j4aCkRZdYTeeJPo, { webhookPort: 5000, webhookAuth: 'password' });
-dbl.webhook.on('ready', hook => {
-  console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
-});
-dbl.webhook.on('vote', vote => {
-  vote.user.send(`Hello, <@${vote.user}> thanks for voting our bot! <a:pp71:853493766312165416>`)
-  console.log(`User with ID ${vote.user} just voted!`);
-});
  
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
