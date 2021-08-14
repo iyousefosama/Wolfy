@@ -3,8 +3,7 @@ const { MessageActionRow, MessageButton } = require('discord-buttons')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-Client.on("message", async (message) => {
-    if(!message.member.guild.me.hasPermission(["SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"])) return;
+if (!message.guild.me.permissions.has("SEND_MESSAGES")) RETURN;
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
@@ -162,7 +161,6 @@ Client.on("message", async (message) => {
         const newrow = new MessageActionRow()
         .addComponents(button, button2, button3, button4, button5);
         msg.edit({embed : help, components : newrow})
-    })
     })
 }
 
