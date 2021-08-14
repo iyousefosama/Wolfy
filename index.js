@@ -193,6 +193,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 
 //XP
 Client.on('message', async message => {
+    if (message.channel.type === "dm") return;
     if(message.author.bot === true) return;
 
     const randomXp = Math.floor(Math.random() * 46) + 1;
