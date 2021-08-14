@@ -41,7 +41,7 @@ const Levels = require("discord-xp");
 const canvacord = require("canvacord");
 
 Client.on("message", async (message) => {
-    if(!message.channel.permissionFor(client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "EMBED_LINKS"])) return;
+    if(!message.channel.permissionFor(Client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "EMBED_LINKS"])) return;
 })
  
 Client.on('clickMenu', async menu => {
