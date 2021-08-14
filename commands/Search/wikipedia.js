@@ -4,7 +4,7 @@ const fetch = require('node-fetch') // npm i node-fetch
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     const wiki = args.slice().join(' ')
     if(!wiki) return message.reply('Provide A Query To Search.') // If No Topic Provided To Searched
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wiki)}` // From Here BOT Will Search For Searched Topic

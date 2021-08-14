@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     const avatar = message.mentions.users.first()
     const embed = new MessageEmbed()
     .setAuthor(message.member.displayName, message.member.user.displayAvatarURL())

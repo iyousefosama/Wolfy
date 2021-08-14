@@ -3,7 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.channel.type === "dm") return;
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')

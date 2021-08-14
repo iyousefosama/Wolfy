@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.channel.type === "dm") return;
-    if(!message.channel.permissionFor(client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
     

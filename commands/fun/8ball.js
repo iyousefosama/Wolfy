@@ -2,7 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     if(!args[2]) return message.reply("Please type a full Question");
     let replies = ["<a:Correct:812104211386728498> Yes.","<a:Wrong:812104211361693696> No.","<:OH:841321886368792647> I don't know","<a:pp993:836168681746071552> Ask again later I'm Busy","Well yes but Actually No.", "Yes...,Sorry I mean No."];
     

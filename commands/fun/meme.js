@@ -3,7 +3,7 @@ const got = require('got')
 
 module.exports.run = async (Client, message, args, prefix) => { // for my cmds handler
     if(!message.content.startsWith(prefix)) return; // checking that the command starts with the prefix, if not return
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
 
 const memeEmbed = new Discord.MessageEmbed() // creating an embed
     
