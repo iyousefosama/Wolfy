@@ -195,7 +195,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 Client.on('message', async message => {
     if (message.channel.type === "dm") return;
     if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
-    if(message.author.bot === true) return;
+    if (message.author == Client.user) return;
 
     const randomXp = Math.floor(Math.random() * 46) + 1;
     const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
