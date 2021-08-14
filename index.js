@@ -40,6 +40,16 @@ const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
 
+const DBL = require('top.gg');
+const dbl = new DBL(eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI4OTI1MTc4fQ.JtkWJ6fP0AWklXLIDdj0gODQWlU3j4aCkRZdYTeeJPo, { webhookPort: 5000, webhookAuth: 'password' });
+dbl.webhook.on('ready', hook => {
+  console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
+});
+dbl.webhook.on('vote', vote => {
+  vote.user.send(`Hello, <@${vote.user}> thanks for voting our bot! <a:pp71:853493766312165416>`)
+  console.log(`User with ID ${vote.user} just voted!`);
+});
+ 
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
     if(menu.values[0] == 'DR1') {
@@ -117,8 +127,7 @@ Client.on("guildDelete", guild => {
 })
 
 Client.on('messageDelete', message => {
-    if (message.author == Client.user)
-    return;
+    if (message.author == Client.user) return;
     if (message.channel.type === "dm") return;
     snipes.set(message.channel.id, message)
 
@@ -132,10 +141,7 @@ Client.on('messageDelete', message => {
     LogChannel.send(DeletedLog)
 }) 
 Client.on('messageUpdate', async(oldMessage, newMessage) => {
-    if (oldMessage.author == Client.user)
-    return;
-    if (oldMessage.author.bot)
-   return;
+    if (oldMessage.author == Client.user) return;
     if (oldMessage.channel.type === "dm") return;
     const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
     if (!LogChannel) return
@@ -249,10 +255,7 @@ Client.on("ready", async () => {
 })
 
 Client.on("message", async message => {
-    if (message.author == Client.user)
-    return;
-    if (message.author.bot)
-   return;
+    if (message.author == Client.user) return;
     if (message.channel.type === "dm") {
     const dmEmbed = new Discord.MessageEmbed()
     .setTitle('New DM')
