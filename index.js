@@ -39,6 +39,10 @@ const userSchema = require("./schema/user-schema")
 const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
+
+Client.on("message", async () => {
+    if(!message.channel.permissionFor(client.user).has(["SEND_MESSAGES", "VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "EMBED_LINKS"])) return;
+})
  
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
