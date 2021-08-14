@@ -8,7 +8,7 @@ module.exports.run = async (Client, message, args, prefix) => {
     } else {
     // if the member don't have this perm return by sending this msg
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have the perms for the nuke command')
-
+    if(!message.guild.me.permissions.has('ADMINISTRATOR')) return message.channel.send('You dont have the perms for the nuke command')
     // getting the channel's id that is gonna be nuked
     var channel = Client.channels.cache.get(message.channel.id)
 

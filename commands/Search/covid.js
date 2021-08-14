@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
 
         let countries = args.join(" ");
         // the country = =covid country

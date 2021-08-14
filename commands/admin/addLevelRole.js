@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     if (message.channel.type === "dm") return;
     const Messingperms = new Discord.MessageEmbed()
     .setColor(`RED`)

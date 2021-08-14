@@ -3,6 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.channel.type === "dm") return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')

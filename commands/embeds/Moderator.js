@@ -3,6 +3,7 @@ const discord = require('discord.js');
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.channel.type === "dm") return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
@@ -23,7 +24,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
         { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
-        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
         { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
         { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
     )

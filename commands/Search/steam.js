@@ -3,6 +3,7 @@ const snekfetch = require('snekfetch');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const query = args.join(' ');
         
     // Input Checking

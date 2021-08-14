@@ -2,8 +2,8 @@ const Discord = require('discord.js');
 const got = require('got')
 
 module.exports.run = async (Client, message, args, prefix) => { // for my cmds handler
-
     if(!message.content.startsWith(prefix)) return; // checking that the command starts with the prefix, if not return
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
 
 const memeEmbed = new Discord.MessageEmbed() // creating an embed
     

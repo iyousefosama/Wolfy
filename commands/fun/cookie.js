@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const { channel, mentions } = message;
     const target = mentions.members.first();
 

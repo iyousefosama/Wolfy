@@ -4,6 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     if(!args[0]) return message.channel.send('Please provide some text');
     axios
     .get(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args.join(" ")}`)

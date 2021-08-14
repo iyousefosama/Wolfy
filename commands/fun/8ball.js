@@ -2,6 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     if(!args[2]) return message.reply("Please type a full Question");
     let replies = ["Yes.","No.","I don't know","Ask again later I'm Busy","Well yes but Actually No.", "Yes...,Sorry I mean No."];
     

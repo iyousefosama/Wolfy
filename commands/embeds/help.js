@@ -3,6 +3,8 @@ const { MessageActionRow, MessageButton } = require('discord-buttons')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    try {
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
@@ -55,6 +57,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
         { name: `${prefix}findid`, value: `> \`Get a user's id.\``},
         { name: `${prefix}invite`, value: `> \`To see your invites count\``},
+        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
         { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
         { name: `${prefix}uptime`, value: `> \`Show you the bot uptime\``}
     )
@@ -108,7 +111,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
         { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
-        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
         { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
         { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
     )
@@ -162,6 +164,14 @@ module.exports.run = async (Client, message, args, prefix) => {
         .addComponents(button, button2, button3, button4, button5);
         msg.edit({embed : help, components : newrow})
     })
+} catch (error) {
+    let errorEmbed = new MessageEmbed()
+    .setColor('RED')
+    .setDescription(`<a:pp681:774089750373597185> Error!`)
+    .setTimestamp();
+     message.channel.send(errorEmbed)
+    console.log(error);
+  }
 }
 
 module.exports.help = {

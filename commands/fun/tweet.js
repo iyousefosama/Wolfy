@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     var loading = new Discord.MessageEmbed()
     .setColor(`YELLOW`)
     .setDescription(`<a:Loading_Color:759734580122484757> Loading...`)

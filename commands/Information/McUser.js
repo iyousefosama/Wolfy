@@ -3,6 +3,7 @@ const mcapi = require('mcapi');
 
 module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     let embed1 = new Discord.MessageEmbed()
     .setTitle('Error!')
     .setDescription(`**Required Arguments** \n \`\`\`${prefix}mcuser <username> \`\`\``)

@@ -4,6 +4,7 @@ const Discord = require('discord.js')
 module.exports.run = async (client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
     if (message.channel.type === "dm") return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const Messingperms = new Discord.MessageEmbed()
     .setColor(`RED`)
     .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
