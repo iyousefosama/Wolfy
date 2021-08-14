@@ -4,7 +4,7 @@ const moment = require("moment");
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
     if (message.channel.type === "dm") return;
-    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
+    if(!message.channel.permissionFor(client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     let user = message.mentions.users.first() || message.author
     let invites = await message.guild.fetchInvites();
     let userInv = invites.filter(u => u.inviter && u.inviter.id === user.id)

@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
+    if(!message.channel.permissionFor(client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     let channel = message.member.voice.channel;
     if(!channel) return message.channel.send("**<a:pp802:768864899543466006> You should be in a `voice channel` to start Youtube together**")
 
