@@ -40,10 +40,6 @@ const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
 
-Client.on("message", async (message) => {
-    if(!message.member.guild.me.hasPermission(["SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"])) return;
-})
- 
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
     if(menu.values[0] == 'DR1') {
