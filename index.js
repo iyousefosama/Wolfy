@@ -204,7 +204,9 @@ Client.on('message', async message => {
         .setDescription(`${message.author}, You have leveled up to level **${User.level}!** <a:pp330:853495519455215627>`)
         .setColor("DARK_GREEN")
         .setTimestamp()
-        message.channel.send(LevelUp);
+        message.channel.send(LevelUp).then(msg => {
+setTimeout(() => { msg.delete() }, 5000)
+})
         
         const Level_Roles_Storage = fs.readFileSync('Storages/Level-Roles.json')
         const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
