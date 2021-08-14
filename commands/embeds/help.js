@@ -4,7 +4,6 @@ const { MessageActionRow, MessageButton } = require('discord-buttons')
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
     if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
-    try {
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
@@ -163,14 +162,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         .addComponents(button, button2, button3, button4, button5);
         msg.edit({embed : help, components : newrow})
     })
-} catch (error) {
-    let errorEmbed = new discord.MessageEmbed()
-    .setColor('RED')
-    .setDescription(`<a:pp681:774089750373597185> Error!`)
-    .setTimestamp();
-     message.channel.send(errorEmbed)
-    console.log(error);
-  }
 }
 
 module.exports.help = {
