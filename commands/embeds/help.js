@@ -3,7 +3,7 @@ const { MessageActionRow, MessageButton } = require('discord-buttons')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS, MESSAGE_CREATE])) return;
+    if(!message.channel.hasPermission(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
