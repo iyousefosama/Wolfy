@@ -190,7 +190,7 @@ fs.readdirSync('./commands/').forEach(dir => {
 //XP
 Client.on('message', async message => {
     if (message.channel.type === "dm") return;
-    if(!message.channel.permissionFor(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.channel.hasPermission(Client.user).has([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
     if (message.author == Client.user) return;
 
     const randomXp = Math.floor(Math.random() * 46) + 1;
