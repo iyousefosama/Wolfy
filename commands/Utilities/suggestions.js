@@ -3,7 +3,7 @@ const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.member.guild.me.hasPermission([SEND_MESSAGES, EMBED_LINKS, USE_EXTERNAL_EMOJIS])) return;
+    if(!message.member.guild.me.hasPermission(["SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"])) return;
     if(cooldown.has(message.author.id)) {
         message.reply('<a:Wrong:812104211361693696> You can send you suggestion only every \`30 minutes\`')
     } else {
