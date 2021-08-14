@@ -3,7 +3,7 @@ const weather = require("weather-js");
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     let city = args.join(" ");
     let degreetype = "C"; // You can change it to F. (fahrenheit.)
 

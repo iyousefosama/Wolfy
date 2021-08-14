@@ -3,7 +3,7 @@ const { MessageActionRow, MessageButton } = require('discord-buttons')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     try {
     const button = new MessageButton()
     .setLabel(`Info`)
@@ -87,7 +87,6 @@ module.exports.run = async (Client, message, args, prefix) => {
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
-
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
         { name: `${prefix}yt`, value: `> \`Start new youtube together party\``}
     )
@@ -165,7 +164,7 @@ module.exports.run = async (Client, message, args, prefix) => {
         msg.edit({embed : help, components : newrow})
     })
 } catch (error) {
-    let errorEmbed = new MessageEmbed()
+    let errorEmbed = new discord.MessageEmbed()
     .setColor('RED')
     .setDescription(`<a:pp681:774089750373597185> Error!`)
     .setTimestamp();

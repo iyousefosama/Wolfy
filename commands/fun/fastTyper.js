@@ -5,7 +5,7 @@ const inGame = new Set()
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS')) return;
     const filter = m => m.author.id === message.author.id
     if (inGame.has(message.author.id)) return
     inGame.add(message.author.id)

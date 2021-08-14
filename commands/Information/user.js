@@ -4,7 +4,7 @@ const axios = require("axios")
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return; // make sure its starts with the prefix
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
 
     

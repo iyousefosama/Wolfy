@@ -2,7 +2,7 @@ const discord = require('discord.js');
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS')) return;
     const messageArray = message.content.split(' ');
     const arg2 = messageArray.slice(1);;
     let search = arg2.slice(0).join(' ');

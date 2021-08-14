@@ -4,6 +4,7 @@ const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     if(cooldown.has(message.author.id)) {
       message.reply('Please wait \`5 seconds\` between using the command, because you are on cooldown')
   } else {

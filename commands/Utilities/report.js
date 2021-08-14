@@ -2,7 +2,7 @@ const discord = require('discord.js')
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return;
-
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     let user = message.mentions.users.first()
     if (!user) return message.channel.send('Please mention a user to report!')
 

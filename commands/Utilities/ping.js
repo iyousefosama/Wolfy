@@ -3,9 +3,8 @@ const Client = new discord.Client(); // creating a new Client
 const cooldown = new Set();
 
 module.exports.run = async (Client, message, args, prefix) => { // for the cmd handler 
-
     if(!message.content.startsWith(prefix)) return; // makes sure it starts with the prefix
-
+    if(!message.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS')) return;
     if(cooldown.has(message.author.id)) {
         message.reply(`Please wait \`5 seconds\` between using the command, because you are on cooldown`)
     } else {
