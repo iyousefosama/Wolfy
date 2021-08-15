@@ -4,6 +4,8 @@ const Discord = require('discord.js')
 // connect us to the config.json file
 const config = require('./config.json');
 
+require('discord-reply');
+
 // create a new Discord Client 
 const Client = new Discord.Client({disableEveryone: true, partials: ['MESSAGE', 'REACTION']});
 
