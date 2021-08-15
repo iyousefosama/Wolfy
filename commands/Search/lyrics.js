@@ -3,6 +3,7 @@ const lyricsFinder = require("lyrics-finder")
 
 module.exports.run = async (Client, message, args, prefix) => {
     if(!message.content.startsWith(prefix)) return
+    if (message.author == Client.user) return;
     if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("EMBED_LINKS") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("ADD_REACTIONS") || !message.guild.me.permissions.has("VIEW_CHANNEL") || !message.guild.me.permissions.has("ATTACH_FILES") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;
     let singer;
     let song;
@@ -22,7 +23,8 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setFooter(`1/2`)
     message.channel.send(singerEmb)
     let col = await message.channel.awaitMessages(filter, options)
-    if(col.first().content == 'cancel') return message.channel.send("Cancelled");
+    if(col.first().content == 'cancel') return message.channel.send("Cancelled")
+    else if(col.first().content == `${prefix}lyrics`) return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**")
     singer = col.first().content
 
     let songEmb = new discord.MessageEmbed()
@@ -31,10 +33,11 @@ module.exports.run = async (Client, message, args, prefix) => {
     .setFooter(`2/2`)
     message.channel.send(songEmb)
     let col2 = await message.channel.awaitMessages(filter, options)
-    if(col2.first().content == 'cancel') return message.channel.send("Cancelled");
+    if(col2.first().content == 'cancel') return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**")
+    else if(col2.first().content == `${prefix}lyrics`) return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**")
     song = col2.first().content
 
-    let res = await lyricsFinder(singer, song) || "Not Found"
+    let res = await lyricsFinder(singer, song) || "<a:pp681:774089750373597185> Not Found!"
 
     for(let i = 0; i < res.length; i += 2048) {
         let lyrics = res.substring(i, Math.min(res.length, i + 2048))

@@ -4,7 +4,6 @@ const cooldown = new Set();
 const { MessageEmbed } = require("discord.js")
 const pagination = require('discord.js-pagination');
 
-
 const verificationLevels = {
     NONE: '<a:Error:836169051310260265> None',
     LOW: 'Low',
