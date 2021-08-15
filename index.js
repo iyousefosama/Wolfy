@@ -274,7 +274,8 @@ if(message.channel.id === '859100693365653515') {
         message.channel.stopTyping()
     })
     .catch(err => {
-        message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
+        message.lineReply(`Sorry, i can\'t reply this message!`, false);
+        message.channel.stopTyping()
       })
 }
 
