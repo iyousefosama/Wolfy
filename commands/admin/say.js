@@ -12,16 +12,13 @@ module.exports.run = async (Client, message, args, prefix) => {
               .setDescription(`<a:pp802:768864899543466006> You don't have permission to use that command.`)
               if(!message.member.hasPermission('MANAGE_MESSAGES', 'ADMINISTRATOR')) return message.channel.send(Messingperms)
               if(!message.guild.me.permissions.has('MANAGE_MESSAGES', 'ADMINISTRATOR')) return;
-          message.delete()
-          message.channel.send(args.join(" "))
-          .catch(err => {
-            const UnknownErr = new discord.MessageEmbed()
-            .setColor(`RED`)
-            .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
-            .setURL(`https://discord.gg/qYjus2rujb`)
-            message.channel.send(UnknownErr)
-            console.error(err);
-          })
+              let text = args.slice(0).join(" ")
+              if(!args[0]) return message.channel.send(`<a:Wrong:812104211361693696> You need to type the message to send!`)
+              if(message) {
+                message.delete()
+              }
+              message.channel.send(text)
+
         cooldown.add(message.author.id);
         setTimeout(() => {
             cooldown.delete(message.author.id)
