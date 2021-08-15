@@ -25,6 +25,7 @@
     "discord-mongo-economy": "^0.3.0",
     "discord-player": "^5.0.0",
     "discord-reply": "^0.1.2",
+    "discord-rpc": "^4.0.1",
     "discord-together": "^1.1.14",
     "discord-xp": "^1.1.16",
     "discord.js": "^12.5.3",
