@@ -194,6 +194,7 @@ Client.on('message', async message => {
     if (message.channel.type === "dm") return;
     if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("EMBED_LINKS") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("ADD_REACTIONS") || !message.guild.me.permissions.has("VIEW_CHANNEL") || !message.guild.me.permissions.has("ATTACH_FILES") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;
     if (message.author == Client.user) return;
+    if (message.author.bot) return;
 
     const randomXp = Math.floor(Math.random() * 46) + 1;
     const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
