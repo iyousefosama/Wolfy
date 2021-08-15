@@ -263,10 +263,12 @@ if(message.channel.id === '859100693365653515') {
     return;
     if (message.author.bot)
    return;
+    message.channel.startTyping()
     fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
     .then(res => res.json())
     .then(data => {
-        message.channel.send(data.response)
+        message.lineReply(data.response, true);
+        message.channel.stopTyping()
     })
     .catch(err => {
         message.channel.send('<a:Error:836169051310260265> Sorry, i can\'t reply this message!');
