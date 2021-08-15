@@ -42,6 +42,28 @@ const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
 
+const RPC = require('discord-rpc'); // npm i discord-rpc
+const rpc = new RPC.Client({transport: 'ipc'});
+
+rpc.on('ready', () => {
+    rpc.setActivity({
+        details: 'Competitive', // Large text which is under the client name
+        state: 'Playing Solo', // Small text under the large text
+        startTimestamp: new Date(), // starts new time stamp | you can add hourse to start from!
+        largeImageKey: 'wolf', // Images keys can get from https://discord.com/developers/applications > Your client > Rich Presence > Art Assets > upload ur image and the name is: 'LARGE-KEY'!
+        largeImageText: 'Wolfy', // text shows when you aim on the large image
+        smallImageKey: 'neon-sky', // Images keys can get from https://discord.com/developers/applications > Your client > Rich Presence > Art Assets > upload ur image and the name is_ 'SMALL-KEY'!
+        smallImageText: 'Level 100', // text shows when you aim on the small image
+        buttons: [{label : 'Discord', url : 'https://discord.gg/qYjus2rujb'},{label : 'Youtube', url : 'https://www.youtube.com/channel/UCWoSOegH2nYnng-B4CknXjA'}]
+    });
+
+    console.log('RPC online');
+});
+
+rpc.login({
+    clientId: '821655420410003497' // create client from https://discord.com/developers/applications then go to General Information and copy the APPLICATION ID! NOTE: Don't add bot to the application! 
+});
+
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
     if(menu.values[0] == 'DR1') {
