@@ -42,19 +42,6 @@ const Levels = require("discord-xp");
 
 const canvacord = require("canvacord");
 
-const client = require('discord-rich-presence')('821655420410003497');
-
-client.updatePresence({
-  state: 'Playing Solo',
-  details: 'Competitive',
-  startTimestamp: new Date(),
-  largeImageKey: 'wolf',
-  largeImageText: 'Wolfy',
-  smallImageKey: 'neon-sky', 
-  smallImageText: 'Level 100',
-  buttons: [{label : 'Discord', url : 'https://discord.gg/qYjus2rujb'},{label : 'Youtube', url : 'https://www.youtube.com/channel/UCWoSOegH2nYnng-B4CknXjA'}],
-  instance: true
-});
 Client.on('clickMenu', async menu => {
     const Member = await menu.message.guild.members.fetch({ user: menu.clicker.user.id, force: true})
     if(menu.values[0] == 'DR1') {
