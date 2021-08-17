@@ -5,7 +5,13 @@ module.exports = {
     name: 'message',
     async execute(client, message) {
         if (message.channel.type === "dm") return;
-        if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;
+        if (message.guild){
+            if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              return { executed: false, reason: 'PERMISSION_SEND'};
+            } else {
+              // Do nothing..
+            };
+          };
         if (message.author == client.user) return;
         if (message.author.bot){
             return;
