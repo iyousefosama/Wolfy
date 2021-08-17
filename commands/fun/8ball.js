@@ -9,7 +9,6 @@ module.exports = {
   usage: '<question>',
   cooldown: 2, //seconds(s)
   guarded: false, //or false
-  permissions: [""],
   clientpermissions: ["USE_EXTERNAL_EMOJIS"],
   async execute(client, message, args) {
     if(!args[2]) return message.reply("Please type a full Question");

@@ -11,7 +11,6 @@ module.exports = {
     usage: '<user>',
     cooldown: 3, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member

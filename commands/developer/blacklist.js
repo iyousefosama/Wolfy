@@ -10,7 +10,6 @@ module.exports = {
     usage: '<user>',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "VIEW_CHANNEL"],
     async execute(client, message, args) {
     if(message.author.id !== '829819269806030879') return

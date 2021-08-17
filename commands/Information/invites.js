@@ -10,7 +10,6 @@ module.exports = {
     usage: '<user>',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     let user = message.mentions.users.first() || message.author

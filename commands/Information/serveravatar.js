@@ -9,7 +9,6 @@ module.exports = {
     usage: '',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     if (message.channel.type === "dm") return;

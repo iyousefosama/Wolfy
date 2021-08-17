@@ -39,7 +39,6 @@ module.exports = {
     usage: '',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)

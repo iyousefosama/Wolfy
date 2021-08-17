@@ -10,7 +10,6 @@ module.exports = {
     usage: '<query>',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;

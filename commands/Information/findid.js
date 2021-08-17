@@ -9,8 +9,6 @@ module.exports = {
     usage: '<user>',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
-    clientpermissions: [""],
     async execute(client, message, args) {
         var user = message.mentions.users.first() || message.author
         let avatar = user.displayAvatarURL()

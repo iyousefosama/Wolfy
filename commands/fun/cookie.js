@@ -9,8 +9,6 @@ module.exports = {
   usage: '<user>',
   cooldown: 0, //seconds(s)
   guarded: false, //or false
-  permissions: [""],
-  clientpermissions: [""],
   async execute(client, message, args) {
     const { channel, mentions } = message;
     const target = mentions.members.first();

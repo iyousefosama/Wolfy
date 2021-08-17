@@ -10,7 +10,6 @@ module.exports = {
     usage: '',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     const botEmbed = new discord.MessageEmbed() // creates a embed that we gonna call botEmbed

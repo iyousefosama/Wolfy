@@ -10,7 +10,6 @@ module.exports = {
     usage: '',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     if (message.author == client.user) return;

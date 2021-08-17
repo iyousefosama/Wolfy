@@ -13,8 +13,6 @@ module.exports = {
     usage: '<countrie>',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
-    clientpermissions: [""],
     async execute(client, message, args) {
         let countries = args.join(" ");
         // the country = =covid country

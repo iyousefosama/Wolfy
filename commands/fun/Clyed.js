@@ -11,7 +11,6 @@ module.exports = {
     usage: '<text>',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     if(!args[0]) return message.channel.send('Please provide some text');

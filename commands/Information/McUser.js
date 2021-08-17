@@ -10,7 +10,6 @@ module.exports = {
     usage: '<player>',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     let embed1 = new Discord.MessageEmbed()

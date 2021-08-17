@@ -10,7 +10,6 @@ module.exports = {
   usage: '<user>',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: [""],
   clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
   async execute(client, message, args) {
     const avatar = message.mentions.users.first()

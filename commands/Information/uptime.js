@@ -12,7 +12,6 @@ module.exports = {
     usage: '',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("EMBED_LINKS") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("ADD_REACTIONS") || !message.guild.me.permissions.has("VIEW_CHANNEL") || !message.guild.me.permissions.has("ATTACH_FILES") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;

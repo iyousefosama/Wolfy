@@ -9,8 +9,6 @@ module.exports = {
     usage: '',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
-    clientpermissions: [""],
     async execute(client, message, args) {
     if (message.author != '829819269806030879') return
 

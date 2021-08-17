@@ -11,7 +11,6 @@ module.exports = {
     usage: '',
     cooldown: 60, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["SEND_MESSAGES", "EMBED_LINKS", "MANAGE_MESSAGES"],
     async execute(client, message, args) {
         let button = new Array([], [], [], [], []);

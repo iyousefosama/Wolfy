@@ -10,7 +10,6 @@ module.exports = {
     usage: '',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL"],
     async execute(client, message, args) {
     const Fun = new discord.MessageEmbed()

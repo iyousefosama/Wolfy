@@ -10,7 +10,7 @@ module.exports = {
     usage: '',
     cooldown: 60, //seconds(s)
     guarded: false, //or false
-    permissions: ["EMBED_LINKS"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "VIEW_CHANNEL", "CONNECT"],
     async execute(client, message, args) {
     let channel = message.member.voice.channel;
     if(!channel) return message.channel.send("**<a:pp802:768864899543466006> You should be in a `voice channel` to start Youtube together**")

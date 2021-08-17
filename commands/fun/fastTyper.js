@@ -12,7 +12,6 @@ module.exports = {
     usage: '',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     const filter = m => m.author.id === message.author.id

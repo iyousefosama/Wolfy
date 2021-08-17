@@ -10,8 +10,6 @@ module.exports = {
   usage: '<city>',
   cooldown: 2, //seconds(s)
   guarded: false, //or false
-  permissions: [""],
-  clientpermissions: [],
   async execute(client, message, args) {
     let city = args.join(" ");
     let degreetype = "C"; // You can change it to F. (fahrenheit.)

@@ -9,7 +9,6 @@ module.exports = {
     usage: '',
     cooldown: 960, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
     async execute(client, message, args) {
     if(message.author.id !== '829819269806030879') return;

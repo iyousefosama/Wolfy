@@ -9,7 +9,6 @@ module.exports = {
     usage: '<option>',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: [""],
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     const messageArray = message.content.split(' ');
