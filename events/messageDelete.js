@@ -5,9 +5,6 @@ module.exports = {
     name: 'messageDelete',
     execute(client, message, messageDelete) {
         if (message.author == client.user) return;
-        if (message.author.bot){
-            return;
-          };
         snipes.set(message.channel.id, message)
     
         const LogChannel = message.guild.channels.cache.get('877130715337220136')
