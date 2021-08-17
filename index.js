@@ -151,21 +151,6 @@ client.on("message", async message => {
                     };
                   };
 
-                  let UserData;
-                  try {
-                      UserData = await userSchema.findOne({
-                          userId: message.author.id
-                      })
-                      if(!UserData) {
-                          UserData = await userSchema.create({
-                              userId: message.author.id
-                          })
-                      }
-                  } catch (error) {
-                      console.log(error)
-                  }
-                  if(UserData.blacklisted == true) return //message.channel.send("you're blacklisted")
-
         cmd.execute(client, message, args);
     }catch(err){
         message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to ᒍoe#0001\``);
