@@ -4,6 +4,7 @@ const snipes = new Discord.Collection()
 module.exports = {
     name: 'messageDelete',
     execute(client, message, messageDelete) {
+        if (message.author == client.user) return;
         if (message.author.bot){
             return;
           };
