@@ -9,7 +9,7 @@ module.exports = {
           };
         snipes.set(oldMessage.channel.id,oldMessage)
 
-        const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
+        const LogChannel = oldMessage.guild.channels.cache.get('877130715337220136')
         if (!LogChannel) return;
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")
