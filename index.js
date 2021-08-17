@@ -175,4 +175,4 @@ client.on("message", async message => {
 
 // Login To Discord with your app's Token
 
-Client.login(process.env.token);
+client.login(process.env.token);
