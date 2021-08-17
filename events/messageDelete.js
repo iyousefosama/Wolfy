@@ -7,7 +7,7 @@ module.exports = {
         if (message.author == client.user) return;
         snipes.set(message.channel.id, message)
     
-        const LogChannel = message.guild.channels.cache.get('877130715337220136')
+        const LogChannel = message.guild.channels.cache.get('831412872852013066')
         if (!LogChannel) return;
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
