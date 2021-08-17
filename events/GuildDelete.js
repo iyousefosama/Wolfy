@@ -10,7 +10,7 @@ module.exports = {
             .setDescription(`I left **${guild.name}**, with **${guild.memberCount}** members\n\nTotal servers: ${client.guilds.cache.size}\nTotal users: ${client.users.cache.size}`)
             .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp833:853495989796470815> Total servers: \`\`\`\n${client.guilds.cache.size}\`\`\`\n<a:pp833:853495989796470815> Total users: \n\`\`\`${client.users.cache.size}\`\`\``)
             .setTimestamp()
-            const LogChannel = client.channels.cache.get('877130715337220136')
+            const LogChannel = client.channels.cache.get('840892477614587914')
             LogChannel.send(left)
     }
 }
