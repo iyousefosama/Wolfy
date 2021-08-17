@@ -13,7 +13,7 @@ module.exports = {
     permissions: [""],
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
-    var botEmbed = new discord.MessageEmbed() // creates a embed that we gonna call botEmbed
+    const botEmbed = new discord.MessageEmbed() // creates a embed that we gonna call botEmbed
     .setColor('738ADB') // will set the color for the embed
     .setAuthor(client.user.username, client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
     .setTitle(`${client.user.username} Bot's Info`) // make the title for the cmd
@@ -26,7 +26,6 @@ module.exports = {
         `<:pp198:853494893439352842> **ID:** ${client.user.id}`, // this will be the ID for the bot
         `📆 **Created At:** ${moment(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}`, // this will say when the bot is created 
         `<:Developer:841321892060201021> **Developer:** <@829819269806030879>`, // who created the bot
-        `<:pp228:836168687891382312> **Tester:** <@711042494187438153>`,
         `<a:LightUp:776670894126006302> **Bot Website:** https://Wolfy.yoyojoe.repl.co`,
         '\u200b'
     ])
