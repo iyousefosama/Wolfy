@@ -2,8 +2,8 @@ const discord = require('discord.js');
 const { prefix } = require('../../config.json');
 
 module.exports = {
-    name: "fun",
-    aliases: ["Fun", "FUN"],
+    name: "helpfun",
+    aliases: ["HelpFun", "HELPFUN", "help-fun"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

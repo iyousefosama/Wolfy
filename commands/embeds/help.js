@@ -50,7 +50,7 @@ module.exports = {
         { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
         { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
         { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
-        { name: '<a:pp434:836168673755660290> Bot helplist', value: `\`\`\`${prefix}helpfun\`\`\``, inline: true},
+        { name: '<a:pp434:836168673755660290> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
         { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true},
         { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true}
     )
