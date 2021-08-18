@@ -15,7 +15,7 @@ module.exports = {
         .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
-        await client.channels.cache.get('877130715337220136')?.createWebhook(bot, {
+        await client.channels.cache.get('840892477614587914')?.createWebhook(bot, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [dmEmbed] }), webhook]))
