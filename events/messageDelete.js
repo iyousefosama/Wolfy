@@ -9,9 +9,10 @@ module.exports = {
         if (message.author == client.user) return;
         snipes.set(message.channel.id, message)
         
+        if (message.author.tag) return
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
-        .setDescription(`**User:** ${message.member.user.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+        .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
