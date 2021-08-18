@@ -5,14 +5,14 @@ const config = require('../config.json')
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
-console.log(client)
-console.log(message)
         if (message.author == client.user) return;
         snipes.set(message.channel.id, message)
+
+         const user = message.author.tag;
         
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
-        .setDescription(`**User:** ${message.author.discriminator}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+        .setDescription(`**User:** ${user}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
