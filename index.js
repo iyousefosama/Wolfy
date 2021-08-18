@@ -143,6 +143,10 @@ client.on("message", async message => {
                     return message.reply(`<a:pp802:768864899543466006> ${cmd.name} is guarded!`)
                 }
 
+                if(cmd.OwnerOnly) {
+                    if(message.author.id !== developer) return message.reply(`<a:pp802:768864899543466006> ${cmd.name} for developers only!`)
+                }
+
                 if (message.guild){
                     if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
                       return { executed: false, reason: 'PERMISSION_SEND'};
