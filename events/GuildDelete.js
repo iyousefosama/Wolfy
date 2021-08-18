@@ -11,7 +11,7 @@ module.exports = {
             .setDescription(`<a:pp224:853495450111967253> Server Name:\n\`\`\`${guild.name}\`\`\` \n<:pp833:853495153280155668> MembersCount:\n\`\`\`${guild.memberCount}\`\`\`\n\n<a:pp833:853495989796470815> Total servers: \`\`\`\n${client.guilds.cache.size}\`\`\`\n<a:pp833:853495989796470815> Total users: \n\`\`\`${client.users.cache.size}\`\`\``)
             .setTimestamp()
             const bot = client.user.username;
-            await client.channels.cache.get('877130715337220136')?.createWebhook(bot, {
+            await client.channels.cache.get('840892477614587914')?.createWebhook(bot, {
                 avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
               })
               .then(webhook => Promise.all([webhook.send({ embeds: [left] }), webhook]))
