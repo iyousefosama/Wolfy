@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const Levels = require("discord-xp");
+const fs = require('fs');
 
 module.exports = {
     name: 'message',
