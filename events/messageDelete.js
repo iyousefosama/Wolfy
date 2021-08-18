@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const snipes = new Discord.Collection()
 const config = require('../config.json')
+const tag = require('../index.js')
 
 module.exports = {
     name: 'messageDelete',
