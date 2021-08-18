@@ -5,6 +5,7 @@ const config = require('../config.json')
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
+      if (message.channel.type === "dm") return;
         if (message.author == client.user) return;
         if (message.author.bot){
             return;
@@ -17,7 +18,7 @@ module.exports = {
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
-        await client.channels.cache.get(config.log)?.createWebhook(bot, {
+        await message.guild.channels.cache.get(config.log)?.createWebhook(bot, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [DeletedLog] }), webhook]))
