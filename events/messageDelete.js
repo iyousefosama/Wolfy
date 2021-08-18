@@ -9,7 +9,7 @@ module.exports = {
         if (message.author == client.user) return;
         snipes.set(message.channel.id, message)
         
-        if (message.member) return
+        if (!message.member) return;
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
         .setDescription(`**User:** ${message.member.user.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
