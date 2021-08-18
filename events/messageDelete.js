@@ -11,7 +11,7 @@ module.exports = {
         
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
-        .setDescription(`**User:** ${message.author}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+        .setDescription(`**User:** ${message.member.user.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
