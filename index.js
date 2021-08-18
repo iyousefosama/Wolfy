@@ -16,7 +16,7 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
-const { prefix, token } = require('./config.json');
+const { prefix } = require('./config.json');
 
 const map = new Map();
 
