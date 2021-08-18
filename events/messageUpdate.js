@@ -3,19 +3,27 @@ const snipes = new Discord.Collection()
 
 module.exports = {
     name: 'messageUpdate',
-    execute(client, oldMessage, messageUpdate) {
+    async execute(client, oldMessage, messageUpdate) {
         if (oldMessage.author.bot){
             return;
           };
         snipes.set(oldMessage.channel.id,oldMessage)
 
-        const LogChannel = oldMessage.guild.channels.cache.get('831412872852013066')
-        if (!LogChannel) return;
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")
         .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
-        LogChannel.send(EditedLog)
+        const bot = client.user.username;
+        await client.channels.cache.get('877130715337220136')?.createWebhook(bot, {
+            avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          })
+          .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))
+          .then(([_, webhook]) => webhook.delete())
+          .catch(() => {});
+        
+          // add more functions on ready  event callback function...
+        
+          return;
     }
 } 
