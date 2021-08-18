@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const snipes = new Discord.Collection()
+const config = require('../config.json')
 
 module.exports = {
     name: 'messageUpdate',
@@ -15,7 +16,7 @@ module.exports = {
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
-        await client.channels.cache.get('831412872852013066')?.createWebhook(bot, {
+        await client.guild.channels.cache.get(config.log)?.createWebhook(bot, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))

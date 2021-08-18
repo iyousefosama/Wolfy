@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 var currentdate = new Date();
+const config = require('../config.json')
 
 module.exports = {
     name: 'ready',
@@ -40,7 +41,7 @@ module.exports = {
             }; setInterval(randomStatus, 5000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
-        await client.channels.cache.get('840892477614587914')?.createWebhook(bot, {
+        await client.channels.cache.get(config.debug)?.createWebhook(bot, {
           avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
         })
         .then(webhook => Promise.all([webhook.send(message, { embeds: [embed] }), webhook]))
