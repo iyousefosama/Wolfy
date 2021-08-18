@@ -8,6 +8,7 @@ module.exports = {
         if (oldMessage.author.bot){
             return;
           };
+          if(message.guild.id === '828659000814862357') return
         snipes.set(oldMessage.channel.id,oldMessage)
 
         const EditedLog = new Discord.MessageEmbed()
@@ -16,7 +17,7 @@ module.exports = {
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
-        await client.guild.channels.cache.get(config.log)?.createWebhook(bot, {
+        await client.channels.cache.get(config.log)?.createWebhook(bot, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))
