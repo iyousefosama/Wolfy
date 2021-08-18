@@ -8,7 +8,7 @@ module.exports = {
         if (oldMessage.author.bot){
             return;
           };
-          if(message.guild.id === '828659000814862357') return;
+          if(oldMessage.guild.id === '828659000814862357') return
         snipes.set(oldMessage.channel.id,oldMessage)
 
         const EditedLog = new Discord.MessageEmbed()
