@@ -8,9 +8,10 @@ module.exports = {
         if (oldMessage.author == client.user) return;
         snipes.set(oldMessage.channel.id,oldMessage)
 
+        if(oldMessage.author.id) return
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")
-        .setDescription(`**User:** ${oldMessage.member.user.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
+        .setDescription(`**User:** ${oldMessage.author.id}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
         const bot = client.user.username;
