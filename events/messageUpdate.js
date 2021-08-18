@@ -6,9 +6,6 @@ module.exports = {
     name: 'messageUpdate',
     async execute(client, oldMessage, messageUpdate) {
         if (oldMessage.author == client.user) return;
-        if (oldMessage.author.bot){
-            return;
-          };
         snipes.set(oldMessage.channel.id,oldMessage)
 
         const EditedLog = new Discord.MessageEmbed()
