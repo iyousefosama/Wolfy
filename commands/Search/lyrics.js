@@ -1,5 +1,6 @@
 const discord = require('discord.js')
 const lyricsFinder = require("lyrics-finder")
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "lyrics",
@@ -31,7 +32,8 @@ module.exports = {
     .setFooter(`1/2`)
     message.channel.send(singerEmb)
     let col = await message.channel.awaitMessages(filter, options)
-    if(col.first().content == 'cancel') return message.channel.send("Cancelled");
+    if(col.first().content == 'cancel') return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**");
+    else if(col.first().content == `${prefix}lyrics`) return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**")
     singer = col.first().content
 
     let songEmb = new discord.MessageEmbed()
@@ -40,7 +42,8 @@ module.exports = {
     .setFooter(`2/2`)
     message.channel.send(songEmb)
     let col2 = await message.channel.awaitMessages(filter, options)
-    if(col2.first().content == 'cancel') return message.channel.send("Cancelled");
+    if(col2.first().content == 'cancel') return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**");
+   else if(col2.first().content == `${prefix}lyrics`) return message.channel.send("<a:pp681:774089750373597185> **Cancelled!**")
     song = col2.first().content
 
     let res = await lyricsFinder(singer, song) || "Not Found"
