@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 module.exports = {
     name: "live",
-    aliases: ["Live", "yt-together", "youtube-together"],
+    aliases: ["Live", "yt-together", "youtube-together", "yt"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
@@ -26,7 +26,7 @@ module.exports = {
             validate: null
         }),
         headers: {
-            "Authorization": `Bot ${Client.token}`,
+            "Authorization": `Bot ${client.token}`,
             "Content-Type": "application/json"
         }
     })

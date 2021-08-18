@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: "LevelRoles",
-    aliases: ["roles", "Roles", "LeveledRoles", "levelroles", "leveledroles"],
+    aliases: ["roles", "Roles", "LeveledRoles", "levelroles", "leveledroles", "level-roles"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

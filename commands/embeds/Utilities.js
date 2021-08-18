@@ -24,7 +24,7 @@ module.exports = {
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
-        { name: `${prefix}yt`, value: `> \`Start new youtube together party\``}
+        { name: `${prefix}live`, value: `> \`Start new youtube together party\``}
     )
     message.channel.send(Utl);
     }

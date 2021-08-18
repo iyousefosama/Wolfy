@@ -2,7 +2,7 @@ const discord = require('discord.js');
 
 module.exports = {
     name: "serveravatar",
-    aliases: ["Serveravatar", "SERVERAVATAR"],
+    aliases: ["Serveravatar", "SERVERAVATAR", "savatar"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

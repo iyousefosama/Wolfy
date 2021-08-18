@@ -7,9 +7,9 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '<user> <reason>',
-    cooldown: 6000000, //seconds(s)
-    guarded: true, //or false
-    permissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS"],
+    cooldown: 3600, //seconds(s)
+    guarded: false, //or false
+    clientpermissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     let user = message.mentions.users.first()
     if (!user) return message.channel.send('Please mention a user to report!')

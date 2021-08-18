@@ -303,7 +303,7 @@ module.exports = {
             i++
             if (a1 == '🟥' || a2 == '🟥' || a3 == '🟥' || b1 == '🟥' || b2 == '🟥' || b3 == '🟥' || c1 == '🟥' || c2 == '🟥' || c3 == '🟥' || d == '🟥') {
                 const embedLose = new Discord.MessageEmbed()
-                    .setTitle(title)
+                    .setTitle("You win!")
                     .setDescription(`${description}\n\n\n🟩🟩🟩🟩🟩\n🟩${a1}${a2}${a3}🟩\n🟩${b1}${b2}${b3}🟩\n🟩${c1}${c2}${c3}🟩\n🟩🟩🟩🟩🟩`)
                     .setColor(15158332)
                 message.channel.send(embedLose)

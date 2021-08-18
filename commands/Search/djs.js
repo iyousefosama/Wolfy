@@ -12,13 +12,9 @@ module.exports = {
     guarded: false, //or false
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
-        if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
+
         const msg = message;
         let query = args.join(" ");
-
-        if (client.config.owners.includes(member.id)){
-            return message.channel.send(`\\❌ | ${message.author}, No, you can't idk my developers through me!`)
-          };
                 // Input Checking
                 if (!query[0]) { message.channel.send('<:Discordjs:805086222749007874> **Please specify what do you want to search in the Discord.JS library!**') } else {
     

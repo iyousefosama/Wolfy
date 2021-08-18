@@ -3,6 +3,7 @@ const api = require('covidapi')
 // install the covid package
 const fetch = require('node-fetch');
 // installing the package to the fetch links
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "covid",

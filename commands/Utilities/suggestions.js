@@ -7,9 +7,9 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '<suggestion>',
-    cooldown: 6000000, //seconds(s)
+    cooldown: 3600, //seconds(s)
     guarded: false, //or false
-    permissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS"],
+    clientpermissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
     async execute(client, message, args) {
     let suggestion = args.slice(0).join(" ")
     if (!suggestion) return message.channel.send("please provide a suggestions!")

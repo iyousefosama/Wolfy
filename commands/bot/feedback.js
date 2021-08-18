@@ -10,6 +10,7 @@ module.exports = {
     usage: '<issue>',
     cooldown: 60, //seconds(s)
     guarded: false, //or false
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
     async execute(client, message, args) {
 
     if (!args.length){

@@ -65,7 +65,6 @@ module.exports = {
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
-        { name: `${prefix}findid`, value: `> \`Get a user's id.\``},
         { name: `${prefix}invite`, value: `> \`To see your invites count\``},
         { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
         { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
@@ -97,7 +96,7 @@ module.exports = {
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
-        { name: `${prefix}yt`, value: `> \`Start new youtube together party\``}
+        { name: `${prefix}live`, value: `> \`Start new youtube together party\``}
     )
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
