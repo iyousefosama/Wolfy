@@ -40,7 +40,7 @@ module.exports = {
             }; setInterval(randomStatus, 5000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
-        await client.channels.cache.get('877130715337220136')?.createWebhook(bot, {
+        await client.channels.cache.get('840892477614587914')?.createWebhook(bot, {
           avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
         })
         .then(webhook => Promise.all([webhook.send(message, { embeds: [embed] }), webhook]))
