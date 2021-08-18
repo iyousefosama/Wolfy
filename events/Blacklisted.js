@@ -17,6 +17,6 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
-        if(UserData.blacklisted == true) return //message.channel.send("you're blacklisted")
+        if(UserData.blacklisted == true) return message.channel.send(`\`\`\`diff\n- You are blacklisted from using the bot!\`\`\``)
     }
 } 
