@@ -5,7 +5,6 @@ const config = require('../config.json')
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
-      if (message.channel.type === "dm") return;
         if (message.author == client.user) return;
         if (message.author.bot){
             return;
