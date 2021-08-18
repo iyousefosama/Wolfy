@@ -9,7 +9,6 @@ module.exports = {
         if (message.author.bot){
             return;
           };
-          if(message.guild.id === '828659000814862357') return
         snipes.set(message.channel.id, message)
         
         const DeletedLog = new Discord.MessageEmbed()
