@@ -7,7 +7,7 @@ module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
         if (message.author == client.user) return;
-        if (message.author == client.bot) return;
+        if (oldMessage.author == bot.user) return;
         snipes.set(message.channel.id, message)
         
         if (!message.author) return;
