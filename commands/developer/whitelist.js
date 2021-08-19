@@ -19,7 +19,7 @@ module.exports = {
 
     const done = new discord.MessageEmbed()
     .setColor(`GREEN`)
-    .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted \`${user.tag}\``)
+    .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted ${user}`)
 
     let data;
     try {
