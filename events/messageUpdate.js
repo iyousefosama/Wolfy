@@ -1,10 +1,12 @@
 const Discord = require('discord.js')
+const snipes = new Discord.Collection()
 const config = require('../config.json')
 
 module.exports = {
     name: 'messageUpdate',
     async execute(client, oldMessage, messageUpdate) {
         if (oldMessage.author.client) return;
+        snipes.set(oldMessage.channel.id, oldMessage)
 
         if(!oldMessage.author) return;
         const EditedLog = new Discord.MessageEmbed()
