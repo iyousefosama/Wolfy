@@ -33,6 +33,7 @@ module.exports = {
         message.channel.send(close)
         .then(channel => {
             setTimeout(() => {
+                if(message.channel.deleted) return;
                 message.channel.delete()
             }, 5000);
         })

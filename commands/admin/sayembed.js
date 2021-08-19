@@ -24,12 +24,12 @@ module.exports = {
     .setDescription(`${text}`)
     .setTimestamp()
     message.channel.send(sayembed)
-    message.delete()
+    if (message.deleted) return;
+   message.delete()
     .catch(err => {
         const UnknownErr = new discord.MessageEmbed()
         .setColor(`RED`)
-        .setDescription(`<a:pp802:768864899543466006> Error, please report this to on our support server!`)
-        .setURL(`https://discord.gg/qYjus2rujb`)
+        .setDescription(`<a:pp802:768864899543466006> Error, please report this with feedback command!`)
         message.channel.send(UnknownErr)
         console.error(err);
       })
