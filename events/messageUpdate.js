@@ -15,8 +15,8 @@ module.exports = {
         .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
-        const bot = client.user.username;
-        await oldMessage.guild.channels.cache.get(config.log)?.createWebhook(bot, {
+        const botname = client.user.username;
+        await oldMessage.guild.channels.cache.get(config.log)?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))
