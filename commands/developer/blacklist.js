@@ -19,7 +19,7 @@ module.exports = {
 
     const done = new discord.MessageEmbed()
     .setColor(`RED`)
-    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted \`${user.tag}\``)
+    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted ${user}`)
 
     let data;
     try {
