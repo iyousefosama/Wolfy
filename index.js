@@ -115,7 +115,7 @@ client.on("message", async message => {
             
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
-                    return message.reply(` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(1)}** second(s) left)`).then(msg => {
+                    return message.channel.send(` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(1)}** second(s) left)`).then(msg => {
                         setTimeout(() => {
                             if (msg.deleted) return;
                             msg.delete()
