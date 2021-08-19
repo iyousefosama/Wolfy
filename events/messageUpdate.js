@@ -6,7 +6,7 @@ module.exports = {
     name: 'messageUpdate',
     async execute(client, oldMessage, messageUpdate) {
         if (oldMessage.author == client.user) return;
-        if (oldMessage.author == client.bot) return;
+        if (oldMessage.author == bot.user) return;
         snipes.set(oldMessage.channel.id,oldMessage)
 
         if(!oldMessage.author) return;
