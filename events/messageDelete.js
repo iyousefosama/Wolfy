@@ -4,7 +4,7 @@ const config = require('../config.json')
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
-        if (messageDelete.author.client) return;
+        if (messageDelete.client) return;
         
         if (!message.author) return;
         const DeletedLog = new Discord.MessageEmbed()
