@@ -9,7 +9,7 @@ module.exports = {
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false
-    usage: '<string>',
+    usage: '<code>',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
