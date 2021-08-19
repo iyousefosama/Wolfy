@@ -31,7 +31,7 @@ module.exports = {
             .setTimestamp()
             message.channel.send(LevelUp).then(msg => {
     setTimeout(() => {
-        if(message.deleted) return;
+        if (msg.deleted) return;
         msg.delete()
      }, 5000)
     })
