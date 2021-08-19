@@ -30,7 +30,8 @@ module.exports = {
             .setColor("DARK_GREEN")
             .setTimestamp()
             message.channel.send(LevelUp).then(msg => {
-    setTimeout(() => { 
+    setTimeout(() => {
+        if(message.deleted) return;
         msg.delete()
      }, 5000)
     })
