@@ -89,6 +89,18 @@ client.on("message", async message => {
 
         try{
 
+            //+ args: true/false,
+        if (cmd.args && !args.length) {
+            let reply = `You didn't provide any arguments, ${message.author}!`;
+
+            //+ usage: '<> <>',
+            if (cmd.usage) {
+                reply += `\nThe proper usage would be: \`${prefix}${cmd.name} ${cmd.usage}\``;
+            }
+    
+            return message.channel.send(reply);
+        }
+
             //+ cooldown 1, //seconds(s)
             if (!cooldowns.has(cmd.name)) {
                 cooldowns.set(cmd.name, new Discord.Collection());
@@ -103,28 +115,18 @@ client.on("message", async message => {
             
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
-                    return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`).then(msg => {
-                        setTimeout(() => { 
+                    return message.reply(` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(1)}** second(s) left)`).then(msg => {
+                        setTimeout(() => {
+                            if (msg.deleted) return;
                             msg.delete()
-                         }, 5000)
+                         }, 3000)
                         })
                 }
             }
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-        //+ args: true/false,
-        if (cmd.args && !args.length) {
-            		let reply = `You didn't provide any arguments, ${message.author}!`;
 
-                    //+ usage: '<> <>',
-            		if (cmd.usage) {
-            			reply += `\nThe proper usage would be: \`${prefix}${cmd.name} ${cmd.usage}\``;
-            		}
-            
-            		return message.channel.send(reply);
-                }
-                 
                  //+ permissions: [""],
                  if (cmd.permissions) {
                      if (message.guild) {
