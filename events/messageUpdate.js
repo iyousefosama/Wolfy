@@ -9,7 +9,7 @@ module.exports = {
         snipes.set(oldMessage.channel.id, oldMessage)
 
         if(!oldMessage.author) return;
-  if (message.author.bot){
+  if (oldMessage.author.bot){
     return;
   };
         const EditedLog = new Discord.MessageEmbed()
