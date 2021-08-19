@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mcapi = require('mcapi');
+const { prefix } = require('./config.json');
 
 module.exports = {
     name: "mcuser",
