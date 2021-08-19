@@ -69,6 +69,22 @@ client.on("message", async message => {
 
         if(commandName.length < 1) return;
         if (!cmd) return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
+
+                //+ Blacklisted
+                try {
+                    UserData = await userSchema.findOne({
+                        userId: message.author.id
+                    })
+                    if(!UserData) {
+                        UserData = await userSchema.create({
+                            userId: message.author.id
+                        })
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+                if(UserData.blacklisted == true) return message.channel.send(`\`\`\`diff\n- You are blacklisted from using the bot!\`\`\``)
+
         try{
 
             //+ cooldown 1, //seconds(s)
