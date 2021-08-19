@@ -9,6 +9,9 @@ module.exports = {
         snipes.set(oldMessage.channel.id, oldMessage)
 
         if(!oldMessage.author) return;
+  if (message.author.bot){
+    return;
+  };
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")
         .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
