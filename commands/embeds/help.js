@@ -16,23 +16,28 @@ module.exports = {
     const button = new MessageButton()
     .setLabel(`Info`)
     .setID("1")
-    .setStyle("blurple");
+    .setStyle("blurple")
+    .setEmoji("776670895371714570");
     const button2 = new MessageButton()
     .setLabel(`Search`)
     .setID("2")
-    .setStyle("blurple");
+    .setStyle("blurple")
+    .setEmoji("845681277922967572");
     const button3 = new MessageButton()
     .setLabel(`Utilities`)
     .setID("3")
-    .setStyle("blurple");
+    .setStyle("blurple")
+    .setEmoji("836168684379701279");
     const button4 = new MessageButton()
     .setLabel(`Moderator`)
     .setID("4")
-    .setStyle("red");
+    .setStyle("red")
+    .setEmoji("853496185443319809");
     const button5 = new MessageButton()
     .setLabel(`Fun`)
     .setID("5")
-    .setStyle("green");
+    .setStyle("green")
+    .setEmoji("768867196302524426");
 
     const row = new MessageActionRow()
   .addComponents(button, button2, button3, button4, button5);
@@ -52,7 +57,7 @@ module.exports = {
         { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
         { name: '<a:pp434:836168673755660290> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
         { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true},
-        { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true}
+        { name: '<a:pp90:853496126153031710> Soon', value: `\`\`\` ‍ \`\`\``, inline: true}
     )
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
