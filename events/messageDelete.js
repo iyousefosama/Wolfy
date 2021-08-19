@@ -6,9 +6,9 @@ const tag = require('../index.js')
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
-        let bot = message.author.bot || message.author.me
         if (message.author == client.user) return;
-        if (bot) return;
+        if (message.author.bot) return;
+        if (message.author.me) return;
         snipes.set(message.channel.id, message)
         
         if (!message.author) return;
