@@ -67,6 +67,7 @@ client.on("message", async message => {
         //+ aliases: [""],
         || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
+        if(commandName.length < 1) return;
         if (!cmd) return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
         try{
 
