@@ -5,7 +5,7 @@ const config = require('../config.json')
 module.exports = {
     name: 'messageUpdate',
     async execute(client, oldMessage, messageUpdate) {
-        if (oldMessage.client) return;
+        if (message.author == client.user) return;
         if (oldMessage.author == client.bot) return;
         snipes.set(oldMessage.channel.id,oldMessage)
 
