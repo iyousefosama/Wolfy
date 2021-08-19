@@ -16,6 +16,8 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
+const userSchema = require('./schema/user-schema')
+
 const { prefix, developer } = require('./config.json');
 
 const map = new Map();
