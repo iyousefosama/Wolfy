@@ -1,10 +1,12 @@
 const Discord = require('discord.js')
+const snipes = new Discord.Collection()
 const config = require('../config.json')
 
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
         if (messageDelete.client) return;
+        snipes.set(message.channel.id, message)
         
         if (!message.author) return;
         const DeletedLog = new Discord.MessageEmbed()
