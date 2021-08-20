@@ -1,6 +1,5 @@
 const discord = require('discord.js')
 const moment = require(`moment`)
-const cooldown = new Set();
 const { MessageEmbed } = require("discord.js")
 const pagination = require('discord.js-pagination');
 
@@ -113,10 +112,10 @@ module.exports = {
     `<a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}`, // how many members in the server
     `<:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}`, // how many are humans
     `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`, // how many are bots
-    `<:online:809995753921576960> **Online:** ${members.filter(member => member.presence.status === '<:online:809995753921576960> online').size}`, // how many are online
-    `<:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence.status === '<:offline:809995754021978112> offline').size}`, // how many are offline
-    `<a:pp802:768864899543466006> **Do Not Disturb:** ${members.filter(member => member.presence.status === '<:8608_do_not_disturb:809995753577644073> dnd').size}`, // how many have DND
-    `<:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence.status === '<:Idle:809995753656549377> idle').size}`, // how many have idle
+    `<:online:809995753921576960> **Online:** ${members.filter(member => member.presence.status === 'online').size}`, // how many are online
+    `<:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence.status === 'offline').size}`, // how many are offline
+    `<a:pp802:768864899543466006> **Do Not Disturb:** ${members.filter(member => member.presence.status === 'dnd').size}`, // how many have DND
+    `<:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence.status === 'idle').size}`, // how many have idle
     `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === 'text').size}`, // how many text channels
     `<:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'voice').size}`, // how many voice channels
     '\u200b'

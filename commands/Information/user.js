@@ -14,10 +14,8 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
-
     
     var game = mentionedMember.presence.game // whenever i type game, it makes ref. to the game the person is playing
-
     
     var status = mentionedMember.presence.status; // whenever i type status, it makes ref. to the user's status
 
