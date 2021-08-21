@@ -23,7 +23,6 @@ module.exports = {
         { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
         { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
         { name: `${prefix}clearxp`, value: `> \`Clear the xp for a user in the server\``},
-        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``},
         { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
