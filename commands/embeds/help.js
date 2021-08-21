@@ -48,7 +48,7 @@ module.exports = {
 	.setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(client.user.username, client.user.displayAvatarURL())
     .setThumbnail(client.user.displayAvatarURL())
-    .setDescription(`Type ${prefix}feedback to report a bug`, client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
+    .setFooter(`Type ${prefix}feedback to report a bug`, client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
     .setTimestamp()
     .addFields(
         { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
