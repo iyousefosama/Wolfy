@@ -31,9 +31,7 @@ module.exports = {
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
-        { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
-        { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
-        { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
+        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp()

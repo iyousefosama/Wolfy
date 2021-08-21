@@ -20,7 +20,6 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
-        { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},

@@ -48,6 +48,8 @@ module.exports = {
 	.setURL('https://Wolfy.yoyojoe.repl.co')
     .setAuthor(client.user.username, client.user.displayAvatarURL())
     .setThumbnail(client.user.displayAvatarURL())
+    .setDescription(`Type ${prefix}feedback to report a bug`, client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
+    .setTimestamp()
     .addFields(
         { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
         { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}helpsearch\`\`\``, inline: true},
@@ -56,7 +58,7 @@ module.exports = {
         { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
         { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
         { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
-        { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true},
+        { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}helplevel\`\`\``, inline: true},
         { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true}
     )
     const info = new discord.MessageEmbed()
@@ -70,9 +72,7 @@ module.exports = {
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
-        { name: `${prefix}invite`, value: `> \`To see your invites count\``},
-        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
-        { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
+        { name: `${prefix}invite`, value: `> \`To see your invites count\``}
     )
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
@@ -97,7 +97,6 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
-        { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
@@ -122,9 +121,7 @@ module.exports = {
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
-        { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},
-        { name: `${prefix}edit-level-role`, value: `> \`Edit the guild level role to another one\``},
-        { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
+        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
     )
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')

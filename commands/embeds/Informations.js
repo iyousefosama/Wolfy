@@ -23,9 +23,7 @@ module.exports = {
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
-        { name: `${prefix}invite`, value: `> \`To see your invites count\``},
-        { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
-        { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
+        { name: `${prefix}invite`, value: `> \`To see your invites count\``}
     )
     
     

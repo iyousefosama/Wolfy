@@ -20,6 +20,7 @@ module.exports = {
     .addFields(
         { name: `${prefix}stats`, value: `> \`Show bot stats and informations\``},
         { name: `${prefix}feedback`, value: `> \`To give a feedback about bot or to report bug\``},
+        { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}uptime`, value: `> \`Show the bot uptime\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
