@@ -175,6 +175,13 @@ client.on("message", async message => {
                       // Do nothing..
                     };
                   };
+                  if (message.guild){
+                    if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
+                      return;
+                    } else {
+                      // Do nothing..
+                    };
+                  }; 
 
         cmd.execute(client, message, args);
     }catch(err){
