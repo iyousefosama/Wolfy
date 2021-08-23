@@ -11,7 +11,7 @@ module.exports = {
     usage: '<text>',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS"],
+    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     if(!args[0]) return message.channel.send('Please provide some text');
     if(args.join(" ").length > 100) return message.channel.send('<a:Wrong:812104211361693696> Sorry you can\`t type more than \`100 letters!\`')
