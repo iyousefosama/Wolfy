@@ -10,7 +10,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_ROLES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_ROLES", "ADMINISTRATOR"],
+    clientpermissions: ["MANAGE_ROLES", "ADMINISTRATOR", "READ_MESSAGE_HISTORY"],
     async execute(client, message, args) {
 
     const author = message.author
