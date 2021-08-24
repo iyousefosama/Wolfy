@@ -1,4 +1,5 @@
-//const client = Your Discord.js Client
+const Discord = require('discord.js');
+const client = new Discord.Client();
 const express = require('express')
 const { Webhook } = require(`@top-gg/sdk`)
 
