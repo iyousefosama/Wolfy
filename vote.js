@@ -1,3 +1,4 @@
+//const client = Your Discord.js Client
 const express = require('express')
 const { Webhook } = require(`@top-gg/sdk`)
 
@@ -5,9 +6,10 @@ const app = express()
 const wh = new Webhook('webhookauth123')
 
 app.post('/dblwebhook', wh.listener(vote => {
-  // vote is your vote object e.g
-  vote.user.send(`<a:Diamond:853496052899381258> Thanks for supporting our bot!`)
-  console.log(vote.user) // => 321714991050784770
+  console.log(vote.user)
+  client.users.fetch(vote.user).then(u => {
+    u.send("Thanks for voting")
+  }).catch(console.error)
 }))
 
-app.listen(process.env.PORT || 80)
+app.listen(process.env.PORT) 
