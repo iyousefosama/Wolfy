@@ -1,3 +1,4 @@
+app.listen(process.env.PORT || 80)
 const express = require('express')
 const { Webhook } = require(`@top-gg/sdk`)
 
