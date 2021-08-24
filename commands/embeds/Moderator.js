@@ -19,6 +19,7 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
+        { name: `${prefix}hackban`, value: `> \`Bans a member not in the server\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
         { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},

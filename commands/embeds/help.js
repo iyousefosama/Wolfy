@@ -100,7 +100,8 @@ module.exports = {
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}calculator`, value: `> \`To send the calculator\``},
-        { name: `${prefix}live`, value: `> \`Start new youtube together party\``}
+        { name: `${prefix}live`, value: `> \`Start new youtube together party\``},
+        { name: `${prefix}bin`, value: `> \`To upload a code to sourcebin\``}
     )
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
@@ -109,6 +110,7 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
+        { name: `${prefix}hackban`, value: `> \`Bans a member not in the server\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
         { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},

@@ -8,7 +8,7 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '<issue>',
-    cooldown: 60, //seconds(s)
+    cooldown: 360, //seconds(s)
     guarded: false, //or false
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
     async execute(client, message, args) {

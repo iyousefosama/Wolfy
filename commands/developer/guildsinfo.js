@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = {
     name: "guilds",
@@ -7,12 +7,25 @@ module.exports = {
     guildOnly: false, //or false
     args: false, //or false
     usage: '',
-    cooldown: 960, //seconds(s)
+    cooldown: 60, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
     clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
     async execute(client, message, args) {
-    client.guilds.cache.forEach(r => 
-        message.channel.send(`**Server ID:** \`${r.id}\`\n:id: **ServerName:** \`${r.name}\`\n:busts_in_silhouette: **ServerMembers:** \`${r.memberCount}\`\n:date: **ServerCreatedAt:** \`${r.createdAt.toLocaleString()}\`\n:earth_africa: **ServerRegion:** \`${r.region}\`\n:bar_chart: **ServerVerificationLevel:** \`${r.verificationLevel}\`\n:frame_photo: **ServerIcon:** ${r.iconURL()}`))
+        let clientGuilds = message.client.guilds.cache;
+        let messageObj = Discord.Util.splitMessage(
+            clientGuilds.map(g => '\`' + g.name + `\` **|** \`` + g.id + `\` **|** \`` + g.members.cache.size + '\`') || 'None'
+        );
+        if (messageObj.length == 1) {
+            const embed0 = new Discord.MessageEmbed()
+            .setDescription(messageObj[0]);
+            message.channel.send(embed0)
+        } else {
+            for (i = 0; messageObj.length < i; i++) {
+                const embedi = new Discord.MessageEmbed()
+                .setDescription(messageObj[i]);
+                message.channel.send(embedi)
+            }
+        }
     }
 }

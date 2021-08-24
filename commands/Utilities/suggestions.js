@@ -20,7 +20,7 @@ module.exports = {
     const embed = new discord.MessageEmbed()
     .setTitle('New suggestions!')
     .setDescription(`${suggestion}`)
-    .setThumbnail(message.author.displayAvatarURL())
+    .setThumbnail(message.author.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
     .addFields(
         { name: "From member", value: `${message.author.tag}`, inline: true},
         { name: "Member ID", value: `${message.author.id}`, inline: true}

@@ -12,7 +12,10 @@ module.exports = {
   permissions: ["KICK_MEMBERS", "ADMINISTRATOR"],
   clientpermissions: ["KICK_MEMBERS", "ADMINISTRATOR"],
   async execute(client, message, args) {
-  
+    const owner = client.users.fetch('829819269806030879').catch(() => null);
+    if (user.id === owner){
+      return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, No, you can't kick my developers through me!`)
+    };
       const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
   
       if (user) {

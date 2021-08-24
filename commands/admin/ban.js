@@ -13,6 +13,7 @@ module.exports = {
   clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
   async execute(client, message, args) {
   
+      const owner = client.users.fetch('829819269806030879').catch(() => null);
       const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
       let reason = args.slice(1).join(" ")
       if (!args[1]) reason = 'No reason specified'
@@ -39,6 +40,9 @@ module.exports = {
      if (user.id === client.user.id) return message.reply(Err2)
      if (user.id === message.author.id) return message.reply(Err3)
      if (user.roles.highest.position <= user.roles.highest.position) return message.reply(Err4)
+     if (user.id === owner){
+      return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, No, you can't ban my developers through me!`)
+    };
  //////////////////////////////////////////////////////////////////////////////////////////////////////////
   
       if (user) {

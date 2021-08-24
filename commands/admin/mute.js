@@ -47,6 +47,10 @@ let reason = ''
     if (member.id === message.author.id) return message.reply(Err3)
     if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply(Err4)
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) return message.channel.send(Err5)
+    const owner = client.users.fetch('829819269806030879').catch(() => null);
+    if (user.id === owner){
+      return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, No, you can't mute my developers through me!`)
+    };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let mutedRole = message.guild.roles.cache.find(roles => roles.name === "Muted")

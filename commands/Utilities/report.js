@@ -17,7 +17,7 @@ module.exports = {
     let reason = args.slice(1).join(" ")
     if (!reason) return message.channel.send("please provide a reason!")
 
-    let Avatar = user.displayAvatarURL();
+    let Avatar = user.displayAvatarURL(({dynamic: true, format: 'png', size: 512}));
     let Channel = message.guild.channels.cache.find((ch) => ch.name === "reports") //report
     if (!Channel) return message.channel.send("There is no channel called reports, please contact a mod or create a channel called `reports`");
 

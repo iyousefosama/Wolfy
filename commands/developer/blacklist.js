@@ -12,14 +12,33 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "VIEW_CHANNEL"],
-    async execute(client, message, args) {
+    async execute(client, message, [user = '', ...reason] ) {
 
-    let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
-    if(!user) return message.channel.send("<a:pp802:768864899543466006> **Please mentions a user!**")
+    if (!user.match(/\d{17,19}/)){
+        return message.channel.send(`<a:pp802:768864899543466006> Please provide the ID of the user or mention to blacklist!`);
+      };
+  
+      user = await client.users
+      .fetch(user.match(/\d{17,19}/)[0])
+      .catch(() => null);
+
+      if (!user){
+        return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
+      };
+
+      if (user.id === message.author.id){
+        return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, You cannot blacklist yourself!`);
+      };
+  
+      if (user.id === client.user.id){
+        return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, You cannot blacklist me!`);
+      };
 
     const done = new discord.MessageEmbed()
     .setColor(`RED`)
-    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted ${user}`)
+    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**`)
+    .setTimestamp()
+    .setFooter(`Reason: ${reason.join(' ') || 'Unspecified'}`)
 
     let data;
     try {

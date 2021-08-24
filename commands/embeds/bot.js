@@ -19,6 +19,7 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}stats`, value: `> \`Show bot stats and informations\``},
+        { name: `${prefix}links`, value: `> \`Shows all bot special link vote/invite ..\``},
         { name: `${prefix}feedback`, value: `> \`To give a feedback about bot or to report bug\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}uptime`, value: `> \`Show the bot uptime\``}
