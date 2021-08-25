@@ -126,12 +126,6 @@ client.on("message", async message => {
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-
-                 if (cmd.permissions) {
-                 if (message.guild) {
-                 if(message.author.id !== developer) return
-                         }
-                    	}
                  //+ permissions: [""],
                  if (cmd.permissions) {
                      if (message.guild) {
