@@ -130,6 +130,7 @@ client.on("message", async message => {
                  //+ permissions: [""],
                  if (cmd.permissions) {
                      if (message.guild) {
+                        if(message.author.id == developer) return;
                      	const authorPerms = message.channel.permissionsFor(message.author);
                      	if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                             const PermsEmbed = new Discord.MessageEmbed()
