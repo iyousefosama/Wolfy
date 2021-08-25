@@ -127,10 +127,14 @@ client.on("message", async message => {
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 
+                 if (cmd.permissions) {
+                 if (message.guild) {
+                 if(message.author.id !== developer) return
+                         }
+                    	}
                  //+ permissions: [""],
                  if (cmd.permissions) {
                      if (message.guild) {
-                        if(message.author.id == developer) return;
                      	const authorPerms = message.channel.permissionsFor(message.author);
                      	if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                             const PermsEmbed = new Discord.MessageEmbed()
