@@ -14,17 +14,13 @@ module.exports = {
     async execute(client, message, args) {
         let clientGuilds = message.client.guilds.cache;
         let messageObj = Discord.Util.splitMessage(
-            clientGuilds.map(g => '\`' + g.name + `\` **|** \`` + g.id + `\` **|** \`` + g.members.cache.size + '\`') || 'None'
+            clientGuilds.map(g => '<a:Down:853495989796470815> Guilds Name **|** GuildsID **|** OwnerID **|** MembersCount **|** IconURL <a:Down:853495989796470815>\n\n\`' + g.name + `\` **|** \`` + g.id + `\` **|** \`` + g.ownerID + '\` **|** \`' + g.members.cache.size + '\` **|** *' + g.iconURL() + '*') || 'None'
         );
         if (messageObj.length == 1) {
-            const embed0 = new Discord.MessageEmbed()
-            .setDescription(messageObj[0]);
-            message.channel.send(embed0)
+            message.channel.send(messageObj[0])
         } else {
             for (i = 0; messageObj.length < i; i++) {
-                const embedi = new Discord.MessageEmbed()
-                .setDescription(messageObj[i]);
-                message.channel.send(embedi)
+                message.channel.send(messageObj[i])
             }
         }
     }
