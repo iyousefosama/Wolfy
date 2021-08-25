@@ -134,7 +134,7 @@ client.on("message", async message => {
                      	if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                             const PermsEmbed = new Discord.MessageEmbed()
                             .setColor(`RED`)
-                            .setDescription(`<a:pp802:768864899543466006> You don't have \`${cmd.clientpermissions}\` permission(s) to use ${cmd.name} command.`)
+                            .setDescription(`<a:pp802:768864899543466006> You don't have \`${cmd.permissions}\` permission(s) to use ${cmd.name} command.`)
                             return message.channel.send(PermsEmbed)
                          }
                     	}
