@@ -10,7 +10,6 @@ module.exports = {
     usage: '',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR", "MANAGE_CHANNELS"],
     clientpermissions: ["ADMINISTRATOR", "MANAGE_CHANNELS"],
     async execute(client, message, args) {
     // getting in the ticket category
