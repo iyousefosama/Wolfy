@@ -10,6 +10,6 @@ module.exports = {
             return;
           };
         if(!message.content.startsWith(prefix)) return
-        console.log(`${message.author.tag} in #${message.channel.name} sent: ${message.content}`);
+        console.log(`${message.author.tag} | ${message.author.id} in #${message.channel.name} sent: ${message.content}`);
     }
 }
