@@ -40,7 +40,7 @@ module.exports = {
         .setTitle("<:pp493:836169029085298698> Youtuber together!")
         .setColor(`f90505`)
         .setThumbnail(`https://cdn.discordapp.com/attachments/830926767728492565/844596072473952316/395_Youtube_logo-512.png`)
-        .setDescription(`<:pp493:836169029085298698> Done choosen the channel, click the button!`)
+        .setDescription(`<:Verify:841711383191879690> Done choosen the channel, click the button!`)
         .addFields(
             { name: `<:pp499:836168214525509653> Channel:`, value: `<#${channel.id}>`},
         )
