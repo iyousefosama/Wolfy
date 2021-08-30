@@ -141,7 +141,7 @@ module.exports = {
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
-    const msg = await message.channel.send({embed : help, components : row})
+    const msg = await message.channel.send({ content: `<:Discordjs:805086222749007874> Wolfy is currently updating to djs v13 wait for the huge update soon`, embed : help, components : row})
     const filter = async (button) => {
             if(button.id === '1'){
                 if (button.clicker.id !== message.author.id) return button.reply.defer()
