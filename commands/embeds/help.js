@@ -11,7 +11,7 @@ module.exports = {
     usage: '',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],
     async execute(client, message, args) {
     const button = new MessageButton()
     .setLabel(`Info`)
