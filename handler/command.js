@@ -24,13 +24,19 @@ slashCommands.map((value) => {
     client.slashCommands.set(file.name, file);
     arrayOfSlashCommands.push(file);
 });
-client.on("ready", async () => {
-    client.guilds.cache.forEach(async (g) => {
-      await client.guilds.cache.get(g.id).commands.set(arrayOfSlashCommands).catch(() => null)
-      await console.log('(/) Done creating the slash commands!')
-    });
+(async () => {
+	try {
+		console.log('Started refreshing application (/) commands.');
 
- 
+		await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: commands },
+		);
+
+		console.log('Successfully reloaded application (/) commands.');
+	} catch (error) {
+		console.error(error);
+	}
 });
 
 }; 
