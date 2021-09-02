@@ -27,6 +27,7 @@ slashCommands.map((value) => {
 client.on("ready", async () => {
     client.guilds.cache.forEach(async (g) => {
       await client.guilds.cache.get(g.id).commands.set(arrayOfSlashCommands).catch(() => null)
+      await console.log('(/) Done creating the slash commands!')
     });
 
  
