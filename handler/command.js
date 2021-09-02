@@ -6,7 +6,7 @@ const { readdirSync } = require("fs");
 const ascii = require("ascii-table");
 let table = new ascii("Commands");
 const { REST } = require('@discordjs/rest');
-const { token } = require('./config.json');
+const { token } = require('../config.json');
 table.setHeading("Command", "Load status");
 
 /**
