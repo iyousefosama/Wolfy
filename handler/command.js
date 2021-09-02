@@ -5,6 +5,8 @@ const globPromise = promisify(glob);
 const { readdirSync } = require("fs");
 const ascii = require("ascii-table");
 let table = new ascii("Commands");
+const { REST } = require('@discordjs/rest');
+const { token } = require('./config.json');
 table.setHeading("Command", "Load status");
 
 /**
@@ -24,6 +26,8 @@ slashCommands.map((value) => {
     client.slashCommands.set(file.name, file);
     arrayOfSlashCommands.push(file);
 });
+
+const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
 	try {
