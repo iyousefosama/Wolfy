@@ -45,20 +45,26 @@ for (const file of slashFiles) {
 
 const rest = new REST({ version: '9' }).setToken(token);
 
-(async () => {
-    try {
-        console.log('Started refreshing application (/) commands.');
-
-        await rest.put(
-            Routes.applicationCommands(clientId),
-            { body: commands },
-        ).catch(() => null)
-
-        console.log('Successfully reloaded application (/) commands.');
-    } catch (error) {
-        console.error(error);
-    }
-})();
+		client.on("ready", () => {
+			if(config.loadSlashsGlobal){
+				client.application.commands.set(commands)
+				.then(slashCommandsData => {
+					console.log(`${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for all: ${`All possible Guilds`}`); 
+					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`.bold.yellow)
+				}).catch((e)=>console.log(e));
+			} else {
+				client.guilds.cache.map(g => g).forEach((guild) => {
+					try{
+						guild.commands.set(commands)
+						.then(slashCommandsData => {
+							console.log(`${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
+						}).catch((e)=>console.log(e))
+					}catch (e){
+						console.log(e)
+					}
+				});
+			}
+		})
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
