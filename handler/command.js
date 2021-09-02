@@ -24,6 +24,9 @@ slashCommands.map((value) => {
     client.slashCommands.set(file.name, file);
     arrayOfSlashCommands.push(file);
 });
+
+const rest = new REST({ version: '9' }).setToken(token);
+
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
