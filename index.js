@@ -22,7 +22,8 @@ const userSchema = require('./schema/user-schema')
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const { prefix, developer, token, clientId } = require('./config.json');
+const { prefix, developer, clientId } = require('./config.json');
+const { token } = require('.env')
 
 const map = new Map();
 
