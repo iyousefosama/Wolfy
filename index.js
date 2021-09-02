@@ -52,7 +52,7 @@ const rest = new REST({ version: '9' }).setToken(token);
         await rest.put(
             Routes.applicationCommands(clientId),
             { body: commands },
-        );
+        ).catch(() => null)
 
         console.log('Successfully reloaded application (/) commands.');
     } catch (error) {
