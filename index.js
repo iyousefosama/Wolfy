@@ -1,15 +1,16 @@
 // connecting to discord
 const Discord = require('discord.js')
+const { Client, Intents, Collection } = require('discord.js')
 
 // connect us to the config.json file
 const config = require('./config.json');
 
-require('discord-reply');
-
 // create a new Discord client 
-const client = new Discord.Client({disableEveryone: true, partials: ['MESSAGE', 'REACTION']});
-
-require('discord-buttons')(client);
+const client = new Client({
+     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_PRESENCES],
+     allowedMentions: { parse: ['users', 'roles'], repliedUser: true }
+    });
 
 // require the fs module
 const fs = require('fs');
@@ -18,15 +19,21 @@ const fetch = require('node-fetch')
 
 const userSchema = require('./schema/user-schema')
 
-const { prefix, developer } = require('./config.json');
+const { prefix, developer, token } = require('./config.json');
 
 const map = new Map();
 
 const mongodb = require('./mongo')()
 
-const cooldowns = new Discord.Collection();
+const cooldowns = new Collection();
 
 client.commands = new Discord.Collection();
+
+client.slashCommands = new Collection();
+
+["command"].forEach((handler) => {
+    require(`./handler/${handler}`)(client);
+  });
 
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
@@ -59,10 +66,10 @@ for (const file of eventFiles) {
     }
 
 //Event - message
-client.on("message", async message => {
+client.on("messageCreate", async message => {
     if(message.author.bot || !message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).split(/ +/g);
-    if (!args.length) return message.channel.send(`You didn't pass any command to reload, ${message.author}!`);
+    if (!args.length) return message.channel.send({ content: `You didn't pass any command to reload, ${message.author}!`});
     const commandName = args.shift().toLowerCase();
 
     const cmd = client.commands.get(commandName)
@@ -70,8 +77,8 @@ client.on("message", async message => {
         || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
         if(commandName.length < 1) return;
-        if (!cmd) return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
-
+        if (!cmd) return message.channel.send({ content: `There is no command with name or alias \`${commandName}\`, ${message.author}!`});
+        
                 //+ Blacklisted
                 try {
                     UserData = await userSchema.findOne({
@@ -85,9 +92,10 @@ client.on("message", async message => {
                 } catch (error) {
                     console.log(error)
                 }
-                if(UserData.blacklisted == true) return message.channel.send(`\`\`\`diff\n- You are blacklisted from using the bot!\`\`\``)
+                if(UserData.blacklisted == true) return message.channel.send({ content: `\`\`\`diff\n- You are blacklisted from using the bot!\`\`\``})
 
         try{
+
 
             //+ args: true/false,
         if (cmd.args && !args.length) {
@@ -115,7 +123,7 @@ client.on("message", async message => {
             
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
-                    return message.channel.send(` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(1)}** second(s) left)`).then(msg => {
+                    return message.channel.send({ content: ` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(1)}** second(s) left)`}).then(msg => {
                         setTimeout(() => {
                             if (msg.deleted) return;
                             msg.delete()
@@ -125,7 +133,7 @@ client.on("message", async message => {
             }
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
+                 
                  //+ permissions: [""],
                  if (cmd.permissions) {
                      if (message.guild) {
@@ -134,7 +142,7 @@ client.on("message", async message => {
                             const PermsEmbed = new Discord.MessageEmbed()
                             .setColor(`RED`)
                             .setDescription(`<a:pp802:768864899543466006> You don't have \`${cmd.permissions}\` permission(s) to use ${cmd.name} command.`)
-                            return message.channel.send(PermsEmbed)
+                            return message.channel.send({ embeds: [PermsEmbed] })
                          }
                     	}
                      }
@@ -144,27 +152,27 @@ client.on("message", async message => {
                     if (message.guild) {
                     const clientPerms = message.channel.permissionsFor(message.guild.me);
                     if (!clientPerms || !clientPerms.has(cmd.clientpermissions)) {
-                        return message.reply(`<a:pp802:768864899543466006> The bot is missing \`${cmd.clientpermissions}\` permission(s)!`, true);
+                        return message.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${cmd.clientpermissions}\` permission(s)!`, allowedMentions: { repliedUser: false }});
                     }
                    }
                 }
 
                 //+ guildOnly: true/false,
-                if (cmd.guildOnly && message.channel.type === 'dm') {
-                    return message.reply('<a:pp802:768864899543466006> I can\'t execute that command inside DMs!');
+                if (cmd.guildOnly && message.channel.type === 'DM') {
+                    return message.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside DMs!', allowedMentions: { repliedUser: false }});
                 }
 
                 //+ dmOnly: true/false,
-                if (cmd.dmOnly && message.channel.type === 'text') {
-                    return message.reply('<a:pp802:768864899543466006> I can\'t execute that command inside the server!');
+                if (cmd.dmOnly && message.channel.type === 'GUILD_TEXT') {
+                    return message.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside the server!', allowedMentions: { repliedUser: false }});
                 }
 
                 if(cmd.guarded) {
-                    return message.reply(`<a:pp802:768864899543466006> ${cmd.name} is guarded!`)
+                    return message.reply({ content: `<a:pp802:768864899543466006> ${cmd.name} is guarded!`, allowedMentions: { repliedUser: false }})
                 }
 
                 if(cmd.OwnerOnly) {
-                    if(message.author.id !== developer) return message.reply(`<a:pp802:768864899543466006> ${cmd.name} for developers only!`)
+                    if(message.author.id !== developer) return message.reply({ content: `<a:pp802:768864899543466006> ${cmd.name} for developers only!`, allowedMentions: { repliedUser: false }})
                 }
 
                 if (message.guild){
@@ -180,8 +188,15 @@ client.on("message", async message => {
                     } else {
                       // Do nothing..
                     };
-                  }; 
-
+                  };
+                  if (message.guild){
+                    if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
+                      return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
+                    } else {
+                      // Do nothing..
+                    };
+                  };  
+                  
         cmd.execute(client, message, args);
     }catch(err){
         message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to ᒍoe#0001\``);
