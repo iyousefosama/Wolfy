@@ -50,7 +50,7 @@ const rest = new REST({ version: '9' }).setToken(token);
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for all: ${`All possible Guilds`}`); 
-					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`.bold.yellow)
+					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`)
 				}).catch((e)=>console.log(e));
 			} else {
 				client.guilds.cache.map(g => g).forEach((guild) => {
