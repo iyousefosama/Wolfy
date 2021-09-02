@@ -22,7 +22,7 @@ const userSchema = require('./schema/user-schema')
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const { prefix, developer, clientId } = require('./config.json');
+const { prefix, developer, token, clientId } = require('./config.json');
 
 const map = new Map();
 
@@ -43,7 +43,7 @@ for (const file of slashFiles) {
     commands.push(slash.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(process.env.token);
+const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
     try {
