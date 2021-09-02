@@ -23,7 +23,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
 const { prefix, developer, clientId } = require('./config.json');
-const { token } = require('dotenv')
+const { token } = require('process.env.token')
 
 const map = new Map();
 
