@@ -19,7 +19,10 @@ const fetch = require('node-fetch')
 
 const userSchema = require('./schema/user-schema')
 
-const { prefix, developer, token } = require('./config.json');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+
+const { prefix, developer, token, clientId } = require('./config.json');
 
 const map = new Map();
 
@@ -31,9 +34,45 @@ client.commands = new Discord.Collection();
 
 client.slashCommands = new Collection();
 
-["command"].forEach((handler) => {
-    require(`./handler/${handler}`)(client);
-  });
+const commands=[]
+
+const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
+for (const file of slashFiles) {
+    const slash = require(`./slashCommands/${file}`);
+    client.slashCommands.set(file.split(/.js$/)[0],slash);
+    commands.push(slash.data.toJSON());
+}
+
+const rest = new REST({ version: '9' }).setToken(token);
+
+(async () => {
+    try {
+        console.log('Started refreshing application (/) commands.');
+
+        await rest.put(
+            Routes.applicationCommands(clientId),
+            { body: commands },
+        );
+
+        console.log('Successfully reloaded application (/) commands.');
+    } catch (error) {
+        console.error(error);
+    }
+})();
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const slash = client.slashCommands.get(interaction.commandName);
+
+    if (!slash) return;
+
+    try {
+        await slash.execute(client, interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+});
 
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
