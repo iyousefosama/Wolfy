@@ -31,10 +31,9 @@ const rest = new REST({ version: '9' }).setToken(token);
 	try {
 		console.log('Started refreshing application (/) commands.');
 
-		await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
-		);
+    client.guilds.cache.forEach(async (g) => {
+      await client.guilds.cache.get(g.id).commands.set(arrayOfSlashCommands)
+    })
 
 		console.log('Successfully reloaded application (/) commands.');
 	} catch (error) {
