@@ -4,12 +4,13 @@ const canvacord = require('canvacord')
 const Levels = require('discord-xp')
 
 module.exports = {
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES'],
+    guildOnly: true,
 	data: new SlashCommandBuilder()
 		.setName('rank')
 		.setDescription('Replies with bot ping!'),
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if(!interaction.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES')) return interaction.editReply({ content: '<a:pp802:768864899543466006> The bot is missing \`SEND_MESSAGES,EMBED_LINKS,READ_MESSAGE_HISTORY,ATTACH_FILES\` permission(s)!'})
         const userData = await Levels.fetch(interaction.user.id, interaction.guild.id)
         const requiredXP = (userData.level +1) * (userData.level +1) *100 // Enter the formula for calculating the experience here. I used mine, which is used in discord-xp.
         const rank = new canvacord.Rank()

@@ -4,12 +4,12 @@ const { prefix } = require('../config.json');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Replies with commands helplist!'),
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true }).catch(() => {});
-        if(!interaction.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY')) return interaction.editReply({ content: '<a:pp802:768864899543466006> The bot is missing \`SEND_MESSAGES,EMBED_LINKS,READ_MESSAGE_HISTORY\` permission(s)!'})
         const button = new MessageButton()
         .setLabel(`Info`)
         .setCustomId("1")

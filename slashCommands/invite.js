@@ -3,12 +3,12 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('invite')
 		.setDescription('Replies with bot links/invite!'),
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: false }).catch(() => {});
-		if(!interaction.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY')) return interaction.editReply({ content: '<a:pp802:768864899543466006> The bot is missing \`SEND_MESSAGES,EMBED_LINKS,READ_MESSAGE_HISTORY\` permission(s)!'})
         const embed = new Discord.MessageEmbed()
         .setAuthor(client.user.username, client.user.displayAvatarURL())
         .setFooter(interaction.user.username, interaction.user.displayAvatarURL())

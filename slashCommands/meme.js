@@ -3,12 +3,12 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const got = require('got')
 
 module.exports = {
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('meme')
 		.setDescription('Replies with a meme!'),
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: false }).catch(() => {});
-		if(!interaction.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY')) return interaction.editReply({ content: '<a:pp802:768864899543466006> The bot is missing \`SEND_MESSAGES,EMBED_LINKS,READ_MESSAGE_HISTORY\` permission(s)!'})
         const memeEmbed = new discord.MessageEmbed() // creating an embed
         got('https://www.reddit.com/r/meme/random/.json').then(response => { // getting the lin that have the memes
     

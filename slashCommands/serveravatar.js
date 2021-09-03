@@ -3,12 +3,13 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES'],
+    guildOnly: true,
     data: new SlashCommandBuilder()
         .setName('serveravatar')
         .setDescription('Replies with server avatar!'),
     async execute(client, interaction) {
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if(!interaction.guild.me.permissions.has('SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES')) return interaction.editReply({ content: '<a:pp802:768864899543466006> The bot is missing \`SEND_MESSAGES,EMBED_LINKS,READ_MESSAGE_HISTORY,ATTACH_FILES\` permission(s)!'})
         let avatarserver = new discord.MessageEmbed()
         .setColor("#ed7947")
         .setAuthor(interaction.guild.name, interaction.guild.iconURL())
