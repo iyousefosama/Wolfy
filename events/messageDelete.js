@@ -6,10 +6,6 @@ module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
         snipes.set(message.channel.id, message)
-        
-        if (message.author.client){
-          return;
-        };
 
         if (!message.author) return;
         const DeletedLog = new Discord.MessageEmbed()
