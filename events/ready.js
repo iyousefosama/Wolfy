@@ -8,7 +8,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        consoleUtil.success(`${client.user.username} is now Online! (Loaded At ${currentdate})\n\n`);
+        consoleUtil.success(`${client.user.username} is now Online! (Loaded At ${currentdate})\n`);
 
         /*======================================================
            Sends a notification to a log channel (if available)
