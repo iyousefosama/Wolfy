@@ -8,6 +8,10 @@ module.exports = {
         if (message.author == client) return;
         snipes.set(message.channel.id, message)
         
+        if (messageDelete.author.bot){
+          return;
+        };
+
         if (!message.author) return;
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
