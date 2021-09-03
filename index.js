@@ -28,7 +28,7 @@ const map = new Map();
 
 const mongodb = require('./mongo')()
 
-int serverCount = ...; // the total amount of servers across all shards
+int serverCount = 76; // the total amount of servers across all shards
 
 api.setStats(serverCount);
 
