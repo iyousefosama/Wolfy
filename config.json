@@ -5,6 +5,6 @@
     "clientId": "876813450662273115",
     "log" : "831412872852013066",
     "debug": "840892477614587914",
-    "Authorization": "your-topgg-token-here",
+    "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI5MDgxMTI5fQ.UGbgw0PHpYuydbBJ4HNA6eRzQrlO8DZmRDxY1MBXids",
     "loadSlashsGlobal": true
 }
