@@ -3,6 +3,7 @@ const config = require('../config.json')
 
 module.exports = {
     name: 'guildDelete',
+        if(!guild) return;
     async execute(client, guild, guildDelete) {
             const left = new Discord.MessageEmbed()
             .setTitle(`${client.user.username} left a server!`)
