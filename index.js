@@ -22,7 +22,7 @@ const userSchema = require('./schema/user-schema')
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const { prefix, developer, token, clientId } = require('./config.json');
+const { prefix, developer, clientId } = require('./config.json');
 
 const map = new Map();
 
@@ -43,13 +43,13 @@ for (const file of slashFiles) {
     commands.push(slash.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(token);
 
+		//Once the Bot is ready, add all Slas Commands to each guild
 		client.on("ready", () => {
 			if(config.loadSlashsGlobal){
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
-					console.log(`${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for all: ${`All possible Guilds`}`); 
+					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
 					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`)
 				}).catch((e)=>console.log(e));
 			} else {
@@ -57,7 +57,7 @@ const rest = new REST({ version: '9' }).setToken(token);
 					try{
 						guild.commands.set(commands)
 						.then(slashCommandsData => {
-							console.log(`${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
+							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
 						}).catch((e)=>console.log(e))
 					}catch (e){
 						console.log(e)
@@ -70,9 +70,34 @@ client.on('interactionCreate', async interaction => {
 
     const slash = client.slashCommands.get(interaction.commandName);
 
+    if(interaction.user.bot) return;
     if (!slash) return;
 
     try {
+        if (slash.guildOnly && interaction.channel.type === 'DM') {
+            return interaction.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside DMs!', ephemeral: true });
+        }
+  //+ permissions: [""],
+  if (slash.permissions) {
+    if (interaction.guild) {
+        const sauthorPerms = interaction.channel.permissionsFor(interaction.user);
+        if (!sauthorPerms || !sauthorPerms.has(slash.permissions)) {
+           const sPermsEmbed = new Discord.MessageEmbed()
+           .setColor(`RED`)
+           .setDescription(`<a:pp802:768864899543466006> You don't have \`${slash.permissions}\` permission(s) to use ${slash.name} command.`)
+           return interaction.reply({ embeds: [sPermsEmbed], ephemeral: true })
+        }
+       }
+    }
+//+ clientpermissions: [""],
+if (slash.clientpermissions) {
+   if (interaction.guild) {
+   const sclientPerms = interaction.channel.permissionsFor(interaction.guild.me);
+   if (!sclientPerms || !sclientPerms.has(slash.clientpermissions)) {
+       return interaction.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${slash.clientpermissions}\` permission(s)!`, ephemeral: true });
+   }
+  }
+}                       
         await slash.execute(client, interaction);
     } catch (error) {
         console.error(error);
