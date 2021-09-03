@@ -4,7 +4,7 @@ const config = require('../config.json')
 module.exports = {
     name: 'guildDelete',
     async execute(client, guild, guildDelete) {
-          if (!guild){
+          if (!guildDelete){
             return;
           };
             const left = new Discord.MessageEmbed()
