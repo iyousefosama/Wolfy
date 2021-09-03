@@ -8,7 +8,7 @@ module.exports = {
         if (message.author == client) return;
         snipes.set(message.channel.id, message)
         
-        if (messageDelete.author.bot){
+        if (message.author.bot){
           return;
         };
 
