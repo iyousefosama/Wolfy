@@ -5,5 +5,6 @@
     "clientId": "876813450662273115",
     "log" : "831412872852013066",
     "debug": "840892477614587914",
+    "Authorization": "your-topgg-token-here",
     "loadSlashsGlobal": true
 }
