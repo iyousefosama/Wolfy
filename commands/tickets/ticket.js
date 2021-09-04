@@ -15,7 +15,7 @@ module.exports = {
     const categoryID = message.member.guild.channels.cache.find(c => c.name == "TICKETS")
 
     // if there is no ticket category return
-    if(!categoryID) return message.channel.send(":rolling_eyes: I can't find a \`TICKETS\` category in this server, please create one!")
+    if(!categoryID) return message.channel.send({ content: ":rolling_eyes: I can't find a \`TICKETS\` category in this server, please create one!"})
     if(!categoryID) return;
 
     // getting the username of the member who created the ticket
@@ -42,7 +42,7 @@ module.exports = {
     });
 
     // if the user already have a ticket return ( dont create another ticket for him)
-    if(ticketexist) return message.channel.send("<a:pp681:774089750373597185> You already have a ticket!")
+    if(ticketexist) return message.channel.send({ content: "<a:pp681:774089750373597185> You already have a ticket!"})
     // making the ticket channel
     message.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
         type: 'GUILD_TEXT',
@@ -58,7 +58,7 @@ module.exports = {
             },
         ],
     }).then(async (channel) => {
-                    message.react('758141943833690202')
+                    message.react('758141943833690202').catch(() => message.channel.send(`<:Verify:841711383191879690> Successfully created \`${channel}\` ticket!`))
                     var ticketEmbed = new discord.MessageEmbed()
                     .setTitle(`Welcome in your ticket ${message.author.username}`)
                     .setDescription(`<:tag:813830683772059748>Send here your message or question!
