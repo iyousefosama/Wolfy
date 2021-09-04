@@ -8,7 +8,7 @@ module.exports = {
     guildOnly: true,
 	data: new SlashCommandBuilder()
 		.setName('rank')
-		.setDescription('Replies with bot ping!'),
+		.setDescription('Show your level & rank and your current and next xp!'),
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const userData = await Levels.fetch(interaction.user.id, interaction.guild.id)

@@ -8,7 +8,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        consoleUtil.success(`${client.user.username} is now Online! (Loaded At ${currentdate})\n`);
+        consoleUtil.success(`${client.user.username} is now Online! (Loaded At ${currentdate})\n\n`);
 
         /*======================================================
            Sends a notification to a log channel (if available)
@@ -29,7 +29,7 @@ module.exports = {
             `Servers: ${servers}`,
             `Members: ${members}`,
             `Command: ${commands}`,
-            `Boot: ${currentdate}`,
+            `Boot: ${currentdate}ms`,
             '```'
           ].join('\n')
         };

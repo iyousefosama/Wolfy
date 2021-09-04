@@ -32,7 +32,7 @@ module.exports = {
                 interaction.editReply({ embeds: [embed2] }) 
 			} else {
                 const avatar = new MessageEmbed()
-                .setAuthor(`${interaction.user.displayName}`, interaction.user.displayAvatarURL())
+                .setAuthor(`${interaction.user.username}`, interaction.user.displayAvatarURL())
                 .setColor('738ADB')
                 .setTitle(`Avatar Link!`)
                 .setURL(interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))

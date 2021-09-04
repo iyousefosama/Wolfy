@@ -2,7 +2,7 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'USE_EXTERNAL_EMOJIS'],
 	data: new SlashCommandBuilder()
 		.setName('rps')
 		.setDescription('Play rock,paper,scissors game with the bot!')
