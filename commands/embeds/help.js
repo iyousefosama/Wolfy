@@ -134,12 +134,12 @@ module.exports = {
         { name: `${prefix}clyed`, value: `> \`Send your message as clyed text message\``},
         { name: `${prefix}fastTyper`, value: `> \`Start playing fastTyper game\``},
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
-        { name: `${prefix}rpc`, value: `> \`Playing rock/paper/scissors vs the bot\``},
+        { name: `${prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
 
-    const msg = await message.reply({ content: `> 🥳 Wolfy is updated to v13 say hello for slash commands!\nif slash commands not working reinvite the bot from the \`w!links\` cmd`, embeds: [help], components: [row] })
+    const msg = await message.reply({ embeds: [help], components: [row] })
     const collector = msg.createMessageComponentCollector({ time: 15000 });
 
     collector.on('collect', async interactionCreate => {

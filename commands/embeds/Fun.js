@@ -22,7 +22,7 @@ module.exports = {
         { name: `${prefix}clyed`, value: `> \`Send your message as clyed text message\``},
         { name: `${prefix}fastTyper`, value: `> \`Start playing fastTyper game\``},
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
-        { name: `${prefix}rpc`, value: `> \`Playing rock/paper/scissors vs the bot\``},
+        { name: `${prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
