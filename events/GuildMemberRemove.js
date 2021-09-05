@@ -8,7 +8,7 @@ module.exports = {
         const remove = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Down:853495989796470815> Member Leave!')
-        .setDescription(`<a:iNFO:853495450111967253> MemberTag: ${member.user.tag}\n<:pp198:853494893439352842> MemberID: \`${member.user.id}\`\n<a:Right:877975111846731847> Created At: ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> Joined At: ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(mentionedMember.joinedAt).fromNow()}\`) Left At: ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(mentionedMember.joinedAt).fromNow()}\`)`)
+        .setDescription(`<a:iNFO:853495450111967253> MemberTag: ${member.user.tag}\n<:pp198:853494893439352842> MemberID: \`${member.user.id}\`\n<a:Right:877975111846731847> Created At: ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> Joined At: ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`) Left At: ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`)`)
         .setColor('#2F3136')
         .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
         .setTimestamp() 
