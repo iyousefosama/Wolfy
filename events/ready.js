@@ -3,7 +3,6 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 var currentdate = new Date();
 const config = require('../config.json')
-
 module.exports = {
     name: 'ready',
     once: true,

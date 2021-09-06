@@ -1,25 +1,37 @@
 const Discord = require('discord.js')
-const snipes = new Discord.Collection()
-const config = require('../config.json')
+const schema = require('../schema/GuildSchema')
 
 module.exports = {
     name: 'messageUpdate',
     async execute(client, oldMessage, messageUpdate) {
-        if (oldMessage.channel.type === 'DM') return;
+      if (oldMessage.channel.type === 'DM') return;
         if (oldMessage.author == client) return;
-        snipes.set(oldMessage.channel.id, oldMessage)
-
         if(!oldMessage.author) return;
   if (oldMessage.author.bot){
     return;
   };
+
+  let data;
+  try{
+      data = await schema.findOne({
+          GuildID: message.guild.id
+      })
+      if(!data) return;
+  } catch(err) {
+      console.log(err)
+  }
+  let Channel = client.channels.cache.get(data.LogsChannel)
+  if(!Channel) return;
+  if(Channel.type !== 'GUILD_TEXT') return;
+
+
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")
         .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;
-        await oldMessage.guild.channels.cache.get(config.log)?.createWebhook(botname, {
+        await Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))

@@ -1,10 +1,24 @@
 const Discord = require('discord.js')
 const moment = require("moment");
-const config = require('../config.json')
+const schema = require('../schema/GuildSchema')
 
 module.exports = {
     name: 'guildMemberRemove',
     execute(client, member) {
+
+        let data;
+        try{
+            data = await schema.findOne({
+                GuildID: message.guild.id
+            })
+            if(!data) return;
+        } catch(err) {
+            console.log(err)
+        }
+        let Channel = client.channels.cache.get(data.LogsChannel)
+        if(!Channel) return;
+        if(Channel.type !== 'GUILD_TEXT') return;
+
         const remove = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Down:853495989796470815> Member Leave!')
@@ -13,7 +27,7 @@ module.exports = {
         .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
         .setTimestamp() 
         const botname = client.user.username;
-        member.guild.channels.cache.get(config.log)?.createWebhook(botname, {
+        Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [remove] }), webhook]))
