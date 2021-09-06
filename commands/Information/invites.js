@@ -29,9 +29,9 @@ module.exports = {
     const embed = new discord.MessageEmbed()
     .setAuthor(user.username, user.displayAvatarURL())
     .addFields(
-		{ name: '`🔗` Invite Codes', value: invCodes },
+		{ name: '`🔗` Invite Codes', value: `${invCodes}` },
 		{ name: '\u200B', value: '\u200B' },
-		{ name: '<:pp833:853495153280155668> User Total Invites', value: i, inline: true },
+		{ name: '<:pp833:853495153280155668> User Total Invites', value: `${i}`, inline: true },
 		{ name: '<:pp499:836168214525509653> Server', value: `${message.channel.guild.name}`, inline: true },
 	)
     .setFooter(client.user.username, client.user.displayAvatarURL())
