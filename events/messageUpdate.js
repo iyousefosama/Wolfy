@@ -14,7 +14,7 @@ module.exports = {
   let data;
   try{
       data = await schema.findOne({
-          GuildID: message.guild.id
+          GuildID: oldMessage.guild.id
       })
       if(!data) return;
   } catch(err) {

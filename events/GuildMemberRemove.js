@@ -9,7 +9,7 @@ module.exports = {
         let data;
         try{
             data = schema.findOne({
-                GuildID: message.guild.id
+                GuildID: member.guild.id
             })
             if(!data) return;
         } catch(err) {
