@@ -26,7 +26,7 @@ module.exports = {
 
       const count = messages.size;
       const _id = Math.random().toString(36).slice(-7);
-      const log = await message.guild.channels.cache.get(config.log)
+      const debug = await message.guild.channels.cache.get(config.debug)
 
       messages = messages.filter(Boolean).map(message => {
         return [
@@ -38,7 +38,7 @@ module.exports = {
       messages.push(`Messages Cleared on ![](${message.guild.iconURL({size: 32})}) **${message.guild.name}** - **#${message.channel.name}** --\r\n\r\n`);
       messages = messages.reverse().join('');
 
-      const res = log ? await log.send({
+      const res = debug ? await debug.send({
         content: `\`\`\`BULKDELETE FILE - ServerID: ${message.guild.id} ChannelID: ${message.channel.id} AuthorID: ${message.author.id}\`\`\``,
         files: [{ attachment: Buffer.from(messages), name: `bulkdlt-${_id}.txt`}]
       }).then(message => [message.attachments.first().url, message.attachments.first().id])

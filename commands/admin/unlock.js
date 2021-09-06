@@ -29,7 +29,7 @@ module.exports = {
         .setDescription(`<a:pp399:768864799625838604> Unlocked @everyone from texting in this channel!`)
         msg.edit({ embeds: [unlock] })
     }catch(e){
-        msg.edit({ embeds: [err]}).then(()=>  message.react("💢"));
+        msg.edit({ embeds: [err]}).then(()=>  message.react("💢")).catch(() => null)
     }
 }
 }

@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const schema = require('../../schema/GuildSchema')
 
 module.exports = {
     name: "suggestion",
@@ -14,10 +15,18 @@ module.exports = {
     let suggestion = args.slice(0).join(" ")
     if (!suggestion) return message.channel.send({ content: "please provide a suggestions!"})
 
-    let Channel = message.guild.channels.cache.find((ch) => ch.name === "💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤")
-    if (!Channel) return message.channel.send({ content: "There is no channel called suggestions, please contact a mod or create a channel called `💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤`"});
-    if (Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: "There is no channel called suggestions, please contact a mod or create a channel called `💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤`"});
-
+    let data;
+    try{
+        data = await schema.findOne({
+            GuildID: message.guild.id
+        })
+        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
+    } catch(err) {
+        console.log(err)
+    }
+    let Channel = client.channels.cache.get(data.SuggestionChannel)
+    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
+    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
     const embed = new discord.MessageEmbed()
     .setTitle('New suggestions!')
     .setDescription(`${suggestion}`)
@@ -30,7 +39,6 @@ module.exports = {
         sentEmbed.react("812104211386728498")
         sentEmbed.react("812104211361693696")
     })
-    message.delete()
-    message.channel.send('<a:Right:812104211386728498> **successfully sent the suggestion!**')
+    message.channel.send('\\✔️ Successfully sent Your suggestion!')
 }
 }

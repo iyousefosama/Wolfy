@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const schema = require('../../schema/GuildSchema')
 
 module.exports = {
     name: "report",
@@ -12,15 +13,25 @@ module.exports = {
     clientpermissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS"],
     async execute(client, message, args) {
     let user = message.mentions.users.first()
-    if (!user) return message.channel.send({ content: 'Please mention a user to report!'})
+    if (!user) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, Please mention a user to report!` })
 
     let reason = args.slice(1).join(" ")
-    if (!reason) return message.channel.send({ content: "please provide a reason!"})
+    if (!reason) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, Please provide a reason!`})
+
+    let data;
+    try{
+        data = await schema.findOne({
+            GuildID: message.guild.id
+        })
+        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
+    } catch(err) {
+        console.log(err)
+    }
+    let Channel = client.channels.cache.get(data.ReportsChannel)
+    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
+    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
 
     let Avatar = user.displayAvatarURL(({dynamic: true, format: 'png', size: 512}));
-    let reports = message.guild.channels.cache.find((ch) => ch.name === "reports") //report
-    if (!reports) return message.channel.send({ content: "There is no channel called reports, please contact a mod or create a channel called `reports`"})
-    if (reports.type !== 'GUILD_TEXT') return message.channel.send({ content: "There is no channel called suggestions, please contact a mod or create a channel called `💡┃𝕊𝕦𝕘𝕘𝕖𝕤𝕥𝕚𝕠𝕟𝕤`"});
 
     const embed = new discord.MessageEmbed()
     .setTitle('New Report!')
@@ -34,7 +45,7 @@ module.exports = {
         { name: "Reported Tag", value: `${user.tag}`, inline: true},
         { name: "Reason", value: `${reason}`, inline: true}
     )
-    reports.send({ embeds: [embed] })
-    message.channel.send({ content: '<a:Right:812104211386728498> **Successfully sent the report!**'})
+    Channel.send({ embeds: [embed] })
+    message.channel.send({ content: '\\✔️ Successfully sent Your report!'})
     }
 }

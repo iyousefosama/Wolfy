@@ -14,16 +14,17 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
         message.channel.sendTyping()
-    const userData = await Levels.fetch(message.author.id, message.guild.id)
+    let RankUser = message.mentions.members.first() || message.member;
+    const userData = await Levels.fetch(RankUser.id, message.guild.id)
     const requiredXP = (userData.level +1) * (userData.level +1) *100 // Enter the formula for calculating the experience here. I used mine, which is used in discord-xp.
     const rank = new canvacord.Rank()
-    .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}))
+    .setAvatar(RankUser.user.displayAvatarURL({format: "png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
     .setCurrentXP(userData.xp)
     .setLevel(userData.level)
     .setRequiredXP(requiredXP)
-    .setUsername(message.author.username)
-    .setDiscriminator(message.author.discriminator)
+    .setUsername(RankUser.user.username)
+    .setDiscriminator(RankUser.user.discriminator)
     const img = await rank.build()
     .then(data => {
         const attachment = new discord.MessageAttachment(data, "RankCard.png");
