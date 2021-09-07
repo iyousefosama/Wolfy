@@ -8,7 +8,7 @@ module.exports = {
 
         let data;
         try{
-            data = schema.findOne({
+            data = await schema.findOne({
                 GuildID: member.guild.id
             })
             if(!data) return;
