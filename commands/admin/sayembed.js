@@ -15,6 +15,11 @@ module.exports = {
      
     let color = args[0] // Embed args color   
     let text = args.slice(1).join(" ")
+    if(!color) {
+    color = "RED";
+     } else {
+      color = "RED";
+     }
     
     if(!args[0]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed color**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
     if(!args[1]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed Description**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
