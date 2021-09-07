@@ -32,7 +32,7 @@ module.exports = {
             const ChannelDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Channel Updated!')
-            .setDescription(`<a:Right:860969895779893248> oldChannel Name: ${oldChannel.name}\n<a:Right:860969895779893248> newChannel Name: ${newChannel.name}\n<:pp198:853494893439352842> Channel ID: \`${oldChannel.id}\`\n\nn<:Rules:853495279339569182> ExecutorTag: ${executor.tag}\n<:Tag:836168214525509653> oldChannelType: \`\`\`${oldChannel.type}\`\`\`\n<:Tag:836168214525509653> newChannelType: \`\`\`${newChannel.type}\`\`\``)
+            .setDescription(`<a:Right:860969895779893248> oldChannel Name: ${oldChannel.name}\n<a:Right:860969895779893248> newChannel Name: ${newChannel.name}\n<:pp198:853494893439352842> Channel ID: \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> ExecutorTag: ${executor.tag}\n<:Tag:836168214525509653> oldChannelType: \`\`\`${oldChannel.type}\`\`\`\n<:Tag:836168214525509653> newChannelType: \`\`\`${newChannel.type}\`\`\``)
             .setColor('f4af2a')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
