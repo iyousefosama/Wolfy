@@ -4,11 +4,11 @@ const schema = require('../schema/GuildSchema')
 
 module.exports = {
     name: 'guildMemberAdd',
-    execute(client, member) {
+    async execute(client, member) {
 
         let data;
         try{
-            data = schema.findOne({
+            data = await schema.findOne({
                 GuildID: member.guild.id
             })
             if(!data) return;
