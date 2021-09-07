@@ -2,22 +2,22 @@ const Discord = require('discord.js')
 const config = require('../config.json')
 
 module.exports = {
-    name: 'error',
-    async execute(client, error) {
+    name: 'rateLimit',
+    async execute(client, rateLimitData) {
 
-            const embed = new Discord.MessageEmbed()
+            const warn = new Discord.MessageEmbed()
             .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
-            .setTitle(error.name)
-            .setDescription(`\`\`\`${error}\`\`\``)
-            .setFooter('Error!')
+            .setTitle('The Client got a rateLimit!')
             .setColor('RED')
+            .setDescription(`\`\`\`${rateLimitData}\`\`\``)
+            .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true}))
             .setTimestamp()
       
         const bot = client.user.username;
         await client.channels.cache.get(config.debug)?.createWebhook(bot, {
           avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
         })
-        .then(webhook => Promise.all([webhook.send({ embeds: [embed] }), webhook]))
+        .then(webhook => Promise.all([webhook.send({ embeds: [warn] }), webhook]))
         .then(([_, webhook]) => webhook.delete())
         .catch(() => {});
       
