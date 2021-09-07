@@ -17,6 +17,7 @@ module.exports = {
         const magik = interaction.options.getBoolean('magik');
         const deepfry = interaction.options.getBoolean('deepfry');
 
+
         if (blurpify) {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=blurpify&image=${interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
@@ -38,6 +39,8 @@ module.exports = {
             await interaction.editReply({files: [attachment]});
         } else if (deepfry == false) {
             await interaction.editReply({ content: interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512})});
+        } else {
+            await interaction.editReply({ content: '\\❌ You didn\'t choose the \`filter\` to add!'});
         }
     },
 };

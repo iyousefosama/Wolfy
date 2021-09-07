@@ -44,5 +44,8 @@ module.exports = {
         } else if (scissors == false) {
             interaction.editReply({ content: `> \`${soo}\``})
         }
+        else {
+            await interaction.editReply({ content: '\\❌ You didn\'t choose the \`option\`!'});
+        }
 	},
 };
