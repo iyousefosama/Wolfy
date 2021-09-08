@@ -40,12 +40,15 @@ module.exports = {
             }; setInterval(randomStatus, 5000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
-        await client.channels.cache.get(config.debug)?.createWebhook(bot, {
-          avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-        })
-        .then(webhook => Promise.all([webhook.send({ content: message, embeds: [embed] }), webhook]))
-        .then(([_, webhook]) => webhook.delete())
-        .catch(() => {});
+            const Debug = await client.channels.cache.get(config.debug)
+            const botname = client.user.username;
+            const webhooks = await channel.fetchWebhooks()
+            let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+            if(!webhook){
+              webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+            }
+            webhook.send({embeds: [EditedLog]})
+            .catch(() => {});
       
         // add more functions on ready  event callback function...
       

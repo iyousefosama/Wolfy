@@ -30,12 +30,13 @@ module.exports = {
         .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
-        const botname = client.user.username;
-        await Channel?.createWebhook(botname, {
-            avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-          })
-          .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))
-          .then(([_, webhook]) => webhook.delete())
+          const botname = client.user.username;
+          const webhooks = await Channel.fetchWebhooks()
+          let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+          if(!webhook){
+            webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          }
+          webhook.send({embeds: [EditedLog]})
           .catch(() => {});
         
           // add more functions on ready  event callback function...

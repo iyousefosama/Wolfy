@@ -57,13 +57,14 @@ module.exports = {
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
           }
-            const botname = client.user.username;
-            await Channel?.createWebhook(botname, {
-                avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-              })
-              .then(webhook => Promise.all([webhook.send({ embeds: [ChannelDeleted] }), webhook]))
-              .then(([_, webhook]) => webhook.delete())
-              .catch(() => {});
+          const botname = client.user.username;
+          const webhooks = await Channel.fetchWebhooks()
+          let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+          if(!webhook){
+            webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          }
+          webhook.send({embeds: [ChannelDeleted]})
+          .catch(() => {});
             
               // add more functions on ready  event callback function...
             
