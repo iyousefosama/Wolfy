@@ -42,6 +42,7 @@ module.exports = {
       
             const Debug = await client.channels.cache.get(config.debug)
             const botname = client.user.username;
+            setTimeout(async function(){
             const webhooks = await Debug.fetchWebhooks()
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
@@ -49,6 +50,7 @@ module.exports = {
             }
             webhook.send({embeds: [embed]})
             .catch(() => {});
+          }, 5000);
       
         // add more functions on ready  event callback function...
       

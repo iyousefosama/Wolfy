@@ -32,12 +32,14 @@ module.exports = {
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
           const botname = client.user.username;
           const webhooks = await Channel.fetchWebhooks()
+          setTimeout(async function(){
           let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
           if(!webhook){
             webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
           }
           webhook.send({embeds: [EditedLog]})
           .catch(() => {});
+        }, 5000);
         
           // add more functions on ready  event callback function...
         
