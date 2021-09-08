@@ -26,6 +26,14 @@ module.exports = {
         .setColor('GREEN')
         .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
         .setTimestamp() 
+        const botname = client.user.username;
+        Channel?.createWebhook(botname, {
+            avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          })
+          .then(webhook => Promise.all([webhook.send({ embeds: [Add] }), webhook]))
+          .then(([_, webhook]) => webhook.delete())
+          .catch(() => {});
+        
           // add more functions on ready  event callback function...
         
           return;

@@ -26,22 +26,14 @@ module.exports = {
         .setColor('#2F3136')
         .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
         .setTimestamp() 
-
         const botname = client.user.username;
-        const webhooks = await Channel.fetchWebhooks();
-        const webhook = webhooks.first();
-        if(webhook) {
-          await webhook.send({
-            embeds: [remove],
-            username: botname,
-            avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-          });
-        } else if(!webhook) {
-          await Channel?.createWebhook(botname, {
+        Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [remove] }), webhook]))
-        }
+          .then(([_, webhook]) => webhook.delete())
+          .catch(() => {});
+        
           // add more functions on ready  event callback function...
         
           return;
