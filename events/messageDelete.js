@@ -27,21 +27,20 @@ module.exports = {
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;
-        try {
-            const webhooks = await Channel.fetchWebhooks();
-            const webhook = webhooks.first();
-        
-            await webhook.send({
-              embeds: [DeletedLog],
-              username: bot,
-              avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-            });
-          } catch(error) {
-        await Channel?.createWebhook(botname, {
+        const webhooks = await Channel.fetchWebhooks();
+        const webhook = webhooks.first();
+        if(webhook) {
+          await webhook.send({
+            embeds: [DeletedLog],
+            username: botname,
+            avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          });
+        } else if(!webhook) {
+          await Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [DeletedLog] }), webhook]))
-          }
+        }
           // add more functions on ready  event callback function...
         
           return;

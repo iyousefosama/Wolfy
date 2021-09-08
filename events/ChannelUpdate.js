@@ -57,22 +57,21 @@ module.exports = {
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
           }
-            const botname = client.user.username;
-            try {
-              const webhooks = await Channel.fetchWebhooks();
-              const webhook = webhooks.first();
-          
-              await webhook.send({
-                embeds: [ChannelUpdate],
-                username: bot,
-                avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-              });
-            } catch(error) {
-            await Channel?.createWebhook(botname, {
-                avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-              })
-              .then(webhook => Promise.all([webhook.send({ embeds: [ChannelUpdate] }), webhook]))
-            }
+        const botname = client.user.username;
+        const webhooks = await Channel.fetchWebhooks();
+        const webhook = webhooks.first();
+        if(webhook) {
+          await webhook.send({
+            embeds: [ChannelUpdate],
+            username: botname,
+            avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          });
+        } else if(!webhook) {
+          await Channel?.createWebhook(botname, {
+            avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          })
+          .then(webhook => Promise.all([webhook.send({ embeds: [ChannelUpdate] }), webhook]))
+        }
               // add more functions on ready  event callback function...
             
               return;

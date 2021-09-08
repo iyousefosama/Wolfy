@@ -14,7 +14,6 @@ module.exports = {
            that the bot has rebooted
         ======================================================*/
       
-        const bot = client.user.username;
         const icon = '<a:Settings:841321893750505533>'
         const servers = text.commatize(client.guilds.cache.size);
         const members = text.commatize(client.guilds.cache.reduce((a,b) => a + b.memberCount, 0));
@@ -39,23 +38,21 @@ module.exports = {
             client.user.setActivity(status[rstatus], {type: "PLAYING"});
             }; setInterval(randomStatus, 5000)
             console.log(`🤖 ${client.user.username} is Online!`)
-      
-    try {
-    const logchannel = await client.channels.cache.get(config.debug)
-    const webhooks = await logchannel.fetchWebhooks();
-		const webhook = webhooks.first();
-
-		await webhook.send({
-      content: message,
-			embeds: [embed],
-			username: bot,
-			avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-		});
-  } catch(error) {
-        await client.channels.cache.get(config.debug)?.createWebhook(bot, {
+      const botname = client.user.username;
+      const logchannel = await client.channels.cache.get(config.debug)
+      const webhooks = await logchannel.fetchWebhooks();
+      const webhook = webhooks.first();
+      if(webhook) {
+        await webhook.send({
+          embeds: [embed],
+          username: botname,
+          avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+        });
+      } else if(!webhook) {
+        await client.channels.cache.get(config.debug)?.createWebhook(botname, {
           avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
         })
-        .then(webhook => Promise.all([webhook.send({ content: message, embeds: [embed] }), webhook]))
+        .then(webhook => Promise.all([webhook.send({ embeds: [embed] }), webhook]))
       }
       
         // add more functions on ready  event callback function...
