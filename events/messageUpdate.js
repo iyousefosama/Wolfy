@@ -31,12 +31,21 @@ module.exports = {
         .setColor('GOLD')
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;
+        try {
+          const webhooks = await Channel.fetchWebhooks();
+          const webhook = webhooks.first();
+      
+          await webhook.send({
+            embeds: [EditedLog],
+            username: bot,
+            avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+          });
+        } catch(error) {
         await Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [EditedLog] }), webhook]))
-          .then(([_, webhook]) => webhook.delete())
-          .catch(() => {});
+        }
         
           // add more functions on ready  event callback function...
         

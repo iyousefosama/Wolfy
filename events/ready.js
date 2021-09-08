@@ -28,7 +28,7 @@ module.exports = {
             `Servers: ${servers}`,
             `Members: ${members}`,
             `Command: ${commands}`,
-            `Boot: ${currentdate}ms`,
+            `Boot: ${currentdate}`,
             '```'
           ].join('\n')
         };
@@ -40,12 +40,23 @@ module.exports = {
             }; setInterval(randomStatus, 5000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
+    try {
+    const logchannel = await client.channels.cache.get(config.debug)
+    const webhooks = await logchannel.fetchWebhooks();
+		const webhook = webhooks.first();
+
+		await webhook.send({
+      content: message,
+			embeds: [embed],
+			username: bot,
+			avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+		});
+  } catch(error) {
         await client.channels.cache.get(config.debug)?.createWebhook(bot, {
           avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
         })
         .then(webhook => Promise.all([webhook.send({ content: message, embeds: [embed] }), webhook]))
-        .then(([_, webhook]) => webhook.delete())
-        .catch(() => {});
+      }
       
         // add more functions on ready  event callback function...
       

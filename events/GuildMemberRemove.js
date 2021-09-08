@@ -27,13 +27,21 @@ module.exports = {
         .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
         .setTimestamp() 
         const botname = client.user.username;
+        try {
+            const webhooks = await Channel.fetchWebhooks();
+            const webhook = webhooks.first();
+        
+            await webhook.send({
+              embeds: [remove],
+              username: bot,
+              avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+            });
+          } catch(error) {
         Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [remove] }), webhook]))
-          .then(([_, webhook]) => webhook.delete())
-          .catch(() => {});
-        
+          }
           // add more functions on ready  event callback function...
         
           return;

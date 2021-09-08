@@ -23,17 +23,25 @@ module.exports = {
 
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")
-        .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\`\n`)
+        .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}**\nIn: ${message.channel}**\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content || 'I can\'t log embed messages!'}\`\`\`\n`)
         .setColor('RED')
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;
+        try {
+            const webhooks = await Channel.fetchWebhooks();
+            const webhook = webhooks.first();
+        
+            await webhook.send({
+              embeds: [DeletedLog],
+              username: bot,
+              avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
+            });
+          } catch(error) {
         await Channel?.createWebhook(botname, {
             avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
           })
           .then(webhook => Promise.all([webhook.send({ embeds: [DeletedLog] }), webhook]))
-          .then(([_, webhook]) => webhook.delete())
-          .catch(() => {});
-        
+          }
           // add more functions on ready  event callback function...
         
           return;
