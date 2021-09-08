@@ -6,6 +6,7 @@ module.exports = {
     execute(client, message) {
         if(!message.guild || message.author.bot) return;
         if (message.author == client.user) return;
+        if (message.reply) return;
         if (message.author.bot){
             return;
           };
