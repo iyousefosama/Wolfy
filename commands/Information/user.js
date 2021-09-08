@@ -14,11 +14,7 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     async execute(client, message, args) {
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
-    
-    var game = mentionedMember.presence.game // whenever i type game, it makes ref. to the game the person is playing
 
-    if(status == 'offline') game = "None"
-    
     var status = mentionedMember.presence.status; // whenever i type status, it makes ref. to the user's status
 
 
@@ -63,7 +59,7 @@ module.exports = {
 		{ name: '\u200B', value: '\u200B' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: `${mentionedMember.id}`, inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${game || 'None'}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `None`, inline: true },
         { name: '📆 **Account Created At: **', value: `${moment.utc(mentionedMember.user.createdAt).format('LT')} ${moment.utc(mentionedMember.user.createdAt).format('LL')} ${moment.utc(mentionedMember.user.createdAt).fromNow()}`, inline: true },
         { name: '📥 **Joined The Server At: **', value: `${moment(mentionedMember.joinedAt).format("LT")} ${moment(mentionedMember.joinedAt).format('LL')} ${moment(mentionedMember.joinedAt).fromNow()}`, inline: true },
 	)
