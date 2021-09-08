@@ -12,7 +12,7 @@ module.exports = {
         .setTimestamp()
         const Debug = await client.channels.cache.get(config.debug)
         const botname = client.user.username;
-        const webhooks = await channel.fetchWebhooks()
+        const webhooks = await Debug.fetchWebhooks()
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
           webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})

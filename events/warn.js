@@ -9,7 +9,7 @@ module.exports = {
             .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('The Client got a general warn!')
             .setColor('RED')
-            .setDescription(`\`\`\`${error}\`\`\``)
+            .setDescription(`\`\`\`${info}\`\`\``)
             .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true}))
             .setTimestamp()
       
