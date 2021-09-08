@@ -15,9 +15,9 @@ module.exports = {
     async execute(client, message, args) {
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
 
-    var status = mentionedMember.presence.status; // whenever i type status, it makes ref. to the user's status
+    var status = mentionedMember.presence?.status;
 
-
+    if(status == null) status = 'None'
     // organising the code so it don't look bad
     if(status == 'dnd') status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb" // if the person is dnd  so it will type in the embed Do no Distrub
     if(status == 'online') status = "<:online:809995753921576960> Online"
