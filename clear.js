@@ -1,0 +1,62 @@
+const { MessageEmbed } = require('discord.js');
+const moment = require('moment');
+const config = require('../../config.json')
+
+module.exports = {
+  name: 'clear',
+  aliases: [ 'delete', 'Clear', 'CLEAR'],
+  dmOnly: false, //or false
+  guildOnly: true, //or false
+  args: true, //or false
+  usage: '<quantity>',
+  cooldown: 10, //seconds(s)
+  guarded: false, //or false
+  permissions: ['MANAGE_MESSAGES', 'ADMINISTRATOR'],
+  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'],
+    async execute(client, message, [quantity]) {
+
+    quantity = Math.round(quantity);
+
+    if (!quantity || quantity < 2 || quantity > 100){
+      return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`);
+    };
+
+    return message.channel.bulkDelete(quantity, true)
+    .then(async messages => {
+
+      const count = messages.size;
+      const _id = Math.random().toString(36).slice(-7);
+      const log = await message.guild.channels.cache.get(config.log)
+
+      messages = messages.filter(Boolean).map(message => {
+        return [
+          `[${moment(message.createdAt).format('dddd, do MMMM YYYY hh:mm:ss')}]`,
+          `${message.author.tag} : ${message.content}\r\n\r\n`
+        ].join(' ');
+      });
+
+      messages.push(`Messages Cleared on ![](${message.guild.iconURL({size: 32})}) **${message.guild.name}** - **#${message.channel.name}** --\r\n\r\n`);
+      messages = messages.reverse().join('');
+
+      const res = log ? await log.send(
+        `\`\`\`BULKDELETE FILE - ServerID: ${message.guild.id} ChannelID: ${message.channel.id} AuthorID: ${message.author.id}\`\`\``,
+        { files: [{ attachment: Buffer.from(messages), name: `bulkdlt-${_id}.txt`}]}
+      ).then(message => [message.attachments.first().url, message.attachments.first().id])
+      .catch(() => ['', null]) : ['', null];
+
+      const url = (res[0].match(/\d{17,19}/)||[])[0];
+      const id = res[1];
+
+      return message.channel.send(
+        new MessageEmbed()
+        .setAuthor(message.author.username, message.author.displayAvatarURL())
+        .setTitle(`<a:Correct:812104211386728498> Successfully deleted **${count}** messages from this channel!`)
+        .setColor('DARK_GREEN')
+        .setDescription([
+          `[\`📄 View\`](${url ? `https://txt.discord.website/?txt=${url}/${id}/bulkdlt-${_id}`:''})`,
+          `[\`📩 Download\`](${res[0]})`
+        ].join('\u2000\u2000•\u2000\u2000'))
+      );
+    });
+  }
+}
