@@ -17,7 +17,7 @@ module.exports = {
 
     var status = mentionedMember.presence?.status;
 
-    if(status == null) status = 'None'
+    if(status == null) status = '<:offline:809995754021978112> Offline'
     // organising the code so it don't look bad
     if(status == 'dnd') status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb" // if the person is dnd  so it will type in the embed Do no Distrub
     if(status == 'online') status = "<:online:809995753921576960> Online"
