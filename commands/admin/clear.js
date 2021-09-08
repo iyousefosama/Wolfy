@@ -26,7 +26,7 @@ module.exports = {
 
       const count = messages.size;
       const _id = Math.random().toString(36).slice(-7);
-      const debug = await message.guild.channels.cache.get(config.debug)
+      const debug = await client.channels.cache.get(config.debug)
 
       messages = messages.filter(Boolean).map(message => {
         return [
@@ -52,7 +52,14 @@ module.exports = {
         .setTitle(`<a:Correct:812104211386728498> Successfully deleted **${count}** messages from this channel!`)
         .setColor('DARK_GREEN')
         .setDescription(`[\`📄 View\`](${url ? `https://txt.discord.website/?txt=${url}/${id}/bulkdlt-${_id}`:''})\u2000\u2000•\u2000\u2000[\`📩 Download\`](${res[0]})`)
-        message.channel.send({ embeds: [embed]})
+        .setTimestamp()
+        message.channel.send({ embeds: [embed]}).then(msg => {
+          setTimeout(() => {
+              if(msg.channel.deleted) return;
+              if (msg.deleted) return;
+              msg.delete()
+           }, 5000)
+          })
     });
   }
 }
