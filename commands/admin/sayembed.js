@@ -17,13 +17,12 @@ module.exports = {
     let text = args.slice(1).join(" ")
     if(!color) {
     color = "RED";
-     } else {
-      color = "RED";
-     }
+    }
     
     if(!args[0]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed color**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
     if(!args[1]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed Description**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
 
+    try {
     const sayembed = new discord.MessageEmbed()
     .setColor(`${color}`)
     .setDescription(`${text}`)
@@ -31,12 +30,8 @@ module.exports = {
     message.channel.send({ embeds: [sayembed] })
     if (message.deleted) return;
    message.delete()
-    .catch(err => {
-      const UnknownErr = new discord.MessageEmbed()
-      .setColor(`RED`)
-      .setDescription(`<a:pp802:768864899543466006> Error, please report this with \`w!feedback\`!`)
-      message.channel.send({ embeds: [UnknownErr] })
-      console.error(err);
-      })
+    } catch(err) {
+      message.channel.send({ content: `\\❌ **${message.member.displayName}**, There was an error while trying to send the embed!\n \`\`\`js${err}\`\`\``})
+    }
 }
 }
