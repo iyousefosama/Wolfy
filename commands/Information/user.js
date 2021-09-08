@@ -16,6 +16,8 @@ module.exports = {
     let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
     
     var game = mentionedMember.presence.game // whenever i type game, it makes ref. to the game the person is playing
+
+    if(status == 'offline') game = "None"
     
     var status = mentionedMember.presence.status; // whenever i type status, it makes ref. to the user's status
 
