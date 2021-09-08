@@ -3,7 +3,7 @@ const config = require('../config.json')
 
 module.exports = {
     name: 'rateLimit',
-    async execute(client, rateLimitData) {
+    async execute(client, info) {
 
             const warn = new Discord.MessageEmbed()
             .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
