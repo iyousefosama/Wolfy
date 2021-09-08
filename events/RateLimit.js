@@ -7,9 +7,9 @@ module.exports = {
 
             const warn = new Discord.MessageEmbed()
             .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
-            .setTitle('The Client got a rateLimit!')
+            .setTitle('<a:Error:836169051310260265> The Client got a rateLimit!')
             .setColor('RED')
-            .setDescription(`\`\`\`${rateLimitData}\`\`\``)
+            .setDescription(`Rate limit hit ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}`)
             .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true}))
             .setTimestamp()
       
