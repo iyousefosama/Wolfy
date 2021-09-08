@@ -7,7 +7,6 @@ module.exports = {
         if (message.channel.type === 'DM') return;
         if (message.author == client) return;
         if (!message.author) return;
-        if(message.embeds) return;
 
         let data;
         try{
