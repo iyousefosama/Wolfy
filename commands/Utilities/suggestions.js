@@ -36,7 +36,7 @@ module.exports = {
         { name: "From member", value: `${message.author.tag}`, inline: true},
         { name: "Member ID", value: `${message.author.id}`, inline: true}
     )
-    Channel.send({ embeds: [embed]}).then(sentEmbed => {
+    Channel.send({ embeds: [embed]}).then(async sentEmbed => {
         await sentEmbed.react("812104211386728498")
         await sentEmbed.react("812104211361693696")
     })
