@@ -6,7 +6,7 @@ module.exports = {
     name: 'guildMemberRemove',
     async execute(client, user, guild) {
 
-        const fetchedLogs = await member.guild.fetchAuditLogs({
+        const fetchedLogs = await user.guild.fetchAuditLogs({
             limit: 1,
             type: "MEMBER_KICK",
           });
