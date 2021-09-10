@@ -37,9 +37,11 @@ module.exports = {
         { name: "Member ID", value: `${message.author.id}`, inline: true}
     )
     Channel.send({ embeds: [embed]}).then(sentEmbed => {
-        sentEmbed.react("812104211386728498")
-        sentEmbed.react("812104211361693696")
+        await sentEmbed.react("812104211386728498")
+        await sentEmbed.react("812104211361693696")
     })
+    setTimeout(async function(){
     message.channel.send('\\✔️ Successfully sent Your suggestion!')
+    }, 900);
 }
 }
