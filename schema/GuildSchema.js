@@ -6,35 +6,23 @@ const mongoose = require('mongoose')
         required: true
      },
 
-    SuggestionChannel: { 
-        type: String, 
-        default: null
-     },
-
-     ReportsChannel: { 
-      type: String, 
-      default: null
-   },
-
-   LogsChannel: { 
-      type: String, 
-      default: null
-   },
-
-   ToggleSuggestionChannel: {
-      type: Boolean,
-      default: true
-   },
-
-   ToggleReportsChannel: {
-      type: Boolean,
-      default: true
-   },
-
-   ToggleLogsChannel: {
-      type: Boolean,
-      default: true
-   }
+   Mod: {
+      Suggestion: {
+        isEnabled: { type: Boolean, default: true },
+        channel: { type: String, default: null },
+        type: { type: String, default: 'default' }
+      },
+      Reports: {
+        isEnabled: { type: Boolean, default: true },
+        channel: { type: String, default: null },
+        type: { type: String, default: 'default' }
+      },
+      Logs: {
+         isEnabled: { type: Boolean, default: true },
+         channel: { type: String, default: null },
+         type: { type: String, default: 'default' }
+       }
+    }
 })
 
 module.exports = mongoose.model('guildSettings', guildSchema)
