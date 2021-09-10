@@ -28,6 +28,7 @@ module.exports = {
           let Channel = client.channels.cache.get(data.LogsChannel)
           if(!Channel) return;
           if(Channel.type !== 'GUILD_TEXT') return;
+          if(data.ToggleLogsChannel == false) return;
 
             const ChannelDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))

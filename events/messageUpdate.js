@@ -23,7 +23,7 @@ module.exports = {
   let Channel = client.channels.cache.get(data.LogsChannel)
   if(!Channel) return;
   if(Channel.type !== 'GUILD_TEXT') return;
-
+  if(data.ToggleLogsChannel == false) return;
 
         const EditedLog = new Discord.MessageEmbed()
         .setTitle("Edited Message")

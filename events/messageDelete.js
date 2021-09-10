@@ -20,6 +20,7 @@ module.exports = {
         let Channel = client.channels.cache.get(data.LogsChannel)
         if(!Channel) return;
         if(Channel.type !== 'GUILD_TEXT') return;
+        if(data.ToggleLogsChannel == false) return;
 
         const DeletedLog = new Discord.MessageEmbed()
         .setTitle("Deleted Message")

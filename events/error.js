@@ -13,13 +13,17 @@ module.exports = {
             .setColor('RED')
             .setTimestamp()
       
-        const bot = client.user.username;
-        await client.channels.cache.get(config.debug)?.createWebhook(bot, {
-          avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-        })
-        .then(webhook => Promise.all([webhook.send({ embeds: [embed] }), webhook]))
-        .then(([_, webhook]) => webhook.delete())
-        .catch(() => {});
+            const Debug = await client.channels.cache.get(config.debug)
+            const botname = client.user.username;
+            setTimeout(async function(){
+              const webhooks = await Debug.fetchWebhooks()
+              let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+              if(!webhook){
+                webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+              }
+              webhook.send({embeds: [embed]})
+              .catch(() => {});
+            }, 5000);;
       
         // add more functions on ready  event callback function...
       

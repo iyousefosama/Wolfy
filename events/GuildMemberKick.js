@@ -3,13 +3,22 @@ const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 
 module.exports = {
-    name: 'guildMemberAdd',
-    async execute(client, member) {
+    name: 'guildMemberRemove',
+    async execute(client, user, guild) {
+
+        const fetchedLogs = await member.guild.fetchAuditLogs({
+            limit: 1,
+            type: "MEMBER_KICK",
+          });
+          const kickLog = fetchedLogs.entries.first();
+          const { executor, target, reason } = kickLog;
+
+          if (!reason) reason = "Not specified";
 
         let data;
         try{
             data = await schema.findOne({
-                GuildID: member.guild.id
+                GuildID: user.guild.id
             })
             if(!data) return;
         } catch(err) {
@@ -20,12 +29,13 @@ module.exports = {
         if(Channel.type !== 'GUILD_TEXT') return;
         if(data.ToggleLogsChannel == false) return;
         
-        const Add = new Discord.MessageEmbed()
-        .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-        .setTitle('<a:Up:853495519455215627> Member Join!')
-        .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag}\n<:pp198:853494893439352842> **MemberID:** \`${member.user.id}\`\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')}`)
-        .setColor('GREEN')
-        .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
+        if (target.id === user.id) {
+        const Kick = new Discord.MessageEmbed()
+        .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTitle('<a:pp681:774089750373597185> Member kick!')
+        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+        .setColor('#fc8543')
+        .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
@@ -34,9 +44,10 @@ module.exports = {
         if(!webhook){
           webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
         }
-        webhook.send({embeds: [Add]})
+        webhook.send({embeds: [Kick]})
         .catch(() => {});
-    }, 5000);
+      }, 5000);
+    }
           // add more functions on ready  event callback function...
         
           return;
