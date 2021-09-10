@@ -11,7 +11,9 @@ module.exports = {
             type: "MEMBER_KICK",
           });
           const kickLog = fetchedLogs.entries.first();
-          const { executor, target } = kickLog;
+          const { executor, target, reason } = kickLog;
+
+          if (!reason) reason = "Not specified";
 
         let data;
         try{
@@ -22,16 +24,16 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        let Channel = client.channels.cache.get(data.LogsChannel)
+        let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if(!Channel) return;
         if(Channel.type !== 'GUILD_TEXT') return;
-        if(data.ToggleLogsChannel == false) return;
+        if(!data.Mod.Logs.isEnabled) return;
         
         if (target.id === user.id) {
         const Kick = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:pp681:774089750373597185> Member kick!')
-        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
         .setColor('#fc8543')
         .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
         .setTimestamp()

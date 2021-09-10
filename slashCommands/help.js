@@ -56,7 +56,7 @@ module.exports = {
             { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
             { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
             { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}helplevel\`\`\``, inline: true},
-            { name: '<a:Right:860969895779893248> Soon', value: `\`\`\` ‍ \`\`\``, inline: true}
+            { name: '<:MOD:836168687891382312> Setup helplist', value: `\`\`\`${prefix}helpsetup\`\`\``, inline: true}
         )
         const info = new discord.MessageEmbed()
         .setColor('738ADB')

@@ -26,10 +26,10 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        let Channel = client.channels.cache.get(data.LogsChannel)
+        let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if(!Channel) return;
         if(Channel.type !== 'GUILD_TEXT') return;
-        if(data.ToggleLogsChannel == false) return;
+        if(!data.Mod.Logs.isEnabled) return;
         
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))

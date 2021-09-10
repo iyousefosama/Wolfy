@@ -18,7 +18,7 @@ module.exports = {
         let Channel = client.channels.cache.get(data.LogsChannel)
         if(!Channel) return;
         if(Channel.type !== 'GUILD_TEXT') return;
-        if(data.ToggleLogsChannel == false) return;
+        if(!data.Mod.Logs.isEnabled) return;
         
         const Add = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
