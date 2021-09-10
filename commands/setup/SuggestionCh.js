@@ -4,7 +4,7 @@ const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setSuggch",
-    aliases: ["SetSuggCh", "SETSUGGCH", "setsuggestionchannel", "setsuggch"],
+    aliases: ["SetSuggCh", "SETSUGGCH", "setsuggestionchannel", "setsuggch", "setsuggestionsch"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
@@ -40,14 +40,19 @@ module.exports = {
             console.log(err)
             message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
         }
-        if(data.SuggestionChannel == channelID) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Suggestions channel already set in ${channel}.`})
-        } else if(data.ToggleSuggestionChannel == false) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Suggestions cmd is disabled to enable it use \`${prefix}toggle suggestions on\`.`})
-        } else {
-        data.SuggestionChannel = channelID
+        data.Mod.Suggestion.channel = channel.id
         data.save()
-        message.channel.send({ content: `\\✔️ Successfully set the suggestions channel to ${channel}!`})
-        } 
+        .then(() => {
+          const embed = new Discord.MessageEmbed()
+          .setColor('DARK_GREEN')
+          .setFooter(`Suggestions channel | \©️${new Date().getFullYear()} Wolfy`)
+          .setDescription([
+            '<a:Correct:812104211386728498>\u2000|\u2000',
+            `Successfully set the Suggestions channel to ${channel}!\n\n`,
+            !data.Mod.Suggestion.isEnabled ? `\\⚠️ Suggestion cmd is disabled! To enable, type \`${prefix}suggtoggle\`\n` :
+            `To disable this feature, use the \`${prefix}suggtoggle\` command.`
+          ].join(''))
+          message.channel.send({ embeds: [embed] })
+      })
 }
 }

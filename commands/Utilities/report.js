@@ -23,13 +23,14 @@ module.exports = {
         data = await schema.findOne({
             GuildID: message.guild.id
         })
-        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
+        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
     } catch(err) {
         console.log(err)
     }
-    let Channel = client.channels.cache.get(data.ReportsChannel)
-    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
-    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!set\` cmd.`})
+    let Channel = client.channels.cache.get(data.Mod.Reports.channel)
+    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
+    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
+    if(!data.Mod.Reports.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **reports** command is disabled in this server!`})
 
     let Avatar = user.displayAvatarURL(({dynamic: true, format: 'png', size: 512}));
 

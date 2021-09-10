@@ -20,13 +20,14 @@ module.exports = {
         data = await schema.findOne({
             GuildID: message.guild.id
         })
-        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
+        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
     } catch(err) {
         console.log(err)
     }
-    let Channel = client.channels.cache.get(data.SuggestionChannel)
-    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
-    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!set\` cmd.`})
+    let Channel = client.channels.cache.get(data.Mod.Suggestion.channel)
+    if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
+    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
+    if(!data.Mod.Suggestion.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **suggestions** command is disabled in this server!`})
     const embed = new discord.MessageEmbed()
     .setTitle('New suggestions!')
     .setDescription(`${suggestion}`)

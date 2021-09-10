@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setLogsch",
@@ -39,14 +40,19 @@ module.exports = {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
-        if(data.LogsChannel == channelID) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Logs channel already set in ${channel}.`})
-        } else if(data.ToggleLogsChannel == false) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Logs is disabled to enable it use \`${prefix}toggle logs on\`.`})
-        } else {
-        data.LogsChannel = channelID
+        data.Mod.Logs.channel = channel.id
         data.save()
-        message.channel.send(`\\✔️ Successfully set the logs channel to ${channel}!`)
-        }
+        .then(() => {
+          const embed = new Discord.MessageEmbed()
+          .setColor('DARK_GREEN')
+          .setFooter(`Logs channel | \©️${new Date().getFullYear()} Wolfy`)
+          .setDescription([
+            '<a:Correct:812104211386728498>\u2000|\u2000',
+            `Successfully set the Logs channel to ${channel}!\n\n`,
+            !data.Mod.Logs.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`${prefix}welcometoggle\`\n` :
+            `To disable this feature, use the \`${prefix}logstoggle\` command.`
+          ].join(''))
+          message.channel.send({ embeds: [embed] })
+      })
 }
 }

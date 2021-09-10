@@ -39,14 +39,19 @@ module.exports = {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
-        if(data.ReportsChannel == channelID) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Reports channel already set in ${channel}.`})
-        } else if(data.ToggleReportsChannel == false) {
-          message.channel.send({ content: `\\❌ **${message.member.displayName}**, Report cmd is disabled to enable it use \`${prefix}toggle logs on\`.`})
-        } else {
-        data.ReportsChannel = channelID
+        data.Mod.Reports.channel = channel.id
         data.save()
-        message.channel.send(`\\✔️ Successfully set the reports channel to ${channel}!`)
-        }
+        .then(() => {
+          const embed = new Discord.MessageEmbed()
+          .setColor('DARK_GREEN')
+          .setFooter(`Reports channel | \©️${new Date().getFullYear()} Wolfy`)
+          .setDescription([
+            '<a:Correct:812104211386728498>\u2000|\u2000',
+            `Successfully set the Reports channel to ${channel}!\n\n`,
+            !data.Mod.Reports.isEnabled ? `\\⚠️ Reports cmd is disabled! To enable, type \`${prefix}reporttoggle\`\n` :
+            `To disable this feature, use the \`${prefix}reportstoggle\` command.`
+          ].join(''))
+          message.channel.send({ embeds: [embed] })
+      })
 }
 }
