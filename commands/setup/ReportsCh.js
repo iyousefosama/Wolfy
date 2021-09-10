@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setreportch",
