@@ -7,6 +7,8 @@ module.exports = {
     async execute(client, oldRole, newRole) {
         if (!oldRole) {
             return;
+          } else if(!oldRole.guild.me.permissions.has("SEND_MESSAGES") || !oldRole.guild.me.permissions.has("ADMINISTRATOR")) {
+            return;
           }
           const fetchedLogs = await oldRole.guild.fetchAuditLogs({
             limit: 1,
