@@ -23,7 +23,7 @@ const schema = require('./schema/GuildSchema')
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const { developer, clientId } = require('./config.json');
+const { prefix, developer, clientId } = require('./config.json');
 
 const map = new Map();
 
@@ -138,19 +138,8 @@ for (const file of eventFiles) {
 
 //Event - message
 client.on("messageCreate", async message => {
-    //+ Prefix
-    try {
-        data = await schema.findOne({
-            GuildID: message.guild.id
-        })
-        if(data == null) {
-            data.prefix = (config.prefix)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-    if(message.author.bot || !message.content.startsWith(data.prefix)) return;
-    const args = message.content.slice(data.prefix.length).split(/ +/g);
+    if(message.author.bot || !message.content.startsWith(prefix)) return;
+    const args = message.content.slice(prefix.length).split(/ +/g);
     if (!args.length) return message.channel.send({ content: `You didn't pass any command to reload, ${message.author}!`});
     const commandName = args.shift().toLowerCase();
 
