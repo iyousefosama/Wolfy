@@ -6,15 +6,6 @@ module.exports = {
     name: 'guildBanRemove',
     async execute(client, user, guild) {
 
-        const fetchedLogs = await user.guild.fetchAuditLogs({
-            limit: 1,
-            type: "MEMBER_BAN_REMOVE",
-          });
-
-          const unbanLog = fetchedLogs.entries.first();
-
-          const { executor, target } = unbanLog;
-
         let data;
         try{
             data = await schema.findOne({
@@ -36,6 +27,15 @@ module.exports = {
           } else {
             // Do nothing..
           };
+
+          const fetchedLogs = await user.guild.fetchAuditLogs({
+            limit: 1,
+            type: "MEMBER_BAN_REMOVE",
+          });
+
+          const unbanLog = fetchedLogs.entries.first();
+
+          const { executor, target } = unbanLog;
         
         const Unban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))

@@ -6,17 +6,7 @@ module.exports = {
     async execute(client, role) {
         if (!role) {
             return;
-          } else if(!role.guild.me.permissions.has("SEND_MESSAGES") || !role.guild.me.permissions.has("ADMINISTRATOR")) {
-            return;
           }
-          const fetchedLogs = await role.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'ROLE_CREATE',
-        });
-        // Since there's only 1 audit log entry in this collection, grab the first one
-        const rolelog = fetchedLogs.entries.first();
-      
-        const { executor, id, name } = rolelog;
 
           let data;
           try{
@@ -39,6 +29,15 @@ module.exports = {
           } else {
             // Do nothing..
           };
+
+          const fetchedLogs = await role.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'ROLE_CREATE',
+        });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const rolelog = fetchedLogs.entries.first();
+      
+        const { executor, id, name } = rolelog;
 
             const RoleCreated = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))

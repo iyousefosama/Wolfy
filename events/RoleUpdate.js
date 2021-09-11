@@ -10,14 +10,6 @@ module.exports = {
           } else if(!oldRole.guild.me.permissions.has("SEND_MESSAGES") || !oldRole.guild.me.permissions.has("ADMINISTRATOR")) {
             return;
           }
-          const fetchedLogs = await oldRole.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'ROLE_UPDATE',
-        });
-        // Since there's only 1 audit log entry in this collection, grab the first one
-        const rolelog = fetchedLogs.entries.first();
-      
-        const { executor, id, name, color } = rolelog;
 
           let data;
           try{
@@ -40,6 +32,15 @@ module.exports = {
           } else {
             // Do nothing..
           };
+
+          const fetchedLogs = await oldRole.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'ROLE_UPDATE',
+        });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const rolelog = fetchedLogs.entries.first();
+      
+        const { executor, id, name, color } = rolelog;
 
           let RoleUpdated;
           if (oldRole.name !== newRole.name) {

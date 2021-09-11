@@ -5,17 +5,7 @@ const schema = require('../schema/GuildSchema')
 module.exports = {
     name: 'guildBanAdd',
     async execute(client, user, guild) {
-
-        const fetchedLogs = await user.guild.fetchAuditLogs({
-            limit: 1,
-            type: "MEMBER_BAN_ADD",
-          });
-
-          const banLog = fetchedLogs.entries.first();
-
-          const { executor, target, reason } = banLog;
-
-          if (!reason) reason = "Not specified";
+        if(!user) return;
 
         let data;
         try{
@@ -38,6 +28,17 @@ module.exports = {
           } else {
             // Do nothing..
           };
+
+          const fetchedLogs = await user.guild.fetchAuditLogs({
+            limit: 1,
+            type: "MEMBER_BAN_ADD",
+          });
+
+          const banLog = fetchedLogs.entries.first();
+
+          const { executor, target, reason } = banLog;
+
+          if (!reason) reason = "Not specified";
         
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))

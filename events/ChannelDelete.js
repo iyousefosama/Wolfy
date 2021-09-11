@@ -7,14 +7,6 @@ module.exports = {
         if (!channel) {
             return;
           }
-          const fetchedLogs = await channel.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'CHANNEL_DELETE',
-        });
-        // Since there's only 1 audit log entry in this collection, grab the first one
-        const channelLog = fetchedLogs.entries.first();
-      
-        const { executor, type, id, name } = channelLog;
 
           let data;
           try{
@@ -37,6 +29,15 @@ module.exports = {
           } else {
             // Do nothing..
           };
+
+          const fetchedLogs = await channel.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'CHANNEL_DELETE',
+        });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const channelLog = fetchedLogs.entries.first();
+      
+        const { executor, type, id, name } = channelLog;
 
             const ChannelDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
