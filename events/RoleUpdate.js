@@ -58,13 +58,7 @@ module.exports = {
             .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
             .setTimestamp()
           } else {
-            RoleUpdated = new MessageEmbed()
-            .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
-            .setTitle('<a:Mod:853496185443319809> Role permissions Updated!')
-            .setDescription(`<a:iNFO:853495450111967253> Role Name: ${newRole.name}\n<:pp198:853494893439352842> Role ID: \`${newRole.id}\n\n<:Rules:853495279339569182> ExecutorTag: ${executor.tag}`)
-            .setColor('RED')
-            .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
-            .setTimestamp()
+            return;
           }
 
             const botname = client.user.username;
