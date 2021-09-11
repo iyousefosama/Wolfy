@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
         required: true
      },
 
+     prefix: { type: String, default: null },
+
    Mod: {
       Suggestion: {
         isEnabled: { type: Boolean, default: true },
