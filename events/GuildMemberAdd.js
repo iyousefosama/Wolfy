@@ -16,9 +16,17 @@ module.exports = {
             console.log(err)
         }
         let Channel = client.channels.cache.get(data.LogsChannel)
-        if(!Channel) return;
-        if(Channel.type !== 'GUILD_TEXT') return;
-        if(!data.Mod.Logs.isEnabled) return;
+        if (!Channel || !data.Mod.Logs.channel){
+            return;
+          } else if (Channel.type !== 'GUILD_TEXT') {
+            return;
+          } else if (!data.Mod.Logs.isEnabled){
+            return;
+          } else if(!member.guild.me.permissions.has("SEND_MESSAGES") || !member.guild.me.permissions.has("ADMINISTRATOR")) {
+            return;
+          } else {
+            // Do nothing..
+          };
         
         const Add = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))

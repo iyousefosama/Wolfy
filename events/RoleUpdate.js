@@ -27,12 +27,19 @@ module.exports = {
               console.log(err)
           }
           let Channel = client.channels.cache.get(data.Mod.Logs.channel)
-          if(!Channel) return;
-          if(Channel.type !== 'GUILD_TEXT') return;
-          if(!data.Mod.Logs.isEnabled) return;
+          if (!Channel || !data.Mod.Logs.channel){
+            return;
+          } else if (Channel.type !== 'GUILD_TEXT') {
+            return;
+          } else if (!data.Mod.Logs.isEnabled){
+            return;
+          } else if(!oldRole.guild.me.permissions.has("SEND_MESSAGES") || !oldRole.guild.me.permissions.has("ADMINISTRATOR")) {
+            return;
+          } else {
+            // Do nothing..
+          };
 
           let RoleUpdated;
-
           if (oldRole.name !== newRole.name) {
             RoleUpdated = new MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
