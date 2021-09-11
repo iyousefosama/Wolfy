@@ -32,7 +32,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!role.guild.me.permissions.has("SEND_MESSAGES") || !role.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
             return;
           } else {
             // Do nothing..

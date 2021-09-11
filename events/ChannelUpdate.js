@@ -33,7 +33,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!oldChannel.guild.me.permissions.has("SEND_MESSAGES") || !oldChannel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
             return;
           } else {
             // Do nothing..
