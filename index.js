@@ -143,7 +143,7 @@ client.on("messageCreate", async message => {
         data = await schema.findOne({
             GuildID: message.guild.id
         })
-        if(!data.prefix) {
+        if(data == null) {
             data.prefix = (config.prefix)
         }
     } catch (error) {
