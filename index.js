@@ -23,7 +23,7 @@ const schema = require('./schema/GuildSchema')
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const { prefix, developer, clientId } = require('./config.json');
+const { developer, clientId } = require('./config.json');
 
 const map = new Map();
 
