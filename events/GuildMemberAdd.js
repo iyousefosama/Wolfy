@@ -15,18 +15,18 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        let Channel = client.channels.cache.get(data.LogsChannel)
+        let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if (!Channel || !data.Mod.Logs.channel){
-            return;
-          } else if (Channel.type !== 'GUILD_TEXT') {
-            return;
-          } else if (!data.Mod.Logs.isEnabled){
-            return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
-            return;
-          } else {
-            // Do nothing..
-          };
+          return;
+        } else if (Channel.type !== 'GUILD_TEXT') {
+          return;
+        } else if (!data.Mod.Logs.isEnabled){
+          return;
+        } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          return;
+        } else {
+          // Do nothing..
+        };
         
         const Add = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
@@ -44,7 +44,7 @@ module.exports = {
         }
         webhook.send({embeds: [Add]})
         .catch(() => {});
-    }, 5000);
+      }, 5000);
           // add more functions on ready  event callback function...
         
           return;
