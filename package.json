@@ -2,7 +2,6 @@
   "name": "wolfy-bot",
   "version": "1.0.0",
   "main": "index.js",
-  "engines": { "node": "16.x" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -69,6 +68,7 @@
     "simple-fortnite-api": "^0.1.9",
     "snekfetch": "^4.0.4",
     "sourcebin": "^4.2.5",
+    "topgg-autoposter": "^2.0.0",
     "twitter-api.js": "0.0.12",
     "txtgen": "^2.2.8",
     "util": "^0.12.4",
