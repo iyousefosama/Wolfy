@@ -37,6 +37,14 @@ client.slashCommands = new Collection();
 
 const commands=[]
 
+const { AutoPoster } = require('topgg-autoposter')
+
+const ap = AutoPoster('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI5MDgxMTI5fQ.UGbgw0PHpYuydbBJ4HNA6eRzQrlO8DZmRDxY1MBXids', client)
+
+ap.on('posted', () => {
+  console.log('Posted stats to Top.gg!')
+})
+
 const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
 for (const file of slashFiles) {
     const slash = require(`./slashCommands/${file}`);
