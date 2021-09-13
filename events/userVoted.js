@@ -4,6 +4,7 @@ const text = require('../util/string');
 const { prefix } = require('../config.json');
 
 module.exports = {
+    name: 'req.vote.user',
     async execute(client, req, res) {
         const user = await client.users.fetch(req.vote.user).catch(()=>{ return {}});
         const isWeekend = req.vote.isWeekend;
