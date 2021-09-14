@@ -48,7 +48,7 @@ module.exports = {
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
         if(data.cookies.givecookies == 250 && data.inv.UltimateCookie !== 1) return message.channel.send({ embeds: [nulle] })
-        let moneyget = Math.floor(Math.random() * 40) * 3
+        let moneyget = Math.floor(Math.random() * 40) * 2
         data.credits += Math.floor(moneyget);
         data.cookies.givecookies += Math.floor('1');
         FriendData.cookies += Math.floor('1');
@@ -57,7 +57,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
           .setTitle(`<a:Cookie:853495749370839050> Cookie is gived!`)
           .setDescription(`**${message.author.username}**, gived ${Friend} a cookie!\n<a:ShinyMoney:877975108038324224> ${message.author.username} got (\`+${moneyget}\`) credits for being a nice friend!`)
-          .setFooter(`<a:Up:853495519455215627> ${data.cookies.totalcookies} | <a:Down:853495989796470815> ${data.cookies.givecookies}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+          .setFooter(`📥 ${data.cookies.totalcookies} | 📤 ${data.cookies.givecookies}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
           .setColor('#E6CEA0')
           message.channel.send({ embeds: [embed] })
       })
