@@ -11,6 +11,16 @@ const ecoSchema = mongoose.Schema({
         default: 275
     },
 
+    Bank: {
+      balance: {
+        credits: { type: Number, default: 0 },
+        timeout: { type: Date, default: null }
+      },
+      info: {
+        Enabled: { type: Boolean, default: false }
+      }
+    },
+
     timer: {
         beg: {
           timeout: { type: Date, default: null }
@@ -27,7 +37,16 @@ const ecoSchema = mongoose.Schema({
 
       inv: {
         FishinPole: { type: Number, default: 0 },
-        UltimateCookie: { type: Number, default: 0 }
+        UltimateCookie: { type: Number, default: 0 },
+
+        StonePickaxe: { type: Number, default: 0 },
+        IronPickaxe: { type: Number, default: 0 },
+        DiamondPickaxe: { type: Number, default: 0 },
+        Stone: { type: Number, default: 0 },
+        Coal: { type: Number, default: 0 },
+        Iron: { type: Number, default: 0 },
+        Gold: { type: Number, default: 0 },
+        Diamond: { type: Number, default: 0 },
       }
 })
 
