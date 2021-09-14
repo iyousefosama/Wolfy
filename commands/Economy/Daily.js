@@ -35,8 +35,7 @@ module.exports = {
             .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('RED')
             message.channel.send({ embeds: [embed] })
-          };
-
+          } else {
         let moneyget = Math.floor(Math.random() * 300) + 200;
 
         data.timer.daily.timeout = Date.now() + duration;
@@ -51,5 +50,6 @@ module.exports = {
             message.channel.send({ embeds: [embed] })
         })
         .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
+    }
 }
 }
