@@ -25,7 +25,7 @@ module.exports = {
           if (message.content.includes("@here") || message.content.includes("@everyone")) return;
           if (message.mentions.has(client.user)) {
             setTimeout(async function(){
-            message.reply({ content: `<a:Right:877975111846731847> Hello **${message.author.username}**, my prefix is \`${config.prefix}\` my custom guild prefix \`${data.prefix || "None"}\` for the helplist \`${prefix}help\`!` })
+            message.reply({ content: `<a:Right:877975111846731847> Hello **${message.author.username}**, my prefix is \`${config.prefix}\` my custom guild prefix \`${data.prefix || "None"}\` for the helplist \`${config.prefix}help\`!` })
         }, 900);
         }
     }
