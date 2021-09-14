@@ -1,0 +1,44 @@
+const Discord = require('discord.js');
+const schema = require('../../schema/Economy-Schema')
+
+module.exports = {
+    name: "beg",
+    aliases: ["Beg", "BEG"],
+    dmOnly: false, //or false
+    guildOnly: true, //or false
+    args: false, //or false
+    usage: '',
+    cooldown: 5, //seconds(s)
+    guarded: false, //or false
+    async execute(client, message, args) {
+
+        let data;
+        try{
+            data = await schema.findOne({
+                userID: message.author.id
+            })
+            if(!data) {
+            data = await schema.create({
+                userID: message.author.id
+            })
+            }
+        } catch(err) {
+            console.log(err)
+        }
+        const now = Date.now();
+        const duration = Math.floor(Math.random() * 12000) + 100000;
+        if (data.timer.beg.timeout > now){
+            return message.channel.send(`\\❌ **${message.author.tag}**, You have already been given some *coins* earlier! Please try again later.`);
+          };
+
+        let moneyget = Math.floor(Math.random() * 125) + 25;
+
+        data.timer.beg.timeout = Date.now() + duration;
+        data.credits += Math.floor(moneyget);
+        await data.save()
+        .then(() => {
+            message.channel.send({ content: `> <a:Money:836169035191418951> **${message.author.tag}**, You received **${moneyget}** from wolfy.`})
+        })
+        .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
+}
+}

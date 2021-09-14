@@ -59,7 +59,7 @@ module.exports = {
         { name: '🎫 Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
         { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
         { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}helplevel\`\`\``, inline: true},
-        { name: '<:MOD:836168687891382312> Setup helplist', value: `\`\`\`${prefix}helpsetup\`\`\``, inline: true}
+        { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${prefix}helpeco\`\`\``, inline: true}
     )
     const info = new discord.MessageEmbed()
     .setColor('738ADB')
@@ -122,7 +122,8 @@ module.exports = {
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
-        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
+        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``},
+        { name: `${prefix}helpsetup`, value: `> \`To send setup commands helplist (logs, sugg, etc...)\``},
     )
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
