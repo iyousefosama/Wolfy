@@ -37,14 +37,14 @@ module.exports = {
       
         if (type === 'default'){
             let embed = new MessageEmbed()
-            .setColor('DARk_GREEN')
+            .setColor('DARK_GREEN')
             .setTitle(`${member.user.tag} has joined the server!`)
             .setURL('https://Wolfy.yoyojoe.repl.co')
             .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
             .setDescription(`Hello ${member}, welcome to **${member.guild.name}**!\n\nYou are our **${string.ordinalize(member.guild.memberCount)}** member!`)
             .setFooter(`${member.user.username} (${member.user.id})`)
             .setTimestamp()
-            return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member}`, embeds: [embed] });
+            return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, embeds: [embed] });
         };
       
         //if message was text, send the text
