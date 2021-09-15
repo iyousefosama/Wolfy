@@ -46,6 +46,7 @@ module.exports = {
         if(Math.ceil(amount * 1.1) > data.credits) { 
             message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`)
         } else {
+            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to transfer **${amount * 1.1}** to ${friend}? Your new palance will be **${data.credits - amount * 1.1}**! \`(y/n)\``})
             const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
         
             const proceed = await message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
