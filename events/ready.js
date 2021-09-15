@@ -3,6 +3,7 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 var currentdate = new Date();
 const config = require('../config.json')
+
 module.exports = {
     name: 'ready',
     once: true,
@@ -13,7 +14,7 @@ module.exports = {
            Sends a notification to a log channel (if available)
            that the bot has rebooted
         ======================================================*/
-      
+
         const bot = client.user.username;
         const icon = '<a:Settings:841321893750505533>'
         const servers = text.commatize(client.guilds.cache.size);
@@ -35,6 +36,8 @@ module.exports = {
         function randomStatus() {
             let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep"]
             let rstatus = Math.floor(Math.random() * status.length);
+
+            
         
             client.user.setActivity(status[rstatus], {type: "PLAYING"});
             }; setInterval(randomStatus, 5000)
