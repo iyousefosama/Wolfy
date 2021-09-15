@@ -42,6 +42,11 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes();
+    
+        var currentdate = date + time
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, You can only give \`250\` cookies for free you should now buy **UltimateCookie Machine**!\nType \`${prefix}buy UltimateCookie\` to buy the item.`)
@@ -56,8 +61,7 @@ module.exports = {
         .then(() => {
           const embed = new Discord.MessageEmbed()
           .setTitle(`<a:Cookie:853495749370839050> Cookie is gived!`)
-          .setDescription(`**${message.author.username}**, gived ${Friend} a cookie!\n<a:ShinyMoney:877975108038324224> ${message.author.username} got (\`+${moneyget}\`) credits for being a nice friend!`)
-          .setFooter(`📥 ${data.cookies.totalcookies} | 📤 ${data.cookies.givecookies}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+          .setDescription(`**${message.author.username}**, gived ${Friend} a cookie!\n<a:ShinyMoney:877975108038324224> ${message.author.username} got (\`+${moneyget}\`) credits for being a nice friend!\n\n📥 ${data.cookies.totalcookies} | 📤 ${data.cookies.givecookies}`)
           .setColor('#E6CEA0')
           message.channel.send({ embeds: [embed] })
       })
