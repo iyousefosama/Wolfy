@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
      },
 
      prefix: { type: String, default: null },
-
+     
    Mod: {
       Suggestion: {
         isEnabled: { type: Boolean, default: true },
@@ -24,6 +24,23 @@ const mongoose = require('mongoose')
          channel: { type: String, default: null },
          type: { type: String, default: 'default' }
        }
+    },
+
+    greeter: {
+      welcome: {
+        isEnabled: { type: Boolean, default: false },
+        channel: { type: String, default: null },
+        message: { type: String, default: null },
+        embed: { type: Object, default: false },
+        type: { type: String, default: 'default' }
+      },
+      leaving: {
+        isEnabled: { type: Boolean, default: false },
+        channel: { type: String, default: null },
+        message: { type: String, default: null },
+        embed: { type: Object, default: null },
+        type: { type: String, default: 'default' }
+      }
     }
 })
 
