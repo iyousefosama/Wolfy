@@ -20,6 +20,13 @@ module.exports = {
           } catch(err) {
               console.log(err)
           }
+          const serverprefix = data?.prefix || 'Not set'
+    
+          if (message.content.toLowerCase() === 'prefix'){
+            return message.channel.send(`**${message.author}**, My prefix is \`${config.prefix}\`, The custom prefix is \`${serverprefix}\`.`)
+          } else {
+            // Do nothing..
+          };
       }
       if (message.content.startsWith('wolfy ')){
         prefix = 'wolfy '
