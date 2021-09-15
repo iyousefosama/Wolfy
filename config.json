@@ -1,8 +1,8 @@
 {
-    "prefix": "w!",
+    "token": "ODc2ODEzNDUwNjYyMjczMTE1.YRpiKQ.Qil8Lj0oc5AV3P2LGJau4hTS538",
+    "prefix": "t!",
     "mongoPath": "mongodb+srv://Yousef:yoyo01229988936@lunar.3upfk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "developer": "829819269806030879",
+    "developer": "724580315481243668",
     "clientId": "876813450662273115",
-    "debug": "840892477614587914",
-    "loadSlashsGlobal": true
+    "debug": "877130715337220136"
 }
