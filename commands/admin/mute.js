@@ -47,7 +47,7 @@ module.exports = {
     if (member.id === message.author.id) return message.reply({ embeds: [Err3] })
     if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply({ embeds: [Err4] })
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) return message.channel.send({ embeds: [Err5] })
-    const owner = client.users.fetch('829819269806030879').catch(() => null);
+    const owner = client.users.fetch('724580315481243668').catch(() => null);
     if (member.id === owner){
       return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't mute my developers through me!`})
     };

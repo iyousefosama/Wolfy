@@ -15,7 +15,7 @@ module.exports = {
 
       const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
 
-      const owner = client.users.fetch('829819269806030879').catch(() => null);
+      const owner = client.users.fetch('724580315481243668').catch(() => null);
       if (user.id === owner){
         return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't kick my developers through me!`})
       };

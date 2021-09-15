@@ -12,7 +12,7 @@ module.exports = {
     permissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
     clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
     async execute(client, message, [user = '', ...reason] ) {
-        const developer = client.users.fetch('829819269806030879').catch(() => null);
+        const developer = client.users.fetch('724580315481243668').catch(() => null);
         const owner = await message.guild.fetchOwner()
 
         if (!user.match(/\d{17,19}/)){

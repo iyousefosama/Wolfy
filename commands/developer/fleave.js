@@ -1,4 +1,5 @@
 const { MessageEmbed, TextChannel } = require('discord.js');
+const config = require('../../config.json')
 
   module.exports = {
     name: "fleave",
@@ -23,14 +24,22 @@ const { MessageEmbed, TextChannel } = require('discord.js');
       return message.channel.send(`\\❌ | ${message.author}, guild **${id}** does not exist on your cache`)
     };
 
-    return guild.channels.cache.filter(c =>
-      c instanceof TextChannel &&
-      c.permissionsFor(client.user.me).has( 'VIEW_CHANNEL','SEND_MESSAGES')).send(
-      new MessageEmbed()
+      const embed = new MessageEmbed()
       .setColor('RED')
-      .setTitle(`👋 My developer has requested that I leave ${guild.name}!`)
+      .setTitle(`Wolfy requested by **${message.author.tag}**, to leave **${guild.name}** server!`)
       .setDescription(`Reason:\n${reason.join(' ') || 'Unspecified'}`)
-    ).then(() => guild.leave())
+      const Debug = await client.channels.cache.get(config.debug)
+      const botname = client.user.username;
+      setTimeout(async function(){
+        const webhooks = await Debug.fetchWebhooks()
+        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+        if(!webhook){
+          webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+        }
+        webhook.send({embeds: [embed]})
+        .catch(() => {});
+      }, 5000)
+    .then(() => guild.leave())
     .then(() => message.channel.send(`\\✔️ Sucessfully left the guild **${guild.name}**`))
     .catch(() => message.channel.send(`\\❗ Could not perform the operation.`));
   }

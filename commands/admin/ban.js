@@ -13,7 +13,7 @@ module.exports = {
   clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
   async execute(client, message, args) {
   
-      const owner = client.users.fetch('829819269806030879').catch(() => null);
+      const owner = client.users.fetch('724580315481243668').catch(() => null);
       const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
       let reason = args.slice(1).join(" ")
       if (!args[1]) reason = 'No reason specified'
