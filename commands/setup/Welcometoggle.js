@@ -20,8 +20,8 @@ module.exports = {
             data = await schema.findOne({
                 GuildID: message.guild.id
             })
-            if(!data.Mod.Suggestion.channel) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, You didn't set suggestions channel yet`);
+            if(!data.greeter.welcome.channel) {
+                return message.channel.send(`\\❌ **${message.member.displayName}**, You didn't set welcome channel yet`);
             }
         } catch(err) {
             console.log(err)
