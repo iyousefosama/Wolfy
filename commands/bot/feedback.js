@@ -23,10 +23,10 @@ module.exports = {
       return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, Please make your report brief and short! (MAX 1000 characters!)`).then(()=>  message.react("💢"));
     };
 
-    const owner = await client.users.fetch('829819269806030879').catch(() => null);
+    const owner = await client.users.fetch('724580315481243668').catch(() => null);
 
     if (!owner){
-      return message.channel.send(`Couldn't contact ᒍoe#0001!`);
+      return message.channel.send(`Couldn't contact WOLF#1045!`);
     };
 
     
@@ -56,6 +56,6 @@ module.exports = {
         ].join('\n')
       })
     owner.send({ embeds: [embed] }).then(() => message.react('758141943833690202')).catch(() => message.channel.send('<:Verify:841711383191879690> Feedback Sent!'))
-    .catch(err => message.channel.send(`ᒍoe#0001 is currently not accepting any Feedbacks right now via DMs. You might to join my support server instead or make an issue on my github repo to directly address your issue.`));
+    .catch(err => message.channel.send(`WOLF#1045 is currently not accepting any Feedbacks right now via DMs.`));
   }
 };
