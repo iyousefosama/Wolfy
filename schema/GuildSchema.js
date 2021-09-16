@@ -30,6 +30,15 @@ const mongoose = require('mongoose')
       }
     },
 
+    timer: {
+      suggestion: {
+        timeout: { type: Date, default: null }
+      },
+      reports: {
+          timeout: { type: Date, default: null }
+        }
+    },
+
     greeter: {
       welcome: {
         isEnabled: { type: Boolean, default: false },
