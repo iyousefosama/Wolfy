@@ -1,5 +1,7 @@
 const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
+const userschema = require('../../schema/user-schema')
+const moment = require("moment");
 
 module.exports = {
     name: "suggestion",
@@ -12,9 +14,6 @@ module.exports = {
     guarded: false, //or false
     clientpermissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
     async execute(client, message, args) {
-    let suggestion = args.slice(0).join(" ")
-    if (!suggestion) return message.channel.send({ content: "please provide a suggestions!"})
-
     let data;
     try{
         data = await schema.findOne({
@@ -24,20 +23,37 @@ module.exports = {
     } catch(err) {
         console.log(err)
     }
+    let time;
+    try{
+        time = await userschema.findOne({
+            userId: message.author.id
+        })
+        if(!time) {
+        time = await userschema.create({
+            userId: message.author.id
+        })
+        }
+    } catch(err) {
+        console.log(err)
+    }
+    let suggestion = args.slice(0).join(" ")
+    if (!suggestion) return message.channel.send({ content: "please provide a suggestions!"})
     let Channel = client.channels.cache.get(data.Mod.Suggestion.channel)
     if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
     if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
     if(!data.Mod.Suggestion.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **suggestions** command is disabled in this server!`})
     const now = Date.now();
     const duration = Math.floor(57600000)
-    if (data.timer.suggestion.timeout > now){
-        const embed = new Discord.MessageEmbed()
+    if (time.timer.suggestion.timeout > now){
+        const embed = new discord.MessageEmbed()
         .setTitle(`<a:pp802:768864899543466006> Suggestion already Send!`)
-        .setDescription(`\\❌ **${message.author.tag}**, You already send your **suggestion** earlier!\nYou can send your suggestion again after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+        .setDescription(`\\❌ **${message.author.tag}**, You already send your **suggestion** earlier!\nYou can send your suggestion again after \`${moment.duration(time.timer.suggestion.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
         message.channel.send({ embeds: [embed] })
       } else {
+    time.timer.suggestion.timeout = Date.now() + duration;
+    await time.save()
     const embed = new discord.MessageEmbed()
     .setTitle('New suggestions!')
     .setDescription(`${suggestion}`)
