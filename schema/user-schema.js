@@ -10,8 +10,16 @@ const UserSchema = mongoose.Schema({
     blacklisted: {
         type: Boolean,
         default: false
-    }
+    },
 
+    timer: {
+      suggestion: {
+        timeout: { type: Date, default: null }
+      },
+      reports: {
+          timeout: { type: Date, default: null }
+        }
+    }
 })
 
 
