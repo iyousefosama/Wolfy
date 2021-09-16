@@ -1,6 +1,8 @@
 const discord = require('discord.js')
 const canvacord = require('canvacord')
 const Levels = require('discord-xp')
+const schema = require('../../schema/GuildSchema')
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "clearxp",
@@ -14,6 +16,22 @@ module.exports = {
     permissions: ["ADMINISTRATOR"],
     clientpermissions: ["ADMINISTRATOR"],
     async execute(client, message, args) {
+
+        let data;
+        try{
+            data = await schema.findOne({
+                GuildID: message.guild.id
+            })
+            if(!data) {
+                data = await schema.create({
+                    GuildID: message.guild.id
+                })
+            }
+        } catch(err) {
+            console.log(err)
+            message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+        }
+
         const usererr = new discord.MessageEmbed()
         .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
         .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
@@ -28,6 +46,7 @@ module.exports = {
         .setTimestamp()
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
         if (!user) return message.channel.send(usererr)
+        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
         Levels.deleteUser(user.id || user, message.guild.id);
         const dn = new discord.MessageEmbed()
         .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))

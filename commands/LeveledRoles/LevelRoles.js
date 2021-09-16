@@ -1,5 +1,7 @@
 const fs = require('fs')
 const Discord = require('discord.js')
+const schema = require('../../schema/GuildSchema')
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "LevelRoles",
@@ -12,9 +14,25 @@ module.exports = {
     guarded: false, //or false
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "MANAGE_ROLES"],
     async execute(client, message, args) {
-    if (message.channel.type === "dm") return;
+    
+        let data;
+        try{
+            data = await schema.findOne({
+                GuildID: message.guild.id
+            })
+            if(!data) {
+                data = await schema.create({
+                    GuildID: message.guild.id
+                })
+            }
+        } catch(err) {
+            console.log(err)
+            message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+        }
+    
     const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
+    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
     
     const Guild_Check = Level_Roles.find(reach => {
         return reach.guildID === `${message.guild.id}`

@@ -1,5 +1,7 @@
 const fs = require('fs')
 const Discord = require('discord.js')
+const schema = require('../../schema/GuildSchema')
+const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "editrole",
@@ -13,6 +15,21 @@ module.exports = {
     permissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
     clientpermissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
     async execute(client, message, args) {
+
+        let data;
+        try{
+            data = await schema.findOne({
+                GuildID: message.guild.id
+            })
+            if(!data) {
+                data = await schema.create({
+                    GuildID: message.guild.id
+                })
+            }
+        } catch(err) {
+            console.log(err)
+            message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+        }
 
     const provideID = new Discord.MessageEmbed()
     .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
@@ -38,6 +55,7 @@ module.exports = {
     if(New_Number.includes('+')) return message.channel.send({ embeds: [provide] })
     if(New_Number.includes('-')) return message.channel.send({ embeds: [provide] })
     if(New_Number.includes('.')) return message.channel.send({ embeds: [provide] })
+    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
 
     const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())

@@ -45,7 +45,6 @@ module.exports = {
         .then(() => {
           const embed = new Discord.MessageEmbed()
           .setColor('DARK_GREEN')
-          .setFooter(`Logs channel | \©️${new Date().getFullYear()} Wolfy`)
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Logs channel to ${channel}!\n\n`,

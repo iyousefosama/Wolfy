@@ -18,6 +18,7 @@ module.exports = {
     .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
+        { name: `${prefix}leveltoggle`, value: `> \`To enable/disable levelRoles cmd\``},
         { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
         { name: `${prefix}level-roles`, value: `> \`To show you all level roles in the guild\``},
         { name: `${prefix}add-role`, value: `> \`Add a level role as a prize for users when they be active\``},

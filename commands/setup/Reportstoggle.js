@@ -9,7 +9,7 @@ module.exports = {
     guildOnly: true, //or false
     args: false, //or false
     usage: '',
-    cooldown: 5, //seconds(s)
+    cooldown: 30, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
     clientpermissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],

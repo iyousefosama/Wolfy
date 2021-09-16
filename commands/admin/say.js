@@ -16,10 +16,10 @@ module.exports = {
               let text = args.slice(0).join(" ")
               if (!text) return message.channel.send({ content: `<a:Wrong:812104211361693696> You need to type the message to send!`})
 
-              if(message) return message.delete().then(msg => {
+              if(message) return message.delete().catch(() => null).then(msg => {
                 setTimeout(() => { 
                     msg.channel.send({ content: text })
-                 }, 500)
+                 }, 100)
                 })
     }
 }
