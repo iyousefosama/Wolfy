@@ -56,6 +56,7 @@ for (const file of slashFiles) {
 		//Once the Bot is ready, add all Slas Commands to each guild
 		client.on("ready", () => {
 			if(config.loadSlashsGlobal){
+                                client.application.commands.delete(commands)
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
