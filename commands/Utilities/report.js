@@ -34,6 +34,16 @@ module.exports = {
 
     let Avatar = user.displayAvatarURL(({dynamic: true, format: 'png', size: 512}));
 
+    const now = Date.now();
+    const duration = Math.floor(57600000)
+    if (data.timer.reports.timeout > now){
+        const embed = new Discord.MessageEmbed()
+        .setTitle(`<a:pp802:768864899543466006> Report already Send!`)
+        .setDescription(`\\❌ **${message.author.tag}**, You already send your **report** earlier!\nYou can send your report again after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setColor('RED')
+        message.channel.send({ embeds: [embed] })
+      } else {
     const embed = new discord.MessageEmbed()
     .setTitle('New Report!')
     .setDescription(`The Member \`${message.author.tag}\` has reported the user \`${user.tag}\`!`)
@@ -47,6 +57,7 @@ module.exports = {
         { name: "Reason", value: `${reason}`, inline: true}
     )
     Channel.send({ embeds: [embed] })
-    message.channel.send({ content: '\\✔️ Successfully sent Your report!'})
+    message.channel.send({ content: `<:Verify:841711383191879690> **${message.member.displayName}**, Successfully sent Your **report**!`})
     }
+}
 }
