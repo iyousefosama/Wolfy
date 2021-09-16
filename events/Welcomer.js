@@ -50,14 +50,21 @@ module.exports = {
         //if message was text, send the text
          if (type === 'msg'){
           const message = await modifier.modify(data.greeter.welcome.message, member);
-          return client.channels.cache.get(data.greeter.welcome.channel).send({ content: [message] });
+          return client.channels.cache.get(data.greeter.welcome.channel).send(message);
        };
       
         //if message was embed
-        return client.channels.cache.get(data.greeter.welcome.channel).send(
-          new MessageEmbed(
-            JSON.parse(
-              await modifier.modify(JSON.stringify(data.greeter.welcome.embed), member)))
-        );
+        if (type === 'embed'){
+          const message = await modifier.modify(data.greeter.welcome.embed, member);
+          const embed = new Discord.MessageEmbed()
+          .setColor('DARK_GREEN')
+          .setTitle(`${member.user.tag} has joined the server!`)
+          .setURL('https://Wolfy.yoyojoe.repl.co')
+          .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
+          .setDescription(message)
+          .setFooter(`${member.user.username} (${member.user.id})`)
+          .setTimestamp()
+          return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, embeds: [embed]});
+       };
     }
 }
