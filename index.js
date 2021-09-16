@@ -231,9 +231,7 @@ client.on("messageCreate", async message => {
                     const timeLeft = (expirationTime - now) / 1000;
                     return message.channel.send({ content: ` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
                         setTimeout(() => {
-                            if(msg.channel) return;
-                            if (msg) return;
-                            msg.delete()
+                            msg.delete().catch(() => null)
                          }, 3000)
                         })
                 }
