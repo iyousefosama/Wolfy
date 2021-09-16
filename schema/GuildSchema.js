@@ -23,7 +23,11 @@ const mongoose = require('mongoose')
          isEnabled: { type: Boolean, default: true },
          channel: { type: String, default: null },
          type: { type: String, default: 'default' }
-       }
+       },
+       Level: {
+        isEnabled: { type: Boolean, default: false },
+        type: { type: String, default: 'default' }
+      }
     },
 
     greeter: {
