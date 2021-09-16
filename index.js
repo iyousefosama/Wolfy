@@ -57,7 +57,6 @@ for (const file of slashFiles) {
 		client.on("ready", () => {
 			if(config.loadSlashsGlobal){
                                 client.application.commands.delete(commands)
-				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
 					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`)
