@@ -44,7 +44,7 @@ module.exports = {
               .setColor('GREEN')
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
-                `Welcomer message has been Successfully **${state}**!\n\n`,
+                `Welcomer message has been Successfully set!\n\n`,
                 `To set it back to default \`${prefix}setwelcomemsg default\`\n`,
                 `To test the welcome message\`${prefix}setwelcomemsg test\``,
               ].join(' '))
@@ -59,7 +59,7 @@ module.exports = {
               .setColor('GREEN')
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
-                `Welcomer embed has been Successfully **${state}**!\n\n`,
+                `Welcomer embed has been Successfully set!\n\n`,
                 `To set it back to default \`${prefix}setwelcomemsg default\`\n`,
                 `To test the welcome message\`${prefix}setwelcomemsg test\``,
               ].join(' '))
