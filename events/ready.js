@@ -53,7 +53,7 @@ module.exports = {
             } else if(webhooks.size <= 10) {
               // Do no thing...
             }
-            webhook.send({embeds: [embed]})
+            webhook.send({ content: message, embeds: [embed] })
             .catch(() => {});
           }, 5000);
       
