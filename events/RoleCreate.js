@@ -42,7 +42,7 @@ module.exports = {
             const RoleCreated = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Up:853495519455215627> Role Created!')
-            .setDescription(`<a:iNFO:853495450111967253> Role Name: ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
+            .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
             .setColor('#2F3136')
             .setFooter(role.guild.name, role.guild.iconURL({dynamic: true}))
             .setTimestamp()
@@ -52,6 +52,8 @@ module.exports = {
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
               webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+            } else if(webhooks.size <= 10) {
+              // Do no thing...
             }
             webhook.send({embeds: [RoleCreated]})
             .catch(() => {});

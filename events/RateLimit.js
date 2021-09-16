@@ -16,7 +16,6 @@ module.exports = {
       const botname = client.user.username;
       setTimeout(async function(){
         const webhooks = await Debug.fetchWebhooks()
-        if(webhooks.size = 10) return;
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
           webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})

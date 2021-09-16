@@ -21,6 +21,8 @@ module.exports = {
               let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
               if(!webhook){
                 webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+              } else if(webhooks.size <= 10) {
+                // Do no thing...
               }
               webhook.send({embeds: [embed]})
               .catch(() => {});

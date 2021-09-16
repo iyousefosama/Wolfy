@@ -53,6 +53,8 @@ module.exports = {
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
               webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+            } else if(webhooks.size <= 10) {
+              // Do no thing...
             }
             webhook.send({embeds: [RoleDeleted]})
             .catch(() => {});

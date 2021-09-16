@@ -47,7 +47,7 @@ module.exports = {
             RoleUpdated = new MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Role Renamed!')
-            .setDescription(`<a:Right:860969895779893248> oldRole Name: ${oldRole.name}\n<a:Right:860969895779893248> newRole Name: ${newRole.name}\n<:pp198:853494893439352842> Role ID: \`${oldRole.id}\`\n\n<:Rules:853495279339569182> ExecutorTag: ${executor.tag}`)
+            .setDescription(`<a:Right:860969895779893248> **oldRole Name:** ${oldRole.name}\n<a:Right:860969895779893248> **newRole Name:** ${newRole.name}\n<:pp198:853494893439352842> **Role ID:** \`${oldRole.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
             .setColor('#2F3136')
             .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
             .setTimestamp()
@@ -55,7 +55,7 @@ module.exports = {
             RoleUpdated = new MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Role Color changed!')
-            .setDescription(`<a:iNFO:853495450111967253> Role Name: ${newRole.name}\n<:pp198:853494893439352842> Role ID: \`${newRole.id}\`\n<a:Right:877975111846731847> oldRole color: ${oldRole.color}\n<a:Right:877975111846731847> newRole color: ${newRole.color}\n\n<:Rules:853495279339569182> ExecutorTag: ${executor.tag}`)
+            .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${newRole.name}\n<:pp198:853494893439352842> **Role ID:** \`${newRole.id}\`\n<a:Right:877975111846731847> **oldRole color:** ${oldRole.color}\n<a:Right:877975111846731847> **newRole color:** ${newRole.color}\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
             .setColor(newRole.color || '#ed7947')
             .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
             .setTimestamp()
@@ -63,7 +63,7 @@ module.exports = {
             RoleUpdated = new MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Role Updated!')
-            .setDescription(`<a:Right:860969895779893248> oldRole Name: ${oldRole.name}\n<a:Right:860969895779893248> newRole Name: ${newRole.name}\n<:pp198:853494893439352842> Role ID: \`${oldRole.id}\`\n<a:Right:877975111846731847> oldRole color: ${oldRole.color}\n<a:Right:877975111846731847> newRole color: ${newRole.color}\n\n<:Rules:853495279339569182> ExecutorTag: ${executor.tag}`)
+            .setDescription(`<a:Right:860969895779893248> **oldRole Name:** ${oldRole.name}\n<a:Right:860969895779893248> **newRole Name:** ${newRole.name}\n<:pp198:853494893439352842> **Role ID:** \`${oldRole.id}\`\n<a:Right:877975111846731847> **oldRole color:** ${oldRole.color}\n<a:Right:877975111846731847> **newRole color:** ${newRole.color}\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
             .setColor(newRole.color || '#2F3136')
             .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
             .setTimestamp()
@@ -77,6 +77,8 @@ module.exports = {
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
               webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+            } else if(webhooks.size <= 10) {
+              // Do no thing...
             }
             webhook.send({embeds: [RoleUpdated]})
             .catch(() => {});
