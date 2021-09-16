@@ -37,6 +37,7 @@ module.exports = {
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
+        if(webhooks.size = 10) return;
         setTimeout(async function(){
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
