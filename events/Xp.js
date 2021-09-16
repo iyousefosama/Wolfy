@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const Levels = require("discord-xp");
 const fs = require('fs');
+const schema = require('../schema/GuildSchema')
 
 module.exports = {
     name: 'messageCreate',
@@ -17,6 +18,22 @@ module.exports = {
         if (message.author.bot){
             return;
           };
+        
+          let data;
+          try{
+              data = await schema.findOne({
+                  GuildID: message.guild.id
+              })
+              if(!data) {
+                  data = await schema.create({
+                      GuildID: message.guild.id
+                  })
+              }
+          } catch(err) {
+              console.log(err)
+              message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+          }
+          if(!data.Mod.Level.isEnabled) return;
     
         const randomXp = Math.floor(Math.random() * 46) + 1;
         const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
@@ -31,9 +48,7 @@ module.exports = {
             .setTimestamp()
             message.channel.send({ embeds: [LevelUp] }).then(msg => {
     setTimeout(() => {
-        if(msg.channel.deleted) return;
-        if (msg.deleted) return;
-        msg.delete()
+        msg.delete().catch(() => null)
      }, 5000)
     })
             
