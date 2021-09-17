@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
-    async execute(client, message, args) {
+    async execute(client, message, ...args) {
     if (message.author == client.user) return;
     let singer;
     let song;
@@ -28,7 +28,7 @@ module.exports = {
     .setDescription(`<a:Loading:841321898302373909> | Please send the **artist** name!`)
     .setFooter(`1/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
     message.channel.send({ embeds: [singerEmb] })
-    let col = await message.channel.awaitMessages({ filter, max: 1, time: 5000 })
+    let col = await message.channel.awaitMessages({ filter, max: 1 })
     if(col.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
     else if(col.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     singer = col.first().content
@@ -40,7 +40,7 @@ module.exports = {
     .setFooter(`2/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
     .setTimestamp()
     message.channel.send({ embeds: [songEmb]})
-    let col2 = await message.channel.awaitMessages({ filter, max: 1, time: 5000 })
+    let col2 = await message.channel.awaitMessages({ filter, max: 1 })
     if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
     else if(col2.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     song = col2.first().content
@@ -53,7 +53,23 @@ module.exports = {
         return message.channel.send(`\\\❌ | ${message.author}, I couldn't find the lyrics!`)
       };
 
-    let res = await lyricsFinder(singer, song) || "<a:Error:836169051310260265> | Not Found!";
+    let res = await lyricsFinder(singer, song) || `\\\❌ | ${message.author}, I couldn't find the lyrics!`;
+
+    if (data.lyrics.length < 2000){
+        for(let i = 0; i < res.length; i += 2048) {
+            let lyrics = res.substring(i, Math.min(res.length, i + 2048))
+        const LowLy = new discord.MessageEmbed()
+        .setThumbnail(data.thumbnail.genius)
+        .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+        .setColor('GREY')
+        .addFields(
+            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.title}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.author}\`\`\``, inline: true },
+        )
+        .setDescription(lyrics)
+        return message.channel.send({ embeds: [LowLy]})
+        }
+    }
 
     for(let i = 0; i < res.length; i += 2048) {
         let lyrics = res.substring(i, Math.min(res.length, i + 2048))
@@ -62,7 +78,7 @@ module.exports = {
         .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
         .setColor('GREY')
         .addFields(
-            { name: '<:pp421:853495091338674206> Singer', value: `\`\`\`${data.title}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.title}\`\`\``, inline: true },
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.author}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
