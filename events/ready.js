@@ -20,7 +20,8 @@ module.exports = {
         const servers = text.commatize(client.guilds.cache.size);
         const members = text.commatize(client.guilds.cache.reduce((a,b) => a + b.memberCount, 0));
         const commands = client.commands.size;
-        const slashCommands = client.slashCommands.size;
+        const boot = currentdate;
+        const SlashCommands = client.slashCommands.size;
         const message = `${icon} \`[ ${client.user.username} ]\` **REBOOT**`;
         const embed = {
           color: 'GREY',
@@ -29,7 +30,7 @@ module.exports = {
             `Servers: ${servers}`,
             `Members: ${members}`,
             `Command: ${commands}`,
-            `SlashCommands: ${slashCommands}`
+            `SlashCommands: ${SlashCommands}`,
             `Boot: ${currentdate}`,
             '```'
           ].join('\n')
