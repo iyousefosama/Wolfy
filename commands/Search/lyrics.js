@@ -79,8 +79,8 @@ module.exports = {
         .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
         .setColor('GREY')
         .addFields(
-            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.title}\`\`\``, inline: true },
-            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.author}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
         .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
@@ -90,13 +90,15 @@ module.exports = {
 
     const filter2 = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (message.author.id == user.id)
     const Embed = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, embeds: [pages[current]]})
+    setTimeout(async () => {
     await Embed.react('⬅️')
+    }, 1000)
     setTimeout(async () => {
     await Embed.react('➡️')
-    }, 1000)
+    }, 2000)
     setTimeout(async () => {
     await Embed.react('❌')
-    }, 1000)
+    }, 3000)
 
     let ReactionCol = Embed.createReactionCollector({ filter: filter2, time: 30000 })
 
