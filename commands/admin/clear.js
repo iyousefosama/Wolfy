@@ -27,6 +27,7 @@ module.exports = {
       const count = messages.size;
       const _id = Math.random().toString(36).slice(-7);
       const debug = await client.channels.cache.get(config.debug)
+      const debug2 = await client.channels.cache.get(config.debug2)
 
       messages = messages.filter(Boolean).map(message => {
         return [
@@ -39,6 +40,11 @@ module.exports = {
       messages = messages.reverse().join('');
 
       const res = debug ? await debug.send({
+        content: `\`\`\`BULKDELETE FILE - ServerID: ${message.guild.id} ChannelID: ${message.channel.id} AuthorID: ${message.author.id}\`\`\``,
+        files: [{ attachment: Buffer.from(messages), name: `bulkdlt-${_id}.txt`}]
+      }).then(message => [message.attachments.first().url, message.attachments.first().id])
+      .catch(() => ['', null]) : ['', null];
+      const res2 = debug2 ? await debug2.send({
         content: `\`\`\`BULKDELETE FILE - ServerID: ${message.guild.id} ChannelID: ${message.channel.id} AuthorID: ${message.author.id}\`\`\``,
         files: [{ attachment: Buffer.from(messages), name: `bulkdlt-${_id}.txt`}]
       }).then(message => [message.attachments.first().url, message.attachments.first().id])
