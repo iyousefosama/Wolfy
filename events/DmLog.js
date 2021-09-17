@@ -15,35 +15,32 @@ module.exports = {
         .setTimestamp()
         .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
-        const bot = client.user.username;
-        await client.channels.cache.get(config.debug)?.createWebhook(bot, {
-            avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })
-          })
-          const Debug = await client.channels.cache.get(config.debug)
-          const botname = client.user.username;
-          setTimeout(async function(){
-          const webhooks = await Channel.fetchWebhooks()
-          let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
-          if(!webhook){
-            webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
-          } else if(webhooks.size <= 10) {
-            // Do no thing...
-          }
-          webhook.send({embeds: [bot]})
-          .catch(() => {});
-        }, 20000);
-        const Debug2 = await client.channels.cache.get(config.debug2)
+
+        const Debug = await client.channels.cache.get(config.debug)
+        const botname = client.user.username;
         setTimeout(async function(){
-        const webhooks = await Debug2.fetchWebhooks()
+        const webhooks = await Debug.fetchWebhooks()
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
-          webhook = await Debug2.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({ embeds: [dmEmbed] })
+        webhook.send({ content: message, embeds: [dmEmbed] })
         .catch(() => {});
       }, 25000);
+      const Debug2 = await client.channels.cache.get(config.debug2)
+      setTimeout(async function(){
+      const webhooks = await Debug2.fetchWebhooks()
+      let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+      if(!webhook){
+        webhook = await Debug2.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+      } else if(webhooks.size <= 10) {
+        // Do no thing...
+      }
+      webhook.send({ content: message, embeds: [dmEmbed] })
+      .catch(() => {});
+    }, 20000);
           // add more functions on ready  event callback function...
         
           return;
