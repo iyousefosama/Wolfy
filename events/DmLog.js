@@ -26,9 +26,9 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({ content: message, embeds: [dmEmbed] })
+        webhook.send({ embeds: [dmEmbed] })
         .catch(() => {});
-      }, 25000);
+      }, 20000);
       const Debug2 = await client.channels.cache.get(config.debug2)
       setTimeout(async function(){
       const webhooks = await Debug2.fetchWebhooks()
@@ -38,9 +38,9 @@ module.exports = {
       } else if(webhooks.size <= 10) {
         // Do no thing...
       }
-      webhook.send({ content: message, embeds: [dmEmbed] })
+      webhook.send({ embeds: [dmEmbed] })
       .catch(() => {});
-    }, 20000);
+    }, 25000);
           // add more functions on ready  event callback function...
         
           return;
