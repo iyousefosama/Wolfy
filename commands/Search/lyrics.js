@@ -38,7 +38,6 @@ module.exports = {
     .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
     .setDescription(`<a:Loading:841321898302373909> | Please send the **song** name!`)
     .setFooter(`2/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
-    .setTimestamp()
     message.channel.send({ embeds: [songEmb]})
     let col2 = await message.channel.awaitMessages({ filter, max: 1 })
     if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
@@ -63,10 +62,12 @@ module.exports = {
         .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
         .setColor('GREY')
         .addFields(
-            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.title}\`\`\``, inline: true },
-            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.author}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
+            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
+        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTimestamp()
         return message.channel.send({ embeds: [LowLy]})
         }
     }
@@ -82,6 +83,8 @@ module.exports = {
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.author}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
+        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTimestamp()
         pages.push(page)
     }
 
