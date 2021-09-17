@@ -55,9 +55,7 @@ module.exports = {
         .setTimestamp()
         message.channel.send({ embeds: [embed]}).then(msg => {
           setTimeout(() => {
-              if(msg.channel.deleted) return;
-              if (msg.deleted) return;
-              msg.delete()
+              msg.delete().catch(() => null)
            }, 5000)
           })
     });
