@@ -27,6 +27,18 @@ module.exports = {
             webhook.send({embeds: [left]})
             .catch(() => {});
           }, 5000);
+          const Debug2 = await client.channels.cache.get(config.debug2)
+          setTimeout(async function(){
+          const webhooks = await Debug2.fetchWebhooks()
+          let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+          if(!webhook){
+            webhook = await Debug2.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          } else if(webhooks.size <= 10) {
+            // Do no thing...
+          }
+          webhook.send({ embeds: [join] })
+          .catch(() => {});
+        }, 7000)
             
               // add more functions on ready  event callback function...
             

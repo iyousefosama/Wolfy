@@ -20,7 +20,7 @@ module.exports = {
         const servers = text.commatize(client.guilds.cache.size);
         const members = text.commatize(client.guilds.cache.reduce((a,b) => a + b.memberCount, 0));
         const commands = client.commands.size;
-        const boot = currentdate;
+        const slashCommands = client.slashCommands.size;
         const message = `${icon} \`[ ${client.user.username} ]\` **REBOOT**`;
         const embed = {
           color: 'GREY',
@@ -29,6 +29,7 @@ module.exports = {
             `Servers: ${servers}`,
             `Members: ${members}`,
             `Command: ${commands}`,
+            `SlashCommands: ${slashCommands}`
             `Boot: ${currentdate}`,
             '```'
           ].join('\n')
@@ -56,6 +57,18 @@ module.exports = {
             webhook.send({ content: message, embeds: [embed] })
             .catch(() => {});
           }, 5000);
+          const Debug2 = await client.channels.cache.get(config.debug2)
+          setTimeout(async function(){
+          const webhooks = await Debug2.fetchWebhooks()
+          let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+          if(!webhook){
+            webhook = await Debug2.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          } else if(webhooks.size <= 10) {
+            // Do no thing...
+          }
+          webhook.send({ content: message, embeds: [embed] })
+          .catch(() => {});
+        }, 7000);
       
         // add more functions on ready  event callback function...
       
