@@ -4,7 +4,7 @@ const fetch = require('node-fetch')
 module.exports = {
     name: 'messageCreate',
     execute(client, message) {
-        if(message.channel.id === '880151543159087184') {
+        if(message.channel.id === '859100693365653515') {
             if (message.author == client.user) return;
             if (message.author.bot){
                 return;
