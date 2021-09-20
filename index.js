@@ -204,14 +204,20 @@ client.on("messageCreate", async message => {
 
             //+ args: true/false,
         if (cmd.args && !args.length) {
-            let reply = `You didn't provide any arguments, ${message.author}!`;
+            let desc = `You didn't provide any arguments`;
 
             //+ usage: '<> <>',
             if (cmd.usage) {
-                reply += `\nThe proper usage would be: \`${prefix}${cmd.name} ${cmd.usage}\``;
+                desc += `, The proper usage would be:\n\`${prefix}${cmd.name} ${cmd.usage}\``;
+            }
+            if (cmd.examples && cmd.examples.length !== 0) {
+                desc += `\n\nExamples:\n${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``)}`;
             }
     
-            return message.channel.send(reply);
+            const NoArgs = new Discord.MessageEmbed()
+            .setDescription(desc)
+            .setColor('RED')
+            return message.channel.send({ embeds: [NoArgs] });
         }
 
             //+ cooldown 1, //seconds(s)
