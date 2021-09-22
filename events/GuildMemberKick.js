@@ -1,0 +1,68 @@
+const Discord = require('discord.js')
+const moment = require("moment");
+const schema = require('../schema/GuildSchema')
+
+module.exports = {
+    name: 'guildMemberRemove',
+    async execute(client, user) {
+        if(!user) return;
+
+        let data;
+        try{
+            data = await schema.findOne({
+                GuildID: user.guild.id
+            })
+            if(!data) return;
+        } catch(err) {
+            console.log(err)
+        }
+        let Channel = client.channels.cache.get(data.Mod.Logs.channel)
+        if (!Channel || !data.Mod.Logs.channel){
+            return;
+          } else if (Channel.type !== 'GUILD_TEXT') {
+            return;
+          } else if (!data.Mod.Logs.isEnabled){
+            return;
+          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+            return;
+          } else {
+            // Do nothing..
+          };
+
+          const fetchedLogs = await user.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'MEMBER_KICK',
+        });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const kickLog = fetchedLogs.entries.first();
+
+        if (!kickLog) return;
+
+        const { executor, target, reason } = kickLog;
+
+        if (!reason) reason = "Not specified";
+        
+        const Kick = new Discord.MessageEmbed()
+        .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTitle('<a:pp681:774089750373597185> Member Kicked!')
+        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+        .setColor('#f78450')
+        .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
+        .setTimestamp()
+        const botname = client.user.username;
+        const webhooks = await Channel.fetchWebhooks()
+        setTimeout(async function(){
+        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+        if(!webhook){
+          webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+        } else if(webhooks.size <= 10) {
+          // Do no thing...
+        }
+        webhook.send({embeds: [Kick]})
+        .catch(() => {});
+      }, 5000);
+          // add more functions on ready  event callback function...
+        
+          return;
+    }
+}
