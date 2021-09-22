@@ -27,6 +27,8 @@ const { developer, clientId } = require('./config.json');
 
 const map = new Map();
 
+const text = require('./util/string');
+
 const mongodb = require('./mongo')()
 
 const cooldowns = new Collection();
