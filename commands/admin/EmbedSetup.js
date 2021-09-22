@@ -60,9 +60,9 @@ module.exports = {
         let embed = new discord.MessageEmbed()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
 
-        const msg = await message.reply({ embeds: [embed], components: [row, row2] })
+        const msg = await message.reply({ embeds: [embed], components: [row, row2], fetch: true })
         const collector = msg.createMessageComponentCollector({ time: 120000, errors: ['time'] })
-    
+
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '84994859419841841'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
@@ -77,7 +77,7 @@ module.exports = {
                 .addComponents(button, button2, button3, button4, button5);
                 const newrow2 = new MessageActionRow()
                 .addComponents(button6, button7);
-                msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                msg.edit({embeds: [embed], components: [newrow, newrow2] }).catch(() => null)
                 await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed description!`, ephemeral: true})
 
                 const filter = msg => msg.author.id == message.author.id;
@@ -88,10 +88,10 @@ module.exports = {
                 desc = desc.first().content
                 if(desc.length > 4026) {
                 message.reply({ content: `\\❌ **${message.author.username}**, Embed description should be 4026 characters or less!`, ephemeral: true})
-                return msg.edit({ embeds: [embed], components: [row, row2]})
+                return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                 }
                 embed.setDescription(desc)
-                msg.edit({ embeds: [embed], components: [row, row2]})
+                msg.edit({ embeds: [embed], components: [row, row2] }).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                 await message.reply({ content: `**${message.author.username}**, Successfully set the embed description!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '8419684198419841'){
@@ -107,7 +107,7 @@ module.exports = {
                     .addComponents(button, button2, button3, button4, button5);
                     const newrow2 = new MessageActionRow()
                     .addComponents(button6, button7);
-                    msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                    msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed title!`, ephemeral: true})
 
                     const filter = msg => msg.author.id == message.author.id;
@@ -118,10 +118,10 @@ module.exports = {
                     title = title.first().content
                     if(title.length > 246) {
                         message.reply({ content: `\\❌ **${message.author.username}**, Embed title should be 246 characters or less!`, ephemeral: true})
-                        return msg.edit({ embeds: [embed], components: [row, row2]})
+                        return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                         }
                     embed.setTitle(title)
-                    msg.edit({ embeds: [embed], components: [row, row2]})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed title!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '984198419841984198'){
@@ -137,7 +137,7 @@ module.exports = {
                     .addComponents(button, button2, button3, button4, button5);
                     const newrow2 = new MessageActionRow()
                     .addComponents(button6, button7);
-                    msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                    msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed color!`, ephemeral: true})
 
                     const filter = msg => msg.author.id == message.author.id;
@@ -151,9 +151,9 @@ module.exports = {
                     } catch {
                     embed.setColor('RED')
                     message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed color!`, ephemeral: true})
-                    return msg.edit({ embeds: [embed], components: [row, row2]})
+                    return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
-                    msg.edit({ embeds: [embed], components: [row, row2]})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed color!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '968419841984198419'){
@@ -169,7 +169,7 @@ module.exports = {
                     .addComponents(button, button2, button3, button4, button5);
                     const newrow2 = new MessageActionRow()
                     .addComponents(button6, button7);
-                    msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                    msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed thumbnail link!`, ephemeral: true})
 
                     const filter = msg => msg.author.id == message.author.id;
@@ -180,12 +180,12 @@ module.exports = {
                     thumb = thumb.first().content
                     try {
                     embed.setThumbnail(thumb).catch(() => null)
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed thumbnail!`, ephemeral: true})
                     } catch {
                     embed.setThumbnail('https://cdn.discordapp.com/avatars/821655420410003497/9633a398fbdb33906862000c39d813cd.png?size=512')
                     message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed thumbnail!`, ephemeral: true})
-                    return msg.edit({ embeds: [embed], components: [row, row2]})
+                    return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
                 }
                 if(interactionCreate.customId === '985412985419849845'){
@@ -201,7 +201,7 @@ module.exports = {
                     .addComponents(button, button2, button3, button4, button5);
                     const newrow2 = new MessageActionRow()
                     .addComponents(button6, button7);
-                    msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                    msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed image!`, ephemeral: true})
 
                     const filter = msg => msg.author.id == message.author.id;
@@ -212,12 +212,12 @@ module.exports = {
                     img = img.first().content
                     try {
                     embed.setImage(img).catch(() => null)
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed image!`, ephemeral: true})
                     } catch {
                     embed.setImage('https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif')
                     message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed image!`, ephemeral: true})
-                    return msg.edit({ embeds: [embed], components: [row, row2]})
+                    return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
                 }
                 if(interactionCreate.customId === '65126958498549854'){
@@ -233,7 +233,7 @@ module.exports = {
                     .addComponents(button, button2, button3, button4, button5);
                     const newrow2 = new MessageActionRow()
                     .addComponents(button6, button7);
-                    msg.edit({embeds: [embed], components: [newrow, newrow2]})
+                    msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     const FinallEmb = new discord.MessageEmbed()
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                     .setColor('#e6a54a')
@@ -306,20 +306,6 @@ module.exports = {
                     msg.edit({embeds: [embed], components: [newrow, newrow2]})
                     await interactionCreate.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, Cancelled the \`embedsetup\` command!`, ephemeral: true})
                     }
-    })
-    collector.on('end', message => {
-        button.setDisabled(true)
-        button2.setDisabled(true)
-        button3.setDisabled(true)
-        button4.setDisabled(true)
-        button5.setDisabled(true)
-        button6.setDisabled(true)
-        button7.setDisabled(true)
-        const newrow = new MessageActionRow()
-        .addComponents(button, button2, button3, button4, button5);
-        const newrow2 = new MessageActionRow()
-        .addComponents(button6, button7);
-        msg.edit({embeds: [embed], components: [newrow, newrow2]})
     })
 }
 }
