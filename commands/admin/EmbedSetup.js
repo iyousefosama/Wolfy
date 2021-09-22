@@ -246,11 +246,7 @@ module.exports = {
     
                     let thmsg = await message.channel.awaitMessages({ filter, max: 1 })
                     if(thmsg.first().content == '1') {
-                        msg.delete().then(msg => {
-                            setTimeout(() => { 
-                                msg.channel.send({ embeds: [embed] })
-                             }, 1000)
-                            })
+                    message.channel.send({ embeds: [embed] })
                     } else if(thmsg.first().content == '2') {
                         const filter = msg => msg.author.id == message.author.id;
 
