@@ -14,7 +14,7 @@ module.exports = {
   cooldown: 10, //seconds(s)
   guarded: false, //or false
   permissions: ['MANAGE_MESSAGES', 'ADMINISTRATOR'],
-  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'],
+  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS', 'ADMINISTRATOR', 'ATTACH_FILES'],
   examples: [
     '20'],
     async execute(client, message, [quantity]) {
