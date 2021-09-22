@@ -41,10 +41,6 @@ const { AutoPoster } = require('topgg-autoposter')
 
 const ap = AutoPoster('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI5MDgxMTI5fQ.UGbgw0PHpYuydbBJ4HNA6eRzQrlO8DZmRDxY1MBXids', client)
 
-ap.on('posted', () => {
-  console.log('Posted stats to Top.gg!')
-})
-
 const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
 for (const file of slashFiles) {
     const slash = require(`./slashCommands/${file}`);
@@ -251,7 +247,7 @@ client.on("messageCreate", async message => {
                      	if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                             const PermsEmbed = new Discord.MessageEmbed()
                             .setColor(`RED`)
-                            .setDescription(`<a:pp802:768864899543466006> You don't have \`${cmd.permissions}\` permission(s) to use ${cmd.name} command.`)
+                            .setDescription(`<a:pp802:768864899543466006> You don't have \`${text.joinArray(cmd.permissions)}\` permission(s) to use ${cmd.name} command.`)
                             return message.channel.send({ embeds: [PermsEmbed] })
                          }
                     	}
@@ -262,27 +258,45 @@ client.on("messageCreate", async message => {
                     if (message.guild) {
                     const clientPerms = message.channel.permissionsFor(message.guild.me);
                     if (!clientPerms || !clientPerms.has(cmd.clientpermissions)) {
-                        return message.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${cmd.clientpermissions}\` permission(s)!`, allowedMentions: { repliedUser: false }});
+                        const ClientPermsEmbed = new Discord.MessageEmbed()
+                        .setColor(`RED`)
+                        .setDescription(`<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(cmd.clientpermissions)}\` permission(s)`)
+                        return message.channel.send({ embeds: [ClientPermsEmbed] })
                     }
                    }
                 }
 
                 //+ guildOnly: true/false,
                 if (cmd.guildOnly && message.channel.type === 'DM') {
-                    return message.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside DMs!', allowedMentions: { repliedUser: false }});
+                    const NoDmEmbed = new Discord.MessageEmbed()
+                    .setColor(`RED`)
+                    .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`)
+                    return message.reply({ embeds: [NoDmEmbed] })
                 }
 
                 //+ dmOnly: true/false,
                 if (cmd.dmOnly && message.channel.type === 'GUILD_TEXT') {
-                    return message.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside the server!', allowedMentions: { repliedUser: false }});
+                    const NoGuildEmbed = new Discord.MessageEmbed()
+                    .setColor(`RED`)
+                    .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside the server!`)
+                    return message.channel.send({ embeds: [NoGuildEmbed] })
                 }
 
                 if(cmd.guarded) {
-                    return message.reply({ content: `<a:pp802:768864899543466006> ${cmd.name} is guarded!`, allowedMentions: { repliedUser: false }})
+                    const GuardedEmbed = new Discord.MessageEmbed()
+                    .setColor(`RED`)
+                    .setDescription(`<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`)
+                    return message.channel.send({ embeds: [GuardedEmbed] })
                 }
 
                 if(cmd.OwnerOnly) {
-                    if(message.author.id !== developer) return message.reply({ content: `<a:pp802:768864899543466006> ${cmd.name} for developers only!`, allowedMentions: { repliedUser: false }})
+                    if(message.author.id !== developer) {
+                        const DevOnlyEmbed = new Discord.MessageEmbed()
+                        .setColor(`RED`)
+                        .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the commands \`${cmd.name}\` is limited developers only!`)
+                        return message.channel.send({ embeds: [DevOnlyEmbed] })
+
+                    }
                 }
 
                 if (message.guild){
@@ -305,11 +319,11 @@ client.on("messageCreate", async message => {
                     } else {
                       // Do nothing..
                     };
-                  };  
+                  }; 
                   
         cmd.execute(client, message, args);
     }catch(err){
-        message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to ᒍoe#0001\``);
+        message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to WOLF#1045\``);
         console.log(err);
     }
 })
