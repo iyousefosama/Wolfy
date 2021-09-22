@@ -34,9 +34,9 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           }
 
-          if(cmd.aliases > 1 || cmd.aliases == null || typeof cmd.permissions !== 'string') {
+          if(cmd.aliases.length > 1 || cmd.aliases == null || typeof cmd.permissions !== 'string') {
             cmd.aliases = [ 'None' ]
-          } else if(cmd.permissions > 1 || cmd.permissions == null || typeof cmd.permissions !== 'string') {
+          } else if(cmd.permissions.length > 1 || cmd.permissions == null || typeof cmd.permissions !== 'string') {
             cmd.permissions = [ 'None' ]
           } else if(cmd.examples > 1 || cmd.examples == null || typeof cmd.examples !== 'string') {
             cmd.examples = [ 'None' ]

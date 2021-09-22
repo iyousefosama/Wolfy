@@ -30,7 +30,7 @@ module.exports = {
     <a:pp224:853495450111967253> **Tag:** ${client.user.tag}
     <:pp198:853494893439352842> **ID:** ${client.user.id}
     📆 **Created At:** ${moment(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}
-    <:Developer:841321892060201021> **Developer:** <@829819269806030879>
+    <:Developer:841321892060201021> **Developer:** <@724580315481243668>
     <a:LightUp:776670894126006302> **Bot Website:** https://Wolfy.yoyojoe.repl.co\n\`\`\`message.channel.type === 'DM' && cmd.name: The.........BaskokaMan!\`\`\`
     **Version:** \`${version}\`
     ━━━━━━━━━━━━━━━━━━
