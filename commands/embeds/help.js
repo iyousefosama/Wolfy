@@ -151,8 +151,12 @@ module.exports = {
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
         { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},
+        { name: `${prefix}warn`, value: `> \`Warn a user in the server!\``},
+        { name: `${prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
+        { name: `${prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
         { name: `${prefix}say`, value: `> \`The bot will repeat what you say\``},
         { name: `${prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
+        { name: `${prefix}embedsetup`, value: `> \`Display the setup embed message!\``},
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
@@ -160,8 +164,7 @@ module.exports = {
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
-        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``},
-        { name: `${prefix}helpsetup`, value: `> \`To send setup commands helplist (logs, sugg, etc...)\``},
+        { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp()
@@ -247,7 +250,7 @@ module.exports = {
     .setTimestamp()
 
     const msg = await message.reply({ embeds: [help], components: [row, row2] })
-    const collector = msg.createMessageComponentCollector({ time: 15000 });
+    const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
 
     collector.on('collect', async interactionCreate => {
         if(interactionCreate.customId === '1'){
@@ -297,7 +300,7 @@ module.exports = {
         .addComponents(button, button2, button3, button4, button5);
         const newrow2 = new MessageActionRow()
         .addComponents(button6, button7, button8, button9, button10);
-        msg.edit({embeds: [help], components: [newrow, newrow2]})
+        msg.edit({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
     })
 }
 }
