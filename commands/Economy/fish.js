@@ -11,7 +11,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Take your fishingpole and start fishing',
-    cooldown: 2, //seconds(s)
+    cooldown: 17, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
@@ -44,6 +44,7 @@ module.exports = {
         const epic = ["EpicFish <:e_:886630455175159818>"]
     
         let moneyget;
+        let loadingMsg;
          if (Math.random() * 100 < 40) {
             const trashitems = ["Trash 👞", "Trash 🔧", "Trash 🧻", "Trash 🗑️", "Trash 📎"]
             const trash = trashitems[Math.floor(Math.random() * trashitems.length)]
@@ -51,7 +52,8 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
-                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${trash}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+                let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+                loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${trash}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 30) {
@@ -60,7 +62,8 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
-                message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${common}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+                let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+                loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${common}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 15) {
@@ -69,7 +72,8 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
-                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${uncommon}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+                let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+                loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${uncommon}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 12) {
@@ -78,7 +82,8 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
-                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${rare}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+                let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+                loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${rare}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 3) {
@@ -87,7 +92,8 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
-                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${epic}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+                let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+                loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${epic}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           }
