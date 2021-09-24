@@ -79,6 +79,13 @@ module.exports = {
             await data.save()
             .then(()=> message.channel.send(`\\✔️ **${message.author.tag}**, Successfully sold **<a:Diamond:877975082868301824> Diamond** for <a:ShinyMoney:877975108038324224> \`+${amount * 6}\`!`))
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
+        } else {
+            const nulle = new Discord.MessageEmbed()
+            .setTitle(`<a:Wrong:812104211361693696> Unknown item!`)
+            .setDescription(`**${message.author.username}**, **${res}** this item not from the items listed in the inventory!`)
+            .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setColor('RED')
+            message.channel.send({ embeds: [nulle] })
         }
 }
 }

@@ -64,6 +64,7 @@ module.exports = {
         data.cookies.givecookies += Math.floor('1');
         FriendData.cookies.totalcookies += Math.floor('1');
         await data.save()
+        await FriendData.save()
         .then(() => {
           const embed = new Discord.MessageEmbed()
           .setTitle(`<a:Cookie:853495749370839050> Cookie is gived!`)

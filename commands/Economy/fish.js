@@ -11,7 +11,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Take your fishingpole and start fishing',
-    cooldown: 15, //seconds(s)
+    cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
@@ -50,8 +50,8 @@ module.exports = {
             let moneyget = Math.floor(Math.random() * 20) * 1
             data.credits += Math.floor(moneyget);
             await data.save()
-            .then(() => {
-                message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${trash}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+            .then(async () => {
+                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${trash}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 30) {
@@ -59,7 +59,7 @@ module.exports = {
             let moneyget = Math.floor(Math.random() * 40) * 2
             data.credits += Math.floor(moneyget);
             await data.save()
-            .then(() => {
+            .then(async () => {
                 message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${common}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
@@ -68,8 +68,8 @@ module.exports = {
             let moneyget = Math.floor(Math.random() * 80) * 2
             data.credits += Math.floor(moneyget);
             await data.save()
-            .then(() => {
-                message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${uncommon}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+            .then(async () => {
+                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${uncommon}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 12) {
@@ -77,8 +77,8 @@ module.exports = {
             let moneyget = Math.floor(Math.random() * 125) * 3
             data.credits += Math.floor(moneyget);
             await data.save()
-            .then(() => {
-                message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${rare}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+            .then(async () => {
+                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${rare}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 3) {
@@ -86,8 +86,8 @@ module.exports = {
             let moneyget = Math.floor(Math.random() * 200) * 4
             data.credits += Math.floor(moneyget);
             await data.save()
-            .then(() => {
-                message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${epic}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
+            .then(async () => {
+                await message.channel.send({ content: `🎣 **${message.author.tag}**, you caught: **${epic}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           }
