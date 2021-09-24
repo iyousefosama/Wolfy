@@ -62,7 +62,7 @@ module.exports = {
         let moneyget = Math.floor(Math.random() * 40) * 2
         data.credits += Math.floor(moneyget);
         data.cookies.givecookies += Math.floor('1');
-        FriendData.cookies += Math.floor('1');
+        FriendData.cookies.totalcookies += Math.floor('1');
         await data.save()
         .then(() => {
           const embed = new Discord.MessageEmbed()
