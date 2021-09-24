@@ -28,29 +28,6 @@ module.exports = {
       if (user.id === owner){
         return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't kick my developers through me!`})
       };
-
-
-      if (user) {
-  
-        const member = message.guild.members.cache.get(user.id)
-  
-        if (member) {
-  
-          member
-
-          // kick code 
-            .kick({
-                // the reason
-              reason: `Wolfy kick Command: ${message.author.tag}: ${reason}`,
-            })
-            .then(() => {
-            const timestamp = Math.floor(Date.now() / 1000)
-            const kick = new discord.MessageEmbed()
-            .setTimestamp()
-            .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n<:pp833:853495153280155668> • **Moderator:** ${message.author.username} (${message.author.id})\n<:Rules:840126839938482217> • **Reason:** \`${reason}\`\n• **At:** <t:${timestamp}>`);
-            message.channel.send({ embeds: [kick] });
-            })
                /////////////////////////////////////////////// Errors /////////////////////////////////////////////
                const Err1 = new discord.MessageEmbed()
                .setTitle('Error!')
@@ -74,12 +51,33 @@ module.exports = {
                if (user.id === message.author.id) return message.reply({ embeds: [Err3] })
                if (message.member.roles.highest.position <= user.roles.highest.position) return message.reply({ embeds: [Err4] })
            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+           
+      if (user) {
+  
+        const member = message.guild.members.cache.get(user.id)
+  
+        if (member) {
+  
+          member
+
+          // kick code 
+            .kick({
+                // the reason
+              reason: `Wolfy kick Command: ${message.author.tag}: ${reason}`,
+            })
+            .then(() => {
+            const timestamp = Math.floor(Date.now() / 1000)
+            const kick = new discord.MessageEmbed()
+            .setTimestamp()
+            .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n\n<:pp833:853495153280155668> • **Moderator:** ${message.author.username} (${message.author.id})\n<:Rules:840126839938482217> • **Reason:** \`${reason}\`\n<a:Right:877975111846731847> • **At:** <t:${timestamp}>`);
+            message.channel.send({ embeds: [kick] });
+            })
             .catch(err => {
               const Err = new discord.MessageEmbed()
               .setColor(`RED`)
               .setDescription(`<a:pp802:768864899543466006> I was unable to kick the member`)
               message.channel.send({ embeds: [Err] })
-              console.error(err)
             })
         } else {
           const Err22 = new discord.MessageEmbed()

@@ -119,7 +119,7 @@ module.exports = {
                         }
                         break;
                     case '❌':
-                        message.channel.send({ content: 'Cancelled.'})
+                        message.channel.send({ content: '💢 | Cancelled.'})
                         collector.stop()
                         break;
                 }
@@ -138,7 +138,6 @@ module.exports = {
             }            
         } catch (err) {
             message.reply({ content: '💢 | Unable to mute the user!'})
-            console.log(err)
         }
     }
 }
