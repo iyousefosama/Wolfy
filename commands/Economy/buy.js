@@ -43,8 +43,8 @@ module.exports = {
 
         if(item.toLowerCase() === 'fishingpole') {
             if(data.inv.FishinPole == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
-            if(Math.ceil(12000) > data.credits) return message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}**!`)
-            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to buy **🎣 FishingPole** item? your new palance will be **${data.credits - 12000}**! \`(y/n)\``})
+            if(Math.ceil(2500) > data.credits) return message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}**!`)
+            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to buy **🎣 FishingPole** item? your new palance will be **${data.credits - 2500}**! \`(y/n)\``})
       
             const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
         
@@ -57,9 +57,9 @@ module.exports = {
             };
 
             data.inv.FishinPole = 1;
-            data.credits -= Math.floor(12000);
+            data.credits -= Math.floor(2500);
             await data.save()
-            message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **🎣 FishingPole** for \`12,000\`!`)
+            message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **🎣 FishingPole** for \`2,500\`!`)
             .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **🎣 FishingPole**!`}));
         } else if(item.toLowerCase() === 'ultimatecookie') {
             if(data.inv.UltimateCookie == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
