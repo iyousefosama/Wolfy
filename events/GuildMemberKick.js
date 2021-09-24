@@ -38,9 +38,7 @@ module.exports = {
 
         if (!kickLog) return;
 
-        const { executor, target, reason } = kickLog;
-
-        if (!reason) reason = "Not specified";
+        const { executor, target } = kickLog;
         
         const Kick = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
