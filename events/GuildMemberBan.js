@@ -39,6 +39,17 @@ module.exports = {
           const { executor, target, reason } = banLog;
 
           if (!reason) reason = "Not specified";
+
+          if(!banLog) return;
+
+          const fetchedLogs2 = await user.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'MEMBER_KICK',
+           });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const kickLog = fetchedLogs2.entries.first();
+
+        if (kickLog) return;
         
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))

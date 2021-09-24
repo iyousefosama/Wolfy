@@ -32,7 +32,7 @@ module.exports = {
           const fetchedLogs = await user.guild.fetchAuditLogs({
             limit: 1,
             type: 'MEMBER_KICK',
-        });
+           });
         // Since there's only 1 audit log entry in this collection, grab the first one
         const kickLog = fetchedLogs.entries.first();
 

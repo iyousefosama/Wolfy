@@ -28,6 +28,24 @@ module.exports = {
             // Do nothing..
           };
 
+          const fetchedLogs = await member.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'MEMBER_KICK',
+           });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const kickLog = fetchedLogs.entries.first();
+
+        if (kickLog) return;
+
+        const fetchedLogs2 = await member.guild.fetchAuditLogs({
+          limit: 1,
+          type: "MEMBER_BAN_ADD",
+        });
+
+        const banLog = fetchedLogs2.entries.first();
+
+        if(banLog) return;
+
         const remove = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Down:853495989796470815> Member Leave!')
