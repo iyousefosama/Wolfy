@@ -30,16 +30,16 @@ module.exports = {
     <a:pp224:853495450111967253> **Tag:** ${client.user.tag}
     <:pp198:853494893439352842> **ID:** ${client.user.id}
     📆 **Created At:** ${moment(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}
-    <:Developer:841321892060201021> **Developer:** <@724580315481243668>
-    <a:LightUp:776670894126006302> **Bot Website:** https://Wolfy.yoyojoe.repl.co\n\`\`\`message.channel.type === 'DM' && cmd.name: The.........BaskokaMan!\`\`\`
+    <:Developer:841321892060201021> **Developer:** WOLF#1045
+    <a:LightUp:776670894126006302> [**Bot Website**](https://Wolfy.yoyojoe.repl.co)
     **Version:** \`${version}\`
     ━━━━━━━━━━━━━━━━━━
     <a:Settings:841321893750505533> **System**
-    **Memory Used** (heap)**:** [\` ${(heapUsed / 1024 / 1024).toFixed(0)} MB \`]
+    🧠 **Memory Used** (heap)**:** [\` ${(heapUsed / 1024 / 1024).toFixed(0)} MB \`]
     🖥️ **OS:** ${process.platform} ${release}
-   ** DiscordJS:** v${discord_version}
-    **Node:** ${process.version}
-    **CPU:** ${cpus()[0].model}
+    <:Discordjs:805086222749007874>**DiscordJS:** v${discord_version}
+    <:nodejs:805092302011236422> **Node:** ${process.version}
+    <a:Right:877975111846731847> **CPU:** ${cpus()[0].model}
     \n\n**Stats**`)
     .addFields(
 		{ name: '<a:pp594:768866151827767386> **Servers:**', value: `\`\`\`${client.guilds.cache.size}\`\`\``},
