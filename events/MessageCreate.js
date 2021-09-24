@@ -28,14 +28,14 @@ module.exports = {
             // Do nothing..
           };
       }
-      if (message.content.startsWith('wolfy ')){
-        prefix = 'wolfy '
-      } else if(message.channel.type === 'DM') {
+      if(message.channel.type === 'DM') {
         prefix = config.prefix;
       } else if (!data || data.prefix == null){
         prefix = config.prefix;
-      } else if (data && message.content.startsWith(data.prefix)){
+      } else if (data && data.prefix){
         prefix = data.prefix;
+      } else {
+        // Do nothing..
       };
     
       if (!prefix){
