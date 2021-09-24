@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const config = require('../../config.json')
 
 module.exports = {
   name: "ban",
@@ -18,8 +19,8 @@ module.exports = {
     '742682490216644619'
   ],
   async execute(client, message, args) {
-  
-      const owner = client.users.fetch('724580315481243668').catch(() => null);
+
+      const owner = await message.guild.fetchOwner()
       const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
       let reason = args.slice(1).join(" ")
       if (!args[1]) reason = 'No reason specified'
@@ -46,9 +47,12 @@ module.exports = {
      if (user.id === client.user.id) return message.reply({ embeds: [Err2] })
      if (user.id === message.author.id) return message.reply({ embeds: [Err3] })
      if (message.member.roles.highest.position <= user.roles.highest.position) return message.reply({ embeds: [Err4] })
-     if (user.id === owner){
-      return message.reply({ content: `<a:Wrong:812104211361693696> | ${message.author} No, you can't ban my developers through me!`})
+     if (user.id === config.developer){
+      return message.reply({ content: `<a:Wrong:812104211361693696> | ${message.author} You can't ban my developers through me!`})
     };
+    if (member.id === message.guild.ownerId){
+      return message.channel.send(`\\❌ | ${message.author}, You cannot ban a server owner!`)
+    }
  //////////////////////////////////////////////////////////////////////////////////////////////////////////
   
       if (user) {

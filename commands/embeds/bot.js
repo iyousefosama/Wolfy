@@ -22,6 +22,7 @@ module.exports = {
     .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
+        { name: `${prefix}helpcommand`, value: `> \`Display informations and helplist about any command.\``},
         { name: `${prefix}stats`, value: `> \`Show bot stats and informations\``},
         { name: `${prefix}links`, value: `> \`Shows all bot special link vote/invite ..\``},
         { name: `${prefix}feedback`, value: `> \`To give a feedback about bot or to report bug\``},

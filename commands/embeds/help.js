@@ -148,6 +148,7 @@ module.exports = {
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
         { name: `${prefix}hackban`, value: `> \`Bans a member not in the server\``},
+        { name: `${prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
         { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},
@@ -272,16 +273,20 @@ module.exports = {
             if(interactionCreate.customId === '5'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
                 interactionCreate.reply({ embeds: [Fun], ephemeral: true})
-            } if(interactionCreate.customId === '6'){
+            }
+            if(interactionCreate.customId === '6'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
                 interactionCreate.reply({ embeds: [ticket], ephemeral: true})
-            } if(interactionCreate.customId === '7'){
+            }
+            if(interactionCreate.customId === '7'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
                 interactionCreate.reply({ embeds: [bot], ephemeral: true})
-            } if(interactionCreate.customId === '8'){
+            }
+            if(interactionCreate.customId === '8'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
                 interactionCreate.reply({ embeds: [level], ephemeral: true})
-            } if(interactionCreate.customId === '9'){
+            }
+            if(interactionCreate.customId === '9'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
                 interactionCreate.reply({ embeds: [Eco], ephemeral: true})
             }

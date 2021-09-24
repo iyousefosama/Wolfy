@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const config = require('../../config.json')
 
 module.exports = {
     name: "hackban",
@@ -41,7 +42,7 @@ module.exports = {
           .catch(() => false);
       
           if (!!member){
-            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Hackban will skip a role validation check! Please use \`ban\` command instead if the user is in your server.`});
+            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, The user is already in the server! Please use \`ban\` command instead if the user is in your server.`});
           };
       
           if (user.id === message.author.id){
@@ -49,11 +50,11 @@ module.exports = {
           };
       
           if (user.id === client.user.id){
-            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Please don't ban me!`});
+            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You cannot don't ban me!`});
           };
       
-          if (user.id === developer){
-            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't ban my developers through me!`})
+          if (user.id === config.developer){
+            return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You can't ban my developers through me!`})
           };
       
           await message.channel.send({ content: `Are you sure you want to ban **${user.tag}** from this server? \`(y/n)\``})
@@ -69,7 +70,7 @@ module.exports = {
           };
       
           return message.guild.members.ban(user, { reason: `Wolfy Hackban Command: ${message.author.tag}: ${reason.join(' ') || 'Unspecified'}`})
-          .then(_user => message.channel.send({ content: `<a:Correct:812104211386728498> Successfully banned **${_user.tag}** from this server!`}))
+          .then(_user => message.reply({ content: `<a:Correct:812104211386728498> | Successfully banned **${_user.tag}** from this server!`}))
           .catch(() => message.channel.send({ content: `Failed to ban **${user.tag}**!`}));
     }
 }

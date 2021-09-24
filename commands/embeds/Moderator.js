@@ -23,12 +23,17 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
+        { name: `${prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
         { name: `${prefix}hackban`, value: `> \`Bans a member not in the server\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
         { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},
+        { name: `${prefix}warn`, value: `> \`Warn a user in the server!\``},
+        { name: `${prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
+        { name: `${prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
         { name: `${prefix}say`, value: `> \`The bot will repeat what you say\``},
         { name: `${prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
+        { name: `${prefix}embedsetup`, value: `> \`Display the setup embed message!\``},
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},

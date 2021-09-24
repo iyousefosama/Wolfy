@@ -57,13 +57,7 @@ module.exports = {
       const url = (res[0].match(/\d{17,19}/)||[])[0];
       const id = res[1];
 
-        const embed = new MessageEmbed()
-        .setAuthor(message.author.username, message.author.displayAvatarURL())
-        .setTitle(`<a:Correct:812104211386728498> Successfully deleted **${count}** messages from this channel!`)
-        .setColor('DARK_GREEN')
-        .setDescription(`[\`📄 View\`](${url ? `https://txt.discord.website/?txt=${url}/${id}/bulkdlt-${_id}`:''})\u2000\u2000•\u2000\u2000[\`📩 Download\`](${res[0]})`)
-        .setTimestamp()
-        message.channel.send({ embeds: [embed]}).then(msg => {
+        await message.channel.send({ content: `\`\`\`diff\n- ${message.author.tag}, Successfully deleted ${count} messages from this channel!\`\`\``}).then(msg => {
           setTimeout(() => {
               msg.delete().catch(() => null)
            }, 5000)
