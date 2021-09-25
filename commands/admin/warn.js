@@ -79,7 +79,7 @@ module.exports = {
         );
         const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
         const warnGrammar = warnCount === 1 ? '' : 's';
-        if(warnCount >= 10) return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Maximum warnings number is \`10\`!` })
+        if(warnCount >= 20) return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Maximum warnings number is \`20\`!` })
         const warnEmbed = new MessageEmbed()
         .setAuthor(user.user.tag, user.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
