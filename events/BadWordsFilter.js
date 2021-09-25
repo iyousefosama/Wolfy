@@ -65,11 +65,7 @@ module.exports = {
               const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
               const warnGrammar = warnCount === 1 ? '' : 's';
               if(warnCount >= 20) {
-                message.delete().catch(() => null).then(msg => {
-                  setTimeout(async () => { 
-                    msg.channel.send({ content: `\\⚠️ **${message.author.username}**, This word is banned, watch your language.` })
-                  }, 300)
-                })
+                return msg.channel.send({ content: `\\⚠️ **${message.author.username}**, This word is banned, watch your language.` })
               }
               
               const warnEmbed = new MessageEmbed()
