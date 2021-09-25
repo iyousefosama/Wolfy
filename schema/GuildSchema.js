@@ -27,6 +27,10 @@ const mongoose = require('mongoose')
        Level: {
         isEnabled: { type: Boolean, default: false },
         type: { type: String, default: 'default' }
+      },
+      BadWordsFilter: {
+        BDW: { type: Array, default: [] },
+        isEnabled: { type: Boolean, default: false },
       }
     },
 
@@ -45,7 +49,7 @@ const mongoose = require('mongoose')
         embed: { type: Object, default: null },
         type: { type: String, default: 'default' }
       }
-    }
+    },
 })
 
 module.exports = mongoose.model('guildSettings', guildSchema)
