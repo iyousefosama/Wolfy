@@ -48,7 +48,7 @@ module.exports = {
          if (Math.random() * 100 < 40) {
             const trashitems = ["Trash 👞", "Trash 🔧", "Trash 🧻", "Trash 🗑️", "Trash 📎"]
             const trash = trashitems[Math.floor(Math.random() * trashitems.length)]
-            let moneyget = Math.floor(Math.random() * 20) * 1
+            let moneyget = Math.floor(Math.random() * 20) + 1
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
@@ -58,7 +58,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 30) {
             const common = ["CommonFish 🐟"]
-            let moneyget = Math.floor(Math.random() * 40) * 2
+            let moneyget = Math.floor(Math.random() * 80) + 25
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
@@ -68,7 +68,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 15) {
             const uncommon = ["UncommonFish 🐠"]
-            let moneyget = Math.floor(Math.random() * 80) * 2
+            let moneyget = Math.floor(Math.random() * 180) + 80
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
@@ -78,7 +78,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 12) {
             const rare = ["RareFish <:fish:886630455795933264>"]
-            let moneyget = Math.floor(Math.random() * 125) * 3
+            let moneyget = Math.floor(Math.random() * 240) + 125
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
@@ -88,7 +88,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 3) {
             const epic = ["EpicFish <:e_:886630455175159818>"]
-            let moneyget = Math.floor(Math.random() * 200) * 4
+            let moneyget = Math.floor(Math.random() * 400) + 190
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {

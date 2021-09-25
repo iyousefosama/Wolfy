@@ -59,7 +59,7 @@ module.exports = {
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
         if(data.cookies.givecookies == 250 && data.inv.UltimateCookie !== 1) return message.channel.send({ embeds: [nulle] })
-        let moneyget = Math.floor(Math.random() * 40) * 2
+        let moneyget = Math.floor(Math.random() * 40) + 10
         data.credits += Math.floor(moneyget);
         data.cookies.givecookies += Math.floor('1');
         FriendData.cookies.totalcookies += Math.floor('1');
