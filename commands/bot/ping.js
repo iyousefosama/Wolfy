@@ -26,7 +26,7 @@ module.exports = {
         msg.edit({ embeds: [Pong]})
         let Ping = new discord.MessageEmbed()
         .setColor('DARK_GREEN')
-        .setDescription(`The Ping of the bot is \`${ping}ms\`!\nAPI Latency is \`${Math.round(client.ws.ping)}ms\`!`)
+        .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\nℹ️ **|** API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
         msg.edit({ embeds: [Ping] })
     })
 }
