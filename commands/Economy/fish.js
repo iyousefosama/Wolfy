@@ -11,7 +11,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Take your fishingpole and start fishing',
-    cooldown: 17, //seconds(s)
+    cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
@@ -36,12 +36,6 @@ module.exports = {
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
         if(!data.inv.FishinPole || data.inv.FishinPole !== 1) return message.channel.send({ embeds: [nulle] })
-        const trashitems = ["Trash 👞", "Trash 🔧", "Trash 🧻", "Trash 🗑️", "Trash 📎"]
-        const trash = trashitems[Math.floor(Math.random() * trashitems.length)]
-        const common = ["CommonFish 🐟"]
-        const uncommon = ["UncommonFish 🐠"]
-        const rare = ["RareFish <:fish:886630455795933264>"]
-        const epic = ["EpicFish <:e_:886630455175159818>"]
     
         let moneyget;
         let loadingMsg;
@@ -96,6 +90,9 @@ module.exports = {
                 loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${epic}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+          } else {
+              let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
+              loadingMsg.edit(`\\❌ **${message.author.tag}**, you caught: no thing <:sad1:887894228305342504>`)
           }
 }
 }
