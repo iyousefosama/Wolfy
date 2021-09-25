@@ -89,7 +89,7 @@ module.exports = {
             .setDescription([
               'Current blacklisted words from this server:\n',
               `Total **(${data.Mod.BadWordsFilter.BDW.length})**: \`\`\`${text.joinArray(data.Mod.BadWordsFilter.BDW)}\`\`\`\n\n`,
-              !data.Mod.BadWordsFilter.BDW.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
+              !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
               `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
             ].join(''))
             .setTimestamp()
