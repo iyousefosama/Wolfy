@@ -9,9 +9,9 @@ module.exports = {
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
-    usage: '',
+    usage: '(<add> | <remove>) <word>',
     group: 'setup',
-    description: '',
+    description: 'Add/remove/show blacklisted words for the current guild.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
@@ -53,7 +53,7 @@ module.exports = {
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
                   `Successfully added the word \`${word}\`!\n\n`,
-                  !data.Mod.BadWordsFilter.BDW.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
+                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
                   `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
                 ].join(''))
                 .setTimestamp()
@@ -75,7 +75,7 @@ module.exports = {
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
                   `Successfully removed the word \`${word}\`!\n\n`,
-                  !data.Mod.BadWordsFilter.BDW.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
+                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
                   `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
                 ].join(''))
                 .setTimestamp()
@@ -83,6 +83,7 @@ module.exports = {
                 message.channel.send({ embeds: [removed] })
               }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         } else if(type.toLowerCase() !== 'remove' && type.toLowerCase() !== 'add') {
+            if(!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) return message.channel.send(`\\❌ **${message.member.displayName}**, There is no blacklisted words in this server!`)
             const BadWordsEmbed = new Discord.MessageEmbed()
             .setColor('738ADB')
             .setDescription([
@@ -92,6 +93,7 @@ module.exports = {
               `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
             ].join(''))
             .setTimestamp()
+            .setFooter(`${prefix}badwords add (to add) | ${prefix}badwords remove (to remove)`)
             .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             return message.channel.send({ embeds: [BadWordsEmbed]})
         }
