@@ -35,10 +35,19 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+        const now = Date.now();
         let credits = data.credits
+        let bank = data.Bank.balance.credits
+        const dailyUsed = data.timer.daily.timeout !== 0 && data.timer.daily.timeout - Date.now() > 0;
         const bal = new Discord.MessageEmbed()
-        .setAuthor(user.user.username, user.user.displayAvatarURL({dynamic: true, size: 2048}))
-        .setDescription(`<a:ShinyMoney:877975108038324224> **${user.user.username}**, credits balance is \`${text.commatize(credits)}\`!`)
+        .setAuthor(`${user.user.username}'s wallet`, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setColor('GREY')
+        .setDescription(`<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(credits)}\`!\n${data.Bank.balance.credits !== null
+            ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
+            : `\\❌ **${user.user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
+          }\n\n━━━━━━━━━━━━━━\n${
+            dailyUsed ? '\\<:success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
+          }`)
         .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setTimestamp()
         message.channel.send({ embeds: [bal]} )

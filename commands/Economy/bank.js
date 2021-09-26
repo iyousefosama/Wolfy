@@ -37,12 +37,12 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.tag}**, You don't have a *bank* yet! To create one, type \`${prefix}register\`.`);
         }
         const now = Date.now();
-        const duration = Math.floor(172800000)
+        const duration = Math.floor(259200000)
         if (data.timer.banktime.timeout > now){
             const embed = new Discord.MessageEmbed()
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('GREY')
-            .setDescription(`🏦 **${message.author.username}**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(credits)}** credits in your bank account!\nCheck your bank after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your reward!`)
+            .setDescription(`🏦 **${message.author.username}**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(credits)}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your reward!`)
             .setTimestamp()
             message.channel.send({ embeds: [embed] })
           } else {
