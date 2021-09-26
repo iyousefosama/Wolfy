@@ -27,6 +27,9 @@ const ecoSchema = mongoose.Schema({
         },
         daily: {
             timeout: { type: Date, default: null }
+          },
+        banktime: {
+            timeout: { type: Date, default: null }
           }
       },
 
