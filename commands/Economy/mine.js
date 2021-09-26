@@ -89,6 +89,8 @@ module.exports = {
                 message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+          } else {
+            message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: **<:sad1:887894228305342504> Nothing**!`})
           }
 
           ///// Iron Pickaxe
@@ -137,6 +139,8 @@ module.exports = {
                 message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+          } else {
+            message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: **<:sad1:887894228305342504> Nothing**!`})
           }
 
           // Diamond Pickaxe
@@ -185,6 +189,8 @@ module.exports = {
                 message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+          } else {
+            message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: **<:sad1:887894228305342504> Nothing**!`})
           }
 }
 }
