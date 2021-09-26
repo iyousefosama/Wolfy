@@ -7,6 +7,8 @@ module.exports = {
       if (oldMessage.channel.type === 'DM') return;
         if (oldMessage.author == client) return;
         if(!oldMessage.author) return;
+        if(oldMessage.embeds[0]) return;
+        if(oldMessage.attachments.size) return;
   if (oldMessage.author.bot){
     return;
   };
@@ -33,10 +35,14 @@ module.exports = {
     // Do nothing..
   };
 
+        const timestamp = Math.floor(Date.now() / 1000)
         const EditedLog = new Discord.MessageEmbed()
-        .setTitle("Edited Message")
-        .setDescription(`**User:** ${oldMessage.author.tag}\n**User ID:** ${oldMessage.author.id}\n**In: ${oldMessage.channel}**\n**At:** ${new Date()}\n\nOld Message: \`\`\`${oldMessage.content}\`\`\`\nNew Message: \`\`\`${messageUpdate.content}\`\`\``)
-        .setColor('GOLD')
+        .setAuthor(oldMessage.author.username, oldMessage.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTitle(`📝 Edited Message`)
+        .setDescription(`<a:iNFO:853495450111967253> **Member**: \`${oldMessage.author.tag}\` (${oldMessage.author.id})\n<:pp198:853494893439352842> **In**: ${oldMessage.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Old Message**: \`\`\`\n${oldMessage.content || '❌ | Unkown message!'}\n\`\`\`\n<a:Right:877975111846731847> **New Message**: \`\`\`\n${messageUpdate.content || '❌ | Unkown message!'}\n\`\`\``)
+        .setColor('#2F3136')
+        .setFooter(oldMessage.guild.name, oldMessage.guild.iconURL({dynamic: true}))
+        .setTimestamp()
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
           const botname = client.user.username;
           const webhooks = await Channel.fetchWebhooks()
