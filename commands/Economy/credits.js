@@ -46,7 +46,7 @@ module.exports = {
             ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
             : `\\❌ **${user.user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
           }\n\n━━━━━━━━━━━━━━\n${
-            dailyUsed ? '\\<:success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
+            dailyUsed ? '<:success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
           }`)
         .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setTimestamp()
