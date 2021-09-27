@@ -11,7 +11,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Take your fishingpole and start fishing',
-    cooldown: 2, //seconds(s)
+    cooldown: 15, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
