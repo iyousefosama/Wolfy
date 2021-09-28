@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const config = require('../../config.json')
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     name: "mute",
@@ -66,73 +67,87 @@ module.exports = {
     let mutedRole = message.guild.roles.cache.find(roles => roles.name === "Muted")
     // If bot didn't find Muted role in the server
     if (!mutedRole) {
+        const button = new MessageButton()
+        .setLabel(`Yes`)
+        .setCustomId("98541984198419841")
+        .setStyle('SUCCESS')
+        .setEmoji("758141943833690202");
+        const button2 = new MessageButton()
+        .setLabel(`No`)
+        .setCustomId("8749481894198419841")
+        .setStyle('DANGER')
+        .setEmoji("888264104081522698");
+        const row = new MessageActionRow()
+        .addComponents(button, button2);
         const Embed = new discord.MessageEmbed()
-            .setTitle('Muting Error!')
-            .setDescription('It appears that your discord server does not currently have a `Muted` role.\n\nWould you like to generate one?')
+            .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setTimestamp()
+            .setDescription(`\\❌ **${message.author.tag}**, There is no \`muted\` role in this guild,\n\nWould you like to generate one?`)
             .setColor('RED')
-        message.channel.send({ embeds: [Embed] }).then(async message => {
-            await message.react("✅")
-            await message.react("❌")
+        const msg = await message.reply({ embeds: [Embed], components: [row] })
+        const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
 
-            const filtro = (reaction, user) => ['✅', '❌'].includes(reaction.emoji.name) && user.id === author.id
-            const collector = message.createReactionCollector(filtro)
-
-            collector.on("collect", async r => {
-                switch (r.emoji.name) {
-                    case '✅':
-                        if (message.guild.roles.cache.size >= 250) {
-                            message.channel.send({ content: 'Failed to generate a `Muted` role. Your server has too many roles! [250]'})
-                            collector.stop()
-                            break
-                        }
-                        message.reactions.removeAll()
-                        if (!message.guild.me.hasPermission('MANAGE_CHANNELS')) {
-                            message.channel.send({ content: 'I do not have the proper permissions to create this role! `MANAGE_CHANNELS`'})
-                            collector.stop()
-                            break
-                        }
-                        const mutedRole = await message.guild.roles.create({
-                            data: {
-                                name: 'Muted',
-                                color: 'GRAY'
-                            }
-                        })
-                        message.channel.send({ content: '<a:Correct:812104211386728498> A `muted` role has been created!'})
-                        message.guild.channels.cache.forEach(async (channel, id) => {
-                            await channel.createOverwrite(mutedRole, {
-                                SEND_MESSAGES: false,
-                                ADD_REACTIONS: false,
-                                CONNECT: false,
-                                SPEAK: false
-                            })
-                        });
-
-                        try {
-                            member.roles.add(mutedRole)
-                            const muteAdded = new discord.MessageEmbed()
-                            .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-                            .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
-                            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
-                            .setTimestamp()
-                            message.channel.send({ embeds: [muteAdded] });
-                            collector.stop()
-                        } catch (err) {
-                            message.channel.send({ content: 'I do not have permissions to add a role to this user! `[MANAGE_ROLES]`'})
-                            collector.stop()
-                            break
-                        }
-                        break;
-                    case '❌':
-                        message.channel.send({ content: '💢 | Cancelled.'})
-                        collector.stop()
-                        break;
+        collector.on('collect', async interactionCreate => {
+            if(interactionCreate.customId === '98541984198419841'){
+                if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                if (message.guild.roles.cache.size >= 250) {
+                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Failed to generate a \`Muted\` role. Your server has too many roles! **[250]**`, ephemeral: true})
                 }
-            })
+                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_CHANNELS')) {
+                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, I do not have the proper permissions to create this role! \`MANAGE_CHANNELS\``, ephemeral: true})
+                }
+                const mutedRole = await message.guild.roles.create({
+                        name: 'Muted',
+                        color: '#646060'
+                })
+                interactionCreate.reply({ content: '<:Verify:841711383191879690> A `muted` role has been created!', ephemeral: true})
+                message.guild.channels.cache.forEach(async (channel, id) => {
+                    await channel.permissionOverwrites.edit(mutedRole, {
+                        SEND_MESSAGES: false,
+                        ADD_REACTIONS: false,
+                        CONNECT: false,
+                        SPEAK: false
+                    })
+                });
+
+                try {
+                    member.roles.add(mutedRole)
+                    const muteAdded = new discord.MessageEmbed()
+                    .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
+                    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setTimestamp()
+                    message.channel.send({ embeds: [muteAdded] });
+                } catch (err) {
+                    return message.channel.send({ content: `\\❌ **${message.author.tag}**, I do not have permissions to add a role to this user! \`[MANAGE_ROLES]\``})
+                }
+                button.setDisabled(true)
+                button2.setDisabled(true)
+                const newrow = new MessageActionRow()
+                .addComponents(button, button2);
+                msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
+                }
+                if(interactionCreate.customId === '8749481894198419841'){
+                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    interactionCreate.reply({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`mute\` command!`, ephemeral: true})
+                    button.setDisabled(true)
+                    button2.setDisabled(true)
+                    const newrow = new MessageActionRow()
+                    .addComponents(button, button2);
+                    msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
+                }
+    })
+        collector.on('end', message => {
+            button.setDisabled(true)
+            button2.setDisabled(true)
+            const newrow = new MessageActionRow()
+            .addComponents(button, button2);
+            msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
         })
     } else {
         try {
             if(mutedRole) {
-            member.roles.add(mutedRole).catch(() => message.reply({ content: '💢 | I can\'t add \`mutedRole\` to the user, please check that my role is higher!'}))
+            member.roles.add(mutedRole).catch(() => message.reply({ content: `\\❌ **${message.author.tag}**, I can\'t add \`mutedRole\` to the user, please check that my role is higher!`}))
             const mute = new discord.MessageEmbed()
             .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
             .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
@@ -141,7 +156,7 @@ module.exports = {
             message.channel.send({ embeds: [mute] });
             }            
         } catch (err) {
-            message.reply({ content: '💢 | Unable to mute the user!'})
+            message.reply({ content: `\\❌ **${message.author.tag}**, Unable to mute the user!`})
         }
     }
 }
