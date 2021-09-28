@@ -179,7 +179,7 @@ module.exports = {
                     else if(thumb.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     thumb = thumb.first().content
                     try {
-                    embed.setThumbnail(thumb).catch(() => null)
+                    embed.setThumbnail(thumb)
                     msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed thumbnail!`, ephemeral: true})
                     } catch {
@@ -211,7 +211,7 @@ module.exports = {
                     else if(img.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     img = img.first().content
                     try {
-                    embed.setImage(img).catch(() => null)
+                    embed.setImage(img)
                     msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed image!`, ephemeral: true})
                     } catch {
