@@ -237,7 +237,7 @@ module.exports = {
                     const FinallEmb = new discord.MessageEmbed()
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                     .setColor('#e6a54a')
-                    .setDescription(`**${message.author.username}**, What the channel to send the embed for?\n\n**(1)** Current channel\n**(2)** Another channel`)
+                    .setDescription(`**${message.author.username}**, What the channel to send the embed for?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
                     .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                     .setTimestamp()
                     await interactionCreate.reply({ embeds: [FinallEmb], ephemeral: true})
@@ -258,13 +258,13 @@ module.exports = {
                         Embedchannel = message.guild.channels.cache.get(thchannel);
 
                         if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT'){
-                            message.Embedchannel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
+                            message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
-                            message.Embedchannel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
+                            message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
-                            message.Embedchannel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
+                            message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           };
 
