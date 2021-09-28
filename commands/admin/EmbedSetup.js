@@ -257,7 +257,7 @@ module.exports = {
 
                         Embedchannel = message.guild.channels.cache.get(thchannel);
 
-                        if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' || Embedchannel.type !==  'GUILD_NEWS'){
+                        if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
                             message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
