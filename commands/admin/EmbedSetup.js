@@ -257,7 +257,7 @@ module.exports = {
 
                         Embedchannel = message.guild.channels.cache.get(thchannel);
 
-                        if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT'){
+                        if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' || Embedchannel.type !==  'GUILD_NEWS'){
                             message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
@@ -288,6 +288,9 @@ module.exports = {
                           .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                           .setTimestamp()
                           message.channel.send({ embeds: [dnEmbed]})
+                    } else {
+                        message.reply({ content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`, ephemeral: true })
+                        return msg.edit({ embeds: [embed], components: [row, row2]})
                     }
                 }
                 if(interactionCreate.customId === '7848948985418941'){
