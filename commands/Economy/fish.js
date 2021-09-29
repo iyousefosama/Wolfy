@@ -39,7 +39,7 @@ module.exports = {
     
         let moneyget;
         let loadingMsg;
-         if (Math.random() * 100 < 36) {
+         if (Math.random() * 100 < 37) {
             const trashitems = ["Trash 👞", "Trash 🔧", "Trash 🧻", "Trash 🗑️", "Trash 📎"]
             const trash = trashitems[Math.floor(Math.random() * trashitems.length)]
             let moneyget = Math.floor(Math.random() * 20) + 20
@@ -50,7 +50,7 @@ module.exports = {
                 loadingMsg.edit({ content: `🎣 **${message.author.tag}**, you caught: **${trash}** from the Pool and got <a:ShinyMoney:877975108038324224> **${moneyget}**!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
-          } else if (Math.random() * 100 < 34) {
+          } else if (Math.random() * 100 < 33) {
             const common = ["CommonFish 🐟"]
             let moneyget = Math.floor(Math.random() * 80) + 60
             data.credits += Math.floor(moneyget);
@@ -72,7 +72,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (Math.random() * 100 < 12) {
             const rare = ["RareFish <:fish:886630455795933264>"]
-            let moneyget = Math.floor(Math.random() * 440) + 150
+            let moneyget = Math.floor(Math.random() * 240) + 150
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(async () => {
