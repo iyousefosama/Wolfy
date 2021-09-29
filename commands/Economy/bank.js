@@ -42,7 +42,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('GREY')
-            .setDescription(`🏦 **${message.author.username}**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(credits)}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your reward! **(10% + 150)**`)
+            .setDescription(`🏦 **${message.author.username}**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(credits)}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment.duration(data.timer.banktime.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your reward! **(10% + 150)**`)
             .setTimestamp()
             message.channel.send({ embeds: [embed] })
           } else {
@@ -54,7 +54,7 @@ module.exports = {
             const checkembed = new Discord.MessageEmbed()
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('DARK_GREEN')
-            .setDescription(`🏦 **${message.author.username}**, Your new balance is <a:ShinyMoney:877975108038324224> **${text.commatize(moneyadd)}** credits in your bank account!\n\n⚠️ Check your bank again after \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your next reward! **(10% + 150)**`)
+            .setDescription(`🏦 **${message.author.username}**, Your new balance is <a:ShinyMoney:877975108038324224> **${text.commatize(moneyadd)}** credits in your bank account!\n\n⚠️ Check your bank again after \`${moment.duration(data.timer.banktime.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\` to get your next reward! **(10% + 150)**`)
             .setTimestamp()
             message.channel.send({ embeds: [checkembed] })
             })
