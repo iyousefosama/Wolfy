@@ -43,7 +43,7 @@ module.exports = {
         .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle("🃏 Poker night!")
         .setColor(`GREY`)
-        .setDescription(`<:Verify:841711383191879690> Done choosen the channel, click the button!`)
+        .setDescription(`<:Verify:841711383191879690> Successfully choosed the channel, [**click**](https://discord.com/invite/${invite.code}) the button!`)
         .addFields(
             { name: `<:pp499:836168214525509653> Channel:`, value: `<#${channel.id}>`},
         )
@@ -53,7 +53,7 @@ module.exports = {
         .addComponents(
             new MessageButton()
         .setStyle('LINK')
-        .setEmoji('860969895779893248')
+        .setEmoji('877975111846731847')
         .setURL(`https://discord.com/invite/${invite.code}`) 
         .setLabel('Click Here!')
         );
