@@ -47,8 +47,8 @@ module.exports = {
 
       if (!amount){
         return message.channel.send(`\\❌ **${message.author.tag}**, [ **${amt}** ] is not a valid amount!.`);
-      } else if (amount < 100){
-        return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be withdrawn must be at least **100**.`);
+      } else if (amount < 500){
+        return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be withdrawn must be at least **500**.`);
       } else if (amount > data.Bank.balance.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your bank to proceed with this transaction.`,
@@ -59,11 +59,11 @@ module.exports = {
         return message.channel.send(`\\❌ **${message.author.tag}**, You can't withdraw this large sum of money (Overflow imminent)!`)
       };
 
-      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount);
-      data.credits = data.credits + Math.round(amount * 0.95);
+      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 0.95);
+      data.credits = data.credits + Math.round(amount);
 
       return data.save()
-      .then(() => message.channel.send(`\\✔️ **${message.author.tag}**, you successfully withdrawn **${text.commatize(amount * 0.95)}** credits from your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900>**${message.author.tag}**, you successfully withdrawn **${text.commatize(amount)}** credits from your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
   }

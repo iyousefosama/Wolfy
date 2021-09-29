@@ -47,8 +47,8 @@ module.exports = {
 
       if (!amount){
         return message.channel.send(`\\❌ **${message.author.tag}**, [ **${amt || 0}** ] is not a valid amount!.`);
-      } else if (amount < 100){
-        return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be deposited must be at least **100**.`);
+      } else if (amount < 500){
+        return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be deposited must be at least **500**.`);
       } else if (amount * 1.05 > data.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your wallet to proceed with this transaction.`,
@@ -61,7 +61,7 @@ module.exports = {
       data.credits = data.credits - Math.floor(amount * 1.05);
 
       return data.save()
-      .then(() => message.channel.send(`\\✔️ **${message.author.tag}**, you successfully deposited **${text.commatize(amount)}** credits to your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, you successfully deposited **${text.commatize(amount)}** credits to your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     };
   }
