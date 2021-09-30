@@ -40,7 +40,7 @@ module.exports = {
 
       const amt = amount;
       if (amount.toLowerCase() === 'all'){
-        amount = Math.round(data.Bank.balance.credits );
+        amount = Math.round(data.Bank.balance.credits);
       } else {
         amount = Math.round(amount.split(',').join('')) / 0.95;
       };
@@ -59,11 +59,11 @@ module.exports = {
         return message.channel.send(`\\❌ **${message.author.tag}**, You can't withdraw this large sum of money (Overflow imminent)!`)
       };
 
-      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 0.95);
+      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount);
       data.credits = data.credits + Math.round(amount);
 
       return data.save()
-      .then(() => message.channel.send(`<:moneytransfer:892745164324474900>**${message.author.tag}**, you successfully withdrawn **${text.commatize(amount)}** credits from your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, you successfully withdrawn **${text.commatize(Math.floor(amount))}** credits from your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
   }
