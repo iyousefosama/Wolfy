@@ -26,7 +26,7 @@ module.exports = {
         let button2 = new MessageButton()
         .setStyle('LINK')
         .setEmoji('841711382739157043')
-        .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=0&scope=bot%20applications.commands`) 
+        .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands`) 
         .setLabel('Add bot!'); 
         let button3 = new MessageButton()
         .setStyle('LINK')
