@@ -1,5 +1,9 @@
 const discord = require('discord.js')
 const snekfetch = require('snekfetch');
+const fetch = require('node-fetch');
+const { decode } = require('he');
+const html2md = require('html2markdown');
+const text = require('../../util/string');
 
 module.exports = {
     name: "steam",
@@ -42,7 +46,7 @@ module.exports = {
                 term: query
             });
 
-        if (!search.body.items.length) return message.channel.send({ content: `No results found for **${query}**!`});
+        if (!search.body.items.length) return message.channel.send({ content: `\\❌ No results found for **${query}** on steam!`});
 
         const {
             id,
@@ -83,7 +87,14 @@ module.exports = {
             .addField('❯\u2000Release Date', `•\u2000 ${data.release_date ? data.release_date.date : '???'}`, true)
             .addField('❯\u2000DLC Count', `•\u2000 ${data.dlc ? data.dlc.length : 0}`, true)
             .addField('❯\u2000Developers', `•\u2000 ${data.developers ? data.developers.join(', ') || '???' : '???'}`, true)
-            .addField('❯\u2000Publishers', `•\u2000 ${data.publishers ? data.publishers.join(', ') || '???' : '???'}`, true);
+            .addField('❯\u2000Publishers', `•\u2000 ${data.publishers ? data.publishers.join(', ') || '???' : '???'}`, true)
+            .addField('❯\u2000Genres', `${data.genres ?  data.genres.map(m => `• ${m.description}`).join('\n') || '???' : '???'}`, true)
+            .addFields([
+            { name: '\u200b', value: text.truncate(decode(data.detailed_description.replace(/(<([^>]+)>)/ig,' ')),980)},
+            { name: '❯\u2000Supported Languages', value: `•\u2000${text.truncate(html2md(data.supported_languages))}`},
+            ])
+            .setFooter(`Steam @ Steam.Inc©`)
+            .setTimestamp()
         return message.channel.send({ embeds: [embed] })
     })();
     }
