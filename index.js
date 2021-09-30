@@ -209,7 +209,7 @@ client.on("messageCreate", async message => {
                 desc += `, The proper usage would be:\n\`${prefix}${cmd.name} ${cmd.usage}\``;
             }
             if (cmd.examples && cmd.examples.length !== 0) {
-                desc += `\n\nExamples:\n${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``)}`;
+                desc += `\n\nExamples:\n${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ')}`;
             }
     
             const NoArgs = new Discord.MessageEmbed()
