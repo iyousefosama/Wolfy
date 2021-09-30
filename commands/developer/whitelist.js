@@ -35,6 +35,7 @@ module.exports = {
           };
 
     const done = new discord.MessageEmbed()
+    .setAuthor(user.username, user.displayAvatarURL({dynamic: true, size: 2048}))
     .setColor(`GREEN`)
     .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted **${user.tag}**`)
     .setTimestamp()

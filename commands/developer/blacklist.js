@@ -35,7 +35,7 @@ module.exports = {
       };
 
     const done = new discord.MessageEmbed()
-    .setAuthor(user.user.username, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor(user.username, user.displayAvatarURL({dynamic: true, size: 2048}))
     .setColor(`RED`)
     .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**`)
     .setTimestamp()
