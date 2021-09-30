@@ -84,19 +84,7 @@ module.exports = {
                 message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
-          } else {
-            const stone = ["Stone <:e_:887031111790764092>"]
-            let itemget = Math.floor(Math.random() * 6) * 2
-            data.inv.Stone += Math.floor(itemget);
-            await data.save()
-            .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
-            })
-            .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
-          }
-
-          ///// Iron Pickaxe
-          if (data.inv.IronPickaxe == 1 && data.inv.DiamondPickaxe !== 1 &&  Math.random() * 100 < 30) {
+          } else if (data.inv.IronPickaxe == 1 && data.inv.DiamondPickaxe !== 1 &&  Math.random() * 100 < 30) {
             const stone = ["Stone <:e_:887031111790764092>"]
             let itemget = Math.floor(Math.random() * 25) * 4
             data.inv.Stone += Math.floor(itemget);
@@ -141,19 +129,7 @@ module.exports = {
                 message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
-          } else {
-            const stone = ["Stone <:e_:887031111790764092>"]
-            let itemget = Math.floor(Math.random() * 16) * 2
-            data.inv.Stone += Math.floor(itemget);
-            await data.save()
-            .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv\`!`})
-            })
-            .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
-            }
-
-          // Diamond Pickaxe
-          if (data.inv.DiamondPickaxe == 1 && Math.random() * 100 < 15) {
+          } else if (data.inv.DiamondPickaxe == 1 && Math.random() * 100 < 15) {
             const stone = ["Stone <:e_:887031111790764092>"]
             let itemget = Math.floor(Math.random() * 64) * 2
             data.inv.Stone += Math.floor(itemget);
