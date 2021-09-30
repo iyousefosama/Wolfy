@@ -53,7 +53,7 @@ module.exports = {
           { name: 'COOLDOWN', value: `\`${cmd.cooldown} (seconds)\``, inline: true },
           { name: 'Permissions', value: `${text.joinArray(cmd.permissions.map(x => x.split('_')
           .map(a => a.charAt(0) + a.slice(1).toLowerCase()).join(' '))) || 'None'}`, inline: true },
-          { name: 'Examples', value: `${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``) || 'None'}`}
+          { name: 'Examples', value: `${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ') || 'None'}`}
           )
           .setFooter(client.user.username, client.user.displayAvatarURL())
           .setTimestamp()
