@@ -35,12 +35,12 @@ module.exports = {
         if (data.timer.daily.timeout > now){
             const embed = new Discord.MessageEmbed()
             .setTitle(`<a:ShinyCoin:853495846984876063> daily already Claimed!`)
-            .setDescription(`\\❌ **${message.author.tag}**, You already **claimed** your daily reward!\nYour daily will reset in \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+            .setDescription(`\\❌ **${message.author.tag}**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
             .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('RED')
             message.channel.send({ embeds: [embed] })
           } else {
-        let moneyget = Math.floor(Math.random() * 200) + 500;
+        let moneyget = Math.floor(Math.random() * 100) + 500;
 
         data.timer.daily.timeout = Date.now() + duration;
         data.credits += Math.floor(moneyget);
