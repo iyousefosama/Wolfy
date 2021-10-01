@@ -35,13 +35,15 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.tag}**, You have already been given some *coins* earlier! Please try again later.`);
           };
 
+        let ppl = ['WOLF', 'me', 'Mr.Beast', 'Tony Stark', 'Mr. joe', 'Anonymous', 'Rick', 'Morty', 'Steve', 'Drako', 'Elon Musk']
+        let givers = Math.floor(Math.random() * ppl.length)
         let moneyget = Math.floor(Math.random() * 125) + 25;
 
         data.timer.beg.timeout = Date.now() + duration;
         data.credits += Math.floor(moneyget);
         await data.save()
         .then(() => {
-            message.channel.send({ content: `> <a:Money:836169035191418951> **${message.author.tag}**, You received **${moneyget}** from wolfy.`})
+            message.channel.send({ content: `<a:Money:836169035191418951> **${message.author.tag}**, You received **<a:ShinyMoney:877975108038324224> ${moneyget}** from ${ppl[givers]}.`})
         })
         .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
 }
