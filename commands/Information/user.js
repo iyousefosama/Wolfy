@@ -1,6 +1,7 @@
 const discord = require('discord.js'); 
 const moment = require("moment");
 const axios = require("axios")
+const text = require('../../util/string');
 
 module.exports = {
     name: "user",
@@ -72,7 +73,7 @@ module.exports = {
 	)
     .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${mentionedMember.user.displayAvatarURL({ dynamic: true})})`)
     .addFields(
-        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : roles.length > 20 ? trimArray(roles).join(", ") : "<a:pp681:774089750373597185> Bot can maximum display 20 roles!"}`, inline:false },
+        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "<a:pp681:774089750373597185> Bot can maximum display \`20 roles\`!" || '\u200b'}`, inline:false },
         )
     .setImage(`https://cdn.discordapp.com/banners/${mentionedMember.user.id}/${res["banner"]}.gif?size=1024`)
     message.channel.send({ embeds: [userEmbed] }) // sends the embed
