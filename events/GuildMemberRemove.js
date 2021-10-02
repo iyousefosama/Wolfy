@@ -28,15 +28,6 @@ module.exports = {
             // Do nothing..
           };
 
-        const fetchedLogs = await member.guild.fetchAuditLogs({
-          limit: 1,
-          type: "MEMBER_BAN_ADD",
-        });
-
-        const banLog = fetchedLogs.entries.first();
-
-        if(banLog) return;
-
         const remove = new Discord.MessageEmbed()
         .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Down:853495989796470815> Member Leave!')

@@ -37,6 +37,7 @@ module.exports = {
         const kickLog = fetchedLogs.entries.first();
 
         if (!kickLog) return;
+        if(target.id !== user.id) return;
 
         const { executor, target } = kickLog;
         
