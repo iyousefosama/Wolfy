@@ -58,7 +58,7 @@ module.exports = {
 
             data.inv.FishinPole = 1;
             data.credits -= Math.floor(2500)
-            .then(() => {
+            .then(async () => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **🎣 FishingPole** for \`2,500\`!`)
             })
@@ -80,7 +80,7 @@ module.exports = {
 
             data.inv.UltimateCookie = 1;
             data.credits -= Math.floor(50000)
-            .then(() => {
+            .then(async () => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<a:Cookie:853495749370839050> UltimateCookie Machine** for \`50,000\`!`)
             })
@@ -102,7 +102,7 @@ module.exports = {
 
             data.inv.StonePickaxe = 1;
             data.credits -= Math.floor(15000)
-            .then(() => {
+            .then(async () => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:StonePickaxe:887032165437702277> StonePickaxe** for \`15,000\`!`)
             })
@@ -124,7 +124,7 @@ module.exports = {
 
             data.inv.IronPickaxe = 1;
             data.credits -= Math.floor(28000)
-            .then(() => {
+            .then(async () => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:e_:887042865715359774> IronPickaxe** for \`28,000\`!`)
             })
@@ -150,7 +150,7 @@ module.exports = {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:e_:887059604998078495> DiamondPickaxe** for \`52,000\`!`)
             })
-            .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<:e_:887059604998078495> DiamondPickaxe**!`}));
+            .catch(async () => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<:e_:887059604998078495> DiamondPickaxe**!`}));
         } else {
             const nulle = new Discord.MessageEmbed()
             .setTitle(`<a:Wrong:812104211361693696> Unknown item!`)
