@@ -28,13 +28,33 @@ module.exports = {
             // Do nothing..
           };
 
-        const remove = new Discord.MessageEmbed()
-        .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-        .setTitle('<a:Down:853495989796470815> Member Leave!')
-        .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag}\n<:pp198:853494893439352842> **MemberID:** \`${member.user.id}\`\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`)`)
-        .setColor('#2F3136')
-        .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
-        .setTimestamp() 
+          const fetchedLogs = await member.guild.fetchAuditLogs({
+            limit: 1,
+            type: 'MEMBER_KICK',
+           });
+        // Since there's only 1 audit log entry in this collection, grab the first one
+        const kickLog = fetchedLogs.entries.first();
+        const { executor, target } = kickLog;
+
+        let RemoveEmbed;
+        if (kickLog && target.id !== member.id) {
+          RemoveEmbed = new Discord.MessageEmbed()
+          .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
+          .setTitle('<a:pp681:774089750373597185> Member Kicked!')
+          .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+          .setColor('#f78450')
+          .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
+          .setTimestamp()
+        } else {
+          RemoveEmbed = new Discord.MessageEmbed()
+          .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+          .setTitle('<a:Down:853495989796470815> Member Leave!')
+          .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag}\n<:pp198:853494893439352842> **MemberID:** \`${member.user.id}\`\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`)`)
+          .setColor('#2F3136')
+          .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
+          .setTimestamp() 
+        }
+        
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
         setTimeout(async function(){
@@ -44,7 +64,7 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: [remove]})
+        webhook.send({embeds: [RemoveEmbed]})
         .catch(() => {});
     }, 5000);
         
