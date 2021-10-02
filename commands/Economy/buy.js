@@ -146,7 +146,7 @@ module.exports = {
 
             data.inv.DiamondPickaxe = 1;
             data.credits -= Math.floor(52000)
-            .then(() => {
+            .then(async () => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:e_:887059604998078495> DiamondPickaxe** for \`52,000\`!`)
             })
