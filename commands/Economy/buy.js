@@ -57,10 +57,12 @@ module.exports = {
             };
 
             data.inv.FishinPole = 1;
-            data.credits -= Math.floor(2500);
+            data.credits -= Math.floor(2500)
+            .then(() => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **🎣 FishingPole** for \`2,500\`!`)
-            .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **🎣 FishingPole**!`}));
+            })
+            .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **🎣 FishingPole**!`}))
         } else if(item.toLowerCase() === 'ultimatecookie') {
             if(data.inv.UltimateCookie == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
             if(Math.ceil(50000) > data.credits) return message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}**!`)
@@ -77,9 +79,11 @@ module.exports = {
             };
 
             data.inv.UltimateCookie = 1;
-            data.credits -= Math.floor(50000);
+            data.credits -= Math.floor(50000)
+            .then(() => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<a:Cookie:853495749370839050> UltimateCookie Machine** for \`50,000\`!`)
+            })
             .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<a:Cookie:853495749370839050> UltimateCookie Machine**!`}));
         } else if(item .toLowerCase()=== 'stonepickaxe') {
             if(data.inv.StonePickaxe == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
@@ -97,9 +101,11 @@ module.exports = {
             };
 
             data.inv.StonePickaxe = 1;
-            data.credits -= Math.floor(15000);
+            data.credits -= Math.floor(15000)
+            .then(() => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:StonePickaxe:887032165437702277> StonePickaxe** for \`15,000\`!`)
+            })
             .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<:StonePickaxe:887032165437702277> StonePickaxe**!`}));
         } else if(item.toLowerCase() === 'ironpickaxe') {
             if(data.inv.IronPickaxe == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
@@ -117,9 +123,11 @@ module.exports = {
             };
 
             data.inv.IronPickaxe = 1;
-            data.credits -= Math.floor(28000);
+            data.credits -= Math.floor(28000)
+            .then(() => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:e_:887042865715359774> IronPickaxe** for \`28,000\`!`)
+            })
             .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<:e_:887042865715359774> IronPickaxe**!`}));
         } else if(item.toLowerCase() === 'diamondpickaxe') {
             if(data.inv.DiamondPickaxe == 1) return message.channel.send(`\\❌ **${message.author.tag}**, You already have this item in your inventory!`)
@@ -137,9 +145,11 @@ module.exports = {
             };
 
             data.inv.DiamondPickaxe = 1;
-            data.credits -= Math.floor(52000);
+            data.credits -= Math.floor(52000)
+            .then(() => {
             await data.save()
             message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, You bought **<:e_:887059604998078495> DiamondPickaxe** for \`52,000\`!`)
+            })
             .catch(() => message.channel.send({ content: `<a:Wrong:812104211361693696> | Failed to buy **<:e_:887059604998078495> DiamondPickaxe**!`}));
         } else {
             const nulle = new Discord.MessageEmbed()
@@ -147,7 +157,7 @@ module.exports = {
             .setDescription(`**${message.author.username}**, **${item}** this item not from the items listed on shop!`)
             .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setColor('RED')
-            message.channel.send({ embeds: [nulle] })
+            return message.channel.send({ embeds: [nulle] })
         }
 }
 }

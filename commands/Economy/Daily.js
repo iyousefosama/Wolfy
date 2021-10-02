@@ -40,7 +40,7 @@ module.exports = {
             .setColor('RED')
             message.channel.send({ embeds: [embed] })
           } else {
-        let moneyget = Math.floor(Math.random() * 100) + 500;
+        let moneyget = Math.floor(500);
 
         data.timer.daily.timeout = Date.now() + duration;
         data.credits += Math.floor(moneyget);
