@@ -37,7 +37,7 @@ module.exports = {
         const { executor, target } = kickLog;
 
         let RemoveEmbed;
-        if (kickLog && target.id !== member.id) {
+        if (kickLog && target.id == member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('<a:pp681:774089750373597185> Member Kicked!')
