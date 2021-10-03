@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const market = require('../../assets/json/market.json');
 const schema = require('../../schema/Economy-Schema')
+const text = require('../../util/string');
 const { prefix } = require('../../config.json');
 
 module.exports = {
