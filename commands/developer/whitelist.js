@@ -38,6 +38,7 @@ module.exports = {
     .setAuthor(user.username, user.displayAvatarURL({dynamic: true, size: 2048}))
     .setColor(`GREEN`)
     .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted **${user.tag}**`)
+    .setFooter(`Whitelist | \©️${new Date().getFullYear()} WOLFY`)
     .setTimestamp()
 
     let data;
@@ -53,8 +54,11 @@ module.exports = {
     } catch (error) {
         console.log(error)
     }
+    if(data.Status.Blacklisted.current === false) {
+      return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, This user is already whitelisted!` });
+    }
 
-    data.blacklisted = false
+    data.Status.Blacklisted.current = false
     await data.save()
     return message.channel.send({ embeds: [done] })
     }

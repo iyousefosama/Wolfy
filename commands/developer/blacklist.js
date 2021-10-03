@@ -34,12 +34,13 @@ module.exports = {
         return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You cannot blacklist me!`});
       };
 
+    const timestamp = Math.floor(Date.now() / 1000)
     const done = new discord.MessageEmbed()
     .setAuthor(user.username, user.displayAvatarURL({dynamic: true, size: 2048}))
     .setColor(`RED`)
-    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**`)
+    .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**\n• At: <t:${timestamp}>\n\n\`\`\`${reason.join(' ') || 'Unspecified'}\`\`\``)
     .setTimestamp()
-    .setFooter(`Reason: ${reason.join(' ') || 'Unspecified'}`)
+    .setFooter(`BlackList | \©️${new Date().getFullYear()} WOLFY`)
 
     let data;
     try {
@@ -55,7 +56,12 @@ module.exports = {
         console.log(error)
     }
 
-    data.blacklisted = true
+    if(data.Status.Blacklisted.current === true) {
+      return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, This user is already blacklisted!\n\`\`\`diff\n+ Reason: ${data.Status.Blacklisted.reason || 'Unspecified'}\`\`\`` });
+    }
+
+    data.Status.Blacklisted.current = true
+    data.Status.Blacklisted.reason = reason.join(' ') || 'Unspecified'
     await data.save()
     return message.channel.send({ embeds: [done] })
     }
