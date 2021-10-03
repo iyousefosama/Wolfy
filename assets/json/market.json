@@ -91,5 +91,29 @@
         "assets": {
           "link": "https://cdn.discordapp.com/attachments/805088270756872214/894026868582412308/066a69126112098a649cdfdbf266067b891c122c.png"
         }
+      },
+      {
+        "id": 10,
+        "name": "<:user:894028988987629619> Misty Forest background",
+        "description": "Rare background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894279324709060638/07b04d52e01e2aa7cfb8b6f45914031afd723895.png"
+        }
+      },
+      {
+        "id": 11,
+        "name": "<:user:894028988987629619> Blue Square Ocean background",
+        "description": "Uncommon background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894279905032929350/2c7ca1879150098326a2e75c0be9d3df6557f92b.png"
+        }
       }
   ]
