@@ -246,7 +246,9 @@ module.exports = {
         { name: `${prefix}inv`, value: `> \`Show your inventory items! (currently support mining only)\``},
         { name: `${prefix}sell`, value: `> \`Sell item from your inventory and get some credits!\``},
         { name: `${prefix}market`, value: `> \`Open the economy market!\``},
-        { name: `${prefix}buy`, value: `> \`To buy items from the shop.\``},
+        { name: `${prefix}buy`, value: `> \`To buy items from the market\``},
+        { name: `${prefix}use`, value: `> \`Equips an item from your inventory.\``},
+        { name: `${prefix}previewitem`, value: `> \`Check what you can buy from the shop.\``},
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp()
