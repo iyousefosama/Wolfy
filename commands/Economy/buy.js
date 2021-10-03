@@ -45,6 +45,7 @@ module.exports = {
         }
 
         const old = data.profile.inventory.find(x => x.id === item.id);
+        const total = item.price;
         
          if(old) {
           return message.channel.send(`\\❌ **${message.author.tag}**, you already have this item in your inventory`)
