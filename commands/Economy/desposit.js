@@ -40,7 +40,7 @@ module.exports = {
       const amt = amount;
 
       if (amount?.toLowerCase() === 'all'){
-        amount = Math.floor(data.credits);
+        amount = Math.floor(data.credits / 1.05);
       } else {
         amount = Math.round(amount?.split(',').join(''));
       };
