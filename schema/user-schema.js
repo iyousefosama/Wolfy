@@ -7,10 +7,12 @@ const UserSchema = mongoose.Schema({
         required: true
     },
 
-    blacklisted: {
-        type: Boolean,
-        default: false
-    },
+    Status: {
+      Blacklisted: {
+        reason: { type: String, default: false },
+        current: { type: Boolean, default: false }
+      }
+      },
 
     timer: {
       suggestion: {
@@ -18,7 +20,7 @@ const UserSchema = mongoose.Schema({
       },
       reports: {
           timeout: { type: Date, default: null }
-        }
+      },
     }
 })
 
