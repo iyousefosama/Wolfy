@@ -2,6 +2,7 @@ const discord = require('discord.js')
 const canvacord = require('canvacord')
 const Levels = require('discord-xp')
 const schema = require('../../schema/GuildSchema')
+const ecoschema = require('../../schema/Economy-Schema')
 const { prefix } = require('../../config.json');
 
 module.exports = {
@@ -36,6 +37,19 @@ module.exports = {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
+        let ecodata;
+        try{
+            ecodata = await ecoschema.findOne({
+                userID: message.author.id
+            })
+            if(!data) {
+            data = await ecoschema.create({
+                ecodata: message.author.id
+            })
+            }
+        } catch(err) {
+            console.log(err)
+        }
 
     message.channel.sendTyping()
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
@@ -45,6 +59,7 @@ module.exports = {
     const rank = new canvacord.Rank()
     .setAvatar(RankUser.user.displayAvatarURL({format: "png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
+    .setBackground("IMAGE", `${ecodata.profile.background || 'https://cdn.discordapp.com/attachments/805088270756872214/893620901264900096/1f6c66afbf9849801b85e9cc761983b5ec00fbe9.png'}`)
     .setCurrentXP(userData.xp)
     .setLevel(userData.level)
     .setRequiredXP(requiredXP)
