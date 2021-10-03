@@ -1,0 +1,95 @@
+[
+    {
+        "id": 1,
+        "name": "🎣 Fishing Pole",
+        "description": "FishingPole item for fish command.",
+        "type": "Item",
+        "deletable": false,
+        "giftable": false,
+        "price": 2500
+      },
+      {
+        "id": 2,
+        "name": "<a:Cookie:853495749370839050> UltimateCookie Machine",
+        "description": "UltimateCookie Machine for cookie command.",
+        "type": "Item",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000
+      },
+      {
+        "id": 3,
+        "name": "<:StonePickaxe:887032165437702277> StonePickaxe",
+        "description": "Stone Pickaxe for mine command.",
+        "type": "Item",
+        "deletable": false,
+        "giftable": false,
+        "price": 8000
+      },
+      {
+        "id": 4,
+        "name": "<:e_:887042865715359774> IronPickaxe",
+        "description": "Iron Pickaxe for mine command.",
+        "type": "Item",
+        "deletable": false,
+        "giftable": false,
+        "price": 16000
+      },
+      {
+        "id": 5,
+        "name": "<:e_:887059604998078495> DiamondPickaxe",
+        "description": "Diamond Pickaxe for mine command.",
+        "type": "Item",
+        "deletable": false,
+        "giftable": false,
+        "price": 28500
+      },
+    {
+      "id": 6,
+      "name": "<:user:894028988987629619> Default background",
+      "description": "Default background for level command.",
+      "type": "background",
+      "deletable": false,
+      "giftable": false,
+      "price": 0,
+      "assets": {
+        "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620901264900096/1f6c66afbf9849801b85e9cc761983b5ec00fbe9.png"
+      }
+    },
+    {
+        "id": 7,
+        "name": "<:user:894028988987629619> Galaxy background",
+        "description": "Uncommon background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620655969427476/fd306bffcc68dde44b9a15cd0e24d41efbe0a898.png"
+        }
+      },
+    {
+      "id": 8,
+      "name": "<:user:894028988987629619> Rainy neon background",
+      "description": "Rare background for level command.",
+      "type": "background",
+      "deletable": false,
+      "giftable": false,
+      "price": 12000,
+      "assets": {
+        "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620816997154866/e8290b669c05d27b527a5b4a62e19f9ab948cf24.png"
+      }
+    },
+    {
+        "id": 9,
+        "name": "<:user:894028988987629619> Poly Dust background",
+        "description": "Epic Poly Dust for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 18320,
+        "assets": {
+          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894026868582412308/066a69126112098a649cdfdbf266067b891c122c.png"
+        }
+      }
+  ]
