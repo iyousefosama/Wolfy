@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
+const market = require('../../assets/json/market.json');
 const { prefix } = require('../../config.json');
 
 module.exports = {
@@ -30,12 +31,15 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+
+        const item = data.profile.inventory.find(x => x.id == 1);
+
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
-        .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${prefix}buy fishingpole\` to buy the item.`)
+        .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${prefix}market\` to show the market.`)
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
-        if(!data.inv.FishinPole || data.inv.FishinPole !== 1) return message.channel.send({ embeds: [nulle] })
+        if(!item) return message.channel.send({ embeds: [nulle] })
     
         let moneyget;
         let loadingMsg;
