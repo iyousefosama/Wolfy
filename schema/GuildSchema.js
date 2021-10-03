@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
      },
 
      prefix: { type: String, default: null },
+     blacklisted: { type: Boolean, default: false },
      
    Mod: {
       Suggestion: {

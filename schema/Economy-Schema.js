@@ -20,6 +20,12 @@ const ecoSchema = mongoose.Schema({
         Enabled: { type: Boolean, default: false }
       }
     },
+    
+    profile: {
+      background: {type: String, default: null},
+      birthday: {type: String, default: null},
+      inventory: {type: Array, default: []}
+    },
 
     timer: {
         beg: {
@@ -32,6 +38,11 @@ const ecoSchema = mongoose.Schema({
             timeout: { type: Date, default: null }
           }
       },
+      streak: {
+        alltime: {type: Number, default: 0},
+        current: {type: Number, default: 0},
+        timestamp: {type: Number, default: 0}
+      },
 
     cookies: {
         totalcookies: { type: Number, default: 0 },
@@ -39,18 +50,12 @@ const ecoSchema = mongoose.Schema({
       },
 
       inv: {
-        FishinPole: { type: Number, default: 0 },
-        UltimateCookie: { type: Number, default: 0 },
-
-        StonePickaxe: { type: Number, default: 0 },
-        IronPickaxe: { type: Number, default: 0 },
-        DiamondPickaxe: { type: Number, default: 0 },
         Stone: { type: Number, default: 0 },
         Coal: { type: Number, default: 0 },
         Iron: { type: Number, default: 0 },
         Gold: { type: Number, default: 0 },
-        Diamond: { type: Number, default: 0 },
-      }
+        Diamond: { type: Number, default: 0 }
+      },
 })
 
 module.exports = mongoose.model('Economy', ecoSchema)
