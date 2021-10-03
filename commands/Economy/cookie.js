@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
+const market = require('../../assets/json/market.json');
 const { prefix } = require('../../config.json');
 
 module.exports = {
@@ -51,14 +52,15 @@ module.exports = {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes();
+        const item = data.profile.inventory.find(x => x.id == 2);
     
         var currentdate = date + time
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
-        .setDescription(`**${message.author.username}**, You can only give \`250\` cookies for free you should now buy **UltimateCookie Machine**!\nType \`${prefix}buy UltimateCookie\` to buy the item.`)
+        .setDescription(`**${message.author.username}**, You can only give \`350\` cookies for free you should now buy **UltimateCookie Machine**!\nType \`${prefix}buy UltimateCookie\` to buy the item.`)
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
-        if(data.cookies.givecookies == 250 && data.inv.UltimateCookie !== 1) return message.channel.send({ embeds: [nulle] })
+        if(!item && data.cookies.givecookies == 350) return message.channel.send({ embeds: [nulle] })
         let moneyget = Math.floor(Math.random() * 40) + 10
         data.credits += Math.floor(moneyget);
         data.cookies.givecookies += Math.floor('1');
