@@ -7,18 +7,19 @@ const text = require('../../util/string');
 const { prefix } = require('../../config.json');
 
 module.exports = {
-    name: "test",
-    aliases: ["Test"],
+    name: "market",
+    aliases: ["Market", "MARKET", "shop"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
     usage: '',
-    group: 'test',
-    description: 'Developer test tool!',
-    cooldown: 2, //seconds(s)
+    group: 'Economy',
+    description: 'Open the economy market!',
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
     permissions: [],
-    examples: [], 
+    examples: [''], 
     async execute(client, message, [type]) {
         let selected = market.filter(x => x.type === type?.toLowerCase());
 
