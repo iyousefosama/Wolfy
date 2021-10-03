@@ -42,14 +42,14 @@ module.exports = {
       if (amount.toLowerCase() === 'all'){
         amount = Math.round(data.Bank.balance.credits);
       } else {
-        amount = Math.round(amount.split(',').join('')) / 0.95;
+        amount = Math.round(amount.split(',').join(''));
       };
 
       if (!amount){
         return message.channel.send(`\\❌ **${message.author.tag}**, [ **${amt}** ] is not a valid amount!.`);
-      } else if (amount < 500){
+      } else if (amount  < 500){
         return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be withdrawn must be at least **500**.`);
-      } else if (amount > data.Bank.balance.credits){
+      } else if (amount * 0.95 > data.Bank.balance.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your bank to proceed with this transaction.`,
           ` You only have **${text.commatize(data.Bank.balance.credits)}** left, **${text.commatize(amount - data.Bank.balance.credits + Math.ceil(amount * 0.05))}** less than the amount you want to withdraw (Transaction fee of 5% included)`,
@@ -59,11 +59,11 @@ module.exports = {
         return message.channel.send(`\\❌ **${message.author.tag}**, You can't withdraw this large sum of money (Overflow imminent)!`)
       };
 
-      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount);
+      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 0.95);
       data.credits = data.credits + Math.round(amount);
 
       return data.save()
-      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, you successfully withdrawn **${text.commatize(Math.floor(amount))}** credits from your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, You successfully withdrawn **${text.commatize(Math.floor(amount / 0.95))}** credits from your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
   }
