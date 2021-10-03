@@ -12,10 +12,10 @@ module.exports = {
     usage: '',
     group: 'Search',
     description: 'The bot will show you the lyrics for the music you are searching for!',
-    cooldown: 3, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
     examples: [],
     async execute(client, message, ...args) {
     if (message.author == client.user) return;
@@ -32,7 +32,7 @@ module.exports = {
     .setDescription(`<a:Loading:841321898302373909> | Please send the **artist** name!`)
     .setFooter(`1/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
     message.channel.send({ embeds: [singerEmb] })
-    let col = await message.channel.awaitMessages({ filter, max: 1 })
+    let col = await message.channel.awaitMessages({ filter, max: 1})
     if(col.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
     else if(col.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     singer = col.first().content
