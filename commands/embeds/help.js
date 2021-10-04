@@ -116,7 +116,7 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
-        { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
+        { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library!\``},
         { name: `${prefix}wikipedia`, value: `> \`To search for anything in wikipedia\``},
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
         { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
