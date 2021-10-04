@@ -151,7 +151,7 @@ module.exports = {
         { name: `${prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
-        { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},
+        { name: `${prefix}dm`, value: `> \`Dms someone in the server with message.\``},
         { name: `${prefix}warn`, value: `> \`Warn a user in the server!\``},
         { name: `${prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
         { name: `${prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
