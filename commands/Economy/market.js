@@ -17,8 +17,8 @@ module.exports = {
     description: 'Open the economy market!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
     permissions: [],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
     examples: [''], 
     async execute(client, message, [type]) {
         let selected = market.filter(x => x.type === type?.toLowerCase());
@@ -30,7 +30,7 @@ module.exports = {
         const pages = new Pages(_.chunk(selected, 24).map((chunk, i, o) => {
           return new MessageEmbed()
           .setTitle('Wolfy\'s Market')
-          .setColor('#ffd167')
+          .setColor('GREY')
           .setURL('https://wolfy.yoyojoe.repl.co/')
           .setFooter(`Wolfy\'s Market | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}`)
           .addFields(...chunk.map(item => {

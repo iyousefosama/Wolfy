@@ -57,11 +57,11 @@ module.exports = {
         ].join('\n'));
       };
 
-      data.Bank.balance.credits = data.Bank.balance.credits + amount;
+      data.Bank.balance.credits = data.Bank.balance.credits + Math.floor(amount);
       data.credits = data.credits - Math.floor(amount * 1.05);
 
       return data.save()
-      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, you successfully deposited **${text.commatize(amount / 1.05)}** credits to your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, you successfully deposited **${text.commatize(Math.floor(amount / 1.05))}** credits to your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     };
   }

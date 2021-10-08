@@ -26,7 +26,7 @@ module.exports = {
         if(!amount) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid credits number.` })
         if(isNaN(amount)) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid credits number.` })
         if(!amount || amount === 'Nothing') return message.channel.send(`\\❌ **${message.author.tag}**, \`${amount}\` is not a valid amount!`);
-        if(amount < 100 || amount > 20000) return message.channel.send(`\\❌ **${message.author.tag}**, only valid amount to transfer is between **100** and **20,000**!`);
+        if(amount < 100 || amount > 50000) return message.channel.send(`\\❌ **${message.author.tag}**, only valid amount to transfer is between **100** and **50,000**!`);
 
         let data;
         let FriendData;
@@ -52,7 +52,7 @@ module.exports = {
         if(Math.ceil(amount * 1.1) > data.credits) { 
             message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`)
         } else {
-            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to transfer **${Math.floor(amount / 1.1)}** to ${Friend}? Your new palance will be **${data.credits - amount * 1.1}**! \`(y/n)\``})
+            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to transfer **${Math.floor(amount / 1.1)}** to ${Friend}? Your new palance will be **${Math.floor(data.credits - amount * 1.1)}**! \`(y/n)\``})
             const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
         
             const proceed = await message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
