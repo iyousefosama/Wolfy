@@ -40,7 +40,7 @@ module.exports = {
               setTimeout(async () => { 
                 let reason = `Automoderator: This word is banned, watch your language.`
                 const warnObj = {
-                  authorId: message.author.id,
+                  authorId: client.user.id,
                   timestamp: Math.floor(Date.now() / 1000),
                   warnId: uuid.v4(),
                   reason: reason,
