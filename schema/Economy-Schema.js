@@ -23,8 +23,17 @@ const ecoSchema = mongoose.Schema({
     
     profile: {
       background: {type: String, default: null},
+      ProfileBackground: {type: String, default: null},
+      badge: {type: String, default: null},
+      bio: {type: String, default: 'No bio written!'},
+      hat: {type: String, default: null},
       birthday: {type: String, default: null},
       inventory: {type: Array, default: []}
+    },
+    tips: {
+      given: {type: Number, default: 0},
+      received: {type: Number, default: 0},
+      timestamp: {type: Number, default: 0}
     },
 
     timer: {
