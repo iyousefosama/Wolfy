@@ -45,7 +45,7 @@ module.exports = {
           return message.channel.send(`\\❌ **${message.author.tag}**, This item can no longer be used!`);
         };
 
-        if(metadata.type !== "background") {
+        if(metadata.assets?.link == null) {
             return message.channel.send(`\\❌ **${message.author.tag}**, You can't use this item!`);
         }
     

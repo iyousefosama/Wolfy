@@ -30,7 +30,7 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.tag}**, Could not find the item with that id!`);
           };
 
-          if(selected.type !== "background") {
+          if(selected.assets?.link == null) {
             return message.channel.send(`\\❌ **${message.author.tag}**, there is no preview for this item!`);
           }
 
