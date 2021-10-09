@@ -115,5 +115,29 @@
         "assets": {
           "link": "https://cdn.discordapp.com/attachments/805088270756872214/894279905032929350/2c7ca1879150098326a2e75c0be9d3df6557f92b.png"
         }
+      },
+      {
+        "id": 12,
+        "name": "<:badge:896453470066995250> Star badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 3000,
+        "assets": {
+          "link": "https://i.imgur.com/mfbxirC.jpg"
+        }
+      },
+      {
+        "id": 13,
+        "name": "<:profile:896454277239816192> Rainy neon Background",
+        "description": "Rare Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620816997154866/e8290b669c05d27b527a5b4a62e19f9ab948cf24.png"
+        }
       }
   ]
