@@ -139,8 +139,8 @@ module.exports = {
           ctx.beginPath();
           ctx.font = '18px sans-serif'
           ctx.fillStyle = 'rgba(0,0,0,0.8)'
-          ctx.fillText(`💴: ${data.credits || '0'}`, 330, 512, 80)
-          ctx.fillText(`🏦: ${data.Bank.balance.credits || '0'}`, 430, 512, 80)
+          ctx.fillText(`Wallet: ${data.credits || '0'}`, 330, 512, 80)
+          ctx.fillText(`Bank: ${data.Bank.balance.credits || '0'}`, 430, 512, 80)
     
           // add emblem indicator
           if (!emblem){
