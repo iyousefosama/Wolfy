@@ -25,6 +25,7 @@ const ecoSchema = mongoose.Schema({
       background: {type: String, default: null},
       ProfileBackground: {type: String, default: null},
       badge: {type: String, default: null},
+      pattern: {type: String, default: null},
       bio: {type: String, default: 'No bio written!'},
       hat: {type: String, default: null},
       birthday: {type: String, default: null},
