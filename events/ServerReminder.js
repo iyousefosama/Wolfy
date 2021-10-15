@@ -23,7 +23,7 @@ module.exports = {
                 embeds: [embed],
             })
         .catch(() => {});
-        setTimeout(checkReminders, 10000 * 60)
+        setTimeout(checkReminders, 120000 * 60)
         }
         checkReminders()
     }
