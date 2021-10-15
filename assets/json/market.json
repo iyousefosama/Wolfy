@@ -298,14 +298,14 @@
       },
       {
         "id": 27,
-        "name": "<:user:894028988987629619> Caty cats background",
-        "description": "Rare background for level command.",
+        "name": "<:user:894028988987629619> Batman who laughs background",
+        "description": "Rare Background for profile command",
         "type": "background",
         "deletable": false,
         "giftable": false,
         "price": 12000,
         "assets": {
-          "link": "https://i.imgur.com/aO3I76f.jpg"
+          "link": "https://i.imgur.com/BRjQ5F7.jpg"
         }
       },
       {
@@ -354,6 +354,54 @@
         "price": 6500,
         "assets": {
           "link": "https://i.imgur.com/4OdKd20.jpg"
+        }
+      },
+      {
+        "id": 32,
+        "name": "<:patterns:898628262060777502> Nezuko's Haori Pattern",
+        "description": "Rare pattern for profile command.",
+        "type": "pattern",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/vneCWt8.png"
+        }
+      },
+      {
+        "id": 33,
+        "name": "<:patterns:898628262060777502> Zenitsu's Haori Pattern",
+        "description": "Uncommon pattern for profile command.",
+        "type": "pattern",
+        "deletable": false,
+        "giftable": false,
+        "price": 7500,
+        "assets": {
+          "link": "https://i.imgur.com/gGtB7Ue.png"
+        }
+      },
+      {
+        "id": 34,
+        "name": "<:patterns:898628262060777502> Akatzuki Pattern",
+        "description": "Uncommon pattern for profile command.",
+        "type": "pattern",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/zIJ45ab.png"
+        }
+      },
+      {
+        "id": 35,
+        "name": "<:patterns:898628262060777502> Saitama's Pattern",
+        "description": "Rare pattern for profile command.",
+        "type": "pattern",
+        "deletable": false,
+        "giftable": false,
+        "price": 11500,
+        "assets": {
+          "link": "https://i.imgur.com/H9W02iA.png"
         }
       }
   ]
