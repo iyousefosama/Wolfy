@@ -55,15 +55,13 @@ module.exports = {
           ` You only have **${text.commatize(data.Bank.balance.credits)}** left, **${text.commatize(amount - data.Bank.balance.credits + Math.ceil(amount * 0.05))}** less than the amount you want to withdraw (Transaction fee of 5% included)`,
           `To withdraw all credits instead, please type \`${prefix}withdraw all\`.`
         ].join('\n'));
-      } else if (amount + data.Bank.balance.credits > 50000){
-        return message.channel.send(`\\❌ **${message.author.tag}**, You can't withdraw this large sum of money (Overflow imminent)!`)
-      };
+      }
 
       data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 0.95);
       data.credits = data.credits + Math.round(amount);
 
       return data.save()
-      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, You successfully withdrawn **${text.commatize(Math.floor(amount / 0.95))}** credits from your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, You successfully withdrawn **${text.commatize(Math.floor(amount / 1.1))}** credits from your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
   }
