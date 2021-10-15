@@ -40,7 +40,7 @@ module.exports = {
 
       const amt = amount;
       if (amount.toLowerCase() === 'all'){
-        amount = Math.round(data.Bank.balance.credits / 0.95);
+        amount = Math.round(data.Bank.balance.credits / 1.2);
       } else {
         amount = Math.round(amount.split(',').join(''));
       };
@@ -49,7 +49,7 @@ module.exports = {
         return message.channel.send(`\\❌ **${message.author.tag}**, [ **${amt}** ] is not a valid amount!.`);
       } else if (amount  < 500){
         return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be withdrawn must be at least **500**.`);
-      } else if (amount * 0.95 > data.Bank.balance.credits){
+      } else if (amount * 1.1 > data.Bank.balance.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your bank to proceed with this transaction.`,
           ` You only have **${text.commatize(data.Bank.balance.credits)}** left, **${text.commatize(amount - data.Bank.balance.credits + Math.ceil(amount * 0.05))}** less than the amount you want to withdraw (Transaction fee of 5% included)`,
@@ -57,7 +57,7 @@ module.exports = {
         ].join('\n'));
       }
 
-      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 0.95);
+      data.Bank.balance.credits = Math.round(data.Bank.balance.credits - amount * 1.1);
       data.credits = data.credits + Math.round(amount);
 
       return data.save()
