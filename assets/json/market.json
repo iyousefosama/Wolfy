@@ -283,5 +283,77 @@
         "assets": {
           "link": "https://i.imgur.com/899JaFT.png"
         }
+      },
+      {
+        "id": 26,
+        "name": "<:profile:896454277239816192> RocketLeague Background",
+        "description": "Uncommon Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/hHfatFq.jpg"
+        }
+      },
+      {
+        "id": 27,
+        "name": "<:user:894028988987629619> Caty cats background",
+        "description": "Rare background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/aO3I76f.jpg"
+        }
+      },
+      {
+        "id": 28,
+        "name": "<:user:894028988987629619> Black Hole background",
+        "description": "Rare background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/hl7VJ0I.png"
+        }
+      },
+      {
+        "id": 29,
+        "name": "<:user:894028988987629619> Tanya the Loli background",
+        "description": "Common background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 4500,
+        "assets": {
+          "link": "https://i.imgur.com/jFKGy5x.png"
+        }
+      },
+      {
+        "id": 30,
+        "name": "<:user:894028988987629619> ATTACK ON TITAN background",
+        "description": "Uncommon background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/uD6GLMK.jpg"
+        }
+      },
+      {
+        "id": 31,
+        "name": "<:user:894028988987629619> Petal Field background",
+        "description": "Uncommon background for level command.",
+        "type": "background",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/4OdKd20.jpg"
+        }
       }
   ]
