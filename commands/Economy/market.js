@@ -64,7 +64,15 @@ module.exports = {
         let timeout = setTimeout(()=> collector.stop(), 90000);
     
         for (let i = 0; i < navigators.length; i++) {
-          await msg.react(navigators[i]);
+          setTimeout(async () => {
+              await msg.react(prev);
+            }, 1000)
+            setTimeout(async () => {
+              await msg.react(next);
+            }, 2000)
+            setTimeout(async () => {
+              await msg.react(terminate);
+            }, 3000)
         };
     
         collector.on('collect', async reaction => {
