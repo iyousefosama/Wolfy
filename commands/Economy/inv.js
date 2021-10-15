@@ -16,7 +16,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Show your inventory items!',
-    cooldown: 5, //seconds(s)
+    cooldown: 60, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
