@@ -49,7 +49,7 @@ module.exports = {
         // Since there's only 1 audit log entry in this collection, grab the first one
         const kickLog = fetchedLogs2.entries.first();
 
-        if (kickLog) return;
+        if (kickLog && target.id == user.id) return;
         
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
