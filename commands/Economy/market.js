@@ -59,30 +59,25 @@ module.exports = {
         const terminate = client.emojis.cache.get('888264104081522698') || '❌';
     
         const filter = (_, user) => user.id === message.author.id;
-        const collector = msg.createReactionCollector(filter);
+        const collector = msg.createReactionCollector({ filter });
         const navigators = [ prev, next, terminate ];
         let timeout = setTimeout(()=> collector.stop(), 90000);
     
         for (let i = 0; i < navigators.length; i++) {
           setTimeout(async () => {
-              await msg.react(prev);
-            }, 1000)
-            setTimeout(async () => {
-              await msg.react(next);
-            }, 2000)
-            setTimeout(async () => {
-              await msg.react(terminate);
-            }, 3000)
+          await msg.react(
+          navigators[i]);
+        }, 2000)
         };
     
         collector.on('collect', async reaction => {
     
           switch(reaction.emoji.name){
             case prev instanceof GuildEmoji ? prev.name : prev:
-              msg.edit(pages.previous());
+              msg.edit({ embeds: [pages.previous()] });
             break;
             case next instanceof GuildEmoji ? next.name : next:
-              msg.edit(pages.next());
+              msg.edit({ embeds: [pages.next()] });
             break;
             case terminate instanceof GuildEmoji ? terminate.name : terminate:
               collector.stop();
@@ -94,5 +89,6 @@ module.exports = {
         });
     
         collector.on('end', async () => await msg.reactions.removeAll());
+    
     }
 }
