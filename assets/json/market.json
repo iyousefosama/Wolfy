@@ -118,12 +118,12 @@
       },
       {
         "id": 12,
-        "name": "<:badge:896453470066995250> Star badge",
+        "name": "<:medal:898358296694628414> Star badge",
         "description": "Uncommon badge for profile command.",
         "type": "badge",
         "deletable": false,
         "giftable": false,
-        "price": 3000,
+        "price": 5000,
         "assets": {
           "link": "https://i.imgur.com/mfbxirC.jpg"
         }
@@ -138,6 +138,150 @@
         "price": 12000,
         "assets": {
           "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620816997154866/e8290b669c05d27b527a5b4a62e19f9ab948cf24.png"
+        }
+      },
+      {
+        "id": 14,
+        "name": "<:profile:896454277239816192> Purpe Pink Bubble Background",
+        "description": "Rare Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/ENbfDwh.jpg"
+        }
+      },
+      {
+        "id": 15,
+        "name": "<:profile:896454277239816192> Red Mixed Background",
+        "description": "Uncommon Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/3GhQyOJ.jpg"
+        }
+      },
+      {
+        "id": 16,
+        "name": "<:profile:896454277239816192> Icy Mountain Background",
+        "description": "Common Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 3500,
+        "assets": {
+          "link": "https://i.imgur.com/cns5e6l.jpg"
+        }
+      },
+      {
+        "id": 17,
+        "name": "<:medal:898358296694628414> Minecraft Background",
+        "description": "Uncommon Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/vn5TpTF.jpg"
+        }
+      },
+      {
+        "id": 18,
+        "name": "<:medal:898358296694628414> La casa de papel Background",
+        "description": "Rare Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/0ONrBkG.jpg"
+        }
+      },
+      {
+        "id": 19,
+        "name": "<:medal:898358296694628414> NFS Heat Background",
+        "description": "Rare Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/kdKZNzk.jpg"
+        }
+      },
+      {
+        "id": 20,
+        "name": "<:medal:898358296694628414> Dera Mochmazzi badge",
+        "description": "Common badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 3500,
+        "assets": {
+          "link": "https://i.imgur.com/FI0gqMF.png"
+        }
+      },
+      {
+        "id": 21,
+        "name": "<:medal:898358296694628414> Wholesome Anko badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/rfIOHrG.png"
+        }
+      },
+      {
+        "id": 22,
+        "name": "<:medal:898358296694628414> Megumin Angwry badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/rgtr8De.png"
+        }
+      },
+      {
+        "id": 23,
+        "name": "<:medal:898358296694628414> Megumin Point Up badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/v7fybxn.png"
+        }
+      },
+      {
+        "id": 24,
+        "name": "<:medal:898358296694628414> Megumin Kawaii badge",
+        "description": "Rare badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/VDZ3ppW.png"
+        }
+      },
+      {
+        "id": 25,
+        "name": "<:medal:898358296694628414> Galaxy Background",
+        "description": "Epic Background for profile command.",
+        "type": "ProfileBackground",
+        "deletable": false,
+        "giftable": false,
+        "price": 25000,
+        "assets": {
+          "link": "https://i.imgur.com/899JaFT.png"
         }
       }
   ]
