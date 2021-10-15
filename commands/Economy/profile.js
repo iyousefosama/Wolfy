@@ -26,6 +26,7 @@ module.exports = {
           return message.channel.send(`\\❌ Bots cannot earn XP!`);
         };
 
+        message.channel.sendTyping()
         let data;
         try{
             data = await schema.findOne({
@@ -46,7 +47,7 @@ module.exports = {
     
           const emblem = data.profile.badge ? await loadImage(data.profile.badge) : null;
           const def = await loadImage(data.profile.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg');
-          const defpattern = await loadImage('https://i.imgur.com/s4IHLbB.jpg');
+          const defpattern = await loadImage(data.profile.pattern || 'https://i.imgur.com/nx5qJUb.png');
           const avatar = await loadImage(member.user.displayAvatarURL({format: 'png'}));
           // add the wallpaper
           ctx.drawImage(def,300,65,475,250);
@@ -139,8 +140,8 @@ module.exports = {
           ctx.beginPath();
           ctx.font = '18px sans-serif'
           ctx.fillStyle = 'rgba(0,0,0,0.8)'
-          ctx.fillText(`Wallet: ${data.credits || '0'}`, 330, 512, 80)
-          ctx.fillText(`Bank: ${data.Bank.balance.credits || '0'}`, 430, 512, 80)
+          ctx.fillText(`💴: ${data.credits || '0'}`, 330, 512, 80)
+          ctx.fillText(`🏦: ${data.Bank.balance.credits || '0'}`, 430, 512, 80)
     
           // add emblem indicator
           if (!emblem){
