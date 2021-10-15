@@ -178,7 +178,7 @@
       },
       {
         "id": 17,
-        "name": "<:medal:898358296694628414> Minecraft Background",
+        "name": "<:profile:896454277239816192> Minecraft Background",
         "description": "Uncommon Background for profile command.",
         "type": "ProfileBackground",
         "deletable": false,
@@ -190,7 +190,7 @@
       },
       {
         "id": 18,
-        "name": "<:medal:898358296694628414> La casa de papel Background",
+        "name": "<:profile:896454277239816192> La casa de papel Background",
         "description": "Rare Background for profile command.",
         "type": "ProfileBackground",
         "deletable": false,
@@ -202,7 +202,7 @@
       },
       {
         "id": 19,
-        "name": "<:medal:898358296694628414> NFS Heat Background",
+        "name": "<:profile:896454277239816192> NFS Heat Background",
         "description": "Rare Background for profile command.",
         "type": "ProfileBackground",
         "deletable": false,
