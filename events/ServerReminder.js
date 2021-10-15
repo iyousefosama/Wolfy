@@ -18,7 +18,6 @@ module.exports = {
             .setURL(`https://wolfy.yoyojoe.repl.co/`)
             
             webhookClient.send({
-                content: 'Webhook test',
                 username: 'Wolfy',
                 avatarURL: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 }),
                 embeds: [embed],
