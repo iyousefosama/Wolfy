@@ -67,7 +67,7 @@ module.exports = {
           setTimeout(async () => {
           await msg.react(
           navigators[i]);
-        }, 2000)
+        }, 3000)
         };
     
         collector.on('collect', async reaction => {
