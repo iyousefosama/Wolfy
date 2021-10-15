@@ -116,7 +116,7 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
-        { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library!\``},
+        { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
         { name: `${prefix}wikipedia`, value: `> \`To search for anything in wikipedia\``},
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
         { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
@@ -151,7 +151,7 @@ module.exports = {
         { name: `${prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
         { name: `${prefix}unban`, value: `> \`unBans a member from the server\``},
         { name: `${prefix}kick`, value: `> \`Kick a member from the server\``},
-        { name: `${prefix}dm`, value: `> \`Dms someone in the server with message.\``},
+        { name: `${prefix}dm`, value: `> \`Dms someone in the server with message\``},
         { name: `${prefix}warn`, value: `> \`Warn a user in the server!\``},
         { name: `${prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
         { name: `${prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
@@ -233,6 +233,9 @@ module.exports = {
     .setURL('https://Wolfy.yoyojoe.repl.co')
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
+        { name: `${prefix}profile`, value: `> \`Shows your profile card!\``},
+        { name: `${prefix}setbio`, value: `> \`Sets your profile card bio.\``},
+        { name: `${prefix}setbirthday`, value: `> \`Sets your profile card birthday.\``},
         { name: `${prefix}credits`, value: `> \`To check your credits balance in wallet\``},
         { name: `${prefix}cookie`, value: `> \`To send cookie for a friend as a gift\``},
         { name: `${prefix}beg`, value: `> \`Want to earn money some more? Why don\'t you try begging, maybe someone will give you.\``},
