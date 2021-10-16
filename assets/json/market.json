@@ -274,12 +274,12 @@
       },
       {
         "id": 25,
-        "name": "<:medal:898358296694628414> Galaxy Background",
+        "name": "<:profile:896454277239816192> Galaxy Background",
         "description": "Epic Background for profile command.",
         "type": "ProfileBackground",
         "deletable": false,
         "giftable": false,
-        "price": 25000,
+        "price": 35000,
         "assets": {
           "link": "https://i.imgur.com/899JaFT.png"
         }
@@ -402,6 +402,198 @@
         "price": 11500,
         "assets": {
           "link": "https://i.imgur.com/H9W02iA.png"
+        }
+      },
+      {
+        "id": 36,
+        "name": "<:medal:898358296694628414> Sea waves badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 7500,
+        "assets": {
+          "link": "https://i.imgur.com/xv9oPGm.png"
+        }
+      },
+      {
+        "id": 37,
+        "name": "<:medal:898358296694628414> Stay Cool badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 6500,
+        "assets": {
+          "link": "https://i.imgur.com/583La9t.png"
+        }
+      },
+      {
+        "id": 38,
+        "name": "<:medal:898358296694628414> Astro badge",
+        "description": "Rare badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 12000,
+        "assets": {
+          "link": "https://i.imgur.com/5LiVejD.png"
+        }
+      },
+      {
+        "id": 39,
+        "name": "<:medal:898358296694628414> Good Vibes badge",
+        "description": "Rare badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 11500,
+        "assets": {
+          "link": "https://i.imgur.com/pn7ka3u.png"
+        }
+      },
+      {
+        "id": 40,
+        "name": "<:medal:898358296694628414> Nintendo badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/tcPDoXg.png"
+        }
+      },
+      {
+        "id": 41,
+        "name": "<:medal:898358296694628414> OldPc badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/Pre4Um9.png"
+        }
+      },
+      {
+        "id": 42,
+        "name": "<:medal:898358296694628414> Xbox badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/KtE320D.png"
+        }
+      },
+      {
+        "id": 43,
+        "name": "<:medal:898358296694628414> Playstation badge",
+        "description": "Uncommon badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 5000,
+        "assets": {
+          "link": "https://i.imgur.com/5BRGGFT.png"
+        }
+      },
+      {
+        "id": 44,
+        "name": "<:medal:898358296694628414> Give me Five badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/2mii06w.png"
+        }
+      },
+      {
+        "id": 45,
+        "name": "<:medal:898358296694628414> Booo badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/qAQq6lw.png"
+        }
+      },
+      {
+        "id": 46,
+        "name": "<:medal:898358296694628414> Booo badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/qAQq6lw.png"
+        }
+      },
+      {
+        "id": 47,
+        "name": "<:medal:898358296694628414> Scary Pumpkin badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/WmIJNUK.png"
+        }
+      },
+      {
+        "id": 48,
+        "name": "<:medal:898358296694628414> Scary Clown badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/2tbkZFc.png"
+        }
+      },
+      {
+        "id": 49,
+        "name": "<:medal:898358296694628414> Scary Cat badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/mzlS9PE.png"
+        }
+      },
+      {
+        "id": 50,
+        "name": "<:medal:898358296694628414> Ghosts badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://i.imgur.com/t3K7qEX.png"
+        }
+      },
+      {
+        "id": 51,
+        "name": "<:medal:898358296694628414> Mr. B badge",
+        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 35000,
+        "assets": {
+          "link": "https://imgur.com/6rf35rg"
         }
       }
   ]
