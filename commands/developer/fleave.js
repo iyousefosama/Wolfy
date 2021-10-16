@@ -30,17 +30,14 @@ const config = require('../../config.json')
       .setDescription(`Reason:\n${reason.join(' ') || 'Unspecified'}`)
       const Debug = await client.channels.cache.get(config.debug)
       const botname = client.user.username;
-      setTimeout(async function(){
         const webhooks = await Debug.fetchWebhooks()
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
           webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
         }
-        webhook.send({embeds: [embed]})
-        .catch(() => {});
-      }, 5000)
-    .then(() => guild.leave())
-    .then(() => message.channel.send(`\\✔️ Sucessfully left the guild **${guild.name}**`))
-    .catch(() => message.channel.send(`\\❗ Could not perform the operation.`));
+        webhook.send({embeds: [embed]})    
+        .then(() => guild.leave())
+        .then(() => message.channel.send(`\\✔️ Sucessfully left the guild **${guild.name}**`))
+        .catch(() => message.channel.send(`\\❗ Could not perform the operation.`));
   }
 }
