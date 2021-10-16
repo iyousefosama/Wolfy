@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { MessageEmbed} = require('discord.js');
+const { MessageEmbed, GuildEmoji } = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
@@ -111,9 +111,8 @@ module.exports = {
         let timeout = setTimeout(()=> collector.stop(), 90000);
     
         for (let i = 0; i < navigators.length; i++) {
-          setTimeout(async () => {
+            await new Promise(r=>setTimeout(r,1500))
             await msg.react(navigators[i]);
-          }, 3000)
         };
     
         collector.on('collect', async reaction => {
