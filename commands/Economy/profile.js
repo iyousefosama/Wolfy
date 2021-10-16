@@ -45,6 +45,7 @@ module.exports = {
           const ctx = canvas.getContext('2d');
           const color = data.profile.color || 'rgb(92,89,89)'
     
+          const hat = data.profile.hat ? await loadImage(data.profile.hat) : null;
           const emblem = data.profile.badge ? await loadImage(data.profile.badge) : null;
           const def = await loadImage(data.profile.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg');
           const defpattern = await loadImage(data.profile.pattern || 'https://i.imgur.com/nx5qJUb.png');
@@ -248,7 +249,13 @@ module.exports = {
           ctx.clip();
           ctx.drawImage(avatar,75,150,150,150);
           ctx.restore();
-    
+
+          // add hat
+          if (hat){
+            ctx.beginPath();
+            ctx.drawImage(hat,0,0,300,300);
+          };
+
           message.channel.send({
             files: [{
               attachment: canvas.toBuffer(),
