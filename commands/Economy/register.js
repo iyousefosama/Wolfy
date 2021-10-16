@@ -32,10 +32,10 @@ module.exports = {
         let credits = data.credits
         if(data.Bank.info.Enabled == true) {
           message.channel.send({ content: `\\❌ **${message.author.tag}**, You already registered a bank accounnt!`})
-        } else if(credits < 5000) {
-          message.channel.send({ content: `\\❌ **${message.author.tag}**, You didn't get **5,000** yet to create a bank account!`})
+        } else if(credits < 8000) {
+          message.channel.send({ content: `\\❌ **${message.author.tag}**, You didn't get **8,000** yet to create a bank account!`})
         } else {
-            data.credits -= Math.floor(5000);
+            data.credits -= Math.floor(8000);
             data.Bank.balance.credits =  Math.floor(Math.random() * 250) + 250;
             data.Bank.info.Enabled = true
             await data.save()

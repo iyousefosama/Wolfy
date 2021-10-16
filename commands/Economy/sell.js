@@ -41,7 +41,7 @@ module.exports = {
         let res = item.toLowerCase();
         if(res === 'coal') {
             if(data.inv.Coal < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet!`})
-            const finall = Math.floor(amount) * 4
+            const finall = Math.floor(amount * 2)
             data.credits += finall
             data.inv.Coal -= Math.floor(amount)
             await data.save()
@@ -49,7 +49,7 @@ module.exports = {
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
         } else if(res === 'stone') {
             if(data.inv.Stone < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet!`})
-            const finall = Math.floor(amount) * 1
+            const finall = Math.floor(amount * 1)
             data.credits += finall
             data.inv.Stone -= Math.floor(amount)
             await data.save()
@@ -57,7 +57,7 @@ module.exports = {
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
         } else if(res === 'iron') {
             if(data.inv.Iron < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet!`})
-            const finall = Math.floor(amount) * 9
+            const finall = Math.floor(amount * 4)
             data.credits += finall
             data.inv.Iron -= Math.floor(amount)
             await data.save()
@@ -65,7 +65,7 @@ module.exports = {
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
         } else if(res === 'gold') {
             if(data.inv.Gold < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet!`})
-            const finall = Math.floor(amount) * 45
+            const finall = Math.floor(amount * 45)
             data.credits += finall
             data.inv.Gold -= Math.floor(amount)
             await data.save()
@@ -73,7 +73,7 @@ module.exports = {
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
         } else if(res === 'diamond') {
             if(data.inv.Diamond < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet!`})
-            const finall = Math.floor(amount) * 220
+            const finall = Math.floor(amount * 115)
             data.credits += finall
             data.inv.Diamond -= Math.floor(amount)
             await data.save()

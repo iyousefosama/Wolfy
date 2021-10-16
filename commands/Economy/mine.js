@@ -12,7 +12,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'What you know about mining down in the deep?',
-    cooldown: 6, //seconds(s)
+    cooldown: 20, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],

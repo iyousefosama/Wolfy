@@ -10,7 +10,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Deposit credits from your wallet to safeguard',
-    cooldown: 2, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [
@@ -49,6 +49,8 @@ module.exports = {
         return message.channel.send(`\\❌ **${message.author.tag}**, [ **${amt || 0}** ] is not a valid amount!.`);
       } else if (amount < 500){
         return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be deposited must be at least **500**.`);
+      } else if(data.Bank.balance.credits + amount > 100000) {
+        return message.channel.send(`\\❌ **${message.author.tag}**, Your bank is overflowed please withdraw some money from your bank.`);
       } else if (amount * 1.05 > data.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your wallet to proceed with this transaction.`,

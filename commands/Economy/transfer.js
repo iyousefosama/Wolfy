@@ -64,7 +64,7 @@ module.exports = {
             };
 
             data.credits -= Math.floor(amount * 1.1);
-            FriendData.credits += Math.floor(amount / 1.1);
+            FriendData.credits += Math.floor(amount);
             return Promise.all([ data.save(), FriendData.save() ])
             .then(()=> message.channel.send(`<a:Money:836169035191418951> **${message.author.tag}**, Successfully transferred **${Math.floor(amount / 1.1)}** to **${Friend.user.username}**`))
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));

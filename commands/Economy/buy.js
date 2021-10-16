@@ -62,7 +62,7 @@ module.exports = {
           })
           data.credits = data.credits - total;
           await data.save()
-        .then(() => message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, Successfully purchased **${item.name}!** for \`${item.price}\``))
+        .then(() => message.channel.send(`<a:Bagopen:877975110806540379> **${message.author.tag}**, Successfully purchased **${item.name}!** for \`${text.commatize(item.price)}\``))
         .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
         }
     }
