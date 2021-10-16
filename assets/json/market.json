@@ -521,19 +521,19 @@
         "giftable": false,
         "price": 35000,
         "assets": {
-          "link": "https://i.imgur.com/qAQq6lw.png"
+          "link": "https://i.imgur.com/FM6tr21.png"
         }
       },
       {
         "id": 46,
-        "name": "<:medal:898358296694628414> Booo badge",
+        "name": "<:medal:898358296694628414> Friendly Pumpkin badge",
         "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
         "type": "badge",
         "deletable": false,
         "giftable": false,
         "price": 35000,
         "assets": {
-          "link": "https://i.imgur.com/qAQq6lw.png"
+          "link": "https://i.imgur.com/SguZQMG.png"
         }
       },
       {
@@ -582,18 +582,6 @@
         "price": 35000,
         "assets": {
           "link": "https://i.imgur.com/t3K7qEX.png"
-        }
-      },
-      {
-        "id": 51,
-        "name": "<:medal:898358296694628414> Mr. B badge",
-        "description": "<:pumpkin3:898962972066590740> Halloween series badge for profile command.",
-        "type": "badge",
-        "deletable": false,
-        "giftable": false,
-        "price": 35000,
-        "assets": {
-          "link": "https://imgur.com/6rf35rg"
         }
       }
   ]
