@@ -3,7 +3,11 @@ const config = require('../config.json')
 
 module.exports = {
     name: 'guildCreate',
-    async execute(client, guild, guildCreate) {
+    async execute(client, guild) {
+      if (!guild){
+        return;
+      };
+      
         const join = new Discord.MessageEmbed()
         .setTitle(`${client.user.username} added to a new server!`)
         .setColor("GREEN")
