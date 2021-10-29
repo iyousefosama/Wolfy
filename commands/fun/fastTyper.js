@@ -60,7 +60,7 @@ module.exports = {
             var end = new Discord.MessageEmbed()
             .setColor(`RED`)
             .setDescription(`<a:pp802:768864899543466006> | Ended!`)
-            var end = message.channel.send({ embeds: [fail] })
+            var end = message.channel.send({ embeds: [end] })
             inGame.delete(message.author.id)
             break
         } else if (msg.first().content.toLowerCase().trim() === ogSentence.toLowerCase()) {

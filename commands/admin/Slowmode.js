@@ -19,13 +19,15 @@ module.exports = {
     async execute(client, message, args) {
 
     let time = args[0]
+    let reason = args.slice(1).join(" ")
+    if (!args[1]) reason = 'No reason specified'
     if(!time) return message.channel.send({ content: "<a:pp802:768864899543466006> Please provide a time in seconds"})
     if(isNaN(time)) return message.reply({ content: "<a:pp802:768864899543466006> Please provide a valid number"})
     if (time < 0 || time > 21600){
       return message.reply({ content: `<a:Wrong:812104211361693696> | ${message.author}, Please provide the number of slowmode with seconds between \`(0) and (21600)\`!`});
     };
 
-    message.channel.setRateLimitPerUser(time, 'No Reason')
+    message.channel.setRateLimitPerUser(time, reason)
 
     var dn = new discord.MessageEmbed()
     .setColor(`DARK_GREEN`)

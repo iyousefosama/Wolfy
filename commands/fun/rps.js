@@ -35,7 +35,7 @@ module.exports = {
         message.reply({ content: `My choice was ${option}!`})
     }else if (search === 'paper') {
         message.reply({ content: `My choice was ${option}!`})
-            }else if (search === 'scissors') {
+    }else if (search === 'scissors') {
         message.reply({ content: `My choice was ${option}!`})
     }else {
         message.reply({ content: `**"${search}**" is not a valid Option! You must send a valid option! \`i.e\`**Rock, Paper, Scissors.**`})

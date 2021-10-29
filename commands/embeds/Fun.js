@@ -29,7 +29,9 @@ module.exports = {
         { name: `${prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}reverse`, value: `> \`Reverse the words you want!\``},
-        { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
+        { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``},
+        { name: `${prefix}joke`, value: `> \`The bot will tell you random joke from the api\``},
+        { name: `${prefix}roll`, value: `> \`Let\'s flip the coin!\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp()

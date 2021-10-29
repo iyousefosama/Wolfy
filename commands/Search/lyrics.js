@@ -94,15 +94,13 @@ module.exports = {
 
     const filter2 = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (message.author.id == user.id)
     const Embed = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, embeds: [pages[current]]})
-    setTimeout(async () => {
-    await Embed.react('⬅️')
-    }, 1000)
-    setTimeout(async () => {
-    await Embed.react('➡️')
-    }, 2000)
-    setTimeout(async () => {
-    await Embed.react('❌')
-    }, 3000)
+    const navigators = [ '⬅️', '➡️', '❌' ];
+
+    for (let i = 0; i < navigators.length; i++) {
+      await new Promise(r=>setTimeout(r,1500))
+      await Embed.react(navigators[i])
+    };
+
 
     let ReactionCol = Embed.createReactionCollector({ filter: filter2, time: 30000 })
 

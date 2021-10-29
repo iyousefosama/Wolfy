@@ -11,38 +11,27 @@ module.exports = {
     description: 'Nuke any channel (this will delete all the channel and create newone!)',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    permissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS", "ADMINISTRATOR"],
+    clientpermissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS", "ADMINISTRATOR"],
     examples: [''],
     async execute(client, message, args) {
 
-    var channel = client.channels.cache.get(message.channel.id)
+    await message.channel.send(`Are you sure you want to nuke ${message.channel}? \`(y/n)\``);
 
-    // getting the position of the channel by the category
-    var posisi = channel.position
+    const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
+    const proceed = await message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
+    .then(collected => ['y','yes'].includes(collected.first().content.toLowerCase()) ? true : false)
+    .catch(() => false);
 
-    if(!channel) return;
-   // clonning the channel
-    channel.clone().then((channel2) => {
-        
-        // sets the position of the new channel
-        channel2.setPosition(posisi)
+    if (!proceed){
+      return message.channel.send(`\\❌ | **${message.author.tag}**, Cancelled the \`nuke\` command!`);
+    };
 
-        // deleting the nuked channel
-        channel.delete()
-
-        // sending a msg in the new channel
     let nuke = new discord.MessageEmbed()
     .setColor(`RED`)
-    .setDescription(`<a:Error:836169051310260265> Channel nuked by **${message.author.username}**`)
-    channel2.send({ embeds: [nuke] })
-    })
-    .catch(err => {
-        const UnknownErr = new discord.MessageEmbed()
-        .setColor(`RED`)
-        .setDescription(`<a:pp802:768864899543466006> Error, please report this with \`w!feedback\`!`)
-        message.channel.send({ embeds: [UnknownErr] })
-        console.error(err)
-      })
+    .setDescription(`<a:Error:836169051310260265> This channel will be nuked after \`(10 Seconds)\``)
+    return message.channel.send({ embeds: [nuke] })
+    .then(() => setTimeout(() => message.channel.clone()
+    .then(() => message.channel.delete().catch(() => null)), 10000))
 }
 }

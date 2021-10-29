@@ -40,7 +40,6 @@ module.exports = {
         { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
         { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
