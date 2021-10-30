@@ -38,6 +38,9 @@ module.exports = {
         const channelLog = fetchedLogs.entries.first();
       
         const { executor, type, id, name } = channelLog;
+        if(!channelLog) {
+          return;
+        }
 
             const ChannelDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))

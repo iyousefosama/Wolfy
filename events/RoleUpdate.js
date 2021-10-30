@@ -41,6 +41,9 @@ module.exports = {
         const rolelog = fetchedLogs.entries.first();
       
         const { executor, id, name, color } = rolelog;
+        if(!rolelog) {
+          return;
+        }
 
           let RoleUpdated;
           if (oldRole.name !== newRole.name) {

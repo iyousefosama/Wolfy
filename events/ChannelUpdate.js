@@ -39,6 +39,9 @@ module.exports = {
         const channelLog = fetchedLogs.entries.first();
       
         const { executor, type, id, name } = channelLog;
+        if(!channelLog) {
+          return;
+        }
 
           let ChannelDeleted;
           if (oldChannel.name !== newChannel.name && oldChannel.type !== newChannel.type) {

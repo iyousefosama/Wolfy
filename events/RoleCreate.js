@@ -38,6 +38,9 @@ module.exports = {
         const rolelog = fetchedLogs.entries.first();
       
         const { executor, id, name } = rolelog;
+        if(!rolelog) {
+          return;
+        }
 
             const RoleCreated = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))

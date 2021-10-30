@@ -39,6 +39,9 @@ module.exports = {
         const rolelog = fetchedLogs.entries.first();
       
         const { executor, id, name, color } = rolelog;
+        if(!rolelog) {
+          return;
+        }
 
             const RoleDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
