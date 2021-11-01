@@ -20,6 +20,7 @@ module.exports = {
         'Discord'
       ],
     async execute(client, message, args) {
+    if(message.channel.nsfw === false) return message.reply(`\\❌ **${message.author.tag}**, Sorry but you can use this command in nsfw channels only!`)
     const wiki = args.join(' ');
     if(!wiki) return message.reply('Provide A Query To Search.') // If No Topic Provided To Searched
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wiki)}` // From Here BOT Will Search For Searched Topic
