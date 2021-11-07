@@ -13,7 +13,6 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
     examples: [
       '!',
       'l!'

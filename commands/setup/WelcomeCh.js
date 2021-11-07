@@ -14,7 +14,6 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
     examples: [
       '877130715337220136'
     ],

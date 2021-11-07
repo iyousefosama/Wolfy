@@ -11,8 +11,8 @@ module.exports = {
   description: 'Changes the nickname of a member',
   cooldown: 2, //seconds(s)
   guarded: false, //or false
-  permissions: ["MANAGE_NICKNAMES", "ADMINISTRATOR"],
-  clientpermissions: ["MANAGE_NICKNAMES", "ADMINISTRATOR"],
+  permissions: ["MANAGE_NICKNAMES"],
+  clientpermissions: ["MANAGE_NICKNAMES"],
   examples: [
     '@WOLF JoeMama',
     '742682490216644619 Unknown user!'

@@ -16,7 +16,6 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
     examples: [
       'msg {member} has joined {guildName} server!',
       'embed Member joined, Member: {member} JoinedAt: {joinedAt} MembersCount: {memberCount}'

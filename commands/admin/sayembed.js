@@ -11,8 +11,8 @@ module.exports = {
     description: 'The bot will repeat what you say with embed',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    permissions: ["MANAGE_MESSAGES"],
+    clientpermissions: ["MANAGE_MESSAGES"],
     examples: [
       'GREEN Hello, this is an example embed',
       '#d8bfd8 Hello, this is an example embed'

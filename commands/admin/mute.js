@@ -13,8 +13,8 @@ module.exports = {
     description: 'Mute someone from texting!',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_ROLES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_ROLES", "ADMINISTRATOR", "READ_MESSAGE_HISTORY", "MANAGE_CHANNELS"],
+    permissions: ["MANAGE_ROLES"],
+    clientpermissions: ["MANAGE_ROLES", "MANAGE_CHANNELS"],
     examples: [
         '@BADGUY Don\'t spam in chat!',
         '742682490216644619'

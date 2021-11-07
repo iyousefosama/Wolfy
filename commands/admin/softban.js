@@ -12,8 +12,8 @@ module.exports = {
   description: 'Kicks a user and deletes all their messages in the past 7 days',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
-  clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
+  permissions: ["BAN_MEMBERS"],
+  clientpermissions: ["BAN_MEMBERS"],
   examples: [
     '@BADGUY',
     '742682490216644619'

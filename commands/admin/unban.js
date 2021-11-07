@@ -11,8 +11,8 @@ module.exports = {
     description: 'UnBans a member from the server',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
-    clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
+    permissions: ["BAN_MEMBERS"],
+    clientpermissions: ["BAN_MEMBERS"],
     examples: [
         '@FreeGuy',
         '829819269806030879'

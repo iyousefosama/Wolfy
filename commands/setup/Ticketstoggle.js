@@ -3,17 +3,18 @@ const schema = require('../../schema/GuildSchema')
 const { prefix } = require('../../config.json');
 
 module.exports = {
-    name: "suggestionstoggle",
-    aliases: ["Suggestionstoggle", "SuggestionsToggle", "SUGGESTIONSTOGGLE", "suggtoggle"],
+    name: "ticketstoggle",
+    aliases: ["Ticketstoggle", "TicketsToggle", "TICKETSTOGGLE"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
     usage: '',
     group: 'setup',
-    description: 'To allow or disable suggestion command!',
+    description: 'To allow or disable ticket feature!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
+    clientpermissions: ["MANAGE_CHANNELS"],
     examples: [''],
     async execute(client, message, args) {
           
@@ -22,28 +23,28 @@ module.exports = {
             data = await schema.findOne({
                 GuildID: message.guild.id
             })
-            if(!data.Mod.Suggestion.channel) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, You didn't set suggestions channel yet`);
+            if(!data.Mod.Logs.channel) {
+                return message.channel.send(`\\❌ **${message.member.displayName}**, You didn't set tickets channel yet`);
             }
         } catch(err) {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
 
-        data.Mod.Suggestion.isEnabled = !data.Mod.Suggestion.isEnabled;
+        data.Mod.Tickets.isEnabled = !data.Mod.Tickets.isEnabled;
 
         data.save()
         .then(() => {
-          const state = ['Disabled', 'Enabled'][Number(data.Mod.Suggestion.isEnabled)];
-          data.Mod.Suggestion.isEnabled = data.Mod.Suggestion.isEnabled;
+          const state = ['Disabled', 'Enabled'][Number(data.Mod.Tickets.isEnabled)];
+          data.Mod.Tickets.isEnabled = data.Mod.Tickets.isEnabled;
     
           const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
             .setDescription([
               '<a:Correct:812104211386728498>\u2000|\u2000',
-              `Suggestions Feature has been successfully **${state}**!\n\n`,
-              `To **${!data.Mod.Suggestion.isEnabled ? 're-enable' : 'disable'}** this`,
-              `feature, use the \`${prefix}suggtoggle\` command.`
+              `Tickets channel Feature has been successfully **${state}**!\n\n`,
+              `To **${!data.Mod.Tickets.isEnabled ? 're-enable' : 'disable'}** this`,
+              `feature, use the \`${prefix}ticketstoggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
           }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));

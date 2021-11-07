@@ -13,8 +13,8 @@ module.exports = {
     description: 'To enable/disable badwords filter!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
+    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    clientpermissions: ["MANAGE_MESSAGES"],
     examples: [''],
     async execute(client, message, args) {
           

@@ -11,8 +11,8 @@ module.exports = {
     description: 'The bot will repeat what you say',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    permissions: ["MANAGE_MESSAGES"],
+    clientpermissions: ["MANAGE_MESSAGES"],
     examples: [
         'Hello everyone how are you?'
       ],

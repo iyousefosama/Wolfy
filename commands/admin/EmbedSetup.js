@@ -13,8 +13,8 @@ module.exports = {
     description: 'Display the setup embed message!',
     cooldown: 120, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR", "EMBED_LINKS"],
+    permissions: ["MANAGE_MESSAGES"],
+    clientpermissions: ["MANAGE_MESSAGES", "EMBED_LINKS"],
     examples: [''],
     async execute(client, message, args) {
 

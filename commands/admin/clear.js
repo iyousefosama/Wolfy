@@ -13,8 +13,8 @@ module.exports = {
   description: 'Clear/Delete message with quantity you want (from 2 to 100)',
   cooldown: 10, //seconds(s)
   guarded: false, //or false
-  permissions: ['MANAGE_MESSAGES', 'ADMINISTRATOR'],
-  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS', 'ADMINISTRATOR', 'ATTACH_FILES'],
+  permissions: ['MANAGE_MESSAGES'],
+  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'],
   examples: [
     '20'],
     async execute(client, message, [quantity]) {

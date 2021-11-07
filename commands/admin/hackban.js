@@ -12,8 +12,8 @@ module.exports = {
     description: 'Bans a member not in the server',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
-    clientpermissions: ["BAN_MEMBERS", "ADMINISTRATOR"],
+    permissions: ["BAN_MEMBERS"],
+    clientpermissions: ["BAN_MEMBERS"],
     examples: [
       '742682490216644619 Big scammer!'
     ],

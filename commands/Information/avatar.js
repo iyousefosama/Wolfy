@@ -23,7 +23,7 @@ module.exports = {
     const avatar = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
     const embed = new MessageEmbed()
     .setAuthor(message.member.displayName, message.member.user.displayAvatarURL())
-    .setColor('738ADB')
+    .setColor(message.member.displayColor || '738ADB')
     .setTitle(`Avatar Link!`)
     .setURL(message.member.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
     .setImage(message.author.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
@@ -32,7 +32,7 @@ module.exports = {
       else if(avatar) {
       const embed2 = new MessageEmbed()
         .setAuthor(message.member.displayName, message.member.user.displayAvatarURL())
-        .setColor('738ADB')
+        .setColor(avatar.displayColor || '738ADB')
         .setTitle(`Avatar Link!`)
         .setURL(avatar.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
         .setImage(avatar.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))

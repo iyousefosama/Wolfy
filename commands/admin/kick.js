@@ -12,8 +12,8 @@ module.exports = {
   description: 'Kick a member from the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: ["KICK_MEMBERS", "ADMINISTRATOR"],
-  clientpermissions: ["KICK_MEMBERS", "ADMINISTRATOR"],
+  permissions: ["KICK_MEMBERS"],
+  clientpermissions: ["KICK_MEMBERS"],
   examples: [
     '@BADGUY',
     '742682490216644619'

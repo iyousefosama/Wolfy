@@ -40,7 +40,7 @@ module.exports = {
     .then(invite => {
         if(!invite.code) return message.channel.send({ content: "<a:pp802:768864899543466006> I can't start youtube together without invite code!" })
         const done = new discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle("🃏 Poker night!")
         .setColor(`GREY`)
         .setDescription(`<:Verify:841711383191879690> Successfully choosed the channel, [**click**](https://discord.com/invite/${invite.code}) the button!`)

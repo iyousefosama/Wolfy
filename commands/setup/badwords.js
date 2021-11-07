@@ -15,7 +15,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
+    clientpermissions: ["MANAGE_MESSAGES"],
     examples: [
     'bad'
     ],

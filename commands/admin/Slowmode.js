@@ -11,8 +11,8 @@ module.exports = {
     description: 'Adding slowmotion chat to a channel',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
+    permissions: ["MANAGE_CHANNELS"],
+    clientpermissions: ["MANAGE_CHANNELS"],
     examples: [
       '5s'
     ],

@@ -11,8 +11,8 @@ module.exports = {
     description: 'Nuke any channel (this will delete all the channel and create newone!)',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS", "ADMINISTRATOR"],
+    permissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS"],
+    clientpermissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS"],
     examples: [''],
     async execute(client, message, args) {
 

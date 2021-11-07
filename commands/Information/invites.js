@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
+    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "MANAGE_GUILD"],
     examples: [
         '@WOLF',
         ''
