@@ -3,12 +3,20 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const got = require('got')
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('meme')
-		.setDescription('Replies with a meme!'),
+		.setDescription('Replies with a meme!')
+        .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
 	async execute(client, interaction) {
-		await interaction.deferReply({ ephemeral: false }).catch(() => {});
+
+        const hide = interaction.options.getBoolean('hide');
+		if(hide === true) {
+			await interaction.deferReply({ ephemeral: true }).catch(() => {});
+		} else {
+			await interaction.deferReply({ ephemeral: false }).catch(() => {});
+		}
+        
         const memeEmbed = new discord.MessageEmbed() // creating an embed
         got('https://www.reddit.com/r/meme/random/.json').then(response => { // getting the lin that have the memes
     

@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const mcapi = require('mcapi');
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('mcuser')
 		.setDescription('Gives informations about minecraft user player!')

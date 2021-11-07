@@ -2,12 +2,18 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with bot ping!'),
+		.setDescription('Replies with bot ping!')
+        .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
 	async execute(client, interaction) {
-		await interaction.deferReply({ ephemeral: false }).catch(() => {});
+        const hide = interaction.options.getBoolean('hide');
+		if(hide === true) {
+			await interaction.deferReply({ ephemeral: true }).catch(() => {});
+		} else {
+			await interaction.deferReply({ ephemeral: false }).catch(() => {});
+		}
         var loading = new discord.MessageEmbed()
         .setColor('GOLD')
         .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
@@ -19,7 +25,7 @@ module.exports = {
         interaction.editReply({ embeds: [Pong]})
         let Ping = new discord.MessageEmbed()
         .setColor('DARK_GREEN')
-        .setDescription(`The Ping of the bot is \`${ping}ms\`!`)
+        .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
         interaction.editReply({ embeds: [Ping] })
         })
 	},

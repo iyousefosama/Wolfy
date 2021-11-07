@@ -4,7 +4,7 @@ const { prefix } = require('../config.json');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Replies with commands helplist!'),
@@ -68,12 +68,12 @@ module.exports = {
     
         const help = new discord.MessageEmbed()
         .setColor('738ADB')
-        .setTitle(`Hi ${message.author.username}, how can i help you?`)
+        .setTitle(`Hi ${interaction.user.username}, how can i help you?`)
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setAuthor(client.user.username, client.user.displayAvatarURL())
         .setThumbnail(client.user.displayAvatarURL())
         .setDescription(`<a:Right:877975111846731847> Type \`${prefix}feedback\` to report a bug`)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter(interaction.user.tag, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTimestamp()
         .addFields(
             { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
@@ -226,6 +226,9 @@ module.exports = {
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setThumbnail(client.user.displayAvatarURL())
         .addFields(
+            { name: `${prefix}profile`, value: `> \`Shows your profile card!\``},
+            { name: `${prefix}setbio`, value: `> \`Sets your profile card bio.\``},
+            { name: `${prefix}setbirthday`, value: `> \`Sets your profile card birthday.\``},
             { name: `${prefix}credits`, value: `> \`To check your credits balance in wallet\``},
             { name: `${prefix}cookie`, value: `> \`To send cookie for a friend as a gift\``},
             { name: `${prefix}beg`, value: `> \`Want to earn money some more? Why don\'t you try begging, maybe someone will give you.\``},
@@ -238,7 +241,10 @@ module.exports = {
             { name: `${prefix}withdraw`, value: `> \`Withdraw credits from your bank to your wallet\``},
             { name: `${prefix}inv`, value: `> \`Show your inventory items! (currently support mining only)\``},
             { name: `${prefix}sell`, value: `> \`Sell item from your inventory and get some credits!\``},
-            { name: `${prefix}buy`, value: `> \`To buy items from the shop.\``},
+            { name: `${prefix}market`, value: `> \`Open the economy market!\``},
+            { name: `${prefix}buy`, value: `> \`To buy items from the market\``},
+            { name: `${prefix}use`, value: `> \`Equips an item from your inventory.\``},
+            { name: `${prefix}previewitem`, value: `> \`Check what you can buy from the shop.\``},
         )
         .setFooter(client.user.username, client.user.displayAvatarURL())
         .setTimestamp()

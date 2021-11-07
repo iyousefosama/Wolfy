@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
-    clientpermissions: ['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'ATTACH_FILES'],
+    clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
     data: new SlashCommandBuilder()
         .setName('avatar')
         .setDescription('Replies with avatar!')
@@ -23,7 +23,7 @@ module.exports = {
 
 			if (user) {
                 const embed2 = new MessageEmbed()
-                .setAuthor(`${user.username}`, user.displayAvatarURL())
+                .setAuthor(user.username, user.displayAvatarURL())
                 .setColor('738ADB')
                 .setTitle(`Avatar Link!`)
                 .setURL(user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
@@ -47,7 +47,6 @@ module.exports = {
             .setTitle("Avatar Link")
             .setURL(interaction.guild.iconURL())
             .setImage (interaction.guild.iconURL({dynamic: true, format: 'png', size: 512}))
-            .setFooter(`Requested By ${interaction.user.tag}`, interaction.user.avatarURL())
             interaction.editReply({ embeds: [avatarserver] })
 		}
     },
