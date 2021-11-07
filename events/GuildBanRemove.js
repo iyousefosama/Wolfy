@@ -36,6 +36,10 @@ module.exports = {
           const unbanLog = fetchedLogs.entries.first();
 
           const { executor, target } = unbanLog;
+
+          if(!unbanLog || !unbanLog.available) {
+            return;
+          }
         
         const Unban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))

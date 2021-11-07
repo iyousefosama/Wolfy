@@ -4,9 +4,11 @@ const config = require('../config.json')
 module.exports = {
     name: 'guildCreate',
     async execute(client, guild) {
-      if (!guild){
+      if (!guild || !guild.available){
         return;
-      };
+      } else {
+        // return nothing..
+      }
       
         const join = new Discord.MessageEmbed()
         .setTitle(`${client.user.username} added to a new server!`)

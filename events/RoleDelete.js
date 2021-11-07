@@ -39,7 +39,8 @@ module.exports = {
         const rolelog = fetchedLogs.entries.first();
       
         const { executor, id, name, color } = rolelog;
-        if(!rolelog) {
+
+        if(!rolelog || !rolelog.available) {
           return;
         }
 

@@ -4,9 +4,11 @@ const config = require('../config.json')
 module.exports = {
     name: 'guildDelete',
     async execute(client, guild) {
-        if (!guild){
+        if (!guild || !guild.available){
             return;
-          };
+          } else {
+            // do nothing..
+          }
             const left = new Discord.MessageEmbed()
             .setTitle(`${client.user.username} left a server!`)
             .setThumbnail(guild.iconURL({dynamic: true, format: 'png', size: 512}))

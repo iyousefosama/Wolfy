@@ -38,7 +38,7 @@ module.exports = {
         const channelLog = fetchedLogs.entries.first();
       
         const { executor, type, id, name } = channelLog;
-        if(!channelLog) {
+        if(!channelLog || !channelLog.available) {
           return;
         }
 
