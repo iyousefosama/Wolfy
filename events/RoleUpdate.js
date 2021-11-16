@@ -42,8 +42,10 @@ module.exports = {
       
         const { executor, id, name, color } = rolelog;
 
-        if(!rolelog || !rolelog.available) {
+        if(!rolelog) {
           return;
+        } else {
+          //Do nothing..
         }
 
           let RoleUpdated;

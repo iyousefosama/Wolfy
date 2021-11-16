@@ -39,8 +39,21 @@ module.exports = {
         const channelLog = fetchedLogs.entries.first();
       
         const { executor, type, id, name } = channelLog;
-        if(!channelLog || !channelLog.available) {
+        const types = {
+          GUILD_TEXT: "Text Channel",
+          GUILD_VOICE: "Voice Channel",
+          GUILD_CATEGORY: "CATEGORY",
+          GUILD_NEWS: "News Channel",
+          GUILD_STORE: "Store Channel",
+          GUILD_NEWS_THREAD: "News Thread",
+          GUILD_PUBLIC_THREAD: "Public Thread",
+          GUILD_PRIVATE_THREAD: "Private Thread",
+          GUILD_STAGE_VOICE: "Stage Voice"
+      }
+        if(!channelLog) {
           return;
+        } else {
+          //Do nothing..
         }
 
           let ChannelDeleted;
@@ -48,7 +61,7 @@ module.exports = {
             ChannelDeleted = new MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Channel Updated!')
-            .setDescription(`<a:Right:860969895779893248> **oldChannel Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **newChannel Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **oldChannelType:** \`\`\`${oldChannel.type}\`\`\`\n<:Tag:836168214525509653> **newChannelType:** \`\`\`${newChannel.type}\`\`\``)
+            .setDescription(`<a:Right:860969895779893248> **oldChannel Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **newChannel Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **oldChannelType:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **newChannelType:** \`\`\`${types[newChannel.type]}\`\`\``)
             .setColor('#ed7947')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()

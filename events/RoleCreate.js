@@ -39,8 +39,10 @@ module.exports = {
       
         const { executor, id, name } = rolelog;
 
-        if(!rolelog || !rolelog.available) {
+        if(!rolelog) {
           return;
+        } else {
+          //Do nothing..
         }
 
             const RoleCreated = new Discord.MessageEmbed()

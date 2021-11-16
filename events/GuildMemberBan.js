@@ -40,8 +40,10 @@ module.exports = {
 
           if (!reason) reason = "Not specified";
 
-          if(!banLog || !banLog.available) {
+          if(!banLog) {
             return;
+          } else {
+            //Do nothing..
           }
 
           const fetchedLogs2 = await user.guild.fetchAuditLogs({

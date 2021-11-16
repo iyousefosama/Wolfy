@@ -36,7 +36,7 @@ module.exports = {
           const kickLog = fetchedLogs.entries.first();
         
         let RemoveEmbed;
-        if (!kickLog || kickLog.createdAt < member.joinedAt) {
+        if (!kickLog || !kickLog.available || kickLog.createdAt < member.joinedAt) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('<a:Down:853495989796470815> Member Leave!')
@@ -44,7 +44,7 @@ module.exports = {
           .setColor('#2F3136')
           .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
           .setTimestamp() 
-        } else if(kickLog || !kickLog.available && target.id == member.id) {
+        } else if(kickLog || kickLog.available && target.id == member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('<a:pp681:774089750373597185> Member Kicked!')

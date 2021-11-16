@@ -37,8 +37,10 @@ module.exports = {
 
           const { executor, target } = unbanLog;
 
-          if(!unbanLog || !unbanLog.available) {
+          if(!unbanLog) {
             return;
+          } else {
+            //Do nothing..
           }
         
         const Unban = new Discord.MessageEmbed()

@@ -38,14 +38,27 @@ module.exports = {
         const channelLog = fetchedLogs.entries.first();
       
         const { executor, type, id, name } = channelLog;
-        if(!channelLog || !channelLog.available) {
+        const types = {
+          GUILD_TEXT: "Text Channel",
+          GUILD_VOICE: "Voice Channel",
+          GUILD_CATEGORY: "CATEGORY",
+          GUILD_NEWS: "News Channel",
+          GUILD_STORE: "Store Channel",
+          GUILD_NEWS_THREAD: "News Thread",
+          GUILD_PUBLIC_THREAD: "Public Thread",
+          GUILD_PRIVATE_THREAD: "Private Thread",
+          GUILD_STAGE_VOICE: "Stage Voice"
+      }
+        if(!channelLog) {
           return;
+        } else {
+          //Do nothing..
         }
 
             const ChannelDeleted = new Discord.MessageEmbed()
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Up:853495519455215627> Channel Created!')
-            .setDescription(`<a:iNFO:853495450111967253> **Channel Name:** ${channel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${channel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${channel.type}\`\`\``)
+            .setDescription(`<a:iNFO:853495450111967253> **Channel Name:** ${channel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${channel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[channel.type]}\`\`\``)
             .setColor('#2F3136')
             .setFooter(channel.guild.name, channel.guild.iconURL({dynamic: true}))
             .setTimestamp()

@@ -40,8 +40,10 @@ module.exports = {
       
         const { executor, id, name, color } = rolelog;
 
-        if(!rolelog || !rolelog.available) {
+        if(!rolelog) {
           return;
+        } else {
+          //Do nothing..
         }
 
             const RoleDeleted = new Discord.MessageEmbed()
