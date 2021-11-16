@@ -18,36 +18,51 @@ module.exports = {
                 .setDescription('get the server avatar')),
     async execute(client, interaction) {
         await interaction.deferReply({ ephemeral: false }).catch(() => {});
-        if (interaction.options.getSubcommand() === 'user') {
-			const user = interaction.options.getUser('target');
+			let user = interaction.options.getUser('target');
 
-			if (user) {
-                const embed2 = new MessageEmbed()
-                .setAuthor(user.username, user.displayAvatarURL())
-                .setColor('738ADB')
-                .setTitle(`Avatar Link!`)
-                .setURL(user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-                .setImage(user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-                .setTimestamp() 
-                interaction.editReply({ embeds: [embed2] }) 
-			} else {
-                const avatar = new MessageEmbed()
-                .setAuthor(`${interaction.user.username}`, interaction.user.displayAvatarURL())
-                .setColor('738ADB')
-                .setTitle(`Avatar Link!`)
-                .setURL(interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-                .setImage(interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
+            let color;
+
+            if (user){
+              color = '#ed7947';
+            } else {
+              color = '738ADB';
+              user = interaction.user;
+            };
+        
+            const avatar = user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 });
+
+            if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
+                let avatarserver = new discord.MessageEmbed()
+                .setColor("#ed7947")
+                .setAuthor(interaction.guild.name, interaction.guild.iconURL())
+                .setDescription(`[**${interaction.guild.name}** avatar link](${interaction.guild.iconURL({ format: 'png', dynamic: true, size: 1024 })})`)
+                .setURL(interaction.guild.iconURL())
+                .setImage (interaction.guild.iconURL({dynamic: true, format: 'png', size: 1024}))
+                .setURL(interaction.guild.iconURL({ format: 'png', dynamic: true, size: 1024 }))
+                .setImage (interaction.guild.iconURL({ format: 'png', dynamic: true, size: 1024 }))
+                .setFooter(interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`, interaction.user.avatarURL({dynamic: true}))
                 .setTimestamp()
-                interaction.editReply({ embeds: [avatar] }) 
-			}
-		} else if (interaction.options.getSubcommand() === 'server') {
-            let avatarserver = new discord.MessageEmbed()
-            .setColor("#ed7947")
-            .setAuthor(interaction.guild.name, interaction.guild.iconURL())
-            .setTitle("Avatar Link")
-            .setURL(interaction.guild.iconURL())
-            .setImage (interaction.guild.iconURL({dynamic: true, format: 'png', size: 512}))
-            interaction.editReply({ embeds: [avatarserver] })
-		}
-    },
+                interaction.editReply({ embeds: [avatarserver] })
+            } else if(interaction.options.getSubcommand() === 'user') {
+                const embed = new MessageEmbed()
+                .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL())
+                .setColor(color)
+                .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+                .setURL(avatar)
+                .setImage(avatar)
+                .setFooter('Avatar')
+                .setTimestamp() 
+                interaction.editReply({ embeds: [embed] })
+            } else {
+                const embed = new MessageEmbed()
+                .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL())
+                .setColor(color)
+                .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+                .setURL(avatar)
+                .setImage(avatar)
+                .setFooter('Avatar')
+                .setTimestamp() 
+                interaction.editReply({ embeds: [embed] })
+            }
+}
 };

@@ -36,10 +36,10 @@ module.exports = {
         .setStyle("SUCCESS")
         .setEmoji("768867196302524426");
         const button6 = new MessageButton()
-        .setLabel(`Ticket`)
+        .setLabel(`Setup`)
         .setCustomId("6")
         .setStyle("PRIMARY")
-        .setEmoji("888703294556475412");
+        .setEmoji("836168687891382312");
         const button7 = new MessageButton()
         .setLabel(`Bot`)
         .setCustomId("7")
@@ -78,10 +78,10 @@ module.exports = {
         .addFields(
             { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
             { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}helpsearch\`\`\``, inline: true},
-            { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}helpUtl\`\`\``, inline: true},
+            { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}helpUtil\`\`\``, inline: true},
             { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
             { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
-            { name: '<:ticket:888703294556475412> Ticket helplist', value: `\`\`\`${prefix}helpticket\`\`\``, inline: true},
+            { name: '<:MOD:836168687891382312> Setup Commands', value: `\`\`\`${prefix}helpsetup\`\`\``, inline: true},
             { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
             { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}helplevel\`\`\``, inline: true},
             { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${prefix}helpeco\`\`\``, inline: true}
@@ -129,7 +129,11 @@ module.exports = {
             { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
             { name: `${prefix}report`, value: `> \`To report someone in the server\``},
             { name: `${prefix}live`, value: `> \`Start new youtube together party\``},
-            { name: `${prefix}bin`, value: `> \`To upload a code to sourcebin\``}
+            { name: `${prefix}bin`, value: `> \`To upload a code to sourcebin\``},
+            { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
+            { name: `${prefix}rename`, value: `> \`Change ticket name\``},
+            { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``},
+            { name: `${prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``}
         )
         .setFooter(client.user.username, client.user.displayAvatarURL())
         .setTimestamp()
@@ -178,18 +182,23 @@ module.exports = {
         )
         .setFooter(client.user.username, client.user.displayAvatarURL())
         .setTimestamp()
-        const ticket = new discord.MessageEmbed()
+        const setup = new discord.MessageEmbed()
         .setColor('738ADB')
-        .setTitle('🎫 **Ticket help list**\n\`Note: you must add category with name TICKETS\`')
+        .setTitle('<:MOD:836168687891382312> **Setup Commands**')
         .setURL('https://Wolfy.yoyojoe.repl.co')
+        .setAuthor(client.user.username, client.user.displayAvatarURL())
         .setThumbnail(client.user.displayAvatarURL())
         .addFields(
-            { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
-            { name: `${prefix}rename`, value: `> \`Change ticket name\``},
-            { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``}
+            { name: `${prefix}setLogsch`, value: `> \`Setup the logs channel bot will send logs there!\``},
+            { name: `${prefix}setReportch`, value: `> \`Setup the reports channel bot will send reports from users there!\``},
+            { name: `${prefix}setSuggch`, value: `> \`Setup the suggestion channel bot will send suggestions from users there!\``},
+            { name: `${prefix}setwelcomech`, value: `> \`Setup the welcome channel bot will send message when user join there!\``},
+            { name: `${prefix}setTicketch`, value: `> \`Setup the ticket category bot will create tickets channels from users there!\``},
+            { name: `${prefix}setwelcomemsg`, value: `> \`To set the welcome (msg/embed)\``},
+            { name: `${prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
+            { name: `${prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
+            { name: `${prefix}setprefix`, value: `> \`To set the bot prefix to another one!\``},
         )
-        .setFooter(client.user.username, client.user.displayAvatarURL())
-        .setTimestamp()
         const bot = new discord.MessageEmbed()
         .setColor('738ADB')
         .setTitle('<:Bot:841711382739157043> **Bot Commands**')
