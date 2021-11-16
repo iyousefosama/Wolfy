@@ -13,15 +13,6 @@ const UserSchema = mongoose.Schema({
         current: { type: Boolean, default: false }
       }
       },
-
-    timer: {
-      suggestion: {
-        timeout: { type: Date, default: null }
-      },
-      reports: {
-          timeout: { type: Date, default: null }
-      },
-    }
 })
 
 

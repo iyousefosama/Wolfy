@@ -11,17 +11,22 @@ const mongoose = require('mongoose')
      
    Mod: {
       Suggestion: {
-        isEnabled: { type: Boolean, default: true },
+        isEnabled: { type: Boolean, default: false },
         channel: { type: String, default: null },
         type: { type: String, default: 'default' }
       },
       Reports: {
-        isEnabled: { type: Boolean, default: true },
+        isEnabled: { type: Boolean, default: false },
+        channel: { type: String, default: null },
+        type: { type: String, default: 'default' }
+      },
+      Tickets: {
+        isEnabled: { type: Boolean, default: false },
         channel: { type: String, default: null },
         type: { type: String, default: 'default' }
       },
       Logs: {
-         isEnabled: { type: Boolean, default: true },
+         isEnabled: { type: Boolean, default: false },
          channel: { type: String, default: null },
          type: { type: String, default: 'default' }
        },
