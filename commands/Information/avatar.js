@@ -19,25 +19,32 @@ module.exports = {
     '724580315481243668',
     ''
   ],
-  async execute(client, message, args) {
-    const avatar = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
+  async execute(client, message, [user = '']) {
+    let color;
+
+    if (message.guild){
+      const id = (user.match(/\d{17,19}/)||[])[0] || message.author.id;
+
+      member = await message.guild.members.fetch(id)
+      .catch(() => message.member);
+
+      color = member.displayColor || '738ADB';
+      user = member.user;
+    } else {
+      color = '738ADB';
+      user = message.author;
+    };
+
+    const avatar = user.displayAvatarURL({ dynamic: true, size: 1024 });
+
     const embed = new MessageEmbed()
-    .setAuthor(message.member.displayName, message.member.user.displayAvatarURL())
-    .setColor(message.member.displayColor || '738ADB')
-    .setTitle(`Avatar Link!`)
-    .setURL(message.member.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-    .setImage(message.author.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
+    .setAuthor(message.author.tag, message.author.displayAvatarURL())
+    .setColor(color)
+    .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+    .setURL(avatar)
+    .setImage(avatar)
+    .setFooter('Avatar')
     .setTimestamp()
-      if(!avatar) return message.channel.send({ embeds: [embed] }) 
-      else if(avatar) {
-      const embed2 = new MessageEmbed()
-        .setAuthor(message.member.displayName, message.member.user.displayAvatarURL())
-        .setColor(avatar.displayColor || '738ADB')
-        .setTitle(`Avatar Link!`)
-        .setURL(avatar.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-        .setImage(avatar.user.displayAvatarURL({dynamic: true, format: 'png', size: 512}))
-        .setTimestamp() 
-      message.channel.send({ embeds: [embed2] })
-    }
+    message.channel.send({ embeds: [embed]})
   }
 }

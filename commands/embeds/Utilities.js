@@ -27,7 +27,11 @@ module.exports = {
         { name: `${prefix}remind`, value: `> \`The bot will reminde you for anything\``},
         { name: `${prefix}report`, value: `> \`To report someone in the server\``},
         { name: `${prefix}live`, value: `> \`Start new youtube together party\``},
-        { name: `${prefix}bin`, value: `> \`To upload a code to sourcebin\``}
+        { name: `${prefix}bin`, value: `> \`To upload a code to sourcebin\``},
+        { name: `${prefix}ticket`, value: `> \`Open new ticket in the server\``},
+        { name: `${prefix}rename`, value: `> \`Change ticket name\``},
+        { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``},
+        { name: `${prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``}
     )
     message.channel.send({embeds: [Utl]});
     }

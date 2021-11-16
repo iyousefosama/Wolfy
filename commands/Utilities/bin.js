@@ -47,8 +47,7 @@ module.exports = {
             .setURL(`${value.url}`) 
             .setLabel('Click Here!'),
         );
-        if (message.deleted) return;
-        message.delete()
+        message.delete().catch(() => null)
         await message.channel.send({ embeds: [embed], components: [row]})
     }
 }

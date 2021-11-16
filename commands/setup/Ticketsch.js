@@ -24,7 +24,7 @@ module.exports = {
           channel = message.guild.channels.cache.get(channelID);
       
           if (!channel || channel.type !== 'GUILD_CATEGORY'){
-            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid \`CATEGORY\` ID.`});
+            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid \`CATEGORY\` ID!`});
           } else if (!channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
           } else if (!channel.permissionsFor(message.guild.me).has('MANAGE_CHANNELS')){
@@ -56,7 +56,7 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Tickets category to ${channel}!\n\n`,
-            !data.Mod.Tickets.isEnabled ? `\\⚠️ Ticket cmd is disabled! To enable, type \`${prefix}tickettoggle\`\n` :
+            !data.Mod.Tickets.isEnabled ? `\\⚠️ Ticket cmd is disabled! To enable, type \`${prefix}ticketstoggle\`\n` :
             `To disable this feature, use the \`${prefix}ticketstoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })

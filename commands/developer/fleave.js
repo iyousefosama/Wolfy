@@ -24,10 +24,11 @@ const config = require('../../config.json')
       return message.channel.send(`\\❌ | ${message.author}, guild **${id}** does not exist on your cache`)
     };
 
+      const timestamp = Math.floor(Date.now() / 1000)
       const embed = new MessageEmbed()
       .setColor('RED')
-      .setTitle(`Wolfy requested by **${message.author.tag}**, to leave **${guild.name}** server!`)
-      .setDescription(`Reason:\n${reason.join(' ') || 'Unspecified'}`)
+      .setTitle(`Wolfy force leave **${guild.name}** server!`)
+      .setDescription(`• **Developer**: **${message.author.tag}**\n• **Guild**: **${guild.name}**\n• **Reason**: \`${reason.join(' ') || 'Unspecified'}\`\n• <t:${timestamp}>`)
       const Debug = await client.channels.cache.get(config.debug)
       const botname = client.user.username;
         const webhooks = await Debug.fetchWebhooks()

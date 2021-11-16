@@ -15,14 +15,28 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     examples: [''],
     async execute(client, message, args) {
-    if (message.channel.type === "dm") return;
+    if (message.guild){
+        const id = message.guild.id;
+  
+        guild = await client.guilds.fetch(id)
+        .catch(() => null);
+  
+        color = '#ed7947' || '738ADB';
+      } else {
+          return message.channel.send({ content: `\\❌ | ${message.author}, Please make sure to use this command in the server!`})
+      };
+
+
+    const avatar = guild.iconURL({ dynamic: true, size: 1024 });
+
     let avatarserver = new discord.MessageEmbed()
-    .setColor("RANDOM")
-    .setAuthor(message.guild.name, message.guild.iconURL())
-    .setTitle("Avatar Link")
-    .setURL(message.guild.iconURL())
-    .setImage (message.guild.iconURL({dynamic: true, format: 'png', size: 512}))
-    .setFooter(`Requested By ${message.author.tag}`, message.author.avatarURL())
+    .setColor(color)
+    .setAuthor(guild.name, avatar)
+    .setDescription(`[**${guild.name}** avatar link](${avatar})`)
+    .setURL(avatar)
+    .setImage (avatar)
+    .setFooter(message.author.tag + ` | \©️${new Date().getFullYear()} Wolfy`, message.author.avatarURL({dynamic: true}))
+    .setTimestamp()
     message.channel.send({ embeds: [avatarserver] })
     }
 }

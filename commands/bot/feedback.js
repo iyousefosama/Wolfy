@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require('moment');
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
     usage: '<issue>',
     group: 'bot',
     description: 'To give a feedback about bot or to report bug',
-    cooldown: 360, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
@@ -19,6 +20,24 @@ module.exports = {
     ],
     async execute(client, message, args) {
 
+    const now = Date.now();
+    const duration = Math.floor(86400000)
+    let TimeOutData;
+    try{
+        TimeOutData = await TimeoutSchema.findOne({
+            guildId: message.guild.id,
+            userId: message.author.id
+        })
+        if(!TimeOutData) {
+            TimeOutData = await TimeoutSchema.create({
+                guildId: message.guild.id,
+                userId: message.author.id
+            })  
+        }
+    } catch(err) {
+        console.log(err)
+        message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+    }
     if (!args.length){
       client.commands.cooldowns.get(this.name).users.delete(message.author.id);
       return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, Please add an issue to your message!`).then(()=>  message.react("💢"));
@@ -35,7 +54,16 @@ module.exports = {
       return message.channel.send(`Couldn't contact WOLF#1045!`);
     };
 
-    
+    if (TimeOutData.feedback > now){
+      const embed = new discord.MessageEmbed()
+      .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
+      .setDescription(`\\❌ **${message.author.tag}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+      .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+      .setColor('RED')
+      message.channel.send({ embeds: [embed] })
+    } else {
+      TimeOutData.feedback = Math.floor(Date.now() + duration);
+      await TimeOutData.save()
       const embed = new discord.MessageEmbed()
       .setColor('ORANGE')
       .setAuthor(message.author.tag, message.author.displayAvatarURL({ format: 'png', dynamic: true }))
@@ -63,5 +91,6 @@ module.exports = {
       })
     owner.send({ embeds: [embed] }).then(() => message.react('758141943833690202')).catch(() => message.channel.send('<:Verify:841711383191879690> Feedback Sent!'))
     .catch(err => message.channel.send(`WOLF#1045 is currently not accepting any Feedbacks right now via DMs.`));
+    }
   }
 };

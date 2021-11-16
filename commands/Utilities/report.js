@@ -1,6 +1,7 @@
 const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
-const userschema = require('../../schema/user-schema')
+const TimeoutSchema = require('../../schema/TimeOut-Schema')
+const moment = require("moment");
 
 module.exports = {
     name: "report",
@@ -11,7 +12,7 @@ module.exports = {
     usage: '<user> <reason>',
     group: 'Utilities',
     description: 'To report someone in the server',
-    cooldown: 3600, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientpermissions: ["VIEW_CHANNEL", "USE_EXTERNAL_EMOJIS"],
@@ -25,47 +26,46 @@ module.exports = {
     let reason = args.slice(1).join(" ")
     if (!reason) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, Please provide a reason!`})
 
+    const now = Date.now();
+    const duration = Math.floor(57600000)
     let data;
+    let TimeOutData;
     try{
         data = await schema.findOne({
             GuildID: message.guild.id
         })
-        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
-    } catch(err) {
-        console.log(err)
-    }
-    let time;
-    try{
-        time = await userschema.findOne({
+        if(!data) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
+        TimeOutData = await TimeoutSchema.findOne({
+            guildId: message.guild.id,
             userId: message.author.id
         })
-        if(!time) {
-        time = await userschema.create({
-            userId: message.author.id
-        })
+        if(!TimeOutData) {
+            TimeOutData = await TimeoutSchema.create({
+                guildId: message.guild.id,
+                userId: message.author.id
+            })  
         }
     } catch(err) {
         console.log(err)
+        message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
     }
     let Channel = client.channels.cache.get(data.Mod.Reports.channel)
     if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
     if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
     if(!data.Mod.Reports.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **reports** command is disabled in this server!`})
 
-    let Avatar = user.displayAvatarURL(({dynamic: true, format: 'png', size: 512}));
+    let Avatar = user.displayAvatarURL(({dynamic: true, size: 512}));
 
-    const now = Date.now();
-    const duration = Math.floor(57600000)
-    if (data.timer.reports.timeout > now){
-        const embed = new Discord.MessageEmbed()
+    if (TimeOutData.reports > now){
+        const embed = new discord.MessageEmbed()
         .setTitle(`<a:pp802:768864899543466006> Report already Send!`)
-        .setDescription(`\\❌ **${message.author.tag}**, You already send your **report** earlier!\nYou can send your report again after \`${moment.duration(data.timer.reports.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+        .setDescription(`\\❌ **${message.author.tag}**, You already send your **report** earlier!\nYou can send your report again after \`${moment.duration(TimeOutData.reports - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
         .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('RED')
         message.channel.send({ embeds: [embed] })
       } else {
-    data.timer.reports.timeout = Date.now() + duration;
-    await time.save()
+    TimeOutData.reports = Math.floor(Date.now() + duration);
+    await TimeOutData.save()
     const embed = new discord.MessageEmbed()
     .setTitle('New Report!')
     .setDescription(`The Member \`${message.author.tag}\` has reported the user \`${user.tag}\`!`)

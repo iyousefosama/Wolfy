@@ -6,7 +6,7 @@ module.exports = {
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
-    usage: '<> <>',
+    usage: '',
     group: 'bot',
     description: 'Shows the bot ping',
     cooldown: 5, //seconds(s)
@@ -26,7 +26,7 @@ module.exports = {
         msg.edit({ embeds: [Pong]})
         let Ping = new discord.MessageEmbed()
         .setColor('DARK_GREEN')
-        .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n<:api:893510248357322812> API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
+        .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
         msg.edit({ embeds: [Ping] })
     })
 }

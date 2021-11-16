@@ -34,13 +34,6 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           }
 
-          if(cmd.aliases.length > 1 || cmd.aliases == null || typeof cmd.permissions !== 'string') {
-            cmd.aliases = [ 'None' ]
-          } else if(cmd.permissions.length > 1 || cmd.permissions == null || typeof cmd.permissions !== 'string') {
-            cmd.permissions = [ 'None' ]
-          } else if(cmd.examples > 1 || cmd.examples == null || typeof cmd.examples !== 'string') {
-            cmd.examples = [ 'None' ]
-          }
           
           const embed = new Discord.MessageEmbed()
           .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
@@ -49,7 +42,7 @@ module.exports = {
           .setDescription(`\`\`\`${cmd.description}\`\`\`\n`)
           .addFields(
           { name: 'Usage', value: `\`${prefix}${cmd.name} ${cmd.usage}\``, inline: true },
-          { name: 'ALIASES', value: text.joinArray(cmd.aliases) || 'None', inline: true },
+          { name: 'ALIASES', value: `${text.joinArray(cmd.aliases) || 'None'}`, inline: true },
           { name: 'COOLDOWN', value: `\`${cmd.cooldown} (seconds)\``, inline: true },
           { name: 'Permissions', value: `${text.joinArray(cmd.permissions.map(x => x.split('_')
           .map(a => a.charAt(0) + a.slice(1).toLowerCase()).join(' '))) || 'None'}`, inline: true },

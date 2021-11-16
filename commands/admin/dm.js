@@ -12,7 +12,6 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
     examples: [
         '@WOLF Hello, how are you today ?',
         '742682490216644619 We started a giveaway for your birthday come!'

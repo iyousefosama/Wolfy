@@ -16,7 +16,7 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL"],
     examples: [''],
     async execute(client, message, args) {
-    const search = new discord.MessageEmbed()
+    const setup = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:MOD:836168687891382312> Setup Commands')
     .setURL('https://Wolfy.yoyojoe.repl.co')
@@ -27,6 +27,7 @@ module.exports = {
         { name: `${prefix}setReportch`, value: `> \`Setup the reports channel bot will send reports from users there!\``},
         { name: `${prefix}setSuggch`, value: `> \`Setup the suggestion channel bot will send suggestions from users there!\``},
         { name: `${prefix}setwelcomech`, value: `> \`Setup the welcome channel bot will send message when user join there!\``},
+        { name: `${prefix}setTicketch`, value: `> \`Setup the ticket category bot will create tickets channels from users there!\``},
         { name: `${prefix}setwelcomemsg`, value: `> \`To set the welcome (msg/embed)\``},
         { name: `${prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
         { name: `${prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
@@ -34,6 +35,6 @@ module.exports = {
     )
     
     
-    message.channel.send({embeds: [search]});
+    message.channel.send({embeds: [setup]});
     }
 }
