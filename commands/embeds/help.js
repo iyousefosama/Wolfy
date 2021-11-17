@@ -103,8 +103,7 @@ module.exports = {
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
-        { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``},
-        { name: `${prefix}invite`, value: `> \`To see your invites count\``}
+        { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``}
     )
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp()

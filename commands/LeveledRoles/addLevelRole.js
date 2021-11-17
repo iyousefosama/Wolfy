@@ -15,7 +15,6 @@ module.exports = {
     cooldown: 1, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
-    clientpermissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
     examples: [
         '@ActiveMember 5'
       ],

@@ -14,7 +14,7 @@ module.exports = {
     cooldown: 60, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "VIEW_CHANNEL", "CONNECT"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "CONNECT"],
     examples: [''],
     async execute(client, message, args) {
     let channel = message.member.voice.channel;

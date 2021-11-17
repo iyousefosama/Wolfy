@@ -15,10 +15,10 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Open the economy market!',
-    cooldown: 65, //seconds(s)
+    cooldown: 15, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: [''], 
     async execute(client, message, [type]) {
         let selected = market.filter(x => x.type === type?.toLowerCase());

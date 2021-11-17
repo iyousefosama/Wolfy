@@ -15,7 +15,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: [],
     async execute(client, message, ...args) {
     if (message.author == client.user) return;

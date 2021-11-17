@@ -16,7 +16,6 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["ADMINISTRATOR"],
     examples: [
         '@WOLF',
         '724580315481243668'

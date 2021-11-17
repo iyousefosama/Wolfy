@@ -13,6 +13,7 @@ module.exports = {
     description: 'Setup the ticket panel in the server',
     cooldown: 160, //seconds(s)
     guarded: false, //or false
+    permissions: ["MANAGE_CHANNELS"],
     examples: [''],
     async execute(client, message, args) {
         let text = args.slice(0).join(" ")

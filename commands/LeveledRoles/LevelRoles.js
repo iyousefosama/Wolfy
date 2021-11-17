@@ -14,7 +14,7 @@ module.exports = {
     description: 'To show you all level roles in the guild',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "MANAGE_ROLES"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     examples: [],
     async execute(client, message, args) {
     

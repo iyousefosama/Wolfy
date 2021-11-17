@@ -14,7 +14,6 @@ module.exports = {
     cooldown: 30, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_CHANNELS"],
     examples: [''],
     async execute(client, message, args) {
           

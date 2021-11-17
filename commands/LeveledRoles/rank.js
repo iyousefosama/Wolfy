@@ -57,7 +57,7 @@ module.exports = {
         })
         if(!data) {
         data = await ecoschema.create({
-            ecodata: user.id
+            userID: user.id
         })
         }
     } catch(err) {

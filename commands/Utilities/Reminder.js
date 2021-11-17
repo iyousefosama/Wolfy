@@ -13,7 +13,7 @@ module.exports = {
   description: 'The bot will reminde you for anything',
   cooldown: 60, //seconds(s)
   guarded: false, //or false
-  permissions: ["USE_EXTERNAL_EMOJIS", "VIEW_CHANNEL"],
+  permissions: ["USE_EXTERNAL_EMOJIS"],
   examples: [
     '5m To start my new project!',
     '30s To skip this ad'

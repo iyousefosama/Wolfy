@@ -114,7 +114,7 @@ module.exports = {
    <:pp444:853496229677629490> **Role Count:** ${roles.length}
    <:pp697:853494953560375337> **Emoji Count:** ${emojis.size}
    <:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}
-   <a:Fire:841321886365122660> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}
+   <a:pp224:853495450111967253> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}
    <a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}
    <:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}
    🤖 **Bots:** ${members.filter(member => member.user.bot).size}
