@@ -20,10 +20,19 @@ module.exports = {
         '@WOLF',
         ''
       ],
-    async execute(client, message, args) {
-    let mentionedMember = message.mentions.members.first() || message.member; // wehnever i type mentioned member that mean message.mentions.members.first() || message.member
+    async execute(client, message, [user = '']) {
 
-    var status = mentionedMember.presence?.status;
+    if (message.guild){
+      const id = (user.match(/\d{17,19}/)||[])[0] || message.author.id;
+
+      member = await message.guild.members.fetch(id)
+      .catch(() => message.member);
+
+      user = member.user;
+    } else {
+      user = message.author;
+    };
+    var status = member.presence?.status;
 
     if(status == null) status = '<:offline:809995754021978112> Offline'
     // organising the code so it don't look bad
@@ -33,7 +42,7 @@ module.exports = {
     if(status === 'idle') status = "<:Idle:809995753656549377> Idle"
 
     
-    const roles = mentionedMember.roles.cache // getting the roles of the person
+    const roles = member.roles.cache // getting the roles of the person
     .sort((a, b) => b.position - a.position)
     .map(role => role.toString())
     .slice(0, -1);
@@ -53,29 +62,31 @@ module.exports = {
 
     let res = (await axios({
         method: "GET",
-        url: `https://discord.com/api/v8/users/${mentionedMember.id}`,
+        url: `https://discord.com/api/v8/users/${member.id}`,
         headers: {
           Authorization: `Bot ${client.token}`
         }
       })).data
     
     const userEmbed = new discord.MessageEmbed() // create an embed
-     .setAuthor(`User information of ${mentionedMember.user.username}`, mentionedMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+     .setAuthor(`User information of ${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}), member.user.displayAvatarURL({dynamic: true, size: 2048}))
      .addFields(
-		{ name: '<a:pp224:853495450111967253> **Tag: **', value: `${mentionedMember.user.tag}` },
-        { name: '<:pp499:836168214525509653> **Username: **', value: mentionedMember.user.username || "None" },
+		{ name: '<a:pp224:853495450111967253> **Tag: **', value: `${member.user.tag}` },
+        { name: '<:pp499:836168214525509653> **Username: **', value: member.user.username || "None" },
 		{ name: '\u200B', value: '\u200B' },
-		{ name: '<:pp198:853494893439352842> **ID: **', value: `${mentionedMember.id}`, inline: true },
+		{ name: '<:pp198:853494893439352842> **ID: **', value: `${member.id}`, inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status}`, inline: true },
         { name: '<:pp179:853495316186791977> **Game: **', value: `None`, inline: true },
-        { name: '📆 **Account Created At: **', value: `${moment.utc(mentionedMember.user.createdAt).format('LT')} ${moment.utc(mentionedMember.user.createdAt).format('LL')} ${moment.utc(mentionedMember.user.createdAt).fromNow()}`, inline: true },
-        { name: '📥 **Joined The Server At: **', value: `${moment(mentionedMember.joinedAt).format("LT")} ${moment(mentionedMember.joinedAt).format('LL')} ${moment(mentionedMember.joinedAt).fromNow()}`, inline: true },
+        { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}`, inline: true },
+        { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}`, inline: true },
 	)
-    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${mentionedMember.user.displayAvatarURL({ dynamic: true})})`)
+    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true})})`)
     .addFields(
-        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "<a:pp681:774089750373597185> Bot can maximum display \`20 roles\`!" || '\u200b'}`, inline:false },
+        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "Bot can maximum display (\`20 roles\`)!" || '\u200b'}`, inline:false },
         )
-    .setImage(`https://cdn.discordapp.com/banners/${mentionedMember.user.id}/${res["banner"]}.gif?size=1024`)
+    .setImage(`https://cdn.discordapp.com/banners/${member.user.id}/${res["banner"]}size=1024`)
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 2048}))
+    .setTimestamp()
     message.channel.send({ embeds: [userEmbed] }) // sends the embed
     }
 }
