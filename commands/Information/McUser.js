@@ -6,7 +6,7 @@ module.exports = {
     name: "mcuser",
     aliases: ["Mcuser", "MCUSER"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '<player>',
     group: 'Informations',

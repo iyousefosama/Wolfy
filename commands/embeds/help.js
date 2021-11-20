@@ -102,6 +102,7 @@ module.exports = {
     .addFields(
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
+        { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``}
     )
@@ -118,7 +119,6 @@ module.exports = {
         { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
         { name: `${prefix}wikipedia`, value: `> \`To search for anything in wikipedia\``},
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
-        { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
         { name: `${prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\``}
     )

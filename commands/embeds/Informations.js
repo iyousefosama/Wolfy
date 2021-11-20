@@ -25,6 +25,7 @@ module.exports = {
     .addFields(
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
         { name: `${prefix}user`, value: `> \`Shows informations about a user\``},
+        { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``}
     )

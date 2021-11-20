@@ -27,7 +27,6 @@ module.exports = {
         { name: `${prefix}djs`, value: `> \`Searching for anthing in djs library\``},
         { name: `${prefix}wikipedia`, value: `> \`To search for anything in wikipedia\``},
         { name: `${prefix}steam`, value: `> \`To search for any game information in steam\``},
-        { name: `${prefix}mcuser`, value: `> \`To get Mincraft user informations\``},
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
         { name: `${prefix}rank`, value: `> \`Show your level & rank and your current and next xp\``},
         { name: `${prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\``}

@@ -32,6 +32,7 @@ module.exports = {
     } else {
       user = message.author;
     };
+    const activity = member.presence?.activities;
     var status = member.presence?.status;
 
     if(status == null) status = '<:offline:809995754021978112> Offline'
@@ -40,6 +41,22 @@ module.exports = {
     if(status == 'online') status = "<:online:809995753921576960> Online"
     if(status == 'offline') status = "<:offline:809995754021978112> Offline"
     if(status === 'idle') status = "<:Idle:809995753656549377> Idle"
+    const flags = {
+        DISCORD_EMPLOYEE: '<:Discord_Staff:911761250759893012> Discord Employee',
+        DISCORD_PARTNER: '<:discord_partner:911760719266086942> Discord Partner',
+        BUGHUNTER_LEVEL_1: '<:Bug_Hunter:911761250843762718> Bug Hunter (Level 1)',
+        BUGHUNTER_LEVEL_2: '<:Bug_Hunter_level2:911760719429660683> Bug Hunter (Level 2)',
+        HYPESQUAD_EVENTS: '<:HypeSquad_Event:911760719345762355> HypeSquad Events',
+        HOUSE_BRAVERY: '<:HypeSquad_Bravery:911760719106703371> House of Bravery',
+        HOUSE_BRILLIANCE: '<:HypeSquad_Brilliance:911760719417065523> House of Brilliance',
+        HOUSE_BALANCE: '<:HypeSquad_Balance:911760719429632020> House of Balance',
+        EARLY_SUPPORTER: '<:early_supporter:911760718880194645> Early Supporter',
+        TEAM_USER: 'Team User',
+        SYSTEM: '<:discord:887894225323192321> System',
+        VERIFIED_BOT: '<:Verified:911762191731015740> Verified Bot',
+        VERIFIED_DEVELOPER: '<:Verified_Bot_Developer:911760719261859870> Verified Bot Developer'
+    };
+    const userFlags = member.user.flags.toArray();
 
     
     const roles = member.roles.cache // getting the roles of the person
@@ -60,13 +77,17 @@ module.exports = {
         displayRoles = roles.slice(20).join(' ')
     }
 
-    let res = (await axios({
-        method: "GET",
-        url: `https://discord.com/api/v8/users/${member.id}`,
-        headers: {
+    const data = await axios.get(`https://discord.com/api/users/${user.id}`, {
+      headers: {
           Authorization: `Bot ${client.token}`
-        }
-      })).data
+      }
+  }).then(d => d.data);
+  if(data.banner){
+      let url = data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096";
+      url = `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${url}`;
+  } else {
+      url = null
+  }
     
     const userEmbed = new discord.MessageEmbed() // create an embed
      .setAuthor(`User information of ${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}), member.user.displayAvatarURL({dynamic: true, size: 2048}))
@@ -76,15 +97,21 @@ module.exports = {
 		{ name: '\u200B', value: '\u200B' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: `${member.id}`, inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `None`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity || "None"}`, inline: true },
         { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}`, inline: true },
         { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}`, inline: true },
 	)
-    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true})})`)
+    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 })})`)
     .addFields(
-        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "Bot can maximum display (\`20 roles\`)!" || '\u200b'}`, inline:false },
+        { name: "<:medal:898358296694628414> Badges", value: `${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}`, inline:false },
         )
-    .setImage(`https://cdn.discordapp.com/banners/${member.user.id}/${res["banner"]}size=1024`)
+    .addFields(
+        { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "(\`20+ roles...\`)!" || 'None'}`, inline:false },
+        )
+    .addFields(
+        { name: "Permissions", value: `${message.guild ? member.permissions.toArray().map(p=>`\`${p}\``).join(", ") : "None" || 'None'}`, inline:false },
+        )
+    .setImage(url)
     .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 2048}))
     .setTimestamp()
     message.channel.send({ embeds: [userEmbed] }) // sends the embed
