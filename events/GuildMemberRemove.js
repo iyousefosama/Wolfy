@@ -34,6 +34,8 @@ module.exports = {
            });
           // Since we only have 1 audit log entry in this collection, we can simply grab the first one
           const kickLog = fetchedLogs.entries.first();
+
+          const timestamp = Math.floor(Date.now() / 1000)
         
         let RemoveEmbed;
         if (!kickLog || !kickLog.available || kickLog.createdAt < member.joinedAt) {
@@ -48,7 +50,7 @@ module.exports = {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('<a:pp681:774089750373597185> Member Kicked!')
-          .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+          .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
           .setColor('#f78450')
           .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
           .setTimestamp()

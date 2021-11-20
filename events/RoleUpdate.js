@@ -74,7 +74,7 @@ module.exports = {
             .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
             .setTimestamp()
           } else {
-            return;
+            // Do nothing..
           }
 
             const botname = client.user.username;

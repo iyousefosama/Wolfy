@@ -52,13 +52,14 @@ module.exports = {
            });
         // Since there's only 1 audit log entry in this collection, grab the first one
         const kickLog = fetchedLogs2.entries.first();
+        const timestamp = Math.floor(Date.now() / 1000)
 
         if (kickLog && target.id == user.id) return;
         
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
-        .setTitle('<a:pp681:774089750373597185> Member ban!')
-        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** (\`${new Date()}\`)`)
+        .setTitle('<a:Mod:853496185443319809> Member ban!')
+        .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
         .setColor('RED')
         .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
         .setTimestamp()
