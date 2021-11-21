@@ -217,6 +217,7 @@ module.exports = {
         { name: `${prefix}stats`, value: `> \`Show bot stats and informations\``},
         { name: `${prefix}links`, value: `> \`Shows all bot special link vote/invite ..\``},
         { name: `${prefix}feedback`, value: `> \`To give a feedback about bot or to report bug\``},
+        { name: `${prefix}help`, value: `> \`Display main bot helplist embed.\``},
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}uptime`, value: `> \`Show the bot uptime\``}
     )
