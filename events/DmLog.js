@@ -8,12 +8,16 @@ module.exports = {
         if (message.author.bot){
             return;
           };
+        if (!message.author) return;
+        if(message.embeds[0]) return;
+        if(message.attachments.size) return;
         if (message.channel.type === 'DM') {
+        const timestamp = Math.floor(Date.now() / 1000)
         const dmEmbed = new Discord.MessageEmbed()
         .setTitle('New DM')
         .setColor("738ADB")
         .setTimestamp()
-        .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+        .setDescription(`**User:** ${message.author.tag} (\`${message.author.id}\`)\n• **At:** <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${message.content || '❌ | Unkown message!'}\n\`\`\``)
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
 
         const Debug = await client.channels.cache.get(config.debug)
