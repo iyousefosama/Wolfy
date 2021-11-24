@@ -14,7 +14,7 @@ module.exports = {
   cooldown: 10, //seconds(s)
   guarded: false, //or false
   permissions: ['MANAGE_MESSAGES'],
-  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'],
+  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
   examples: [
     '20'],
     async execute(client, message, [quantity]) {
@@ -57,7 +57,7 @@ module.exports = {
       const url = (res[0].match(/\d{17,19}/)||[])[0];
       const id = res[1];
 
-        await message.channel.send({ content: `\`\`\`diff\n- ${message.author.tag}, Successfully deleted ${count} messages from this channel!\`\`\``}).then(msg => {
+        await message.channel.send({ content: `\`\`\`\n${message.author.tag}, Successfully deleted ${count} messages from this channel!\`\`\``}).then(msg => {
           setTimeout(() => {
               msg.delete().catch(() => null)
            }, 5000)

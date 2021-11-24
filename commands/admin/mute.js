@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const config = require('../../config.json')
 const { MessageActionRow, MessageButton } = require('discord.js');
+const moment = require("moment");
 
 module.exports = {
     name: "mute",
@@ -19,15 +20,18 @@ module.exports = {
         '@BADGUY Don\'t spam in chat!',
         '742682490216644619'
       ],
-    async execute(client, message, args) {
+    async execute(client, message, [member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()
     const author = message.author
-    let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
 
-    let reason = ''
-        if (!args[1]) reason = 'No reason specified'
-        else reason = args.slice(1).join(' ')
+    if (!member.match(/\d{17,19}/)){
+        return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to mute.`);
+      };
+  
+      member = await message.guild.members
+      .fetch(member.match(/\d{17,19}/)[0])
+      .catch(() => null);
 
 /////////////////////////////////////////////// Errors /////////////////////////////////////////////
     const Err1 = new discord.MessageEmbed()
@@ -153,9 +157,10 @@ module.exports = {
             .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
             .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
             .setTimestamp()
-            message.channel.send({ embeds: [mute] });
-            }            
+            message.channel.send({ embeds: [mute] })
+            } 
         } catch (err) {
+            console.log(err)
             message.reply({ content: `\\❌ **${message.author.tag}**, Unable to mute the user!`})
         }
     }

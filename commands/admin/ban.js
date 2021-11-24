@@ -54,7 +54,6 @@ module.exports = {
     .setTimestamp()
     .setAuthor(member.user.tag, member.user.displayAvatarURL({dynamic: true, size: 2048}))
     .setDescription(`<:tag:813830683772059748> Successfully Banned the user from the server\n\n<a:pp989:853496185443319809> • **Moderator:** ${message.author.username} (${message.author.id})\n<:Rules:840126839938482217> • **Reason:** \`${reason}\`\n<a:Right:877975111846731847> • **At:** <t:${timestamp}>`);
-    message.channel.send({ embeds: [ban] });
 
     return message.guild.members.ban(member, { reason:  `Wolfy BAN: ${message.author.tag}` })
     .then(() => message.channel.send({ embeds: [ban]}))

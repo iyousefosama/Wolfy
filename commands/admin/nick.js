@@ -1,4 +1,5 @@
 const discord = require('discord.js')
+const config = require('../../config.json')
 
 module.exports = {
   name: "nick",
@@ -17,34 +18,40 @@ module.exports = {
     '@WOLF JoeMama',
     '742682490216644619 Unknown user!'
   ],
-  async execute(client, message, args) {
+  async execute(client, message, [ member = '', ...args]) {
 
-    let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
-    if(!user) return message.reply({ content: "**Please mention a User to change his nickname!**"})
+    const owner = await message.guild.fetchOwner()
 
-    let nickname = args.slice(1).join(" ")
-    if(!nickname) return message.reply({ content: "Please specify a nickname!"})
+    let nickname = args.slice(0).join(" ")
 
-    const Err4 = new discord.MessageEmbed()
-    .setTitle('Error!')
-    .setDescription('<a:pp802:768864899543466006> I can\'t change \`nickname\` for this user!')
-    .setColor('RED')
-    if(user.roles.highest.position <= user.roles.highest.position) return message.reply({ embeds: [Err4] })
+    if (!args[0]) {
+      return message.channel.send(`\\❌ | ${message.author}, Please type the nickname.`);
+    }
 
-    let member = message.guild.members.cache.get(user.id);
-    await member.setNickname(nickname);
+    if (!member.match(/\d{17,19}/)){
+      return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to change the nickname.`);
+    };
 
-    const embed = new discord.MessageEmbed()
-    .setDescription(`<a:Right:812104211386728498> Successfully changed ${user.tag}'s nickname to ${nickname}`)
-    .setColor('DARK_GREEN')
-    .setTimestamp()
-    message.channel.send({ embeds: [embed] })
-    .catch(err => {
-      const UnknownErr = new discord.MessageEmbed()
-      .setColor(`RED`)
-      .setDescription(`<a:pp802:768864899543466006> Error, please report this with \`w!feedback\`!`)
-      message.channel.send({ embeds: [UnknownErr] })
-      console.error(err);
-    })
+    member = await message.guild.members
+    .fetch(member.match(/\d{17,19}/)[0])
+    .catch(() => null);
+
+    if (!member){
+      return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
+    } else if (member.id === message.author.id){
+      return message.channel.send(`\\❌ | ${message.author}, You cannot change nickname for yourself!`);
+    } else if (member.id === client.user.id){
+      return message.channel.send(`\\❌ | ${message.author}, You cannot change nickname me!`);
+    } else if (member.id === message.guild.ownerId){
+      return message.channel.send(`\\❌ | ${message.author}, You cannot change nickname for a server owner!`);
+    } else if (config.developer.includes(member.id)){
+      return message.channel.send(`\\❌ | ${message.author}, You can't change nickname for my developer through me!`);
+    } else if (message.member.roles.highest.position < member.roles.highest.position){
+      return message.channel.send(`\\❌ | ${message.author}, You can't change nickname for that user! He/She has a higher role than yours`);
+    };
+
+    return member.setNickname(nickname, `Wolfy Nickname: ${message.author.tag}`)
+    .then(() => message.reply({ content: `\\✔️ Successfully changed **${member.user.tag}** nickname to \`${nickname}\`!`}))
+    .catch(() => message.channel.send(`\\❌ | ${message.author}, Unable to change the nickname for **${member.user.tag}**!`));
 }
 }
