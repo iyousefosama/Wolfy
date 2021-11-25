@@ -63,7 +63,7 @@ module.exports = {
           .setTimestamp()
           oldMember.roles.cache.forEach(role => {
             if (!newMember.roles.cache.has(role.id)) {
-              MemberUpdate.addField({ name: "⛔ **Roles Removed**", value: role});
+              MemberUpdate.addField({ name: "⛔ **Roles Removed**", value: `${role || 'Unkown'}`});
             }
           });
         } else if(oldMember.roles.cache.size < newMember.roles.cache.size) {
@@ -76,7 +76,7 @@ module.exports = {
           .setTimestamp()
           newMember.roles.cache.forEach(role => {
             if (!oldMember.roles.cache.has(role.id)) {
-              MemberUpdate.addField({ name: "✔️ **Role Added**", value: role});
+              MemberUpdate.addField({ name: "✔️ **Role Added**", value: `${role || 'Unkown'}`});
             }
           });
         } else {
