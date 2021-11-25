@@ -85,10 +85,8 @@ client.on('interactionCreate', async interaction => {
     if (interaction.guild) {
         const sauthorPerms = interaction.channel.permissionsFor(interaction.user);
         if (!sauthorPerms || !sauthorPerms.has(slash.permissions)) {
-           const sPermsEmbed = new Discord.MessageEmbed()
-           .setColor(`RED`)
-           .setDescription(`<a:pp802:768864899543466006> You don't have \`${slash.permissions}\` permission(s) to use ${slash.name} command.`)
-           return interaction.reply({ embeds: [sPermsEmbed], ephemeral: true })
+
+           return interaction.reply({ content: `<a:pp802:768864899543466006> You don\'t have \`${slash.permissions}\` permission(s) to use ${interaction.commandName} command.`, ephemeral: true });
         }
        }
     }
@@ -100,7 +98,29 @@ if (slash.clientpermissions) {
        return interaction.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${slash.clientpermissions}\` permission(s)!`, ephemeral: true });
    }
   }
-}                       
+}  
+
+if (interaction.guild){
+    if (!interaction.channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')){
+      return { executed: false, reason: 'PERMISSION_SEND'};
+    } else {
+      // Do nothing..
+    };
+  };
+  if (interaction.guild){
+    if (!interaction.channel.permissionsFor(interaction.guild.me).has('VIEW_CHANNEL')){
+      return;
+    } else {
+      // Do nothing..
+    };
+  };
+  if (interaction.guild){
+    if (!interaction.channel.permissionsFor(interaction.guild.me).has('READ_MESSAGE_HISTORY')){
+      return interaction.reply({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
+    } else {
+      // Do nothing..
+    };
+  };  
         await slash.execute(client, interaction);
     } catch (error) {
         console.error(error);
@@ -291,7 +311,7 @@ client.on("messageCreate", async message => {
                     if(message.author.id !== developer) {
                         const DevOnlyEmbed = new Discord.MessageEmbed()
                         .setColor(`RED`)
-                        .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the commands \`${cmd.name}\` is limited developers only!`)
+                        .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)
                         return message.channel.send({ embeds: [DevOnlyEmbed] })
 
                     }
