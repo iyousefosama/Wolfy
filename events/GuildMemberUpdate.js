@@ -49,10 +49,36 @@ module.exports = {
           MemberUpdate = new Discord.MessageEmbed()
           .setAuthor(oldMember.user.tag + ` (${oldMember.id})`, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('📝 Member Nickname Updated!')
-          .setDescription(`\`${oldMember.nickname}\` **➜** \`${newMember.nickname}\`\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
+          .setDescription(`\`${[oldMember.nickname !== null? oldMember.nickname : oldMember.username]}\` **➜** \`${[newMember.nickname !== null? newMember.nickname : newMember.username]}\`\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
           .setColor('#2F3136')
           .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
           .setTimestamp()
+        } else if(memberlog && oldMember.roles.cache.size > newMember.roles.cache.siz) {
+          MemberUpdate = new Discord.MessageEmbed()
+          .setAuthor(oldMember.user.tag + ` (${oldMember.id})`, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+          .setTitle('📝 Member Roles Removed!')
+          .setDescription(`<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
+          .setColor('#2F3136')
+          .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
+          .setTimestamp()
+          oldMember.roles.cache.forEach(role => {
+            if (!newMember.roles.cache.has(role.id)) {
+                Embed.addField("⛔ Roles Removed", role);
+            }
+          });
+        } else if(oldMember.roles.cache.size < newMember.roles.cache.size) {
+          MemberUpdate = new Discord.MessageEmbed()
+          .setAuthor(oldMember.user.tag + ` (${oldMember.id})`, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+          .setTitle('📝 Member Roles Added!')
+          .setDescription(`<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
+          .setColor('#2F3136')
+          .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
+          .setTimestamp()
+          newMember.roles.cache.forEach(role => {
+            if (!oldMember.roles.cache.has(role.id)) {
+                Embed.addField("✔️ **Role Added**", role);
+            }
+          });
         } else {
           // Do no thing...
         }
