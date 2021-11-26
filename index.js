@@ -17,9 +17,6 @@ const fs = require('fs');
 
 const fetch = require('node-fetch')
 
-const userSchema = require('./schema/user-schema')
-const schema = require('./schema/GuildSchema')
-
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
@@ -27,11 +24,7 @@ const { developer, clientId } = require('./config.json');
 
 const map = new Map();
 
-const text = require('./util/string');
-
 const mongodb = require('./mongo')()
-
-const cooldowns = new Collection();
 
 client.commands = new Discord.Collection();
 
@@ -41,6 +34,10 @@ const commands=[]
 
 const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
 for (const file of slashFiles) {
+    if (slashFiles.length <= 0) {
+        console.log("(/) Can't find any slash commands!");
+        return;
+      }
     const slash = require(`./slashCommands/${file}`);
     client.slashCommands.set(file.split(/.js$/)[0],slash);
     commands.push(slash.data.toJSON());
@@ -48,15 +45,14 @@ for (const file of slashFiles) {
 
 
 		//Once the Bot is ready, add all Slas Commands to each guild
-		client.on("ready", () => {
+		client.on("ready", async () => {
 			if(config.loadSlashsGlobal){
-                                client.application.commands.set(commands)
+				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
-					console.log(`Because u are Using Global Settings, it can take up to 1 hour until the Commands are changed!`)
 				}).catch((e)=>console.log(e));
 			} else {
-				client.guilds.cache.map(g => g).forEach((guild) => {
+				client.guilds.cache.map(g => g).forEach(async (guild) => {
 					try{
 						guild.commands.set(commands)
 						.then(slashCommandsData => {
@@ -68,65 +64,6 @@ for (const file of slashFiles) {
 				});
 			}
 		})
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
-
-    const slash = client.slashCommands.get(interaction.commandName);
-
-    if(interaction.user.bot) return;
-    if (!slash) return;
-
-    try {
-        if (slash.guildOnly && interaction.channel.type === 'DM') {
-            return interaction.reply({ content: '<a:pp802:768864899543466006> I can\'t execute that command inside DMs!', ephemeral: true });
-        }
-  //+ permissions: [""],
-  if (slash.permissions) {
-    if (interaction.guild) {
-        const sauthorPerms = interaction.channel.permissionsFor(interaction.user);
-        if (!sauthorPerms || !sauthorPerms.has(slash.permissions)) {
-
-           return interaction.reply({ content: `<a:pp802:768864899543466006> You don\'t have \`${slash.permissions}\` permission(s) to use ${interaction.commandName} command.`, ephemeral: true });
-        }
-       }
-    }
-//+ clientpermissions: [""],
-if (slash.clientpermissions) {
-   if (interaction.guild) {
-   const sclientPerms = interaction.channel.permissionsFor(interaction.guild.me);
-   if (!sclientPerms || !sclientPerms.has(slash.clientpermissions)) {
-       return interaction.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${slash.clientpermissions}\` permission(s)!`, ephemeral: true });
-   }
-  }
-}  
-
-if (interaction.guild){
-    if (!interaction.channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')){
-      return { executed: false, reason: 'PERMISSION_SEND'};
-    } else {
-      // Do nothing..
-    };
-  };
-  if (interaction.guild){
-    if (!interaction.channel.permissionsFor(interaction.guild.me).has('VIEW_CHANNEL')){
-      return;
-    } else {
-      // Do nothing..
-    };
-  };
-  if (interaction.guild){
-    if (!interaction.channel.permissionsFor(interaction.guild.me).has('READ_MESSAGE_HISTORY')){
-      return interaction.reply({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
-    } else {
-      // Do nothing..
-    };
-  };  
-        await slash.execute(client, interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
-});
 
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
@@ -157,194 +94,6 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(client, ...args));
     	}
     }
-
-//Event - message
-client.on("messageCreate", async message => {
-
-        let data;
-    let prefix;
-    if (message.guild) {
-    try{
-        data = await schema.findOne({
-            GuildID: message.guild.id
-        })
-    } catch(err) {
-        console.log(err)
-    }
-}
-    if (message.content.startsWith('wolfy ')){
-        prefix = 'wolfy '
-      } else if(message.channel.type === 'DM') {
-        prefix = config.prefix;
-      } else if (!data || data.prefix == null){
-        prefix = config.prefix;
-      } else if (data && message.content.startsWith(data.prefix)){
-        prefix = data.prefix;
-      };
-    
-      if (!prefix){
-        return { executed: false, reason: 'PREFIX'};
-      };
-
-    if(message.author.bot || !message.content.startsWith(prefix)) return;
-    const args = message.content.slice(prefix.length).split(/ +/g);
-    if (!args.length) return message.channel.send({ content: `You didn't pass any command to reload, ${message.author}!`});
-    const commandName = args.shift().toLowerCase();
-
-    const cmd = client.commands.get(commandName)
-        //+ aliases: [""],
-        || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-        if(commandName.length < 1) return;
-        if (!cmd) return message.channel.send({ content: `There is no command with name or alias \`${commandName}\`, ${message.author}!`});
-        
-                                //+ Blacklisted
-                try {
-                    UserData = await userSchema.findOne({
-                        userId: message.author.id
-                    })
-                    if(!UserData) {
-                        UserData = await userSchema.create({
-                            userId: message.author.id
-                        })
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-                if(UserData.Status.Blacklisted.current == true) return message.channel.send({ content: `\`\`\`diff\n- You are blacklisted from using the bot!\n\n+ Reason: ${UserData.Status.Blacklisted.reason}\`\`\``})
-
-        try{
-
-
-            //+ args: true/false,
-        if (cmd.args && !args.length) {
-            let desc = `You didn't provide any arguments`;
-
-            //+ usage: '<> <>',
-            if (cmd.usage) {
-                desc += `, The proper usage would be:\n\`${prefix}${cmd.name} ${cmd.usage}\``;
-            }
-            if (cmd.examples && cmd.examples.length !== 0) {
-                desc += `\n\nExamples:\n${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ')}`;
-            }
-    
-            const NoArgs = new Discord.MessageEmbed()
-            .setDescription(desc)
-            .setColor('RED')
-            return message.channel.send({ embeds: [NoArgs] });
-        }
-
-            //+ cooldown 1, //seconds(s)
-            if (!cooldowns.has(cmd.name)) {
-                cooldowns.set(cmd.name, new Discord.Collection());
-            }
-            
-            const now = Date.now();
-            const timestamps = cooldowns.get(cmd.name);
-            const cooldownAmount = (cmd.cooldown || 3) * 1000;
-            
-            if (timestamps.has(message.author.id)) {
-                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-            
-                if (now < expirationTime) {
-                    const timeLeft = (expirationTime - now) / 1000;
-                    return message.channel.send({ content: ` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                        setTimeout(() => {
-                            msg.delete().catch(() => null)
-                         }, 3000)
-                        })
-                }
-            }
-            timestamps.set(message.author.id, now);
-            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-                 
-                 //+ permissions: [""],
-                 if (cmd.permissions) {
-                     if (message.guild) {
-                     	const authorPerms = message.channel.permissionsFor(message.author);
-                     	if (!authorPerms || !authorPerms.has(cmd.permissions)) {
-                            const PermsEmbed = new Discord.MessageEmbed()
-                            .setColor(`RED`)
-                            .setDescription(`<a:pp802:768864899543466006> You don't have \`${text.joinArray(cmd.permissions)}\` permission(s) to use ${cmd.name} command.`)
-                            return message.channel.send({ embeds: [PermsEmbed] })
-                         }
-                    	}
-                     }
-
-                 //+ clientpermissions: [""],
-                 if (cmd.clientpermissions) {
-                    if (message.guild) {
-                    const clientPerms = message.channel.permissionsFor(message.guild.me);
-                    if (!clientPerms || !clientPerms.has(cmd.clientpermissions)) {
-                        const ClientPermsEmbed = new Discord.MessageEmbed()
-                        .setColor(`RED`)
-                        .setDescription(`<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(cmd.clientpermissions)}\` permission(s)`)
-                        return message.channel.send({ embeds: [ClientPermsEmbed] })
-                    }
-                   }
-                }
-
-                //+ guildOnly: true/false,
-                if (cmd.guildOnly && message.channel.type === 'DM') {
-                    const NoDmEmbed = new Discord.MessageEmbed()
-                    .setColor(`RED`)
-                    .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`)
-                    return message.reply({ embeds: [NoDmEmbed] })
-                }
-
-                //+ dmOnly: true/false,
-                if (cmd.dmOnly && message.channel.type === 'GUILD_TEXT') {
-                    const NoGuildEmbed = new Discord.MessageEmbed()
-                    .setColor(`RED`)
-                    .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside the server!`)
-                    return message.channel.send({ embeds: [NoGuildEmbed] })
-                }
-
-                if(cmd.guarded) {
-                    const GuardedEmbed = new Discord.MessageEmbed()
-                    .setColor(`RED`)
-                    .setDescription(`<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`)
-                    return message.channel.send({ embeds: [GuardedEmbed] })
-                }
-
-                if(cmd.OwnerOnly) {
-                    if(message.author.id !== developer) {
-                        const DevOnlyEmbed = new Discord.MessageEmbed()
-                        .setColor(`RED`)
-                        .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)
-                        return message.channel.send({ embeds: [DevOnlyEmbed] })
-
-                    }
-                }
-
-                if (message.guild){
-                    if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
-                      return { executed: false, reason: 'PERMISSION_SEND'};
-                    } else {
-                      // Do nothing..
-                    };
-                  };
-                  if (message.guild){
-                    if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
-                      return;
-                    } else {
-                      // Do nothing..
-                    };
-                  };
-                  if (message.guild){
-                    if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
-                      return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
-                    } else {
-                      // Do nothing..
-                    };
-                  }; 
-                  
-        cmd.execute(client, message, args);
-    }catch(err){
-        message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to WOLF#1045\``);
-        console.log(err);
-    }
-})
 
 // Login To Discord with your app's Token
 
