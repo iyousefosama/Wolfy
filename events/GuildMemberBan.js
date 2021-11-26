@@ -60,7 +60,7 @@ module.exports = {
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Mod:853496185443319809> Member ban!')
         .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
-        .setColor('RED')
+        .setColor('#e6a54a')
         .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
         .setTimestamp()
         const botname = client.user.username;

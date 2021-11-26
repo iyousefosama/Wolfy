@@ -14,10 +14,11 @@ module.exports = {
         if (message.channel.type === 'DM') {
         const timestamp = Math.floor(Date.now() / 1000)
         const dmEmbed = new Discord.MessageEmbed()
-        .setTitle('New DM')
+        .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setTitle('<a:pp659:853495803967307887> New DM')
         .setColor("738ADB")
         .setTimestamp()
-        .setDescription(`**User:** ${message.author.tag} (\`${message.author.id}\`)\n• **At:** <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${message.content || '❌ | Unkown message!'}\n\`\`\``)
+        .setDescription(`<:Humans:853495153280155668> **User:** ${message.author.tag} (\`${message.author.id}\`)\n• **At:** <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${message.content || '❌ | Unkown message!'}\n\`\`\``)
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
 
         const Debug = await client.channels.cache.get(config.debug)

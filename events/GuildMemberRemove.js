@@ -49,9 +49,9 @@ module.exports = {
         } else if(kickLog || kickLog.available && target.id == member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
-          .setTitle('<a:pp681:774089750373597185> Member Kicked!')
+          .setTitle('<a:Mod:853496185443319809> Member Kicked!')
           .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
-          .setColor('#f78450')
+          .setColor('#e6a54a')
           .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
           .setTimestamp()
         } else {
