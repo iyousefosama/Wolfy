@@ -31,7 +31,7 @@ module.exports = {
             `Members: ${members}`,
             `Command: ${commands}`,
             `SlashCommands: ${SlashCommands}`,
-            `Boot: ${currentdate}`,
+            `Boot: ${boot}`,
             '```'
           ].join('\n')
         };
@@ -42,9 +42,14 @@ module.exports = {
             
         
             client.user.setActivity(status[rstatus], {type: "PLAYING"});
-            }; setInterval(randomStatus, 5000)
+            }; setInterval(randomStatus, 10000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
+            if(!config.debug || !config.debug2) {
+              return;
+            } else {
+              // Do nothing..
+            }
             const Debug = await client.channels.cache.get(config.debug)
             const botname = client.user.username;
             setTimeout(async function(){
