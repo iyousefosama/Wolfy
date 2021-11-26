@@ -3,7 +3,7 @@ const config = require('../../config.json')
 
 module.exports = {
   name: "nick",
-  aliases: ["Nick", "NICK"],
+  aliases: ["Nick", "NICK", "nickname"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false
@@ -22,12 +22,6 @@ module.exports = {
 
     const owner = await message.guild.fetchOwner()
 
-    let nickname = args.slice(0).join(" ")
-
-    if (!args[0]) {
-      return message.channel.send(`\\❌ | ${message.author}, Please type the nickname.`);
-    }
-
     if (!member.match(/\d{17,19}/)){
       return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to change the nickname.`);
     };
@@ -35,6 +29,12 @@ module.exports = {
     member = await message.guild.members
     .fetch(member.match(/\d{17,19}/)[0])
     .catch(() => null);
+
+    let nickname = args.slice(1).join(" ")
+
+    if (!args[1]) {
+      return message.channel.send(`\\❌ | ${message.author}, Please type the nickname.`);
+    }
 
     if (!member){
       return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);

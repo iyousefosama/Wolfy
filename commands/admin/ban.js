@@ -23,7 +23,6 @@ module.exports = {
     const owner = await message.guild.fetchOwner()
 
     let reason = args.slice(0).join(" ")
-    if (!args[0]) reason = 'No reason specified'
 
     if (!member.match(/\d{17,19}/)){
       return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to ban.`);
@@ -49,13 +48,14 @@ module.exports = {
       return message.channel.send(`\\❌ | ${message.author}, I couldn't ban that user!`)
     };
 
-    const timestamp = Math.floor(Date.now() / 1000)
     const ban = new discord.MessageEmbed()
-    .setTimestamp()
     .setAuthor(member.user.tag, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-    .setDescription(`<:tag:813830683772059748> Successfully Banned the user from the server\n\n<a:pp989:853496185443319809> • **Moderator:** ${message.author.username} (${message.author.id})\n<:Rules:840126839938482217> • **Reason:** \`${reason}\`\n<a:Right:877975111846731847> • **At:** <t:${timestamp}>`);
+    .setDescription([ `<:tag:813830683772059748> Successfully Banned the user from the server`, !args[0] ? '' :
+    ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))
+    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setTimestamp()
 
-    return message.guild.members.ban(member, { reason:  `Wolfy BAN: ${message.author.tag}` })
+    return message.guild.members.ban(member, { reason:  `Wolfy BAN: ${message.author.tag}: ${reason || 'Unspecified'}` })
     .then(() => message.channel.send({ embeds: [ban]}))
     .catch(() => message.channel.send(`\\❌ | ${message.author}, Unable to ban **${member.user.tag}**!`));
   }

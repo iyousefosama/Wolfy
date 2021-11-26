@@ -17,9 +17,18 @@ module.exports = {
         '@BADGUY',
         '742682490216644619'
       ],
-    async execute(client, message, args) {
-let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
+    async execute(client, message, [member = '', ...args]) {
 
+    const owner = await message.guild.fetchOwner()
+    const author = message.author
+
+    if (!member.match(/\d{17,19}/)){
+        return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to mute.`);
+      };
+  
+      member = await message.guild.members
+      .fetch(member.match(/\d{17,19}/)[0])
+      .catch(() => null);
 /////////////////////////////////////////////// Errors /////////////////////////////////////////////
     const Err1 = new discord.MessageEmbed()
     .setDescription('<a:pp802:768864899543466006> Please mention a user!')

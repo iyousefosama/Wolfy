@@ -18,77 +18,43 @@ module.exports = {
     '@BADGUY',
     '742682490216644619'
   ],
-  async execute(client, message, args) {
+  async execute(client, message, [ member = '', ...args]) {
 
       const owner = await message.guild.fetchOwner()
-      const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
 
-      let reason = args.slice(1).join(" ")
-      if (!args[1]) reason = 'No reason specified'
-
-               /////////////////////////////////////////////// Errors /////////////////////////////////////////////
-               const Err1 = new discord.MessageEmbed()
-               .setTitle('Error!')
-               .setDescription('<a:pp802:768864899543466006> Please mention a user!')
-               .setColor('RED')
-               const Err2 = new discord.MessageEmbed()
-               .setTitle('Error!')
-               .setDescription('<a:pp802:768864899543466006> You can\'t ban me!')
-               .setColor('RED')
-               const Err3 = new discord.MessageEmbed()
-               .setTitle('Error!')
-               .setDescription('<a:pp802:768864899543466006> You can\'t ban yourself!')
-               .setColor('RED')
-               const Err4 = new discord.MessageEmbed()
-               .setTitle('Error!')
-               .setDescription('<a:pp802:768864899543466006> User could not be kicked!')
-               .setColor('RED')
-           ///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
-               if (!user) return message.reply({ embeds: [Err1] })
-               if (user.id === client.user.id) return message.reply({ embeds: [Err2] })
-               if (user.id === message.author.id) return message.reply({ embeds: [Err3] })
-               if (message.member.roles.highest.position <= user.roles.highest.position) return message.reply({ embeds: [Err4] })
-               if (user.id === config.developer){
-                return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You can't kick my developers through me!`})
-              };
-              if (user.id === message.guild.ownerId){
-                return message.channel.send(`\\❌ | ${message.author}, You cannot kick a server owner!`)
-              }
-           //////////////////////////////////////////////////////////////////////////////////////////////////////////
-           
-      if (user) {
+      let reason = args.slice(0).join(" ")
   
-        const member = message.guild.members.cache.get(user.id)
+      if (!member.match(/\d{17,19}/)){
+        return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to ban.`);
+      };
   
-        if (member) {
+      member = await message.guild.members
+      .fetch(member.match(/\d{17,19}/)[0])
+      .catch(() => null);
   
-          member
-
-          // kick code 
-            .kick({
-                // the reason
-              reason: `Wolfy kick Command: ${message.author.tag}: ${reason}`,
-            })
-            .then(() => {
-            const timestamp = Math.floor(Date.now() / 1000)
-            const kick = new discord.MessageEmbed()
-            .setTimestamp()
-            .setAuthor(`${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}))
-            .setDescription(`<:tag:813830683772059748> Successfully Kicked the user from the server\n\n<:pp833:853495153280155668> • **Moderator:** ${message.author.username} (${message.author.id})\n<:Rules:840126839938482217> • **Reason:** \`${reason}\`\n<a:Right:877975111846731847> • **At:** <t:${timestamp}>`);
-            message.channel.send({ embeds: [kick] });
-            })
-            .catch(err => {
-              const Err = new discord.MessageEmbed()
-              .setColor(`RED`)
-              .setDescription(`<a:pp802:768864899543466006> I was unable to kick the member`)
-              message.channel.send({ embeds: [Err] })
-            })
-        } else {
-          const Err22 = new discord.MessageEmbed()
-          .setColor(`RED`)
-          .setDescription(`<a:pp802:768864899543466006> Failed to kick **${user.username}**!`)
-          message.channel.send({ embeds: [Err22] })
-        }
-      }
+      if (!member){
+        return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
+      } else if (member.id === message.author.id){
+        return message.channel.send(`\\❌ | ${message.author}, You cannot kick yourself!`);
+      } else if (member.id === client.user.id){
+        return message.channel.send(`\\❌ | ${message.author}, You cannot kick me!`);
+      } else if (member.id === message.guild.ownerId){
+        return message.channel.send(`\\❌ | ${message.author}, You cannot kick a server owner!`);
+      } else if (config.developer.includes(member.id)){
+        return message.channel.send(`\\❌ | ${message.author}, You can't kick my developer through me!`);
+      } else if (message.member.roles.highest.position < member.roles.highest.position){
+        return message.channel.send(`\\❌ | ${message.author}, You can't kick that user! He/She has a higher role than yours`);
+      } else if (!member.kickable){
+        return message.channel.send(`\\❌ | ${message.author}, I couldn't kick that user!`)
+      };
+      const kick = new discord.MessageEmbed()
+      .setAuthor(member.user.tag, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+      .setDescription([ `<:tag:813830683772059748> Successfully Kicked the user from the server`, !args[0] ? '' :
+      ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))
+      .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+      .setTimestamp()
+      return member.kick({ reason: `Wolfy KICK: ${message.author.tag}: ${reason || 'Unspecified'}`})
+      .then(_member => message.channel.send({ embeds: [kick]}))
+      .catch(() => message.channel.send(`\\❌ Failed to kicked **${member.user.tag}**!`));
   }
 }

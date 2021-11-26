@@ -184,7 +184,7 @@ module.exports = {
           ctx.beginPath();
           ctx.font = 'bold 30px sans-serif'
           ctx.textAlign = 'right'
-          ctx.fillText("0", canvas.width - 30, 50, 120)
+          ctx.fillText(data.tips.received, canvas.width - 30, 50, 120)
     
           // reset shadow
           ctx.shadowOffsetY = 0;

@@ -1,8 +1,6 @@
 const discord = require('discord.js')
 const ms = require('parse-ms');
 
-
-
 module.exports = {
     name: "uptime",
     aliases: ["Uptime", "UPTIME"],

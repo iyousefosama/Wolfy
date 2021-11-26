@@ -19,7 +19,7 @@ module.exports = {
     async execute(client, message, args) {
 
         let Friend = message.mentions.members.first()
-        if(!Friend) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid channel ID.` })
+        if(!Friend) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please mention to transfer the credits!` })
 
         let amount = args[1]
         amount = Math.round(amount.split(',').join('')) || 'Nothing';
