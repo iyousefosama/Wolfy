@@ -97,4 +97,4 @@ for (const file of eventFiles) {
 
 // Login To Discord with your app's Token
 
-client.login(process.env.token);
+client.login(process.env.TOKEN_URI);
