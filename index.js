@@ -12,6 +12,11 @@ const client = new Client({
      allowedMentions: { parse: ['users', 'roles'], repliedUser: true }
     });
 
+const client = new Discord.Client() // Your discord.js or eris client (or djs ShardingManager)
+const { AutoPoster } = require('topgg-autoposter')
+
+const ap = AutoPoster('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyMTY1NTQyMDQxMDAwMzQ5NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNjM4MDIzMDk5fQ.Wn4v6cvEpY9Ztayqjdf-rmLiB8CE0UskYrEFtv33ap8', client)
+
 // require the fs module
 const fs = require('fs');
 
