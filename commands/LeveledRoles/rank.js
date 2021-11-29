@@ -71,7 +71,7 @@ module.exports = {
     const rank = new canvacord.Rank()
     .setAvatar(user.displayAvatarURL({format: "png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
-    .setBackground("IMAGE", `${ecodata.profile.background || 'https://i.imgur.com/299Kt1F.png'}`)
+    .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}`)
     .setCurrentXP(userData.xp)
     .setLevel(userData.level)
     .setRequiredXP(requiredXP)
