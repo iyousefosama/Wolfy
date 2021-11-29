@@ -35,6 +35,7 @@ module.exports = {
       };
 
         let data;
+        let ecodata;
         try{
             data = await schema.findOne({
                 GuildID: message.guild.id
@@ -50,18 +51,18 @@ module.exports = {
         }
     message.channel.sendTyping()
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
-    let ecodata;
     try{
         ecodata = await ecoschema.findOne({
             userID: user.id
         })
-        if(!data) {
-        data = await ecoschema.create({
+        if(!ecodata) {
+        ecodata = await ecoschema.create({
             userID: user.id
         })
         }
     } catch(err) {
         console.log(err)
+        message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
     }
     const userData = await Levels.fetch(user.id, message.guild.id)
     if(!userData) {
@@ -71,7 +72,7 @@ module.exports = {
     const rank = new canvacord.Rank()
     .setAvatar(user.displayAvatarURL({format: "png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
-    .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}`)
+    .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
     .setCurrentXP(userData.xp)
     .setLevel(userData.level)
     .setRequiredXP(requiredXP)
