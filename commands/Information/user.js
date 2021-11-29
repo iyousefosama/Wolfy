@@ -98,13 +98,13 @@ module.exports = {
 		{ name: '\u200B', value: '\u200B' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id, inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity || "None"}`, inline: true },
-        { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}`, inline: true },
-        { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity : "None"  || "None"}`, inline: true },
+        { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}` || 'None', inline: true },
+        { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}` || 'None', inline: true },
 	)
     .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`)
     .addFields(
-        { name: "<:medal:898358296694628414> Flags", value: `${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None' || "None"}`, inline:false },
+        { name: "<:medal:898358296694628414> Flags", value: `${userFlags?.length ? userFlags?.map(flag => flags[flag]).join(', ') : 'None' || "None"}`, inline:false },
         { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "(\`20+ roles...\`)!" || 'None'}`, inline:false },
         { name: "Permissions", value: `${message.guild ? member.permissions?.toArray().map(p=>`\`${p}\``).join(", ") : "None" || 'None'}`, inline:false },
         )
