@@ -33,7 +33,7 @@
         "type": "Item",
         "deletable": false,
         "giftable": false,
-        "price": 16000
+        "price": 26000
       },
       {
         "id": 5,
@@ -42,7 +42,7 @@
         "type": "Item",
         "deletable": false,
         "giftable": false,
-        "price": 28500
+        "price": 48500
       },
     {
       "id": 6,
@@ -53,7 +53,7 @@
       "giftable": false,
       "price": 0,
       "assets": {
-        "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620901264900096/1f6c66afbf9849801b85e9cc761983b5ec00fbe9.png"
+        "link": "https://i.imgur.com/Ry73PG3.jpg"
       }
     },
     {
@@ -65,7 +65,7 @@
         "giftable": false,
         "price": 6500,
         "assets": {
-          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894263088583430164/fd306bffcc68dde44b9a15cd0e24d41efbe0a898.png"
+          "link": "https://i.imgur.com/TK1yhLL.jpg"
         }
       },
     {
@@ -77,7 +77,7 @@
       "giftable": false,
       "price": 12000,
       "assets": {
-        "link": "https://cdn.discordapp.com/attachments/805088270756872214/893620816997154866/e8290b669c05d27b527a5b4a62e19f9ab948cf24.png"
+        "link": "https://i.imgur.com/6rjFKdJ.jpg"
       }
     },
     {
@@ -89,7 +89,7 @@
         "giftable": false,
         "price": 18320,
         "assets": {
-          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894026868582412308/066a69126112098a649cdfdbf266067b891c122c.png"
+          "link": "https://i.imgur.com/6rjFKdJ.jpg"
         }
       },
       {
@@ -101,7 +101,7 @@
         "giftable": false,
         "price": 12000,
         "assets": {
-          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894279324709060638/07b04d52e01e2aa7cfb8b6f45914031afd723895.png"
+          "link": "https://i.imgur.com/yzR4vFp.jpg"
         }
       },
       {
@@ -113,7 +113,7 @@
         "giftable": false,
         "price": 6500,
         "assets": {
-          "link": "https://cdn.discordapp.com/attachments/805088270756872214/894279905032929350/2c7ca1879150098326a2e75c0be9d3df6557f92b.png"
+          "link": "https://i.imgur.com/bKiYDR1.jpg"
         }
       },
       {
