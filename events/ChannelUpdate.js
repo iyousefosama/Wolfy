@@ -62,7 +62,7 @@ module.exports = {
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Channel Updated!')
             .setDescription(`<a:Right:860969895779893248> **Old Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **New Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#ed7947')
+            .setColor('#e6a54a')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
           } else if (oldChannel.name !== newChannel.name) {
@@ -70,7 +70,7 @@ module.exports = {
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> Channel Renamed!')
             .setDescription(`<a:Right:860969895779893248> **Old Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **New Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#ed7947')
+            .setColor('#e6a54a')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
           } else if (oldChannel.type !== newChannel.type) {
@@ -78,10 +78,18 @@ module.exports = {
             .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('<a:Mod:853496185443319809> ChannelType Updated!')
             .setDescription(`<a:Right:860969895779893248> **ChannelName:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#ed7947')
+            .setColor('#e6a54a')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
-          } else {
+          } else if(oldChannel.permissions !== newChannel.permissions) {
+            RoleUpdated = new MessageEmbed()
+            .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
+            .setTitle('<a:Mod:853496185443319809> Channel permissions Updated!')
+            .setDescription(`<a:Right:860969895779893248> **Channel:** ${newChannel.name} (\`${newChannel.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n<a:Right:877975111846731847> **Old Permissions:**\n\`\`\`\n${text.joinArray(oldChannel.permissions.toArray())}\`\`\`\n<a:Right:877975111846731847> **New Permissions:**\n\`\`\`\n${text.joinArray(newChannel.permissions.toArray())}\`\`\``)
+            .setColor('#e6a54a')
+            .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
+            .setTimestamp()
+           } else {
             // Do nothing..
           }
           
