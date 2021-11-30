@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const lyricsFinder = require("lyrics-finder")
 const { prefix } = require('../../config.json');
 const fetch = require('node-fetch');
+const { MessageEmbed, GuildEmoji } = require('discord.js');
+const text = require('../../util/string');
+const Page = require('../../util/Paginate');
 
 module.exports = {
     name: "lyrics",
@@ -17,8 +20,102 @@ module.exports = {
     permissions: [],
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: [],
-    async execute(client, message, ...args) {
+    async execute(client, message, args) {
+    const query =  args.join(' ');
     if (message.author == client.user) return;
+    if(query) {
+        message.channel.sendTyping()
+        const data = await fetch(`https://some-random-api.ml/lyrics?title=${encodeURI(query)}`)
+        .then(res => res.json())
+        .catch(() => null);
+    
+        if (!data || data.error){
+            return message.channel.send(`\\\❌ | ${message.author}, I couldn't find the lyrics!`)
+          };
+    
+        if (data.lyrics.length < 2000){
+            const LowLy = new discord.MessageEmbed()
+            .setThumbnail(data.thumbnail.genius)
+            .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+            .setColor('GREY')
+            .addFields(
+                { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
+                { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
+            )
+            .setDescription(data.lyrics)
+            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setTimestamp()
+            return message.channel.send({ embeds: [LowLy]})
+        } else {
+        message.channel.sendTyping()
+        const lyrics_array = data.lyrics.split('\n');
+        const lyrics_subarray = [ '' ];
+        let n = 0;
+    
+        for (const line of lyrics_array){
+          if (lyrics_subarray[n].length + line.length < 2000){
+            lyrics_subarray[n] = lyrics_subarray[n] + line + '\n'
+          } else {
+            n++
+            lyrics_subarray.push(line);
+          };
+        };
+    
+        const pages = new Page(
+            lyrics_subarray.map((x,i) =>
+              new MessageEmbed()
+            .setThumbnail(data.thumbnail.genius)
+            .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+            .setColor('GREY')
+            .addFields(
+                { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
+                { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
+            )
+            .setDescription(x)
+            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setTimestamp()
+            )
+        );
+
+        const msg = await message.channel.send({ embeds: [pages.currentPage] })
+          
+        const prev = client.emojis.cache.get('890490643548352572') || '◀';
+        const next = client.emojis.cache.get('890490558492061736') || '▶';
+        const terminate = client.emojis.cache.get('888264104081522698') || '❌';
+        const filter = (reaction, user) => user.id === message.author.id;
+
+        const collector = msg.createReactionCollector({ filter })
+        const navigators = [ prev, next, terminate ]
+
+        for (let i = 0; i < navigators.length; i++) {
+            await new Promise(r=>setTimeout(r,1500))
+            await msg.react(navigators[i])
+        }
+
+        let timeout = setTimeout(()=> collector.stop(), 180000)
+    
+        collector.on('collect', async ( {emoji: {name}, users }) => {
+    
+        switch(name){
+          case prev instanceof GuildEmoji ? prev.name : prev:
+            msg.edit({ embeds: [pages.previous()] })
+            break
+          case next instanceof GuildEmoji ? next.name : next:
+            msg.edit({ embeds: [pages.next()] })
+            break
+          case terminate instanceof GuildEmoji ? terminate.name : terminate:
+            collector.stop()
+            break
+          }
+    
+          await users.remove(message.author.id)
+          timeout.refresh()
+        });
+        collector.on('end', async () => await msg.reactions.removeAll().catch(()=>null) ? null : null);
+}
+    } else {
+
+
     let singer;
     let song;
     let pages = []
@@ -47,6 +144,7 @@ module.exports = {
     if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
     else if(col2.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     song = col2.first().content
+    message.channel.sendTyping()
 
     const data = await fetch(`https://some-random-api.ml/lyrics?title=${encodeURI(song)}`)
     .then(res => res.json())
@@ -124,5 +222,6 @@ module.exports = {
         }
     })
     ReactionCol.on('end', async () => await Embed.reactions.removeAll().catch(()=>null) ? null : null);
+}
 }
 }
