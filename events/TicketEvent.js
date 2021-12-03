@@ -76,13 +76,13 @@ module.exports = {
     }).then(async (channel) => {
                     interaction.reply({ content: `<:Verify:841711383191879690> Successfully created ${channel} ticket!`, ephemeral: true})
                     var ticketEmbed = new Discord.MessageEmbed()
-                    .setTitle(`Welcome in your ticket ${interaction.user.username}`)
-                    .setDescription(`<:tag:813830683772059748>Send here your message or question!
+                    .setAuthor(`Welcome in your ticket ${interaction.user.tag}`, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setDescription(`<:tag:813830683772059748> Send here your message or question!
                     
-                    User: <@${interaction.user.id}>
-                    UserID: ${interaction.user.id}`)
+                    > <:Humans:853495153280155668> User: ${interaction.user}
+                    > <:pp198:853494893439352842> UserID: \`${interaction.user.id}\``)
                     .setTimestamp()
-                    channel.send({ content: `<@${interaction.user.id}>`, embeds: [ticketEmbed] })
+                    channel.send({ content: `${interaction.user}`, embeds: [ticketEmbed] })
                 })
             }
         }
