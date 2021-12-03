@@ -93,18 +93,18 @@ module.exports = {
     const userEmbed = new discord.MessageEmbed() // create an embed
      .setAuthor(`User information of ${member.user.username}`, member.user.displayAvatarURL({dynamic: true, size: 2048}), member.user.displayAvatarURL({dynamic: true, size: 2048}))
      .addFields(
-		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag },
-        { name: '<:pp499:836168214525509653> **Username: **', value: member.user.username },
-		{ name: '\u200B', value: '\u200B' },
-		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id, inline: true },
+		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag || 'None' },
+        { name: '<:pp499:836168214525509653> **Username: **', value: member.user.username || 'None' },
+		{ name: '\u200B' || '-', value: '\u200B' || '-' },
+		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity : "None"  || "None"}`, inline: true },
-        { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}` || 'None', inline: true },
-        { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}` || 'None', inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity.join(", \n") : "None"  || "None"}`, inline: true },
+        { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT') || 'None'} ${moment.utc(member.user.createdAt).format('LL') || 'None'} ${moment.utc(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
+        { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT") || 'None'} ${moment(member.joinedAt).format('LL') || 'None'} ${moment(member.joinedAt).fromNow() || 'None'}` || 'None', inline: true },
 	)
     .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`)
     .addFields(
-        { name: "<:medal:898358296694628414> Flags", value: `${userFlags?.length ? userFlags?.map(flag => flags[flag]).join(', ') : 'None' || "None"}`, inline:false },
+        { name: "<:medal:898358296694628414> Flags", value: `${userFlags?.length ? userFlags?.map(flag => flags[flag]).join(", ") : 'None' || "None"}`, inline:false },
         { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "(\`20+ roles...\`)!" || 'None'}`, inline:false },
         { name: "Permissions", value: `${message.guild ? member.permissions?.toArray().map(p=>`\`${p}\``).join(", ") : "None" || 'None'}`, inline:false },
         )

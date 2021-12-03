@@ -54,11 +54,8 @@ module.exports = {
         .setDescription('<a:pp399:768864799625838604> Ticket name changed')
         message.channel.send({ embeds: [rename] })
         .then(channel => {
-            if(message.deleted) return;
-            message.delete()
-            message.channel.setName(name)
+            message.channel.setName(name).catch(() => null)
         })
-    // if its not a ticket channel return
     } else {
         return message.channel.send({ content: `\\❌ **${message.member.displayName}**, You can use this cmd only in the ticket!`})
     }

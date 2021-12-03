@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const moment = require('moment');
 
 module.exports = {
     name: "delete",
@@ -53,9 +54,8 @@ return message.channel.send({ content: `\\❌ **${message.member.displayName}**,
         .setDescription('<a:pp681:774089750373597185> Ticket will be deleted in 5 seconds')
         message.channel.send({ embeds: [close]})
         .then(channel => {
-            setTimeout(() => {
-                if(message.channel.deleted) return;
-                message.channel.delete()
+            setTimeout(async () => {
+                await message.channel.delete().catch(() => null)
             }, 5000);
         })
 
