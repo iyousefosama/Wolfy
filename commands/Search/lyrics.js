@@ -21,7 +21,7 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: [],
     async execute(client, message, args) {
-    const query =  args.join(' ');
+    const query =  args[0].join(' ');
     if (message.author == client.user) return;
     if(query) {
         message.channel.sendTyping()

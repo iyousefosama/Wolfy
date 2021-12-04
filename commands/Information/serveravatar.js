@@ -28,6 +28,7 @@ module.exports = {
 
 
     const avatar = guild.iconURL({ dynamic: true, size: 1024 });
+    if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this server!`})
 
     let avatarserver = new discord.MessageEmbed()
     .setColor(color)

@@ -6,7 +6,7 @@ const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
     name: "fast",
-    aliases: ["Fast", "FastTyper", "FASTTYPER", "FAST", "FastTyper"],
+    aliases: ["Fast", "FastTyper", "FASTTYPER", "FAST", "FastTyper", "fastTyper"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

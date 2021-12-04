@@ -36,6 +36,7 @@ module.exports = {
     };
 
     const avatar = user.displayAvatarURL({ dynamic: true, size: 1024 });
+    if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this user!`})
 
     const embed = new MessageEmbed()
     .setAuthor(message.author.tag, message.author.displayAvatarURL())

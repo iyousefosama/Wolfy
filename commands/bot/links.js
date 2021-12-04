@@ -4,7 +4,7 @@ const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     name: "links",
-    aliases: ["link", "inviteme", "invitebot", "vote", "support", "LINKS"],
+    aliases: ["link", "inviteme", "invitebot", "vote", "support", "LINKS", "invite"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false

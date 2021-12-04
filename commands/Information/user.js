@@ -111,6 +111,8 @@ module.exports = {
     .setImage(url)
     .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 2048}))
     .setTimestamp()
-    message.channel.send({ embeds: [userEmbed] }) // sends the embed
+    message.channel.send({ embeds: [userEmbed] }).catch(err => {
+        message.reply({ content: `\\❌ **${message.member.displayName}**, The command responded with error: ${err.name}`})
+    });
     }
 }

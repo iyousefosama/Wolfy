@@ -88,7 +88,7 @@ module.exports = {
         { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}help search\`\`\``, inline: true},
         { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}help Util\`\`\``, inline: true},
         { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}help mod\`\`\``, inline: true},
-        { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}help bot\`\`\``, inline: true},
+        { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}help fun\`\`\``, inline: true},
         { name: '<:MOD:836168687891382312> Setup Commands', value: `\`\`\`${prefix}help setup\`\`\``, inline: true},
         { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}help bot\`\`\``, inline: true},
         { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}help level\`\`\``, inline: true},
@@ -180,8 +180,8 @@ module.exports = {
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}8ball`, value: `> \`Ask the 8ball anything and it will answer\``},
-        { name: `${prefix}clyed`, value: `> \`Send your message as clyed text message\``},
-        { name: `${prefix}fastTyper`, value: `> \`Start playing fastTyper game\``},
+        { name: `${prefix}clyde`, value: `> \`Send your message as clyed text message\``},
+        { name: `${prefix}fast`, value: `> \`Start playing fast typer game\``},
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
         { name: `${prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
@@ -251,6 +251,7 @@ module.exports = {
         { name: `${prefix}setbio`, value: `> \`Sets your profile card bio.\``},
         { name: `${prefix}setbirthday`, value: `> \`Sets your profile card birthday.\``},
         { name: `${prefix}credits`, value: `> \`To check your credits balance in wallet\``},
+        { name: `${prefix}tip`, value: `> \`Send a tip for your friend!\``},
         { name: `${prefix}cookie`, value: `> \`To send cookie for a friend as a gift\``},
         { name: `${prefix}beg`, value: `> \`Want to earn money some more? Why don\'t you try begging, maybe someone will give you.\``},
         { name: `${prefix}daily`, value: `> \`To get your daily reward\``},
