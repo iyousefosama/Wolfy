@@ -62,7 +62,7 @@ module.exports = {
         else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         emojiID = emojiID.first().content
         emoji = message.guild.emojis.cache.get(emojiID) ||
-        message.guild.emojis.cache.find(e => e.emojiID === emoji);
+        message.guild.emojis.cache.find(e => e.id === emojiID);
         if (!emoji){
             return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
         }
@@ -105,7 +105,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -129,7 +129,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji2);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji2){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -179,7 +179,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -203,7 +203,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji2);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji2){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -227,7 +227,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji3);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji3){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -284,7 +284,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -308,7 +308,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji2);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji2){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -332,7 +332,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji3);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji3){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -356,7 +356,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji4);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji4){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -420,7 +420,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -444,7 +444,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji2);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji2){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -468,7 +468,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji3);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji3){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -492,7 +492,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji4);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji4){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -516,7 +516,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji5 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji5);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji5){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -587,7 +587,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -611,7 +611,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji2);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji2){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -635,7 +635,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji3);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji3){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -659,7 +659,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji4);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji4){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -683,7 +683,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji5 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji5);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji5){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
@@ -707,7 +707,7 @@ module.exports = {
             else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji6 = message.guild.emojis.cache.get(emojiID) ||
-            message.guild.emojis.cache.find(e => e.emojiID === emoji6);
+            message.guild.emojis.cache.find(e => e.id === emojiID);
             if (!emoji6){
                 return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
             }
