@@ -20,6 +20,15 @@ const mongoose = require('mongoose')
         channel: { type: String, default: null },
         type: { type: String, default: 'default' }
       },
+      smroles: {
+        isEnabled: { type: Boolean, default: false },
+        value1: { type: String, default: null },
+        value2: { type: String, default: null },
+        value3: { type: String, default: null },
+        value4: { type: String, default: null },
+        value5: { type: String, default: null },
+        value6: { type: String, default: null },
+      },
       Tickets: {
         isEnabled: { type: Boolean, default: false },
         channel: { type: String, default: null },
