@@ -204,6 +204,7 @@ module.exports = {
         { name: `${prefix}setTicketch`, value: `> \`Setup the ticket category bot will create tickets channels from users there!\``},
         { name: `${prefix}setwelcomemsg`, value: `> \`To set the welcome (msg/embed)\``},
         { name: `${prefix}setleavermsg`, value: `> \`To set the leaver (msg/embed)\``},
+        { name: `${prefix}smRole`, value: `> \`smRole\``},
         { name: `${prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
         { name: `${prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
         { name: `${prefix}setprefix`, value: `> \`To set the bot prefix to another one!\``},
