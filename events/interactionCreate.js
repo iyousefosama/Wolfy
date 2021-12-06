@@ -31,7 +31,7 @@ module.exports = {
           }
           if (member.roles.cache.has(role1.id)) {
             member.roles.remove(role1).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role1}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed \`${role1}\` from you!`, ephemeral: true})
+            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role1} from you!`, ephemeral: true})
           } else{
             member.roles.add(role1).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role1}** for ${member.user.tag}, \`${err}\`!`}));
             interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role1} for you!`, ephemeral: true })
