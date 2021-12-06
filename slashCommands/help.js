@@ -76,15 +76,15 @@ module.exports = {
         .setFooter(interaction.user.tag, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
         .setTimestamp()
         .addFields(
-            { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}helpinfo\`\`\``, inline: true},
-            { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}helpsearch\`\`\``, inline: true},
-            { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}helpUtil\`\`\``, inline: true},
-            { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}helpmod\`\`\``, inline: true},
-            { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
-            { name: '<:MOD:836168687891382312> Setup Commands', value: `\`\`\`${prefix}helpsetup\`\`\``, inline: true},
-            { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}helpbot\`\`\``, inline: true},
-            { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}helplevel\`\`\``, inline: true},
-            { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${prefix}helpeco\`\`\``, inline: true}
+            { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}help info\`\`\``, inline: true},
+            { name: '<a:Search:845681277922967572> Search helplist', value: `\`\`\`${prefix}help search\`\`\``, inline: true},
+            { name: '<a:pp350:836168684379701279> Utilities helplist', value: `\`\`\`${prefix}help Util\`\`\``, inline: true},
+            { name: '<a:pp989:853496185443319809> Moderator helplist', value: `\`\`\`${prefix}help mod\`\`\``, inline: true},
+            { name: '<a:pp434:836168673755660290> Fun helplist', value: `\`\`\`${prefix}help fun\`\`\``, inline: true},
+            { name: '<:MOD:836168687891382312> Setup Commands', value: `\`\`\`${prefix}help setup\`\`\``, inline: true},
+            { name: '<a:pp90:853496126153031710> Bot helplist', value: `\`\`\`${prefix}help bot\`\`\``, inline: true},
+            { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${prefix}help level\`\`\``, inline: true},
+            { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${prefix}help eco\`\`\``, inline: true}
         )
         const info = new discord.MessageEmbed()
         .setColor('738ADB')
@@ -193,8 +193,11 @@ module.exports = {
             { name: `${prefix}setReportch`, value: `> \`Setup the reports channel bot will send reports from users there!\``},
             { name: `${prefix}setSuggch`, value: `> \`Setup the suggestion channel bot will send suggestions from users there!\``},
             { name: `${prefix}setwelcomech`, value: `> \`Setup the welcome channel bot will send message when user join there!\``},
+            { name: `${prefix}setleaverch`, value: `> \`Setup the leaver channel bot will send message when user join there!\``},
             { name: `${prefix}setTicketch`, value: `> \`Setup the ticket category bot will create tickets channels from users there!\``},
             { name: `${prefix}setwelcomemsg`, value: `> \`To set the welcome (msg/embed)\``},
+            { name: `${prefix}setleavermsg`, value: `> \`To set the leaver (msg/embed)\``},
+            { name: `${prefix}smRole`, value: `> \`smRole\``},
             { name: `${prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
             { name: `${prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
             { name: `${prefix}setprefix`, value: `> \`To set the bot prefix to another one!\``},
@@ -284,7 +287,7 @@ module.exports = {
                 }
                 if(interactionCreate.customId === '6'){
                     if (!interactionCreate.member.id == interaction.user.id) return interactionCreate.deferUpdate()
-                    interactionCreate.reply({ embeds: [ticket], ephemeral: true})
+                    interactionCreate.reply({ embeds: [setup], ephemeral: true})
                 }
                 if(interactionCreate.customId === '7'){
                     if (!interactionCreate.member.id == interaction.user.id) return interactionCreate.deferUpdate()
