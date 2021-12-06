@@ -526,7 +526,7 @@ module.exports = {
         data.Mod.smroles.value2 = role2.id;
         data.Mod.smroles.value3 = role3.id;
         data.Mod.smroles.value4 = role4.id;
-        data.Mod.smroles.value5 = role4.id;
+        data.Mod.smroles.value5 = role5.id;
         await data.save().then(() => {
             const row2 = new MessageActionRow()
             .addComponents(
@@ -717,8 +717,8 @@ module.exports = {
         data.Mod.smroles.value2 = role2.id;
         data.Mod.smroles.value3 = role3.id;
         data.Mod.smroles.value4 = role4.id;
-        data.Mod.smroles.value5 = role4.id;
-        data.Mod.smroles.value6 = role4.id;
+        data.Mod.smroles.value5 = role5.id;
+        data.Mod.smroles.value6 = role6.id;
         await data.save().then(() => {
             const row2 = new MessageActionRow()
             .addComponents(
