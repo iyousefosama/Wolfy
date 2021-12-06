@@ -50,7 +50,7 @@ module.exports = {
     else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
     id = id.first().content
     role = message.guild.roles.cache.get(id) ||
-    message.guild.roles.cache.find(r => r.id === role);
+    message.guild.roles.cache.find(r => r.id === id);
 
     if (!role){
       return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -93,7 +93,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -117,7 +117,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role2);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role2){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -167,7 +167,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -191,7 +191,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role2);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role2){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -215,7 +215,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role3);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role3){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -272,7 +272,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -296,7 +296,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role2);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role2){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -320,7 +320,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role3);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role3){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -344,7 +344,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role4);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role4){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -408,7 +408,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -432,7 +432,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role2);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role2){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -456,7 +456,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role3);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role3){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -480,7 +480,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role4);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role4){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -504,7 +504,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role5 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role5);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role5){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -575,7 +575,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -599,7 +599,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role2);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role2){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -623,7 +623,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role3);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role3){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -647,7 +647,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role4);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role4){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -671,7 +671,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role5 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role5);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role5){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
@@ -695,7 +695,7 @@ module.exports = {
         else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role6 = message.guild.roles.cache.get(id) ||
-        message.guild.roles.cache.find(r => r.id === role6);
+        message.guild.roles.cache.find(r => r.id === id);
     
         if (!role6){
           return message.channel.send(`\\❌ **${message.author}**, Invalid Role - Please supply the mention of the role or the id!`)
