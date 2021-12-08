@@ -38,13 +38,13 @@ module.exports = {
         }
 
         const usererr = new discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
+        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
         .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
         .setDescription('<a:pp802:768864899543466006> Please mention the user to clearXp')
         .setColor("RED")
         .setTimestamp()
         const error = new discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
+        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
         .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
         .setDescription('<a:pp802:768864899543466006> Error, you can\'t clearXp for this user!')
         .setColor("RED")

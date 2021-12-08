@@ -33,7 +33,7 @@ module.exports = {
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
     
-    const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
+    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
     

@@ -45,7 +45,7 @@ module.exports = {
     if(!Role_To_Remove) return message.channel.send({ embeds: [provide] })
     if(isNaN(Role_To_Remove)) return message.channel.send({ embeds: [provide] })
 
-    const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
+    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
     
     const Level_Role_ID_Check = Level_Roles.find(id => {
@@ -61,7 +61,7 @@ module.exports = {
         const Removing_Level_Role = Level_Roles.filter(id => {
             return id.Level_Role_ID !== `${Role_To_Remove}`
         });
-        fs.writeFileSync('./Storages/Level-Roles.json', JSON.stringify(Removing_Level_Role, null, 4));
+        fs.writeFileSync('assets/json/Level-Roles.json', JSON.stringify(Removing_Level_Role, null, 4));
         
         const Success = new Discord.MessageEmbed()
         .setTitle('Level Role has been successfully removed.')
@@ -70,9 +70,9 @@ module.exports = {
         message.channel.send({ embeds: [Success] })
         //Saves the Data, this also means that it won't bring back the previous data after it got deleted
         return setTimeout(() => {
-            const Saving_Data = fs.readFileSync('./Storages/Level-Roles.json', 'utf8')
+            const Saving_Data = fs.readFileSync('assets/json/Level-Roles.json', 'utf8')
             const Saved_Data = JSON.parse(Saving_Data.toString())
-            fs.writeFileSync('./Storages/Level-Roles.json', JSON.stringify(Saved_Data, null, 4))
+            fs.writeFileSync('assets/json/Level-Roles.json', JSON.stringify(Saved_Data, null, 4))
         }, 1000)
     }
 }

@@ -61,7 +61,7 @@ module.exports = {
     if(New_Number.includes('.')) return message.channel.send({ embeds: [provide] })
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
 
-    const Level_Roles_Storage = fs.readFileSync('./Storages/Level-Roles.json')
+    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
     const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
     
     const Level_Role_ID_Check = Level_Roles.find(id => {
@@ -79,10 +79,10 @@ module.exports = {
         const New_Level_Number = Level_Role_ID_Check.Level_To_Reach = parseInt(New_Number)
         
         const Updating_Data = JSON.stringify(New_Level_Number, null, 4)
-        fs.writeFileSync('./Storages/Level-Roles.json', Updating_Data)
+        fs.writeFileSync('assets/json/Level-Roles.json', Updating_Data)
 
         const Updated_Data = JSON.stringify(Level_Roles, null, 4)
-        fs.writeFileSync('./Storages/Level-Roles.json', Updated_Data)
+        fs.writeFileSync('assets/json/Level-Roles.json', Updated_Data)
 
         const Success = new Discord.MessageEmbed()
         .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
