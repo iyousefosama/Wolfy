@@ -52,7 +52,7 @@ module.exports = {
      }, 5000)
     })
             
-            const Level_Roles_Storage = fs.readFileSync('Storages/Level-Roles.json')
+            const Level_Roles_Storage = fs.readFileSync('./assets/json/Level-Roles.json')
             const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
             
             const Guild_Check = Level_Roles.find(guild => {
