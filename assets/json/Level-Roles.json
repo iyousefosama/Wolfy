@@ -1,0 +1,32 @@
+[
+    {
+        "guildID": "769724063018647582",
+        "Level_Role": "test",
+        "Level_Role_ID": "882325084654665798",
+        "Level_To_Reach": 15
+    },
+    {
+        "guildID": "769724063018647582",
+        "Level_Role": "test",
+        "Level_Role_ID": "882325084654665798",
+        "Level_To_Reach": 1
+    },
+    {
+        "guildID": "769724063018647582",
+        "Level_Role": "test",
+        "Level_Role_ID": "882325084654665798",
+        "Level_To_Reach": 3
+    },
+    {
+        "guildID": "769724063018647582",
+        "Level_Role": "test",
+        "Level_Role_ID": "882325084654665798",
+        "Level_To_Reach": 2
+    },
+    {
+        "guildID": "769724063018647582",
+        "Level_Role": "Tester",
+        "Level_Role_ID": "806250381658947624",
+        "Level_To_Reach": 10
+    }
+]
