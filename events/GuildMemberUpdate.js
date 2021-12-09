@@ -44,8 +44,16 @@ module.exports = {
         const { executor, target } = memberlog;
         const timestamp = Math.floor(Date.now() / 1000)
 
+        if(!memberlog) {
+          return;
+        } else if(oldMember.id != target.id) {
+          return;
+        } else {
+          //Do nothing..
+        }
+
         let MemberUpdate;
-        if (memberlog && oldMember.nickname != newMember.nickname && target.id == oldMember.id) {
+        if (oldMember.nickname != newMember.nickname) {
           MemberUpdate = new Discord.MessageEmbed()
           .setAuthor(oldMember.user.tag + ` (${oldMember.id})`, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('📝 Member Nickname Updated!')
@@ -53,7 +61,25 @@ module.exports = {
           .setColor('#2F3136')
           .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
           .setTimestamp()
-        } else {
+        } else if(oldMember.roles.cache.size < newMember.roles.cache.size) {
+          let role = newMember.roles.cache.filter(r => !oldMember.roles.cache.has(r.id)).first();
+          MemberUpdate = new Discord.MessageEmbed()
+           .setTitle('📝 Member Role Added!')
+           .setAuthor(oldMember.user.tag, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+           .setColor('#2F3136')
+           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Up:853495519455215627> **Role:** \`\`${role.name}\`\``)
+           .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
+           .setTimestamp()
+          } else if(oldMember.roles.cache.size > newMember.roles.cache.size) {
+           let role = oldMember.roles.cache.filter(r => !newMember.roles.cache.has(r.id)).first();
+           MemberUpdate = new Discord.MessageEmbed()
+           .setTitle('📝 Member Role Removed!')
+           .setAuthor(oldMember.user.tag, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
+           .setColor('#2F3136')
+           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Down:853495989796470815> **Role:** \`\`${role.name}\`\``)
+           .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
+           .setTimestamp()
+         } else {
           // Do no thing...
         }
         
