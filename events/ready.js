@@ -41,7 +41,7 @@ module.exports = {
 
             
         
-            client.user.setActivity(status[rstatus], {type: "PLAYING"});
+            client.user.setPresence({ activities: [{ name: status[rstatus], type: "PLAYING" }], status: 'online' });
             }; setInterval(randomStatus, 10000)
             console.log(`🤖 ${client.user.username} is Online!`)
       
