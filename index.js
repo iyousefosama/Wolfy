@@ -46,6 +46,7 @@ for (const file of slashFiles) {
 
 		//Once the Bot is ready, add all Slas Commands to each guild
 		client.on("ready", async () => {
+			client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });
 			if(config.loadSlashsGlobal){
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
