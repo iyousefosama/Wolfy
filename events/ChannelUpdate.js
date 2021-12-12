@@ -52,6 +52,8 @@ module.exports = {
       }
         if(!channelLog) {
           return;
+        } else if(oldChannel.id != id) {
+          return;
         } else {
           //Do nothing..
         }

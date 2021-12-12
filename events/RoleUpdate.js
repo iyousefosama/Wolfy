@@ -45,6 +45,8 @@ module.exports = {
 
         if(!rolelog) {
           return;
+        } else if(oldRole.id != id) {
+          return;
         } else {
           //Do nothing..
         }
