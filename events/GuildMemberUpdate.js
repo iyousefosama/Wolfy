@@ -57,7 +57,7 @@ module.exports = {
           MemberUpdate = new Discord.MessageEmbed()
           .setAuthor(oldMember.user.tag + ` (${oldMember.id})`, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
           .setTitle('📝 Member Nickname Updated!')
-          .setDescription(`\`${[oldMember.nickname !== null? oldMember.nickname : oldMember.username]}\` **➜** \`${[newMember.nickname !== null? newMember.nickname : newMember.username]}\`\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
+          .setDescription(`\`${[ oldMember.nickname ? oldMember.nickname : oldMember.user.tag ]}\` **➜** \`${[ newMember.nickname ? newMember.nickname : newMember.user.tag ]}\`\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
           .setColor('#2F3136')
           .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
           .setTimestamp()
@@ -67,7 +67,7 @@ module.exports = {
            .setTitle('📝 Member Role Added!')
            .setAuthor(oldMember.user.tag, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
            .setColor('#2F3136')
-           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Up:853495519455215627> **Role:** \`\`${role.name}\`\``)
+           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Up:853495519455215627> **Role:**\n \`\`\`${role.name}\`\`\``)
            .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
            .setTimestamp()
           } else if(oldMember.roles.cache.size > newMember.roles.cache.size) {
@@ -76,7 +76,7 @@ module.exports = {
            .setTitle('📝 Member Role Removed!')
            .setAuthor(oldMember.user.tag, oldMember.user.displayAvatarURL({dynamic: true, size: 2048}))
            .setColor('#2F3136')
-           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Down:853495989796470815> **Role:** \`\`${role.name}\`\``)
+           .setDescription(`<:Humans:853495153280155668> **Member:** ${oldMember.user.tag} (\`${oldMember.id}\`)\n<a:Mod:853496185443319809> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>\n\n<a:Down:853495989796470815> **Role:**\n \`\`\`${role.name}\`\`\``)
            .setFooter(oldMember.guild.name, oldMember.guild.iconURL({dynamic: true}))
            .setTimestamp()
          } else {
