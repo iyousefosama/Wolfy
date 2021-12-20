@@ -50,9 +50,7 @@ module.exports = {
           GUILD_PRIVATE_THREAD: "Private Thread",
           GUILD_STAGE_VOICE: "Stage Voice"
       }
-        if(!channelLog) {
-          return;
-        } else if(oldChannel.id != id) {
+        if(!channelLog || channelLog.available && id == oldChannel.id) {
           return;
         } else {
           //Do nothing..
@@ -83,15 +81,7 @@ module.exports = {
             .setColor('#e6a54a')
             .setFooter(oldChannel.guild.name, oldChannel.guild.iconURL({dynamic: true}))
             .setTimestamp()
-          } else if(oldChannel.permissions !== newChannel.permissions) {
-            ChannelUpdate = new MessageEmbed()
-            .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
-            .setTitle('<a:Mod:853496185443319809> Channel permissions Updated!')
-            .setDescription(`<a:Right:860969895779893248> **Channel:** ${newChannel.name} (\`${newChannel.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n<a:Right:877975111846731847> **Old Permissions:**\n\`\`\`\n${text.joinArray(oldChannel.permissions.toArray())}\`\`\`\n<a:Right:877975111846731847> **New Permissions:**\n\`\`\`\n${text.joinArray(newChannel.permissions.toArray())}\`\`\``)
-            .setColor('#e6a54a')
-            .setFooter(oldRole.guild.name, oldRole.guild.iconURL({dynamic: true}))
-            .setTimestamp()
-           } else {
+          } else {
             // Do nothing..
           }
           

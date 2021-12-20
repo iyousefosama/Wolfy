@@ -4,7 +4,7 @@ const schema = require('../schema/GuildSchema')
 
 module.exports = {
     name: 'guildBanAdd',
-    async execute(client, user, guild) {
+    async execute(client, user) {
         if(!user) return;
 
         let data;
@@ -40,11 +40,12 @@ module.exports = {
 
           if (!reason) reason = "Not specified";
 
-          if(!banLog) {
+          if(!banLog || banLog.available && target.id == user.id) {
             return;
           } else {
             //Do nothing..
           }
+          
 
           const fetchedLogs2 = await user.guild.fetchAuditLogs({
             limit: 1,
@@ -55,7 +56,6 @@ module.exports = {
         const timestamp = Math.floor(Date.now() / 1000)
 
         if (kickLog && target.id == user.id) return;
-        
         const Ban = new Discord.MessageEmbed()
         .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
         .setTitle('<a:Mod:853496185443319809> Member ban!')

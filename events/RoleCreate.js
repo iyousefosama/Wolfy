@@ -39,7 +39,7 @@ module.exports = {
       
         const { executor, id, name } = rolelog;
 
-        if(!rolelog) {
+        if(!rolelog || rolelog.available && id == role.id) {
           return;
         } else {
           //Do nothing..

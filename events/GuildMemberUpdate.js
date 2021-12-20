@@ -44,9 +44,7 @@ module.exports = {
         const { executor, target } = memberlog;
         const timestamp = Math.floor(Date.now() / 1000)
 
-        if(!memberlog) {
-          return;
-        } else if(oldMember.id != target.id) {
+        if(!memberlog || memberlog.available && target.id == oldMember.id) {
           return;
         } else {
           //Do nothing..

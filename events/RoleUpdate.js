@@ -8,8 +8,8 @@ module.exports = {
     async execute(client, oldRole, newRole) {
         if (!oldRole) {
             return;
-          } else if(!oldRole.guild.me.permissions.has("SEND_MESSAGES") || !oldRole.guild.me.permissions.has("ADMINISTRATOR")) {
-            return;
+          } else {
+            // Do nothing..
           }
 
           let data;
@@ -43,9 +43,7 @@ module.exports = {
       
         const { executor, id, name, color } = rolelog;
 
-        if(!rolelog) {
-          return;
-        } else if(oldRole.id != id) {
+        if(!rolelog || rolelog.available && id == oldRole.id) {
           return;
         } else {
           //Do nothing..
