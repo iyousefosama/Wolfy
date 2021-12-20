@@ -583,5 +583,17 @@
         "assets": {
           "link": "https://i.imgur.com/t3K7qEX.png"
         }
+      },
+      {
+        "id": 54,
+        "name": "<:medal:898358296694628414> Fireplace badge",
+        "description": "<:gift:922491788894306364> Christmas series badge for profile command.",
+        "type": "badge",
+        "deletable": false,
+        "giftable": false,
+        "price": 0,
+        "assets": {
+          "link": "https://i.imgur.com/pakh5I3.png"
+        }
       }
   ]
