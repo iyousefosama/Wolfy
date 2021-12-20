@@ -8,7 +8,7 @@ const config = require('../../config.json')
     guildOnly: false, //or false
     args: true, //or false
     usage: '<guildID>',
-    cooldown: 260, //seconds(s)
+    cooldown: 60, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
     clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
@@ -24,20 +24,8 @@ const config = require('../../config.json')
       return message.channel.send(`\\❌ | ${message.author}, guild **${id}** does not exist on your cache`)
     };
 
-      const timestamp = Math.floor(Date.now() / 1000)
-      const embed = new MessageEmbed()
-      .setColor('RED')
-      .setTitle(`Wolfy force leave **${guild.name}** server!`)
-      .setDescription(`• **Developer**: **${message.author.tag}**\n• **Guild**: **${guild.name}**\n• **Reason**: \`${reason.join(' ') || 'Unspecified'}\`\n• <t:${timestamp}>`)
-      const Debug = await client.channels.cache.get(config.debug)
-      const botname = client.user.username;
-        const webhooks = await Debug.fetchWebhooks()
-        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
-        if(!webhook){
-          webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
-        }
-        webhook.send({embeds: [embed]})    
-        .then(() => guild.leave())
+  
+        await guild.leave()
         .then(() => message.channel.send(`\\✔️ Sucessfully left the guild **${guild.name}**`))
         .catch(() => message.channel.send(`\\❗ Could not perform the operation.`));
   }
