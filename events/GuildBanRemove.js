@@ -39,7 +39,7 @@ module.exports = {
 
           const timestamp = Math.floor(Date.now() / 1000)
 
-          if(!unbanLog) {
+          if(!unbanLog || unbanLog.available && target.id != user.id) {
             return;
           } else {
             //Do nothing..

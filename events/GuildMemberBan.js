@@ -40,7 +40,7 @@ module.exports = {
 
           if (!reason) reason = "Not specified";
 
-          if(!banLog || banLog.available && target.id == user.id) {
+          if(!banLog || banLog.available && target.id != user.id) {
             return;
           } else {
             //Do nothing..
