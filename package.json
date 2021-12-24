@@ -1,12 +1,12 @@
 {
   "name": "wolfy-bot",
-  "version": "1.0.0",
+  "version": "2.1.6",
   "main": "index.js",
   "engines": { "node": "16.x" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "WOLF#1045",
+  "author": "WOLF#1000",
   "license": "ISC",
   "description": "",
   "dependencies": {
