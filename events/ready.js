@@ -3,6 +3,7 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 var currentdate = new Date();
 const config = require('../config.json')
+const { version } = require('../../package.json');
 
 module.exports = {
     name: 'ready',
@@ -22,7 +23,7 @@ module.exports = {
         const commands = client.commands.size;
         const boot = currentdate;
         const SlashCommands = client.slashCommands.size;
-        const message = `${icon} \`[ ${client.user.username} ]\` **REBOOT**`;
+        const message = `${icon} \`[ ${version} ]\` **REBOOT**`;
         const embed = {
           color: 'GREY',
           description: [
@@ -36,7 +37,7 @@ module.exports = {
           ].join('\n')
         };
         function randomStatus() {
-            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", "❄️ in snow"]
+            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", "❄️ in snow", "🎄 Merry Christmas", `🤝 Serving ${servers}`]
             let rstatus = Math.floor(Math.random() * status.length);
 
             
