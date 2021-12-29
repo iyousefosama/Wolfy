@@ -33,6 +33,7 @@ module.exports = {
     } else {
       user = message.author;
     };
+    try {
     const activity = member.presence?.activities;
     var status = member.presence?.status;
 
@@ -114,5 +115,8 @@ module.exports = {
     message.channel.send({ embeds: [userEmbed] }).catch(err => {
         message.reply({ content: `\\❌ **${message.member.displayName}**, The command responded with error: ${err.name}`})
     });
+} catch(err) {
+    return message.channel.send(`\\❌ **${message.member.displayName}**, The command responded with error: ${err.name}`)
+}
     }
 }
