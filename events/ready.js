@@ -37,7 +37,7 @@ module.exports = {
           ].join('\n')
         };
         function randomStatus() {
-            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", `📥 Server Count: ${servers}!`, "🥳 In my owner's birthday"]
+            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", `📥 Server Count: ${servers}!`]
             let rstatus = Math.floor(Math.random() * status.length);
 
             
