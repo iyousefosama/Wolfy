@@ -40,14 +40,10 @@ module.exports = {
           // Since we only have 1 audit log entry in this collection, we can simply grab the first one
           const kickLog = fetchedLogs.entries.first();
 
-
-          const { executor, target } = kickLog;
-
-
           const timestamp = Math.floor(Date.now() / 1000)
         
         let RemoveEmbed;
-        if (!kickLog || !kickLog.available && target.id != member.id && kickLog.createdAt < member.joinedAt) {
+        if (!kickLog || !kickLog.available && target.id == member.id && kickLog.createdAt < member.joinedAt) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
           .setTitle('<a:Down:853495989796470815> Member Leave!')
@@ -58,6 +54,9 @@ module.exports = {
         } else {
           // Do no thing...
         }
+
+        const { executor, target } = kickLog;
+
         if(kickLog || kickLog.available && target.id == member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
