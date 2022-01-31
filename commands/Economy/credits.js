@@ -34,13 +34,14 @@ module.exports = {
             }
         } catch(err) {
             console.log(err)
+            message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
         const now = Date.now();
         let credits = data.credits
         let bank = data.Bank.balance.credits
         const dailyUsed = data.timer.daily.timeout !== 0 && data.timer.daily.timeout - Date.now() > 0;
         const bal = new Discord.MessageEmbed()
-        .setAuthor(`${user.user.username}'s wallet`, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: `${user.user.username}'s wallet`, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('GREY')
         .setDescription(`<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(credits)}\`!\n${data.Bank.balance.credits !== null
             ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
@@ -48,7 +49,7 @@ module.exports = {
           }\n\n━━━━━━━━━━━━━━\n${
             dailyUsed ? '<:success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
           }`)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
         message.channel.send({ embeds: [bal]} )
 }

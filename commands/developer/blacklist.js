@@ -36,11 +36,11 @@ module.exports = {
 
     const timestamp = Math.floor(Date.now() / 1000)
     const done = new discord.MessageEmbed()
-    .setAuthor(user.username, user.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
     .setColor(`RED`)
     .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**\n• At: <t:${timestamp}>\n\n\`\`\`${reason.join(' ') || 'Unspecified'}\`\`\``)
     .setTimestamp()
-    .setFooter(`BlackList | \©️${new Date().getFullYear()} WOLFY`)
+    .setFooter({ text: `BlackList | \©️${new Date().getFullYear()} WOLFY` })
 
     let data;
     try {

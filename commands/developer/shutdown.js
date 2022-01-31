@@ -15,8 +15,8 @@ module.exports = {
     var loading = new discord.MessageEmbed()
     .setColor(`YELLOW`)
     .setDescription(`<a:Loading_Color:759734580122484757> Shutting down now...`)
-    var msg = await message.channel.send({ embeds: [loading] })
-  
-    process.exit()
+    await message.channel.send({ embeds: [loading] })
+    .then(() => process.exit())
+    .catch(() => message.channel.send(`\\❗ Could not perform the operation.`));
     }
 }

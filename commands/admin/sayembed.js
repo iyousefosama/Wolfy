@@ -30,12 +30,11 @@ module.exports = {
 
     try {
     const sayembed = new discord.MessageEmbed()
-    .setColor(`${color}`)
-    .setDescription(`${text}`)
+    .setColor(color)
+    .setDescription(text)
     .setTimestamp()
     message.channel.send({ embeds: [sayembed] })
-    if (message.deleted) return;
-   message.delete()
+    message.delete().catch(() => null)
     } catch(err) {
       message.channel.send({ content: `\\❌ **${message.member.displayName}**, There was an error while trying to send the embed!\n \`\`\`js${err}\`\`\``})
     }

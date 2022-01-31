@@ -26,7 +26,7 @@ module.exports = {
     let question = args.slice(1).join(" ");
     
     const eightball = new discord.MessageEmbed()
-  .setAuthor(client.user.username, client.user.displayAvatarURL())
+  .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
   .setTitle("My Answer is!")
   .setColor('#dfb86d')
   .setDescription(`${replies[result]}`)

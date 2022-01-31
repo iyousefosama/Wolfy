@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require('moment');
+const { author } = require('../../package.json');
 
 module.exports = {
     name: "feedback",
@@ -51,14 +52,14 @@ module.exports = {
     const owner = await client.users.fetch('724580315481243668').catch(() => null);
 
     if (!owner){
-      return message.channel.send(`Couldn't contact WOLF#1045!`);
+      return message.channel.send(`Couldn't contact \`${author}\`!`);
     };
 
     if (TimeOutData.feedback > now){
       const embed = new discord.MessageEmbed()
       .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
       .setDescription(`\\❌ **${message.author.tag}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
-      .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+      .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor('RED')
       message.channel.send({ embeds: [embed] })
     } else {
@@ -66,7 +67,7 @@ module.exports = {
       await TimeOutData.save()
       const embed = new discord.MessageEmbed()
       .setColor('ORANGE')
-      .setAuthor(message.author.tag, message.author.displayAvatarURL({ format: 'png', dynamic: true }))
+      .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ format: 'png', dynamic: true }) })
       .setTitle('Re: Feedback/Report')
       .setDescription([
         moment(new Date()).format('dddd, do MMMM YYYY'),

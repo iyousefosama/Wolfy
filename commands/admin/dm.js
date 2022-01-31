@@ -33,7 +33,7 @@ module.exports = {
         ${prefix}dm ${message.author} test
        
         `)
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
   
           return message.channel.send({ embeds: [em] })
 }
@@ -42,13 +42,11 @@ module.exports = {
     if(!dm) return message.reply({ content: "I can't dm an \`empty message\`!"}).then(()=>  message.react("💢")).catch(() => null)
 
     const dmembed = new discord.MessageEmbed()
+      .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
       .setColor('AQUA')
+      .setDescription(`<a:Notification:811283631380234250> **${message.author.username}**: ${dm}`)
       .setTimestamp()
-      .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-      .setDescription(`
-      <a:Notification:811283631380234250> **${message.author.username}**: ${dm}
-      `)
-      .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
+      .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) });
 
     const err = new discord.MessageEmbed()
         .setColor(`RED`)

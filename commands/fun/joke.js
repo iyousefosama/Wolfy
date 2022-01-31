@@ -26,10 +26,10 @@ module.exports = {
     };
 
       const embed = new MessageEmbed()
-      .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+      .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
       .setTimestamp()
       .setColor('738ADB')
-      .setAuthor(`Joke Title: ${data.category} Joke`)
+      .setAuthor({ name: `Joke Title: ${data.category} Joke` })
       .setThumbnail('https://cdn-icons-png.flaticon.com/512/185/185034.png')
       .setDescription(data.type === 'twopart' ? `${data.setup}\n\n||${data.delivery}||` : data.joke)
       message.channel.send({ embeds: [embed]})

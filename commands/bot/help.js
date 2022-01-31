@@ -78,10 +78,10 @@ module.exports = {
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
 	.setURL('https://Wolfy.yoyojoe.repl.co')
-    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .setDescription(`<a:Right:877975111846731847> Type \`${prefix}feedback\` to report a bug`)
-    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setTimestamp()
     .addFields(
         { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}help info\`\`\``, inline: true},
@@ -98,7 +98,7 @@ module.exports = {
     .setColor('738ADB')
     .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
     .setURL('https://Wolfy.yoyojoe.repl.co')
-    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}server`, value: `> \`Shows informations about a server\``},
@@ -107,13 +107,13 @@ module.exports = {
         { name: `${prefix}avatar`, value: `> \`Get a user's avatar.\``},
         { name: `${prefix}savatar`, value: `> \`Get a server's avatar.\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const search = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
     .setURL('https://Wolfy.yoyojoe.repl.co')
-    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}covid`, value: `> \`Shows informations about covid in any country\``},
@@ -123,13 +123,13 @@ module.exports = {
         { name: `${prefix}weather`, value: `> \`Shows the weather status in any country\``},
         { name: `${prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const Utl = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
     .setURL('https://Wolfy.yoyojoe.repl.co')
-    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
@@ -142,12 +142,13 @@ module.exports = {
         { name: `${prefix}delete`, value: `> \`Delete your ticket in the server\``},
         { name: `${prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const moderator = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
     .setURL('https://Wolfy.yoyojoe.repl.co')
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}ban`, value: `> \`Bans a member from the server\``},
@@ -166,17 +167,19 @@ module.exports = {
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
         { name: `${prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
+        { name: `${prefix}timeout`, value: `> \`Timeout the user for temporarily time to not chat or react or connect to voice channels!\``},
         { name: `${prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
-        { name: `${prefix}lockdown`, value: `> \`It lock all channels for @everyone from talking\``},
+        { name: `${prefix}voicekick`, value: `> \`Kick all users that are connected to the current channel\``},
         { name: `${prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const Fun = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
     .setURL('https://Wolfy.yoyojoe.repl.co')
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}8ball`, value: `> \`Ask the 8ball anything and it will answer\``},
@@ -187,13 +190,13 @@ module.exports = {
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const setup = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:MOD:836168687891382312> **Setup Commands**')
     .setURL('https://Wolfy.yoyojoe.repl.co')
-    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}setLogsch`, value: `> \`Setup the logs channel bot will send logs there!\``},
@@ -209,12 +212,13 @@ module.exports = {
         { name: `${prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
         { name: `${prefix}setprefix`, value: `> \`To set the bot prefix to another one!\``},
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const bot = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<:Bot:841711382739157043> **Bot Commands**')
     .setURL('https://Wolfy.yoyojoe.repl.co')
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}stats`, value: `> \`Show bot stats and informations\``},
@@ -224,12 +228,13 @@ module.exports = {
         { name: `${prefix}ping`, value: `> \`Shows the bot ping\``},
         { name: `${prefix}uptime`, value: `> \`Show the bot uptime\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const level = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:Up:853495519455215627> **LeveledRoles Commands**')
     .setURL('https://Wolfy.yoyojoe.repl.co')
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}leveltoggle`, value: `> \`To enable/disable levelRoles cmd\``},
@@ -240,12 +245,13 @@ module.exports = {
         { name: `${prefix}clearxp`, value: `> \`Clear the xp for a user in the server\``},
         { name: `${prefix}remove-role`, value: `> \`Remove a level role from the list\``}
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     const Eco = new discord.MessageEmbed()
     .setColor('738ADB')
     .setTitle('<a:ShinyMoney:877975108038324224> **Economy Commands**')
     .setURL('https://Wolfy.yoyojoe.repl.co')
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setThumbnail(client.user.displayAvatarURL())
     .addFields(
         { name: `${prefix}profile`, value: `> \`Shows your profile card!\``},
@@ -268,8 +274,9 @@ module.exports = {
         { name: `${prefix}buy`, value: `> \`To buy items from the market\``},
         { name: `${prefix}use`, value: `> \`Equips an item from your inventory.\``},
         { name: `${prefix}previewitem`, value: `> \`Check what you can buy from the shop.\``},
+        { name: `${prefix}leaderboard`, value: `> \`Get a list for the 10 richest users that using wolfy\``},
     )
-    .setFooter(client.user.username, client.user.displayAvatarURL())
+    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
     if(EmbedName) {
 

@@ -47,10 +47,10 @@ module.exports = {
 
         let string = '';
         const embed = new MessageEmbed()
-            .setAuthor(`${user.user.username}\'s Warn list!`, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: `${user.user.username}\'s Warn list!`, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
             .setColor('#2F3136')
             .setDescription(string)
-            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
 
         const getWarnedUser = message.guild.members.cache.find(

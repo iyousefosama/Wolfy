@@ -41,7 +41,7 @@ module.exports = {
         memeEmbed.setURL(`${memeURL}`) // gettin the URL of the meme in the embed         
         memeEmbed.setImage(memeImage) // gettin the image in the embed
         memeEmbed.setColor('RANDOM') // getting a random embed color
-        memeEmbed.setFooter(`👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}`)
+        memeEmbed.setFooter({ name: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` })
 
         message.channel.send({ embeds: [memeEmbed] }) // sending the embed
     })

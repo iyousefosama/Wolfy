@@ -65,7 +65,7 @@ module.exports = {
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '84994859419841841'){
-                if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                 button.setDisabled(true)
                 button2.setDisabled(true)
                 button3.setDisabled(true)
@@ -95,7 +95,7 @@ module.exports = {
                 await message.reply({ content: `**${message.author.username}**, Successfully set the embed description!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '8419684198419841'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)
@@ -125,7 +125,7 @@ module.exports = {
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed title!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '984198419841984198'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)
@@ -157,7 +157,7 @@ module.exports = {
                     await message.reply({ content: `**${message.author.username}**, Successfully set the embed color!`, ephemeral: true})
                 }
                 if(interactionCreate.customId === '968419841984198419'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)
@@ -189,7 +189,7 @@ module.exports = {
                     }
                 }
                 if(interactionCreate.customId === '985412985419849845'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)
@@ -221,7 +221,7 @@ module.exports = {
                     }
                 }
                 if(interactionCreate.customId === '65126958498549854'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)
@@ -235,11 +235,12 @@ module.exports = {
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     const FinallEmb = new discord.MessageEmbed()
-                    .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
                     .setColor('#e6a54a')
                     .setDescription(`**${message.author.username}**, What the channel to send the embed for?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
-                    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                     .setTimestamp()
+                    .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})});
+
                     await interactionCreate.reply({ embeds: [FinallEmb], ephemeral: true})
 
                     const filter = msg => msg.author.id == message.author.id;
@@ -282,11 +283,11 @@ module.exports = {
                           msg.edit({embeds: [embed], components: [newrow, newrow2]})
                           Embedchannel.send({ embeds: [embed] })
                           const dnEmbed = new discord.MessageEmbed()
-                          .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                          .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
                           .setColor('DARK_GREEN')
                           .setDescription(`**${message.author.username}**, Successfuly send your embed to ${Embedchannel}`)
-                          .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
                           .setTimestamp()
+                          .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) });
                           message.channel.send({ embeds: [dnEmbed]})
                     } else {
                         message.reply({ content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`, ephemeral: true })
@@ -294,7 +295,7 @@ module.exports = {
                     }
                 }
                 if(interactionCreate.customId === '7848948985418941'){
-                    if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+                    if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     button3.setDisabled(true)

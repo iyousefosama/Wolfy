@@ -58,7 +58,7 @@ module.exports = {
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, You can only give \`350\` cookies for free you should now buy **UltimateCookie Machine**!\nType \`${prefix}buy UltimateCookie\` to buy the item.`)
-        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item && data.cookies.givecookies == 350) return message.channel.send({ embeds: [nulle] })
         let moneyget = Math.floor(Math.random() * 40) + 10

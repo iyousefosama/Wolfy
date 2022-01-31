@@ -64,7 +64,7 @@ module.exports = {
 
 
               const embed = new MessageEmbed()
-              .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+              .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
               .setDescription(`<a:pp989:853496185443319809> **Successfully** deleted ${getRemovedWarnedUser.user.tag} warning!\nWarning${warnedRemoveGrammar} count: \`${warnedRemoveCount}\``)
               .setTimestamp()
               message.channel.send({ embeds: [embed] });

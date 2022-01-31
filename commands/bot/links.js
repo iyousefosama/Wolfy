@@ -18,8 +18,8 @@ module.exports = {
     examples: [''],
     async execute(client, message, args) {
         const embed = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL())
-        .setFooter(message.author.username, message.author.displayAvatarURL())
+        .setAuthor({ name: client.user.username, iconURL: lient.user.displayAvatarURL() })
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL() })
         .setTimestamp()
         .setThumbnail(client.user.displayAvatarURL())
         .setImage(`https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif`)

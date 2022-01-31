@@ -48,10 +48,10 @@ module.exports = {
         return message.channel.send(`\\❌ | ${message.author}, I couldn't kick that user!`)
       };
       const kick = new discord.MessageEmbed()
-      .setAuthor(member.user.tag, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+      .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setDescription([ `<:tag:813830683772059748> Successfully Kicked the user from the server`, !args[0] ? '' :
       ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))
-      .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+      .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
       .setTimestamp()
       return member.kick({ reason: `Wolfy KICK: ${message.author.tag}: ${reason || 'Unspecified'}`})
       .then(_member => message.channel.send({ embeds: [kick]}))

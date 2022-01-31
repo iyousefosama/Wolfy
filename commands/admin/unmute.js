@@ -62,7 +62,7 @@ module.exports = {
        
 // it will send this message once the bot unmuted the member
 const unmute = new discord.MessageEmbed()
-.setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+.setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
 .setDescription(`<:On:841711383284547625> Unmuted the user ${member}!`)
 .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
 .setTimestamp()

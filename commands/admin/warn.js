@@ -81,18 +81,18 @@ module.exports = {
         const warnGrammar = warnCount === 1 ? '' : 's';
         if(warnCount >= 20) return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Maximum warnings number is \`20\`!` })
         const warnEmbed = new MessageEmbed()
-        .setAuthor(user.user.tag, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: user.user.tag, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#e6a54a')
         .setTitle(`⚠️ Warned **${user.user.username}**`)
         .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${message.author.tag}`)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         message.channel.send({ embeds: [warnEmbed] })
         const dmembed = new MessageEmbed()
-        .setAuthor(user.user.tag, user.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: user.user.tag, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#e6a54a')
         .setTitle(`⚠️ Warned **${user.user.username}**`)
         .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${message.author.tag}`)
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         try {
             await user.send({ embeds: [dmembed] })
         } catch(error) {

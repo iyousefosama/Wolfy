@@ -20,7 +20,7 @@ module.exports = {
     async execute(client, message, args) {
     const embed = new MessageEmbed()
     .setColor('738ADB') // will set the color for the embed
-    .setAuthor(client.user.username, client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})) })
     .setTitle(`${client.user.username} Bot's stats`) // make the title for the cmd
     .setURL(`https://Wolfy.yoyojoe.repl.co`)
     .setThumbnail(client.user.displayAvatarURL()) // it will put the bot avatar (pfp) in the embed
@@ -30,7 +30,7 @@ module.exports = {
     <a:pp224:853495450111967253> **Tag:** ${client.user.tag}
     <:pp198:853494893439352842> **ID:** ${client.user.id}
     📆 **Created At:** ${moment(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}
-    <:Developer:841321892060201021> **Developer:** WOLF#1045
+    <:Developer:841321892060201021> **Developer:** ${author}
     <a:LightUp:776670894126006302> [**Bot Website**](https://Wolfy.yoyojoe.repl.co)
     **Version:** \`${version}\`
     ━━━━━━━━━━━━━━━━━━

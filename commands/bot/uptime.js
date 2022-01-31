@@ -18,9 +18,9 @@ module.exports = {
     let time = ms(client.uptime);
     var uptime = new discord.MessageEmbed()
         .setColor(`DARK_GREEN`)
-        .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
-        .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
         var msg = message.channel.send({ embeds: [uptime] })
     }

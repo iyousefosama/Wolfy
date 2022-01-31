@@ -16,47 +16,47 @@ module.exports = {
     const content = args.join(" ")
     const splitt = content.split('');
 
-    const lol = new MessageEmbed()
-    .setAuthor(`${client.user.username}`, `${client.user.displayAvatarURL()}`)
+    const Missed = new MessageEmbed()
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setDescription(":x: Please enter a status type!")
     .setColor(`#131313`)
-    if (!splitt[0]) return message.channel.send({ embeds: [lol] });
+    if (!splitt[0]) return message.channel.send({ embeds: [Missed] });
 
 
         if(content === 'dnd') {
             client.user.setStatus('dnd')
-            const sux = new MessageEmbed()
-                .setAuthor(`${client.user.username}`, `${client.user.displayAvatarURL()}`)
+            const Embed = new MessageEmbed()
+                .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setDescription(":white_check_mark: Status changed to `do not disturb`!")
                 .setColor(`#131313`)
-                message.channel.send({ embeds: [sux] })
+                message.channel.send({ embeds: [Embed] })
         } else {
             if(content === 'online') {
                 client.user.setStatus('online')
-                const sux = new MessageEmbed()
-                .setAuthor(`${client.user.username}`, `${client.user.displayAvatarURL()}`)
+                const Embed = new MessageEmbed()
+                .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setDescription(":white_check_mark: Status changed to `online`!")
                 .setColor(`#131313`)
-                message.channel.send({ embeds: [sux] })
+                message.channel.send({ embeds: [Embed] })
             } else {
                 if(content === 'idle') {
                     client.user.setStatus('idle')
-                    const sux = new MessageEmbed()
-                .setAuthor(`${client.user.username}`, `${client.user.displayAvatarURL()}`)
+                    const Embed = new MessageEmbed()
+                .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
                 .setDescription(":white_check_mark: Status changed to `idle`!")
                 .setColor(`#131313`)
-                message.channel.send({ embeds: [sux] })
+                message.channel.send({ embeds: [Embed] })
                 } else {
                     if(content != ['dnd', 'online', 'idle']) {
-                        const meh = new MessageEmbed()
-                        .setAuthor(`${client.user.username}`, `${client.user.displayAvatarURL()}`)
+                        const Nan = new MessageEmbed()
+                        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
                         .setDescription(`:x: Please enter a **valid** status type!
                         **Options:**
                         dnd (do not disturb)
                         online
                         idle`)
                         .setColor(`#131313`)
-                        return message.channel.send({ embeds: [meh] })
+                        return message.channel.send({ embeds: [Nan] })
                     } 
                 
             }

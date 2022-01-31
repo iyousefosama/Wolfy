@@ -38,7 +38,7 @@ module.exports = {
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, you didn't buy a pickaxe to mine yet!\n\nType \`${prefix}market\` to show the market.`)
-        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item && !item2 && !item3) return message.channel.send({ embeds: [nulle] })
     

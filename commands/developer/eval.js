@@ -53,10 +53,10 @@ module.exports = {
       const embed = new MessageEmbed()
       .setColor(color)
       .addField('\\📥 Input',`\`\`\`js\n${text.truncate(text.clean(code),1000)}\`\`\``)
-      .setFooter([
+      .setFooter({ text: [
         `Type: ${type}`,
         `Evaluated in ${elapsed}ms.`,
-        `Eval | \©️${new Date().getFullYear()}`].join('\u2000•\u2000')
+        `Eval | \©️${new Date().getFullYear()}`]}.join('\u2000•\u2000')
       );
 
       if (output.length > 1000){
@@ -97,10 +97,10 @@ module.exports = {
 
       const errEmbed = new MessageEmbed()
         .setColor('RED')
-        .setFooter([
+        .setFooter({ text: [
           `${err.name}`,
           `Evaluated in ${Math.abs(Date.now() - message.createdTimestamp)}ms.`,
-          `Eval | \©️${new Date().getFullYear()}`].join('\u2000•\u2000'))
+          `Eval | \©️${new Date().getFullYear()}`] }.join('\u2000•\u2000'))
         .addFields([
           { name: '\\📥 Input', value: `\`\`\`js\n${text.truncate(text.clean(args.join(' ')),1000,'\n...')}\`\`\``  },
           { name: '\\📤 Output', value }

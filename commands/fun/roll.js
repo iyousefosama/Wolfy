@@ -26,9 +26,9 @@ module.exports = {
 
     const embed = new discord.MessageEmbed()
     .setColor('#2F3136')
-    .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setDescription(`\`\`\`${text.commatize(Math.round(rand * tail))}\`\`\``)
-    .setFooter(`(0  ❯  ${text.commatize(tail)})`)
+    .setFooter({ text: `(0  ❯  ${text.commatize(tail)})` })
     .setTimestamp()
     return message.reply({ content: `> **${message.author.username}**, Successfully rolled a random number!`, embeds: [embed]})
   }

@@ -15,11 +15,11 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     examples: [''],
     async execute(client, message, args) {
-        var loading = new discord.MessageEmbed()
+        const loading = new discord.MessageEmbed()
         .setColor('GOLD')
         .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
-        var msg = message.channel.send({ embeds: [loading]}).then(msg => { // sends this once you send the cmd
-        const ping = msg.createdTimestamp - message.createdTimestamp; // calculation the time between when u send the message and when the bot reply
+        let msg = message.channel.send({ embeds: [loading]}).then(msg => {
+        const ping = msg.createdTimestamp - message.createdTimestamp;
         let Pong = new discord.MessageEmbed()
         .setColor('YELLOW')
         .setDescription(`Pong!`)

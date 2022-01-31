@@ -43,7 +43,7 @@ module.exports = {
         const row = new MessageActionRow()
         .addComponents(button);
         const Mineinv = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#2F3136')
         .setTitle(`<a:BackPag:776670895371714570> ${message.author.username}\'s mining Inventory!`)
         .addFields(
@@ -62,7 +62,7 @@ module.exports = {
           .setColor('GREY')
           .setTitle(`${message.author.tag}'s Inventory`)
           .setURL('https://wolfy.yoyojoe.repl.co/')
-          .setFooter(`${message.author.tag}'s Inventory | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}`)
+          .setFooter({ text: `${message.author.tag}'s Inventory | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}` })
           .addFields(...chunk.sort((A,B) => A.id - B.id ).map(d => {
             const item = market.find(x => x.id == d.id);
             return {

@@ -32,7 +32,7 @@ module.exports = {
           .setTitle('Wolfy\'s Market')
           .setColor('GREY')
           .setURL('https://wolfy.yoyojoe.repl.co/')
-          .setFooter(`Wolfy\'s Market | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}`)
+          .setFooter({ text: `Wolfy\'s Market | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}` })
           .addFields(...chunk.map(item => {
             return {
               inline: true,

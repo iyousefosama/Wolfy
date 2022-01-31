@@ -37,8 +37,8 @@ module.exports = {
         let unlock = new discord.MessageEmbed()
         .setColor(`GREEN`)
         .setTimestamp()
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-        .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
+        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setDescription([ `<a:pp399:768864799625838604> Unlocked \`everyone\` from texting in ${channel}!`, 
         !args[0] ? '' :
         `\n • **Reason**: \`${reason}\`` ].join(''))

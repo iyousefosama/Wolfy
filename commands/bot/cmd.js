@@ -19,7 +19,7 @@ module.exports = {
     async execute(client, message, [query]) {
         if (!query){
             const embed = new Discord.MessageEmbed()
-            .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
+            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
             .setTitle('<:error:888264104081522698> \`\`\`Unknown Commands\`\`\`')
             .setDescription(`\\❌ **${message.author.username}**, you didn't type the command to get informations about!`)
             message.channel.send({ embeds: [embed] })
@@ -36,7 +36,7 @@ module.exports = {
 
           
           const embed = new Discord.MessageEmbed()
-          .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
+          .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
           .setColor('738ADB')
           .setTitle(`${prefix}${cmd.name}`)
           .setDescription(`\`\`\`${cmd.description}\`\`\`\n`)
@@ -48,7 +48,7 @@ module.exports = {
           .map(a => a.charAt(0) + a.slice(1).toLowerCase()).join(' '))) || 'None'}`, inline: true },
           { name: 'Examples', value: `${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ') || 'None'}`}
           )
-          .setFooter(client.user.username, client.user.displayAvatarURL())
+          .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
           .setTimestamp()
         message.channel.send({ embeds: [embed] })
         };

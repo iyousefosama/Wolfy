@@ -28,7 +28,7 @@ module.exports = {
         ${prefix}dm ${message.author} test
        
         `)
-        .setAuthor(`${message.author.username}`, message.author.user.displayAvatarURL())
+        .setAuthor({ name: message.author.username, iconURL: message.author.user.displayAvatarURL() })
   
           return message.channel.send({ embeds: [em] })
 }
@@ -37,7 +37,7 @@ module.exports = {
     if(!dm) return message.channel.send({ content: "I can't dm an empty message" })
 
     const dmembed = new discord.MessageEmbed()
-      .setAuthor(`${user.user.username}`, user.user.displayAvatarURL({dynamic: true}))
+      .setAuthor({ name: user.user.username, iconURL: user.user.displayAvatarURL({dynamic: true}) })
       .setTitle(`__Hey, ${user.user.username} you have a new message from bot developer__ <a:pp659:853495803967307887>`)
       .setURL('https://Wolfy.yoyojoe.repl.co')
       .setDescription(`${dm}`)

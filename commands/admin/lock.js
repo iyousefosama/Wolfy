@@ -35,8 +35,8 @@ module.exports = {
         let lock = new discord.MessageEmbed()
         .setColor(`RED`)
         .setTimestamp()
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-        .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
+        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setDescription([ `<a:pp802:768864899543466006> Locked \`everyone\` from texting ${channel}!`, 
         !args[0] ? '' :
         `\n • **Reason**: \`${reason}\`` ].join(''))

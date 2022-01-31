@@ -84,7 +84,7 @@ module.exports = {
         const row = new MessageActionRow()
         .addComponents(button, button2);
         const Embed = new discord.MessageEmbed()
-            .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
             .setDescription(`\\❌ **${message.author.tag}**, There is no \`muted\` role in this guild,\n\nWould you like to generate one?`)
             .setColor('RED')
@@ -117,9 +117,9 @@ module.exports = {
                 try {
                     member.roles.add(mutedRole)
                     const muteAdded = new discord.MessageEmbed()
-                    .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
-                    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setFooter({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setTimestamp()
                     message.channel.send({ embeds: [muteAdded] });
                 } catch (err) {
@@ -153,9 +153,9 @@ module.exports = {
             if(mutedRole) {
             member.roles.add(mutedRole).catch(() => message.reply({ content: `\\❌ **${message.author.tag}**, I can\'t add \`mutedRole\` to the user, please check that my role is higher!`}))
             const mute = new discord.MessageEmbed()
-            .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
             .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
-            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
             message.channel.send({ embeds: [mute] })
             } 
