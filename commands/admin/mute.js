@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const config = require('../../config.json');
 const schema = require('../../schema/Mute-Schema')
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     name: "mute",
