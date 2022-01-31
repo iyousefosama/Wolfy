@@ -38,8 +38,8 @@ module.exports = {
         }
 
         const usererr = new discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setDescription('<a:pp802:768864899543466006> Please mention the user to clearXp')
         .setColor("RED")
         .setTimestamp()
@@ -54,8 +54,8 @@ module.exports = {
         if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
         Levels.deleteUser(user.id || user, message.guild.id);
         const dn = new discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+        .setFooter({ text: message.guild.name, iconURl: message.guild.iconURL({dynamic: true}) })
         .setDescription(`<a:Correct:812104211386728498> Done, i cleared **xp** for ${user}!`)
         .setColor('DARK_GREEN')
         .setTimestamp()

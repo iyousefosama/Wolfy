@@ -45,7 +45,7 @@ module.exports = {
               '<a:Correct:812104211386728498>\u2000|\u2000',
               `Select menu roles Feature has been successfully **${state}**!\n\n`,
               `To **${!data.Mod.smroles.isEnabled ? 're-enable' : 'disable'}** this`,
-              `feature, use the \`${prefix}badwordstoggle\` command.`
+              `feature, use the \`${prefix}smroletoggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
           }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));

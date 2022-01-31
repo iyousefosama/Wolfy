@@ -36,7 +36,7 @@ module.exports = {
     
             // Executing
             const dnEmbed = new discord.MessageEmbed()
-              .setAuthor('| Reminder Set!', message.author.displayAvatarURL())
+              .setAuthor({ name: '| Reminder Set!', iconURL: message.author.displayAvatarURL() })
               .setDescription(`Successfully Set \`${message.author.tag}'s\` reminder!`)
               .addField('❯ Remind You In:', `${time}`)
               .addField('❯ Remind Reason', `${reason}`)
@@ -47,11 +47,11 @@ module.exports = {
     
             setTimeout(async function () {
               const reminderEmbed = new discord.MessageEmbed()
-                .setAuthor('Reminder Alert!', message.author.displayAvatarURL())
+                .setAuthor({ name: 'Reminder Alert!', iconURL: message.author.displayAvatarURL() })
                 .setColor('DARK_GREEN')
                 .addField('❯ Remind Reason', `${reason}`)
                 .setTimestamp()
-                .setFooter('Successfully Reminded!', client.user.displayAvatarURL())
+                .setFooter({ text: 'Successfully Reminded!', iconURL: client.user.displayAvatarURL() })
             try {
                 await message.author.send({ embeds: [reminderEmbed] })
             } catch (error) {

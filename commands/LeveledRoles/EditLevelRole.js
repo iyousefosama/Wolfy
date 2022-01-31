@@ -36,14 +36,14 @@ module.exports = {
         }
 
     const provideID = new Discord.MessageEmbed()
-    .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-    .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+    .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setDescription('<a:Nnno:853494186002481182> You need to provide a \`roleID\`!')
     .setColor('RED')
     .setTimestamp()
     const provide = new Discord.MessageEmbed()
-    .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-    .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+    .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setTitle('You need to provide a number.')
     .setDescription('<a:Nnno:853494186002481182> This will change the \`Level Number\`!')
     .setColor('RED')

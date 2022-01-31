@@ -22,9 +22,8 @@ module.exports = {
         .setColor('RED')
         .setAuthor('Tickets', message.guild.iconURL({ dynamic: true }))
         .setDescription([
-        `React with 📩 to create your ticket!`,
-        text ? `\n\n${text}` :
-        `` ].join(' '))
+        text ? text :
+        `React with 📩 to create your ticket!` ].join(' '))
         .setFooter(`Ticket Panel | \©️${new Date().getFullYear()} Wolfy`, client.user.avatarURL({dynamic: true}))
         .setTimestamp()
         const button = new MessageButton()

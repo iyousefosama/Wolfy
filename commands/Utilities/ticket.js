@@ -86,7 +86,7 @@ module.exports = {
     }).then(async (channel) => {
                     message.react('758141943833690202').catch(() => message.channel.send(`<:Verify:841711383191879690> Successfully created ${channel} ticket!`))
                     var ticketEmbed = new discord.MessageEmbed()
-                    .setAuthor(`Welcome in your ticket ${message.author.tag}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setAuthor({ name: `Welcome in your ticket ${message.author.tag}`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:tag:813830683772059748> Send here your message or question!
                     
                     > <:Humans:853495153280155668> User: ${message.author}

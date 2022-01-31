@@ -14,12 +14,12 @@ const verificationLevels = {
 
 // setting all the regions so it looks nice
 const regions = {
-    brazil: 'Brazil',
-    europe: 'Europe',
+    brazil: '🇧:regional_indicator_r: Brazil',
+    europe: '🏰 Europe',
     hongkong: 'Hong Kong',
     india: 'India',
-    japan: 'Japan',
-    russia: 'Russia',
+    japan: '🇯:regional_indicator_p: Japan',
+    russia: '🇷:regional_indicator_u: Russia',
     singapore: 'Singapore',
     southafrica: 'South Africa',
     sydeny: 'Sydeny',

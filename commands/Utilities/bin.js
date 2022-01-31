@@ -19,10 +19,6 @@ module.exports = {
       ],
     async execute(client, message, args) {
         let content = args.join(' ');
-        const nocontent = new Discord.MessageEmbed()
-        .setTitle(`<a:Wrong:812104211361693696> Error Usage!`)
-        .setDescription(`Usage: ${client.prefix}sourcebin <code>`)
-        if (!content) return message.channel.send({ embeds: [nocontent] })
 
         message.channel.sendTyping()
         const value = await sb.create([
@@ -33,12 +29,12 @@ module.exports = {
             }
         ]);
         const embed = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
         .setTitle('We uploaded your code on sourcebin')
         .setDescription(`<a:iNFO:853495450111967253> Click the button to go there!`)
         .setColor('RED')
         .setTimestamp()
-        .setFooter(client.user.username, client.user.displayAvatarURL())
+        .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
         const row = new MessageActionRow()
         .addComponents(
             new MessageButton()

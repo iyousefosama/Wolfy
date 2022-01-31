@@ -39,12 +39,12 @@ module.exports = {
     if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this user!`})
 
     const embed = new MessageEmbed()
-    .setAuthor(message.author.tag, message.author.displayAvatarURL())
+    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
     .setColor(color)
     .setDescription(`[**${user.tag}** avatar link](${avatar})`)
     .setURL(avatar)
     .setImage(avatar)
-    .setFooter('Avatar')
+    .setFooter({ text: 'Avatar' })
     .setTimestamp()
     message.channel.send({ embeds: [embed]})
   }

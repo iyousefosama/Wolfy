@@ -32,11 +32,11 @@ module.exports = {
 
     let avatarserver = new discord.MessageEmbed()
     .setColor(color)
-    .setAuthor(guild.name, avatar)
+    .setAuthor({ name: guild.name, iconURL: avatar })
     .setDescription(`[**${guild.name}** avatar link](${avatar})`)
     .setURL(avatar)
     .setImage (avatar)
-    .setFooter(message.author.tag + ` | \©️${new Date().getFullYear()} Wolfy`, message.author.avatarURL({dynamic: true}))
+    .setFooter({ text: message.author.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: message.author.avatarURL({dynamic: true}) })
     .setTimestamp()
     message.channel.send({ embeds: [avatarserver] })
     }

@@ -36,14 +36,14 @@ module.exports = {
         if (data.lyrics.length < 2000){
             const LowLy = new discord.MessageEmbed()
             .setThumbnail(data.thumbnail.genius)
-            .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+            .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
             .setColor('GREY')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
                 { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
             )
             .setDescription(data.lyrics)
-            .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
             return message.channel.send({ embeds: [LowLy]})
         } else {
@@ -65,7 +65,7 @@ module.exports = {
             lyrics_subarray.map((x,i) =>
               new MessageEmbed()
             .setThumbnail(data.thumbnail.genius)
-            .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+            .setAuthor({ name: `${data.title}\n${data.author}`, icoonURL: null, url: data.links.genius })
             .setColor('GREY')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
@@ -124,10 +124,10 @@ module.exports = {
     const filter = msg => msg.author.id == message.author.id;
 
     let singerEmb = new discord.MessageEmbed()
-    .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setColor(`#d6a565`)
     .setDescription(`<a:Loading:841321898302373909> | Please send the **artist** name!`)
-    .setFooter(`1/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setFooter({ text: `1/2 | type "cancel" to cancel the command`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     message.channel.send({ embeds: [singerEmb] })
     let col = await message.channel.awaitMessages({ filter, max: 1})
     if(col.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
@@ -136,9 +136,9 @@ module.exports = {
 
     let songEmb = new discord.MessageEmbed()
     .setColor(`#98ff98`)
-    .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setDescription(`<a:Loading:841321898302373909> | Please send the **song** name!`)
-    .setFooter(`2/2 | type "cancel" to cancel the command`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setFooter({ text: `2/2 | type "cancel" to cancel the command`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     message.channel.send({ embeds: [songEmb]})
     let col2 = await message.channel.awaitMessages({ filter, max: 1 })
     if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
@@ -178,14 +178,14 @@ module.exports = {
         let lyrics = res.substring(i, Math.min(res.length, i + 2048))
         let page = new discord.MessageEmbed()
         .setThumbnail(data.thumbnail.genius)
-        .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
+        .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
         .setColor('GREY')
         .addFields(
             { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
         pages.push(page)
     }

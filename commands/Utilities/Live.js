@@ -40,7 +40,7 @@ module.exports = {
     .then(invite => {
         if(!invite.code) return message.channel.send({ content: "<a:pp802:768864899543466006> I can't start youtube together without invite code!" })
         const done = new discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle("<:pp493:836169029085298698> Youtuber together!")
         .setColor(`RED`)
         .setThumbnail(`https://cdn.discordapp.com/attachments/830926767728492565/844596072473952316/395_Youtube_logo-512.png`)
@@ -48,7 +48,7 @@ module.exports = {
         .addFields(
             { name: `<:pp499:836168214525509653> Channel:`, value: `<#${channel.id}>`},
         )
-        .setFooter(`${message.guild.name}`, message.guild.iconURL({dynamic: true}))
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         const row = new MessageActionRow()
         .addComponents(

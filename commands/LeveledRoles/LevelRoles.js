@@ -42,8 +42,8 @@ module.exports = {
     })
     if(!Guild_Check) {
         const No_Roles = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTitle('<a:pp681:774089750373597185> There are no Level Roles yet!')
         .setColor("RED")
         .setTimestamp()
@@ -67,8 +67,8 @@ module.exports = {
     })
 
     const Success = new Discord.MessageEmbed()
-    .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-    .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
+    .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setDescription(`<a:Bagopen:877975110806540379> \`${message.guild.name}\` Leveled Roles List!\n\n`)
     .setImage('https://cdn.discordapp.com/attachments/830926767728492565/882338457832263700/Pngtreebusiness_office_meeting_illustration_4116108.jpg')
     .addFields(
