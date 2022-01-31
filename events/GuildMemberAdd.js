@@ -1,16 +1,22 @@
 const Discord = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
+const MuteSchema = require('.././schema/Mute-Schema')
 
 module.exports = {
     name: 'guildMemberAdd',
     async execute(client, member) {
 
         let data;
+        let mutedata;
         try{
             data = await schema.findOne({
                 GuildID: member.guild.id
             })
+            mutedata = await MuteSchema.findOne({
+              guildId: member.guild.id,
+              userId: member.id
+          })
             if(!data) return;
         } catch(err) {
             console.log(err)
@@ -27,6 +33,11 @@ module.exports = {
         } else {
           // Do nothing..
         };
+
+        if(mutedata?.Muted == true) {
+          let mutedRole = member.guild.roles?.cache.find(roles => roles.name === "Muted")
+          member.roles.add(mutedRole, `Wolfy AUTOMUTE`).catch(() => null)
+        }
         
         const Add = new Discord.MessageEmbed()
         .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
