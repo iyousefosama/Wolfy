@@ -52,21 +52,18 @@ module.exports = {
           .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
           .setTimestamp() 
         } else {
-          // Do no thing...
-        }
-
-        const { executor, target } = kickLog;
-
-        if(kickLog || kickLog.available && target.id == member.id) {
+          const { executor, target } = kickLog;
+          if(kickLog || kickLog.available && target.id == member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
           .setTitle('<a:Mod:853496185443319809> Member Kicked!')
           .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag} (\`${member.user.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`)`)
           .setColor('#e6a54a')
           .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
-          .setTimestamp() 
-        } else {
-          // Do no thing...
+          .setTimestamp()
+          } else {
+            return;
+          }
         }
         
         const botname = client.user.username;
