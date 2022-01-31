@@ -26,7 +26,7 @@ module.exports = {
           return;
         } else if (!data.greeter.leaving.isEnabled){
           return;
-        } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR") || !Channel.guild.me.permissions.has("EMBED_LINKS")) {
+        } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
           return;
         } else {
           // Do nothing..
@@ -42,7 +42,7 @@ module.exports = {
             .setURL('https://Wolfy.yoyojoe.repl.co')
             .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
             .setDescription(`**GoodBye ${member}**, sorry to see you go!\n\n<a:pp833:853495989796470815> We are back to \`${member.guild.memberCount}\` members!`)
-            .setFooter(`${member.user.username} (${member.user.id})`)
+            .setFooter({ text: `${member.user.username} (${member.user.id})` })
             .setTimestamp()
             return client.channels.cache.get(data.greeter.leaving.channel).send({ embeds: [embed] });
         };
@@ -62,7 +62,7 @@ module.exports = {
           .setURL('https://Wolfy.yoyojoe.repl.co')
           .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
           .setDescription(message)
-          .setFooter(`${member.user.username} (${member.user.id})`)
+          .setFooter({ text: `${member.user.username} (${member.user.id})` })
           .setTimestamp()
           return client.channels.cache.get(data.greeter.leaving.channel).send({ embeds: [embed]});
        };

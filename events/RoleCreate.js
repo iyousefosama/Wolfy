@@ -24,7 +24,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -46,11 +46,11 @@ module.exports = {
         }
 
             const RoleCreated = new Discord.MessageEmbed()
-            .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Up:853495519455215627> Role Created!')
             .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
             .setColor('#2F3136')
-            .setFooter(role.guild.name, role.guild.iconURL({dynamic: true}))
+            .setFooter({ text: role.guild.name, iconURL: role.guild.iconURL({dynamic: true}) })
             .setTimestamp()
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()

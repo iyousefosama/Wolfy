@@ -76,7 +76,7 @@ module.exports = {
     }).then(async (channel) => {
                     interaction.reply({ content: `<:Verify:841711383191879690> Successfully created ${channel} ticket!`, ephemeral: true})
                     var ticketEmbed = new Discord.MessageEmbed()
-                    .setAuthor(`Welcome in your ticket ${interaction.user.tag}`, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
+                    .setAuthor({ name: `Welcome in your ticket ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:tag:813830683772059748> Send here your message or question!
                     
                     > <:Humans:853495153280155668> User: ${interaction.user}

@@ -42,9 +42,9 @@ module.exports = {
             const User = await Levels.fetch(message.author.id, message.guild.id);
     
             const LevelUp = new Discord.MessageEmbed()
-            .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
             .setDescription(`${message.author}, You have leveled up to level **${User.level}!** <a:pp330:853495519455215627>`)
-            .setColor("DARK_GREEN")
+            .setColor('DARK_GREEN')
             .setTimestamp()
             message.channel.send({ embeds: [LevelUp] }).then(msg => {
     setTimeout(() => {

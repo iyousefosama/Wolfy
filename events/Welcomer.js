@@ -26,7 +26,7 @@ module.exports = {
           return;
         } else if (!data.greeter.welcome.isEnabled){
           return;
-        } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR") || !Channel.guild.me.permissions.has("EMBED_LINKS")) {
+        } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
           return;
         } else {
           // Do nothing..
@@ -42,7 +42,7 @@ module.exports = {
             .setURL('https://Wolfy.yoyojoe.repl.co')
             .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
             .setDescription(`Hello ${member}, welcome to **${member.guild.name}**!\n\nYou are our **${string.ordinalize(member.guild.memberCount)}** member!`)
-            .setFooter(`${member.user.username} (${member.user.id})`)
+            .setFooter({ text: `${member.user.username} (${member.user.id})` })
             .setTimestamp()
             return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, embeds: [embed] });
         };
@@ -62,7 +62,7 @@ module.exports = {
           .setURL('https://Wolfy.yoyojoe.repl.co')
           .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
           .setDescription(message)
-          .setFooter(`${member.user.username} (${member.user.id})`)
+          .setFooter({ text: `${member.user.username} (${member.user.id})` })
           .setTimestamp()
           return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, embeds: [embed]});
        };

@@ -10,8 +10,8 @@ module.exports = {
 	async execute(client, interaction) {
 		await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const embed = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL())
-        .setFooter(interaction.user.username, interaction.user.displayAvatarURL())
+        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
         .setTimestamp()
         .setThumbnail(client.user.displayAvatarURL())
         .setImage(`https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif`)

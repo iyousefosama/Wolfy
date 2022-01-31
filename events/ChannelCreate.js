@@ -24,7 +24,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -56,11 +56,11 @@ module.exports = {
         }
 
             const ChannelDeleted = new Discord.MessageEmbed()
-            .setAuthor(executor.username, executor.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Up:853495519455215627> Channel Created!')
             .setDescription(`<a:iNFO:853495450111967253> **Channel Name:** ${channel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${channel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[channel.type]}\`\`\``)
             .setColor('#2F3136')
-            .setFooter(channel.guild.name, channel.guild.iconURL({dynamic: true}))
+            .setFooter({ text: channel.guild.name, iconURL: channel.guild.iconURL({dynamic: true}) })
             .setTimestamp()
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()

@@ -22,18 +22,18 @@ module.exports = {
           return;
         } else if (!data.Mod.Logs.isEnabled){
           return;
-        } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+        } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
           return;
         } else {
           // Do nothing..
         };
         
         const Add = new Discord.MessageEmbed()
-        .setAuthor(member.user.username, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:Up:853495519455215627> Member Join!')
         .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag}\n<:pp198:853494893439352842> **MemberID:** \`${member.user.id}\`\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')}`)
         .setColor('GREEN')
-        .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
+        .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()

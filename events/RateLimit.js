@@ -7,11 +7,16 @@ module.exports = {
       if (!info){
         return;
       };
+      if(!config.debug || !config.debug2) {
+        return;
+      } else {
+        // Do nothing..
+      }
       const ratelimit = new Discord.MessageEmbed()
-      .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+      .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor('RED')
       .setDescription(`\`\`\`js\nRate limit hit ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}\`\`\``)
-      .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true}))
+      .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true}) })
       .setTimestamp()
       const Debug = await client.channels.cache.get(config.debug)
       const botname = client.user.username;

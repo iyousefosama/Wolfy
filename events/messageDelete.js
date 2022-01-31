@@ -26,7 +26,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -34,11 +34,11 @@ module.exports = {
 
         const timestamp = Math.floor(Date.now() / 1000)
         const DeletedLog = new Discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle(`<a:Down:853495989796470815> Deleted Message`)
         .setDescription(`<a:iNFO:853495450111967253>  **Member**: \`${message.author.tag}\` (${message.author.id})\n<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${message.content || '❌ | Unkown message!'}\n\`\`\``)
         .setColor('RED')
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;

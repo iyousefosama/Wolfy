@@ -58,7 +58,7 @@ module.exports = {
 
         const embed = new discord.MessageEmbed()
             .setColor(0x101D2F)
-            .setAuthor('Steam', 'https://i.imgur.com/xxr2UBZ.png', 'http://store.steampowered.com/')
+            .setAuthor({ name: 'Steam', iconURL: 'https://i.imgur.com/xxr2UBZ.png', url: 'http://store.steampowered.com/' })
             .setTitle(data.name)
             .setURL(`http://store.steampowered.com/app/${data.steam_appid}`)
             .setImage(tiny_image)
@@ -75,7 +75,7 @@ module.exports = {
             { name: '\u200b', value: text.truncate(decode(data.detailed_description.replace(/(<([^>]+)>)/ig,' ')),980)},
             { name: '❯\u2000Supported Languages', value: `•\u2000${text.truncate(html2md(data.supported_languages))}`},
             ])
-            .setFooter(`Steam @ Steam.Inc©`)
+            .setFooter({ text: `Steam @ Steam.Inc©` })
             .setTimestamp()
         return interaction.editReply({ embeds: [embed] })
     })();

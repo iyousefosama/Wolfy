@@ -80,11 +80,11 @@ module.exports = {
 
 				interaction.reply({ content: `\\✔️ Successfully warned **${user.tag}**, They now have \`${warnCount}\` warning${warnGrammar}` });
                 const dmembed = new MessageEmbed()
-                .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setColor('#e6a54a')
                 .setTitle(`⚠️ Warned **${interaction.user.username}**`)
                 .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${interaction.user.tag}`)
-                .setFooter(interaction.guild.name, interaction.guild.iconURL({dynamic: true}))
+                .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({dynamic: true}) })
                 try {
                     await user.send({ embeds: [dmembed] })
                 } catch(error) {
@@ -103,10 +103,10 @@ module.exports = {
 
 				let string = '';
 				const embed = new MessageEmbed()
-                .setAuthor(`${interaction.user.username}\'s Warn list!`, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
+                .setAuthor({ name: `${interaction.user.username}\'s Warn list!`, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setColor('#2F3136')
                 .setDescription(string)
-                .setFooter(interaction.user.tag, interaction.user.displayAvatarURL({dynamic: true, size: 2048}))
+                .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setTimestamp()
 
 				const getWarnedUser = interaction.guild.members.cache.find(

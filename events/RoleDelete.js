@@ -26,18 +26,18 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
           };
 
             const RoleDeleted = new Discord.MessageEmbed()
-            .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Down:853495989796470815> Role Deleted!')
             .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n<a:Right:877975111846731847> **Role Color:** ${role.color}`)
             .setColor(role.color || '#2F3136')
-            .setFooter(role.guild.name, role.guild.iconURL({dynamic: true}))
+            .setFooter({ text: role.guild.name, iconURL: role.guild.iconURL({dynamic: true}) })
             .setTimestamp()
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()

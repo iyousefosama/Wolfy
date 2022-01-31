@@ -23,7 +23,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("SEND_MESSAGES") || !Channel.guild.me.permissions.has("ADMINISTRATOR")) {
+          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -57,11 +57,11 @@ module.exports = {
 
         if (kickLog && target.id == user.id) return;
         const Ban = new Discord.MessageEmbed()
-        .setAuthor(target.username, target.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: target.username, iconURL: target.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:Mod:853496185443319809> Member ban!')
         .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
         .setColor('#e6a54a')
-        .setFooter(user.guild.name, user.guild.iconURL({dynamic: true}))
+        .setFooter({ text: user.guild.name, iconURL: user.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()

@@ -14,7 +14,7 @@ module.exports = {
         if (message.channel.type === 'DM') {
         const timestamp = Math.floor(Date.now() / 1000)
         const dmEmbed = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:pp659:853495803967307887> New DM')
         .setColor("738ADB")
         .setTimestamp()

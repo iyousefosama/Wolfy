@@ -31,9 +31,15 @@ const ecoSchema = mongoose.Schema({
       birthday: {type: String, default: null},
       inventory: {type: Array, default: []}
     },
+
     tips: {
       given: {type: Number, default: 0},
       received: {type: Number, default: 0},
+      timestamp: {type: Number, default: 0}
+    },
+
+    mails: {
+      received: {type: [Object], default: null},
       timestamp: {type: Number, default: 0}
     },
 

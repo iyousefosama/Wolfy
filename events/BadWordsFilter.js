@@ -69,18 +69,18 @@ module.exports = {
               }
               
               const warnEmbed = new MessageEmbed()
-              .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+              .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
               .setColor('#e6a54a')
               .setTitle(`⚠️ Warned **${message.author.username}**`)
               .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-              .setFooter(client.user.tag, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+              .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
               message.channel.send({ embeds: [warnEmbed] })
               const dmembed = new MessageEmbed()
-              .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+              .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
               .setColor('#e6a54a')
               .setTitle(`⚠️ Warned **${message.author.username}**`)
               .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-              .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
+              .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 try {
                   await user.send({ embeds: [dmembed] })
               } catch(error) {

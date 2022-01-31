@@ -23,6 +23,7 @@ module.exports = {
               })
           } catch(err) {
               console.log(err)
+              message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
           }
           const serverprefix = data?.prefix || 'Not set'
     
@@ -65,6 +66,7 @@ module.exports = {
                       })
                   } catch (error) {
                       console.log(error)
+                      message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
                   }
                   if(UserData?.Status.Blacklisted.current == true) return message.channel.send({ content: `\`\`\`diff\n- You are blacklisted from using the bot!\n\n+ Reason: ${UserData.Status.Blacklisted.reason}\`\`\``})
   
