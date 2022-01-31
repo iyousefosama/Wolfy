@@ -11,7 +11,7 @@ I don't know how did you get to here but it's okay..
 *Wolfy* Is always online and here for you with very good ping
 
 # Other:
-- *Wolfy* Is `developed` by only one developer**(WOLF)**
+- *Wolfy* Is `developed` by only one developer*(WOLF)*
 - *Wolfy* Database and informations(Token, etc..) is very secured and i am not responsiple about(Leaks, raids, etc..) any bad actions happened from server members or from discord!
 - *Wolfy* Is on `github` and hosted by `heroku` and connected by `mongo` database!
 
