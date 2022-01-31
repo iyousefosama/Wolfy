@@ -50,7 +50,7 @@ module.exports = {
           GUILD_PRIVATE_THREAD: "Private Thread",
           GUILD_STAGE_VOICE: "Stage Voice"
       }
-        if(!channelLog || channelLog.available && id != oldChannel.id && !executor) {
+        if(!channelLog || !channelLog.available && id != oldChannel.id) {
           return;
         } else {
           //Do nothing..
