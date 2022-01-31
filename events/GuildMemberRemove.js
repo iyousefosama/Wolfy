@@ -42,6 +42,7 @@ module.exports = {
 
           const timestamp = Math.floor(Date.now() / 1000)
         
+        let target;
         let RemoveEmbed;
         if (!kickLog || !kickLog.available && target.id == member.id && kickLog.createdAt < member.joinedAt) {
           RemoveEmbed = new Discord.MessageEmbed()
