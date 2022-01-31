@@ -40,7 +40,11 @@ module.exports = {
           // Since we only have 1 audit log entry in this collection, we can simply grab the first one
           const kickLog = fetchedLogs.entries.first();
 
-          const { executor, target } = kickLog;
+          if(kickLog || kickLog.available) {
+            const { executor, target } = kickLog;
+          } else {
+            
+          }
 
           const timestamp = Math.floor(Date.now() / 1000)
         
@@ -59,7 +63,7 @@ module.exports = {
           .setTitle('<a:Down:853495989796470815> Member Leave!')
           .setDescription(`<a:iNFO:853495450111967253> **MemberTag:** ${member.user.tag}\n<:pp198:853494893439352842> **MemberID:** \`${member.user.id}\`\n<a:Right:877975111846731847> **Created At:** ${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} (\`${moment.utc(member.user.createdAt).fromNow()}\`)\n<a:Right:877975111846731847> **Joined At:** ${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} (\`${moment(member.joinedAt).fromNow()}\`)`)
           .setColor('#2F3136')
-          .setFooter(member.guild.name, member.guild.iconURL({dynamic: true}))
+          .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
           .setTimestamp() 
         } else {
           // Do no thing...
