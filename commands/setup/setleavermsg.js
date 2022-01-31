@@ -17,12 +17,12 @@ module.exports = {
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
     examples: [
-      'msg {member} has just leaved {guildName} server!',
-      'embed Member leaved, Member: {member} JoinedAt: {joinedAt} MembersCount: {memberCount}'
+      'msg {tag} has just leaved {guildName} server!',
+      'embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'
     ],
     async execute(client, message, [stats = '', ...args]) {
 
-      let text = args.slice(1).join(" ")
+      let text = args.slice(0).join(" ")
 
         let data;
         try{

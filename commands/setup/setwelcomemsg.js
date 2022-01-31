@@ -17,12 +17,12 @@ module.exports = {
     guarded: false, //or false
     permissions: ["ADMINISTRATOR"],
     examples: [
-      'msg {member} has joined {guildName} server!',
-      'embed Member joined, Member: {member} JoinedAt: {joinedAt} MembersCount: {memberCount}'
+      'msg {tag} has joined {guildName} server!',
+      'embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'
     ],
     async execute(client, message, [stats = '', ...args]) {
 
-      let text = args.slice(1).join(" ")
+      let text = args.slice(0).join(" ")
 
         let data;
         try{
@@ -75,7 +75,6 @@ module.exports = {
         await data.save()
         message.channel.send(`\\✔️ **${message.author.tag}**, Successfully set welcome msg to **default**.`)
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
-        message.channel.send({ content: `set the new message to: ${text}`})
       } else if (stats === 'test') {
         message.react('758141943833690202').catch(() => message.channel.send('<:Verify:841711383191879690> Successfully send the test welcome msg!'))
         return client.emit('guildMemberAdd', message.member);
