@@ -1,7 +1,6 @@
 const discord = require('discord.js');
-const config = require('../../config.json')
-const { MessageActionRow, MessageButton } = require('discord.js');
-const moment = require("moment");
+const config = require('../../config.json');
+const schema = require('../../schema/Mute-Schema')
 
 module.exports = {
     name: "mute",
@@ -24,6 +23,7 @@ module.exports = {
 
     const owner = await message.guild.fetchOwner()
     const author = message.author
+    let reason = args.slice(0).join(" ")
 
     if (!member.match(/\d{17,19}/)){
         return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to mute.`);
@@ -33,40 +33,35 @@ module.exports = {
       .fetch(member.match(/\d{17,19}/)[0])
       .catch(() => null);
 
-/////////////////////////////////////////////// Errors /////////////////////////////////////////////
-    const Err1 = new discord.MessageEmbed()
-    .setTitle('Muting Error!')
-    .setDescription('<a:pp802:768864899543466006> Please mention a user!')
-    .setColor('RED')
-    const Err2 = new discord.MessageEmbed()
-    .setTitle('Muting Error!')
-    .setDescription('<a:pp802:768864899543466006> You can\'t mute me!')
-    .setColor('RED')
-    const Err3 = new discord.MessageEmbed()
-    .setTitle('Muting Error!')
-    .setDescription('<a:pp802:768864899543466006> You can\'t mute yourself!')
-    .setColor('RED')
-    const Err4 = new discord.MessageEmbed()
-    .setTitle('Muting Error!')
-    .setDescription('<a:pp802:768864899543466006> User could not be muted!')
-    .setColor('RED')
-    const Err5 = new discord.MessageEmbed()
-    .setTitle('Muting Error!')
-    .setDescription('<a:pp802:768864899543466006> User is already muted!')
-    .setColor('RED')
-///////////////////////////////////////////////// Errors /////////////////////////////////////////////////
-    if (!member) return message.reply({ embeds: [Err1] })
-    if (member.id === client.user.id) return message.reply({ embeds: [Err2] })
-    if (member.id === message.author.id) return message.reply({ embeds: [Err3] })
-    if (message.member.roles.highest.position <= member.roles.highest.position) return message.reply({ embeds: [Err4] })
-    if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted')) return message.channel.send({ embeds: [Err5] })
+      let data;
+      try{
+          data = await schema.findOne({
+              guildId: message.guild.id,
+              userId: member.id
+          })
+          if(!data) {
+              data = await schema.create({
+                  guildId: message.guild.id,
+                  userId: member.id
+              })  
+          }
+      } catch(err) {
+          console.log(err)
+          message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+      }
+
+
+    if (!member) return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
+    if (member.id === client.user.id) return message.channel.send(`\\❌ | ${message.author}, You can't mute me!`);
+    if (member.id === message.author.id) return message.channel.send(`\\❌ | ${message.author}, You can't mute yourself!`);
+    if (message.member.roles.highest.position <= member.roles.highest.position) return message.channel.send(`\\❌ | ${message.author}, User could not be muted!`);
+    if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted == true) return message.channel.send(`\\❌ | ${message.author}, User is already muted!`);
     if (member.id === config.developer){
       return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't mute my developers through me!`})
     };
     if (member.id === message.guild.ownerId){
-        return message.channel.send(`\\❌ | ${message.author}, You cannot ban a server owner!`)
+        return message.channel.send(`\\❌ | ${message.author}, You cannot mute a server owner!`)
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let mutedRole = message.guild.roles.cache.find(roles => roles.name === "Muted")
     // If bot didn't find Muted role in the server
@@ -151,13 +146,18 @@ module.exports = {
     } else {
         try {
             if(mutedRole) {
-            member.roles.add(mutedRole).catch(() => message.reply({ content: `\\❌ **${message.author.tag}**, I can\'t add \`mutedRole\` to the user, please check that my role is higher!`}))
-            const mute = new discord.MessageEmbed()
-            .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
-            .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
-            .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-            .setTimestamp()
-            message.channel.send({ embeds: [mute] })
+            member.roles.add(mutedRole, `Wolfy MUTE: ${message.author.tag}: ${reason || 'Unspecified'}`).catch(() => message.reply({ content: `\\❌ **${message.author.tag}**, I can\'t add \`mutedRole\` to the user, please check that my role is higher!`}))
+            data.Muted = true
+            await data.save()
+            .then(() => {
+                const mute = new discord.MessageEmbed()
+                .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
+                .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason || 'Unspecified'}\`!`)
+                .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
+                .setTimestamp()
+                message.channel.send({ embeds: [mute] })
+            })
+            .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
             } 
         } catch (err) {
             console.log(err)
