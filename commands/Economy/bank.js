@@ -49,7 +49,13 @@ module.exports = {
             .setTimestamp()
             message.channel.send({ embeds: [embed] })
           } else if(data.Bank.balance.credits + moneyadd > 100000) {
-            return message.channel.send(`\\❌ **${message.author.tag}**, Your bank is overflowed please withdraw some money from your bank.`);
+            data.timer.banktime.timeout = Date.now() + duration;
+            data.Bank.balance.credits = Math.floor(100000);
+            return data.save()
+            .then(() => {
+                message.channel.send(`\\❌ **${message.author.tag}**, Your bank is overflowed please withdraw some money from your bank.`);
+            })
+            .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``))
           } else {
             data.timer.banktime.timeout = Date.now() + duration;
             data.Bank.balance.credits = Math.floor(moneyadd)
