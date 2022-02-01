@@ -44,8 +44,8 @@ module.exports = {
         const Coal_price = Math.floor(12)
         const Stone_price = Math.floor(5)
         const Iron_price = Math.floor(25)
-        const gold_price = Math.floor(75)
-        const Diamond_price = Math.floor(180)
+        const gold_price = Math.floor(55)
+        const Diamond_price = Math.floor(90)
         if(res === 'coal') {
             if(data.inv.Coal < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, You only have **${data.inv.Coal}** in your inventory!`})
             const finall = Math.floor(Coal_price * 0.7 * amount)
