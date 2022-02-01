@@ -145,7 +145,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 5) {
             const coal = ["Coal <:e_:887034070842900552>"]
-            let itemget = Math.floor(Math.random() * 64) * 2 + 1
+            let itemget = Math.floor(Math.random() * 32) * 2 + 1
             data.inv.Coal += Math.floor(itemget);
             await data.save()
             .then(() => {
