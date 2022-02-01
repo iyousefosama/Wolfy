@@ -45,7 +45,7 @@ module.exports = {
         const Stone_price = Math.floor(5)
         const Iron_price = Math.floor(25)
         const gold_price = Math.floor(75)
-        const Diamond_price = Math.floor()
+        const Diamond_price = Math.floor(180)
         if(res === 'coal') {
             if(data.inv.Coal < amount) return message.channel.send({ content: `\\❌ **${message.author.tag}**, You only have **${data.inv.Coal}** in your inventory!`})
             const finall = Math.floor(Coal_price * 0.7 * amount)
@@ -90,7 +90,7 @@ module.exports = {
             const nulle = new Discord.MessageEmbed()
             .setTitle(`<a:Wrong:812104211361693696> Unknown item!`)
             .setDescription(`**${message.author.username}**, **${res}** this item not from the items listed in the inventory!`)
-            .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setColor('RED')
             return message.channel.send({ embeds: [nulle] })
         }
