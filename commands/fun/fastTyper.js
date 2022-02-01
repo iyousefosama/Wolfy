@@ -34,7 +34,7 @@ module.exports = {
     const filter = m => m.author.id === message.author.id
     if (inGame.has(message.author.id)) return
     inGame.add(message.author.id)
-    for (i = 0; i < 25; i++) {
+    for (i = 1; i <= 10; i++) {
         const time = Date.now()
         let sentence = ''
         let ogSentence = txtgen.sentence().toLowerCase().split('.').join('').split(',').join('')
@@ -63,11 +63,15 @@ module.exports = {
             var end = message.channel.send({ embeds: [end] })
             inGame.delete(message.author.id)
             break
-        } else if (msg.first().content.toLowerCase().trim() === ogSentence.toLowerCase()) {
+        } else if (msg.first().content.toLowerCase().trim() == ogSentence.toLowerCase()) {
             var gg = new Discord.MessageEmbed()
             .setColor(`DARK_GREEN`)
+            .setAuthor({name: `${message.author.tag} Passed Round ${i}!`, iconURL: message.author.displayAvatarURL({dynamic: true})})
             .setDescription(`<a:pp102:768869217805140008> **Good job!**\nIt took you \`${ms(Date.now() - time, {long: true})}\` to type it!`)
+            .setFooter({ text: `Your next round will start after 5(s)`, iconURL: message.author.displayAvatarURL({dynamic: true})})
+            .setTimestamp()
             var msg = message.channel.send({ embeds: [gg] })
+            await new Promise(r=>setTimeout(r,5000))
         } else {
             var fail = new Discord.MessageEmbed()
             .setColor(`RED`)
@@ -77,8 +81,8 @@ module.exports = {
             break
         }
 
-        if (i === 25) {
-            let moneyget = Math.floor(Math.random() * 200) + 2;
+        if (i === 10) {
+            let moneyget = Math.floor(Math.random() * 600) + 150;
             data.credits += Math.floor(moneyget);
             await data.save()
             var win = new Discord.MessageEmbed()
