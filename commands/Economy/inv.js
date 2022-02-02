@@ -20,8 +20,7 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
-    async execute(client, message, args) {
-
+    async execute(client, message, [args='']) {
         let data;
         try{
             data = await schema.findOne({
@@ -54,8 +53,13 @@ module.exports = {
             { name: '<a:Diamond:877975082868301824> Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``},
         )
         .setURL('https://Wolfy.yoyojoe.repl.co')
-        .setFooter(`${prefix}sell [item] (amount)`, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: `${prefix}sell [item] (amount)`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
+        if(args.toLowerCase() === "mininginv") {
+          return message.channel.send({ embeds: [Mineinv]})
+        } else if(args.toLowerCase() != "mininginv") {
+          return message.channel.send(`\\❌ **${message.author.tag}**, Invalid args provided! you may mean \`MiningInv\`.`)
+        }
 
         const pages = new Pages(_.chunk(data.profile.inventory, 25).map((chunk, i, o) => {
           return new MessageEmbed()
@@ -71,7 +75,7 @@ module.exports = {
               value: [
                 `Type: *${item.type}*`,
                 `Selling Price: *${Math.floor(item.price / 0.7)}*`,
-                `Use: \`${prefix}use ${item.id}\``
+                item.type != "Item" ?  `Use: \`${prefix}use ${item.id}\`` : ''
               ].join('\n')
             }
           }));

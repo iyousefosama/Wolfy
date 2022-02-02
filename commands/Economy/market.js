@@ -41,7 +41,7 @@ module.exports = {
                 item.description,
                 `Type: *${item.type}*`,
                 `Price: *${text.commatize(item.price)}*`,
-                `Check Preview : \`${prefix}previewitem ${item.id}\``,
+                item.type != "Item" ? `Check Preview : \`${prefix}previewitem ${item.id}\`` : '',
                 `Purchase: \`${prefix}buy ${item.id}\``
               ].join('\n')
             };

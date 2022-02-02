@@ -42,14 +42,14 @@ module.exports = {
         let pos = 0
 
         const embed = new discord.MessageEmbed()
-        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})) })
+        .setAuthor({ name: client.user.username + '\'s leaderboard', iconURL: client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})) })
         .setColor('738ADB')
         .setTitle('<a:ShinyMoney:877975108038324224> Credits LeaderBoard!')
         .setTimestamp()
         for (let obj of members) {
             pos++
             if(obj.userID == message.author.id) {
-                embed.setFooter({ text: `Your position is ${pos} at the leaderboard!`, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 1024 }) });
+                embed.setFooter({ text: `Your position is ${pos}!`, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 1024 }) });
                 
             }
         }
@@ -61,7 +61,16 @@ module.exports = {
             let user = client.users.cache.get(members[i].userID)
             if(!user) return;
             let bal = members[i].credits
-            desc += `*${i+1}.* ${user.tag} - \`${text.commatize(bal)}\` \n`
+            if(i == 0) {
+            Num = "<:medal:898358296694628414>"
+            } else if(i == 1) {
+            Num = "🥈"
+            } else if(i == 2) {
+            Num = "🥉"
+            } else {
+            Num = `*${i+1}.*`
+            }
+            desc += `${Num} ${user.tag} - \`${text.commatize(bal)}\` \n`
         }
 
         embed.setDescription(desc)
