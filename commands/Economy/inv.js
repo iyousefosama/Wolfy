@@ -55,10 +55,10 @@ module.exports = {
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setFooter({ text: `${prefix}sell [item] (amount)`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
-        if(args.toLowerCase() === "mininginv") {
+        if(args.toLowerCase() === "mining") {
           return message.channel.send({ embeds: [Mineinv]})
-        } else if(args.toLowerCase() != "mininginv") {
-          return message.channel.send(`\\❌ **${message.author.tag}**, Invalid args provided! you may mean \`MiningInv\`.`)
+        } else if(args && args.toLowerCase() != "mining") {
+          return message.channel.send(`\\❌ **${message.author.tag}**, Invalid args provided! Maybe you mean \`Mining\`.`)
         }
 
         const pages = new Pages(_.chunk(data.profile.inventory, 25).map((chunk, i, o) => {

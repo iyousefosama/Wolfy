@@ -84,7 +84,7 @@ module.exports = {
             .setDescription([
             `<a:ShinyMoney:877975108038324224> **${message.author.tag}**, You received **${Math.floor(amount)}** from daily reward!`,
             itemreward ? `\n\\✔️  You received: **${item.name} - ${item.description}** from daily rewards.` : '',
-            streakreset ? `\n⚠️ **Streak Lost**: You haven't got your succeeding daily reward.` : `\n⚠️ Streak (\`x${data.streak.current}\`)`
+            streakreset ? `\n⚠️ **Streak Lost**: You haven't got your succeeding daily reward.` : `\n<:fire:939372984274157689> Current Daily Streak (\`x${data.streak.current}\`)`
         ].join(''))
             .setFooter({ text: `You can claim your daily after 24h.`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setColor('#E6CEA0')
