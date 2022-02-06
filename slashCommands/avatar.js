@@ -17,7 +17,6 @@ module.exports = {
                 .setName('server')
                 .setDescription('get the server avatar')),
     async execute(client, interaction) {
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
 			let user = interaction.options.getUser('target');
 
             let color;
@@ -29,7 +28,7 @@ module.exports = {
               user = interaction.user;
             };
         
-            const avatar = user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 });
+            const avatar = user.displayAvatarURL({ format: 'png' || 'gif', dynamic: true, size: 1024 });
 
             if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
                 let avatarserver = new discord.MessageEmbed()
@@ -42,17 +41,17 @@ module.exports = {
                 .setImage (interaction.guild.iconURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setFooter({ text: interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.user.avatarURL({dynamic: true}) })
                 .setTimestamp()
-                interaction.editReply({ embeds: [avatarserver] })
+                interaction.reply({ embeds: [avatarserver] })
             } else if(interaction.options.getSubcommand() === 'user') {
                 const embed = new MessageEmbed()
-                .setAuthor({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
                 .setColor(color)
                 .setDescription(`[**${user.tag}** avatar link](${avatar})`)
                 .setURL(avatar)
                 .setImage(avatar)
-                .setFooter({ text: 'Avatar' })
+                .setFooter({ text: 'Avatar' + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.displayAvatarURL({dynamic: true}) })
                 .setTimestamp() 
-                interaction.editReply({ embeds: [embed] })
+                interaction.reply({ embeds: [embed] })
             } else {
                 const embed = new MessageEmbed()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
@@ -62,7 +61,7 @@ module.exports = {
                 .setImage(avatar)
                 .setFooter({ text: 'Avatar' })
                 .setTimestamp() 
-                interaction.editReply({ embeds: [embed] })
+                interaction.reply({ embeds: [embed] })
             }
 }
 };

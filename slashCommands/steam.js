@@ -13,7 +13,6 @@ module.exports = {
 		.setDescription('Gives informations about the steam game!')
         .addStringOption(option => option.setName('query').setDescription('Enter a query').setRequired(true)),
 	async execute(client, interaction) {
-		await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const query = interaction.options.getString('query');
 
             // Input Checking
@@ -77,7 +76,7 @@ module.exports = {
             ])
             .setFooter({ text: `Steam @ Steam.Inc©` })
             .setTimestamp()
-        return interaction.editReply({ embeds: [embed] })
+        return interaction.reply({ embeds: [embed] })
     })();
 	},
 };

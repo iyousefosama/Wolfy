@@ -40,7 +40,7 @@ module.exports = {
             memeEmbed.setURL(`${memeURL}`) // gettin the URL of the meme in the embed         
             memeEmbed.setImage(memeImage) // gettin the image in the embed
             memeEmbed.setColor('#87ceeb') // getting a random embed color
-            memeEmbed.setFooter(`👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}`)
+            memeEmbed.setFooter({ text: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` })
     
             interaction.editReply({ embeds: [memeEmbed] }) // sending the embed
         })

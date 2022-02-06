@@ -9,7 +9,6 @@ module.exports = {
 		.setDescription('Gives informations about minecraft user player!')
         .addStringOption(option => option.setName('query').setDescription('Enter a player name').setRequired(true)),
 	async execute(client, interaction) {
-		await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const query = interaction.options.getString('query');
 
         try{
@@ -23,11 +22,11 @@ module.exports = {
             .setImage(`https://minecraftskinstealer.com/api/v1/skin/render/fullbody/${query}/700`)
             .setColor('#ffd167')
             .setThumbnail(`https://minotar.net/cube/${query}/100.png)`)
-            interaction.editReply({ embeds: [embed] });
+            interaction.reply({ embeds: [embed] });
         } catch(e) {
             let embed2 = new Discord.MessageEmbed()
             .setDescription('<a:pp681:774089750373597185> **|** The specified user was not found!')
-            interaction.editReply({ embeds: [embed2] })
+            interaction.reply({ embeds: [embed2] })
         }
 	},
 };

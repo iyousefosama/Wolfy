@@ -61,7 +61,6 @@ module.exports = {
                 .setName('captcha')
                 .setDescription('Select the captcha filter option')),
     async execute(client, interaction) {
-        await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const blurpify = interaction.options.getSubcommand('blurpify');
         const magik = interaction.options.getSubcommand('magik');
         const deepfry = interaction.options.getSubcommand('deepfry');
@@ -84,59 +83,59 @@ module.exports = {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=blurpify&image=${user.displayAvatarURL({dynamic: true})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "blurpify.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if (interaction.options.getSubcommand() === 'magik') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=magik&image=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "magik.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if (interaction.options.getSubcommand() === 'deepfry') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=deepfry&image=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "deepfry.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'awooify') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=awooify&url=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "awooify.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'baguette') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=baguette&url=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "baguette.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'trash') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=trash&url=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "trash.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'jpeg') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=jpeg&url=${interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "jpeg.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'lolice') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=lolice&url=${interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "lolice.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'trap') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=trap&name=${user.username}&author=${interaction.user.username}&image=${user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "trap.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'changemymind') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=changemymind&text=${input}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "changemymind.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else if(interaction.options.getSubcommand() === 'captcha') {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=captcha&url=${interaction.user.displayAvatarURL({dynamic: true, format: 'png', size: 512})}&username=${interaction.user.username}`));
             let json = await res.json();
             let attachment = new discord.MessageAttachment(json.message, "captcha.png");
-            await interaction.editReply({files: [attachment]});
+            await interaction.reply({files: [attachment]});
         } else {
-            await interaction.editReply({ content: '\\❌ You didn\'t choose the \`filter\` to add!'});
+            await interaction.reply({ content: '\\❌ You didn\'t choose the \`filter\` to add!'});
         }
     },
 };

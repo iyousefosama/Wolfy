@@ -8,7 +8,6 @@ module.exports = {
 		.setName('invite')
 		.setDescription('Replies with bot links/invite!'),
 	async execute(client, interaction) {
-		await interaction.deferReply({ ephemeral: false }).catch(() => {});
         const embed = new Discord.MessageEmbed()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
@@ -40,6 +39,6 @@ module.exports = {
         .setLabel('Bot Website!');
         const row = new MessageActionRow()
         .addComponents(button, button2, button3, button4);
-        interaction.editReply({ embeds: [embed], components: [row] })
+        interaction.reply({ embeds: [embed], components: [row] })
 	},
 };
