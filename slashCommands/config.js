@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js')
+const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const schema = require('../schema/GuildSchema')
 
 module.exports = {
@@ -36,8 +37,9 @@ module.exports = {
 
         if (interaction.options.getSubcommand() === 'show') {
             let config_embed = new MessageEmbed()
-            .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
-            .setTitle(`<a:Settings:841321893750505533> \`${interaction.guild.name}\` configuration settings!`)
+            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+            .setTitle(`Configuration Settings`)
+            .setDescription(`<a:Settings:841321893750505533> \`${interaction.guild.name}\` configuration settings!`)
             .addFields(
                 { name: `Client prefix`, value: `> ${data.prefix || '\\❌ Not set'}`, inline: true},
                 { name: `Suggestion Channel`, value: `> ${interaction.guild.channels.cache.get(data.Mod.Suggestion.channel) || '\\❌ Not set'}`, inline: true},
@@ -53,10 +55,10 @@ module.exports = {
                 { name: `Ticket is Enabled?`, value: `> ${data.Mod.Tickets.isEnabled || '\\❌'}`, inline: true},
             )
             .setColor('#2F3136')
-            .setFooter(`configuration | \©️${new Date().getFullYear()} Wolf`, client.user.displayAvatarURL({ dynamic: true }))
+            .setFooter({ text: `configuration | \©️${new Date().getFullYear()} Wolf`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             interaction.reply({ embeds: [config_embed]})
         } else if (interaction.options.getSubcommand() === 'edit') {
-            const row = new MessageActionRow()
+            /*const row = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId('kwthbek4m221pyDAdowp')
@@ -69,7 +71,8 @@ module.exports = {
                         },
                     ]),
             )
-            message.channel.send({ content: `<:Tag:836168214525509653> ${interaction.guild.name}** config edit list!`, components: [row] });
+            interaction.reply({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** config edit list!`, components: [row] });*/
+            interaction.reply({ content: `<a:Settings:841321893750505533> Under Maintenance!` });
         }
 }
 };
