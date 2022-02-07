@@ -87,8 +87,13 @@ module.exports = {
 
         const slash = client.slashCommands.get(interaction.commandName);
     
-        if(interaction.user.bot) return;
-        if (!slash) return;
+        if(!slash) {
+          return;
+        } else if(interaction.user.bot) {
+          return;
+        } else {
+          // Do nothing..
+        }
     
         try {
             if (slash.guildOnly && interaction.channel.type === 'DM') {
@@ -139,7 +144,7 @@ module.exports = {
             await slash.execute(client, interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(() => interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true }));
         }
     }
 }
