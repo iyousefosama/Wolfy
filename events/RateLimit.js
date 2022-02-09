@@ -12,6 +12,7 @@ module.exports = {
       } else {
         // Do nothing..
       }
+      console.log(info)
       const ratelimit = new Discord.MessageEmbed()
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor('RED')
