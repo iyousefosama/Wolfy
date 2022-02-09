@@ -50,7 +50,12 @@ module.exports = {
       } else if (amount < 500){
         return message.channel.send(`\\❌ **${message.author.tag}**, The amount to be deposited must be at least **500**.`);
       } else if(data.Bank.balance.credits + amount > 100000) {
-        return message.channel.send(`\\❌ **${message.author.tag}**, Your bank is overflowed please withdraw some money from your bank.`);
+        data.Bank.balance.credits = Math.floor(100000);
+        return data.save()
+        .then(() => {
+            message.channel.send(`\\❌ **${message.author.tag}**, Your bank is overflowed please withdraw some money from your bank.`);
+        })
+        .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``))
       } else if (amount * 1.05 > data.credits){
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your wallet to proceed with this transaction.`,
