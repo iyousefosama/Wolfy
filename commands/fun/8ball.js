@@ -30,7 +30,7 @@ module.exports = {
   .setTitle("My Answer is!")
   .setColor('#dfb86d')
   .setDescription(`${replies[result]}`)
-  .setFooter(client.user.username, client.user.displayAvatarURL())
+  .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
   .setTimestamp()
     
 message.reply({ embeds: [eightball] });

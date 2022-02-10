@@ -37,11 +37,13 @@ module.exports = {
 
         let memeNumComments = content[0].data.children[0].data.num_comments; // getting how much comments on the meme
 
-        memeEmbed.setTitle(`${memeTitle}`) // the title will be ${memeTitle}
-        memeEmbed.setURL(`${memeURL}`) // gettin the URL of the meme in the embed         
+        memeEmbed.setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
+        memeEmbed.setTitle(memeTitle) // the title will be ${memeTitle}
+        memeEmbed.setURL(memeURL) // gettin the URL of the meme in the embed         
         memeEmbed.setImage(memeImage) // gettin the image in the embed
-        memeEmbed.setColor('RANDOM') // getting a random embed color
-        memeEmbed.setFooter({ name: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` })
+        memeEmbed.setColor('#ffd167') // getting a random embed color
+        memeEmbed.setFooter({ text: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}`, iconURL: client.user.displayAvatarURL({dynamic: true}) })
+        memeEmbed.setTimestamp()
 
         message.channel.send({ embeds: [memeEmbed] }) // sending the embed
     })
