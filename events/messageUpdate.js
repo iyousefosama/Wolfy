@@ -41,7 +41,7 @@ module.exports = {
         .setTitle(`📝 Edited Message`)
         .setDescription(`<a:iNFO:853495450111967253> **Member**: \`${oldMessage.author.tag}\` (${oldMessage.author.id})\n<:pp198:853494893439352842> **In**: ${oldMessage.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Old Message**: \`\`\`\n${oldMessage.content || '❌ | Unkown message!'}\n\`\`\`\n<a:Right:877975111846731847> **New Message**: \`\`\`\n${messageUpdate.content || '❌ | Unkown message!'}\n\`\`\``)
         .setColor('#2F3136')
-        .setFooter({ name: oldMessage.guild.name, iconURL: oldMessage.guild.iconURL({dynamic: true}) })
+        .setFooter({ text: oldMessage.guild.name, iconURL: oldMessage.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         .setThumbnail(oldMessage.author.displayAvatarURL({dynamic: true}))
           const botname = client.user.username;
