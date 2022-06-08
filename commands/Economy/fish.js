@@ -33,8 +33,8 @@ module.exports = {
         }
 
         const item = data.profile.inventory.find(x => x.id == 1);
-        const quest = data.progress.quests.find(x => x.id == 1);
-        let Box = quest.current;
+        const quest = data.progress.quests?.find(x => x.id == 1);
+        let Box = quest?.current;
 
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
@@ -60,7 +60,7 @@ module.exports = {
             const common = ["CommonFish 🐟"]
             let moneyget = Math.floor(Math.random() * 80) + 60
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
                 Box++;
                 await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
               }
@@ -80,11 +80,11 @@ module.exports = {
             const uncommon = ["UncommonFish 🐠"]
             let moneyget = Math.floor(Math.random() * 180) + 130
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;
@@ -100,11 +100,11 @@ module.exports = {
             const rare = ["RareFish <:fish:886630455795933264>"]
             let moneyget = Math.floor(Math.random() * 240) + 150
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;
@@ -120,11 +120,11 @@ module.exports = {
             const epic = ["EpicFish <:e_:886630455175159818>"]
             let moneyget = Math.floor(Math.random() * 650) + 250
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;
@@ -140,11 +140,11 @@ module.exports = {
             const legendary = ["LegendaryFish <:fish:892685979918426112>"]
             let moneyget = Math.floor(Math.random() * 890) + 560
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;
@@ -160,11 +160,11 @@ module.exports = {
             const Mythic = ["MythicFish <:carp:892687082621902859>"]
             let moneyget = Math.floor(Math.random() * 1500) + 860
             data.credits += Math.floor(moneyget);
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;

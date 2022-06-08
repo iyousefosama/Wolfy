@@ -69,8 +69,8 @@ module.exports = {
             console.log(err)
         }
 
-        const quest = data.progress.quests.find(x => x.id == 7);
-        let Box = quest.current;
+        const quest = data.progress.quests?.find(x => x.id == 7);
+        let Box = quest?.current;
 
         if(Math.ceil(amount * 1.1) > data.credits) { 
             message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`)
@@ -86,11 +86,11 @@ module.exports = {
               return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Cancelled the \`transfer\` command!`});
             };
 
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box += Math.floor(amount);
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 7 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
             }
-          if(Box >= quest.progress && !quest.received) {
+          if(Box >= quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;

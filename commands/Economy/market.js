@@ -43,8 +43,8 @@ module.exports = {
           selected = market;
         };
     
-        const quest = data.progress.quests.find(x => x.id == 6);
-        let Box = quest.current;
+        const quest = data.progress.quests?.find(x => x.id == 6);
+        let Box = quest?.current;
 
         const pages = new Pages(_.chunk(selected, 24).map((chunk, i, o) => {
           return new MessageEmbed()
@@ -69,11 +69,11 @@ module.exports = {
     
         const msg = await message.channel.send({ embeds: [pages.firstPage] });
     
-        if(quest.current < quest.progress) {
+        if(quest?.current < quest?.progress) {
           Box++;
           await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 6 }, { $inc: { "progress.quests.$.current": 1 } });
         }
-      if(Box == quest.progress && !quest.received) {
+      if(Box == quest?.progress && !quest?.received) {
           data.credits += Math.floor(quest.reward);
           quest.received = true;
           data.progress.completed++;

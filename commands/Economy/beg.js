@@ -29,7 +29,7 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        const quest = data.progress.quests.find(x => x.id == 3);
+        const quest = data.progress.quests?.find(x => x.id == 3);
         let Box = quest.current;
         const now = Date.now();
         const duration = Math.floor(Math.random() * 12000) + 100000;

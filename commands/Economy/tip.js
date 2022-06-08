@@ -37,8 +37,8 @@ module.exports = {
         }
         
         const now = Date.now();
-        const quest = tipper.progress.quests.find(x => x.id == 4);
-        let Box = quest.current;
+        const quest = tipper.progress.quests?.find(x => x.id == 4);
+        let Box = quest?.current;
 
         if (tipper.tips.timestamp !== 0 && tipper.tips.timestamp - now > 0){
           return message.channel.send(`\\❌ **${message.author.tag}**, You have already been used *tip* earlier! Please try again later. \`${moment.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')}\``);
@@ -72,11 +72,11 @@ module.exports = {
                 message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
             }
     
-            if(quest.current < quest.progress) {
+            if(quest?.current < quest?.progress) {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 4 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest.progress && !quest.received) {
+          if(Box == quest?.progress && !quest?.received) {
             tipper.credits += Math.floor(quest.reward);
               quest.received = true;
               data.progress.completed++;

@@ -53,8 +53,8 @@ module.exports = {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes();
         const item = data.profile.inventory.find(x => x.id == 2);
-        const quest = data.progress.quests.find(x => x.id == 2);
-        let Box = quest.current;
+        const quest = data.progress.quests?.find(x => x.id == 2);
+        let Box = quest?.current;
     
         var currentdate = date + time
         const nulle = new Discord.MessageEmbed()
@@ -67,11 +67,11 @@ module.exports = {
         data.credits += Math.floor(moneyget);
         data.cookies.givecookies++;
         FriendData.cookies.totalcookies++;
-        if(quest.current < quest.progress) {
+        if(quest?.current < quest?.progress) {
             Box++;
             await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 2 }, { $inc: { "progress.quests.$.current": 1 } });
           }
-        if(Box == quest.progress && !quest.received) {
+        if(Box == quest?.progress && !quest?.received) {
             data.credits += Math.floor(quest.reward);
             quest.received = true;
             data.progress.completed++;
