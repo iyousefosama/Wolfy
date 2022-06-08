@@ -47,6 +47,8 @@ module.exports = {
         const rewardables = market.filter(x => ![1,2].includes(x.id));
         const item = rewardables[Math.floor(Math.random() * rewardables.length)];
         streakreset = false, itemreward = false;
+        const quest = data.progress.quests.find(x => x.id == 8);
+        let Box = quest.current;
 
         if ((data.streak.timestamp + 864e5) < now){
             data.streak.current = 1;
@@ -75,6 +77,16 @@ module.exports = {
           data.streak.timestamp = now + 72e6;
           const amount = moneyget + 30 * data.streak.current;
 
+          if(quest.current < quest.progress) {
+            Box++;
+            await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 8 }, { $inc: { "progress.quests.$.current": 1 } });
+          }
+        if(Box == quest.progress && !quest.received) {
+            data.credits += Math.floor(quest.reward);
+            quest.received = true;
+            data.progress.completed++;
+            message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+          }
         data.timer.daily.timeout = Date.now() + duration;
         data.credits += Math.floor(amount);
         await data.save()

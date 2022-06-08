@@ -5,6 +5,7 @@ const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 const { prefix } = require('../../config.json');
+const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
     name: "market",
@@ -21,12 +22,30 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: [''], 
     async execute(client, message, [type]) {
+
+        let data;
+        try{
+            data = await schema.findOne({
+                userID: message.author.id
+            })
+            if(!data) {
+            data = await schema.create({
+                userID: message.author.id
+            })
+            }
+        } catch(err) {
+            console.log(err)
+        }
+
         let selected = market.filter(x => x.type === type?.toLowerCase());
 
         if (!selected.length){
           selected = market;
         };
     
+        const quest = data.progress.quests.find(x => x.id == 6);
+        let Box = quest.current;
+
         const pages = new Pages(_.chunk(selected, 24).map((chunk, i, o) => {
           return new MessageEmbed()
           .setTitle('Wolfy\'s Market')
@@ -50,6 +69,18 @@ module.exports = {
     
         const msg = await message.channel.send({ embeds: [pages.firstPage] });
     
+        if(quest.current < quest.progress) {
+          Box++;
+          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 6 }, { $inc: { "progress.quests.$.current": 1 } });
+        }
+      if(Box == quest.progress && !quest.received) {
+          data.credits += Math.floor(quest.reward);
+          quest.received = true;
+          data.progress.completed++;
+          await data.save();
+          message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+        }
+
         if (pages.size === 1){
           return;
         };

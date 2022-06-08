@@ -33,11 +33,13 @@ module.exports = {
         }
 
         const item = data.profile.inventory.find(x => x.id == 1);
+        const quest = data.progress.quests.find(x => x.id == 1);
+        let Box = quest.current;
 
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${prefix}market\` to show the market.`)
-        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item) return message.channel.send({ embeds: [nulle] })
     
@@ -58,6 +60,16 @@ module.exports = {
             const common = ["CommonFish 🐟"]
             let moneyget = Math.floor(Math.random() * 80) + 60
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+                Box++;
+                await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+              }
+            if(Box == quest.progress && !quest.received) {
+                data.credits += Math.floor(quest.reward);
+                quest.received = true;
+                data.progress.completed++;
+                message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+              }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
@@ -68,6 +80,16 @@ module.exports = {
             const uncommon = ["UncommonFish 🐠"]
             let moneyget = Math.floor(Math.random() * 180) + 130
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+              Box++;
+              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+            }
+          if(Box == quest.progress && !quest.received) {
+              data.credits += Math.floor(quest.reward);
+              quest.received = true;
+              data.progress.completed++;
+              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+            }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
@@ -78,6 +100,16 @@ module.exports = {
             const rare = ["RareFish <:fish:886630455795933264>"]
             let moneyget = Math.floor(Math.random() * 240) + 150
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+              Box++;
+              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+            }
+          if(Box == quest.progress && !quest.received) {
+              data.credits += Math.floor(quest.reward);
+              quest.received = true;
+              data.progress.completed++;
+              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+            }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
@@ -88,6 +120,16 @@ module.exports = {
             const epic = ["EpicFish <:e_:886630455175159818>"]
             let moneyget = Math.floor(Math.random() * 650) + 250
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+              Box++;
+              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+            }
+          if(Box == quest.progress && !quest.received) {
+              data.credits += Math.floor(quest.reward);
+              quest.received = true;
+              data.progress.completed++;
+              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+            }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
@@ -98,6 +140,16 @@ module.exports = {
             const legendary = ["LegendaryFish <:fish:892685979918426112>"]
             let moneyget = Math.floor(Math.random() * 890) + 560
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+              Box++;
+              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+            }
+          if(Box == quest.progress && !quest.received) {
+              data.credits += Math.floor(quest.reward);
+              quest.received = true;
+              data.progress.completed++;
+              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+            }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})
@@ -108,6 +160,16 @@ module.exports = {
             const Mythic = ["MythicFish <:carp:892687082621902859>"]
             let moneyget = Math.floor(Math.random() * 1500) + 860
             data.credits += Math.floor(moneyget);
+            if(quest.current < quest.progress) {
+              Box++;
+              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
+            }
+          if(Box == quest.progress && !quest.received) {
+              data.credits += Math.floor(quest.reward);
+              quest.received = true;
+              data.progress.completed++;
+              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+            }
             await data.save()
             .then(async () => {
                 let loadingMsg = await message.channel.send({ content: '> <a:Loading:841321898302373909> Fishing from the pond...'})

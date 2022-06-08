@@ -29,6 +29,8 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+        const quest = data.progress.quests.find(x => x.id == 3);
+        let Box = quest.current;
         const now = Date.now();
         const duration = Math.floor(Math.random() * 12000) + 100000;
         if (data.timer.beg.timeout > now){
@@ -38,7 +40,16 @@ module.exports = {
         let ppl = ['WOLF', 'me', 'Mr.Beast', 'Tony Stark', 'Mr. joe', 'Anonymous', 'Rick', 'Morty', 'Steve', 'Drako', 'Elon Musk']
         let givers = Math.floor(Math.random() * ppl.length)
         let moneyget = Math.floor(Math.random() * 125) + 25;
-
+        if(quest.current < quest.progress) {
+            Box++;
+            await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 3 }, { $inc: { "progress.quests.$.current": 1 } });
+          }
+        if(Box == quest.progress && !quest.received) {
+            data.credits += Math.floor(quest.reward);
+            quest.received = true;
+            data.progress.completed++;
+            message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+          }
         data.timer.beg.timeout = Date.now() + duration;
         data.credits += Math.floor(moneyget);
         await data.save()

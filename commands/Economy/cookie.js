@@ -53,6 +53,8 @@ module.exports = {
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var time = today.getHours() + ":" + today.getMinutes();
         const item = data.profile.inventory.find(x => x.id == 2);
+        const quest = data.progress.quests.find(x => x.id == 2);
+        let Box = quest.current;
     
         var currentdate = date + time
         const nulle = new Discord.MessageEmbed()
@@ -61,12 +63,21 @@ module.exports = {
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item && data.cookies.givecookies == 350) return message.channel.send({ embeds: [nulle] })
-        let moneyget = Math.floor(Math.random() * 40) + 10
+        let moneyget = Math.floor(Math.random() * 70) + 10
         data.credits += Math.floor(moneyget);
-        data.cookies.givecookies += Math.floor('1');
-        FriendData.cookies.totalcookies += Math.floor('1');
-        await data.save()
-        await FriendData.save()
+        data.cookies.givecookies++;
+        FriendData.cookies.totalcookies++;
+        if(quest.current < quest.progress) {
+            Box++;
+            await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 2 }, { $inc: { "progress.quests.$.current": 1 } });
+          }
+        if(Box == quest.progress && !quest.received) {
+            data.credits += Math.floor(quest.reward);
+            quest.received = true;
+            data.progress.completed++;
+            message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+          }
+        return Promise.all([ data.save(), FriendData.save() ])
         .then(() => {
           const embed = new Discord.MessageEmbed()
           .setTitle(`<a:Cookie:853495749370839050> Cookie is gived!`)

@@ -38,6 +38,8 @@ module.exports = {
     } else {
 
       const amt = amount;
+      const quest = data.progress.quests.find(x => x.id == 5);
+      let Box = quest.current;
 
       if (amount?.toLowerCase() === 'all'){
         amount = Math.floor(data.credits / 1.05);
@@ -64,6 +66,17 @@ module.exports = {
         ].join('\n'));
       };
 
+      if(quest.current < quest.progress) {
+        Box += Math.floor(amount);
+        await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 5 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
+      }
+    if(Box == quest.progress && !quest.received) {
+        data.credits += Math.floor(quest.reward);
+        quest.received = true;
+        data.progress.completed++;
+        await data.save();
+        message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+      }
       data.Bank.balance.credits = data.Bank.balance.credits + Math.floor(amount);
       data.credits = data.credits - Math.floor(amount * 1.05);
 

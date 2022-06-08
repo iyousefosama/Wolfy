@@ -257,6 +257,7 @@ module.exports = {
         { name: `${prefix}profile`, value: `> \`Shows your profile card!\``},
         { name: `${prefix}setbio`, value: `> \`Sets your profile card bio.\``},
         { name: `${prefix}setbirthday`, value: `> \`Sets your profile card birthday.\``},
+        { name: `${prefix}quest`, value: `> \`Refresh/Show current quests and the current progress.\``},
         { name: `${prefix}credits`, value: `> \`To check your credits balance in wallet\``},
         { name: `${prefix}tip`, value: `> \`Send a tip for your friend!\``},
         { name: `${prefix}cookie`, value: `> \`To send cookie for a friend as a gift\``},
