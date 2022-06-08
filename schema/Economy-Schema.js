@@ -38,11 +38,6 @@ const ecoSchema = mongoose.Schema({
       timestamp: {type: Number, default: 0}
     },
 
-    mails: {
-      received: {type: [Object], default: null},
-      timestamp: {type: Number, default: 0}
-    },
-
     timer: {
         beg: {
           timeout: { type: Date, default: null }
@@ -63,6 +58,17 @@ const ecoSchema = mongoose.Schema({
     cookies: {
         totalcookies: { type: Number, default: 0 },
         givecookies: { type: Number, default: 0 }
+      },
+
+      progress: {
+        quests: { type: Array, default: []},
+        completed: { type: Number, default: 0},
+        TimeReset: { type: Date, default: 0 }
+      },
+
+      mails: {
+        isEnabled: { type: Boolean, default: false},
+        mails: { type: Array, default: []}
       },
 
       inv: {

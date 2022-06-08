@@ -46,6 +46,19 @@ const mongoose = require('mongoose')
       BadWordsFilter: {
         BDW: { type: Array, default: [] },
         isEnabled: { type: Boolean, default: false },
+      },
+      AntiLink: {
+        isEnabled: { type: Boolean, default: false },
+      },
+      Infraction: {
+        isEnabled: { type: Boolean, default: false },
+        Options: {
+          banisEnabled: { type: Boolean, default: true },
+          kickisEnabled: { type: Boolean, default: true },
+          MaxbanP: { type: Number, default: 10 },
+          MaxkickP: { type: Number, default: 5}
+        },
+        TimeReset: { type: Number, default: 1800000}
       }
     },
 

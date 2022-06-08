@@ -1,0 +1,66 @@
+[
+    {
+        "name": "🐟 Catch a Fish",
+        "progress": 5,
+        "current": 0,
+        "id": 1,
+        "reward": 500,
+        "received": false
+    },
+    {
+        "name": "<a:Cookie:853495749370839050> Give Cookies for a friend",
+        "progress": 10,
+        "current": 0,
+        "id": 2,
+        "reward": 250,
+        "received": false
+    },
+    {
+        "name": "<a:Money:836169035191418951> Use beg command",
+        "progress": 5,
+        "current": 0,
+        "id": 3,
+        "reward": 250,
+        "received": false
+    },
+    {
+        "name": "<:Humans:853495153280155668> Tip a friend",
+        "progress": 1,
+        "current": 0,
+        "id": 4,
+        "reward": 700,
+        "received": false
+    },
+    {
+        "name": "🏦 Deposit 5000$ to the bank",
+        "progress": 5000,
+        "current": 0,
+        "id": 5,
+        "reward": 500,
+        "received": false
+    }, 
+    {
+        "name": "<:Thinking:853494653701849090> Open the market place",
+        "progress": 1,
+        "current": 0,
+        "id": 6,
+        "reward": 250,
+        "received": false
+    },
+    {
+        "name": "<a:Money:836169035191418951> Transfer 2000$ for a friend",
+        "progress": 2000,
+        "current": 0,
+        "id": 7,
+        "reward": 250,
+        "received": false
+    },
+    {
+        "name": "<a:Money:836169035191418951> Take your daily reward!",
+        "progress": 1,
+        "current": 0,
+        "id": 8,
+        "reward": 500,
+        "received": false
+    }
+]
