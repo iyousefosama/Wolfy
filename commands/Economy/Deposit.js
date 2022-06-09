@@ -70,9 +70,9 @@ module.exports = {
         Box += Math.floor(amount);
         await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 5 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
       }
-    if(Box == quest.progress && !quest.received) {
+    if(Box && Box == quest.progress && !quest.received) {
         data.credits += Math.floor(quest.reward);
-        quest.received = true;
+        await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 5 }, { $set: { "progress.quests.$.received": true } });
         data.progress.completed++;
         await data.save();
         message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})

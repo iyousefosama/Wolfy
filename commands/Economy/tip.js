@@ -76,9 +76,9 @@ module.exports = {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 4 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest?.progress && !quest?.received) {
+          if(Box && Box == quest?.progress && !quest?.received) {
             tipper.credits += Math.floor(quest.reward);
-              quest.received = true;
+            await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 4 }, { $set: { "progress.quests.$.received": true } });
               data.progress.completed++;
               await tipper.save();
               message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
