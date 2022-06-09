@@ -30,7 +30,7 @@ module.exports = {
             console.log(err)
         }
         const quest = data.progress.quests?.find(x => x.id == 3);
-        let Box = quest.current;
+        let Box = quest?.current;
         const now = Date.now();
         const duration = Math.floor(Math.random() * 12000) + 100000;
         if (data.timer.beg.timeout > now){
@@ -40,11 +40,11 @@ module.exports = {
         let ppl = ['WOLF', 'me', 'Mr.Beast', 'Tony Stark', 'Mr. joe', 'Anonymous', 'Rick', 'Morty', 'Steve', 'Drako', 'Elon Musk']
         let givers = Math.floor(Math.random() * ppl.length)
         let moneyget = Math.floor(Math.random() * 125) + 25;
-        if(quest.current < quest.progress) {
+        if(quest?.current < quest?.progress) {
             Box++;
             await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 3 }, { $inc: { "progress.quests.$.current": 1 } });
           }
-        if(Box && Box == quest.progress && !quest.received) {
+        if(Box && Box == quest?.progress && !quest?.received) {
             data.credits += Math.floor(quest.reward);
             await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 3 }, { $set: { "progress.quests.$.received": true } });
             data.progress.completed++;
