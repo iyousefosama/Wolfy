@@ -68,12 +68,12 @@ module.exports = {
     
       const help = new discord.MessageEmbed()
       .setColor('738ADB')
-      .setTitle(`Hi ${message.author.username}, how can i help you?`)
+      .setTitle(`Hi ${interaction.author.username}, how can i help you?`)
       .setURL('https://Wolfy.yoyojoe.repl.co')
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setThumbnail(client.user.displayAvatarURL())
       .setDescription(`<a:Right:877975111846731847> Type \`${prefix}feedback\` to report a bug`)
-      .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
+      .setFooter({ text: interaction.author.tag, iconURL: interaction.author.displayAvatarURL({dynamic: true, size: 2048}) })
       .setTimestamp()
       .addFields(
           { name: '<a:BackPag:776670895371714570> informations helplist', value: `\`\`\`${prefix}help info\`\`\``, inline: true},
