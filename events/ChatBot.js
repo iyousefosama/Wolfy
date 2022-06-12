@@ -12,16 +12,25 @@ module.exports = {
         if (!message.author) return;
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
-        if(message.channel.id === '911566889849876512') {
+        const Channel = message.guild.channels.cache.get("876309321468743780")
+        if(message.channel.id === Channel.id) {
             message.channel.sendTyping()
-            fetch.default(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${message.author.id}`)
-            .then(res => res.json()).catch(() => null)
-            .then(data => {
-                message.reply({ content: data.response || 'Sorry, i can\'t reply this message!', allowedMentions: { repliedUser: true }})
-            })
-            .catch(err => {
-                return message.reply({ content: 'Sorry, i can\'t reply this message!', allowedMentions: { repliedUser: true }})
-              })
+            const url = 'https://waifu.p.rapidapi.com/v1/waifu';
+
+            const options = {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                'X-RapidAPI-Key': 'b335761898msh3524b71f87e82dbp1956dfjsn3ad103632169',
+                'X-RapidAPI-Host': 'waifu.p.rapidapi.com'
+              },
+              body: `{"user_id":"${message.author.id}","message":"${message.content}","from_name":"${message.author.username}","to_name":"${client.user.username}","translate_from":"auto","translate_to":"auto"}`
+            };
+            
+            fetch(url, options)
+              .then(res => res.json())
+              .then(json => message.reply(json.response))
+              .catch(() => message.reply('Sorry, There was an error while executing this command!'));
     }
 }
 }
