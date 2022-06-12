@@ -60,9 +60,9 @@ module.exports = {
     const embed = new discord.MessageEmbed()
     .setTitle(`<a:pp659:853495803967307887> ${message.member.displayName}'s Suggestion`)
     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-    .setDescription(`${suggestion}`)
+    .setDescription(suggestion)
     .setThumbnail(message.author.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
-    .addField('Status', 'Under Review', true)
+    .addField('<a:iNFO:853495450111967253> Status', 'Under Review', true)
     .setFooter({ text: `Suggestion System | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
     message.delete().catch(() => null)
     Channel.send({ embeds: [embed]}).then(async sentEmbed => {
