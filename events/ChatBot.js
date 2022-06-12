@@ -28,8 +28,8 @@ module.exports = {
             
             fetch(url, options)
               .then(res => res.json())
-              .then(json => message.reply(json.response))
-              .catch(() => message.reply('Sorry, There was an error while executing this command!'));
+              .then(json => message.reply(json.response).catch(() => null))
+              .catch(() => message.reply('Sorry, There was an error while executing this command!').catch(() => null));
     }
 }
 }
