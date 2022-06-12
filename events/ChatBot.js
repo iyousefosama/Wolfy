@@ -13,9 +13,8 @@ module.exports = {
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
         const Channel = message.guild.channels.cache.get("911566889849876512")
-        const Channel2 = message.guild.channels.cache.get("985535881660227654")
-        if(message.channel.id == Channel?.id || message.channel.id == Channel2?.id) {
-            message.channel.sendTyping().then(setTimeout(async () => {
+        if(message.channel.id == Channel?.id) {
+            message.channel.sendTyping()
             const url = 'https://waifu.p.rapidapi.com/v1/waifu';
 
             const options = {
@@ -32,7 +31,6 @@ module.exports = {
               .then(res => res.json())
               .then(json => message.reply(json.response).catch(() => null))
               .catch(() => message.reply('Sorry, There was an error while executing this command!').catch(() => null));
-            }, 2000));
     }
 }
 }
