@@ -39,6 +39,6 @@ module.exports = {
         .setLabel('Bot Website!');
         const row = new MessageActionRow()
         .addComponents(button, button2, button3, button4);
-        interaction.reply({ embeds: [embed], components: [row] })
+        interaction.editReply({ embeds: [embed], components: [row] })
 	},
 };

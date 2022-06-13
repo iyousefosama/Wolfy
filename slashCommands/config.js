@@ -32,7 +32,7 @@ module.exports = {
             }
         } catch(err) {
             console.log(err)
-            interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+            interaction.editReply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
         }
 
         if (interaction.options.getSubcommand() === 'show') {
@@ -56,7 +56,7 @@ module.exports = {
             )
             .setColor('#2F3136')
             .setFooter({ text: `configuration | \©️${new Date().getFullYear()} Wolf`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-            interaction.reply({ embeds: [config_embed]})
+            interaction.editReply({ embeds: [config_embed]})
         } else if (interaction.options.getSubcommand() === 'edit') {
             /*const row = new MessageActionRow()
             .addComponents(
@@ -72,7 +72,7 @@ module.exports = {
                     ]),
             )
             interaction.reply({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** config edit list!`, components: [row] });*/
-            interaction.reply({ content: `<a:Settings:841321893750505533> Under Maintenance!` });
+            interaction.editReply({ content: `<a:Settings:841321893750505533> Under Maintenance!` });
         }
 }
 };

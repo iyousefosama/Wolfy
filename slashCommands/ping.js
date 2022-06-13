@@ -10,11 +10,6 @@ module.exports = {
         .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
 	async execute(client, interaction) {
         const hide = interaction.options.getBoolean('hide');
-		if(hide === true) {
-			await interaction.deferReply({ ephemeral: true }).catch(() => {});
-		} else {
-			await interaction.deferReply({ ephemeral: false }).catch(() => {});
-		}
         var loading = new discord.MessageEmbed()
         .setColor('GOLD')
         .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
@@ -27,7 +22,7 @@ module.exports = {
         let Ping = new discord.MessageEmbed()
         .setColor('DARK_GREEN')
         .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
-        interaction.editReply({ embeds: [Ping] })
+        interaction.editReply({ embeds: [Ping], ephemeral: hide })
         })
 	},
 };

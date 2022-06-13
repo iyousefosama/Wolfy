@@ -22,11 +22,11 @@ module.exports = {
             .setImage(`https://minecraftskinstealer.com/api/v1/skin/render/fullbody/${query}/700`)
             .setColor('#ffd167')
             .setThumbnail(`https://minotar.net/cube/${query}/100.png)`)
-            interaction.reply({ embeds: [embed] });
+            interaction.editReply({ embeds: [embed] });
         } catch(e) {
             let embed2 = new Discord.MessageEmbed()
             .setDescription('<a:pp681:774089750373597185> **|** The specified user was not found!')
-            interaction.reply({ embeds: [embed2] })
+            interaction.editReply({ embeds: [embed2] })
         }
 	},
 };

@@ -41,7 +41,7 @@ module.exports = {
                 .setImage (interaction.guild.iconURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setFooter({ text: interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.user.avatarURL({dynamic: true}) })
                 .setTimestamp()
-                interaction.reply({ embeds: [avatarserver] })
+                interaction.editReply({ embeds: [avatarserver] })
             } else if(interaction.options.getSubcommand() === 'user') {
                 const embed = new MessageEmbed()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
@@ -51,7 +51,7 @@ module.exports = {
                 .setImage(avatar)
                 .setFooter({ text: 'Avatar' + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.displayAvatarURL({dynamic: true}) })
                 .setTimestamp() 
-                interaction.reply({ embeds: [embed] })
+                interaction.editReply({ embeds: [embed] })
             } else {
                 const embed = new MessageEmbed()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
@@ -61,7 +61,7 @@ module.exports = {
                 .setImage(avatar)
                 .setFooter({ text: 'Avatar' })
                 .setTimestamp() 
-                interaction.reply({ embeds: [embed] })
+                interaction.editReply({ embeds: [embed] })
             }
 }
 };

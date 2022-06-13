@@ -11,11 +11,6 @@ module.exports = {
 	async execute(client, interaction) {
 
         const hide = interaction.options.getBoolean('hide');
-		if(hide === true) {
-			await interaction.deferReply({ ephemeral: true }).catch(() => {});
-		} else {
-			await interaction.deferReply({ ephemeral: false }).catch(() => {});
-		}
         
         const memeEmbed = new discord.MessageEmbed() // creating an embed
         got('https://www.reddit.com/r/meme/random/.json').then(response => { // getting the lin that have the memes
@@ -42,7 +37,7 @@ module.exports = {
             memeEmbed.setColor('#87ceeb') // getting a random embed color
             memeEmbed.setFooter({ text: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` })
     
-            interaction.editReply({ embeds: [memeEmbed] }) // sending the embed
+            interaction.editReply({ embeds: [memeEmbed], ephemeral: hide }) // sending the embed
         })
 	},
 };

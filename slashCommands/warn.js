@@ -41,15 +41,15 @@ module.exports = {
 			case 'add':
               
                   if (user.id === interaction.guild.ownerId){
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn a server owner!`, ephemeral: true });
+                    return interaction.editReply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn a server owner!`, ephemeral: true });
                   };
               
                   if (user.id === interaction.user.id){
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn yourself!`, ephemeral: true});
+                    return interaction.editReply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn yourself!`, ephemeral: true});
                   };
               
                   if (user.id === client.user.id){
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn me!`, ephemeral: true});
+                    return interaction.editReply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn me!`, ephemeral: true});
                   };
 
 				const warnObj = {
@@ -78,7 +78,7 @@ module.exports = {
 				const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
 				const warnGrammar = warnCount === 1 ? '' : 's';
 
-				interaction.reply({ content: `\\✔️ Successfully warned **${user.tag}**, They now have \`${warnCount}\` warning${warnGrammar}` });
+				interaction.editReply({ content: `\\✔️ Successfully warned **${user.tag}**, They now have \`${warnCount}\` warning${warnGrammar}` });
                 const dmembed = new MessageEmbed()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setColor('#e6a54a')
@@ -99,7 +99,7 @@ module.exports = {
 				});
 
 				if (!warnedResult || warnedResult.warnings.length === 0)
-					return interaction.reply({ content: '\\❌ | That user don\'t have any warns for now!', ephemeral: true });
+					return interaction.editReply({ content: '\\❌ | That user don\'t have any warns for now!', ephemeral: true });
 
 				let string = '';
 				const embed = new MessageEmbed()
@@ -124,7 +124,7 @@ module.exports = {
                     )
 				}
 
-				interaction.reply({ embeds: [embed] });
+				interaction.editReply({ embeds: [embed] });
 				break;
 
 			case 'remove':
@@ -150,11 +150,11 @@ module.exports = {
 						: 0;
 					const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
-					interaction.reply({
+					interaction.editReply({
 						content: `<a:pp989:853496185443319809> | Successfully deleted **${getRemovedWarnedUser.user.tag}** warning, they now have **${warnedRemoveCount}** warning${warnedRemoveGrammar}!`,
 					});
 				} else {
-					interaction.reply({
+					interaction.editReply({
 						content: '\\❌ | please provide a valid warn id.',
 						ephemeral: true,
 					});

@@ -14,11 +14,6 @@ module.exports = {
         .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
 	async execute(client, interaction) {
         const hide = interaction.options.getBoolean('hide');
-		if(hide === true) {
-			await interaction.deferReply({ ephemeral: true }).catch(() => {});
-		} else {
-			await interaction.deferReply({ ephemeral: false }).catch(() => {});
-		}
         
         let data;
         try{
@@ -65,7 +60,7 @@ module.exports = {
         const img = await rank.build()
         .then(data => {
             const attachment = new discord.MessageAttachment(data, "RankCard.png");
-            interaction.editReply({ files: [attachment] });
+            interaction.editReply({ files: [attachment], ephemeral: hide });
         })
 	},
 };

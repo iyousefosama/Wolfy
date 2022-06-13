@@ -76,7 +76,7 @@ module.exports = {
             ])
             .setFooter({ text: `Steam @ Steam.Inc©` })
             .setTimestamp()
-        return interaction.reply({ embeds: [embed] })
+        return interaction.editReply({ embeds: [embed] })
     })();
 	},
 };
