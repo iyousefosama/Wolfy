@@ -2,7 +2,6 @@
   "name": "wolfy-bot",
   "version": "2.1.8",
   "main": "index.js",
-  "engines": { "node": "16.x" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +17,7 @@
     "canvacord": "^5.2.3",
     "covidapi": "^0.5.0",
     "discord-canvas": "^1.4.1",
+    "discord-player": "^5.2.2",
     "discord-xp": "^1.1.16",
     "discord.js": "^13.6.0",
     "djs-buttons-pagination": "^1.6.2",
