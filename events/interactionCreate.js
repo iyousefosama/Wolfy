@@ -14,7 +14,29 @@ module.exports = {
           console.log(err)
           interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
       }
-      
+
+      const categoryID = interaction.guild.channels.cache.get(data.Mod.Tickets.channel)
+      const member = interaction.guild.members.cache.get(interaction.channel.name.split('ticket-').join(''));
+
+      if (interaction.isButton()) {
+        if(interaction.customId === '98418541981561') {
+          interaction.channel.edit(interaction.guild.id, {
+            type: 'GUILD_TEXT',
+            permissionOverwrites: [
+                {
+                    id: interaction.guild.id,
+                    deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+                },
+                {
+                  id: interaction.guild.roles.everyone,
+                  deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+              },
+            ],
+        })
+        interaction.channel.send("Closed this ticket!")
+        }
+      }
+
         if(interaction.isSelectMenu()){
           let choice = interaction.values[0]
           const member = interaction.member
@@ -27,7 +49,7 @@ module.exports = {
           role6 = interaction.guild.roles.cache.get(data?.Mod.smroles.value6)
           if(choice == data.Mod.smroles.value1){
           if(!role1) {
-            return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
+            return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
           }
           if (member.roles.cache.has(role1.id)) {
             member.roles.remove(role1).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role1}** for ${member.user.tag}, \`${err}\`!`}));
@@ -37,7 +59,7 @@ module.exports = {
             interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role1} for you!`, ephemeral: true })
           }
          } else if(choice == data.Mod.smroles.value2) {
-          if(!role2) return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
+          if(!role2) return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
           if (member.roles.cache.has(role2.id)) {
             member.roles.remove(role2).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role2}** for ${member.user.tag}, \`${err}\`!`}));
             interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role2} from you!`, ephemeral: true})
@@ -46,7 +68,7 @@ module.exports = {
             interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role2} for you!`, ephemeral: true })
           }
          } else if(choice == data.Mod.smroles.value3) {
-          if(!role3) return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
+          if(!role3) return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
           if (member.roles.cache.has(role3.id)) {
             member.roles.remove(role3).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role3}** for ${member.user.tag}, \`${err}\`!`}));
             interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role3} from you!`, ephemeral: true})
@@ -81,6 +103,14 @@ module.exports = {
             member.roles.add(role6).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role6}** for ${member.user.tag}, \`${err}\`!`}));
             interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role6} for you!`, ephemeral: true })
           }
+         } else if (choice == "dollar5219198151218") {
+          interaction.reply({ content: "You choosed the \`$\` currency!\nPlease type the number of credits to show it's currency!", ephemeral: true })
+          const filter = msg => msg.member.id == interaction.member.id;
+    
+          let number = await interaction.channel.awaitMessages({ filter, max: 1 })
+          if(number.first().content == 'cancel') return interaction.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`\` command!`});
+          number = number.first().content
+          interaction.channel.send({ content: `\`${number}$\` will equals *${number * 10} - ${number * 20}*!` })
          }
         }
         if (!interaction.isCommand()) return;
@@ -141,6 +171,7 @@ module.exports = {
         };
       };
             console.log(`(/) ${interaction.user.tag}|(${interaction.user.id}) in #${interaction.channel.name}|(${interaction.channel.id}) used: /${interaction.commandName}`)
+            await interaction.deferReply().catch(() => {});
             await slash.execute(client, interaction);
         } catch (error) {
             console.error(error);
