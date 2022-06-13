@@ -15,6 +15,8 @@ const client = new Client({
 // require the fs module
 const fs = require('fs');
 
+const { Player } = require("discord-player")
+
 const fetch = require('node-fetch')
 
 const { REST } = require('@discordjs/rest');
@@ -31,6 +33,13 @@ client.commands = new Discord.Collection();
 client.slashCommands = new Collection();
 
 const commands=[]
+
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: "highestaudio",
+        highWaterMark: 1 << 25
+    }
+})
 
 const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
 for (const file of slashFiles) {
