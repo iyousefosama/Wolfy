@@ -4,7 +4,8 @@ const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { QueryType } = require("discord-player")
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'CONNECT', 'SPEAK'],
+	guildOnly: true,
 	data: new SlashCommandBuilder()
     .setName("np")
     .setDescription("Displays informations about the currently playing track!"),

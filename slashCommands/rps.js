@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     clientpermissions: ['USE_EXTERNAL_EMOJIS'],
+    guildOnly: true,
 	data: new SlashCommandBuilder()
 		.setName('rps')
 		.setDescription('Play rock,paper,scissors game with the bot!')

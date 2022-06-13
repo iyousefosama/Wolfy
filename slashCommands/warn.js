@@ -6,6 +6,7 @@ const warnSchema = require('../schema/Warning-Schema')
 
 module.exports = {
     permissions: ['ADMINISTRATOR'],
+	guildOnly: true,
     data: new SlashCommandBuilder()
         .setName('warn')
         .setDescription('Warn a user, get a list of a user, remove warn from the user!')
