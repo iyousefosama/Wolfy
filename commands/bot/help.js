@@ -163,6 +163,7 @@ module.exports = {
         { name: `${prefix}say`, value: `> \`The bot will repeat what you say\``},
         { name: `${prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
         { name: `${prefix}embedsetup`, value: `> \`Display the setup embed message!\``},
+        { name: `${prefix}respond`, value: `> \`Respond to a user suggestion in the server.\``},
         { name: `${prefix}nick`, value: `> \`Changes the nickname of a member\``},
         { name: `${prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
         { name: `${prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},

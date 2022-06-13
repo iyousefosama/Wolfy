@@ -114,12 +114,12 @@ module.exports = {
                     member.roles.add(mutedRole)
                     const muteAdded = new discord.MessageEmbed()
                     .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
-                    .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason}\`!`)
-                    .setFooter({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
+                    .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason || 'Unspecified'}\`!`)
+                    .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setTimestamp()
                     message.channel.send({ embeds: [muteAdded] });
                 } catch (err) {
-                    return message.channel.send({ content: `\\❌ **${message.author.tag}**, I do not have permissions to add a role to this user! \`[MANAGE_ROLES]\``})
+                    return message.channel.send({ content: `\\❌ **${message.author.tag}**, I can't add the \`MutedRole\` to this user! [\`${err.name}\`]`})
                 }
                 button.setDisabled(true)
                 button2.setDisabled(true)
