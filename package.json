@@ -1,7 +1,8 @@
 {
   "name": "wolfy-bot",
-  "version": "2.1.8",
+  "version": "2.2.0",
   "main": "index.js",
+  "engines": { "node": "16.x" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
