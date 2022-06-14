@@ -1,8 +1,7 @@
 {
   "name": "wolfy-bot",
-  "version": "2.2.0",
+  "version": "2.1.8",
   "main": "index.js",
-  "engines": { "node": "16.x" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +9,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@discordjs/builders": "^0.6.0",
+    "@discordjs/builders": "^0.15.0",
     "@discordjs/opus": "^0.4.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "@discordjs/voice": "^0.6.0",
     "@top-gg/sdk": "^3.1.2",
     "canvacord": "^5.2.3",
     "covidapi": "^0.5.0",
+    "discord-api-types": "^0.33.5",
     "discord-canvas": "^1.4.1",
     "discord-player": "^5.2.2",
     "discord-xp": "^1.1.16",
@@ -41,6 +41,7 @@
     "node": "^16.6.1",
     "node-superfetch": "^0.2.3",
     "parse-ms": "^2.1.0",
+    "play-dl": "^1.9.5",
     "simple-fortnite-api": "^0.1.9",
     "snekfetch": "^4.0.4",
     "sourcebin": "^4.2.5",
