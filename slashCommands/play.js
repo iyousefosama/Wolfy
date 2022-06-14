@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const discord = require('discord.js');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { QueryType } = require("discord-player")
+const playdl = require("play-dl");
 
 module.exports = {
     clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'CONNECT', 'SPEAK'],
@@ -33,9 +34,22 @@ module.exports = {
         if (!interaction.member.voice.channel) {
             return interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
         }
+        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.reply({ content: "<:error:888264104081522698> You are not in my voice channel!", ephemeral: true });
 
-		const queue = await client.player.createQueue(interaction.guild)
-		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
+        const guild = client.guilds.cache.get(interaction.guild.id);
+        const channel = guild.channels.cache.get(interaction.channel.id);
+		const queue = await client.player.createQueue(interaction.guild, {
+            metadata: {
+                channel: channel
+            },
+        })
+
+        try {
+            if (!queue.connection) await queue.connect(interaction.member.voice.channel);
+        } catch {
+            queue.destroy();
+            return await interaction.reply({ content: "<:error:888264104081522698>  Could not join your voice channel!", ephemeral: true });
+        }
 
 		let embed = new MessageEmbed()
 
