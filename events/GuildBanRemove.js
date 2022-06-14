@@ -35,11 +35,17 @@ module.exports = {
 
           const unbanLog = fetchedLogs.entries.first();
 
+          if(!unbanLog) {
+            return;
+          } else {
+            //Do nothing..
+          }
+
           const { executor, target } = unbanLog;
 
           const timestamp = Math.floor(Date.now() / 1000)
 
-          if(!unbanLog || !unbanLog.available && target.id != user.id) {
+          if(!unbanLog.available && target.id != user.id) {
             return;
           } else {
             //Do nothing..

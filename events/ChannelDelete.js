@@ -36,6 +36,12 @@ module.exports = {
         });
         // Since there's only 1 audit log entry in this collection, grab the first one
         const channelLog = fetchedLogs.entries.first();
+
+        if(!channelLog) {
+          return;
+        } else {
+          //Do nothing..
+        }
       
         const { executor, type, id, name } = channelLog;
         const types = {
@@ -49,7 +55,7 @@ module.exports = {
           GUILD_PRIVATE_THREAD: "Private Thread",
           GUILD_STAGE_VOICE: "Stage Voice"
       }
-        if(!channelLog || !channelLog.available && id != channel.id) {
+        if(!channelLog.available && id != channel.id) {
           return;
         } else {
           //Do nothing..

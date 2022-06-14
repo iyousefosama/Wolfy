@@ -36,11 +36,17 @@ module.exports = {
 
           const banLog = fetchedLogs.entries.first();
 
+          if(!banLog) {
+            return;
+          } else {
+            //Do nothing..
+          }
+
           const { executor, target, reason } = banLog;
 
           if (!reason) reason = "Not specified";
 
-          if(!banLog || !banLog.available && target.id != user.id) {
+          if(!banLog.available && target.id != user.id) {
             return;
           } else {
             //Do nothing..

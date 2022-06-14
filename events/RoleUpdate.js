@@ -40,6 +40,12 @@ module.exports = {
         });
         // Since there's only 1 audit log entry in this collection, grab the first one
         const rolelog = fetchedLogs.entries.first();
+
+        if(!rolelog) {
+          return;
+        } else {
+          //Do nothing..
+        }
       
         const { executor, id, name, color } = rolelog;
 

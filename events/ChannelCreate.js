@@ -37,6 +37,12 @@ module.exports = {
         // Since there's only 1 audit log entry in this collection, grab the first one
         const channelLog = fetchedLogs.entries.first();
       
+        if(!channelLog) {
+          return;
+        } else {
+          //Do nothing..
+        }
+
         const { executor, type, id, name } = channelLog;
         const types = {
           GUILD_TEXT: "Text Channel",

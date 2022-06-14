@@ -40,11 +40,17 @@ module.exports = {
         });
 
         const memberlog = fetchedLogs.entries.first();
+        
+        if(!memberlog) {
+          return;
+        } else {
+          //Do nothing..
+        }
 
         const { executor, target } = memberlog;
         const timestamp = Math.floor(Date.now() / 1000)
 
-        if(!memberlog || memberlog.available && target.id != oldMember.id) {
+        if(memberlog.available && target.id != oldMember.id) {
           return;
         } else {
           //Do nothing..
