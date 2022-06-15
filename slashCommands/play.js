@@ -38,9 +38,12 @@ module.exports = {
 
         const guild = client.guilds.cache.get(interaction.guild.id);
         const channel = guild.channels.cache.get(interaction.channel.id);
-		const queue = await client.player.createQueue(interaction.guild, {
+		const queue = await client.player?.createQueue(interaction.guild, {
             metadata: {
                 channel: channel
+            },
+            async onBeforeCreateStream(track, source, _queue) {
+                return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
             },
         })
 
