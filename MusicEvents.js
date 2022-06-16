@@ -11,11 +11,7 @@ module.exports.registerPlayerEvents = (player) => {
     });
 
     player.on("trackStart", (queue, track) => {
-        queue.metadata.channel.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
-    });
-
-    player.on("trackAdd", (queue, track) => {
-        queue.metadata.channel.send(`🎶 | Track **${track.title}** queued!`);
+        queue.metadata.channel.send(`<a:Up:853495519455215627> Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
     });
 
     player.on("botDisconnect", (queue) => {
@@ -23,7 +19,7 @@ module.exports.registerPlayerEvents = (player) => {
     });
 
     player.on("channelEmpty", (queue) => {
-        queue.metadata.channel.send("\\❌ **leaving,** Nobody is in the voice channel!");
+        queue.metadata.channel.send("\\❌ **left,** Nobody is in the voice channel!");
     });
 
     player.on("queueEnd", (queue) => {
