@@ -6,8 +6,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with bot ping!')
-        .addBooleanOption(option => option.setName('hide').setDescription('Hide the output'))
-        .setDefaultMemberPermissions(0),
+        .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
 	async execute(client, interaction) {
         const hide = interaction.options.getBoolean('hide');
         var loading = new discord.MessageEmbed()

@@ -15,12 +15,17 @@ module.exports = {
 		if (!queue) return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!")
 
 		let bar = queue.createProgressBar({
+			timecodes: true,
 			queue: false,
 			length: 19,
 		})
 
         const song = queue.current
-
+		const embed = new MessageEmbed()
+		.setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+		.setFooter({ text: `Duration: ${song.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+		.setThumbnail(song.thumbnail)
+		.setDescription(`Currently Playing [${song.title}](${song.url})\n\n` + bar)
 		await interaction.editReply({
 			embeds: [new MessageEmbed()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
