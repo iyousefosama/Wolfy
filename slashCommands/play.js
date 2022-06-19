@@ -64,13 +64,10 @@ module.exports = {
                 searchEngine: QueryType.AUTO
             })
             if (result.tracks.length === 0)
-                return interaction.editReply("<:error:888264104081522698> No results found for this url!")
+                return await interaction.editReply("<:error:888264104081522698> No results found for this url!")
             
             const song = result.tracks[0]
             await queue.addTrack(song)
-            if (!queue.playing) {
-                await queue.play()
-            }
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
@@ -85,13 +82,10 @@ module.exports = {
             })
 
             if (result.tracks.length === 0)
-                return interaction.editReply("<:error:888264104081522698> No results found for this url!")
+                return await interaction.editReply("<:error:888264104081522698> No results found for this url!")
             
             const playlist = result.playlist
             await queue.addTracks(result.tracks)
-            if (!queue.playing) {
-                await queue.play()
-            }
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
                 .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
@@ -105,19 +99,27 @@ module.exports = {
             })
 
             if (result.tracks.length === 0)
-                return interaction.editReply("<:error:888264104081522698> No results found for this song name!")
+                return await interaction.editReply("<:error:888264104081522698> No results found for this song name!")
             
             const song = result.tracks[0]
             await queue.addTrack(song)
-            if (!queue.playing) {
-                await queue.play()
-            }
             embed
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
             .setThumbnail(song.thumbnail)
             .setFooter({ text: `Duration: ${song.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 		}
+
+        try {
+            if (!queue.connection) {
+                await queue.connect(interaction.member.voice.channel);
+            }
+        } catch {
+            client.player.deleteQueue(message.guild);
+            return await interaction.editReply({ content: 'Could not join your voice channel!' });
+        }
+
+        if (!queue.playing) await queue.play();
 
         await interaction.editReply({
             embeds: [embed]
