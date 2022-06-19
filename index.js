@@ -17,7 +17,7 @@ const fs = require('fs');
 
 const { Player } = require("discord-player")
 
-const { registerPlayerEvents } = require('./MusicEvents');
+const { registerPlayerEvents } = require('./events/MusicEvents');
 
 client.player = new Player(client, {
     ytdlOptions: {
