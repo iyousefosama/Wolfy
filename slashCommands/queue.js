@@ -12,9 +12,13 @@ module.exports = {
     .addNumberOption(option => option.setName('page').setDescription('Page number of the queue')),
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
-        if (!queue || !queue.playing){
-            return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!")
-        }
+        if (!interaction.member.voice.channel){
+            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
+          } else if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId){
+            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+          } else if (!client.player.getQueue(interaction.guild.id)){
+            return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
+          };
 
         const totalPages = Math.ceil(queue.tracks.length / 10) || 1
         const page = (interaction.options.getNumber("page") || 1) - 1
@@ -32,9 +36,9 @@ module.exports = {
             embeds: [
                 new MessageEmbed()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-                    .setDescription(`**Currently Playing**\n` + 
+                    .setDescription(`<a:Fire:887894604421160970> **Currently Playing**\n` + 
                     (currentSong ? `\`[${currentSong.duration}]\` ${currentSong.title} -- <@${currentSong.requestedBy.id}>` : "None") +
-                    `\n\n**Queue**\n${queueString}`
+                    `\n\n<:star:888264104026992670> **Queue**\n${queueString}`
                     )
                     .setFooter({
                         text: `Page ${page + 1} of ${totalPages}`

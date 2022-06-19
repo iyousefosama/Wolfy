@@ -12,7 +12,13 @@ module.exports = {
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
 
-		if (!queue) return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!")
+        if (!interaction.member.voice.channel){
+            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
+          } else if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId){
+            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+          } else if (!client.player.getQueue(interaction.guild.id)){
+            return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
+          };
 
 		let bar = queue.createProgressBar({
 			timecodes: true,
@@ -21,17 +27,22 @@ module.exports = {
 		})
 
         const song = queue.current
-		const embed = new MessageEmbed()
-		.setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-		.setFooter({ text: `Duration: ${song.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-		.setThumbnail(song.thumbnail)
-		.setDescription(`Currently Playing [${song.title}](${song.url})\n\n` + bar)
+		const currentQueue = client.player.getQueue(interaction.guildId);
+    
+        const volume = currentQueue.volume;
+        const repeatMode = currentQueue.repeatMode;
+
+		console.log(paused)
 		await interaction.editReply({
 			embeds: [new MessageEmbed()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setFooter({ text: `Duration: ${song.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             .setThumbnail(song.thumbnail)
             .setDescription(`Currently Playing [${song.title}](${song.url})\n\n` + bar)
+			.addFields(
+				{ name: 'Requested by', value: song.requestedBy.username || 'None', inline: true },
+				{ name: 'Volume', value: volume + '%' || 'None', inline: true },
+			)
         ],
 		})
 	},

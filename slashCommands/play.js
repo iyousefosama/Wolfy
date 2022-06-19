@@ -31,10 +31,11 @@ module.exports = {
             .addStringOption((option) => option.setName("url").setDescription("the playlist's url").setRequired(true))
     ),
 	async execute(client, interaction) {
-        if (!interaction.member.voice.channel) {
-            return interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
-        }
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.reply({ content: "<:error:888264104081522698> You are not in my voice channel!", ephemeral: true });
+        if (!interaction.member.voice.channel){
+            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
+          } else if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId){
+            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+          };
 
         const guild = client.guilds.cache.get(interaction.guild.id);
         const channel = guild.channels.cache.get(interaction.channel.id);
@@ -60,13 +61,16 @@ module.exports = {
             let url = interaction.options.getString("url")
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.YOUTUBE_VIDEO
+                searchEngine: QueryType.AUTO
             })
             if (result.tracks.length === 0)
                 return interaction.editReply("<:error:888264104081522698> No results found for this url!")
             
             const song = result.tracks[0]
             await queue.addTrack(song)
+            if (!queue.playing) {
+                await queue.play()
+            }
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
@@ -77,7 +81,7 @@ module.exports = {
             let url = interaction.options.getString("url")
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.YOUTUBE_PLAYLIST
+                searchEngine: QueryType.AUTO
             })
 
             if (result.tracks.length === 0)
@@ -85,6 +89,9 @@ module.exports = {
             
             const playlist = result.playlist
             await queue.addTracks(result.tracks)
+            if (!queue.playing) {
+                await queue.play()
+            }
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
                 .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
@@ -102,13 +109,16 @@ module.exports = {
             
             const song = result.tracks[0]
             await queue.addTrack(song)
+            if (!queue.playing) {
+                await queue.play()
+            }
             embed
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
             .setThumbnail(song.thumbnail)
             .setFooter({ text: `Duration: ${song.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 		}
-        if (!queue.playing) await queue.play()
+
         await interaction.editReply({
             embeds: [embed]
         })

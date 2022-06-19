@@ -7,11 +7,12 @@ module.exports = {
     clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY', 'CONNECT', 'SPEAK'],
     guildOnly: true,
 	data: new SlashCommandBuilder()
-    .setName("skipto")
-    .setDescription("Skips the current song to a certain track")
-    .addNumberOption((option) => 
-    option.setName("tracknumber").setDescription("The song to skip to").setRequired(true)),
+    .setName("volume")
+    .setDescription("Set the volume for the current queue")
+    .addIntegerOption((option) => 
+    option.setName("volume").setDescription("Number of volume").setRequired(true)),
 	async execute(client, interaction) {
+        const vol = interaction.options.getNumber("volume")
         const queue = client.player.getQueue(interaction.guildId)
 
         if (!interaction.member.voice.channel){
@@ -22,11 +23,9 @@ module.exports = {
             return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
           };
 
-        const trackNum = interaction.options.getNumber("tracknumber")
-        if (trackNum > queue.tracks.length) return await interaction.editReply("<:error:888264104081522698> Invalid track number!")
-        if (trackNum < 1) return await interaction.editReply("<:error:888264104081522698> Invalid track number!")
-		queue.skipTo(trackNum - 1)
-
-        await interaction.editReply(`<:success:888264105851490355> **Successfully** skipped to the track number \`${trackNum}\`!`)
+        if (!vol) return await interaction.editReply(`❌ Please add the volume, current volume is \`${queue.volume}\`!`)
+        if (vol < 0 || vol > 100) return void ctx.sendFollowUp({ content: '❌ Volume range must be \`1-100\`!' });
+        const success = queue.setVolume(vol);
+        await interaction.editReply({ content: success ? `<:success:888264105851490355> **Successfully** set the volume to \`${vol}%\`!` : '<:error:888264104081522698> Something went wrong!'})
 	},
 };
