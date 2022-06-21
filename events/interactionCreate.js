@@ -1,5 +1,10 @@
 const Discord = require('discord.js')
+const { Collection } = require('discord.js')
+const sourcebin = require('sourcebin_js');
 const schema = require('../schema/GuildSchema')
+const TicketSchema = require('../schema/Ticket-Schema')
+const { MessageActionRow, MessageButton } = require('discord.js');
+const cooldowns = new Collection();
 
 module.exports = {
     name: 'interactionCreate',
@@ -9,35 +14,260 @@ module.exports = {
           data = await schema.findOne({
               GuildID: interaction.guild.id
           })
-          if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
       } catch(err) {
           console.log(err)
           interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
       }
 
-      const categoryID = interaction.guild.channels.cache.get(data.Mod.Tickets.channel)
-      const member = interaction.guild.members.cache.get(interaction.channel.name.split('ticket-').join(''));
-
+      let TicketData;
       if (interaction.isButton()) {
         if(interaction.customId === '98418541981561') {
-          interaction.channel.edit(interaction.guild.id, {
-            type: 'GUILD_TEXT',
-            permissionOverwrites: [
-                {
-                    id: interaction.guild.id,
-                    deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-                },
-                {
-                  id: interaction.guild.roles.everyone,
-                  deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-              },
-            ],
+          interaction.deferUpdate()
+          try{
+          TicketData = await TicketSchema.findOne({
+              guildId: interaction.guild.id,
+              ChannelId: interaction.channel.id
+          })
+        } catch(err) {
+            console.log(err)
+            interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+        }
+              //+ cooldown 1, //seconds(s)
+              if (!cooldowns.has("98418541981561")) {
+                  cooldowns.set("98418541981561", new Discord.Collection());
+              }
+              
+              const now = Date.now();
+              const timestamps = cooldowns.get("98418541981561");
+              const cooldownAmount = (5 || 3) * 1000;
+              
+              if (timestamps.has(interaction.user.id)) {
+                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+              
+                  if (now < expirationTime) {
+                      const timeLeft = (expirationTime - now) / 1000;
+                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                          setTimeout(() => {
+                              msg.delete().catch(() => null)
+                           }, 3000)
+                          })
+                  }
+              }
+              timestamps.set(interaction.user.id, now);
+              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+          if(!TicketData) return interaction.channel.send(`\\❌ I can't find this guild \`data\` in the data base!`)
+          if(TicketData.IsClosed) {
+            return interaction.channel.send(`\\❌ This ticket is already closed!`)
+          }
+          const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId)
+
+          Channel.permissionOverwrites.edit(TicketData.UserId, {
+                  VIEW_CHANNEL: false,
+                  SEND_MESSAGES: false
         })
-        interaction.channel.send("Closed this ticket!")
+
+        const button = new MessageButton()
+        .setLabel(`Transcript`)
+        .setCustomId("98418541981564")
+        .setStyle('SECONDARY')
+        .setEmoji("853495194863534081");
+        const button2 = new MessageButton()
+        .setLabel(`Re-Open`)
+        .setCustomId("98418541981565")
+        .setStyle('PRIMARY')
+        .setEmoji("🔓");
+        const button3 = new MessageButton()
+        .setLabel(`Delete`)
+        .setCustomId("98418541981566")
+        .setStyle('DANGER')
+        .setEmoji("836168686251409409");
+        const row = new MessageActionRow()
+        .addComponents(button, button2, button3);
+        const Closed = new Discord.MessageEmbed()
+        .setAuthor({ name: `Closed by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
+        .setColor("#2F3136")
+        .setDescription(`\`\`\`Support team ticket controls\`\`\``)
+        TicketData.IsClosed = true;
+        await TicketData.save().then(() => {
+          interaction.channel.send({ embeds: [Closed], components: [row]})
+        }).catch(() => {
+          interaction.channel.send({ content: `\`❌ [ERR]:\` Something is wrong, please try again later!`})
+        })
+        } else if(interaction.customId == "98418541981564") {
+          interaction.deferUpdate()
+          try{
+            TicketData = await TicketSchema.findOne({
+                guildId: interaction.guild.id,
+                ChannelId: interaction.channel.id
+            })
+          } catch(err) {
+              console.log(err)
+              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+          }
+          if(!TicketData.IsClosed) {
+            return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
+          }
+              //+ cooldown 1, //seconds(s)
+              if (!cooldowns.has("98418541981561")) {
+                  cooldowns.set("98418541981561", new Discord.Collection());
+              }
+              
+              const now = Date.now();
+              const timestamps = cooldowns.get("98418541981561");
+              const cooldownAmount = (5 || 3) * 1000;
+              
+              if (timestamps.has(interaction.user.id)) {
+                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+              
+                  if (now < expirationTime) {
+                      const timeLeft = (expirationTime - now) / 1000;
+                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                          setTimeout(() => {
+                              msg.delete().catch(() => null)
+                           }, 3000)
+                          })
+                  }
+              }
+              timestamps.set(interaction.user.id, now);
+              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+          interaction.channel.messages.fetch().then(async (messages) => {
+            const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
+  
+            let response;
+            try {
+              response = await sourcebin.create([
+                {
+                  name: ' ',
+                  content: output,
+                  languageId: 'text',
+                },
+              ], {
+                title: `Chat transcript for ${interaction.channel.name}`,
+                description: ' ',
+              });
+            }
+            catch(e) {
+              console.log(e)
+              return interaction.channel.send('An error occurred, please try again!');
+            }
+  
+            const embed = new Discord.MessageEmbed()
+              .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
+              .setDescription(`<:Map:853495194863534081> ${interaction.guild.name}'s ticket transcript\n<:Tag:836168214525509653> [\`📄 View\`](${response.url}) for channel \`${interaction.channel.name}\`!`)
+              .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+              .setColor('738ADB');
+              await interaction.user.send({ embeds: [embed] });
+          })
+        } else if(interaction.customId == "98418541981565") {
+          interaction.deferUpdate()
+          try{
+            TicketData = await TicketSchema.findOne({
+                guildId: interaction.guild.id,
+                ChannelId: interaction.channel.id
+            })
+          } catch(err) {
+              console.log(err)
+              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+          }
+          if(!TicketData.IsClosed) {
+            return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
+          }
+          //+ cooldown 1, //seconds(s)
+              if (!cooldowns.has("98418541981561")) {
+                  cooldowns.set("98418541981561", new Discord.Collection());
+              }
+              
+              const now = Date.now();
+              const timestamps = cooldowns.get("98418541981561");
+              const cooldownAmount = (5 || 3) * 1000;
+              
+              if (timestamps.has(interaction.user.id)) {
+                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+              
+                  if (now < expirationTime) {
+                      const timeLeft = (expirationTime - now) / 1000;
+                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                          setTimeout(() => {
+                              msg.delete().catch(() => null)
+                           }, 3000)
+                          })
+                  }
+              }
+              timestamps.set(interaction.user.id, now);
+              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+          if(!TicketData) return interaction.channel.send(`\\❌ I can't find this guild \`data\` in the data base!`)
+          const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId)
+
+          Channel.permissionOverwrites.edit(TicketData.UserId, {
+                  VIEW_CHANNEL: true,
+                  SEND_MESSAGES: true
+        })
+
+        const embed = new Discord.MessageEmbed()
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
+        .setDescription(`<:Verify:841711383191879690> Successfully re-opened the ticket by \`${interaction.user.tag}\`!`)
+        .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+        .setColor('GREEN');
+        TicketData.IsClosed = false;
+        await TicketData.save().then(() => {
+          interaction.channel.send({ embeds: [embed] });
+        }).catch(() => {
+          interaction.channel.send({ content: `\`❌ [ERR]:\` Something is wrong, please try again later!`})
+        })
+
+        } else if(interaction.customId == "98418541981566") {
+          interaction.deferUpdate()
+          try{
+            TicketData = await TicketSchema.findOne({
+                guildId: interaction.guild.id,
+                ChannelId: interaction.channel.id
+            })
+          } catch(err) {
+              console.log(err)
+              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+          }
+          if(!TicketData.IsClosed) {
+            return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
+          }
+          //+ cooldown 1, //seconds(s)
+          if (!cooldowns.has("98418541981561")) {
+            cooldowns.set("98418541981561", new Discord.Collection());
+        }
+        
+        const now = Date.now();
+        const timestamps = cooldowns.get("98418541981561");
+        const cooldownAmount = (5 || 3) * 1000;
+        
+        if (timestamps.has(interaction.user.id)) {
+            const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+        
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                    setTimeout(() => {
+                        msg.delete().catch(() => null)
+                     }, 3000)
+                    })
+            }
+        }
+        timestamps.set(interaction.user.id, now);
+        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+          const close = new Discord.MessageEmbed()
+          .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
+          .setColor(`RED`)
+          .setDescription('<a:pp681:774089750373597185> Ticket will be deleted in \`5 seconds\`!')
+          .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
+          interaction.channel.send({ embeds: [close]})
+          .then(channel => {
+              setTimeout(async () => {
+                  await interaction.channel.delete().catch(() => null)
+              }, 5000);
+          })
         }
       }
 
         if(interaction.isSelectMenu()){
+          if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
           let choice = interaction.values[0]
           const member = interaction.member
           

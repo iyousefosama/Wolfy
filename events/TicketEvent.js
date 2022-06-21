@@ -1,65 +1,67 @@
 const Discord = require('discord.js')
-const { MessageEmbed} = require('discord.js')
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const schema = require('../schema/GuildSchema')
+const TicketSchema = require('../schema/Ticket-Schema')
 
 module.exports = {
     name: 'interactionCreate',
     async execute(client, interaction) {
         if (interaction.isButton()) {
         if (interaction.customId === 'ticket') {
-        let data;
-        try{
-            data = await schema.findOne({
-                GuildID: interaction.guild.id
-            })
-            if(!data) {
-            data = await schema.create({
-                GuildID: interaction.guild.id
-            })
+            let data;
+            let TicketData;
+            try{
+                data = await schema.findOne({
+                    GuildID: interaction.guild.id
+                })
+                TicketData = await TicketSchema.findOne({
+                    guildId: interaction.guild.id,
+                    UserId: interaction.user.id
+                })
+                if(!data) {
+                data = await schema.create({
+                    GuildID: interaction.guild.id
+                })
+                }
+                if(!TicketData) {
+                    TicketData = await TicketSchema.create({
+                        guildId: interaction.guild.id,
+                        UserId: interaction.user.id
+                    })
+                    }
+            } catch(err) {
+                console.log(err)
+                interaction.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
             }
-        } catch(err) {
-            console.log(err)
-            interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true})
-        }
-
+    
     // getting in the ticket category
     const categoryID = interaction.guild.channels.cache.get(data.Mod.Tickets.channel)
+    let Channel = client.channels.cache.get(TicketData.ChannelId)
 
     // if there is no ticket category return
     if(!categoryID) {
     return interaction.reply({ content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`, ephemeral: true})
     } else if(!data.Mod.Tickets.isEnabled) {
-    return interaction.reply({ content: `\\❌ **${message.member.displayName}**, The **tickets** command is disabled in this server!`, ephemeral: true})
+    return interaction.reply({ content: `\\❌ **${interaction.member.displayName}**, The **tickets** command is disabled in this server!`, ephemeral: true})
     } else {
     // Do nothing..
     }
 
-    // getting the username of the member who created the ticket
     var userName = interaction.user.username;
     
-    // getting the Discriminator (KarimX#9586) of the ticket creator
     var userDiscriminator = interaction.user.discriminator;
 
-    // making the var for the funtion
-    var ticketexist = false;
-
-    // getting all the channels in the server
+    let TicketAvailable = false
     interaction.guild.channels.cache.forEach(channel => {
         
-        // making sure that the user dont already have a ticket
-        if(channel.name == userName.toLowerCase() + "-" + userDiscriminator){
-        
-            // setting it to true so there is already a ticket
-            ticketexist = true;
-
-            // returning the cmd
+        if(Channel && channel.id == Channel.id){
+            TicketAvailable = true
             return;
         }
     });
 
-    // if the user already have a ticket return ( dont create another ticket for him)
-    if(ticketexist) return interaction.reply({ content: "<a:pp681:774089750373597185> You already have a ticket!", ephemeral: true})
-    // making the ticket channel
+    if(TicketAvailable) return interaction.channel.send({ content: "<a:pp681:774089750373597185> You already have a ticket!"})
+
     interaction.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
         type: 'GUILD_TEXT',
         parent: categoryID,
@@ -75,6 +77,13 @@ module.exports = {
         ],
     }).then(async (channel) => {
                     interaction.reply({ content: `<:Verify:841711383191879690> Successfully created ${channel} ticket!`, ephemeral: true})
+                    const button = new MessageButton()
+                    .setLabel(`Close`)
+                    .setCustomId("98418541981561")
+                    .setStyle('SECONDARY')
+                    .setEmoji("🔒");
+                    const row = new MessageActionRow()
+                    .addComponents(button);
                     var ticketEmbed = new Discord.MessageEmbed()
                     .setAuthor({ name: `Welcome in your ticket ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:tag:813830683772059748> Send here your message or question!
@@ -82,7 +91,9 @@ module.exports = {
                     > <:Humans:853495153280155668> User: ${interaction.user}
                     > <:pp198:853494893439352842> UserID: \`${interaction.user.id}\``)
                     .setTimestamp()
-                    channel.send({ content: `${interaction.user}`, embeds: [ticketEmbed] })
+                    channel.send({ content: `${interaction.user}`, embeds: [ticketEmbed], components: [row] })
+                    TicketData.ChannelId = channel.id;
+                    await TicketData.save().catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
                 })
             }
         }
