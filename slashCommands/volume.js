@@ -12,7 +12,7 @@ module.exports = {
     .addIntegerOption((option) => 
     option.setName("volume").setDescription("Number of volume").setRequired(true)),
 	async execute(client, interaction) {
-        const vol = interaction.options.getNumber("volume")
+        const vol = interaction.options.getInteger("volume")
         const queue = client.player.getQueue(interaction.guildId)
 
         if (!interaction.member.voice.channel){

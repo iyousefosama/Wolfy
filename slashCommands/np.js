@@ -32,7 +32,6 @@ module.exports = {
         const volume = currentQueue.volume;
         const repeatMode = currentQueue.repeatMode;
 
-		console.log(paused)
 		await interaction.editReply({
 			embeds: [new MessageEmbed()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
