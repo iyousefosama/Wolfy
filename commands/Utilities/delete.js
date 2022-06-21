@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const TicketSchema = require('../../schema/Ticket-Schema')
 const moment = require('moment');
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
     async execute(client, message, args) {
 
     let data;
+    let TicketData;
     try{
         data = await schema.findOne({
             GuildID: message.guild.id

@@ -20,11 +20,11 @@ module.exports = {
 
         const embed = new MessageEmbed()
         .setColor('RED')
-        .setAuthor('Tickets', message.guild.iconURL({ dynamic: true }))
+        .setAuthor({ name: 'Tickets', iconURL: message.guild.iconURL({ dynamic: true }) })
         .setDescription([
         text ? text :
         `React with 📩 to create your ticket!` ].join(' '))
-        .setFooter(`Ticket Panel | \©️${new Date().getFullYear()} Wolfy`, client.user.avatarURL({dynamic: true}))
+        .setFooter({ text: `Ticket Panel | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
         .setTimestamp()
         const button = new MessageButton()
         .setLabel('Open ticket')
