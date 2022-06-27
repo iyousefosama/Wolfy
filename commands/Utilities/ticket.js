@@ -103,6 +103,7 @@ module.exports = {
                     .setTimestamp()
                     channel.send({ content: `${message.author}`, embeds: [ticketEmbed], components: [row] }).then(async () => {
                         TicketData.ChannelId = channel.id;
+                        TicketData.IsClosed = false;
                         await TicketData.save().catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
                     })
                 })
