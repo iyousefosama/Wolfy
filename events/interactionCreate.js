@@ -80,7 +80,7 @@ module.exports = {
         .setLabel(`Delete`)
         .setCustomId("98418541981566")
         .setStyle('DANGER')
-        .setEmoji("836168686251409409");
+        .setEmoji("853496185443319809");
         const row = new MessageActionRow()
         .addComponents(button, button2, button3);
         const Closed = new Discord.MessageEmbed()
