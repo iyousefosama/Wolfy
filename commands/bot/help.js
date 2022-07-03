@@ -189,6 +189,7 @@ module.exports = {
         { name: `${prefix}meme`, value: `> \`Gives random memes\``},
         { name: `${prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
         { name: `${prefix}tweet`, value: `> \`Send your message as tweet message\``},
+        { name: `${prefix}guess`, value: `> \`Start playing new guess the number game.\``},
         { name: `${prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
