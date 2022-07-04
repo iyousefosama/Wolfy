@@ -34,11 +34,12 @@ module.exports = {
 		// Store the date wich the game has started
 		const gameCreatedAt = Date.now();
 
-		const collector = new discord.MessageCollector(
-			message.channel,
-			m => !m.author.bot,
+		const filter  = m => !m.author.bot
+		const collector = message.channel.createMessageCollector(
 			{
-				time: 30000 // 30 seconds
+				filter,
+				time: 30000, // 30 seconds
+			    errors: ['time']
 			}
 		);
 		currentGames[message.guild.id] = true;
