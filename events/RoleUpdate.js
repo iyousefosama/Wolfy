@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const { MessageEmbed} = require('discord.js')
 const schema = require('../schema/GuildSchema')
 const text = require('../util/string');
+let logs = [];
 
 module.exports = {
     name: 'roleUpdate',
@@ -94,6 +95,7 @@ module.exports = {
 
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()
+            logs.push(RoleUpdated)
             setTimeout(async function(){
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
@@ -101,8 +103,9 @@ module.exports = {
             } else if(webhooks.size <= 10) {
               // Do no thing...
             }
-            webhook.send({embeds: [RoleUpdated]})
-            .catch(() => {});
+            webhook.send({embeds: logs.slice(0, 10).map(log => log)})
+            .catch(() => {})
+            logs = [];
           }, 5000);
               // add more functions on ready  event callback function...
             

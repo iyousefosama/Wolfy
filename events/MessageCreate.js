@@ -1,9 +1,9 @@
 const Discord = require('discord.js')
-const { Client, Intents, Collection } = require('discord.js')
+const { Collection } = require('discord.js')
 const text = require('../util/string');
 const userSchema = require('../schema/user-schema')
 const schema = require('../schema/GuildSchema')
-const { developer, clientId } = require('../config.json');
+const { developer } = require('../config.json');
 const config = require('../config.json')
 const cooldowns = new Collection();
 

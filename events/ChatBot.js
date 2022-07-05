@@ -12,8 +12,8 @@ module.exports = {
         if (!message.author) return;
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
-        const Channel = message.guild.channels.cache.get("911566889849876512")
-        if(message.channel.id == Channel?.id) {
+        const Channel = message.guild.channels.cache.get("922488179284664380")
+        if(message.channel.id == Channel.id) {
             message.channel.sendTyping()
             const url = 'https://waifu.p.rapidapi.com/v1/waifu';
 
@@ -21,10 +21,10 @@ module.exports = {
               method: 'POST',
               headers: {
                 'content-type': 'application/json',
-                'X-RapidAPI-Key': 'f89e968f93msh68f7a95ca0c5119p175720jsnbe7d03e7d5f0',
+                'X-RapidAPI-Key': 'b335761898msh3524b71f87e82dbp1956dfjsn3ad103632169',
                 'X-RapidAPI-Host': 'waifu.p.rapidapi.com'
               },
-              body: `{"user_id":"${message.author.id}","message":"${message.content}","from_name":"${message.author.username}","to_name":"${client.user.username}","translate_from":"auto","translate_to":"auto"}`
+              body: `{"user_id":"${message.author.id}","message":"${message.content}","from_name":"${message.author.username}","to_name":"${client.user.username}","situation":"Wolfy loves ${message.author.username}.","translate_from":"auto","translate_to":"auto"}`
             };
             
             fetch(url, options)

@@ -4,6 +4,7 @@ const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
+const canvacord = require('canvacord')
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -65,6 +66,26 @@ module.exports = {
           .setFooter({ text: `${member.user.username} (${member.user.id})` })
           .setTimestamp()
           return client.channels.cache.get(data.greeter.welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, embeds: [embed]});
+       };
+       if (type === 'image'){
+        const WelcomeFile = new canvacord.Welcomer()
+        .setMemberCount(member.guild.memberCount)
+        .setAvatar(member.displayAvatarURL({format: "png", size: 1024}))
+        .setUsername(member.user.username)
+        .setDiscriminator(member.user.discriminator)
+        .setGuildName(member.guild.name)
+        .setColor("border", "#7289da")
+        .setColor("username-box", "#eb403b")
+        .setColor("discriminator-box", "#2a2a2b")
+        .setColor("message", "#c19a6b")
+        .setColor("title", "#e6a54a")
+        .setColor("title-border", "#2a2a2b")
+        .setColor("background", "#2a2a2b");
+        await WelcomeFile.build()
+        .then(data => {
+            const attachment = new Discord.MessageAttachment(data, "Welcomer.png");
+            return client.channels.cache.get(welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, files: [attachment]});
+        });
        };
     }
 }

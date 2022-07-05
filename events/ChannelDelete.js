@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
+let logs = [];
 
 module.exports = {
     name: 'channelDelete',
@@ -70,6 +71,7 @@ module.exports = {
             .setTimestamp()
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()
+            logs.push(ChannelDeleted)
             setTimeout(async function(){
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){
@@ -77,8 +79,9 @@ module.exports = {
             } else if(webhooks.size <= 10) {
               // Do no thing...
             }
-            webhook.send({embeds: [ChannelDeleted]})
-            .catch(() => {});
+            webhook.send({embeds: logs.slice(0, 10).map(log => log)})
+            .catch(() => {})
+            logs = [];
           }, 5000);
               // add more functions on ready  event callback function...
             

@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
-
+let logs = [];
 module.exports = {
     name: 'guildMemberRemove',
     async execute(client, member) {
@@ -69,6 +69,7 @@ module.exports = {
         
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
+        logs.push(RemoveEmbed)
         setTimeout(async function(){
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
@@ -76,8 +77,9 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: [RemoveEmbed]})
-        .catch(() => {});
+        webhook.send({embeds: logs.slice(0, 10).map(log => log)})
+        .catch(() => {})
+        logs = [];
     }, 5000);
         
           // add more functions on ready  event callback function...

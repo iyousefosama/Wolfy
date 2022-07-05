@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+/*const Discord = require('discord.js')
 const Levels = require("discord-xp");
 const fs = require('fs');
 const schema = require('../schema/GuildSchema')
@@ -77,3 +77,4 @@ module.exports = {
         }
     }
 } 
+*/

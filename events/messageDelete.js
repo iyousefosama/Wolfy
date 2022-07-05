@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
+let logs = []
 
 module.exports = {
     name: 'messageDelete',
@@ -33,16 +34,18 @@ module.exports = {
           };
 
         const timestamp = Math.floor(Date.now() / 1000)
+        const Msg = message.toString().substr(0, 500);
         const DeletedLog = new Discord.MessageEmbed()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle(`<a:Down:853495989796470815> Deleted Message`)
-        .setDescription(`<a:iNFO:853495450111967253>  **Member**: \`${message.author.tag}\` (${message.author.id})\n<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${message.content || '❌ | Unkown message!'}\n\`\`\``)
+        .setDescription(`<a:iNFO:853495450111967253>  **Member**: \`${message.author.tag}\` (${message.author.id})\n<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${Msg || '❌ | Unkown message!'}\n\`\`\``)
         .setColor('RED')
         .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
+        logs.push(DeletedLog)
         setTimeout(async function(){
         let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
         if(!webhook){
@@ -50,8 +53,9 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: [DeletedLog]})
-        .catch(() => {});
+        webhook.send({embeds: logs.slice(0, 10).map(log => log)})
+        .catch(() => {})
+        logs = [];
     }, 5000);
         
           // add more functions on ready  event callback function...
