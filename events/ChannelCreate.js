@@ -44,7 +44,7 @@ module.exports = {
           //Do nothing..
         }
 
-        const { executor, type, id, name } = channelLog;
+        const { executor, target, type, id, name } = channelLog;
         const types = {
           GUILD_TEXT: "Text Channel",
           GUILD_VOICE: "Voice Channel",
@@ -56,13 +56,13 @@ module.exports = {
           GUILD_PRIVATE_THREAD: "Private Thread",
           GUILD_STAGE_VOICE: "Stage Voice"
       }
-        if(!channelLog || !channelLog.available && id != channel.id) {
+        if(!channelLog || !channelLog.available && target.id != channel.id) {
           return;
         } else {
           //Do nothing..
         }
 
-            const ChannelDeleted = new Discord.MessageEmbed()
+            const ChannelCreate = new Discord.MessageEmbed()
             .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Up:853495519455215627> Channel Created!')
             .setDescription(`<a:iNFO:853495450111967253> **Channel Name:** ${channel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${channel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[channel.type]}\`\`\``)
@@ -71,7 +71,7 @@ module.exports = {
             .setTimestamp()
             const botname = client.user.username;
             const webhooks = await Channel.fetchWebhooks()
-            logs.push(ChannelDeleted)
+            logs.push(ChannelCreate)
             setTimeout(async function(){
             let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
             if(!webhook){

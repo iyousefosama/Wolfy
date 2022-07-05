@@ -45,7 +45,7 @@ module.exports = {
           //Do nothing..
         }
       
-        const { executor, type, id, name } = channelLog;
+        const { executor, target, id, name } = channelLog;
         const types = {
           GUILD_TEXT: "Text Channel",
           GUILD_VOICE: "Voice Channel",
@@ -57,7 +57,7 @@ module.exports = {
           GUILD_PRIVATE_THREAD: "Private Thread",
           GUILD_STAGE_VOICE: "Stage Voice"
       }
-        if(!channelLog.available && id != oldChannel.id) {
+        if(!channelLog.available && target.id != oldChannel.id) {
           return;
         } else {
           //Do nothing..
