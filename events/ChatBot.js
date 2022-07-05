@@ -12,7 +12,7 @@ module.exports = {
         if (!message.author) return;
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
-        const Channel = message.guild.channels.cache.get("const Discord = require('discord.js')
+        const Channel = message.guild.channels.cache.get("911566889849876512')
 const fetch = require('node-fetch')
 
 module.exports = {
