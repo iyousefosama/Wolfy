@@ -13,6 +13,7 @@ module.exports = {
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
         const Channel = message.guild.channels.cache.get("911566889849876512")
+        if(!Channel) return;
         if(message.channel.id == Channel.id) {
             message.channel.sendTyping()
             const url = 'https://waifu.p.rapidapi.com/v1/waifu';
