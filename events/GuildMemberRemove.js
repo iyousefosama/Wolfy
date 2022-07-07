@@ -44,7 +44,7 @@ module.exports = {
         
         let target;
         let RemoveEmbed;
-        if (!kickLog || !kickLog.available && target.id == member.id && kickLog.createdAt < member.joinedAt) {
+        if (!kickLog || !kickLog.available && kickLog.createdAt < member.joinedAt) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
           .setTitle('<a:Down:853495989796470815> Member Leave!')
