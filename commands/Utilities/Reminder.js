@@ -51,7 +51,7 @@ module.exports = {
             const reminderErr = new discord.MessageEmbed()
               .setDescription(`Error! You must state a duration for your reminder!. \`${prefix}remind [time] [reason]\``)
               .setColor('RED')
-            if (!time) return message.channel.send({ embeds: reminderErr})
+            if (!time || !ms(time)) return message.channel.send({ embeds: [reminderErr]})
     
             const noReasonInput = new discord.MessageEmbed()
               .setDescription(`Error! Please state your remind reason! \`${prefix}remind [time] [reason]\``)
@@ -75,11 +75,4 @@ module.exports = {
             message.channel.send({ embeds: [dnEmbed]})
             })
           }
-}
-
-    
-
-module.exports.help = {
-    name: "remind",
-    aliases: ['Remind', 'Remindme', 'remindme']
 }
