@@ -68,6 +68,7 @@ module.exports = {
     if(!userData) {
         return message.channel.send({ content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`})
     }
+    var status = member.presence?.status;
     const requiredXP = (userData.level +1) * (userData.level +1) *100 // Enter the formula for calculating the experience here. I used mine, which is used in discord-xp.
     const rank = new canvacord.Rank()
     .setAvatar(user.displayAvatarURL({format: "png", size: 1024}))
@@ -75,6 +76,7 @@ module.exports = {
     .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
     .setCurrentXP(userData.xp)
     .setLevel(userData.level)
+    .setStatus(status)
     .setRequiredXP(requiredXP)
     .setUsername(user.username)
     .setDiscriminator(user.discriminator)

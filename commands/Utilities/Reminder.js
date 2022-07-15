@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const ms = require('ms')
 const { prefix } = require('../../config.json');
+const schema = require('../../schema/TimeOut-Schema')
 
 module.exports = {
   name: "remind",
@@ -11,7 +12,7 @@ module.exports = {
   usage: '<time> <reason>',
   group: 'Utilities',
   description: 'The bot will reminde you for anything',
-  cooldown: 60, //seconds(s)
+  cooldown: 5, //seconds(s)
   guarded: false, //or false
   permissions: ["USE_EXTERNAL_EMOJIS"],
   examples: [
@@ -19,9 +20,22 @@ module.exports = {
     '30s To skip this ad'
   ],
   async execute(client, message, args) {
-    if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("EMBED_LINKS") || !message.guild.me.permissions.has("USE_EXTERNAL_EMOJIS") || !message.guild.me.permissions.has("ADD_REACTIONS") || !message.guild.me.permissions.has("VIEW_CHANNEL") || !message.guild.me.permissions.has("ATTACH_FILES") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY") || !message.guild.me.permissions.has("READ_MESSAGE_HISTORY")) return;
         let reason = args.slice(1).join(" ")
         let time = args[0];
+
+        let data;
+        try{
+            data = await schema.findOne({
+              userId: message.author.id
+            })
+            if(!data) {
+            data = await schema.create({
+              userId: message.author.id
+            })
+            }
+        } catch(err) {
+            console.log(err)
+        }
     
             // Input Checking
             const reminderErr = new discord.MessageEmbed()
@@ -35,29 +49,20 @@ module.exports = {
             if (!reason) return message.channel.send({ embeds: [noReasonInput]})
     
             // Executing
-            const dnEmbed = new discord.MessageEmbed()
+            data.Reminder.current = true;
+            data.Reminder.time = Math.floor(Date.now() + ms(time));
+            data.Reminder.reason = reason;
+            await data.save().then(() => {
+              const dnEmbed = new discord.MessageEmbed()
               .setAuthor({ name: '| Reminder Set!', iconURL: message.author.displayAvatarURL() })
               .setDescription(`Successfully Set \`${message.author.tag}'s\` reminder!`)
               .addField('❯ Remind You In:', `${time}`)
               .addField('❯ Remind Reason', `${reason}`)
               .setColor('GREEN')
               .setTimestamp()
-              .setFooter('Successfully set the reminder!', client.user.displayAvatarURL())
+              .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL()})
             message.channel.send({ embeds: [dnEmbed]})
-    
-            setTimeout(async function () {
-              const reminderEmbed = new discord.MessageEmbed()
-                .setAuthor({ name: 'Reminder Alert!', iconURL: message.author.displayAvatarURL() })
-                .setColor('DARK_GREEN')
-                .addField('❯ Remind Reason', `${reason}`)
-                .setTimestamp()
-                .setFooter({ text: 'Successfully Reminded!', iconURL: client.user.displayAvatarURL() })
-            try {
-                await message.author.send({ embeds: [reminderEmbed] })
-            } catch (error) {
-                return message.channel.send({ content: `> **Here is your reminder! • [** <@${message.author.id}> **]**`, embeds: [reminderEmbed]})
-            }
-            }, ms(time));
+            })
           }
 }
 

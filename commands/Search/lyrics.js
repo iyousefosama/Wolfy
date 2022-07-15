@@ -168,7 +168,7 @@ module.exports = {
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
         )
         .setDescription(lyrics)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setTimestamp()
         return message.channel.send({ embeds: [LowLy]})
         }
