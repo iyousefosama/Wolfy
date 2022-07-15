@@ -29,11 +29,11 @@ const mongodb = require('./mongo')()
 registerPlayerEvents(client.player);
 
 ["SlashHandler", "CommandHandler", "EventHandler"].forEach((handler) => {
-	require(`./handler/${handler}`)(client);
+	require(`../handler/${handler}`)(client);
 });
 
 ["Reminder"].forEach((functions) => {
-	require(`./functions/${functions}`)(client);
+	require(`../functions/${functions}`)(client);
 });
 
 client.login(process.env.TOKEN_URI);
