@@ -35,7 +35,7 @@ module.exports = {
 
         const welcome = data.greeter.welcome;
         const type = welcome.type === 'msg' && !welcome.message ? 'default' : welcome.type;
-      
+
         if (type === 'default'){
             let embed = new MessageEmbed()
             .setColor('DARK_GREEN')

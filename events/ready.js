@@ -9,6 +9,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
+        await new Promise(r=>setTimeout(r,3500))
         consoleUtil.success(`${client.user.username} is now Online! (Loaded At ${currentdate})\n\n`);
 
         /*======================================================

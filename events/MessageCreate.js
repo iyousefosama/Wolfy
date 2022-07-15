@@ -14,6 +14,9 @@ module.exports = {
         if (message.author.bot){
             return;
           };
+
+          const attachment = message.attachments?.first()
+          
           let data;
           let prefix;
           if (message.guild) {
