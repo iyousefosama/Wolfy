@@ -16,6 +16,6 @@ I don't know how did you get to here but it's okay..
 - *Wolfy* Is on `github` and hosted by `heroku` and connected by `mongo` database!
 
 ## Contact
-__Developer:__ [`WOLF#8712`](https://twitter.com/iiBLACK_WOLF)
+__Developer:__ [`WOLF#1000`](https://twitter.com/iiBLACK_WOLF)
 
 ```Hope wolfy bot do it's best to make a big smile on your face! ^_^```
