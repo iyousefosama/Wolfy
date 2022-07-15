@@ -49,10 +49,10 @@ module.exports = {
     };
 
     const ban = new discord.MessageEmbed()
-    .setAuthor(member.user.tag, member.user.displayAvatarURL({dynamic: true, size: 2048}))
+    .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048})})
     .setDescription([ `<:tag:813830683772059748> Successfully Banned the user from the server`, !args[0] ? '' :
     ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))
-    .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+    .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
     .setTimestamp()
 
     return message.guild.members.ban(member, { reason:  `Wolfy BAN: ${message.author.tag}: ${reason || 'Unspecified'}` })

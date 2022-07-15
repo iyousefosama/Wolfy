@@ -38,7 +38,7 @@ module.exports = {
     .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
     .setColor(`GREEN`)
     .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted **${user.tag}**`)
-    .setFooter(`Whitelist | \©️${new Date().getFullYear()} WOLFY`)
+    .setFooter({ text: `Whitelist | \©️${new Date().getFullYear()} WOLFY` })
     .setTimestamp()
 
     let data;
