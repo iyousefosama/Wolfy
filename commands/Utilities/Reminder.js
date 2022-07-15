@@ -37,6 +37,16 @@ module.exports = {
             console.log(err)
         }
     
+            if(time == "0") {
+              data.Reminder.current = false;
+              data.Reminder.time = 0;
+              data.Reminder.reason = null;
+              await data.save().then(() => {
+                return message.channel.send(`<:success:888264105851490355> **${message.author.tag}**, Successfully canceled the last reminder!`)
+              }).catch(() => {
+                return message.channel.send(`\\❌ **${message.author.tag}**, Something went wrong!`)
+              })
+            }
             // Input Checking
             const reminderErr = new discord.MessageEmbed()
               .setDescription(`Error! You must state a duration for your reminder!. \`${prefix}remind [time] [reason]\``)
@@ -48,6 +58,7 @@ module.exports = {
               .setColor('RED')
             if (!reason) return message.channel.send({ embeds: [noReasonInput]})
     
+            if(data.Reminder.current) return message.channel.send(`\\❌ **${message.author.tag}**, looks like you already have an active reminder! cancel it by ${prefix}reminder 0`)
             // Executing
             data.Reminder.current = true;
             data.Reminder.time = Math.floor(Date.now() + ms(time));
