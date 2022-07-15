@@ -55,7 +55,7 @@ module.exports = {
         }
 
         // SWITCH
-        if (oldState.channelId && newState.channelId && oldState.channel && newState.channel) {
+        if (!oldState.channelId && newState.channelId && !oldState.channel && newState.channel) {
             VoiceUpdate = new Discord.MessageEmbed()
             .setAuthor({ name: oldState.member.user.tag, iconURL: oldState.member.displayAvatarURL({dynamic: true, size: 2048}) })
             .setDescription(`<a:Right:877975111846731847> **${oldState.member} switched voice channel ${oldState.channel} ➜ ${newState.channel}**!`)
