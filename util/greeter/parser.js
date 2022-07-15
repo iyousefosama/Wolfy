@@ -10,11 +10,11 @@ function error(message, options = {}){
   return message.channel.send(
     new MessageEmbed()
     .setColor('RED')
-    .setFooter(`${options.type} | \©️${new Date().getFullYear()} Mai`)
+    .setFooter(`${options.type} | \©️${new Date().getFullYear()} Wolfy`)
     .setDescription([
       `❌\u2000\u2000|\u2000\u2000${options.title}\n\n`,
       options.subtitle ? options.subtitle + '\n' : '',
-      `[**Learn More**](${options.source}) on how to configure Mai's ${options.type} feature.`
+      `[**Learn More**](${options.source}) on how to configure Wolfy's ${options.type} feature.`
     ].join(''))
   );
 };
@@ -28,7 +28,7 @@ function saveDocument(document, message, options = {}){
     .setDescription([
       `<a:animatedcheck:758316325025087500>\u2000\u2000|\u2000\u2000${options.title}\n\n`,
       options.subtitle ? options.subtitle + '\n' : '',
-      `[**Learn More**](${options.source}) on how to configure Mai's ${options.type} feature.`
+      `[**Learn More**](${options.source}) on how to configure wolfy's ${options.type} feature.`
     ].join(''))
   ));
 };

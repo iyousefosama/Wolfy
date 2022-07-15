@@ -115,7 +115,7 @@ module.exports = {
                 await queue.connect(interaction.member.voice.channel);
             }
         } catch {
-            client.player.deleteQueue(message.guild);
+            client.player.deleteQueue(interaction.guild);
             return await interaction.editReply({ content: 'Could not join your voice channel!' });
         }
 
