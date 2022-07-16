@@ -6,6 +6,7 @@ const schema = require('../schema/GuildSchema')
 const { developer } = require('../config.json');
 const config = require('../config.json')
 const cooldowns = new Collection();
+const CoolDownCurrent = {};
 
 module.exports = {
     name: 'messageCreate',
@@ -107,16 +108,21 @@ module.exports = {
                   const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
               
                   if (now < expirationTime) {
+                      if(CoolDownCurrent[message.author.id]) {
+                        return;
+                      }
                       const timeLeft = (expirationTime - now) / 1000;
+                      CoolDownCurrent[message.author.id] = true;
                       return message.channel.send({ content: ` **${message.author.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
                           setTimeout(() => {
+                              delete CoolDownCurrent[message.author.id]
                               msg.delete().catch(() => null)
-                           }, 3000)
+                           }, 4000)
                           })
                   }
               }
               timestamps.set(message.author.id, now);
-              setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+              setTimeout(() => timestamps.delete(message.author.id), cooldownAmount, delete CoolDownCurrent[message.author.id]);
                    
                    //+ permissions: [""],
                    if (cmd.permissions) {
