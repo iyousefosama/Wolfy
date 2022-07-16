@@ -12,6 +12,8 @@ const client = new Client({
      allowedMentions: { parse: ['users', 'roles'], repliedUser: true }
     });
 
+client.config = config;
+
 const { Player } = require("discord-player")
 
 const { registerPlayerEvents } = require('./events/MusicEvents');
