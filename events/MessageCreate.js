@@ -40,7 +40,7 @@ module.exports = {
       if(message.channel.type === 'DM') {
         prefix = config.prefix;
       } else if (message.content.startsWith('wolfy')) {
-        prefix = 'wolfy';
+        prefix = 'wolfy ';
       } else if (!data || data.prefix == null){
         prefix = config.prefix;
       } else if (data && data.prefix){
