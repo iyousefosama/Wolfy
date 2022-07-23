@@ -31,7 +31,7 @@ const settings = {
     // all commands and features that requires database if disabled.
     database: {
       enable: true,
-      uri: "mongodb+srv://Yousef:yoyo01229988936@lunar.3upfk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      uri: process.env.MONGO_URI,
       config: {
         useUnifiedTopology: true,
         useNewUrlParser: true,
