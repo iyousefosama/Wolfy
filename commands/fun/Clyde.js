@@ -24,13 +24,13 @@ module.exports = {
     if(!args[0]) return message.reply({ content: `${message.author}, Please provide some text!`});
     if(args.join(" ").length > 100) return message.reply({ content: '<a:Wrong:812104211361693696> Sorry you can\`t type more than \`100 letters!\`' })
     axios
-    .get(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args.join(" ")}`)
+    .get(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args?.join(" ")}`)
     .then((res) => {
         const embed = new MessageEmbed()
         .setImage(res.data.message)
-        message.reply({ embeds: [embed] })
+        message.reply({ embeds: [embed] }).catch(() => null)
     })
-    .catch(err => {
+    .catch(() => {
         message.reply({ content: '<a:Error:836169051310260265> **|** Incorrect input, please try again!'});
       })
     }
