@@ -1,8 +1,6 @@
-const discord = require('discord.js');
 const market = require('../../assets/json/market.json');
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "buy",
@@ -40,8 +38,8 @@ module.exports = {
         if (!item || item == null){
           return message.channel.send([
             `\\❌ **${message.author.tag}**, Could not find this \`item ID\`!`,
-            `The proper usage for this command would be \`${prefix}buy [item id]\`.`,
-            `Example: \`${prefix}buy ${Math.floor(Math.random() * market.length)}\``
+            `The proper usage for this command would be \`${client.prefix}buy [item id]\`.`,
+            `Example: \`${client.prefix}buy ${Math.floor(Math.random() * market.length)}\``
           ].join('\n'));
         }
 

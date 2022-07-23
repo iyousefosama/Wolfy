@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const mcapi = require('mcapi');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "mcuser",
@@ -19,12 +18,6 @@ module.exports = {
         'Notch'
       ],
     async execute(client, message, args) {
-    let embed1 = new Discord.MessageEmbed()
-    .setTitle('Error!')
-    .setDescription(`**Required Arguments** \n \`\`\`${prefix}mcuser <username> \`\`\``)
-    .setColor('ORANGE')
-
-    if(!args[0]) return message.channel.send({ embeds: [embed1] })
 
     try{
         let uuid = await mcapi.usernameToUUID(`${args.join(" ")}`)

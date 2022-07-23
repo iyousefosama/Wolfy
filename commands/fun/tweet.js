@@ -1,4 +1,3 @@
-const canvacord = require("canvacord");
 const Discord = require("discord.js")
 const fetch = require("node-fetch");
 

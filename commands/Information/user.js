@@ -1,8 +1,6 @@
 const discord = require('discord.js'); 
 const moment = require("moment");
 const axios = require("axios")
-const text = require('../../util/string');
-const { isNullOrUndefined } = require('util');
 
 module.exports = {
     name: "user",

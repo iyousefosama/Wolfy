@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const market = require('../../assets/json/market.json');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "mine",
@@ -37,11 +36,13 @@ module.exports = {
 
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
-        .setDescription(`**${message.author.username}**, you didn't buy a pickaxe to mine yet!\n\nType \`${prefix}market\` to show the market.`)
+        .setDescription(`**${message.author.username}**, you didn't buy a pickaxe to mine yet!\n\nType \`${client.prefix}market\` to show the market.`)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item && !item2 && !item3) return message.channel.send({ embeds: [nulle] })
     
+        const quest = data.progress.quests?.find(x => x.id == 7);
+        let Box = quest?.current;
         
         let itemget;
          if (item && !item2 && !item3 && Math.random() * 100 < 55) {
@@ -50,7 +51,7 @@ module.exports = {
             data.inv.Stone += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item && !item2 && !item3 && Math.random() * 100 < 35) {
@@ -59,7 +60,7 @@ module.exports = {
             data.inv.Coal += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item && !item2 && !item3 && Math.random() * 100 < 5) {
@@ -68,7 +69,7 @@ module.exports = {
             data.inv.Iron += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item && !item2 && !item3 && Math.random() * 100 < 3) {
@@ -77,7 +78,7 @@ module.exports = {
             data.inv.Gold += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item && !item2 && !item3 && Math.random() * 100 < 2) {
@@ -86,7 +87,7 @@ module.exports = {
             data.inv.Diamond += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:StonePickaxe:887032165437702277> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item2 && !item3 &&  Math.random() * 100 < 30) {
@@ -95,7 +96,7 @@ module.exports = {
             data.inv.Stone += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item2 && !item3 &&  Math.random() * 100 < 10) {
@@ -104,7 +105,7 @@ module.exports = {
             data.inv.Coal += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item2 && !item3 && Math.random() * 100 < 40) {
@@ -113,7 +114,7 @@ module.exports = {
             data.inv.Iron += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item2 && !item3 && Math.random() * 100 < 10) {
@@ -122,7 +123,7 @@ module.exports = {
             data.inv.Gold += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item2 && !item3 && Math.random() * 100 < 10) {
@@ -131,7 +132,7 @@ module.exports = {
             data.inv.Diamond += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887042865715359774> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 15) {
@@ -140,7 +141,7 @@ module.exports = {
             data.inv.Stone += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 5) {
@@ -149,7 +150,7 @@ module.exports = {
             data.inv.Coal += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${coal}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 45) {
@@ -158,7 +159,7 @@ module.exports = {
             data.inv.Iron += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${iron}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 25) {
@@ -167,7 +168,7 @@ module.exports = {
             data.inv.Gold += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${gold}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else if (item3 && Math.random() * 100 < 10) {
@@ -176,7 +177,7 @@ module.exports = {
             data.inv.Diamond += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `<:e_:887059604998078495> **${message.author.tag}**, you mine: \`+${itemget}\` **${diamond}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
           } else {
@@ -185,7 +186,7 @@ module.exports = {
             data.inv.Stone += Math.floor(itemget);
             await data.save()
             .then(() => {
-                message.channel.send({ content: `\\❌ **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${prefix}inv mining\`!`})
+                message.channel.send({ content: `\\❌ **${message.author.tag}**, you mine: \`+${itemget}\` **${stone}** you can see this item count and sell it from your inv by \`${client.prefix}inv mining\`!`})
             })
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
             }

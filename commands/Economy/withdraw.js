@@ -1,6 +1,5 @@
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "withdraw",
@@ -35,7 +34,7 @@ module.exports = {
         }
 
     if (!data || data.Bank.balance.credits === null || data.Bank.info.Enabled == false){
-      return message.channel.send(`\\❌ **${message.author.tag}**, You don't have a *bank* yet! To create one, type \`${prefix}register\`.`);
+      return message.channel.send(`\\❌ **${message.author.tag}**, You don't have a *bank* yet! To create one, type \`${client.prefix}register\`.`);
     } else {
 
       const amt = amount;
@@ -53,7 +52,7 @@ module.exports = {
         return message.channel.send([
           `\\❌ **${message.author.tag}**, You don't have enough credits in your bank to proceed with this transaction.`,
           ` You only have **${text.commatize(data.Bank.balance.credits)}** left, **${text.commatize(amount - data.Bank.balance.credits + Math.ceil(amount * 0.05))}** less than the amount you want to withdraw (Transaction fee of 5% included)`,
-          `To withdraw all credits instead, please type \`${prefix}withdraw all\`.`
+          `To withdraw all credits instead, please type \`${client.prefix}withdraw all\`.`
         ].join('\n'));
       }
 

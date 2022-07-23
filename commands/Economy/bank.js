@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const moment = require("moment");
 const text = require('../../util/string');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "bank",
@@ -36,7 +35,7 @@ module.exports = {
         let moneyadd = Math.floor(credits * 1.05) + 150;
 
         if (!data || data.Bank.balance.credits === null || data.Bank.info.Enabled == false){
-            return message.channel.send(`\\❌ **${message.author.tag}**, You don't have a *bank* yet! To create one, type \`${prefix}register\`.`);
+            return message.channel.send(`\\❌ **${message.author.tag}**, You don't have a *bank* yet! To create one, type \`${client.prefix}register\`.`);
         }
         
         const now = Date.now();

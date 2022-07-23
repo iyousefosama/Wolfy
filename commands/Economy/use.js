@@ -1,4 +1,3 @@
-const discord = require('discord.js');
 const market = require('../../assets/json/market.json');
 const schema = require('../../schema/Economy-Schema')
 

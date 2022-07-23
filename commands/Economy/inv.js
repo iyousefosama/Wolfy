@@ -3,7 +3,6 @@ const { MessageEmbed, GuildEmoji } = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
-const { prefix } = require('../../config.json');
 const market = require('../../assets/json/market.json');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
@@ -53,7 +52,7 @@ module.exports = {
             { name: '<a:Diamond:877975082868301824> Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``},
         )
         .setURL('https://Wolfy.yoyojoe.repl.co')
-        .setFooter({ text: `${prefix}sell [item] (amount)`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
+        .setFooter({ text: `${client.prefix}sell [item] (amount)`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
         if(args.toLowerCase() === "mining") {
           return message.channel.send({ embeds: [Mineinv]})
@@ -75,7 +74,7 @@ module.exports = {
               value: [
                 `Type: *${item.type}*`,
                 `Selling Price: *${Math.floor(item.price / 0.7)}*`,
-                item.type != "Item" ?  `Use: \`${prefix}use ${item.id}\`` : ''
+                item.type != "Item" ?  `Use: \`${client.prefix}use ${item.id}\`` : ''
               ].join('\n')
             }
           }));

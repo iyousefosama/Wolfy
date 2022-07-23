@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
-const market = require('../../assets/json/market.json');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "fish",
@@ -36,9 +34,21 @@ module.exports = {
         const quest = data.progress.quests?.find(x => x.id == 1);
         let Box = quest?.current;
 
+        
+        if(quest?.current < quest?.progress) {
+          Box += Math.floor(amount);
+          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 7 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
+        }
+      if(Box && Box >= quest?.progress && !quest?.received) {
+          data.credits += Math.floor(quest.reward);
+          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 7 }, { $set: { "progress.quests.$.received": true } });
+          data.progress.completed++;
+          message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
+        }
+        
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
-        .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${prefix}market\` to show the market.`)
+        .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${client.prefix}market\` to show the market.`)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('RED')
         if(!item) return message.channel.send({ embeds: [nulle] })

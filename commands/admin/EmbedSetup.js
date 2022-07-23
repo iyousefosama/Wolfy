@@ -1,6 +1,5 @@
 const discord = require('discord.js')
 const { MessageActionRow, MessageButton } = require('discord.js');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "EmbedSetup",
@@ -84,7 +83,7 @@ module.exports = {
 
                 let desc = await message.channel.awaitMessages({ filter, max: 1 })
                 if(desc.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`});
-                else if(desc.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
+                else if(desc.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                 desc = desc.first().content
                 if(desc.length > 4026) {
                 message.reply({ content: `\\❌ **${message.author.username}**, Embed description should be 4026 characters or less!`, ephemeral: true})
@@ -114,7 +113,7 @@ module.exports = {
     
                     let title = await message.channel.awaitMessages({ filter, max: 1 })
                     if(title.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`});
-                    else if(title.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
+                    else if(title.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     title = title.first().content
                     if(title.length > 246) {
                         message.reply({ content: `\\❌ **${message.author.username}**, Embed title should be 246 characters or less!`, ephemeral: true})
@@ -144,7 +143,7 @@ module.exports = {
     
                     let color = await message.channel.awaitMessages({ filter, max: 1 })
                     if(color.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`});
-                    else if(color.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
+                    else if(color.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     color = color.first().content
                     try {
                     embed.setColor(color)
@@ -176,7 +175,7 @@ module.exports = {
     
                     let thumb = await message.channel.awaitMessages({ filter, max: 1 })
                     if(thumb.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`});
-                    else if(thumb.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
+                    else if(thumb.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     thumb = thumb.first().content
                     try {
                     embed.setThumbnail(thumb)
@@ -208,7 +207,7 @@ module.exports = {
     
                     let img = await message.channel.awaitMessages({ filter, max: 1 })
                     if(img.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`});
-                    else if(img.first().content == `${prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
+                    else if(img.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     img = img.first().content
                     try {
                     embed.setImage(img)

@@ -1,5 +1,4 @@
 const discord = require('discord.js');
-const config = require('../../config.json')
 const ms = require('ms')
 
 module.exports = {
@@ -52,7 +51,7 @@ module.exports = {
       return message.channel.send(`\\❌ | ${message.author}, You cannot timeout me!`);
     } else if (member.id === message.guild.ownerId){
       return message.channel.send(`\\❌ | ${message.author}, You cannot timeout a server owner!`);
-    } else if (config.developer.includes(member.id)){
+    } else if (client.owners.includes(member.id)){
       return message.channel.send(`\\❌ | ${message.author}, You can't timeout my developer through me!`);
     } else if (message.member.roles.highest.position < member.roles.highest.position){
       return message.channel.send(`\\❌ | ${message.author}, You can't timeout that user! He/She has a higher role than yours`);

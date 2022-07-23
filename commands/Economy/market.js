@@ -4,7 +4,6 @@ const { MessageEmbed, GuildEmoji } = require('discord.js');
 const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
-const { prefix } = require('../../config.json');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
@@ -60,8 +59,8 @@ module.exports = {
                 item.description,
                 `Type: *${item.type}*`,
                 `Price: *${text.commatize(item.price)}*`,
-                item.type != "Item" ? `Check Preview : \`${prefix}previewitem ${item.id}\`` : '',
-                `Purchase: \`${prefix}buy ${item.id}\``
+                item.type != "Item" ? `Check Preview : \`${client.prefix}previewitem ${item.id}\`` : '',
+                `Purchase: \`${client.prefix}buy ${item.id}\``
               ].join('\n')
             };
           }));

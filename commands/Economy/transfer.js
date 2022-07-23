@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
 
@@ -69,9 +68,6 @@ module.exports = {
             console.log(err)
         }
 
-        const quest = data.progress.quests?.find(x => x.id == 7);
-        let Box = quest?.current;
-
         if(Math.ceil(amount * 1.1) > data.credits) { 
             message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`)
         } else {
@@ -86,16 +82,6 @@ module.exports = {
               return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Cancelled the \`transfer\` command!`});
             };
 
-            if(quest?.current < quest?.progress) {
-              Box += Math.floor(amount);
-              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 7 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
-            }
-          if(Box && Box >= quest?.progress && !quest?.received) {
-              data.credits += Math.floor(quest.reward);
-              await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 7 }, { $set: { "progress.quests.$.received": true } });
-              data.progress.completed++;
-              message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
-            }
             data.credits -= Math.floor(amount * 1.1);
             FriendData.credits += Math.floor(amount);
             return Promise.all([ data.save(), FriendData.save() ])

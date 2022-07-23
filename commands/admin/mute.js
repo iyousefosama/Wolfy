@@ -1,5 +1,4 @@
 const discord = require('discord.js');
-const config = require('../../config.json');
 const schema = require('../../schema/Mute-Schema')
 const { MessageActionRow, MessageButton } = require('discord.js');
 
@@ -57,7 +56,7 @@ module.exports = {
     if (member.id === message.author.id) return message.channel.send(`\\❌ | ${message.author}, You can't mute yourself!`);
     if (message.member.roles.highest.position <= member.roles.highest.position) return message.channel.send(`\\❌ | ${message.author}, User could not be muted!`);
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted == true) return message.channel.send(`\\❌ | ${message.author}, User is already muted!`);
-    if (member.id === config.developer){
+    if (client.owners.includes(member.id)){
       return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, No, you can't mute my developers through me!`})
     };
     if (member.id === message.guild.ownerId){

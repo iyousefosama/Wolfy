@@ -1,8 +1,6 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const { createCanvas, loadImage } = require('canvas');
-const moment = require("moment");
-const config = require('../../config.json')
 
 module.exports = {
     name: "profile",

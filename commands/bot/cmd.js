@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const { MessageEmbed } = require('discord.js');
-const { prefix } = require('../../config.json');
 const text = require('../../util/string');
 
 module.exports = {
@@ -38,15 +37,15 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
           .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
           .setColor('738ADB')
-          .setTitle(`${prefix}${cmd.name}`)
+          .setTitle(`${client.prefix}${cmd.name}`)
           .setDescription(`\`\`\`${cmd.description}\`\`\`\n`)
           .addFields(
-          { name: 'Usage', value: `\`${prefix}${cmd.name} ${cmd.usage}\``, inline: true },
+          { name: 'Usage', value: `\`${client.prefix}${cmd.name} ${cmd.usage}\``, inline: true },
           { name: 'ALIASES', value: `${text.joinArray(cmd.aliases) || 'None'}`, inline: true },
           { name: 'COOLDOWN', value: `\`${cmd.cooldown} (seconds)\``, inline: true },
           { name: 'Permissions', value: `${text.joinArray(cmd.permissions.map(x => x.split('_')
           .map(a => a.charAt(0) + a.slice(1).toLowerCase()).join(' '))) || 'None'}`, inline: true },
-          { name: 'Examples', value: `${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ') || 'None'}`}
+          { name: 'Examples', value: `${cmd.examples.map(x=>`\`${client.prefix}${cmd.name} ${x}\n\``).join(' ') || 'None'}`}
           )
           .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
           .setTimestamp()

@@ -1,4 +1,3 @@
-const discord = require('discord.js')
 const moment = require(`moment`)
 const { MessageEmbed } = require("discord.js")
 const { buttonsPagination } = require("djs-buttons-pagination");

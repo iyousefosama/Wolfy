@@ -1,6 +1,3 @@
-const discord = require('discord.js');
-const config = require('../../config.json')
-
 module.exports = {
     name: "hackban",
     aliases: ["HackBan", "HACKBAN"],
@@ -53,7 +50,7 @@ module.exports = {
             return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You cannot don't ban me!`});
           };
       
-          if (user.id === config.developer){
+          if (client.owners.includes(user.id)){
             return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You can't ban my developers through me!`})
           };
       
