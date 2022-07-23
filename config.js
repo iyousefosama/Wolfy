@@ -20,7 +20,7 @@ const settings = {
 
     // set the default prefix, if non-string data-type is provided, will resolve
     // to the prefix 'w!'
-    prefix: 't!',
+    prefix: 'w!',
   
     // logging channels for the bot. To disable logging specific events - pass
     // a falsy value (undefined, null, 0). You may also remove the property
@@ -50,7 +50,7 @@ const settings = {
       }
     },
 
-    loadSlashsGlobal: false,
+    loadSlashsGlobal: true,
     
     // Array of owners recognized by the bot. ID here will be given access to
     // owner based commands.
