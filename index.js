@@ -37,4 +37,4 @@ client.listentoProcessEvents([
     'uncaughtException'
   ], { ignore: false });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN_URI);
