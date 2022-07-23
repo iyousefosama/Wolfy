@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const { Client, Intents, Collection } = require('discord.js')
+const { Client } = require('discord.js')
 const schema = require('../schema/TimeOut-Schema')
 
 /**

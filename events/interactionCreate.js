@@ -265,7 +265,6 @@ module.exports = {
           })
         }
       }
-
         if(interaction.isSelectMenu()){
           if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
           let choice = interaction.values[0]
@@ -343,7 +342,7 @@ module.exports = {
           interaction.channel.send({ content: `\`${number}$\` will equals *${number * 10} - ${number * 20}*!` })
          }
         }
-        if (!interaction.isCommand()) return;
+        if (interaction.isCommand()) {
 
         const slash = client.slashCommands.get(interaction.commandName);
     
@@ -407,5 +406,6 @@ module.exports = {
             console.error(error);
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(() => interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true }));
         }
+      }
     }
 }

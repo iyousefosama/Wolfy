@@ -3,8 +3,6 @@ const { Collection } = require('discord.js')
 const text = require('../util/string');
 const userSchema = require('../schema/user-schema')
 const schema = require('../schema/GuildSchema')
-const { developer } = require('../config.json');
-const config = require('../config.json')
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
 
@@ -32,17 +30,17 @@ module.exports = {
           const serverprefix = data?.prefix || 'Not set'
     
           if (message.content === 'prefix'){
-            return message.channel.send(`**${message.author}**, My prefix is \`${config.prefix}\`, The custom prefix is \`${serverprefix}\`.`)
+            return message.channel.send(`**${message.author}**, My prefix is \`${client.prefix}\`, The custom prefix is \`${serverprefix}\`.`)
           } else {
             // Do nothing..
           };
       }
       if(message.channel.type === 'DM') {
-        prefix = config.prefix;
+        prefix = client.prefix;
       } else if (message.content.startsWith('wolfy')) {
         prefix = 'wolfy ';
       } else if (!data || data.prefix == null){
-        prefix = config.prefix;
+        prefix = client.prefix;
       } else if (data && data.prefix){
         prefix = data.prefix;
       } else {
@@ -128,7 +126,7 @@ module.exports = {
                    
                    //+ permissions: [""],
                    if (cmd.permissions) {
-                       if (message.guild && message.author.id !== developer) {
+                       if (message.guild && !client.owners.includes(message.author.id)) {
                          const authorPerms = message.channel.permissionsFor(message.author);
                          if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                               const PermsEmbed = new Discord.MessageEmbed()
@@ -176,7 +174,7 @@ module.exports = {
                   }
   
                   if(cmd.OwnerOnly) {
-                      if(message.author.id !== developer) {
+                      if(!client.owners.includes(message.author.id)) {
                           const DevOnlyEmbed = new Discord.MessageEmbed()
                           .setColor(`RED`)
                           .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)

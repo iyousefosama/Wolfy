@@ -54,6 +54,11 @@ module.exports = {
             .setTimestamp()
         }
 
+        // MUTE OR DEFEAN
+        if(!oldState.member.selfMute && newState.member.selfMute || oldState.member.selfMute && !newState.member.selfMute || !oldState.member.selfDeaf && newState.member.selfDeaf || oldState.member.selfDeaf && !newState.member.selfDeaf) {
+          return;
+        }
+
         // SWITCH
         if (oldState.channelId && newState.channelId && oldState.channel && newState.channel) {
             VoiceUpdate = new Discord.MessageEmbed()

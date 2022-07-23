@@ -1,19 +1,18 @@
 const Discord = require('discord.js')
-const config = require('../config.json')
 
 module.exports = {
     name: 'error',
     async execute(client, error) {
 
             const embed = new Discord.MessageEmbed()
-            .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
+            .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048})})
             .setTitle(error.name)
             .setDescription(`\`\`\`${error}\`\`\``)
-            .setFooter('Error!')
+            .setFooter({ text: 'Error!'})
             .setColor('RED')
             .setTimestamp()
       
-            const Debug = await client.channels.cache.get(config.debug)
+            const Debug = await client.channels.cache.get(client.config.channels.debug)
             const botname = client.user.username;
             setTimeout(async function(){
               const webhooks = await Debug.fetchWebhooks()

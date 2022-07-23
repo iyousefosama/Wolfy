@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const config = require('../config.json')
 
 module.exports = {
     name: 'warn',
@@ -13,7 +12,7 @@ module.exports = {
             .setFooter(client.user.username, client.user.displayAvatarURL({dynamic: true}))
             .setTimestamp()
       
-            const Debug = await client.channels.cache.get(config.debug)
+            const Debug = await client.channels.cache.get(client.config.channels.debug)
             const botname = client.user.username;
             setTimeout(async function(){
             const webhooks = await Debug.fetchWebhooks()

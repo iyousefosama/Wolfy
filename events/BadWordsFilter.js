@@ -1,9 +1,7 @@
-const Discord = require('discord.js')
 const { MessageEmbed } = require('discord.js')
 const schema = require('../schema/GuildSchema')
 const uuid = require('uuid');
 const warnSchema = require('../schema/Warning-Schema')
-const config = require('../config.json')
 
 module.exports = {
     name: 'messageCreate',
@@ -27,6 +25,8 @@ module.exports = {
       const owner = await message.guild.fetchOwner()
      if (message.author.id === message.guild.ownerId) {
        return;
+     } else if (message.channel.permissionsFor(message.author).has("ADMINISTRATOR")) {
+      return;
      } else if (!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) {
         return;
       } else if(!data.Mod.BadWordsFilter.isEnabled || data.Mod.BadWordsFilter.isEnabled == false) {

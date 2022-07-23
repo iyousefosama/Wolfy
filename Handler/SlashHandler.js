@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const { Client, Intents, Collection } = require('discord.js')
 const fs = require('fs');
-const config = require('../config.json');
 const commands=[]
 
 /**
@@ -26,7 +25,7 @@ for (const file of slashFiles) {
 		client.on("ready", async () => {
             await new Promise(r=>setTimeout(r,1500))
             client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });
-			if(config.loadSlashsGlobal){
+			if(client.config.loadSlashsGlobal){
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 

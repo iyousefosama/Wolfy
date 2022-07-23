@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const { Client, Intents, Collection } = require('discord.js')
 const fs = require('fs');
-const config = require('../config.json');
 
 /**
  * @param {Client} client

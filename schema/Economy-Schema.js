@@ -78,6 +78,9 @@ const ecoSchema = mongoose.Schema({
         Gold: { type: Number, default: 0 },
         Diamond: { type: Number, default: 0 }
       },
+      vote: {
+        notification: { type: Boolean, default: true }
+      }
 })
 
 module.exports = mongoose.model('Economy', ecoSchema)
