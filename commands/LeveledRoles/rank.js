@@ -3,7 +3,6 @@ const canvacord = require('canvacord')
 const Levels = require('discord-xp')
 const schema = require('../../schema/GuildSchema')
 const ecoschema = require('../../schema/Economy-Schema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "rank",
@@ -50,7 +49,7 @@ module.exports = {
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
     message.channel.sendTyping()
-    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
+    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
     try{
         ecodata = await ecoschema.findOne({
             userID: user.id

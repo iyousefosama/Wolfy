@@ -1,6 +1,5 @@
 const discord = require('discord.js');
 const { MessageActionRow, MessageSelectMenu } = require('discord.js');
-const { prefix } = require('../../config.json');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -70,7 +69,7 @@ module.exports = {
 
     let id = await message.channel.awaitMessages({ filter, max: 1 })
     if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-    else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+    else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
     id = id.first().content
     role = message.guild.roles.cache.get(id) ||
     message.guild.roles.cache.find(r => r.id === id);
@@ -82,7 +81,7 @@ module.exports = {
 
         let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
         if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         emojiID = emojiID.first().content
         emoji = message.guild.emojis.cache.get(emojiID) ||
         message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -162,7 +161,7 @@ module.exports = {
 
         let id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -174,7 +173,7 @@ module.exports = {
     
             let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -186,7 +185,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -198,7 +197,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -292,7 +291,7 @@ module.exports = {
 
         let id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -304,7 +303,7 @@ module.exports = {
     
             let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -316,7 +315,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -328,7 +327,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -340,7 +339,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -352,7 +351,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -461,7 +460,7 @@ module.exports = {
 
         let id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -473,7 +472,7 @@ module.exports = {
     
             let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -485,7 +484,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -497,7 +496,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -509,7 +508,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -521,7 +520,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -533,7 +532,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -545,7 +544,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -667,7 +666,7 @@ module.exports = {
 
         let id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -679,7 +678,7 @@ module.exports = {
     
             let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -691,7 +690,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -703,7 +702,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -715,7 +714,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -727,7 +726,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -739,7 +738,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -751,7 +750,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -763,7 +762,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role5 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -775,7 +774,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji5 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -911,7 +910,7 @@ module.exports = {
 
         let id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -923,7 +922,7 @@ module.exports = {
     
             let emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -935,7 +934,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role2 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -947,7 +946,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji2 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -959,7 +958,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role3 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -971,7 +970,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji3 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -983,7 +982,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role4 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -995,7 +994,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji4 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -1007,7 +1006,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role5 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -1019,7 +1018,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji5 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);
@@ -1031,7 +1030,7 @@ module.exports = {
 
         id = await message.channel.awaitMessages({ filter, max: 1 })
         if(id.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-        else if(id.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+        else if(id.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
         id = id.first().content
         role6 = message.guild.roles.cache.get(id) ||
         message.guild.roles.cache.find(r => r.id === id);
@@ -1043,7 +1042,7 @@ module.exports = {
     
             emojiID = await message.channel.awaitMessages({ filter, max: 1 })
             if(emojiID.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`});
-            else if(emojiID.first().content == `${prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
+            else if(emojiID.first().content == `${client.prefix}smr`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`})
             emojiID = emojiID.first().content
             emoji6 = message.guild.emojis.cache.get(emojiID) ||
             message.guild.emojis.cache.find(e => e.id === emojiID);

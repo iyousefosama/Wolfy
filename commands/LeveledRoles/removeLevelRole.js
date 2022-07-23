@@ -1,7 +1,6 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "removerole",
@@ -35,7 +34,7 @@ module.exports = {
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }    
         
-    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
+    if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
     const provide = new Discord.MessageEmbed()
     .setTitle('You need to provide a role ID.')
     .setColor('RED')

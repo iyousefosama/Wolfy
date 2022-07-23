@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 const text = require('../../util/string');
 
 module.exports = {
@@ -53,11 +52,11 @@ module.exports = {
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
                   `Successfully added the word \`${word}\`!\n\n`,
-                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
-                  `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
+                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${client.prefix}badwordstoggle\`\n` :
+                  `To disable this feature, use the \`${client.prefix}badwordstoggle\` command.`
                 ].join(''))
                 .setTimestamp()
-                .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
                 message.channel.send({ embeds: [added] })
               }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         }
@@ -75,11 +74,11 @@ module.exports = {
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
                   `Successfully removed the word \`${word}\`!\n\n`,
-                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
-                  `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
+                  !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${client.prefix}badwordstoggle\`\n` :
+                  `To disable this feature, use the \`${client.prefix}badwordstoggle\` command.`
                 ].join(''))
                 .setTimestamp()
-                .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
                 message.channel.send({ embeds: [removed] })
               }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         } else if(type.toLowerCase() !== 'remove' && type.toLowerCase() !== 'add') {
@@ -89,12 +88,12 @@ module.exports = {
             .setDescription([
               'Current blacklisted words from this server:\n',
               `Total **(${data.Mod.BadWordsFilter.BDW.length})**: \`\`\`${text.joinArray(data.Mod.BadWordsFilter.BDW)}\`\`\`\n\n`,
-              !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${prefix}badwordstoggle\`\n` :
-              `To disable this feature, use the \`${prefix}badwordstoggle\` command.`
+              !data.Mod.BadWordsFilter.isEnabled ? `\\⚠️ BadWords filter is disabled! To enable, type \`${client.prefix}badwordstoggle\`\n` :
+              `To disable this feature, use the \`${client.prefix}badwordstoggle\` command.`
             ].join(''))
             .setTimestamp()
-            .setFooter(`${prefix}badwords add (to add) | ${prefix}badwords remove (to remove)`)
-            .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+            .setFooter({ text: `${client.prefix}badwords add (to add) | ${client.prefix}badwords remove (to remove)`})
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
             return message.channel.send({ embeds: [BadWordsEmbed]})
         }
 }

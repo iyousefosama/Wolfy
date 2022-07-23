@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setSuggch",
@@ -55,8 +54,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Suggestions channel to ${channel}!\n\n`,
-            !data.Mod.Suggestion.isEnabled ? `\\⚠️ Suggestion cmd is disabled! To enable, type \`${prefix}suggtoggle\`\n` :
-            `To disable this feature, use the \`${prefix}suggtoggle\` command.`
+            !data.Mod.Suggestion.isEnabled ? `\\⚠️ Suggestion cmd is disabled! To enable, type \`${client.prefix}suggtoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}suggtoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

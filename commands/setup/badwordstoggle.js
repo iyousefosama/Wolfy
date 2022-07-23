@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "badwordstoggle",
@@ -45,7 +44,7 @@ module.exports = {
               '<a:Correct:812104211386728498>\u2000|\u2000',
               `Badwords filter Feature has been successfully **${state}**!\n\n`,
               `To **${!data.Mod.BadWordsFilter.isEnabled ? 're-enable' : 'disable'}** this`,
-              `feature, use the \`${prefix}badwordstoggle\` command.`
+              `feature, use the \`${client.prefix}badwordstoggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
           }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));

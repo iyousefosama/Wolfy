@@ -3,7 +3,6 @@ const schema = require('../../schema/GuildSchema')
 const parser = require('../../util/greeter/parser');
 const errors = require('../../util/greeter/errors');
 const success = require('../../util/greeter/success');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setleavermsg",
@@ -50,8 +49,8 @@ module.exports = {
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
                 `Leaver message has been Successfully set!\n\n`,
-                `To set it back to default \`${prefix}setleavermsg default\`\n`,
-                `To test the leaver message\`${prefix}setleavermsg test\``,
+                `To set it back to default \`${client.prefix}setleavermsg default\`\n`,
+                `To test the leaver message\`${client.prefix}setleavermsg test\``,
               ].join(' '))
               message.channel.send({ embeds: [msgembed] })
             .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
@@ -65,8 +64,8 @@ module.exports = {
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
                 `Leaver embed has been Successfully set!\n\n`,
-                `To set it back to default \`${prefix}setleavermsg default\`\n`,
-                `To test the leaver message\`${prefix}setleavermsg test\``,
+                `To set it back to default \`${client.prefix}setleavermsg default\`\n`,
+                `To test the leaver message\`${client.prefix}setleavermsg test\``,
               ].join(' '))
               message.channel.send({ embeds: [embedmsg] })
             .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));

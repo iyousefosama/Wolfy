@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setreportch",
@@ -52,8 +51,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Reports channel to ${channel}!\n\n`,
-            !data.Mod.Reports.isEnabled ? `\\⚠️ Reports cmd is disabled! To enable, type \`${prefix}reporttoggle\`\n` :
-            `To disable this feature, use the \`${prefix}reportstoggle\` command.`
+            !data.Mod.Reports.isEnabled ? `\\⚠️ Reports cmd is disabled! To enable, type \`${client.prefix}reporttoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}reportstoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

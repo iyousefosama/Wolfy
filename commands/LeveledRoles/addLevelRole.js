@@ -1,7 +1,6 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "addrolle",
@@ -45,7 +44,7 @@ module.exports = {
         if(Level_To_Reach.includes('+')) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role level with number of level!`)
         if(Level_To_Reach.includes('-')) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role level with number of level!`)
         if(Level_To_Reach.includes('.')) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role level with number of level!`)
-        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
+        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
 
         const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
         const Level_Roles = JSON.parse(Level_Roles_Storage.toString())

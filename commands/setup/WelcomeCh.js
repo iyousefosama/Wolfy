@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setWelcomech",
@@ -52,8 +51,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the welcome channel to ${channel}!\n\n`,
-            !data.greeter.welcome.isEnabled ? `\\⚠️ Welcome is disabled! To enable, type \`${prefix}welcometoggle\`\n` :
-            `To disable this feature, use the \`${prefix}welcometoggle\` command.`
+            !data.greeter.welcome.isEnabled ? `\\⚠️ Welcome is disabled! To enable, type \`${client.prefix}welcometoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}welcometoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

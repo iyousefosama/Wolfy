@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setLogsch",
@@ -52,8 +51,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Logs channel to ${channel}!\n\n`,
-            !data.Mod.Logs.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`${prefix}logstoggle\`\n` :
-            `To disable this feature, use the \`${prefix}logstoggle\` command.`
+            !data.Mod.Logs.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`${client.prefix}logstoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}logstoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

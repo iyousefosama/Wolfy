@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setTicketch",
@@ -56,8 +55,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Tickets category to ${channel}!\n\n`,
-            !data.Mod.Tickets.isEnabled ? `\\⚠️ Ticket cmd is disabled! To enable, type \`${prefix}ticketstoggle\`\n` :
-            `To disable this feature, use the \`${prefix}ticketstoggle\` command.`
+            !data.Mod.Tickets.isEnabled ? `\\⚠️ Ticket cmd is disabled! To enable, type \`${client.prefix}ticketstoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}ticketstoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

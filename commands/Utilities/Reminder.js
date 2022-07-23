@@ -1,6 +1,5 @@
 const discord = require('discord.js');
 const ms = require('ms')
-const { prefix } = require('../../config.json');
 const schema = require('../../schema/TimeOut-Schema')
 
 module.exports = {
@@ -49,12 +48,12 @@ module.exports = {
             }
             // Input Checking
             const reminderErr = new discord.MessageEmbed()
-              .setDescription(`Error! You must state a duration for your reminder!. \`${prefix}remind [time] [reason]\``)
+              .setDescription(`Error! You must state a duration for your reminder!. \`${client.prefix}remind [time] [reason]\``)
               .setColor('RED')
             if (!time || !ms(time)) return message.channel.send({ embeds: [reminderErr]})
     
             const noReasonInput = new discord.MessageEmbed()
-              .setDescription(`Error! Please state your remind reason! \`${prefix}remind [time] [reason]\``)
+              .setDescription(`Error! Please state your remind reason! \`${client.prefix}remind [time] [reason]\``)
               .setColor('RED')
             if (!reason) return message.channel.send({ embeds: [noReasonInput]})
     

@@ -2,7 +2,6 @@ const discord = require('discord.js')
 const canvacord = require('canvacord')
 const Levels = require('discord-xp')
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "clearxp",
@@ -51,7 +50,7 @@ module.exports = {
         .setTimestamp()
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
         if (!user) return message.channel.send(usererr)
-        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`})
+        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
         Levels.deleteUser(user.id || user, message.guild.id);
         const dn = new discord.MessageEmbed()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })

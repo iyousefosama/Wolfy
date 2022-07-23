@@ -1,6 +1,5 @@
 const discord = require('discord.js')
 const lyricsFinder = require("lyrics-finder")
-const { prefix } = require('../../config.json');
 const fetch = require('node-fetch');
 const { MessageEmbed, GuildEmoji } = require('discord.js');
 const text = require('../../util/string');
@@ -131,7 +130,7 @@ module.exports = {
     message.channel.send({ embeds: [singerEmb] })
     let col = await message.channel.awaitMessages({ filter, max: 1})
     if(col.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
-    else if(col.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
+    else if(col.first().content == `${client.prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     singer = col.first().content
 
     let songEmb = new discord.MessageEmbed()
@@ -142,7 +141,7 @@ module.exports = {
     message.channel.send({ embeds: [songEmb]})
     let col2 = await message.channel.awaitMessages({ filter, max: 1 })
     if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
-    else if(col2.first().content == `${prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
+    else if(col2.first().content == `${client.prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     song = col2.first().content
     message.channel.sendTyping()
 

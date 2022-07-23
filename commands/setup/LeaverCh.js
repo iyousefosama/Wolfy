@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "setLeaverch",
@@ -52,8 +51,8 @@ module.exports = {
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the leave channel to ${channel}!\n\n`,
-            !data.greeter.leaving.isEnabled ? `\\⚠️ Leavermsg is disabled! To enable, type \`${prefix}leavertoggle\`\n` :
-            `To disable this feature, use the \`${prefix}leavertoggle\` command.`
+            !data.greeter.leaving.isEnabled ? `\\⚠️ Leavermsg is disabled! To enable, type \`${client.prefix}leavertoggle\`\n` :
+            `To disable this feature, use the \`${client.prefix}leavertoggle\` command.`
           ].join(''))
           message.channel.send({ embeds: [embed] })
       })

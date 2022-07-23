@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
-const api = require('covidapi')
 const fetch = require('node-fetch');
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "covid",
@@ -25,7 +23,7 @@ module.exports = {
         const noArgs = new Discord.MessageEmbed()
         .setTitle('Invalid Command Usage')
         .setColor(0xFF0000)
-        .setDescription(`You Can Try Using **${prefix}covid all** or **${prefix}covid Canada**`)
+        .setDescription(`You Can Try Using **${client.prefix}covid all** or **${client.prefix}covid Canada**`)
 
         if(!args[0]) return message.channel.send({ embeds: [noArgs] });
 

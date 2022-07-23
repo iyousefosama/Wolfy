@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
-const { prefix } = require('../../config.json');
 
 module.exports = {
     name: "leavertoggle",
@@ -43,7 +42,7 @@ module.exports = {
               '<a:Correct:812104211386728498>\u2000|\u2000',
               `leaver Feature has been successfully **${state}**!\n\n`,
               `To **${!data.greeter.leaving.isEnabled ? 're-enable' : 'disable'}** this`,
-              `feature, use the \`${prefix}leavertoggle\` command.`
+              `feature, use the \`${client.prefix}leavertoggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
           }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
