@@ -22,6 +22,6 @@ module.exports = {
         .setColor('DARK_GREEN')
         .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
         interaction.editReply({ embeds: [Ping], ephemeral: hide })
-        })
+        }).catch(() => null)
 	},
 };

@@ -1,32 +1,26 @@
 // connecting to discord
 const Discord = require('discord.js')
-const { Client, Intents, Collection } = require('discord.js')
+
+const Client = require(`${process.cwd()}/struct/Client`);
 
 // connect us to the config.json file
-const config = require('./config.json');
+const config = require(`${process.cwd()}/config`);
 
 // create a new Discord client 
-const client = new Client({
-     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
-     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_BANS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_BANS],
-     allowedMentions: { parse: ['users', 'roles'], repliedUser: true }
-    });
+const client = new Client(config);
 
-client.config = config;
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '.env') })
 
 const { Player } = require("discord-player")
 
 const { registerPlayerEvents } = require('./events/MusicEvents');
 
-client.player = new Player(client, {
-    ytdlOptions: {
-        quality: "highestaudio",
-        highWaterMark: 1 << 25,
-		dlChunkSize: 0
-    }
-});
+client.player = new Player(client,
+    client.config.ytdlOptions
+);
 
-const mongodb = require('./mongo')()
+client.database?.init();
 
 registerPlayerEvents(client.player);
 
@@ -34,8 +28,13 @@ registerPlayerEvents(client.player);
 	require(`./Handler/${handler}`)(client);
 });
 
-["Reminder"].forEach((functions) => {
+["Reminder", "checkQuests"].forEach((functions) => {
 	require(`./functions/${functions}`)(client);
 });
 
-client.login(process.env.TOKEN_URI);
+client.listentoProcessEvents([
+    'unhandledRejection',
+    'uncaughtException'
+  ], { ignore: false });
+
+client.login(process.env.TOKEN);
