@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+let logs = [];
 
 module.exports = {
     name: 'rateLimit',
@@ -11,7 +12,7 @@ module.exports = {
       } else {
         // Do nothing..
       }
-      console.log(info)
+
       const ratelimit = new Discord.MessageEmbed()
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor('RED')
@@ -20,6 +21,7 @@ module.exports = {
       .setTimestamp()
       const Debug = await client.channels.cache.get(client.config.channels.debug)
       const botname = client.user.username;
+      logs.push(ratelimit)
       setTimeout(async function(){
       const webhooks = await Debug.fetchWebhooks()
       let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
@@ -28,8 +30,9 @@ module.exports = {
       } else if(webhooks.size <= 10) {
         // Do no thing...
       }
-      webhook.send({ embeds: [ratelimit] })
-      .catch(() => {});
+      webhook.send({embeds: logs.slice(0, 10).map(log => log)})
+      .catch(() => {})
+      logs = []
     }, 5000);
       
         // add more functions on ready  event callback function...
