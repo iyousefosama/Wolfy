@@ -37,7 +37,7 @@ module.exports = {
         
         if(quest?.current < quest?.progress) {
           Box++
-          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": Math.floor(amount) } });
+          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
         }
       if(Box && Box >= quest?.progress && !quest?.received) {
           data.credits += Math.floor(quest.reward);
