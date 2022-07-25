@@ -10,7 +10,7 @@ module.exports = {
     usage: '',
     group: 'Economy',
     description: 'Take your fishingpole and start fishing',
-    cooldown: 17, //seconds(s)
+    cooldown: 13, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [''],
@@ -74,7 +74,7 @@ module.exports = {
                 Box++;
                 await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
               }
-            if(Box == quest.progress && !quest.received) {
+            if(Box && Box == quest?.progress && !quest?.received) {
                 data.credits += Math.floor(quest.reward);
                 await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
                 data.progress.completed++;
@@ -94,7 +94,7 @@ module.exports = {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest?.progress && !quest?.received) {
+          if(Box && Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
               data.progress.completed++;
@@ -114,7 +114,7 @@ module.exports = {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest?.progress && !quest?.received) {
+          if(Box && Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
               data.progress.completed++;
@@ -134,7 +134,7 @@ module.exports = {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest?.progress && !quest?.received) {
+          if(Box && Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
               data.progress.completed++;
@@ -154,7 +154,7 @@ module.exports = {
               Box++;
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
             }
-          if(Box == quest?.progress && !quest?.received) {
+          if(Box && Box == quest?.progress && !quest?.received) {
               data.credits += Math.floor(quest.reward);
               await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
               data.progress.completed++;
