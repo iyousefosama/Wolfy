@@ -9,9 +9,9 @@ const consoleUtil = require(`${process.cwd()}/util/console`);
 function unhandledRejection([ error, ...args], client){
 
   const channel = client.channels.cache.get(client.config.channels.debug);
-  const timezone = 9;
+  const timezone = 2;
   const offset = 60000 * (new Date().getTimezoneOffset() - (-timezone * 60));
-  const time = parseDate(new Date(Date.now() + offset).toLocaleString('ja-JP',{ timezone: 'Asia/Tokyo'}).split(/:|\s|\//));
+  const time = parseDate(new Date(Date.now() + offset).toLocaleString('EG',{ timezone: 'Africa/Egypt'}).split(/:|\s|\//));
 
   if (!channel){
     return Promise.resolve(console.log(error));
@@ -33,9 +33,9 @@ function unhandledRejection([ error, ...args], client){
  */
 function uncaughtException([ error, ...args ], client){
   const channel = client.channels.cache.get(client.config.channels.debug);
-  const timezone = 9;
+  const timezone = 2;
   const offset = 60000 * (new Date().getTimezoneOffset() - (-timezone * 60));
-  const time = parseDate(new Date(Date.now() + offset).toLocaleString('ja-JP',{ timezone: 'Asia/Tokyo'}).split(/:|\s|\//));
+  const time = parseDate(new Date(Date.now() + offset).toLocaleString('EG',{ timezone: 'Africa/Egypt'}).split(/:|\s|\//));
 
   if (!channel){
     return Promise.resolve(console.log(error));
@@ -55,7 +55,7 @@ function uncaughtException([ error, ...args ], client){
  * @param {*} args other arguments passed through the event
  * @returns {string} The formatted date
  */
-function parseDate([m, d, y, h, min, s, a]){
+ function parseDate([m, d, y, h, min, s, a]){
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const weeks = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
