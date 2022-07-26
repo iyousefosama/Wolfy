@@ -49,7 +49,7 @@ module.exports = {
       } else if(webhooks.size <= 10) {
         // Do no thing...
       }
-      webhook.send({content: Channel? `RateLimit from **[${Channel.guild.name}](${Channel.guild.iconURL({size: 32})})** - \`#${Channel.name}\`!\r\n\r\n` : `RateLimit from bath \`${info.path}\`!`, embeds: logs.slice(0, 10).map(log => log), files: [{ attachment: Buffer.from(output), name: `Ratelimit-${_id}.txt`}]})
+      webhook.send({content: Channel? `RateLimit from **[${Channel.guild.name}](${Channel.guild.iconURL({dynamic: true})})** - \`#${Channel.name}\`!\r\n\r\n` : `RateLimit from bath \`${info.path}\`!`, embeds: logs.slice(0, 10).map(log => log), files: [{ attachment: Buffer.from(output), name: `Ratelimit-${_id}.txt`}]})
       .catch(() => {})
       logs = []
     }, 5000);
