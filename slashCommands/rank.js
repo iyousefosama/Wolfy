@@ -1,9 +1,9 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const canvacord = require('canvacord')
-const Levels = require('discord-xp')
 const schema = require('../schema/GuildSchema')
 const ecoschema = require('../schema/Economy-Schema')
+const Userschema = require('../schema/LevelingSystem-Schema')
 
 module.exports = {
     clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
@@ -35,32 +35,38 @@ module.exports = {
         ecodata = await ecoschema.findOne({
             userID: interaction.user.id
         })
-        if(!data) {
-        data = await ecoschema.create({
+        Userdata = await Userschema.findOne({
+            userId: interaction.user.id,
+            guildId: interaction.guild.id
+        })
+        if(!ecodata) {
+        ecodata = await ecoschema.create({
             userID: interaction.user.id
         })
+        if(!Userdata) {
+            return interaction.channel.send({ content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`})
+        }
         }
     } catch(err) {
         console.log(err)
+        interaction.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
     }
-    const userData = await Levels.fetch(interaction.user.id, interaction.guild.id)
-    if(!userData) {
-        return interaction.editReply({ content: `\\❌ **${interaction.member.displayName}**, This member didn't get xp yet!`})
-    }
-        const requiredXP = (userData.level +1) * (userData.level +1) *100 // Enter the formula for calculating the experience here. I used mine, which is used in discord-xp.
-        const rank = new canvacord.Rank()
-        .setAvatar(interaction.user.displayAvatarURL({format: "png", size: 1024}))
-        .setProgressBar("#FFFFFF", "COLOR")
-        .setCurrentXP(userData.xp)
-        .setLevel(userData.level)
-        .setBackground("IMAGE", `${ecodata.profile.background || 'https://cdn.discordapp.com/attachments/805088270756872214/893620901264900096/1f6c66afbf9849801b85e9cc761983b5ec00fbe9.png'}`)
-        .setRequiredXP(requiredXP)
-        .setUsername(interaction.user.username)
-        .setDiscriminator(interaction.user.discriminator)
-        const img = await rank.build()
-        .then(data => {
-            const attachment = new discord.MessageAttachment(data, "RankCard.png");
-            interaction.editReply({ files: [attachment], ephemeral: hide });
-        })
+    var status = interaction.member.presence?.status;
+    const requiredXP = Userdata.System.required;
+    const rank = new canvacord.Rank()
+    .setAvatar(interaction.user.displayAvatarURL({format: "png", size: 1024}))
+    .setProgressBar("#FFFFFF", "COLOR")
+    .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
+    .setCurrentXP(Userdata.System.xp)
+    .setLevel(Userdata.System.level)
+    .setStatus(status)
+    .setRequiredXP(requiredXP)
+    .setUsername(interaction.user.username)
+    .setDiscriminator(interaction.user.discriminator)
+    const img = await rank.build()
+    .then(data => {
+        const attachment = new discord.MessageAttachment(data, "RankCard.png");
+        interaction.editReply({ files: [attachment], ephemeral: hide });
+    });
 	},
 };

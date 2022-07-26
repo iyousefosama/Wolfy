@@ -87,7 +87,7 @@ module.exports = {
                   return;
               }
                 msg.channel.send({ embeds: [warnEmbed] }).catch(() => null)
-               }, 300)
+               }, 1000)
               })
         }
     }
