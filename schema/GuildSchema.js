@@ -40,6 +40,7 @@ const mongoose = require('mongoose')
          type: { type: String, default: 'default' }
        },
        Level: {
+        Roles: { type: Array, default: []},
         isEnabled: { type: Boolean, default: false },
         type: { type: String, default: 'default' }
       },
