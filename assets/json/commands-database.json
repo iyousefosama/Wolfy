@@ -1,0 +1,2755 @@
+[
+  {
+    "name": "ban",
+    "aliases": [
+      "Ban",
+      "BAN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <reason>",
+    "group": "Moderation",
+    "description": "Bans a member from the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "BAN_MEMBERS"
+    ],
+    "clientpermissions": [
+      "BAN_MEMBERS"
+    ],
+    "examples": [
+      "@BADGUY Toxic member",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "clear",
+    "aliases": [
+      "delete",
+      "Clear",
+      "CLEAR"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<quantity>",
+    "group": "Moderation",
+    "description": "Clear/Delete message with quantity you want (from 2 to 100)",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "clientPermissions": [
+      "MANAGE_MESSAGES",
+      "EMBED_LINKS"
+    ],
+    "examples": [
+      "20"
+    ]
+  },
+  {
+    "name": "dm",
+    "aliases": [
+      "Dm",
+      "DM"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <message>",
+    "group": "Moderation",
+    "description": "Dms someone in the server with message",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@WOLF Hello, how are you today ?",
+      "742682490216644619 We started a giveaway for your birthday come!"
+    ]
+  },
+  {
+    "name": "EmbedSetup",
+    "aliases": [
+      "embedsetup",
+      "Embedsetup",
+      "EMBEDSETUP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Display the setup embed message!",
+    "cooldown": 260,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES",
+      "EMBED_LINKS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "hackban",
+    "aliases": [
+      "HackBan",
+      "HACKBAN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <reason>",
+    "group": "Moderation",
+    "description": "Bans a member not in the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "BAN_MEMBERS"
+    ],
+    "clientpermissions": [
+      "BAN_MEMBERS"
+    ],
+    "examples": [
+      "742682490216644619 Big scammer!"
+    ]
+  },
+  {
+    "name": "kick",
+    "aliases": [
+      "Kick",
+      "KICK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<member>",
+    "group": "Moderation",
+    "description": "Kick a member from the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "KICK_MEMBERS"
+    ],
+    "clientpermissions": [
+      "KICK_MEMBERS"
+    ],
+    "examples": [
+      "@BADGUY",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "lock",
+    "aliases": [
+      "Lock",
+      "LOCK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Lock the permissions for @everyone from talking in the channel",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "MANAGE_MESSAGES"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "mute",
+    "aliases": [
+      "Mute",
+      "MUTE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <reason>",
+    "group": "Moderation",
+    "description": "Mute someone from texting!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_ROLES"
+    ],
+    "clientpermissions": [
+      "MANAGE_ROLES",
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      "@BADGUY Don't spam in chat!",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "nick",
+    "aliases": [
+      "Nick",
+      "NICK",
+      "nickname"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <nickname>",
+    "group": "Moderation",
+    "description": "Changes the nickname of a member",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_NICKNAMES"
+    ],
+    "clientpermissions": [
+      "MANAGE_NICKNAMES"
+    ],
+    "examples": [
+      "@WOLF JoeMama",
+      "742682490216644619 Unknown user!"
+    ]
+  },
+  {
+    "name": "nuke",
+    "aliases": [
+      "Nuke",
+      "NUKE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Nuke any channel (this will delete all the channel and create newone!)",
+    "cooldown": 20,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES",
+      "MANAGE_CHANNELS"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES",
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "removewarn",
+    "aliases": [
+      "RemoveWarn",
+      "removeWarn",
+      "REMOVEWARN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "description": "Remove a user warn from the warns list by the id",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@WOLF 72c53c46-7449-4076-9af2-5acda635cbf4",
+      "742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4"
+    ]
+  },
+  {
+    "name": "respond",
+    "aliases": [
+      "Respond",
+      "RESPOND"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[Message ID] (accept/deny) (Optional: reason)",
+    "description": "Respond to a user suggestion in the server.",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "854382039524048956 accept very good suggestion",
+      "854382039524048956 deny Sorry your suggestion is refused"
+    ]
+  },
+  {
+    "name": "say",
+    "aliases": [
+      "Say",
+      "SAY"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<text>",
+    "group": "Moderation",
+    "description": "The bot will repeat what you say",
+    "cooldown": 20,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      "Hello everyone how are you?"
+    ]
+  },
+  {
+    "name": "embed",
+    "aliases": [
+      "Sayembed",
+      "SAYEMBED",
+      "sayembed"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<color> <text>",
+    "group": "Moderation",
+    "description": "The bot will repeat what you say with embed",
+    "cooldown": 20,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      "GREEN Hello, this is an example embed",
+      "#d8bfd8 Hello, this is an example embed"
+    ]
+  },
+  {
+    "name": "slowmode",
+    "aliases": [
+      "Slowmode",
+      "SLOWMODE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<time>",
+    "group": "Moderation",
+    "description": "Adding slowmotion chat to a channel",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      "5s"
+    ]
+  },
+  {
+    "name": "softban",
+    "aliases": [
+      "SoftBan",
+      "SOFTBAN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <reason>",
+    "group": "Moderation",
+    "description": "Kicks a user and deletes all their messages in the past 7 days",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "BAN_MEMBERS"
+    ],
+    "clientpermissions": [
+      "BAN_MEMBERS"
+    ],
+    "examples": [
+      "@BADGUY",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "timeout",
+    "aliases": [
+      "TimeOut",
+      "TIMEOUT"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> [time] (Optional: reason)",
+    "group": "Moderation",
+    "description": "Bans a member from the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@BADGUY 5h Toxic member",
+      "742682490216644619 5h"
+    ]
+  },
+  {
+    "name": "unban",
+    "aliases": [
+      "Unban",
+      "UNBAN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "Moderation",
+    "description": "UnBans a member from the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "BAN_MEMBERS"
+    ],
+    "clientpermissions": [
+      "BAN_MEMBERS"
+    ],
+    "examples": [
+      "@FreeGuy",
+      "829819269806030879"
+    ]
+  },
+  {
+    "name": "unlock",
+    "aliases": [
+      "Unlock",
+      "UNLOCK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Unlock the permissions for @everyone from talking in the channel",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "MANAGE_MESSAGES"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "unmute",
+    "aliases": [
+      "Unmute",
+      "UNMUTE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "Moderation",
+    "description": "Unmute someone from texting!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_ROLES"
+    ],
+    "clientpermissions": [
+      "MANAGE_ROLES"
+    ],
+    "examples": [
+      "@BADGUY",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "voicekick",
+    "aliases": [
+      "VoiceKick",
+      "Voicekick",
+      "VOICEKICK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Kicks all user in the voice channel!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "MOVE_MEMBERS"
+    ],
+    "clientpermissions": [
+      "MOVE_MEMBERS"
+    ],
+    "examples": []
+  },
+  {
+    "name": "warn",
+    "aliases": [
+      "Warn",
+      "WARN"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> (reason)",
+    "description": "Warn a user in the server!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@BadGuy Spamming in chat!",
+      "742682490216644619 Dm Ad!"
+    ]
+  },
+  {
+    "name": "warnings",
+    "aliases": [
+      "Warnings",
+      "WARNINGS",
+      "Warns",
+      "warns",
+      "WARNS"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "description": "Display the mentioned user warns list and ids",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@BadGuy",
+      "742682490216644619"
+    ]
+  },
+  {
+    "name": "command",
+    "aliases": [
+      "Command",
+      "COMMAND",
+      "cmd",
+      "commandhelp",
+      "helpcommand"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<cmdName>",
+    "group": "bot",
+    "description": "Display informations and helplist about any command.",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": []
+  },
+  {
+    "name": "feedback",
+    "aliases": [
+      "Feedback",
+      "FEEDBACK",
+      "issue",
+      "reportbug",
+      "ReportBug",
+      "REPORTBUG",
+      "reportbug"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<issue>",
+    "group": "bot",
+    "description": "To give a feedback about bot or to report bug",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "ADD_REACTIONS"
+    ],
+    "examples": [
+      "The bot ping commands not working it's showing undefined ping!"
+    ]
+  },
+  {
+    "name": "help",
+    "aliases": [
+      "Help",
+      "HELP"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "bot",
+    "description": "Display main bot helplist embed.",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "EMBED_LINKS",
+      "ATTACH_FILES",
+      "VIEW_CHANNEL",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "links",
+    "aliases": [
+      "link",
+      "inviteme",
+      "invitebot",
+      "vote",
+      "support",
+      "LINKS",
+      "invite"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "bot",
+    "description": "Shows all bot special link vote/invite ..",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "ping",
+    "aliases": [
+      "PING",
+      "Ping"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "bot",
+    "description": "Shows the bot ping",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "stats",
+    "aliases": [
+      "Botinfo",
+      "BotInfo",
+      "BOTINFO",
+      "Stats",
+      "STATS"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "bot",
+    "description": "Show bot stats and informations",
+    "cooldown": 5,
+    "guarded": false,
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "uptime",
+    "aliases": [
+      "Uptime",
+      "UPTIME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "bot",
+    "description": "Show the bot uptime",
+    "cooldown": 15,
+    "guarded": false,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "addcredits",
+    "aliases": [
+      "Addcredits",
+      "ADDCREDITS"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "VIEW_CHANNEL"
+    ]
+  },
+  {
+    "name": "blacklist",
+    "aliases": [
+      "Blacklist",
+      "BLACKLIST"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "VIEW_CHANNEL"
+    ]
+  },
+  {
+    "name": "devmsg",
+    "aliases": [
+      "Devmsg",
+      "DEVMSG",
+      "msg"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user> <message>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "ATTACH_FILES"
+    ]
+  },
+  {
+    "name": "eval",
+    "aliases": [
+      "Eval",
+      "EVAL"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<code>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true
+  },
+  {
+    "name": "fleave",
+    "aliases": [
+      "Fleave",
+      "FLEAVE"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<guildID>",
+    "group": "developer",
+    "cooldown": 60,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "ATTACH_FILES"
+    ]
+  },
+  {
+    "name": "shutdown",
+    "aliases": [
+      "Shutdown",
+      "SHUTDOWN"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 10,
+    "guarded": false,
+    "OwnerOnly": true
+  },
+  {
+    "name": "status",
+    "aliases": [
+      "Status",
+      "STATUS"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true
+  },
+  {
+    "name": "uid",
+    "aliases": [
+      "UID",
+      "Uid"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 1,
+    "guarded": false,
+    "OwnerOnly": true
+  },
+  {
+    "name": "whitelist",
+    "aliases": [
+      "Whitelist",
+      "WHITELIST"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "EMBED_LINKS",
+      "VIEW_CHANNEL"
+    ]
+  },
+  {
+    "name": "bank",
+    "aliases": [
+      "Bank",
+      "BANK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To check your credits balance in bank",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "beg",
+    "aliases": [
+      "Beg",
+      "BEG"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Want to earn money some more? Why don't you try begging, maybe someone will give you.",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "buy",
+    "aliases": [
+      "Buy",
+      "BUY"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[item id]",
+    "group": "Economy",
+    "description": "To buy items from the market.",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "1",
+      "6"
+    ]
+  },
+  {
+    "name": "cookie",
+    "aliases": [
+      "Cookie",
+      "COKKIE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "Economy",
+    "description": "To send cookie for a friend as a gift",
+    "cooldown": 6,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "@WOLF"
+    ]
+  },
+  {
+    "name": "credits",
+    "aliases": [
+      "Credits",
+      "CREDITS",
+      "bal",
+      "credit"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<user>",
+    "group": "Economy",
+    "description": "To check your credits balance in wallet",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "@WOLF",
+      ""
+    ]
+  },
+  {
+    "name": "daily",
+    "aliases": [
+      "Daily",
+      "DAILY"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To get your daily reward",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "deposit",
+    "aliases": [
+      "Deposit",
+      "DEPOSIT"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Deposit credits from your wallet to safeguard",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "500",
+      "all"
+    ]
+  },
+  {
+    "name": "fish",
+    "aliases": [
+      "Fish",
+      "FISH"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Take your fishingpole and start fishing",
+    "cooldown": 17,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "inv",
+    "aliases": [
+      "Inv",
+      "inventory",
+      "Inventory",
+      "INVENTORY"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Show your inventory items!",
+    "cooldown": 15,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "leaderboard",
+    "aliases": [
+      "Lb",
+      "LB",
+      "lb",
+      "LEADERBOARD"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Developer test tool!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": []
+  },
+  {
+    "name": "market",
+    "aliases": [
+      "Market",
+      "MARKET",
+      "shop"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Open the economy market!",
+    "cooldown": 15,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "ADD_REACTIONS",
+      "EMBED_LINKS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "mine",
+    "aliases": [
+      "Mine",
+      "MINE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "What you know about mining down in the deep?",
+    "cooldown": 8,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "previewitem",
+    "aliases": [
+      "Previewitem"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[item ID]",
+    "group": "Economy",
+    "description": "Check what you can buy from the shop.",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "MANAGE_MESSAGES",
+      "ATTACH_FILES"
+    ],
+    "permissions": [],
+    "examples": [
+      "6",
+      "8"
+    ]
+  },
+  {
+    "name": "profile",
+    "aliases": [
+      "Profile",
+      "PROFILE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Shows your profile card!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "quests",
+    "aliases": [
+      "Quests",
+      "QUESTS",
+      "quest"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Refresh/Show current quests and the current progress.",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "register",
+    "aliases": [
+      "Register",
+      "REGISTER"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To register a bank account",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "sell",
+    "aliases": [
+      "Sell",
+      "SELL"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[item] <amount>",
+    "group": "Economy",
+    "description": "Sell item from your inventory and get some credits!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "coal 13",
+      "diamond 2"
+    ]
+  },
+  {
+    "name": "setbio",
+    "aliases": [
+      "SetBio",
+      "SETBIO"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<bio>",
+    "group": "Economy",
+    "description": "Sets your profile card bio.",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [],
+    "examples": []
+  },
+  {
+    "name": "setbirthday",
+    "aliases": [
+      "SetBirthday",
+      "SETBIRTHDAY"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<date>",
+    "group": "Economy",
+    "description": "Sets your profile card birthday.",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "09-26"
+    ]
+  },
+  {
+    "name": "tip",
+    "aliases": [
+      "Tip",
+      "TIP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[user]",
+    "group": "Economy",
+    "description": "Send a tip for your friend!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "@WOLF",
+      "724580315481243668"
+    ]
+  },
+  {
+    "name": "transfer",
+    "aliases": [
+      "Transfer",
+      "TRANSFER"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<user> <amount>",
+    "group": "Economy",
+    "description": "Transfer credits from your wallet to your friends!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "@WOLF 550"
+    ]
+  },
+  {
+    "name": "use",
+    "aliases": [
+      "Use",
+      "USE",
+      "equip"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[item id]",
+    "group": "Economy",
+    "description": "Equips an item from your inventory.",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "6",
+      "8"
+    ]
+  },
+  {
+    "name": "withdraw",
+    "aliases": [
+      "Withdraw",
+      "WITHDRAW"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<amount>",
+    "group": "Economy",
+    "description": "Withdraw credits from your bank to your wallet",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "900",
+      "all"
+    ]
+  },
+  {
+    "name": "8ball",
+    "aliases": [
+      "8Ball",
+      "8BALL"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<question>",
+    "group": "Fun",
+    "description": "Ask the 8ball anything and it will answer",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      "Is wolfy a good bot?",
+      "Should i sleep after 1 hour?"
+    ]
+  },
+  {
+    "name": "clyde",
+    "aliases": [
+      "Clyde",
+      "CLYDE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<text>",
+    "group": "Fun",
+    "description": "Send your message as clyde text message",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      "Hello you are ratelimit. lol",
+      "Wolfy is cool!"
+    ]
+  },
+  {
+    "name": "fast",
+    "aliases": [
+      "Fast",
+      "FastTyper",
+      "FASTTYPER",
+      "FAST",
+      "FastTyper",
+      "fastTyper"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "Start playing fastTyper game",
+    "cooldown": 15,
+    "guarded": false,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "guess",
+    "aliases": [
+      "Guess",
+      "GUESS"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "Start playing new guess the number game.",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "joke",
+    "aliases": [
+      "Joke",
+      "JOKE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "The bot will tell you random joke from the api",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "meme",
+    "aliases": [
+      "Meme",
+      "MEME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "Get a random memes from reddit",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "reverse",
+    "aliases": [
+      "Reverse"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<args>",
+    "group": "Fun",
+    "description": "Reverse the words you want!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "Hello, everyone!",
+      "Hello, World!"
+    ]
+  },
+  {
+    "name": "roll",
+    "aliases": [
+      "Roll",
+      "ROLL"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "(Optional: Number)",
+    "group": "Fun",
+    "description": "Let's flip the coin!",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      "10",
+      "600",
+      "1568"
+    ]
+  },
+  {
+    "name": "rps",
+    "aliases": [
+      "RPS",
+      "Rps"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<option>",
+    "group": "Fun",
+    "description": "Playing rock/paper/scissors vs the bot",
+    "cooldown": 1,
+    "guarded": false,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "permissions": [],
+    "examples": [
+      "rock",
+      "paper",
+      "scissors"
+    ]
+  },
+  {
+    "name": "tweet",
+    "aliases": [
+      "Tweet",
+      "TWEET"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<text>",
+    "group": "Fun",
+    "description": "Send your message as tweet message",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      "Hello, world!",
+      "Wolfy bot!"
+    ]
+  },
+  {
+    "name": "waterdrop",
+    "aliases": [
+      "WaterDrop",
+      "Waterdrop",
+      "WATERDROP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "Start playing waterdrop game",
+    "cooldown": 15,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES",
+      "READ_MESSAGE_HISTORY"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "avatar",
+    "aliases": [
+      "Avatar",
+      "AVATAR"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<user>",
+    "group": "Informations",
+    "description": "Get a user's avatar.",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      "@WOLF",
+      "724580315481243668",
+      ""
+    ]
+  },
+  {
+    "name": "mcuser",
+    "aliases": [
+      "Mcuser",
+      "MCUSER"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<player>",
+    "group": "Informations",
+    "description": "Get a minecraft player info/skin",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      "Notch"
+    ]
+  },
+  {
+    "name": "serveravatar",
+    "aliases": [
+      "Serveravatar",
+      "SERVERAVATAR",
+      "savatar"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Informations",
+    "description": "Get a server's avatar.",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "server",
+    "aliases": [
+      "Server",
+      "SERVER",
+      "Serverinfo",
+      "serverinfo"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Informations",
+    "description": "Shows informations about a server",
+    "cooldown": 10,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "user",
+    "aliases": [
+      "User",
+      "USER"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<user>",
+    "group": "Informations",
+    "description": "Shows informations about a user",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      "@WOLF",
+      ""
+    ]
+  },
+  {
+    "name": "addrolle",
+    "aliases": [
+      "Addrole",
+      "ADDROLE",
+      "addlevelroole",
+      "add-role"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<role> <number>",
+    "group": "LeveledRoles",
+    "description": "Add a level role as a prize for users when they be active",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR",
+      "MANAGE_ROLES"
+    ],
+    "examples": [
+      "@ActiveMember 5"
+    ]
+  },
+  {
+    "name": "clearxp",
+    "aliases": [
+      "Clearxp",
+      "ClearXp",
+      "CLEARXP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "LeveledRoles",
+    "description": "Clear the xp for a user in the server",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "@WOLF",
+      "724580315481243668"
+    ]
+  },
+  {
+    "name": "editrole",
+    "aliases": [
+      "Editrole",
+      "EDITROLE",
+      "editlevelrole"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<roleID> <number>",
+    "group": "LeveledRoles",
+    "description": "Edit the guild level role to another one",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR",
+      "MANAGE_ROLES"
+    ],
+    "examples": [
+      "804860582066520104 9"
+    ]
+  },
+  {
+    "name": "LevelRoles",
+    "aliases": [
+      "roles",
+      "Roles",
+      "LeveledRoles",
+      "levelroles",
+      "leveledroles",
+      "level-roles"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "To show you all level roles in the guild",
+    "cooldown": 10,
+    "guarded": false,
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": []
+  },
+  {
+    "name": "rank",
+    "aliases": [
+      "level",
+      "Level",
+      "LEVEL",
+      "RANK",
+      "Rank"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "Show your level & rank and your current and next xp",
+    "cooldown": 5,
+    "guarded": false,
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+      "ATTACH_FILES"
+    ],
+    "examples": [
+      "@WOLF",
+      ""
+    ]
+  },
+  {
+    "name": "removerole",
+    "aliases": [
+      "Removerole",
+      "REMOVEROLE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<id>",
+    "group": "LeveledRoles",
+    "description": "Remove a level role from the list",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR",
+      "MANAGE_ROLES"
+    ],
+    "examples": [
+      "804860582066520104"
+    ]
+  },
+  {
+    "name": "covid",
+    "aliases": [
+      "Covid",
+      "COVID"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<countrie>",
+    "group": "Search",
+    "description": "Shows informations about covid in any country",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "Canada",
+      "all"
+    ]
+  },
+  {
+    "name": "djs",
+    "aliases": [
+      "Djs",
+      "Discord.js",
+      "discord.js"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<query>",
+    "group": "Search",
+    "description": "Searching for anthing in djs library",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "embeds"
+    ]
+  },
+  {
+    "name": "lyrics",
+    "aliases": [
+      "Lyrics",
+      "LYRICS"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Search",
+    "description": "The bot will show you the lyrics for the music you are searching for!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "USE_EXTERNAL_EMOJIS",
+      "ADD_REACTIONS",
+      "EMBED_LINKS"
+    ],
+    "examples": []
+  },
+  {
+    "name": "steam",
+    "aliases": [
+      "Steam",
+      "STEAM"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<query>",
+    "group": "Search",
+    "description": "To search for any game information in steam",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "Among us",
+      "Portal 2"
+    ]
+  },
+  {
+    "name": "weather",
+    "aliases": [
+      "WeatherStatus",
+      "WEATHERSTATUS",
+      "Weatherstatus",
+      "weatherstatus"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<city>",
+    "group": "Search",
+    "description": "Shows the weather status in any country",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "examples": [
+      "Egypt"
+    ]
+  },
+  {
+    "name": "wikipedia",
+    "aliases": [
+      "wiki",
+      "WIKI",
+      "Wiki"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<query>",
+    "group": "Search",
+    "description": "To search for anything in wikipedia",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "Iphone 6",
+      "Discord"
+    ]
+  },
+  {
+    "name": "badwords",
+    "aliases": [
+      "BadWords",
+      "BADWORDS",
+      "Badwords"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "(<add> | <remove>) <word>",
+    "group": "setup",
+    "description": "Add/remove/show blacklisted words for the current guild.",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      "bad"
+    ]
+  },
+  {
+    "name": "badwordstoggle",
+    "aliases": [
+      "BadWordsToggle",
+      "Badwordstoggle",
+      "BADWORDSTOGGLE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable badwords filter!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setLeaverch",
+    "aliases": [
+      "SetLeaverCh",
+      "SETLEAVERCH",
+      "setleaverchannel",
+      "setleaverch",
+      "setleavech"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the leave channel bot will send message when user leave there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "leavertoggle",
+    "aliases": [
+      "Leavertoggle",
+      "LeaverToggle",
+      "LEAVERTOGGLE",
+      "leavetoggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable leaver channel!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "leveltoggle",
+    "aliases": [
+      "Leveltoggle",
+      "LevelToggle",
+      "LEVELTOGGLE",
+      "leveltoggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable levelRoles cmd",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setLogsch",
+    "aliases": [
+      "SetLogsCh",
+      "SETLOGSCH",
+      "setlogschannel",
+      "setlogsch",
+      "setlogschannel"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the logs channel bot will send logs there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "logstoggle",
+    "aliases": [
+      "Logstoggle",
+      "LogsToggle",
+      "LOGSTOGGLE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable logs channel!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setreportch",
+    "aliases": [
+      "SetReportCh",
+      "SETREPORTCH",
+      "setReportch",
+      "setreportchannel"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the reports channel bot will send reports from users there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "reportstoggle",
+    "aliases": [
+      "Reportstoggle",
+      "ReportsToggle",
+      "REPORTSTOGGLE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable reports command!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "smRole",
+    "aliases": [
+      "SelectMenuRole",
+      "smrole",
+      "SMROLE",
+      "SMRole",
+      "SelectMenuRoles",
+      "selectmenurole"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "(Roles count)",
+    "group": "setup",
+    "description": "Setup the select menu role list!",
+    "cooldown": 15,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_ROLES"
+    ],
+    "clientPermissions": [
+      "MANAGE_ROLES"
+    ],
+    "examples": [
+      "1",
+      "6"
+    ]
+  },
+  {
+    "name": "setleavermsg",
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<msg/embed> <text>",
+    "group": "setup",
+    "description": "Set the welcome msg or embed",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "msg {tag} has just leaved {guildName} server!",
+      "embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ]
+  },
+  {
+    "name": "setprefix",
+    "aliases": [
+      "SetPrefix",
+      "SETPREFIX",
+      "prefix"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<prefix>",
+    "group": "setup",
+    "description": "Set the bot prefix to another one!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "!",
+      "l!"
+    ]
+  },
+  {
+    "name": "setwelcomemsg",
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<msg/embed> <text>",
+    "group": "setup",
+    "description": "Set the welcome msg or embed",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "msg {tag} has joined {guildName} server!",
+      "embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ]
+  },
+  {
+    "name": "smroletoggle",
+    "aliases": [
+      "Smroletoggle",
+      "SMROLETOGGLE",
+      "Selectmenuroletoggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable Select menu roles!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_ROLES",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setSuggch",
+    "aliases": [
+      "SetSuggCh",
+      "SETSUGGCH",
+      "setsuggestionchannel",
+      "setsuggch",
+      "setsuggestionsch"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the suggestion channel bot will send suggestions from users there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "suggestionstoggle",
+    "aliases": [
+      "Suggestionstoggle",
+      "SuggestionsToggle",
+      "SUGGESTIONSTOGGLE",
+      "suggtoggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable suggestion command!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setTicketch",
+    "aliases": [
+      "SetTicketCh",
+      "SETTICKETCH",
+      "setticketchannel",
+      "setticketch",
+      "setticketchannel"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the ticket category bot will create tickets channels from users there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "ticketstoggle",
+    "aliases": [
+      "Ticketstoggle",
+      "TicketsToggle",
+      "TICKETSTOGGLE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable ticket feature!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "setWelcomech",
+    "aliases": [
+      "SetWelcomeCh",
+      "SETWELCOMECH",
+      "setwelcomechannel",
+      "setwelcomech",
+      "setwelsch"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<channelID>",
+    "group": "setup",
+    "description": "Setup the welcome channel bot will send message when user join there!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      "877130715337220136"
+    ]
+  },
+  {
+    "name": "welcometoggle",
+    "aliases": [
+      "Welcometoggle",
+      "WelcomeToggle",
+      "WELCOMETOGGLE",
+      "welctoggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable welcome channel!",
+    "cooldown": 30,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS",
+      "ADMINISTRATOR"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "antilinktoggle",
+    "aliases": [
+      "AntiLinkToggle",
+      "ANTILINKTOGGLE",
+      "Antilinktoggle",
+      "anti-link-toggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable Anti-Links protection!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "infraction",
+    "aliases": [
+      "infraction",
+      "INFRACTION"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable/Edit infraction point protection system!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "mail",
+    "aliases": [
+      "MAIL"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Desc..",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [],
+    "examples": []
+  },
+  {
+    "name": "test",
+    "aliases": [
+      "Test"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "test",
+    "description": "Developer test tool!",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [],
+    "examples": []
+  },
+  {
+    "name": "bin",
+    "aliases": [
+      "Sourcebin",
+      "SOURCEBIN",
+      "sourcebin"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<code>",
+    "group": "Utilities",
+    "description": "To upload a code to sourcebin",
+    "cooldown": 10,
+    "guarded": false,
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "message.channel.send('Hello, world!')"
+    ]
+  },
+  {
+    "name": "delete",
+    "aliases": [
+      "Delete",
+      "DELETE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Utilities",
+    "description": "Delete your ticket in the server",
+    "cooldown": 1,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "remind",
+    "aliases": [
+      "remindme",
+      "Remind",
+      "Remindme",
+      "reminder"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<time> <reason>",
+    "group": "Utilities",
+    "description": "The bot will reminde you for anything",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "5m To start my new project!",
+      "30s To skip this ad"
+    ]
+  },
+  {
+    "name": "rename",
+    "aliases": [
+      "Rename",
+      "RENAME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<Name>",
+    "group": "Utilities",
+    "description": "Change ticket name",
+    "cooldown": 2,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      "Test-ticket"
+    ]
+  },
+  {
+    "name": "report",
+    "aliases": [
+      "Report",
+      "REPORT"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> <reason>",
+    "group": "Utilities",
+    "description": "To report someone in the server",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "VIEW_CHANNEL",
+      "USE_EXTERNAL_EMOJIS"
+    ],
+    "examples": [
+      "@WOLF bad boy"
+    ]
+  },
+  {
+    "name": "suggestion",
+    "aliases": [
+      "Suggestion",
+      "sugg"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<suggestion>",
+    "group": "Utilities",
+    "description": "Send your suggestion for the server",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [
+      "EMBED_LINKS",
+      "ADD_REACTIONS"
+    ],
+    "examples": [
+      "Add voice channels!"
+    ]
+  },
+  {
+    "name": "ticket",
+    "aliases": [
+      "Ticket"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Utilities",
+    "description": "Open new ticket in the server",
+    "cooldown": 30,
+    "guarded": false,
+    "clientpermissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  },
+  {
+    "name": "ticketpanel",
+    "aliases": [
+      "TicketPanel"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "(Optional: Embed description)",
+    "group": "Utilities",
+    "description": "Setup the ticket panel in the server",
+    "cooldown": 160,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_CHANNELS"
+    ],
+    "examples": [
+      ""
+    ]
+  }
+]
