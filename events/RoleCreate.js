@@ -52,10 +52,14 @@ module.exports = {
           //Do nothing..
         }
 
+            const Rp = role.permissions.serialize();
             const RoleCreated = new Discord.MessageEmbed()
             .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Up:853495519455215627> Role Created!')
-            .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}`)
+            .setDescription(`<a:iNFO:853495450111967253> **Role Name:** ${role.name}\n<:pp198:853494893439352842> **Role ID:** \`${role.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<a:Right:877975111846731847> **Role Permissions:**\n\`\`\`\n${Object.keys(Rp).map(perm => [
+              Rp[perm] ? '✔️ |' : '❌ |',
+              perm.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')
+            ].join(' ')).join('\n')}\`\`\``)
             .setColor('#2F3136')
             .setFooter({ text: role.guild.name, iconURL: role.guild.iconURL({dynamic: true}) })
             .setTimestamp()

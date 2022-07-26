@@ -82,10 +82,16 @@ module.exports = {
             .setFooter({ text: oldRole.guild.name, iconURL: oldRole.guild.iconURL({dynamic: true}) })
             .setTimestamp()
           } else if(oldRole.permissions !== newRole.permissions) {
+            const Osp = oldRole.permissions.serialize();
+            const Nsp = newRole.permissions.serialize();
             RoleUpdated = new MessageEmbed()
             .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Mod:853496185443319809> Role permissions Updated!')
-            .setDescription(`<a:Right:860969895779893248> **Role:** ${newRole.name} (\`${oldRole.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n<a:Right:877975111846731847> **Old Permissions:**\n\`\`\`\n${text.joinArray(oldRole.permissions.toArray())}\`\`\`\n<a:Right:877975111846731847> **New Permissions:**\n\`\`\`\n${text.joinArray(newRole.permissions.toArray())}\`\`\``)
+            .setDescription(`<a:Right:860969895779893248> **Role:** ${newRole.name} (\`${oldRole.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n**Old Permissions** | **New Permissions** \n\`\`\`\n${Object.keys(Osp).map(perm => [
+              Osp[perm] ? '✔️ |' : '❌ |',
+              Nsp[perm] ? '✔️ |' : '❌ |',
+              perm.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')
+            ].join(' ')).join('\n')}\`\`\``)
             .setColor(newRole.color || '#2F3136')
             .setFooter({ text: oldRole.guild.name, iconURL: oldRole.guild.iconURL({dynamic: true}) })
             .setTimestamp()
