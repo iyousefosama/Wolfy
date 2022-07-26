@@ -14,17 +14,28 @@ module.exports = {
       }
 
 
-      const Channel = client.channels.cache.get(info.path.replace("/channels/", '').replace("/messages", ''))
-      const _id = Math.random().toString(36).slice(-7);
       let output;
-      Channel.messages.fetch().then(async (messages) => {
-        output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}(${m.author.id}): ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
-      })
+      let Channel;
+      let _id;
+      if(info.path.startsWith("/channels/")) {
+        Channel = client.channels.cache.get(info.path.replace("/channels/", '').replace("/messages", ''))
+        const _id = Math.random().toString(36).slice(-7);
+        Channel.messages.fetch().then(async (messages) => {
+          output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}(${m.author.id}): ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
+        })
+      }
 
       const ratelimit = new Discord.MessageEmbed()
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor('RED')
-      .setDescription(`\`\`\`js\nRate_limit_hit: ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}\nLimit: ${info.limit}\nChannel: ${Channel.name}(${Channel.id})\nGuild: ${Channel.guild.name}(${Channel.guild.id})\`\`\``)
+      .setDescription([
+        `\`\`\`js\nRate_limit_hit: ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}\n`,
+        `Limit: ${info.limit}\n`,
+        Channel? `Channel: ${Channel.name}(${Channel.id})\n` : '',
+        Channel? `Guild: ${Channel.guild.name}(${Channel.guild.id})\n` : '',
+        `Global?: ${info.global}`,
+        `\n\`\`\``
+    ].join(''))
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true}) })
       .setTimestamp()
       const Debug = await client.channels.cache.get(client.config.channels.debug)
@@ -38,7 +49,7 @@ module.exports = {
       } else if(webhooks.size <= 10) {
         // Do no thing...
       }
-      webhook.send({content: `RateLimit from **[${Channel.guild.name}](${Channel.guild.iconURL({size: 32})})** - \`#${Channel.name}\`!\r\n\r\n`, embeds: logs.slice(0, 10).map(log => log), files: [{ attachment: Buffer.from(output), name: `Ratelimit-${_id}.txt`}]})
+      webhook.send({content: Channel? `RateLimit from **[${Channel.guild.name}](${Channel.guild.iconURL({size: 32})})** - \`#${Channel.name}\`!\r\n\r\n` : `RateLimit from bath \`${info.path}\`!`, embeds: logs.slice(0, 10).map(log => log), files: [{ attachment: Buffer.from(output), name: `Ratelimit-${_id}.txt`}]})
       .catch(() => {})
       logs = []
     }, 5000);
