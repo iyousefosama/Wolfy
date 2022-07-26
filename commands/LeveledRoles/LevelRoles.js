@@ -23,46 +23,23 @@ module.exports = {
                 GuildID: message.guild.id
             })
             if(!data) {
-                data = await schema.create({
-                    GuildID: message.guild.id
-                })
+                return message.channel.send(`\\❌ ${message.author}, There are no Level Roles yet!`)
             }
         } catch(err) {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
     
-    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
-    const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
-    
-    const Guild_Check = Level_Roles.find(reach => {
-        return reach.guildID === `${message.guild.id}`
-    })
-    if(!Guild_Check) {
-        const No_Roles = new Discord.MessageEmbed()
-        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
-        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
-        .setTitle('<a:pp681:774089750373597185> There are no Level Roles yet!')
-        .setColor("RED")
-        .setTimestamp()
-        return message.channel.send({ embeds: [No_Roles] })
-    }
 
-    const List_Of_Level_Roles = Level_Roles.filter(Level_Roles => {
-        return Level_Roles.guildID === message.guild.id
-    }).map(Roles => {
-        return Roles.Level_Role
+    const List_Of_Level_Roles = data.Mod.Level.Roles.map(Roles => {
+        return Roles.RoleName
     })
-    const List_Of_Levels_To_Reach = Level_Roles.filter(Level_Roles => {
-        return Level_Roles.guildID === message.guild.id
-    }).map(Roles => {
-        return Roles.Level_To_Reach
+    const List_Of_Levels_To_Reach = data.Mod.Level.Roles.map(Roles => {
+        return Roles.Level
     })
-    const List_Of_IDs = Level_Roles.filter(Level_Roles => {
-        return Level_Roles.guildID === message.guild.id
-    }).map(Roles => {
-        return Roles.Level_Role_ID
+    const List_Of_IDs = data.Mod.Level.Roles.map(Roles => {
+        return Roles.RoleId
     })
 
     const Success = new Discord.MessageEmbed()
@@ -77,13 +54,13 @@ module.exports = {
             inline: true
         },
         {
-            name: '<a:Right:860969895779893248> Level To Reach',
-            value: `${List_Of_Levels_To_Reach.join('\n')}`,
+            name: '<a:Right:877975111846731847> Level To Reach',
+            value: List_Of_Levels_To_Reach.join('\n'),
             inline: true
         },
         {
             name: '<:pp198:853494893439352842> ID',
-            value: `${List_Of_IDs.join('\n')}`,
+            value: List_Of_IDs.join('\n'),
             inline: true
         }
     )

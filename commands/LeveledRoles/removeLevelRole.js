@@ -35,44 +35,18 @@ module.exports = {
         }    
         
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
-    const provide = new Discord.MessageEmbed()
-    .setTitle('You need to provide a role ID.')
-    .setColor('RED')
-    .setTimestamp()
 
     const Role_To_Remove = args[0]
-    if(!Role_To_Remove) return message.channel.send({ embeds: [provide] })
-    if(isNaN(Role_To_Remove)) return message.channel.send({ embeds: [provide] })
+    if(!Role_To_Remove) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role mention or id!`)
+    if(isNaN(Role_To_Remove)) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role mention or id!`)
 
-    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
-    const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
-    
-    const Level_Role_ID_Check = Level_Roles.find(id => {
-        return (id.guildID === `${message.guild.id}` && id.Level_Role_ID === Role_To_Remove)
+    const role = data.Mod.Level.Roles?.filter(x => x.RoleId == Role_To_Remove)[0];
+    if(!data.Mod.Level.Roles.length || !role) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find this role!`})
+
+    await schema.findOneAndUpdate({ GuildID: message.guild.id}, { $pull: { "Mod.Level.Roles": { "RoleId": Role_To_Remove} } }).then(() => {
+        return message.channel.send(`\\✔️ **${message.member.displayName}**, Successfully removed the role from this guild!`)
+    }).catch((err) => {
+        return message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``})
     })
-    if(!Level_Role_ID_Check) {
-        const No_Roles = new Discord.MessageEmbed()
-        .setTitle('There is no Level Role with that ID.')
-        .setColor("RED")
-        .setTimestamp()
-        return message.channel.send({ embeds: [No_Roles] })
-    } else {
-        const Removing_Level_Role = Level_Roles.filter(id => {
-            return id.Level_Role_ID !== `${Role_To_Remove}`
-        });
-        fs.writeFileSync('assets/json/Level-Roles.json', JSON.stringify(Removing_Level_Role, null, 4));
-        
-        const Success = new Discord.MessageEmbed()
-        .setTitle('Level Role has been successfully removed.')
-        .setColor("DARK_GREEN")
-        .setTimestamp()
-        message.channel.send({ embeds: [Success] })
-        //Saves the Data, this also means that it won't bring back the previous data after it got deleted
-        return setTimeout(() => {
-            const Saving_Data = fs.readFileSync('assets/json/Level-Roles.json', 'utf8')
-            const Saved_Data = JSON.parse(Saving_Data.toString())
-            fs.writeFileSync('assets/json/Level-Roles.json', JSON.stringify(Saved_Data, null, 4))
-        }, 1000)
-    }
 }
 }

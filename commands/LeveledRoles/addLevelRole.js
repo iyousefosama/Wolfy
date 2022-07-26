@@ -1,9 +1,7 @@
-const fs = require('fs')
-const Discord = require('discord.js')
-const schema = require('../../schema/GuildSchema')
+const schema = require('../../schema/GuildSchema');
 
 module.exports = {
-    name: "addrolle",
+    name: "addrole",
     aliases: ["Addrole", "ADDROLE", "addlevelroole", "add-role"],
     dmOnly: false, //or false
     guildOnly: true, //or false
@@ -46,27 +44,17 @@ module.exports = {
         if(Level_To_Reach.includes('.')) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role level with number of level!`)
         if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
 
-        const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
-        const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
-        
-        const Level_To_Reach_Check = Level_Roles.find(reach => {
-            return (reach.guildID === `${message.guild.id}` && reach.Level_To_Reach === parseInt(Level_To_Reach))
-        })
-        if(!Level_To_Reach_Check) {
-            Level_Roles.push(
-                {   
-                    guildID: `${message.guild.id}`,
-                    Level_Role: `${Role_To_Add.name}`,
-                    Level_Role_ID: `${Role_To_Add.id}`,
-                    Level_To_Reach: parseInt(Level_To_Reach)
-                }
-            )
-            //Important Line when Creating/Adding a Data to JSON
-            const New_Level_Role = JSON.stringify(Level_Roles, null, 4)
-            fs.writeFileSync('assets/json/Level-Roles.json', New_Level_Role)
-            return message.channel.send(`\\✔️ **${message.member.displayName}**, New Level Role has been successfully added.`)
-        } else {
-            return message.channel.send(`\\❌ **${message.member.displayName}**, There is already a role that has that same level to reach.`)
+        if(data.Mod.Level.Roles.length && data.Mod.Level.Roles?.filter(x => x.Level == Math.floor(Level_To_Reach))[0]) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, there is already a leveled role with the same level!`})
+        const RoleObj = {
+            RoleName: Role_To_Add.name,
+            RoleId: Role_To_Add.id,
+            Level: parseInt(Level_To_Reach)
         }
+        data.Mod.Level.Roles.push(RoleObj)
+        await data.save().then(() => {
+            return message.channel.send(`\\✔️ **${message.member.displayName}**, New Level Role has been successfully added.`)
+        }).catch(() => {
+            return message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``})
+        })
     }
 }

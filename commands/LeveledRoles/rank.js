@@ -1,8 +1,8 @@
 const discord = require('discord.js')
 const canvacord = require('canvacord')
-const Levels = require('discord-xp')
 const schema = require('../../schema/GuildSchema')
 const ecoschema = require('../../schema/Economy-Schema')
+const Userschema = require('../../schema/LevelingSystem-Schema')
 
 module.exports = {
     name: "rank",
@@ -54,27 +54,30 @@ module.exports = {
         ecodata = await ecoschema.findOne({
             userID: user.id
         })
+        Userdata = await Userschema.findOne({
+            userId: message.author.id,
+            guildId: message.guild.id
+        })
         if(!ecodata) {
         ecodata = await ecoschema.create({
             userID: user.id
         })
         }
+        if(!Userdata) {
+            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`})
+        }
     } catch(err) {
         console.log(err)
         message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
     }
-    const userData = await Levels.fetch(user.id, message.guild.id)
-    if(!userData) {
-        return message.channel.send({ content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`})
-    }
     var status = member.presence?.status;
-    const requiredXP = (userData.level +1) * (userData.level +1) *100 // Enter the formula for calculating the experience here. I used mine, which is used in discord-xp.
+    const requiredXP = Userdata.System.required;
     const rank = new canvacord.Rank()
     .setAvatar(user.displayAvatarURL({format: "png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
     .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
-    .setCurrentXP(userData.xp)
-    .setLevel(userData.level)
+    .setCurrentXP(Userdata.System.xp)
+    .setLevel(Userdata.System.level)
     .setStatus(status)
     .setRequiredXP(requiredXP)
     .setUsername(user.username)

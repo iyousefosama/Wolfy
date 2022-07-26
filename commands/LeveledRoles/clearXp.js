@@ -1,7 +1,6 @@
 const discord = require('discord.js')
-const canvacord = require('canvacord')
-const Levels = require('discord-xp')
 const schema = require('../../schema/GuildSchema')
+const UserSchema = require('../../schema/LevelingSystem-Schema')
 
 module.exports = {
     name: "clearxp",
@@ -19,9 +18,35 @@ module.exports = {
         '@WOLF',
         '724580315481243668'
       ],
-    async execute(client, message, args) {
+    async execute(client, message, [ member = '', ...args]) {
+
+
+        const owner = await message.guild.fetchOwner()
+
+        let reason = args.slice(0).join(" ")
+    
+        if (!member.match(/\d{17,19}/)){
+          return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to ban.`);
+        };
+    
+        member = await message.guild.members
+        .fetch(member.match(/\d{17,19}/)[0])
+        .catch(() => null);
+    
+        if (!member){
+          return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
+        } else if (member.id === client.user.id){
+          return message.channel.send(`\\❌ | ${message.author}, You cannot clear xp for me!`);
+        } else if (member.id === message.guild.ownerId){
+          return message.channel.send(`\\❌ | ${message.author}, You cannot clear xp for a server owner!`);
+        } else if (client.owners.includes(member.id)){
+          return message.channel.send(`\\❌ | ${message.author}, You can't clear xp for my developer through me!`);
+        } else if (message.member.roles.highest.position < member.roles.highest.position){
+          return message.channel.send(`\\❌ | ${message.author}, You can't clear xp for that user! He/She has a higher role than yours`);
+        };
 
         let data;
+        let Userdata;
         try{
             data = await schema.findOne({
                 GuildID: message.guild.id
@@ -31,36 +56,22 @@ module.exports = {
                     GuildID: message.guild.id
                 })
             }
+            Userdata = await UserSchema.findOne({
+                userId: member.id,
+                guildId: message.guild.id
+            })
+            if(!Userdata) {
+                return message.channel.send(`\\❌ | ${message.author}, I couldn't find that user in the database!`)
+            }
         } catch(err) {
             console.log(err)
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
 
-        const usererr = new discord.MessageEmbed()
-        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
-        .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
-        .setDescription('<a:pp802:768864899543466006> Please mention the user to clearXp')
-        .setColor("RED")
-        .setTimestamp()
-        const error = new discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-        .setDescription('<a:pp802:768864899543466006> Error, you can\'t clearXp for this user!')
-        .setColor("RED")
-        .setTimestamp()
-        const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
-        if (!user) return message.channel.send(usererr)
-        if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
-        Levels.deleteUser(user.id || user, message.guild.id);
-        const dn = new discord.MessageEmbed()
-        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
-        .setFooter({ text: message.guild.name, iconURl: message.guild.iconURL({dynamic: true}) })
-        .setDescription(`<a:Correct:812104211386728498> Done, i cleared **xp** for ${user}!`)
-        .setColor('DARK_GREEN')
-        .setTimestamp()
-        message.channel.send({ embeds: [dn] })
-        .catch(err => {
-            message.channel.send({ embeds: [error]})
-        })
+        if(!data.Mod.Level?.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
+
+        await Userdata.delete().then(() => {
+            return message.channel.send(`\\✔️ ${message.author}, Successfully cleared xp for the user \`${member.user.username}\`!`)
+        }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
     }
 }

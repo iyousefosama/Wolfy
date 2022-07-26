@@ -60,36 +60,14 @@ module.exports = {
     if(New_Number.includes('.')) return message.channel.send({ embeds: [provide] })
     if(!data.Mod.Level.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`})
 
-    const Level_Roles_Storage = fs.readFileSync('assets/json/Level-Roles.json')
-    const Level_Roles = JSON.parse(Level_Roles_Storage.toString())
-    
-    const Level_Role_ID_Check = Level_Roles.find(id => {
-        return (id.guildID === `${message.guild.id}` && id.Level_Role_ID === Role_To_Edit)
-    })
-    if(!Level_Role_ID_Check) {
-        const No_Roles = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-        .setTitle('<a:Nnno:853494186002481182> There is no Level Role with that \`ID\`!')
-        .setColor("RED")
-        .setTimestamp()
-        return message.channel.send({ embeds: [No_Roles] })
-    } else {
-        const New_Level_Number = Level_Role_ID_Check.Level_To_Reach = parseInt(New_Number)
-        
-        const Updating_Data = JSON.stringify(New_Level_Number, null, 4)
-        fs.writeFileSync('assets/json/Level-Roles.json', Updating_Data)
+    const role = data.Mod.Level.Roles?.filter(x => x.RoleId == Role_To_Edit)[0];
+    if(!data.Mod.Level.Roles.length || !role) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find this role!`})
+    if(data.Mod.Level.Roles?.filter(x => x.Level == Math.floor(New_Number))[0]) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, there is already a leveled role with the same level!`})
 
-        const Updated_Data = JSON.stringify(Level_Roles, null, 4)
-        fs.writeFileSync('assets/json/Level-Roles.json', Updated_Data)
+        const NumberToAdd = New_Number - role.Level
+        await schema.findOneAndUpdate({ GuildID: message.guild.id, "Mod.Level.Roles.RoleId": Role_To_Edit }, { $inc: { "Mod.Level.Roles.$.Level": Math.floor(NumberToAdd) } }).then(() => {
+            return message.channel.send(`\\✔️ ${message.author}, Successfully edited **${role.RoleName}** to level \`${Math.floor(New_Number)}\`!`)
+        }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`))
 
-        const Success = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL({dynamic: true}))
-        .setFooter(message.guild.name, message.guild.iconURL({dynamic: true}))
-        .setTitle('<a:Correct:812104211386728498> Level Role has been successfully edited!')
-        .setColor("GREEN")
-        .setTimestamp()
-        return message.channel.send({ embeds: [Success] })
-    }
 }
 }
