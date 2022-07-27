@@ -63,6 +63,7 @@ const ecoSchema = mongoose.Schema({
       progress: {
         quests: { type: Array, default: []},
         completed: { type: Number, default: 0},
+        claimed: { type: Boolean, default: false },
         TimeReset: { type: Date, default: 0 }
       },
 
