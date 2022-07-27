@@ -4,7 +4,7 @@ const schema = require('../schema/GuildSchema')
 let logs = [];
 module.exports = {
     name: 'guildBanRemove',
-    async execute(client, user, guild) {
+    async execute(client, user) {
 
         let data;
         try{

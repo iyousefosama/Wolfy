@@ -53,16 +53,6 @@ module.exports = {
             //Do nothing..
           }
           
-
-          const fetchedLogs2 = await user.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'MEMBER_KICK',
-           });
-        // Since there's only 1 audit log entry in this collection, grab the first one
-        const kickLog = fetchedLogs2.entries.first();
-        const timestamp = Math.floor(Date.now() / 1000)
-
-        if (kickLog && target.id == user.id) return;
         const Ban = new Discord.MessageEmbed()
         .setAuthor({ name: target.username, iconURL: target.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:Mod:853496185443319809> Member ban!')
