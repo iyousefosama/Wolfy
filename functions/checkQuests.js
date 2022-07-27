@@ -7,6 +7,8 @@ const quests = require('../assets/json/quests.json');
  */
 
 module.exports = async (client) => {
+    if(!client.database?.enable) return;
+    await new Promise(r=>setTimeout(r,10000))
     const checkQuests = async () => {
         let data;
         try{
@@ -48,6 +50,7 @@ module.exports = async (client) => {
                return bucket.splice(randomIndex, 1)[0];
             }
             member.progress.quests = []
+            member.progress.claimed = false;
             member.progress.completed = 0;
             member.progress.quests.push(quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()])
             member.progress.TimeReset = Math.floor(now + duration);
