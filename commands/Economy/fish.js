@@ -33,18 +33,6 @@ module.exports = {
         const item = data.profile.inventory.find(x => x.id == 1);
         const quest = data.progress.quests?.find(x => x.id == 1);
         let Box = quest?.current;
-
-        
-        if(quest?.current < quest?.progress) {
-          Box++
-          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $inc: { "progress.quests.$.current": 1 } });
-        }
-      if(Box && Box >= quest?.progress && !quest?.received) {
-          data.credits += Math.floor(quest.reward);
-          await schema.findOneAndUpdate({ userID: message.author.id, "progress.quests.id": 1 }, { $set: { "progress.quests.$.received": true } });
-          data.progress.completed++;
-          message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
-        }
         
         const nulle = new Discord.MessageEmbed()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)

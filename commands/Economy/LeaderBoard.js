@@ -9,7 +9,7 @@ module.exports = {
     guildOnly: true, //or false
     args: false, //or false
     usage: '',
-    group: 'test',
+    group: 'Economy',
     description: 'Developer test tool!',
     cooldown: 2, //seconds(s)
     guarded: false, //or false

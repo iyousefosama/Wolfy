@@ -63,7 +63,7 @@ module.exports = {
               if (old){
                   //Do nothing..
               } else {
-                doc.data.profile.inventory.push({
+                data.profile.inventory.push({
                   id: item.id
                 });
               };

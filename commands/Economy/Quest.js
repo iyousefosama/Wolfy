@@ -6,6 +6,7 @@ const file = new MessageAttachment('./assets/Images/treasure.png');
 const quests = require('../../assets/json/quests.json');
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
+const market = require('../../assets/json/market.json');
 
 module.exports = {
     name: "quests",
@@ -51,16 +52,61 @@ module.exports = {
         }
             data.progress.quests = []
             data.progress.completed = 0;
+            data.progress.claimed = false;
             data.progress.quests.push(quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()], quests[getRandomFromBucket()])
             data.progress.TimeReset = Math.floor(now + duration);
             await data.save()
             return message.channel.send(`\\✔️ **${message.author.tag}**, Successfully refreshed the quests`)
         }
+
+        if(args[0] && args[0].toLowerCase() == 'claim') {
+            if(data.progress.completed < 4) {
+                const NotNow = new MessageEmbed()
+                .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
+                .setDescription([
+                `<:error:888264104081522698> You didn't complete your quests yet!\n`,
+                data.progress.completed? `:warning: Currently you completed ${data.progress.completed} out of 4 from your daily quests.` : ''
+            ].join(''))
+                .setFooter({ text: message.author.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: message.author.avatarURL({dynamic: true}) })
+                .setTimestamp()
+                return message.channel.send({ embeds: [NotNow]})
+            } else if (data.progress.claimed) {
+                return message.channel.send(`\\❌ **${message.author.tag}**, You already claimed your reward today!`)
+            }
+            let moneyget = Math.floor(500);
+            const rewardables = market.filter(x => ![5,20].includes(x.id));
+            const item = rewardables[Math.floor(Math.random() * rewardables.length)];
+            itemreward = false;
+            const old = data.profile.inventory.find(x => x.id === item.id);
+            if (old){
+                //Do nothing..
+            } else {
+            itemreward = true
+              data.profile.inventory.push({
+                id: item.id
+              });
+            };
+            data.progress.claimed = true;
+            data.credits += Math.floor(moneyget);
+            await data.save()
+            .then(() => {
+                const embed = new Discord.MessageEmbed()
+                .setTitle(`<a:ShinyCoin:853495846984876063> Claimed your daily quests reward!`)
+                .setDescription([
+                `<a:ShinyMoney:877975108038324224> **${message.author.tag}**, You received **${Math.floor(moneyget)}** from daily quests reward!`,
+                itemreward ? `\n\\✔️  You received: **${item.name} - ${item.description}**.` : ''
+            ].join(''))
+                .setFooter({ text: `You can claim your daily request every day after completing your requests`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
+                .setColor('#E6CEA0')
+                return message.channel.send({ embeds: [embed] })
+            })
+            .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+        }
         const QuestEmbed = new Pages(_.chunk(data.progress.quests, 4).map((chunk, i, o) => {
             return new MessageEmbed()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
         .setTitle("Daily Quests")
-        .setDescription(`Your daily quests will be refreshed at \`${moment.duration(data.progress.TimeReset - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests!\n\n<:star:888264104026992670> Your Progress:`)
+        .setDescription(`Your daily quests will be refreshed at \`${moment.duration(data.progress.TimeReset - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix}quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`)
         .setThumbnail('attachment://treasure.png')
         .setFooter({ text: message.author.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: message.author.avatarURL({dynamic: true}) })
         .addFields(...chunk.sort((A,B) => A.id - B.id ).map(d => {
