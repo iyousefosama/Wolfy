@@ -7,7 +7,9 @@ const schema = require('../schema/TimeOut-Schema')
  */
 
 module.exports = async (client) => {
+    await new Promise(r=>setTimeout(r,10000))
     const checkReminders = async () => {
+        if(!client.database.connected) return;
         let data;
         try{
           data = await schema.find({})

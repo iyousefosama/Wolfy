@@ -7,9 +7,9 @@ const quests = require('../assets/json/quests.json');
  */
 
 module.exports = async (client) => {
-    if(!client.database?.enable) return;
     await new Promise(r=>setTimeout(r,10000))
     const checkQuests = async () => {
+        if(!client.database.connected) return;
         let data;
         try{
           data = await schema.find({})
@@ -34,7 +34,6 @@ module.exports = async (client) => {
           })
       
           members.forEach(async (member) => {
-            const user = client.users.cache.get(member.userID)
             const now = Date.now();
             if(member.progress.TimeReset > now) {
                 return;
