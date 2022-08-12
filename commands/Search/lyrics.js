@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const { MessageEmbed, GuildEmoji } = require('discord.js');
 const text = require('../../util/string');
 const Page = require('../../util/Paginate');
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 module.exports = {
     name: "lyrics",
@@ -64,7 +65,7 @@ module.exports = {
             lyrics_subarray.map((x,i) =>
               new MessageEmbed()
             .setThumbnail(data.thumbnail.genius)
-            .setAuthor({ name: `${data.title}\n${data.author}`, icoonURL: null, url: data.links.genius })
+            .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
             .setColor('GREY')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
@@ -75,52 +76,51 @@ module.exports = {
             .setTimestamp()
             )
         );
+        const button = new MessageButton()
+        .setLabel(`Prev`)
+        .setCustomId("51984198419841941")
+        .setStyle('PRIMARY')
+        .setEmoji("890490643548352572");
+        const button2 = new MessageButton()
+        .setLabel(`Next`)
+        .setCustomId("51984198419841942")
+        .setStyle('PRIMARY')
+        .setEmoji("890490558492061736")
 
-        const msg = await message.channel.send({ embeds: [pages.currentPage] })
-          
-        const prev = client.emojis.cache.get('890490643548352572') || '◀';
-        const next = client.emojis.cache.get('890490558492061736') || '▶';
-        const terminate = client.emojis.cache.get('888264104081522698') || '❌';
-        const filter = (reaction, user) => user.id === message.author.id;
+        const row = new discord.MessageActionRow()
+        .addComponents(button, button2)
 
-        const collector = msg.createReactionCollector({ filter })
-        const navigators = [ prev, next, terminate ]
+        const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
 
-        for (let i = 0; i < navigators.length; i++) {
-            await new Promise(r=>setTimeout(r,1500))
-            await msg.react(navigators[i])
-        }
+        const filter = i => i.user.id === message.author.id;
+
+        const collector = msg.createMessageComponentCollector({ filter, fetch: true  })
 
         let timeout = setTimeout(()=> collector.stop(), 180000)
     
-        collector.on('collect', async ( {emoji: {name}, users }) => {
-    
-        switch(name){
-          case prev instanceof GuildEmoji ? prev.name : prev:
-            msg.edit({ embeds: [pages.previous()] })
-            break
-          case next instanceof GuildEmoji ? next.name : next:
-            msg.edit({ embeds: [pages.next()] })
-            break
-          case terminate instanceof GuildEmoji ? terminate.name : terminate:
-            collector.stop()
-            break
+        collector.on('collect', async interactionCreate => {
+          interactionCreate.deferUpdate()
+          if (interactionCreate.customId === '51984198419841941') {
+            msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex-1}/${pages.size}\``, embeds: [pages.previous()] })
+          } else if(interactionCreate.customId === '51984198419841942') {
+            msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.next()] })
           }
     
-          await users.remove(message.author.id)
           timeout.refresh()
         });
-        collector.on('end', async () => await msg.reactions.removeAll().catch(()=>null) ? null : null);
-}
+
+        collector.on('end', async () => {
+          button.setDisabled(true)
+          button2.setDisabled(true)
+          const newrow = new MessageActionRow()
+          .addComponents(button, button2);
+          msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
+      });
+    }
     } else {
-
-
     let singer;
     let song;
-    let pages = []
-    let current = 0
-
-    const filter = msg => msg.author.id == message.author.id;
+    const filter = msg => msg.author.id === message.author.id;
 
     let singerEmb = new discord.MessageEmbed()
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
@@ -173,54 +173,74 @@ module.exports = {
         }
     }
 
-    for(let i = 0; i < res.length; i += 2048) {
-        let lyrics = res.substring(i, Math.min(res.length, i + 2048))
-        let page = new discord.MessageEmbed()
-        .setThumbnail(data.thumbnail.genius)
-        .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
-        .setColor('GREY')
-        .addFields(
-            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
-            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
-        )
-        .setDescription(lyrics)
-        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-        .setTimestamp()
-        pages.push(page)
-    }
+    const lyrics_array = res.split('\n');
+    const lyrics_subarray = [ '' ];
+    let n = 0;
 
-    const filter2 = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (message.author.id == user.id)
-    const Embed = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, embeds: [pages[current]]})
-    const navigators = [ '⬅️', '➡️', '❌' ];
-
-    for (let i = 0; i < navigators.length; i++) {
-      await new Promise(r=>setTimeout(r,1500))
-      await Embed.react(navigators[i])
+    for (const line of lyrics_array){
+      if (lyrics_subarray[n].length + line.length < 2000){
+        lyrics_subarray[n] = lyrics_subarray[n] + line + '\n'
+      } else {
+        n++
+        lyrics_subarray.push(line);
+      };
     };
 
+    const pages = new Page(
+      lyrics_subarray.map((x,i) =>
+        new MessageEmbed()
+      .setThumbnail(data.thumbnail.genius)
+      .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
+      .setColor('GREY')
+      .addFields(
+          { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
+          { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
+      )
+      .setDescription(x)
+      .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
+      .setTimestamp()
+      )
+  );
+  const button = new MessageButton()
+  .setLabel(`Prev`)
+  .setCustomId("51984198419841941")
+  .setStyle('PRIMARY')
+  .setEmoji("890490643548352572");
+  const button2 = new MessageButton()
+  .setLabel(`Next`)
+  .setCustomId("51984198419841942")
+  .setStyle('PRIMARY')
+  .setEmoji("890490558492061736")
 
-    let ReactionCol = Embed.createReactionCollector({ filter: filter2, time: 30000 })
+  const row = new discord.MessageActionRow()
+  .addComponents(button, button2)
 
-    ReactionCol.on("collect", (reaction, user) => {
-        reaction.users.remove(message.author.id)
+  const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
 
-        if(reaction.emoji.name == '➡️') {
-            if(current < pages.length - 1) {
-                current += 1
-                Embed.edit({ content: `<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, embeds: [pages[current]]})
-            }
-        } else {
-            if(reaction.emoji.name === '⬅️') {
-                if(current !== 0) {
-                    current -= 1
-                    Embed.edit({ content: `<:pp332:853495194863534081> **Page:** \`${current+1}/${pages.length}\``, embeds: [pages[current]]})
-                }
-            } else if(reaction.emoji.name == '❌') {
-                Embed.reactions.removeAll().catch(()=>null)
-            }
-        }
-    })
-    ReactionCol.on('end', async () => await Embed.reactions.removeAll().catch(()=>null) ? null : null);
+  const filter1 = i => i.user.id === message.author.id;
+
+  const collector = msg.createMessageComponentCollector({ filter1, fetch: true  })
+
+  let timeout = setTimeout(()=> collector.stop(), 180000)
+
+  collector.on('collect', async interactionCreate => {
+    interactionCreate.deferUpdate()
+    if (interactionCreate.customId === '51984198419841941') {
+      msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex-1}/${pages.size}\``, embeds: [pages.previous()] })
+    } else if(interactionCreate.customId === '51984198419841942') {
+      msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.next()] })
+    }
+
+    timeout.refresh()
+  });
+
+  collector.on('end', async () => {
+    button.setDisabled(true)
+    button2.setDisabled(true)
+    const newrow = new MessageActionRow()
+    .addComponents(button, button2);
+    msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
+});
 }
 }
 }
