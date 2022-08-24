@@ -2,8 +2,12 @@
   "name": "wolfy-bot",
   "version": "2.3.5",
   "main": "index.js",
-  "engines": {
-    "node": "16.x"
+ "engines": { "node": "16.x" },
+  "scripts": {
+    "test": "node test.js",
+    "start": "node index.js",
+    "build": "node build.js"
+    "start": "node index.js"
   },
   "author": "WOLF#1000",
   "license": "ISC",
@@ -17,8 +21,8 @@
     "axios": "^0.27.2",
     "canvacord": "^5.4.2",
     "discord-canvas": "^1.4.1",
-    "discord-player": "^5.2.1",
-    "discord.js": "^13.10.3",
+    "discord-player": "^5.2.2",
+    "discord.js": "^13.9.0",
     "djs-buttons-pagination": "^1.6.2",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
@@ -31,16 +35,14 @@
     "lyrics-finder": "^21.7.0",
     "mcapi": "^1.0.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.13.15",
+    "mongoose": "^5.12.5",
     "ms": "^2.1.3",
     "node": "^16.6.1",
-    "node-fetch": "^2.6.1",
     "parse-ms": "^2.1.0",
     "play-dl": "^1.9.5",
     "snekfetch": "^4.0.4",
     "sourcebin": "^4.2.5",
     "sourcebin_js": "^0.0.3-ignore",
-    "stable": "^0.1.8",
     "twitter-api.js": "0.0.12",
     "txtgen": "^3.0.1",
     "uuid": "^8.3.2",
