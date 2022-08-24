@@ -2,9 +2,13 @@
   "name": "wolfy-bot",
   "version": "2.3.5",
   "main": "index.js",
- "engines": { "node": "16.x" },
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
-    "start": "node index.js"
+    "test": "node test.js",
+    "start": "node index.js",
+    "build": "node build.js"
   },
   "author": "WOLF#1000",
   "license": "ISC",
@@ -18,7 +22,7 @@
     "axios": "^0.27.2",
     "canvacord": "^5.4.2",
     "discord-canvas": "^1.4.1",
-    "discord-player": "^5.2.2",
+    "discord-player": "^5.2.1",
     "discord.js": "^13.9.0",
     "djs-buttons-pagination": "^1.6.2",
     "dotenv": "^16.0.1",
