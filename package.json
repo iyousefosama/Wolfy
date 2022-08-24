@@ -5,11 +5,6 @@
   "engines": {
     "node": "16.x"
   },
-  "scripts": {
-    "test": "node test.js",
-    "start": "node index.js",
-    "build": "node build.js"
-  },
   "author": "WOLF#1000",
   "license": "ISC",
   "description": "",
