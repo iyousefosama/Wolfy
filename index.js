@@ -33,4 +33,4 @@ registerPlayerEvents(client.player);
 	require(`./functions/${functions}`)(client);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN_URI);
