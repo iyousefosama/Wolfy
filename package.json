@@ -4,10 +4,7 @@
   "main": "index.js",
  "engines": { "node": "16.x" },
   "scripts": {
-    "test": "node test.js",
-    "start": "node index.js",
-    "build": "node build.js"
-    "start": "node index.js"
+  "start": "node index.js"
   },
   "author": "WOLF#1000",
   "license": "ISC",
