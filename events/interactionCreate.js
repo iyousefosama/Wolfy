@@ -404,7 +404,7 @@ module.exports = {
             await slash.execute(client, interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(() => interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true }));
+            await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(() => {});
         }
       }
     }
