@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 module.exports = {
     name: 'messageCreate',
-    execute(client, message) {
+    async execute(client, message) {
         if (message.channel.type === 'DM') return;
         if (message.author == client.user) return;
         if (message.author.bot){
@@ -15,6 +15,18 @@ module.exports = {
         const Channel = message.guild.channels.cache.get(client.config.channels.chatbot)
         if(message.channel.id == Channel?.id) {
             message.channel.sendTyping()
+            const res = await fetch(`https://api.udit.tk/api/chatbot?message=${encodeURIComponent(message.content)}&user=${message.author.id}&gender=male&name=Wolfy`).catch(e => {
+              throw new Error(`Ran into an Error. ${e}`);
+          });
+          const response = await res.json().catch(e =>{
+              throw new Error(`Ran into an Error. ${e}`);
+          }).then(async response => {
+            response.message.replace('CleverChat', 'Wolfy').replace('male', 'Male');
+            await message.reply(response.message).catch(() => null)
+          })
+          .catch(() => message.reply('Sorry, but i can\'t understand this message!').catch(() => null))
+
+            /*
             const url = 'https://waifu.p.rapidapi.com/v1/waifu';
 
             const options = {
@@ -31,6 +43,8 @@ module.exports = {
               .then(res => res.json())
               .then(json => message.reply(json.response).catch(() => null))
               .catch(() => message.reply('Sorry, There was an error while executing this command!').catch(() => null));
+
+              */
     }
 }
 }
