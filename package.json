@@ -21,7 +21,7 @@
     "@top-gg/sdk": "^3.1.3",
     "axios": "^0.27.2",
     "canvacord": "^5.4.6",
-    "discord-player": "^5.2.2",
+    "discord-player": "5.2.2",
     "discord.js": "^13.10.3",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
@@ -45,9 +45,8 @@
     "sourcebin_js": "^0.0.3-ignore",
     "stable": "^0.1.8",
     "twitter-api.js": "0.0.12",
-    "txtgen": "^3.0.1",
+    "txtgen": "3.0.1",
     "uuid": "^8.3.2",
-    "wanted": "^1.4.3",
     "weather-js": "^2.0.0",
     "ytdl-core": "^4.8.3"
   }
