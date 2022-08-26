@@ -1,4 +1,3 @@
-/*
 const Discord = require('discord.js')
 const txtgen = require('txtgen')
 const ms = require('ms')
@@ -96,5 +95,3 @@ module.exports = {
     }
     }
 }
-
-*/

@@ -1,6 +1,7 @@
+const discord = require('discord.js')
 const moment = require(`moment`)
-const { MessageEmbed } = require("discord.js")
-const { buttonsPagination } = require("djs-buttons-pagination");
+const Page = require('../../util/Paginate');
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 
 const verificationLevels = {
     NONE: '<a:Error:836169051310260265> None',
@@ -78,29 +79,28 @@ module.exports = {
     const owner = await guild.fetchOwner()
     
     // creating embed1
-	const embed1 = new MessageEmbed() 			 
-	.setTitle(`${name} server info (page 1/2)`)
+    const pages = new Page(
+        new MessageEmbed() 			 
+        .setTitle(`${name} server info (page 1/2)`)
+        
+        .setURL(message.guild.iconURL())
     
-    .setURL(message.guild.iconURL())
-
-    .setThumbnail(message.guild.iconURL({dynamic: true, format: 'png', size: 512}))
-
-    .setTimestamp()
+        .setThumbnail(message.guild.iconURL({dynamic: true, format: 'png', size: 512}))
     
-    .setDescription(`**General**
-    🇳 **Name:** ${name}
-    <:pp198:853494893439352842> **ID:** ${message.guild.id}
-    <:Owner:841321887882805289> **Owner:** <@${message.guild.ownerId}>
-    🌐 **Region:** ${regions[message.guild.region] || 'Auto'}
-    <a:pp891:853493740579717131> **Boost Tier:** ${message.guild.premiumTier || 'None'}
-    <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}
-    <a:server_boosting:809994218759782411> **Boost Level:** ${message.guild.premiumSubscriptionCount || '0'}
-    📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}
-    \u200b
-    `)
-	
-	// creating embed2
-	const embed2 = new MessageEmbed() 	
+        .setTimestamp()
+        
+        .setDescription(`**General**
+        🇳 **Name:** ${name}
+        <:pp198:853494893439352842> **ID:** ${message.guild.id}
+        <:Owner:841321887882805289> **Owner:** <@${message.guild.ownerId}>
+        🌐 **Region:** ${regions[message.guild.region] || 'Auto'}
+        <a:pp891:853493740579717131> **Boost Tier:** ${message.guild.premiumTier || 'None'}
+        <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}
+        <a:server_boosting:809994218759782411> **Boost Level:** ${message.guild.premiumSubscriptionCount || '0'}
+        📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}
+        \u200b
+        `),
+        new MessageEmbed() 	
 	.setTitle(`${name} server info (page 2/2)`)
     
    .setURL(message.guild.iconURL())
@@ -124,16 +124,43 @@ module.exports = {
    <:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'GUILD_VOICE').size}
    \u200b
    `)
-	
-const pages = [embed1, embed2];
+    );
+    const button = new MessageButton()
+    .setLabel(`Prev`)
+    .setCustomId("51984198419841941")
+    .setStyle('PRIMARY')
+    .setEmoji("890490643548352572");
+    const button2 = new MessageButton()
+    .setLabel(`Next`)
+    .setCustomId("51984198419841942")
+    .setStyle('PRIMARY')
+    .setEmoji("890490558492061736")
+    const row = new discord.MessageActionRow()
+    .addComponents(button, button2)
+    const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
+    const filter = i => i.user.id === message.author.id;
 
+    const collector = msg.createMessageComponentCollector({ filter, fetch: true  })
 
-const emojiList = ["860969849663782962", "860969895779893248"];
+    let timeout = setTimeout(()=> collector.stop(), 180000)
 
+    collector.on('collect', async interactionCreate => {
+      interactionCreate.deferUpdate()
+      if (interactionCreate.customId === '51984198419841941') {
+        msg.edit({ embeds: [pages.previous()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
+      } else if(interactionCreate.customId === '51984198419841942') {
+        msg.edit({ embeds: [pages.next()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
+      }
 
-const timeout = 30000;
+      timeout.refresh()
+    });
 
-
-buttonsPagination(message, pages, emojiList, timeout)
+    collector.on('end', async () => {
+      button.setDisabled(true)
+      button2.setDisabled(true)
+      const newrow = new MessageActionRow()
+      .addComponents(button, button2);
+      msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
+  });
     }
 }
