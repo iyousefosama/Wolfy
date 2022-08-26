@@ -55,9 +55,15 @@ module.exports = {
         }
 
         // MUTE OR DEFEAN
-        if(!oldState.member.selfMute && newState.member.selfMute || oldState.member.selfMute && !newState.member.selfMute || !oldState.member.selfDeaf && newState.member.selfDeaf || oldState.member.selfDeaf && !newState.member.selfDeaf) {
+        if(oldState.selfMute === true && newState.selfMute === false) {
           return;
-        }
+        } else if (oldState.selfMute === false && newState.selfMute === true) {
+          return;
+        } else if (oldState.selfDeaf === true && newState.selfDeaf === false) {
+          return;
+        } else if (oldState.selfDeaf === false && newState.selfDeaf === true) {
+          return;
+        };
 
         // SWITCH
         if (oldState.channelId && newState.channelId && oldState.channel && newState.channel) {
