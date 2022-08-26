@@ -52,7 +52,7 @@ module.exports = {
             if (!queue.connection) await queue.connect(interaction.member.voice.channel);
         } catch {
             queue.destroy();
-            return await interaction.reply({ content: "<:error:888264104081522698>  Could not join your voice channel!", ephemeral: true });
+            return await interaction.editReply({ content: "<:error:888264104081522698>  Could not join your voice channel!", ephemeral: true });
         }
 
 		let embed = new MessageEmbed()
