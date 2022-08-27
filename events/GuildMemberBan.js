@@ -5,13 +5,13 @@ let logs = [];
 
 module.exports = {
     name: 'guildBanAdd',
-    async execute(client, user) {
-        if(!user) return;
+    async execute(client, member) {
+        if(!member) return;
 
         let data;
         try{
             data = await schema.findOne({
-                GuildID: user.guild.id
+                GuildID: member.guild.id
             })
             if(!data) return;
         } catch(err) {
@@ -30,7 +30,7 @@ module.exports = {
             // Do nothing..
           };
 
-          const fetchedLogs = await user.guild.fetchAuditLogs({
+          const fetchedLogs = await member.guild.fetchAuditLogs({
             limit: 1,
             type: "MEMBER_BAN_ADD",
           });
@@ -43,11 +43,15 @@ module.exports = {
             //Do nothing..
           }
 
-          const { executor, target, reason } = banLog;
+          let { executor, target, reason } = banLog;
 
-          if (!reason) reason = "Not specified";
+          if (!reason) {
+            reason = "Not specified";
+          }
 
-          if(!banLog.available && target.id != user.id) {
+          const timestamp = Math.floor(Date.now() / 1000)
+
+          if(!banLog.available && target.id != member.user.id) {
             return;
           } else {
             //Do nothing..
@@ -58,7 +62,7 @@ module.exports = {
         .setTitle('<a:Mod:853496185443319809> Member ban!')
         .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<:Rules:853495279339569182> **Reason:** ${reason}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
         .setColor('#e6a54a')
-        .setFooter({ text: user.guild.name, iconURL: user.guild.iconURL({dynamic: true}) })
+        .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()

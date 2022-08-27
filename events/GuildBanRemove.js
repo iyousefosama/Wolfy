@@ -2,14 +2,15 @@ const Discord = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 let logs = [];
+
 module.exports = {
     name: 'guildBanRemove',
-    async execute(client, user) {
+    async execute(client, member) {
 
         let data;
         try{
             data = await schema.findOne({
-                GuildID: user.guild.id
+                GuildID: member.guild.id
             })
             if(!data) return;
         } catch(err) {
@@ -28,7 +29,7 @@ module.exports = {
             // Do nothing..
           };
 
-          const fetchedLogs = await user.guild.fetchAuditLogs({
+          const fetchedLogs = await member.guild.fetchAuditLogs({
             limit: 1,
             type: "MEMBER_BAN_REMOVE",
           });
@@ -40,12 +41,12 @@ module.exports = {
           } else {
             //Do nothing..
           }
-
+          
           const { executor, target } = unbanLog;
 
           const timestamp = Math.floor(Date.now() / 1000)
 
-          if(!unbanLog.available && target.id != user.id) {
+          if(!unbanLog.available && target.id != member.user.id) {
             return;
           } else {
             //Do nothing..
@@ -56,7 +57,7 @@ module.exports = {
         .setTitle('<a:Mod:853496185443319809> Member Unban!')
         .setDescription(`<:Humans:853495153280155668> **Member:** ${target.tag} (\`${target.id}\`)\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
         .setColor('#ffd167')
-        .setFooter({ text: user.guild.name, iconURL: user.guild.iconURL({dynamic: true}) })
+        .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         const botname = client.user.username;
         const webhooks = await Channel.fetchWebhooks()
