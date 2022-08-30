@@ -7,7 +7,7 @@ module.exports = {
     async execute(client, message) {
         if (message.channel.type === "DM") return;
         if (message.guild){
-            if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+            if (!message.channel?.permissionsFor(message.guild?.me).has('SEND_MESSAGES')){
               return { executed: false, reason: 'PERMISSION_SEND'};
             } else {
               // Do nothing..
