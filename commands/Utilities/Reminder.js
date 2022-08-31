@@ -66,8 +66,10 @@ module.exports = {
               const dnEmbed = new discord.MessageEmbed()
               .setAuthor({ name: '| Reminder Set!', iconURL: message.author.displayAvatarURL() })
               .setDescription(`Successfully Set \`${message.author.tag}'s\` reminder!`)
-              .addField('❯ Remind You In:', `${time}`)
-              .addField('❯ Remind Reason', `${reason}`)
+              .addFields(
+               { name: '❯ Remind You In:', value: time },
+               { name: '❯ Remind Reason:', value: reason }
+              )
               .setColor('GREEN')
               .setTimestamp()
               .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL()})
