@@ -17,7 +17,7 @@ client.listentoProcessEvents([
 	require(`./Handler/${handler}`)(client);
 });
 
-["Reminder", "checkQuests", "Mudules"].forEach((functions) => {
+["Reminder", "checkQuests", "Modules"].forEach((functions) => {
 	require(`./functions/${functions}`)(client);
 });
 
