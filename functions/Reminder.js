@@ -34,6 +34,9 @@ module.exports = async (client) => {
           })
       
           members.forEach(async (member) => {
+            if(member.Reminder.time > Date.now()) {
+                return;
+            }
             const user = client.users.cache.get(member.userId)
             member.Reminder.current = false;
             member.Reminder.time = 0;
@@ -41,7 +44,9 @@ module.exports = async (client) => {
               const reminderEmbed = new Discord.MessageEmbed()
               .setAuthor({ name: 'Reminder Alert!', iconURL: user.displayAvatarURL() })
               .setColor('DARK_GREEN')
-              .addField('❯ Remind Reason', `${member.Reminder.reason}`)
+              .addFields(
+                { name: '❯ Remind Reason', value: member.Reminder.reason}
+              )
               .setTimestamp()
               .setFooter({ text: 'Successfully Reminded!', iconURL: client.user.displayAvatarURL() })
           try {
