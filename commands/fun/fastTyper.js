@@ -1,7 +1,5 @@
 const Discord = require('discord.js')
-/*
 const txtgen = require('txtgen')
-*/
 const ms = require('ms')
 const inGame = new Set()
 const schema = require('../../schema/Economy-Schema')
@@ -20,7 +18,6 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "READ_MESSAGE_HISTORY"],
     examples: [''],
     async execute(client, message, args) {
-/*
         let data;
         try{
             data = await schema.findOne({
@@ -96,6 +93,5 @@ module.exports = {
             break
         }
     }
-*/
     }
 }
