@@ -5,18 +5,20 @@ const UserSchema = require('../schema/LevelingSystem-Schema')
 module.exports = {
     name: 'messageCreate',
     async execute(client, message) {
-        if (message.channel.type === "DM") return;
-        if (message.guild){
-            if (!message.channel?.permissionsFor(message.guild?.me).has('SEND_MESSAGES')){
-              return { executed: false, reason: 'PERMISSION_SEND'};
-            } else {
-              // Do nothing..
-            };
-          };
+        if (!message.guild || message.channel.type == "DM"){
+          return;
+        };
+
         if (message.author == client.user) return;
         if (message.author.bot){
-            return;
-          };
+          return;
+        };
+
+        if (!message.channel?.permissionsFor(message.guild?.me).has('SEND_MESSAGES')){
+          return { executed: false, reason: 'PERMISSION_SEND'};
+        } else {
+          // Do nothing..
+        };
         
           let data;
           let Userdata;
