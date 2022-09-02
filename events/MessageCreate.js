@@ -75,6 +75,30 @@ module.exports = {
                   if(UserData?.Status.Blacklisted.current == true) return message.channel.send({ content: `\`\`\`diff\n- You are blacklisted from using the bot!\n\n+ Reason: ${UserData.Status.Blacklisted.reason}\`\`\``})
   
           try{
+
+              // Permissions: To check for default permissions in the guild
+              if (message.guild){
+                  if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+                    return { executed: false, reason: 'PERMISSION_SEND'};
+                  } else {
+                    // Do nothing..
+                  };
+                  if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
+                    return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
+                  } else {
+                    // Do nothing..
+                  };
+                  if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
+                    return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
+                  } else {
+                    // Do nothing..
+                  };
+                  if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+                    return message.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
+                  } else {
+                    // Do nothing..
+                  };
+                };
   
   
               //+ args: true/false,
@@ -122,8 +146,7 @@ module.exports = {
                   }
               }
               timestamps.set(message.author.id, now);
-              setTimeout(() => timestamps.delete(message.author.id), cooldownAmount, delete CoolDownCurrent[message.author.id]);
-                   
+              setTimeout(() => timestamps.delete(message.author.id), cooldownAmount, delete CoolDownCurrent[message.author.id]);  
                    //+ permissions: [""],
                    if (cmd.permissions) {
                        if (message.guild && !client.owners.includes(message.author.id)) {
@@ -182,28 +205,6 @@ module.exports = {
   
                       }
                   }
-  
-                  if (message.guild){
-                      if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
-                        return { executed: false, reason: 'PERMISSION_SEND'};
-                      } else {
-                        // Do nothing..
-                      };
-                    };
-                    if (message.guild){
-                      if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
-                        return;
-                      } else {
-                        // Do nothing..
-                      };
-                    };
-                    if (message.guild){
-                      if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
-                        return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
-                      } else {
-                        // Do nothing..
-                      };
-                    };  
           console.log(`${message.author.tag}|(${message.author.id}) in #${message.channel.name}|(${message.channel.id}) sent: ${message.content}`)
           cmd.execute(client, message, args, { executed: true });
       } catch(err){
