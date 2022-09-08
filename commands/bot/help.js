@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "EMBED_LINKS", "ATTACH_FILES", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],
+    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     examples: [''],
     async execute(client, message, args) {
     let EmbedName = args.slice(0).join(" ")
@@ -304,7 +304,7 @@ module.exports = {
     }
     } else {
     const msg = await message.reply({ embeds: [help], components: [row, row2] })
-    const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
+    const collector = msg.createMessageComponentCollector({ time: 55000, fetch: true });
 
     collector.on('collect', async interactionCreate => {
         if(interactionCreate.customId === '1'){

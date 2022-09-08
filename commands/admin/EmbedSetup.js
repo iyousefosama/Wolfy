@@ -60,7 +60,7 @@ module.exports = {
         .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
 
         const msg = await message.reply({ embeds: [embed], components: [row, row2], fetch: true })
-        const collector = msg.createMessageComponentCollector({ time: 260000, errors: ['time'] })
+        const collector = msg.createMessageComponentCollector({ time: 860000, errors: ['time'] })
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '84994859419841841'){

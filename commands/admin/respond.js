@@ -12,6 +12,7 @@ module.exports = {
     description: 'Respond to a user suggestion in the server.',
     cooldown: 3, //seconds(s)
     guarded: false, //or false
+    group: 'Moderation',
     permissions: ["ADMINISTRATOR"],
     examples: [
     '854382039524048956 accept very good suggestion',

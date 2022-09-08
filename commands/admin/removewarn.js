@@ -10,6 +10,7 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '<user>',
+    group: 'Moderation',
     description: 'Remove a user warn from the warns list by the id',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
