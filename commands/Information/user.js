@@ -88,7 +88,7 @@ module.exports = {
   } else {
       url = null
   }
-    
+
     const userEmbed = new discord.MessageEmbed()
      .setAuthor({ name: `User information of ${member.user.username}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
      .addFields(
@@ -97,7 +97,7 @@ module.exports = {
 		{ name: '\u200B' || '-', value: '\u200B' || '-' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity.join("\n") : "None"  || "None"}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${typeof activity == String ? activity.join("\n") : "None"  || "None"}`, inline: true },
         { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT') || 'None'} ${moment.utc(member.user.createdAt).format('LL') || 'None'} ${moment.utc(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
         { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT") || 'None'} ${moment(member.joinedAt).format('LL') || 'None'} ${moment(member.joinedAt).fromNow() || 'None'}` || 'None', inline: true },
         { name: `🖼️ **Avatar: **`, value: `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`, inline:false },
@@ -107,7 +107,7 @@ module.exports = {
 	)
     .setImage(url)
     .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 2048}))
-    .setFooter({ text: `\©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
+    .setFooter({ text: `User info.` + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
     .setTimestamp()
     message.reply({ embeds: [userEmbed] })
     }
