@@ -31,7 +31,6 @@ module.exports = {
     } else {
       user = message.author;
     };
-    try {
     const activity = member.presence?.activities;
     var status = member.presence?.status;
 
@@ -77,19 +76,20 @@ module.exports = {
         displayRoles = roles.slice(20).join(' ')
     }
 
+    let url = null;
     const data = await axios.get(`https://discord.com/api/users/${user.id}`, {
       headers: {
           Authorization: `Bot ${client.token}`
       }
   }).then(d => d.data);
   if(data.banner){
-      let url = data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096";
+      url = data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096";
       url = `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${url}`;
   } else {
       url = null
   }
     
-    const userEmbed = new discord.MessageEmbed() // create an embed
+    const userEmbed = new discord.MessageEmbed()
      .setAuthor({ name: `User information of ${member.user.username}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
      .addFields(
 		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag || 'None' },
@@ -97,24 +97,18 @@ module.exports = {
 		{ name: '\u200B' || '-', value: '\u200B' || '-' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity.join(", \n") : "None"  || "None"}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${activity ? activity.join("\n") : "None"  || "None"}`, inline: true },
         { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT') || 'None'} ${moment.utc(member.user.createdAt).format('LL') || 'None'} ${moment.utc(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
         { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT") || 'None'} ${moment(member.joinedAt).format('LL') || 'None'} ${moment(member.joinedAt).fromNow() || 'None'}` || 'None', inline: true },
-	)
-    .addField(`🖼️ **Avatar: **`, `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`)
-    .addFields(
+        { name: `🖼️ **Avatar: **`, value: `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`, inline:false },
         { name: "<:medal:898358296694628414> Flags", value: `${userFlags?.length ? userFlags?.map(flag => flags[flag]).join(", ") : 'None' || "None"}`, inline:false },
         { name: "Roles", value: `${roles.length < 20 ? roles.join(", ") : "(\`20+ roles...\`)!" || 'None'}`, inline:false },
-        { name: "Permissions", value: `${message.guild ? member.permissions?.toArray().map(p=>`\`${p}\``).join(", ") : "None" || 'None'}`, inline:false },
-        )
+        { name: "Permissions", value: `${message.guild ? member.permissions?.toArray().map(p=>`\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ") : "None" || 'None'}`, inline:false },
+	)
     .setImage(url)
     .setThumbnail(member.user.displayAvatarURL({dynamic: true, size: 2048}))
+    .setFooter({ text: `\©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
     .setTimestamp()
-    message.channel.send({ embeds: [userEmbed] }).catch(err => {
-        message.reply({ content: `\\❌ **${message.member.displayName}**, The command responded with error: ${err.name}`})
-    });
-} catch(err) {
-    return message.channel.send(`\\❌ **${message.member.displayName}**, The command responded with error: ${err.name}`)
-}
+    message.reply({ embeds: [userEmbed] })
     }
 }
