@@ -29,7 +29,7 @@ module.exports = {
 
       const count = messages.size;
       const _id = Math.random().toString(36).slice(-7);
-      const debug = await client.channels.cache.get(client.config.channel.debug)
+      const debug = await client.channels.cache.get(client.config.channels.debug)
 
       messages = messages.filter(Boolean).map(message => {
         return [
