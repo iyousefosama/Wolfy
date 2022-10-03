@@ -14,10 +14,27 @@ module.exports = {
           return;
         };
 
-        if (!message.channel?.permissionsFor(message.guild?.me).has('SEND_MESSAGES')){
-          return { executed: false, reason: 'PERMISSION_SEND'};
-        } else {
-          // Do nothing..
+        if (message.guild){
+          if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+            return { executed: false, reason: 'PERMISSION_SEND'};
+          } else {
+            // Do nothing..
+          };
+          if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
+            return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
+          } else {
+            // Do nothing..
+          };
+          if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
+            return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
+          } else {
+            // Do nothing..
+          };
+          if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+            return message.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
+          } else {
+            // Do nothing..
+          };
         };
         
           let data;
