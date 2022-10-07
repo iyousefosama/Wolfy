@@ -5,33 +5,25 @@ const UserSchema = require('../schema/LevelingSystem-Schema')
 module.exports = {
     name: 'messageCreate',
     async execute(client, message) {
-        if (!message.guild || message.channel.type == "DM"){
-          return;
-        };
-
         if (message.author == client.user) return;
         if (message.author.bot){
           return;
         };
 
+        if (!message.guild){
+          return;
+        } else {
+          // Do nothing..
+        }
+
         if (message.guild){
-          if (!message.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+          if (!message.channel?.permissionsFor(message.guild?.me).has('SEND_MESSAGES')){
             return { executed: false, reason: 'PERMISSION_SEND'};
           } else {
             // Do nothing..
           };
-          if (!message.channel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
+          if (!message.channel?.permissionsFor(message.guild?.me).has('VIEW_CHANNEL')){
             return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
-          } else {
-            // Do nothing..
-          };
-          if (!message.channel.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
-            return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
-          } else {
-            // Do nothing..
-          };
-          if (!message.channel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
-            return message.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
           } else {
             // Do nothing..
           };
@@ -44,23 +36,29 @@ module.exports = {
                   GuildID: message.guild.id
               })
               Userdata = await UserSchema.findOne({
-                userId: message.author.id,
-                guildId: message.guild.id
-            })
+                  userId: message.author.id,
+                  guildId: message.guild.id
+              })
+
               if(!data) {
                 return;
               }
+
               if(!Userdata) {
                 Userdata = await UserSchema.create({
                   userId: message.author.id,
                   guildId: message.guild.id
               })
+              
               }
           } catch(err) {
               console.log(err)
               message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
           }
-          if(!data.Mod.Level.isEnabled) return;
+
+          if(!data.Mod.Level.isEnabled) {
+            return;
+          }
     
           const randomXp = Math.floor(Math.random() * 46) + 1;
           Userdata.System.xp += randomXp;
