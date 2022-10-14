@@ -44,7 +44,7 @@ module.exports = {
         
         let target;
         let RemoveEmbed;
-        if (!kickLog || !kickLog.available && kickLog.createdAt < member.joinedAt && kickLog?.target.id != member.id) {
+        if (!kickLog || !kickLog.available || kickLog?.createdAt < member.joinedAt || kickLog?.target.id != member.id) {
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
           .setTitle('<a:Down:853495989796470815> Member Leave!')
@@ -52,7 +52,7 @@ module.exports = {
           .setColor('#2F3136')
           .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({dynamic: true}) })
           .setTimestamp() 
-        } else if (kickLog || kickLog.available && kickLog.createdAt < member.joinedAt && kickLog?.target.id == member.id) {
+        } else if (kickLog || kickLog.available && kickLog?.createdAt < member.joinedAt && kickLog?.target.id == member.id) {
           const { executor, target } = kickLog;
           RemoveEmbed = new Discord.MessageEmbed()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
