@@ -5,6 +5,7 @@ const userSchema = require('../schema/user-schema')
 const schema = require('../schema/GuildSchema')
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
+const leveling = require('../functions/LevelTrigger')
 
 module.exports = {
     name: 'messageCreate',
@@ -19,6 +20,9 @@ module.exports = {
           let data;
           let prefix;
           if (message.guild) {
+          // Start Leveling up function at ../functions/LevelTrigger bath
+          leveling.Level(message);
+
           try{
               data = await schema.findOne({
                   GuildID: message.guild.id
@@ -27,7 +31,7 @@ module.exports = {
               console.log(err)
               message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
           }
-          const serverprefix = data?.prefix || 'Not set'
+          const serverprefix = data?.prefix || 'Not Set'
     
           if (message.content === 'prefix'){
             return message.channel.send(`**${message.author}**, My prefix is \`${client.prefix}\`, The custom prefix is \`${serverprefix}\`.`)
