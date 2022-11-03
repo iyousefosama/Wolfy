@@ -9,6 +9,33 @@ const cooldowns = new Collection();
 module.exports = {
     name: 'interactionCreate',
     async execute(client, interaction) {
+      try {
+        // Permissions: To check for default permissions in the guild
+        if (interaction.guild){
+          if (!interaction.channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')){
+            return { executed: false, reason: 'PERMISSION_SEND'};
+          } else {
+            // Do nothing..
+          };
+          if (!interaction.channel.permissionsFor(interaction.guild.me).has('VIEW_CHANNEL')){
+            return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
+          } else {
+            // Do nothing..
+          };
+          if (!interaction.channel.permissionsFor(interaction.guild.me).has('READ_MESSAGE_HISTORY')){
+            return interaction.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
+          } else {
+            // Do nothing..
+          };
+          if (!interaction.channel.permissionsFor(interaction.guild.me).has('EMBED_LINKS')){
+            return interaction.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
+          } else {
+            // Do nothing..
+          };
+        };
+      } catch (err) {
+        console.log(err)
+      }
       let data;
       try{
           data = await schema.findOne({
