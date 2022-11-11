@@ -6,6 +6,7 @@ const schema = require('../schema/GuildSchema')
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
 const leveling = require('../functions/LevelTrigger')
+const WordW = require('../functions/BadWordsFilter')
 
 module.exports = {
     name: 'messageCreate',
@@ -22,6 +23,8 @@ module.exports = {
           if (message.guild) {
           // Start Leveling up function at ../functions/LevelTrigger bath
           leveling.Level(message);
+          // Start Warning for badwords function at ../functions/BadWordsFilter bath
+          WordW.badword(client, message)
 
           try{
               data = await schema.findOne({
