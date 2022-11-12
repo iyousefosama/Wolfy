@@ -71,7 +71,7 @@ module.exports = {
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
                 .setDescription(`<:Tag:836168214525509653> Praying times for country \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
                 .addFields(
-                    { name: '<:star~1:888264104026992670> Date', value: `<t:${json.data.date.timestamp}>`, inline: false},
+                    { name: '<:star:888264104026992670> Date', value: `<t:${json.data.date.timestamp}>`, inline: false},
                     { name: '<:Timer:853494926850654249> Next Pray in:', value: nxtStr, inline: false},
                     { name: ' ‍ ', value: ` ‍ `, inline: false}
                 )
