@@ -48,13 +48,18 @@ module.exports = {
                 let marked = false;
                 result.forEach(pTime => {
                   num++
+                  console.log(num)
+                  console.log(pTime)
                   str = `${json.data.date.readable.split(' ').join('/')} ${pTime[1]}`;
+                  console.log(str)
 
                   const [dateComponents, timeComponents] = str.split(' ');
                   const [day, month, year] = dateComponents.split('/');
                   const [hours, minutes] = timeComponents.split(':');
+                  console.log(dateComponents, timeComponents)
              
                   pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
+                  console.log(json.data.date.timestamp, pTimeInS)
                   if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
                     if(!marked) {
                       const now = Math.floor(json.data.date.timestamp * 1000);
