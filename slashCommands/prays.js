@@ -55,7 +55,7 @@ module.exports = {
                   const [day, month, year] = dateComponents.split('/');
                   const [hours, minutes] = timeComponents.split(':');
              
-                  pTimeInS = new Date(+year, d.getMonth(), +day, +hours, +minutes, +00).getTime();
+                  pTimeInS = new Date(+year, moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
                   if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
                     if(!marked) {
                       const now = Date.now();
