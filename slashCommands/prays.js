@@ -59,7 +59,7 @@ module.exports = {
                   if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
                     if(!marked) {
                       const now = Date.now();
-                      nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes, and]')}\``
+                      nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\``
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
