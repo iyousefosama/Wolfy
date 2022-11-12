@@ -41,7 +41,6 @@ module.exports = {
                 const len = json.data.timings.Imsak.length-1;
                 result.splice(-len)
 
-                const d = new Date();
                 let pTimeInS;
                 let str;
                 let nxtStr;
@@ -55,11 +54,11 @@ module.exports = {
                   const [day, month, year] = dateComponents.split('/');
                   const [hours, minutes] = timeComponents.split(':');
              
-                  pTimeInS = new Date(+year, moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
+                  pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
                   if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
                     if(!marked) {
-                      const now = Date.now();
-                      nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\``
+                      const now = Math.floor(json.data.date.timestamp * 1000);
+                      nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
