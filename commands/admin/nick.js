@@ -19,8 +19,6 @@ module.exports = {
   ],
   async execute(client, message, [ member = '', ...args]) {
 
-    const owner = await message.guild.fetchOwner()
-
     if (!member.match(/\d{17,19}/)){
       return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to change the nickname.`);
     };
@@ -29,16 +27,16 @@ module.exports = {
     .fetch(member.match(/\d{17,19}/)[0])
     .catch(() => null);
 
-    let nickname = args.slice(1).join(" ")
+    let nickname = args.slice(0).join(" ")
 
-    if (!args[1]) {
-      return message.channel.send(`\\❌ | ${message.author}, Please type the nickname.`);
+    if (!nickname) {
+      return member.setNickname(null, `Wolfy Nickname: ${message.author.tag}`)
+      .then(() => message.channel.send(`\\✔️ | ${message.author}, Successfully reseted the nickname for **${member.user.tag}**!`))
+      .catch(() => message.channel.send(`\\❌ | ${message.author}, Unable to change the nickname for **${member.user.tag}**!`));
     }
 
     if (!member){
       return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
-    } else if (member.id === message.author.id){
-      return message.channel.send(`\\❌ | ${message.author}, You cannot change nickname for yourself!`);
     } else if (member.id === client.user.id){
       return message.channel.send(`\\❌ | ${message.author}, You cannot change nickname me!`);
     } else if (member.id === message.guild.ownerId){
