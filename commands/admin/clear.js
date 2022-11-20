@@ -50,7 +50,7 @@ module.exports = {
       const url = (res[0].match(/\d{17,19}/)||[])[0];
       const id = res[1];
 
-        return await message.channel.send({ content: `<a:Mod:853496185443319809> ${message.author}, Successfully deleted \`${count}\` messages from this channel!`}).then(msg => {
+        return await message.channel.send({ content: `<a:Mod:853496185443319809> | ${message.author}, Successfully deleted \`${count}\` messages from this channel!`}).then(msg => {
           setTimeout(() => {
               msg.delete().catch(() => null)
            }, 5000)
