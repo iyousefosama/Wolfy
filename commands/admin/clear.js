@@ -24,7 +24,7 @@ module.exports = {
       return message.reply({ content: `<a:Wrong:812104211361693696> | ${message.author}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`});
     };
 
-    return message.channel.bulkDelete(quantity, true)
+    message.delete().catch(() => null).then(() => message.channel.bulkDelete(quantity, true))
     .then(async messages => {
 
       const count = messages.size;
@@ -50,7 +50,7 @@ module.exports = {
       const url = (res[0].match(/\d{17,19}/)||[])[0];
       const id = res[1];
 
-        await message.channel.send({ content: `\`\`\`\n${message.author.tag}, Successfully deleted ${count} messages from this channel!\`\`\``}).then(msg => {
+        return await message.channel.send({ content: `<a:Mod:853496185443319809> ${message.author}, Successfully deleted \`${count}\` messages from this channel!`}).then(msg => {
           setTimeout(() => {
               msg.delete().catch(() => null)
            }, 5000)
