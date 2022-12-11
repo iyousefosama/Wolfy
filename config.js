@@ -1,4 +1,6 @@
 const { Intents } = require('discord.js')
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '.env') })
 
 const settings = {
     // pass in any client configuration you want for the bot.
