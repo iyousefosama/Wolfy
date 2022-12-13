@@ -15,6 +15,7 @@ module.exports = {
 	async execute(client, interaction) {
         const country = interaction.options.getString('country');
         const city = interaction.options.getString('city');
+
         const url = `https://aladhan.p.rapidapi.com/timingsByCity?country=${country}&city=${city}`;
         
         const options = {
@@ -31,19 +32,57 @@ module.exports = {
                   return interaction.editReply({ content: '<:error:888264104081522698> Please enter valid country and city in the options!' });
                 };
 
+                var json_data = json.data.timings;
+                var result = [];
+
+                for(var i in json_data)
+                result.push([i, json_data [i]]);
+
+                const len = json.data.timings.Imsak.length-1;
+                result.splice(-len)
+
+                let pTimeInS;
+                let str;
+                let nxtStr;
+                let num = -1;
+                let marked = false;
+                result.forEach(pTime => {
+                  num++
+                  console.log(num)
+                  console.log(pTime)
+                  str = `${json.data.date.readable.split(' ').join('/')} ${pTime[1]}`;
+                  console.log(str)
+
+                  const [dateComponents, timeComponents] = str.split(' ');
+                  const [day, month, year] = dateComponents.split('/');
+                  const [hours, minutes] = timeComponents.split(':');
+                  console.log(dateComponents, timeComponents)
+             
+                  pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
+                  console.log(json.data.date.timestamp, pTimeInS)
+                  if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
+                    if(!marked) {
+                      const now = Math.floor(json.data.date.timestamp * 1000);
+                      nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
+                      result[num][0] = pTime[0] + '(\`Next\`)'
+                      marked = true;
+                    }
+                  }
+                });
+                
+
                 const embed = new discord.MessageEmbed()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
-                .setDescription(`<:Tag:836168214525509653> Prays times for country \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
+                .setDescription(`<:Tag:836168214525509653> Praying times for country \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
                 .addFields(
-                    { name: 'Date', value: `<t:${json.data.date.timestamp}>`, inline: false},
-                    { name: ' ‍ ', value: ` ‍ `, inline: false},
-                    { name: 'Fajr', value: `\`\`\`${tc.tConvert(json.data.timings.Fajr)}\`\`\``, inline: true},
-                    { name: 'Sunrise', value: `\`\`\`${tc.tConvert(json.data.timings.Sunrise)}\`\`\``, inline: true},
-                    { name: 'Dhuhr', value: `\`\`\`${tc.tConvert(json.data.timings.Dhuhr)}\`\`\``, inline: true},
-                    { name: 'Asr', value: `\`\`\`${tc.tConvert(json.data.timings.Asr)}\`\`\``, inline: true},
-                    { name: 'Sunset', value: `\`\`\`${tc.tConvert(json.data.timings.Sunset)}\`\`\``, inline: true},
-                    { name: 'Maghrib', value: `\`\`\`${tc.tConvert(json.data.timings.Maghrib)}\`\`\``, inline: true},
-                    { name: 'Isha', value: `\`\`\`${tc.tConvert(json.data.timings.Isha)}\`\`\``, inline: true},
+                    { name: '<:star:888264104026992670> Date', value: `<t:${json.data.date.timestamp}>`, inline: false},
+                    { name: '<:Timer:853494926850654249> Next Pray in:', value: nxtStr, inline: false},
+                    { name: ' ‍ ', value: ` ‍ `, inline: false}
+                )
+                .addFields(
+                  result.flatMap(i => [
+                    { name: i[0], value: `\`\`\`${tc.tConvert(i[1])}\`\`\``, inline: true },
+                  ])
                 )
                 .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
                 .setTimestamp()

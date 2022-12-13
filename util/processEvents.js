@@ -19,6 +19,7 @@ function unhandledRejection([ error, ...args], client){
     // do nothing
   };
 
+  consoleUtil.error(`${error.name} caught!\nat ${time}`)
   return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
     error.stack.split('\n').splice(0,5)
     .join('\n').split(process.cwd()).join('MAIN_PROCESS')
@@ -43,6 +44,7 @@ function uncaughtException([ error, ...args ], client){
     // do nothing
   };
 
+  consoleUtil.error(`${error.name} caught!\nat ${time}`)
   return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
     error.stack.split('\n').splice(0,5)
     .join('\n').split(process.cwd()).join('MAIN_PROCESS')
