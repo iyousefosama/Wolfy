@@ -7,6 +7,7 @@ const { MessageEmbed, TextChannel } = require('discord.js');
     guildOnly: false, //or false
     args: true, //or false
     usage: '<guildID>',
+    group: 'developer',
     cooldown: 60, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,

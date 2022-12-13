@@ -60,7 +60,7 @@ module.exports = {
         const embed = new discord.MessageEmbed()
         .setTitle(`<a:pp802:768864899543466006> Report already Send!`)
         .setDescription(`\\❌ **${message.author.tag}**, You already send your **report** earlier!\nYou can send your report again after \`${moment.duration(TimeOutData.reports - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
-        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setColor('RED')
         message.channel.send({ embeds: [embed] })
       } else {

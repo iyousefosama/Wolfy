@@ -7,6 +7,7 @@ module.exports = {
     guildOnly: false, //or false
     args: false, //or false
     usage: '',
+    group: 'developer',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,

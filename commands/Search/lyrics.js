@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-const lyricsFinder = require("lyrics-finder")
+//const lyricsFinder = require("lyrics-finder")
 const fetch = require('node-fetch');
 const { MessageEmbed, GuildEmoji } = require('discord.js');
 const text = require('../../util/string');
@@ -11,19 +11,22 @@ module.exports = {
     aliases: ["Lyrics", "LYRICS"],
     dmOnly: false, //or false
     guildOnly: true, //or false
-    args: false, //or false
-    usage: '',
+    args: true, //or false
+    usage: '<lyrics title>',
     group: 'Search',
     description: 'The bot will show you the lyrics for the music you are searching for!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
-    examples: [],
+    examples: ['Venom'],
     async execute(client, message, args) {
     const query =  args.join(' ');
-    if (message.author == client.user) return;
-    if(query) {
+
+    if(!query) {
+      return message.channel.send(`\\\❌ | ${message.author}, I couldn't find the lyrics!`)
+    }
+
         message.channel.sendTyping()
         const data = await fetch(`https://some-random-api.ml/lyrics?title=${encodeURI(query)}`)
         .then(res => res.json())
@@ -90,7 +93,7 @@ module.exports = {
         const row = new discord.MessageActionRow()
         .addComponents(button, button2)
 
-        const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
+        const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
 
         const filter = i => i.user.id === message.author.id;
 
@@ -101,9 +104,9 @@ module.exports = {
         collector.on('collect', async interactionCreate => {
           interactionCreate.deferUpdate()
           if (interactionCreate.customId === '51984198419841941') {
-            msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex-1}/${pages.size}\``, embeds: [pages.previous()] })
+            msg.edit({ embeds: [pages.previous()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
           } else if(interactionCreate.customId === '51984198419841942') {
-            msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.next()] })
+            msg.edit({ embeds: [pages.next()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
           }
     
           timeout.refresh()
@@ -116,8 +119,7 @@ module.exports = {
           .addComponents(button, button2);
           msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
       });
-    }
-    } else {
+    }/*else {
     let singer;
     let song;
     const filter = msg => msg.author.id === message.author.id;
@@ -241,6 +243,6 @@ module.exports = {
     .addComponents(button, button2);
     msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
 });
-}
+}*/
 }
 }

@@ -12,7 +12,7 @@ module.exports = {
     description: 'Setup the logs channel bot will send logs there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
+    permissions: ["MANAGE_CHANNELS", "VIEW_CHANNEL", "ADMINISTRATOR"],
     examples: [
       '877130715337220136'
     ],

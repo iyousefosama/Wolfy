@@ -53,7 +53,7 @@ module.exports = {
         const embed = new discord.MessageEmbed()
         .setTitle(`<a:pp802:768864899543466006> Suggestion already Send!`)
         .setDescription(`\\❌ **${message.author.tag}**, You already send your **suggestion** earlier!\nYou can send your suggestion again after \`${moment.duration(TimeOutData.suggestion - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
-        .setFooter(message.author.username, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setColor('RED')
         message.channel.send({ embeds: [embed] })
       } else {
@@ -62,7 +62,7 @@ module.exports = {
     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
     .setDescription(suggestion)
     .setThumbnail(message.author.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
-    .addField('<a:iNFO:853495450111967253> Status', 'Under Review', true)
+    .addFields({ name: '<a:iNFO:853495450111967253> Status', value: 'Under Review', inline: true})
     .setFooter({ text: `Suggestion System | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
     message.delete().catch(() => null)
     Channel.send({ embeds: [embed]}).then(async sentEmbed => {

@@ -19,7 +19,6 @@ module.exports = {
       ],
     async execute(client, message, args) {
 
-        const msg = message;
         let query = args.join(" ");
                 // Input Checking
                 if (!query[0]) { message.channel.send({ content: '<:Discordjs:805086222749007874> **Please specify what do you want to search in the Discord.JS library!**'}) } else {
