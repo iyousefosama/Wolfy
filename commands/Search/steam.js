@@ -1,9 +1,9 @@
-const discord = require('discord.js')
+/*const discord = require('discord.js')
 const snekfetch = require('snekfetch');
 const { decode } = require('he');
 const html2md = require('html2markdown');
 const text = require('../../util/string');
-
+*/
 module.exports = {
     name: "steam",
     aliases: ["Steam", "STEAM"],
@@ -21,7 +21,7 @@ module.exports = {
         'Among us',
         'Portal 2'
       ],
-    async execute(client, message, args) {
+    async execute(client, message, args) {/*
     if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const query = args.join(' ');
         
@@ -95,6 +95,6 @@ module.exports = {
             .setFooter({ text: `Steam @ Steam.Inc©` })
             .setTimestamp()
         return message.channel.send({ embeds: [embed] })
-    })();
+    })();*/
     }
 }
