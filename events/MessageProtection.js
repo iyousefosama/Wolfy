@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
 const UserSchema = require('../schema/Infraction-Schema')
+const InfFunction = require('../functions/Infraction')
 
 module.exports = {
     name: 'messageCreate',
@@ -50,11 +51,8 @@ module.exports = {
             if (message.content.toLowerCase().includes(`http://`) || message.content.toLowerCase().includes(`https://`) || message.content.toLowerCase().includes(`discord.gg/`)) {
                 message.delete().then(() => {
                     setTimeout(async () => {
-                    let time = Date.now() + GuildData.Mod.Infraction.TimeReset;
-                    data.reset = time;
-                    data.current++;
-                    await data.save()
-                    return message.channel.send(`⚠️ ${message.author}, Links and discord server invite links are not allowed in this server!` + `\nTotal Infraction points is \`${data.current}\` from \`${data.current > GuildData.Mod.Infraction.Options.MaxkickP ? GuildData.Mod.Infraction.Options.MaxbanP + ' to ban!' : GuildData.Mod.Infraction.Options.MaxkickP + ' to kick!'}\``)
+                    // Start the Infraction for links at ../functions/Infraction bath
+                    InfFunction.Infraction(client, message)
                     }, 100)
                 })
                }
