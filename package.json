@@ -32,7 +32,6 @@
     "html2markdown": "^1.1.0",
     "humanize-duration": "^3.27.0",
     "jsdom": "^16.4.0",
-    "lyrics-finder": "^21.7.0",
     "mcapi": "^1.0.1",
     "moment": "^2.29.1",
     "mongoose": "^5.13.15",
