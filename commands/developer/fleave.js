@@ -8,7 +8,7 @@ const { MessageEmbed, TextChannel } = require('discord.js');
     args: true, //or false
     usage: '<guildID>',
     group: 'developer',
-    cooldown: 60, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
     clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
