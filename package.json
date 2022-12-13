@@ -29,6 +29,7 @@
     "ffmpeg-static": "^4.2.7",
     "fs-extra": "^10.0.0",
     "got": "^11.8.5",
+    "he": "^1.2.0",
     "html2markdown": "^1.1.0",
     "humanize-duration": "^3.27.0",
     "jsdom": "^16.4.0",
