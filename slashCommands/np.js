@@ -20,7 +20,12 @@ module.exports = {
             return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
           };
 
-		let bar = queue.createProgressBar({
+          if(!queue.playing) {
+            return await interaction.editReply("<:error:888264104081522698> There is no played track in this server!");
+          }
+
+
+		let bar = await queue.createProgressBar({
 			timecodes: true,
 			queue: false,
 			length: 19,

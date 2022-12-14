@@ -38,9 +38,9 @@ module.exports = {
           const owner = await message.guild.fetchOwner()
           if (message.author.id === message.guild.ownerId) {
             return;
-           } /*else if (message.channel.permissionsFor(message.author).has("ADMINISTRATOR")) {
+           } else if (message.channel.permissionsFor(message.author).has("ADMINISTRATOR")) {
             return;
-           } */else if (!GuildData || !data || !GuildData.Mod.Infraction?.isEnabled) {
+           } else if (!GuildData || !data || !GuildData.Mod.Infraction?.isEnabled) {
              return;
            } else {
              // Do nothing..
