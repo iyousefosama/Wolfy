@@ -63,34 +63,17 @@ module.exports = {
           //Do nothing..
         }
 
-          let ChannelUpdate;
-          if (oldChannel.name !== newChannel.name && oldChannel.type !== newChannel.type) {
-            ChannelUpdate = new MessageEmbed()
-            .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
-            .setTitle('<a:Mod:853496185443319809> Channel Updated!')
-            .setDescription(`<a:Right:860969895779893248> **Old Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **New Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#e6a54a')
-            .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
-            .setTimestamp()
-          } else if (oldChannel.name !== newChannel.name) {
-            ChannelUpdate = new MessageEmbed()
-            .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
-            .setTitle('<a:Mod:853496185443319809> Channel Renamed!')
-            .setDescription(`<a:Right:860969895779893248> **Old Name:** ${oldChannel.name}\n<a:Right:860969895779893248> **New Name:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#e6a54a')
-            .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
-            .setTimestamp()
-          } else if (oldChannel.type !== newChannel.type) {
-            ChannelUpdate = new MessageEmbed()
-            .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
-            .setTitle('<a:Mod:853496185443319809> ChannelType Updated!')
-            .setDescription(`<a:Right:860969895779893248> **ChannelName:** ${newChannel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${oldChannel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\``)
-            .setColor('#e6a54a')
-            .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
-            .setTimestamp()
-          } else {
-            // Do nothing..
-          }
+        ChannelUpdate = new MessageEmbed()
+        .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
+        .setTitle('<a:Mod:853496185443319809> Channel Updated!')
+        .setColor('#e6a54a')
+        .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
+        .setTimestamp()
+        .setDescription([
+             `<:pp198:853494893439352842> **Channel:** ${oldChannel.name}(\`${oldChannel.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n`,
+              oldChannel.name !== newChannel.name ? `\`${oldChannel.name}\` **➜** \`${newChannel.name}\`\n` : '',
+              oldChannel.type !== newChannel.type ? `<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\`` : ''
+            ].join(''));
           
           const botname = client.user.username;
           const webhooks = await Channel.fetchWebhooks()
