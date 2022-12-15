@@ -14,7 +14,7 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   examples: [
-    'Egypt'
+    'Cairo, egypt'
   ],
   async execute(client, message, args) {
     let city = args.join(" ");
@@ -28,22 +28,24 @@ module.exports = {
         let location = result[0].location;
 
         const embed = new Discord.MessageEmbed()
-        .setAuthor(current.observationpoint)
+        .setAuthor({ name: '🗺 ' + current.observationpoint})
         .setDescription(`> ${current.skytext}`)
         .setThumbnail(current.imageUrl)
         .setTimestamp()
         .setColor(0x7289DA)
-
-        embed.addField("Latitude", location.lat, true)
-        .addField("Longitude", location.long, true)
-        .addField("Feels Like", `${current.feelslike}° Degrees`, true)
-        .addField("Degree Type", location.degreetype, true)
-        .addField("Winds", current.winddisplay, true)
-        .addField("Humidity", `${current.humidity}%`, true)
-        .addField("Timezone", `GMT ${location.timezone}`, true)
-        .addField("Temperature", `${current.temperature}° Degrees`, true)
-        .addField("Observation Time", current.observationtime, true)
-        .setFooter(`Requested by : ${message.author.tag}`,message.author.avatarURL())
+        .addFields([
+          { name: "Latitude", value: location.lat, inline: true},
+          { name: "Longitude", value:  location.long, inline: true},
+          { name: "Feels Like", value: `${current.feelslike}° Degrees`, inline: true},
+          { name: "Degree Type: ", value: location.degreetype, inline: true},
+          { name: "Winds", value: current.winddisplay, inline: true},
+          { name: "Humidity", value: `${current.humidity}%`, inline: true},
+          { name: "Timezone", value: `GMT ${location.timezone}`, inline: true},
+          { name: "Temperature: ", value: `${current.temperature}° Degrees`, inline: true},
+          { name: "Observation:", value: current.observationtime, inline: true}
+        ])
+        .setFooter({ text: `${message.author.tag}`, iconURL: message.author.avatarURL({ dynamic: true })});
+        
         return message.channel.send({ embeds: [embed] });
     })
   }
