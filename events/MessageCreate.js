@@ -7,6 +7,7 @@ const cooldowns = new Collection();
 const CoolDownCurrent = {};
 const leveling = require('../functions/LevelTrigger')
 const WordW = require('../functions/BadWordsFilter')
+const AntiLinksProtection = require('../functions/AntiLinks')
 
 module.exports = {
     name: 'messageCreate',
@@ -25,6 +26,8 @@ module.exports = {
           leveling.Level(message);
           // Start Warning for badwords function at ../functions/BadWordsFilter bath
           WordW.badword(client, message)
+          // Start anti-links protection function at ../functions/AntiLinks bath
+          AntiLinksProtection.checkMsg(client, message)
 
           try{
               data = await schema.findOne({
