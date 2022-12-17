@@ -304,7 +304,7 @@ module.exports = {
     }
     } else {
     const msg = await message.reply({ embeds: [help], components: [row, row2] })
-    const collector = msg.createMessageComponentCollector({ time: 55000, fetch: true });
+    const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
 
     collector.on('collect', async interactionCreate => {
         if(interactionCreate.customId === '1'){
