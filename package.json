@@ -22,7 +22,6 @@
     "axios": "^0.27.2",
     "canvacord": "^5.4.6",
     "canvas": "^2.10.1",
-    "db-country": "^1.0.1",
     "discord-player": "5.2.2",
     "discord.js": "^13.10.3",
     "dotenv": "^16.0.1",
