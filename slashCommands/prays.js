@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const tc = require('../functions/TimeConvert')
 const cfl = require('../functions/CapitalizedChar')
 const moment = require("moment");
+const Country =require('db-country');
 
 module.exports = {
     clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
@@ -27,7 +28,7 @@ module.exports = {
         };
         fetch(url, options)
             .then(res => res.json())
-            .then(json => {
+            .then(async json => {
                 if(typeof json.data === "string" && json.data.startsWith('Unable to locate city and country')) {
                   return interaction.editReply({ content: '<:error:888264104081522698> Please enter valid country and city in the options!' });
                 };
@@ -41,41 +42,63 @@ module.exports = {
                 const len = json.data.timings.Imsak.length-1;
                 result.splice(-len)
 
+                let d;
+                let dinMS;
+                try {
+                const Rcountry = Country.get(cfl.capitalizeFirstLetter(country));
+
+                const timezone = `${Rcountry.continent}/${cfl.capitalizeFirstLetter(city.split(' ').join('_'))}`;
+
+                let options = {
+                  timeZone: timezone,
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric',
+                  millisecond: 'numeric',
+                },
+                formatter = new Intl.DateTimeFormat([], options);
+                d = new Date(formatter.format(new Date()).split(",").join(" "))
+                dinMS = Math.floor(d.getTime() / 1000)
+              } catch {
+                return await interaction.editReply({ content: '<:error:888264104081522698> I can\'t identify this timezone, please write the right \`country or continent\`!' });
+              }
+
                 let pTimeInS;
                 let str;
                 let nxtStr;
                 let num = -1;
                 let marked = false;
-                result.forEach(pTime => {
+
+                result.forEach(async pTime => {
                   num++
-                  console.log(num)
-                  console.log(pTime)
                   str = `${json.data.date.readable.split(' ').join('/')} ${pTime[1]}`;
-                  console.log(str)
 
                   const [dateComponents, timeComponents] = str.split(' ');
                   const [day, month, year] = dateComponents.split('/');
                   const [hours, minutes] = timeComponents.split(':');
-                  console.log(dateComponents, timeComponents)
              
                   pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
-                  console.log(json.data.date.timestamp, pTimeInS)
-                  if(json.data.date.timestamp < Math.floor(pTimeInS / 1000)) {
+                  nxtStr = "Tomorrow!";
+                  if(dinMS < Math.floor(pTimeInS)) {
                     if(!marked) {
-                      const now = Math.floor(json.data.date.timestamp * 1000);
+                      const now = Math.floor(dinMS);
                       nxtStr = `${pTime[0]}  \`${moment.duration(Math.floor(pTimeInS) - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
                   }
                 });
+
                 
 
                 const embed = new discord.MessageEmbed()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
                 .setDescription(`<:Tag:836168214525509653> Praying times for country \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
                 .addFields(
-                    { name: '<:star:888264104026992670> Date', value: `<t:${json.data.date.timestamp}>`, inline: false},
+                    { name: '<:star:888264104026992670> Date', value: `<t:${Math.floor(dinMS)}>`, inline: false},
                     { name: '<:Timer:853494926850654249> Next Pray in:', value: nxtStr, inline: false},
                     { name: ' ‍ ', value: ` ‍ `, inline: false}
                 )
@@ -88,6 +111,6 @@ module.exports = {
                 .setTimestamp()
                 interaction.editReply({ embeds: [embed] });
             })
-            .catch(() => interaction.editReply({ content: '<:error:888264104081522698> Something went wrong, please try again later!' }));
+            .catch((err) => interaction.editReply({ content: '<:error:888264104081522698> Something went wrong, please try again later!' }));
 	},
 };

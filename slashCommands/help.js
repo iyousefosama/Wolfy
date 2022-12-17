@@ -272,7 +272,7 @@ module.exports = {
       .setTimestamp()
     
         const msg = await interaction.editReply({ embeds: [help], components: [row, row2] })
-        const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
+        const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
     
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '1'){
