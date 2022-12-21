@@ -63,6 +63,15 @@ module.exports = {
           //Do nothing..
         }
 
+        /*
+        const PermissionsObj = Object.values(newChannel.permissionOverwrites);
+        console.log(PermissionsObj)
+        PermissionsObj.forEach(e => {
+          console.log(e.permissionOverwrites)
+        });
+        */
+
+
         ChannelUpdate = new MessageEmbed()
         .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:Mod:853496185443319809> Channel Updated!')

@@ -160,6 +160,7 @@ module.exports = {
           interaction.channel.messages.fetch().then(async (messages) => {
             const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
   
+            
             let response;
             try {
               response = await sourcebin.create([
@@ -178,9 +179,18 @@ module.exports = {
               return interaction.channel.send('An error occurred, please try again!');
             }
   
+            const TicketUser = client.users.cache.get(TicketData.UserId)
+
             const embed = new Discord.MessageEmbed()
               .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
-              .setDescription(`<:Map:853495194863534081> ${interaction.guild.name}'s ticket transcript\n<:Tag:836168214525509653> [\`📄 View\`](${response.url}) for channel \`${interaction.channel.name}\`!`)
+              .setTitle("Ticket Logs.")
+              .setDescription(`<:Tag:836168214525509653> ${interaction.channel.name} Ticket at ${interaction.guild.name}!`)
+              .addFields(
+                { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
+                { name: "Opened by", value: `${TicketUser.tag}`, inline: true },
+                { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true}
+              )
+              .setTimestamp()
               .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
               .setColor('738ADB');
               await interaction.user.send({ embeds: [embed] });
@@ -287,7 +297,50 @@ module.exports = {
           interaction.channel.send({ embeds: [close]})
           .then(channel => {
               setTimeout(async () => {
-                  await interaction.channel.delete().catch(() => null)
+                  let response;
+                  const Ticket = interaction.guild.channels.cache.get(TicketData.ChannelId)
+                  return await interaction.channel.messages.fetch().then(async (messages) => {
+                    const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
+          
+                    
+
+                    try {
+                      response = await sourcebin.create([
+                        {
+                          name: ' ',
+                          content: output,
+                          languageId: 'text',
+                        },
+                      ], {
+                        title: `Chat transcript for ${interaction.channel.name}`,
+                        description: ' ',
+                      });
+                    }
+                    catch(e) {
+                      console.log(e)
+                      return interaction.channel.send('An error occurred, please try again!');
+                    }
+                  }).then(async () => {
+                    return await interaction.channel.delete()
+                  })
+                  .then(async () => {
+                    const TicketUser = client.users.cache.get(TicketData.UserId)
+
+                    const Closedembed = new Discord.MessageEmbed()
+                    .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
+                    .setTitle("Ticket Closed.")
+                    .setDescription(`<:Tag:836168214525509653> ${Ticket.name} Ticket at ${interaction.guild.name} Just closed!`)
+                    .addFields(
+                      { name: "Ticket transcript", value: `[View](${response.url}) for channel \`\``, inline: true },
+                      { name: "Opened by", value: `${TicketUser.tag}`, inline: true },
+                      { name: "Closed by", value: `${interaction.user.tag}`, inline: true},
+                      { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true}
+                    )
+                    .setTimestamp()
+                    .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+                    .setColor('#2F3136');
+                    await TicketUser.send({ embeds: [Closedembed] });
+                  }).catch((err) => console.log(err))
               }, 5000);
           })
         }

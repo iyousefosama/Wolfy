@@ -39,7 +39,7 @@ module.exports = {
         const EditedLog = new Discord.MessageEmbed()
         .setAuthor({ name: oldMessage.author.username, iconURL: oldMessage.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle(`📝 Edited Message`)
-        .setDescription(`<a:iNFO:853495450111967253> **Member**: \`${oldMessage.author.tag}\` (${oldMessage.author.id})\n<:pp198:853494893439352842> **In**: ${oldMessage.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Old Message**: \`\`\`\n${oldMessage.content || '❌ | Unkown message!'}\n\`\`\`\n<a:Right:877975111846731847> **New Message**: \`\`\`\n${messageUpdate.content || '❌ | Unkown message!'}\n\`\`\``)
+        .setDescription(`<a:iNFO:853495450111967253> **Member**: \`${oldMessage.author.tag}\` (${oldMessage.author.id})\n<:pp198:853494893439352842> **In**: ${oldMessage.channel} [Jump to the message](${oldMessage.url})\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Old Message**: \`\`\`\n${oldMessage.content || '❌ | Unkown message!'}\n\`\`\`\n<a:Right:877975111846731847> **New Message**: \`\`\`\n${messageUpdate.content || '❌ | Unkown message!'}\n\`\`\``)
         .setColor('#2F3136')
         .setFooter({ text: oldMessage.guild.name, iconURL: oldMessage.guild.iconURL({dynamic: true}) })
         .setTimestamp()

@@ -94,6 +94,7 @@ module.exports = {
                     channel.send({ content: `${interaction.user}`, embeds: [ticketEmbed], components: [row] })
                     TicketData.ChannelId = channel.id;
                     TicketData.IsClosed = false;
+                    TicketData.OpenTimeStamp = Math.floor(Date.now());
                     await TicketData.save().catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
                 })
             }

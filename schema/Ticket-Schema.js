@@ -9,7 +9,9 @@ const TicketSchema = mongoose.Schema({
 
     UserId: { type: String, default: null },
 
-    IsClosed: { type: Boolean, default: false }
+    IsClosed: { type: Boolean, default: false },
+
+    OpenTimeStamp: { type: Number, default: 0 }
 })
 
 
