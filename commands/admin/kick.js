@@ -24,7 +24,7 @@ module.exports = {
       let reason = args.slice(0).join(" ")
   
       if (!member.match(/\d{17,19}/)){
-        return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to ban.`);
+        return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to kick.`);
       };
   
       member = await message.guild.members

@@ -55,6 +55,8 @@ module.exports = {
             return message.channel.send(`\\❌ | ${message.author}, You can't voice kick that user! He/She has a higher role than yours`);
           };
 
-        return message.channel.send(`\\✔️ ${message.author}, Successfully kicked all members in this \`voice channel\`!`)
+        return member.voice.setChannel(null).then(async () => {
+          await message.channel.send(`\\✔️ ${message.author}, Successfully kicked \`${member.username}\` from this voice channel!`)
+        }).catch(() => message.channel.send(`\\❌ | ${message.author}, I can't voice kick this user!`))
 }
 }

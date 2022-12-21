@@ -15,7 +15,9 @@ module.exports = {
     clientpermissions: ["MANAGE_CHANNELS"],
     examples: [''],
     async execute(client, message, [ channelID='', ...args ]) {
+
         channel = message.guild.channels.cache.get(channelID) || message.guild.channels.cache.get(message.channel.id);
+        
         let reason = args.slice(0).join(" ")
         if (!args[0]) reason = 'No reason specified'
     

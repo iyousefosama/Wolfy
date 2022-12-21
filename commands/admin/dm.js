@@ -14,7 +14,7 @@ module.exports = {
     permissions: ["ADMINISTRATOR"],
     examples: [
         '@WOLF Hello, how are you today ?',
-        '742682490216644619 We started a giveaway for your birthday come!'
+        '742682490216644619 We have started a giveaway for your birthday!'
       ],
     async execute(client, message, args) {
 

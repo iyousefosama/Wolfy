@@ -8,7 +8,7 @@ module.exports = {
     args: false, //or false
     usage: '',
     group: 'Moderation',
-    description: 'Nuke any channel (this will delete all the channel and create newone!)',
+    description: 'ReCreate any channel without messages (this will delete all the channel and create newone!)',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS"],

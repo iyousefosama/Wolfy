@@ -15,7 +15,7 @@ module.exports = {
       '742682490216644619 Big scammer!'
     ],
     async execute(client, message, [user = '', ...reason] ) {
-        const developer = client.users.fetch('724580315481243668').catch(() => null);
+      
         const owner = await message.guild.fetchOwner()
 
         if (!user.match(/\d{17,19}/)){

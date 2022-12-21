@@ -63,7 +63,7 @@ module.exports = {
         return message.channel.send(`\\❌ | ${message.author}, You cannot mute a server owner!`)
     }
 
-    let mutedRole = message.guild.roles.cache.find(roles => roles.name === "Muted")
+    let mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "Muted")
     // If bot didn't find Muted role in the server
     if (!mutedRole) {
         const button = new MessageButton()

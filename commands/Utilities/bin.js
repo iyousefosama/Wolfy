@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
 const sb = require('sourcebin');
 const { MessageActionRow, MessageButton } = require('discord.js');
+const fetch = require('node-fetch');
 
 module.exports = {
     name: "bin",
     aliases: ["Sourcebin", "SOURCEBIN", "sourcebin"],
     dmOnly: false, //or false
     guildOnly: true, //or false
-    args: true, //or false
-    usage: '<code>',
+    args: false, //or false
+    usage: '<code(or File with the message)>',
     group: 'Utilities',
     description: 'To upload a code to sourcebin',
     cooldown: 10, //seconds(s)
@@ -18,9 +19,31 @@ module.exports = {
         'message.channel.send(\'Hello, world!\')'
       ],
     async execute(client, message, args) {
-        let content = args.join(' ');
+    let content;
+    message.channel.sendTyping()
+    // get the file's URL
+    const file = message.attachments.first()?.url;
+    // fetch the file from the external URL
+    const response = await fetch(file);
 
-        message.channel.sendTyping()
+    // if there was an error send a message with the status
+    if (!response.ok)
+      return message.channel.send(
+        'There was an error with fetching the file:',
+        response.statusText,
+      );
+
+    // take the response stream and read it to completion
+    const text = await response.text();
+
+    if (text) {
+        content = text;
+    } else if (args) {
+        content = args.join(' ');
+    } else {
+        return message.reply(`\\❌ **${message.member.displayName}**, Please add the code in the message or the code file!`)
+    }
+
         const value = await sb.create([
             {
                 name: 'Random Code',

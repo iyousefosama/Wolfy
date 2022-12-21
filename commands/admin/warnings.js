@@ -62,10 +62,7 @@ module.exports = {
                 (user) => user.id === authorId,
             );
             string += embed
-                .addField(
-                    `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`,
-                    `• *Warn Reason:* ${reason}\n• *Warned At:* <t:${timestamp}>`,
-                )
+                .addFields({ name: `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`, value: `• *Warn Reason:* ${reason}\n• *Warned At:* <t:${timestamp}>`})
         }
 
         message.reply({ embeds: [embed] });
