@@ -10,7 +10,7 @@ module.exports = {
     usage: '',
     group: 'Moderation',
     description: 'Display the setup embed message!',
-    cooldown: 260, //seconds(s)
+    cooldown: 30, //seconds(s)
     guarded: false, //or false
     permissions: ["MANAGE_MESSAGES"],
     clientpermissions: ["MANAGE_MESSAGES", "EMBED_LINKS"],
