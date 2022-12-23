@@ -5,6 +5,7 @@ const schema = require('../schema/GuildSchema')
 const TicketSchema = require('../schema/Ticket-Schema')
 const { MessageActionRow, MessageButton } = require('discord.js');
 const cooldowns = new Collection();
+const CoolDownCurrent = {};
 
 module.exports = {
     name: 'interactionCreate',
@@ -48,33 +49,40 @@ module.exports = {
      
       let TicketData;
       if (interaction.isButton()) {
-        await interaction.deferUpdate()
                 //+ cooldown 1, //seconds(s)
                 if (!cooldowns.has("btn")) {
                   cooldowns.set("btn", new Discord.Collection());
               }
               
+
               const now = Date.now();
               const timestamps = cooldowns.get("btn");
-              const cooldownAmount = (3 || 2) * 1000;
+              const cooldownAmount = (4 || 2) * 1000;
               
               if (timestamps.has(interaction.user.id)) {
                   const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
               
                   if (now < expirationTime) {
-                      const timeLeft = (expirationTime - now) / 1000;
-                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                    await interaction.deferUpdate()
+                    if(CoolDownCurrent[interaction.user.id]) {
+                      return await interaction.deferUpdate()
+                    }
+                    const timeLeft = (expirationTime - now) / 1000;
+                    CoolDownCurrent[interaction.user.id] = true;
+                      return interaction.followUp({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, fetchReply: true}).then(msg => {
                           setTimeout(() => {
+                              delete CoolDownCurrent[interaction.user.id]
                               msg.delete().catch(() => null)
                            }, 3000)
                           })
                   }
               }
               timestamps.set(interaction.user.id, now);
-              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount, delete CoolDownCurrent[interaction.user.id]);
 
               ///////////// Ticket button inteaction
               if (interaction.customId === 'ticket') {
+                await interaction.deferUpdate()
                 let data;
                 let TicketData;
                 try{
@@ -167,6 +175,7 @@ module.exports = {
                 }
                 //// Ticket controll interactions
         if(interaction.customId === '98418541981561') {
+          await interaction.deferUpdate()
           try{
           TicketData = await TicketSchema.findOne({
               guildId: interaction.guild.id,
@@ -174,7 +183,7 @@ module.exports = {
           })
         } catch(err) {
             console.log(err)
-            interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+            interaction.followUp({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
         }
           
           if(!TicketData) return interaction.channel.send(`\\❌ I can't find this guild \`data\` in the data base!`)
@@ -216,6 +225,7 @@ module.exports = {
           interaction.channel.send({ content: `\`❌ [ERR]:\` Something is wrong, please try again later!`})
         })
         } else if(interaction.customId == "98418541981564") {
+          await interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -267,6 +277,7 @@ module.exports = {
               return await interaction.user.send({ embeds: [embed] }), interaction.followUp({ content: `${interaction.user} Successfully sent you the \`transcript\` in the dms!`, ephemeral: true });
           })
         } else if(interaction.customId == "98418541981565") {
+          await interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -274,7 +285,7 @@ module.exports = {
             })
           } catch(err) {
               console.log(err)
-              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+              interaction.followUp({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
           }
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
@@ -300,6 +311,7 @@ module.exports = {
         })
 
         } else if(interaction.customId == "98418541981566") {
+          await interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
