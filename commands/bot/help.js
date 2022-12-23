@@ -138,7 +138,8 @@ module.exports = {
         { name: `${client.config.prefix}ticket`, value: `> \`Open new ticket in the server\``},
         { name: `${client.config.prefix}rename`, value: `> \`Change ticket name\``},
         { name: `${client.config.prefix}delete`, value: `> \`Delete your ticket in the server\``},
-        { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``}
+        { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``},
+        { name: `${client.config.prefix}`, value: `> \`Calculates an equation by wolfy\``}
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
@@ -170,7 +171,9 @@ module.exports = {
         { name: `${client.config.prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
         { name: `${client.config.prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
         { name: `${client.config.prefix}voicekick`, value: `> \`Kick all users that are connected to the current channel\``},
-        { name: `${client.config.prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
+        { name: `${client.config.prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``},
+        { name: `${client.config.prefix}purge`, value: `> \`Clear messages of the user with quantity you want (from 2 to 100)\``},
+        { name: `${client.config.prefix}infraction`, value: `> \`To enable/disable/Edit infraction point protection system!\``}
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
@@ -210,7 +213,8 @@ module.exports = {
         { name: `${client.config.prefix}smRole`, value: `> \`Setup the select menu role list!\``},
         { name: `${client.config.prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
         { name: `${client.config.prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
-        { name: `${client.config.prefix}setclient.config.prefix`, value: `> \`To set the bot client.config.prefix to another one!\``},
+        { name: `${client.config.prefix}antilinktoggle`, value: `> \`To enable/disable Anti-Links protection!\``},
+        { name: `${client.config.prefix}setprefix`, value: `> \`To set the bot setprefix to another one!\``},
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()

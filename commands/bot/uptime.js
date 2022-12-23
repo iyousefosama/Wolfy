@@ -22,6 +22,6 @@ module.exports = {
         .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()
-        var msg = message.channel.send({ embeds: [uptime] })
+        message.channel.send({ embeds: [uptime] })
     }
 }
