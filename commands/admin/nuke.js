@@ -29,9 +29,9 @@ module.exports = {
 
     let nuke = new discord.MessageEmbed()
     .setColor(`RED`)
-    .setDescription(`<a:Error:836169051310260265> This channel will be nuked after \`(10 Seconds)\``)
+    .setDescription(`<a:Error:836169051310260265> This channel will be nuked after \`(3 Seconds)\``)
     return message.channel.send({ embeds: [nuke] })
     .then(() => setTimeout(() => message.channel.clone()
-    .then(() => message.channel.delete().catch(() => null)), 10000))
+    .then(() => message.channel.delete().catch(() => null)), 3000))
 }
 }
