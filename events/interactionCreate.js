@@ -45,37 +45,34 @@ module.exports = {
           console.log(err)
           interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
       }
-
-      async function cooldown(name, time) {
-        //+ cooldown 1, //seconds(s)
-        if (!cooldowns.has(name)) {
-          cooldowns.set(name, new Discord.Collection());
-      }
-      
-      const now = Date.now();
-      const timestamps = cooldowns.get(name);
-      const cooldownAmount = (time || 3) * 1000;
-      
-      if (timestamps.has(interaction.user.id)) {
-          const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-      
-          if (now < expirationTime) {
-              const timeLeft = (expirationTime - now) / 1000;
-              return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                  setTimeout(() => {
-                      msg.delete().catch(() => null)
-                   }, 3000)
-                  })
-          }
-      }
-      timestamps.set(interaction.user.id, now);
-      setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-      }          
+     
       let TicketData;
       if (interaction.isButton()) {
-        cooldown("buttons", 3)
+        interaction.deferUpdate()
+                //+ cooldown 1, //seconds(s)
+                if (!cooldowns.has("btn")) {
+                  cooldowns.set("btn", new Discord.Collection());
+              }
+              
+              const now = Date.now();
+              const timestamps = cooldowns.get("btn");
+              const cooldownAmount = (3 || 2) * 1000;
+              
+              if (timestamps.has(interaction.user.id)) {
+                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+              
+                  if (now < expirationTime) {
+                      const timeLeft = (expirationTime - now) / 1000;
+                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                          setTimeout(() => {
+                              msg.delete().catch(() => null)
+                           }, 3000)
+                          })
+                  }
+              }
+              timestamps.set(interaction.user.id, now);
+              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
         if(interaction.customId === '98418541981561') {
-          interaction.deferUpdate()
           try{
           TicketData = await TicketSchema.findOne({
               guildId: interaction.guild.id,
@@ -125,7 +122,6 @@ module.exports = {
           interaction.channel.send({ content: `\`❌ [ERR]:\` Something is wrong, please try again later!`})
         })
         } else if(interaction.customId == "98418541981564") {
-          interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -174,10 +170,9 @@ module.exports = {
               .setTimestamp()
               .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
               .setColor('738ADB');
-              await interaction.user.send({ embeds: [embed] });
+              return await interaction.user.send({ embeds: [embed] })//, interaction.channel.send({ content: `${interaction.user} Successfully sent you the transcript in the dms!`, ephemeral: true });
           })
         } else if(interaction.customId == "98418541981565") {
-          interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -190,29 +185,6 @@ module.exports = {
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
           }
-          //+ cooldown 1, //seconds(s)
-              if (!cooldowns.has("98418541981561")) {
-                  cooldowns.set("98418541981561", new Discord.Collection());
-              }
-              
-              const now = Date.now();
-              const timestamps = cooldowns.get("98418541981561");
-              const cooldownAmount = (5 || 3) * 1000;
-              
-              if (timestamps.has(interaction.user.id)) {
-                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-              
-                  if (now < expirationTime) {
-                      const timeLeft = (expirationTime - now) / 1000;
-                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                          setTimeout(() => {
-                              msg.delete().catch(() => null)
-                           }, 3000)
-                          })
-                  }
-              }
-              timestamps.set(interaction.user.id, now);
-              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
           if(!TicketData) return interaction.channel.send(`\\❌ I can't find this guild \`data\` in the data base!`)
           const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId)
 
@@ -234,7 +206,6 @@ module.exports = {
         })
 
         } else if(interaction.customId == "98418541981566") {
-          interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -247,29 +218,6 @@ module.exports = {
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
           }
-          //+ cooldown 1, //seconds(s)
-          if (!cooldowns.has("98418541981561")) {
-            cooldowns.set("98418541981561", new Discord.Collection());
-        }
-        
-        const now = Date.now();
-        const timestamps = cooldowns.get("98418541981561");
-        const cooldownAmount = (5 || 3) * 1000;
-        
-        if (timestamps.has(interaction.user.id)) {
-            const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-        
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                    setTimeout(() => {
-                        msg.delete().catch(() => null)
-                     }, 3000)
-                    })
-            }
-        }
-        timestamps.set(interaction.user.id, now);
-        setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
           const close = new Discord.MessageEmbed()
           .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
           .setColor(`RED`)
@@ -312,7 +260,7 @@ module.exports = {
                     .setTitle("Ticket Closed.")
                     .setDescription(`<:Tag:836168214525509653> ${Ticket.name} Ticket at ${interaction.guild.name} Just closed!`)
                     .addFields(
-                      { name: "Ticket transcript", value: `[View](${response.url}) for channel \`\``, inline: true },
+                      { name: "Ticket transcript", value: `[View](${response.url}) for channel`, inline: true },
                       { name: "Opened by", value: `${TicketUser.tag}`, inline: true },
                       { name: "Closed by", value: `${interaction.user.tag}`, inline: true},
                       { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true}
