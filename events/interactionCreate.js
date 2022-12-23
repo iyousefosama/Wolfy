@@ -127,7 +127,7 @@ module.exports = {
             }
         });
     
-        if(TicketAvailable) return interaction.followUp({ content: "<a:pp681:774089750373597185> | You already have a ticket!", ephemeral: true})
+        if(TicketAvailable) return interaction.reply({ content: "<a:pp681:774089750373597185> | You already have a ticket!", ephemeral: true})
     
         interaction.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
             type: 'GUILD_TEXT',
