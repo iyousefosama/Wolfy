@@ -60,7 +60,7 @@ module.exports = {
         }
     });
 
-    if(TicketAvailable) return interaction.channel.send({ content: "<a:pp681:774089750373597185> You already have a ticket!"})
+    if(TicketAvailable) return interaction.reply({ content: "<a:pp681:774089750373597185> | You already have a ticket!", ephemeral: true})
 
     interaction.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
         type: 'GUILD_TEXT',
@@ -95,7 +95,7 @@ module.exports = {
                     TicketData.ChannelId = channel.id;
                     TicketData.IsClosed = false;
                     TicketData.OpenTimeStamp = Math.floor(Date.now());
-                    await TicketData.save().catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
+                    await TicketData.save().catch((err) => channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
                 })
             }
         }

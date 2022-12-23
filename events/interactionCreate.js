@@ -46,8 +46,34 @@ module.exports = {
           interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
       }
 
+      async function cooldown(name, time) {
+        //+ cooldown 1, //seconds(s)
+        if (!cooldowns.has(name)) {
+          cooldowns.set(name, new Discord.Collection());
+      }
+      
+      const now = Date.now();
+      const timestamps = cooldowns.get(name);
+      const cooldownAmount = (time || 3) * 1000;
+      
+      if (timestamps.has(interaction.user.id)) {
+          const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+      
+          if (now < expirationTime) {
+              const timeLeft = (expirationTime - now) / 1000;
+              return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
+                  setTimeout(() => {
+                      msg.delete().catch(() => null)
+                   }, 3000)
+                  })
+          }
+      }
+      timestamps.set(interaction.user.id, now);
+      setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+      }          
       let TicketData;
       if (interaction.isButton()) {
+        cooldown("buttons", 3)
         if(interaction.customId === '98418541981561') {
           interaction.deferUpdate()
           try{
@@ -59,29 +85,7 @@ module.exports = {
             console.log(err)
             interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
         }
-              //+ cooldown 1, //seconds(s)
-              if (!cooldowns.has("98418541981561")) {
-                  cooldowns.set("98418541981561", new Discord.Collection());
-              }
-              
-              const now = Date.now();
-              const timestamps = cooldowns.get("98418541981561");
-              const cooldownAmount = (5 || 3) * 1000;
-              
-              if (timestamps.has(interaction.user.id)) {
-                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-              
-                  if (now < expirationTime) {
-                      const timeLeft = (expirationTime - now) / 1000;
-                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                          setTimeout(() => {
-                              msg.delete().catch(() => null)
-                           }, 3000)
-                          })
-                  }
-              }
-              timestamps.set(interaction.user.id, now);
-              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+          
           if(!TicketData) return interaction.channel.send(`\\❌ I can't find this guild \`data\` in the data base!`)
           if(TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ This ticket is already closed!`)
@@ -134,29 +138,6 @@ module.exports = {
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
           }
-              //+ cooldown 1, //seconds(s)
-              if (!cooldowns.has("98418541981561")) {
-                  cooldowns.set("98418541981561", new Discord.Collection());
-              }
-              
-              const now = Date.now();
-              const timestamps = cooldowns.get("98418541981561");
-              const cooldownAmount = (5 || 3) * 1000;
-              
-              if (timestamps.has(interaction.user.id)) {
-                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-              
-                  if (now < expirationTime) {
-                      const timeLeft = (expirationTime - now) / 1000;
-                      return interaction.channel.send({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`}).then(msg => {
-                          setTimeout(() => {
-                              msg.delete().catch(() => null)
-                           }, 3000)
-                          })
-                  }
-              }
-              timestamps.set(interaction.user.id, now);
-              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
           interaction.channel.messages.fetch().then(async (messages) => {
             const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
   
