@@ -48,7 +48,7 @@ module.exports = {
      
       let TicketData;
       if (interaction.isButton()) {
-        interaction.deferUpdate()
+        await interaction.deferUpdate()
                 //+ cooldown 1, //seconds(s)
                 if (!cooldowns.has("btn")) {
                   cooldowns.set("btn", new Discord.Collection());
@@ -107,9 +107,9 @@ module.exports = {
     
         // if there is no ticket category return
         if(!categoryID) {
-        return interaction.reply({ content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`, ephemeral: true})
+        return interaction.followUp({ content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`, ephemeral: true})
         } else if(!data.Mod.Tickets.isEnabled) {
-        return interaction.reply({ content: `\\❌ **${interaction.member.displayName}**, The **tickets** command is disabled in this server!`, ephemeral: true})
+        return interaction.followUp({ content: `\\❌ **${interaction.member.displayName}**, The **tickets** command is disabled in this server!`, ephemeral: true})
         } else {
         // Do nothing..
         }
@@ -127,7 +127,7 @@ module.exports = {
             }
         });
     
-        if(TicketAvailable) return interaction.reply({ content: "<a:pp681:774089750373597185> | You already have a ticket!", ephemeral: true})
+        if(TicketAvailable) return interaction.followUp({ content: "<:error:888264104081522698> **|** You already have a ticket!", ephemeral: true})
     
         interaction.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
             type: 'GUILD_TEXT',
@@ -223,7 +223,7 @@ module.exports = {
             })
           } catch(err) {
               console.log(err)
-              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+              interaction.followUp({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
           }
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
