@@ -1,4 +1,4 @@
-const discord = require('discord.js'); 
+const discord= require('discord.js'); 
 const moment = require("moment");
 const axios = require("axios")
 
@@ -32,6 +32,7 @@ module.exports = {
       user = message.author;
     };
     const activity = member.presence?.activities;
+    const activityNames = member.presence?.activities.map(activity => activity.name).join(", ");
     var status = member.presence?.status;
 
     if(status == null) status = '<:offline:809995754021978112> Offline'
@@ -41,8 +42,8 @@ module.exports = {
     if(status == 'offline') status = "<:offline:809995754021978112> Offline"
     if(status === 'idle') status = "<:Idle:809995753656549377> Idle"
     const flags = {
-        DISCORD_EMPLOYEE: '<:Discord_Staff:911761250759893012> Discord Employee',
-        DISCORD_PARTNER: '<:discord_partner:911760719266086942> Discord Partner',
+        discord_EMPLOYEE: '<:discord_Staff:911761250759893012> discord Employee',
+        discord_PARTNER: '<:discord_partner:911760719266086942> discord Partner',
         BUGHUNTER_LEVEL_1: '<:Bug_Hunter:911761250843762718> Bug Hunter (Level 1)',
         BUGHUNTER_LEVEL_2: '<:Bug_Hunter_level2:911760719429660683> Bug Hunter (Level 2)',
         HYPESQUAD_EVENTS: '<:HypeSquad_Event:911760719345762355> HypeSquad Events',
@@ -89,7 +90,7 @@ module.exports = {
       url = null
   }
 
-    const userEmbed = new discord.MessageEmbed()
+    const userEmbed = new discord.EmbedBuilder()
      .setAuthor({ name: `User information of ${member.user.username}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
      .addFields(
 		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag || 'None' },
@@ -97,7 +98,7 @@ module.exports = {
 		{ name: '\u200B' || '-', value: '\u200B' || '-' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },
 		{ name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
-        { name: '<:pp179:853495316186791977> **Game: **', value: `${typeof activity == String ? activity.join("\n") : "None"  || "None"}`, inline: true },
+        { name: '<:pp179:853495316186791977> **Game: **', value: `${activityNames ? activityNames : "None"  || "None"}`, inline: true },
         { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT') || 'None'} ${moment.utc(member.user.createdAt).format('LL') || 'None'} ${moment.utc(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
         { name: '📥 **Joined The Server At: **', value: `${moment(member.joinedAt).format("LT") || 'None'} ${moment(member.joinedAt).format('LL') || 'None'} ${moment(member.joinedAt).fromNow() || 'None'}` || 'None', inline: true },
         { name: `🖼️ **Avatar: **`, value: `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`, inline:false },
