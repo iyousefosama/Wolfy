@@ -90,7 +90,7 @@ module.exports = {
       url = null
   }
 
-    const userEmbed = new discord.EmbedBuilder()
+    const userEmbed = new discord.MessageEmbeds()
      .setAuthor({ name: `User information of ${member.user.username}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
      .addFields(
 		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag || 'None' },
