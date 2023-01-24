@@ -51,7 +51,7 @@ module.exports = {
     .setLabel(`Bot`)
     .setCustomId("7")
     .setStyle("PRIMARY")
-    .setEmoji("887500717106024520");
+    .setEmoji("841711382739157043");
     const button8 = new MessageButton()
     .setLabel(`Levels`)
     .setCustomId("8")
