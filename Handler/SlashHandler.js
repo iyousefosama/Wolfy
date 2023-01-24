@@ -25,8 +25,8 @@ for (const file of slashFiles) {
 		client.on("ready", async () => {
             await new Promise(r=>setTimeout(r,1500))
             client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });
-			if(client.config.loadSlashsGlobal){
-				client.application.commands.set(commands)
+			if(true){
+				client.application.commands.set([])
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
 				}).catch((e)=>console.log(e));
