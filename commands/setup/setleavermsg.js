@@ -1,8 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const schema = require('../../schema/GuildSchema')
-const parser = require('../../util/greeter/parser');
-const errors = require('../../util/greeter/errors');
-const Success = require('../../util/greeter/Success');
 
 module.exports = {
     name: "setleavermsg",
