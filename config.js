@@ -1,6 +1,9 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '.env') })
+/*
+Make sure that loadSlashsGlobal is set to true if this is for the main bot!!!!
+*/
 
 const settings = {
     // pass in any client configuration you want for the bot.
