@@ -26,14 +26,14 @@ for (const file of slashFiles) {
             await new Promise(r=>setTimeout(r,1500))
             client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });
 			if(false){
-				client.application.commands.set([])
+				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
 				}).catch((e)=>console.log(e));
 			} else {
 				client.guilds.cache.map(g => g).forEach(async (guild) => {
 					try{
-						guild.commands.set(commands)
+						guild.commands.set([])
 						.then(slashCommandsData => {
 							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
 						}).catch((e)=>console.log(e))
