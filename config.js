@@ -1,6 +1,9 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js')
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '.env') })
+/*
+Make sure that loadSlashsGlobal is set to true if this is for the main bot!!!!
+*/
 
 const settings = {
     // pass in any client configuration you want for the bot.
@@ -22,7 +25,7 @@ const settings = {
 
     // set the default prefix, if non-string data-type is provided, will resolve
     // to the prefix 'w!'
-    prefix: 't!',
+    prefix: 'w!',
   
     // logging channels for the bot. To disable logging specific events - pass
     // a falsy value (undefined, null, 0). You may also remove the property
@@ -52,7 +55,7 @@ const settings = {
       }
     },
 
-    loadSlashsGlobal: false,
+    loadSlashsGlobal: true,
     
     // Array of owners recognized by the bot. ID here will be given access to
     // owner based commands.

@@ -42,7 +42,7 @@ module.exports = {
         .setLabel(`Bot`)
         .setCustomId("7")
         .setStyle("Primary")
-        .setEmoji("887500717106024520");
+        .setEmoji("888265210350166087");
         const button8 = new ButtonBuilder()
         .setLabel(`Levels`)
         .setCustomId("8")
