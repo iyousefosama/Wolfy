@@ -16,8 +16,8 @@ module.exports = {
     examples: [''],
     async execute(client, message, args) {
     let time = ms(client.uptime);
-    var uptime = new discord.MessageEmbed()
-        .setColor(`DARK_GREEN`)
+    var uptime = new discord.EmbedBuilder()
+        .setColor(`DarkGreen`)
         .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })

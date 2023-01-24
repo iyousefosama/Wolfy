@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const schema = require('../schema/GuildSchema')
 const uuid = require('uuid');
 const warnSchema = require('../schema/Warning-Schema')
@@ -71,14 +71,14 @@ exports.badword = async function (client, message) {
             return msg.channel.send({ content: `\\⚠️ **${message.author.username}**, This word is banned, watch your language.` })
           }
           
-          const warnEmbed = new MessageEmbed()
+          const warnEmbed = new EmbedBuilder()
           .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
           .setColor('#e6a54a')
           .setTitle(`⚠️ Warned **${message.author.username}**`)
           .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
           .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
           message.channel.send({ embeds: [warnEmbed] })
-          const dmembed = new MessageEmbed()
+          const dmembed = new EmbedBuilder()
           .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
           .setColor('#e6a54a')
           .setTitle(`⚠️ Warned **${message.author.username}**`)

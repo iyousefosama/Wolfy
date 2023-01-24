@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
   name: "kick",
@@ -46,7 +46,7 @@ module.exports = {
       } else if (!member.kickable){
         return message.channel.send(`\\❌ | ${message.author}, I couldn't kick that user!`)
       };
-      const kick = new discord.MessageEmbed()
+      const kick = new discord.EmbedBuilder()
       .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setDescription([ `<:tag:813830683772059748> Successfully Kicked the user from the server`, !args[0] ? '' :
       ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))

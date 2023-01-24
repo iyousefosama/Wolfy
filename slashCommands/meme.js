@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const got = require('got')
 
@@ -12,7 +12,7 @@ module.exports = {
 
         const hide = interaction.options.getBoolean('hide');
         
-        const memeEmbed = new discord.MessageEmbed() // creating an embed
+        const memeEmbed = new discord.EmbedBuilder() // creating an embed
         got('https://www.reddit.com/r/meme/random/.json').then(response => { // getting the lin that have the memes
     
             let content = JSON.parse(response.body); // setting the json file that hv the memes

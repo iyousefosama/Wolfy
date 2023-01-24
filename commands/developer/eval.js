@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { inspect } = require('util');
 const fetch = require('node-fetch');
 const text = require('../../util/string');
@@ -40,18 +40,18 @@ module.exports = {
       };
 
       if (promise?.resolved){
-        color = 'GREEN'
+        color = 'Green'
         type = 'Promise (Resolved)'
       } else if (promise?.rejected){
-        color = 'RED'
+        color = 'Red'
         type = 'Promise (Rejected)'
       } else {
-        color = 'GREY'
+        color = 'Grey'
         type = (typeof raw).charAt(0).toUpperCase() + (typeof raw).slice(1)
       };
 
       const elapsed = Math.abs(Date.now() - message.createdTimestamp);
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       .setColor(color)
       .addField('\\📥 Input',`\`\`\`js\n${text.truncate(text.clean(code),1000)}\`\`\``)
       .setFooter({ text: [
@@ -96,8 +96,8 @@ module.exports = {
         '```'
       ].join('\n');
 
-      const errEmbed = new MessageEmbed()
-        .setColor('RED')
+      const errEmbed = new EmbedBuilder()
+        .setColor('Red')
         .setFooter({ text: [
           `${err.name}`,
           `Evaluated in ${Math.abs(Date.now() - message.createdTimestamp)}ms.`,

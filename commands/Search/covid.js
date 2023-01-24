@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     async execute(client, message, args) {
         let countries = args.join(" ");
 
-        const noArgs = new Discord.MessageEmbed()
+        const noArgs = new discord.EmbedBuilder()
         .setTitle('Invalid Command Usage')
         .setColor(0xFF0000)
         .setDescription(`You Can Try Using **${client.prefix}covid all** or **${client.prefix}covid Canada**`)
@@ -36,7 +36,7 @@ module.exports = {
                 let recovered = data.recovered.value.toLocaleString()
                 let deaths = data.deaths.value.toLocaleString()
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new discord.EmbedBuilder()
                 .setTitle(`Worldwide COVID-19 Stats 🌎`)
                 .addField('Confirmed Cases', confirmed)
                 .addField('Recovered', recovered)
@@ -52,7 +52,7 @@ module.exports = {
                 let recovered = data.recovered.value.toLocaleString()
                 let deaths = data.deaths.value.toLocaleString()
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new discord.EmbedBuilder()
                 .setTitle(`COVID-19 Stats for **${countries}**`)
                 .addField('Confirmed Cases', confirmed)
                 .addField('Recovered', recovered)

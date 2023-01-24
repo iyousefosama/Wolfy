@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {

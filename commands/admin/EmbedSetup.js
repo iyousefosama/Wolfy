@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
 
 module.exports = {
     name: "EmbedSetup",
@@ -17,46 +17,46 @@ module.exports = {
     examples: [''],
     async execute(client, message, args) {
 
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel(`desc`)
         .setCustomId("84994859419841841")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button2 = new MessageButton()
+        const button2 = new ButtonBuilder()
         .setLabel(`title`)
         .setCustomId("8419684198419841")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button3 = new MessageButton()
+        const button3 = new ButtonBuilder()
         .setLabel(`Color`)
         .setCustomId("984198419841984198")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button4 = new MessageButton()
+        const button4 = new ButtonBuilder()
         .setLabel(`Thumbnail`)
         .setCustomId("968419841984198419")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button5 = new MessageButton()
+        const button5 = new ButtonBuilder()
         .setLabel(`Image`)
         .setCustomId("985412985419849845")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button6 = new MessageButton()
+        const button6 = new ButtonBuilder()
         .setLabel(`Send`)
         .setCustomId("65126958498549854")
-        .setStyle('SUCCESS')
+        .setStyle('Success')
         .setEmoji("812104211386728498");
-        const button7 = new MessageButton()
+        const button7 = new ButtonBuilder()
         .setLabel(`Cancel`)
         .setCustomId("7848948985418941")
-        .setStyle('DANGER')
+        .setStyle('Danger')
         .setEmoji("888264104081522698");
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(button, button2, button3, button4, button5);
-        const row2 = new MessageActionRow()
+        const row2 = new ActionRowBuilder()
         .addComponents(button6, button7);
-        let embed = new discord.MessageEmbed()
+        let embed = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
 
         const msg = await message.reply({ embeds: [embed], components: [row, row2], fetch: true })
@@ -66,9 +66,9 @@ module.exports = {
             if(interactionCreate.customId === '84994859419841841'){
                 if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                 TurnButtonsOff()
-                const newrow = new MessageActionRow()
+                const newrow = new ActionRowBuilder()
                 .addComponents(button, button2, button3, button4, button5);
-                const newrow2 = new MessageActionRow()
+                const newrow2 = new ActionRowBuilder()
                 .addComponents(button6, button7);
                 msg.edit({embeds: [embed], components: [newrow, newrow2] }).catch(() => null)
                 await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed description!`, ephemeral: true})
@@ -91,9 +91,9 @@ module.exports = {
                 if(interactionCreate.customId === '8419684198419841'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed title!`, ephemeral: true})
@@ -116,9 +116,9 @@ module.exports = {
                 if(interactionCreate.customId === '984198419841984198'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed color!`, ephemeral: true})
@@ -131,9 +131,10 @@ module.exports = {
                     color = color.first().content
                     try {
                     TurnButtonsOn()
+                    color = color.charAt(0).toUpperCase() + color.slice(1).toLowerCase()
                     embed.setColor(color)
                     } catch {
-                    embed.setColor('RED')
+                    embed.setColor('Red')
                     TurnButtonsOn()
                     message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed color!`, ephemeral: true})
                     return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
@@ -144,9 +145,9 @@ module.exports = {
                 if(interactionCreate.customId === '968419841984198419'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of embed thumbnail link!`, ephemeral: true})
@@ -172,9 +173,9 @@ module.exports = {
                 if(interactionCreate.customId === '985412985419849845'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
                     await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of the embed image!`, ephemeral: true})
@@ -200,12 +201,12 @@ module.exports = {
                 if(interactionCreate.customId === '65126958498549854'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
-                    const FinallEmb = new discord.MessageEmbed()
+                    const FinallEmb = new discord.EmbedBuilder()
                     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
                     .setColor('#e6a54a')
                     .setDescription(`**${message.author.username}**, What the channel to send the embed for?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -229,30 +230,30 @@ module.exports = {
 
                         Embedchannel = message.guild.channels.cache.get(thchannel);
 
-                        if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+                        if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                             message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})
-                          } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                             message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})
-                          } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                             message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})
                           };
 
                           TurnButtonsOff()
-                          const newrow = new MessageActionRow()
+                          const newrow = new ActionRowBuilder()
                           .addComponents(button, button2, button3, button4, button5);
-                          const newrow2 = new MessageActionRow()
+                          const newrow2 = new ActionRowBuilder()
                           .addComponents(button6, button7);
                           msg.edit({embeds: [embed], components: [newrow, newrow2]})
                           Embedchannel.send({ embeds: [embed] })
-                          const dnEmbed = new discord.MessageEmbed()
+                          const dnEmbed = new discord.EmbedBuilder()
                           .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-                          .setColor('DARK_GREEN')
+                          .setColor('DarkGreen')
                           .setDescription(`**${message.author.username}**, Successfuly send your embed to ${Embedchannel}`)
                           .setTimestamp()
                           .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) });
@@ -266,9 +267,9 @@ module.exports = {
                 if(interactionCreate.customId === '7848948985418941'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
                     TurnButtonsOff()
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2, button3, button4, button5);
-                    const newrow2 = new MessageActionRow()
+                    const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]})
                     await interactionCreate.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, Cancelled the \`embedsetup\` command!`, ephemeral: true})

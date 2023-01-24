@@ -1,10 +1,10 @@
 const discord = require('discord.js')
 //const lyricsFinder = require("lyrics-finder")
 const fetch = require('node-fetch');
-const { MessageEmbed, GuildEmoji } = require('discord.js');
+const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const text = require('../../util/string');
 const Page = require('../../util/Paginate');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     name: "lyrics",
@@ -21,7 +21,7 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
     examples: ['Venom'],
     async execute(client, message, args) {
-    const query =  args.join(' ');
+    const query = args.join(' ');
 
     if(!query) {
       return message.channel.send(`\\\❌ | ${message.author}, I couldn't find the lyrics!`)
@@ -37,10 +37,10 @@ module.exports = {
           };
     
         if (data.lyrics.length < 2000){
-            const LowLy = new discord.MessageEmbed()
+            const LowLy = new discord.EmbedBuilder()
             .setThumbnail(data.thumbnail.genius)
             .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
-            .setColor('GREY')
+            .setColor('Grey')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
                 { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
@@ -66,10 +66,10 @@ module.exports = {
     
         const pages = new Page(
             lyrics_subarray.map((x,i) =>
-              new MessageEmbed()
+              new EmbedBuilder()
             .setThumbnail(data.thumbnail.genius)
             .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
-            .setColor('GREY')
+            .setColor('Grey')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
                 { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
@@ -79,18 +79,18 @@ module.exports = {
             .setTimestamp()
             )
         );
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel(`Prev`)
         .setCustomId("51984198419841941")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("890490643548352572");
-        const button2 = new MessageButton()
+        const button2 = new ButtonBuilder()
         .setLabel(`Next`)
         .setCustomId("51984198419841942")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("890490558492061736")
 
-        const row = new discord.MessageActionRow()
+        const row = new discord.ActionRowBuilder()
         .addComponents(button, button2)
 
         const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
@@ -115,7 +115,7 @@ module.exports = {
         collector.on('end', async () => {
           button.setDisabled(true)
           button2.setDisabled(true)
-          const newrow = new MessageActionRow()
+          const newrow = new ActionRowBuilder()
           .addComponents(button, button2);
           msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
       });
@@ -124,7 +124,7 @@ module.exports = {
     let song;
     const filter = msg => msg.author.id === message.author.id;
 
-    let singerEmb = new discord.MessageEmbed()
+    let singerEmb = new discord.EmbedBuilder()
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setColor(`#d6a565`)
     .setDescription(`<a:Loading:841321898302373909> | Please send the **artist** name!`)
@@ -135,7 +135,7 @@ module.exports = {
     else if(col.first().content == `${client.prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
     singer = col.first().content
 
-    let songEmb = new discord.MessageEmbed()
+    let songEmb = new discord.EmbedBuilder()
     .setColor(`#98ff98`)
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setDescription(`<a:Loading:841321898302373909> | Please send the **song** name!`)
@@ -160,10 +160,10 @@ module.exports = {
     if (data.lyrics.length < 2000){
         for(let i = 0; i < res.length; i += 2048) {
             let lyrics = res.substring(i, Math.min(res.length, i + 2048))
-        const LowLy = new discord.MessageEmbed()
+        const LowLy = new discord.EmbedBuilder()
         .setThumbnail(data.thumbnail.genius)
         .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
-        .setColor('GREY')
+        .setColor('Grey')
         .addFields(
             { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
             { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
@@ -190,10 +190,10 @@ module.exports = {
 
     const pages = new Page(
       lyrics_subarray.map((x,i) =>
-        new MessageEmbed()
+        new EmbedBuilder()
       .setThumbnail(data.thumbnail.genius)
       .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
-      .setColor('GREY')
+      .setColor('Grey')
       .addFields(
           { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
           { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
@@ -203,18 +203,18 @@ module.exports = {
       .setTimestamp()
       )
   );
-  const button = new MessageButton()
+  const button = new ButtonBuilder()
   .setLabel(`Prev`)
   .setCustomId("51984198419841941")
-  .setStyle('PRIMARY')
+  .setStyle('Primary')
   .setEmoji("890490643548352572");
-  const button2 = new MessageButton()
+  const button2 = new ButtonBuilder()
   .setLabel(`Next`)
   .setCustomId("51984198419841942")
-  .setStyle('PRIMARY')
+  .setStyle('Primary')
   .setEmoji("890490558492061736")
 
-  const row = new discord.MessageActionRow()
+  const row = new discord.ActionRowBuilder()
   .addComponents(button, button2)
 
   const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
@@ -239,7 +239,7 @@ module.exports = {
   collector.on('end', async () => {
     button.setDisabled(true)
     button2.setDisabled(true)
-    const newrow = new MessageActionRow()
+    const newrow = new ActionRowBuilder()
     .addComponents(button, button2);
     msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
 });

@@ -1,9 +1,9 @@
-const Discord = require('discord.js')
-const { Collection } = require('discord.js')
+const discord = require('discord.js')
+const { Collection, PermissionsBitField, ChannelType } = require('discord.js')
 const sourcebin = require('sourcebin_js');
 const schema = require('../schema/GuildSchema')
 const TicketSchema = require('../schema/Ticket-Schema')
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
 
@@ -13,22 +13,22 @@ module.exports = {
       try {
         // Permissions: To check for default permissions in the guild
         if (interaction.guild){
-          if (!interaction.channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')){
+          if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.SendMessages)){
             return { executed: false, reason: 'PERMISSION_SEND'};
           } else {
             // Do nothing..
           };
-          if (!interaction.channel.permissionsFor(interaction.guild.me).has('VIEW_CHANNEL')){
+          if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.ViewChannel)){
             return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
           } else {
             // Do nothing..
           };
-          if (!interaction.channel.permissionsFor(interaction.guild.me).has('READ_MESSAGE_HISTORY')){
+          if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.ReadMessageHistory)){
             return interaction.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
           } else {
             // Do nothing..
           };
-          if (!interaction.channel.permissionsFor(interaction.guild.me).has('EMBED_LINKS')){
+          if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.EmbedLinks)){
             return interaction.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
           } else {
             // Do nothing..
@@ -51,7 +51,7 @@ module.exports = {
       if (interaction.isButton()) {
                 //+ cooldown 1, //seconds(s)
                 if (!cooldowns.has("btn")) {
-                  cooldowns.set("btn", new Discord.Collection());
+                  cooldowns.set("btn", new discord.Collection());
               }
               
 
@@ -137,29 +137,29 @@ module.exports = {
     
         if(TicketAvailable) return interaction.followUp({ content: "<:error:888264104081522698> **|** You already have a ticket!", ephemeral: true})
     
-        interaction.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
-            type: 'GUILD_TEXT',
+        interaction.guild.channels.create({ name: userName.toLowerCase() + "-" + userDiscriminator, 
+            type: ChannelType.GuildText,
             parent: categoryID,
             permissionOverwrites: [
-                {
-                    id: interaction.guild.id,
-                    deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-                },
-                {
-                    id: interaction.user.id,
-                    allow: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'ATTACH_FILES', 'CONNECT', 'ADD_REACTIONS', 'READ_MESSAGE_HISTORY'],
-                },
-            ],
+              {
+                  id: message.guild.id,
+                  deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel],
+              },
+              {
+                  id: message.author.id,
+                  allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.AttachFiles, PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.AddReactions, PermissionsBitField.Flags.ReadMessageHistory],
+              },
+          ],
         }).then(async (channel) => {
                         interaction.followUp({ content: `<:Verify:841711383191879690> Successfully created ${channel} ticket!`, ephemeral: true})
-                        const button = new MessageButton()
+                        const button = new ButtonBuilder()
                         .setLabel(`Close`)
                         .setCustomId("98418541981561")
-                        .setStyle('SECONDARY')
+                        .setStyle('Secondary')
                         .setEmoji("🔒");
-                        const row = new MessageActionRow()
+                        const row = new ActionRowBuilder()
                         .addComponents(button);
-                        var ticketEmbed = new Discord.MessageEmbed()
+                        var ticketEmbed = new discord.EmbedBuilder()
                         .setAuthor({ name: `Welcome in your ticket ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                         .setDescription(`<:tag:813830683772059748> Send here your message or question!
                         
@@ -193,28 +193,28 @@ module.exports = {
           const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId)
 
           Channel.permissionOverwrites.edit(TicketData.UserId, {
-                  VIEW_CHANNEL: false,
-                  SEND_MESSAGES: false
+            'SendMessages': false,
+            'ViewChannel': false
         })
 
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel(`Transcript`)
         .setCustomId("98418541981564")
-        .setStyle('SECONDARY')
+        .setStyle('Secondary')
         .setEmoji("853495194863534081");
-        const button2 = new MessageButton()
+        const button2 = new ButtonBuilder()
         .setLabel(`Re-Open`)
         .setCustomId("98418541981565")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("🔓");
-        const button3 = new MessageButton()
+        const button3 = new ButtonBuilder()
         .setLabel(`Delete`)
         .setCustomId("98418541981566")
-        .setStyle('DANGER')
+        .setStyle('Danger')
         .setEmoji("853496185443319809");
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(button, button2, button3);
-        const Closed = new Discord.MessageEmbed()
+        const Closed = new discord.EmbedBuilder()
         .setAuthor({ name: `Closed by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
         .setColor("#2F3136")
         .setDescription(`\`\`\`Support team ticket controls\`\`\``)
@@ -262,7 +262,7 @@ module.exports = {
   
             const TicketUser = client.users.cache.get(TicketData.UserId)
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new discord.EmbedBuilder()
               .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
               .setTitle("Ticket Logs.")
               .setDescription(`<:Tag:836168214525509653> ${interaction.channel.name} Ticket at ${interaction.guild.name}!`)
@@ -294,15 +294,15 @@ module.exports = {
           const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId)
 
           Channel.permissionOverwrites.edit(TicketData.UserId, {
-                  VIEW_CHANNEL: true,
-                  SEND_MESSAGES: true
+            'SendMessages': true,
+            'ViewChannel': true
         })
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
         .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
         .setDescription(`<:Verify:841711383191879690> Successfully re-opened the ticket by \`${interaction.user.tag}\`!`)
         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-        .setColor('GREEN');
+        .setColor('Green');
         TicketData.IsClosed = false;
         await TicketData.save().then(() => {
           interaction.channel.send({ embeds: [embed] });
@@ -324,9 +324,9 @@ module.exports = {
           if(!TicketData.IsClosed) {
             return interaction.channel.send(`\\❌ ${interaction.user}, This ticket is not closed!`)
           }
-          const close = new Discord.MessageEmbed()
+          const close = new discord.EmbedBuilder()
           .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
-          .setColor(`RED`)
+          .setColor(`Red`)
           .setDescription('<a:pp681:774089750373597185> Ticket will be deleted in \`5 seconds\`!')
           .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
           interaction.channel.send({ embeds: [close]})
@@ -361,7 +361,7 @@ module.exports = {
                   .then(async () => {
                     const TicketUser = client.users.cache.get(TicketData.UserId)
 
-                    const Closedembed = new Discord.MessageEmbed()
+                    const Closedembed = new discord.EmbedBuilder()
                     .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true })})
                     .setTitle("Ticket Closed.")
                     .setDescription(`<:Tag:836168214525509653> ${Ticket.name} Ticket at ${interaction.guild.name} Just closed!`)
@@ -380,7 +380,7 @@ module.exports = {
           })
         }
       }
-        if(interaction.isSelectMenu()){
+        if(interaction.isStringSelectMenu()){
           if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
           let choice = interaction.values[0]
           const member = interaction.member
@@ -457,7 +457,7 @@ module.exports = {
           interaction.channel.send({ content: `\`${number}$\` will equals *${number * 10} - ${number * 20}*!` })
          }
         }
-        if (interaction.isCommand()) {
+        if (interaction.isChatInputCommand()) {
 
         const slash = client.slashCommands.get(interaction.commandName);
     
@@ -486,34 +486,12 @@ module.exports = {
     //+ clientpermissions: [""],
     if (slash.clientpermissions) {
        if (interaction.guild) {
-       const sclientPerms = interaction.channel.permissionsFor(interaction.guild.me);
+       const sclientPerms = interaction.channel.permissionsFor(interaction.guild.members.me);
        if (!sclientPerms || !sclientPerms.has(slash.clientpermissions)) {
            return interaction.reply({ content: `<a:pp802:768864899543466006> The bot is missing \`${slash.clientpermissions}\` permission(s)!`, ephemeral: true });
        }
       }
     }  
-    
-    if (interaction.guild){
-        if (!interaction.channel.permissionsFor(interaction.guild.me).has('SEND_MESSAGES')){
-          return { executed: false, reason: 'PERMISSION_SEND'};
-        } else {
-          // Do nothing..
-        };
-      };
-      if (interaction.guild){
-        if (!interaction.channel.permissionsFor(interaction.guild.me).has('VIEW_CHANNEL')){
-          return;
-        } else {
-          // Do nothing..
-        };
-      };
-      if (interaction.guild){
-        if (!interaction.channel.permissionsFor(interaction.guild.me).has('READ_MESSAGE_HISTORY')){
-          return interaction.reply({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
-        } else {
-          // Do nothing..
-        };
-      };
             console.log(`(/) ${interaction.user.tag}|(${interaction.user.id}) in #${interaction.channel.name}|(${interaction.channel.id}) used: /${interaction.commandName}`)
             await interaction.deferReply().catch(() => {});
             await slash.execute(client, interaction);

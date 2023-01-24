@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const canvacord = require('canvacord')
 const schema = require('../schema/GuildSchema')
@@ -54,7 +54,7 @@ module.exports = {
     var status = interaction.member.presence?.status;
     const requiredXP = Userdata.System.required;
     const rank = new canvacord.Rank()
-    .setAvatar(interaction.user.displayAvatarURL({format: "png", size: 1024}))
+    .setAvatar(interaction.user.displayAvatarURL({extension:"png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
     .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
     .setCurrentXP(Userdata.System.xp)
@@ -65,7 +65,7 @@ module.exports = {
     .setDiscriminator(interaction.user.discriminator)
     const img = await rank.build()
     .then(data => {
-        const attachment = new discord.MessageAttachment(data, "RankCard.png");
+        const attachment = new discord.AttachmentBuilder(data, "RankCard.png");
         interaction.editReply({ files: [attachment], ephemeral: hide });
     });
 	},

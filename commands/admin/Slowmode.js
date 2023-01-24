@@ -29,13 +29,13 @@ module.exports = {
 
     message.channel.setRateLimitPerUser(time, reason)
 
-    var dn = new discord.MessageEmbed()
-    .setColor(`DARK_GREEN`)
+    var dn = new discord.EmbedBuilder()
+    .setColor(`DarkGreen`)
     .setDescription(`<a:Correct:812104211386728498> Successfully set the slowmode on this channel ${time} second(s)`)
     var msg = message.channel.send({ embeds: [dn] })
     .catch(err => {
-      const UnknownErr = new discord.MessageEmbed()
-      .setColor(`RED`)
+      const UnknownErr = new discord.EmbedBuilder()
+      .setColor(`Red`)
       .setDescription(`<a:pp802:768864899543466006> Error, please report this with \`w!feedback\`!`)
       message.channel.send({ embeds: [UnknownErr] })
         console.error(err);

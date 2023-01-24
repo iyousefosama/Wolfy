@@ -1,6 +1,6 @@
-const discord = require('discord.js');
-const { MessageEmbed} = require('discord.js');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder} = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     name: "ticketpanel",
@@ -18,20 +18,20 @@ module.exports = {
     async execute(client, message, args) {
         let text = args.slice(0).join(" ")
 
-        const embed = new MessageEmbed()
-        .setColor('RED')
+        const embed = new EmbedBuilder()
+        .setColor('Red')
         .setAuthor({ name: 'Tickets', iconURL: message.guild.iconURL({ dynamic: true }) })
         .setDescription([
         text ? text :
         `React with 📩 to create your ticket!` ].join(' '))
         .setFooter({ text: `Ticket Panel | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
         .setTimestamp()
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel('Open ticket')
         .setCustomId("ticket")
         .setEmoji("📩")
-        .setStyle('PRIMARY')
-        const row = new MessageActionRow()
+        .setStyle('Primary')
+        const row = new ActionRowBuilder()
         .addComponents(button);
     message.channel.send({
         embeds: [embed],

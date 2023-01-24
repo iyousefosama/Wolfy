@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
             : `Denied by **${message.author.tag}**`;
         
             return suggestion.edit({ embeds:
-              [new MessageEmbed(suggestion.embeds[0])
+              [new EmbedBuilder(suggestion.embeds[0])
               .setColor(action.toLowerCase() === 'accept' ? 'DARK_GREEN' : 'RED')
               .addFields({ name: 'Reason', value: reason.join(' ')})]
             }).then(()=> message.react('888264104026992670'))

@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -38,11 +38,11 @@ module.exports = {
           const state = ['Disabled', 'Enabled'][Number(data.Mod.smroles.isEnabled)];
           data.Mod.smroles.isEnabled = data.Mod.smroles.isEnabled;
     
-          const embed = new Discord.MessageEmbed()
-            .setColor('GREEN')
+          const embed = new discord.EmbedBuilder()
+            .setColor('Green')
             .setDescription([
               '<a:Correct:812104211386728498>\u2000|\u2000',
-              `Select menu roles Feature has been successfully **${state}**!\n\n`,
+              `Select menu roles Feature has been Successfully **${state}**!\n\n`,
               `To **${!data.Mod.smroles.isEnabled ? 're-enable' : 'disable'}** this`,
               `feature, use the \`${client.prefix}smroletoggle\` command.`
             ].join(' '))

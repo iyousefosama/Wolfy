@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 let logs = [];
 
 module.exports = {
@@ -31,9 +31,9 @@ module.exports = {
       }
       }
 
-      const ratelimit = new Discord.MessageEmbed()
+      const ratelimit = new discord.EmbedBuilder()
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
-      .setColor('RED')
+      .setColor('Red')
       .setDescription([
         `\`\`\`js\nTimeout: ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}\n`,
         `Limit: ${info.limit}\n`,
@@ -49,9 +49,9 @@ module.exports = {
       logs.push(ratelimit)
       setTimeout(async function(){
       const webhooks = await Debug.fetchWebhooks()
-      let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+      let webhook = webhooks.filter((w)=>w.token).first();
       if(!webhook){
-        webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+        webhook = await Debug.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
       } else if(webhooks.size <= 10) {
         // Do no thing...
       }

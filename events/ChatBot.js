@@ -1,10 +1,11 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const fetch = require('node-fetch')
+const { ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'messageCreate',
     async execute(client, message) {
-        if (message.channel.type === 'DM') return;
+        if (message.channel.type === ChannelType.DM) return;
         if (message.author == client.user) return;
         if (message.author.bot){
             return;

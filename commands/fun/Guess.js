@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const currentGames = {};
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 		const participants = [];
 		const number = Math.floor(Math.random() * 499) + 1;
 
-		const StartEmbed = new discord.MessageEmbed()
+		const StartEmbed = new discord.EmbedBuilder()
 		.setColor('#d6a565')
 		.setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true })})
 		.setDescription("<a:Right:877975111846731847> Guess the number game has started!\n\nHint:\n\`\`\`diff\n+ Try to guess the number that is between (1-500)\n- You have 30 seconds to find it!\n\`\`\`")
@@ -63,8 +63,8 @@ module.exports = {
   
 
 			if (parsedNumber === number) {
-				const WinEmbed = new discord.MessageEmbed()
-				.setColor('GREEN')
+				const WinEmbed = new discord.EmbedBuilder()
+				.setColor('Green')
 				.setAuthor({ name: msg.author.tag, iconURL: msg.author.displayAvatarURL({ dynamic: true })})
 				.setDescription(`<a:Fire:841321886365122660> **${msg.author.toString()}** WON the Game!\n\n<:star:888264104026992670> Game Stats:\n\`\`\`\n• Winner: ${msg.author.username}\n• Number: ${number}\n• Participants Count: ${participants.length}\n• Participants: ${participants.map(p => message.guild.members.cache.get(p).user.username).join(", ")}\n\`\`\``)
 				.setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({ dynamic: true })})
@@ -87,8 +87,8 @@ module.exports = {
 		collector.on("end", (_collected, reason) => {
 			delete currentGames[message.guild.id];
 			if (reason === "time") {
-				const LoseEmbed = new discord.MessageEmbed()
-				.setColor('RED')
+				const LoseEmbed = new discord.EmbedBuilder()
+				.setColor('Red')
 				.setAuthor({ name: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 				.setDescription(`<:error:888264104081522698> You lose!\nThe number was: (\`${number}\`)`)
 				.setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({ dynamic: true })})

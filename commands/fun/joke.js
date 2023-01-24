@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
       return message.channel.send(`\\\❌ **${message.author.username}**, Server Error 5xx: Joke API is currently down!`);
     };
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
       .setTimestamp()
       .setColor('738ADB')

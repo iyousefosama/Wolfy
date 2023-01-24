@@ -22,13 +22,13 @@ module.exports = {
     let color = args[0] // Embed args color   
     let text = args.slice(1).join(" ")
     if(!color) {
-    color = "RED";
+    color = "Red";
     }
     
     if(!args[0]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed color**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
     if(!args[1]) return message.channel.send({ content: `<a:Wrong:812104211361693696> **I can't find the embed Description**\n\`Ex: !embed {color} {Description} / !embed RED test\``})
 
-    const sayembed = new discord.MessageEmbed()
+    const sayembed = new discord.EmbedBuilder()
     .setColor(color)
     .setDescription(text)
     .setTimestamp()

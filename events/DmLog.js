@@ -1,5 +1,6 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 let logs = []
+const { ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'messageCreate',
@@ -11,9 +12,10 @@ module.exports = {
         if (!message.author) return;
         if(message.embeds[0]) return;
         if(message.attachments.size) return;
-        if (message.channel.type === 'DM') {
+        if (message.channel.type === ChannelType.DM) {
+          
         const timestamp = Math.floor(Date.now() / 1000)
-        const dmEmbed = new Discord.MessageEmbed()
+        const dmEmbed = new discord.EmbedBuilder()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle('<a:pp659:853495803967307887> New DM')
         .setColor("738ADB")
@@ -26,9 +28,9 @@ module.exports = {
         logs.push(dmEmbed)
         setTimeout(async function(){
         const webhooks = await Debug.fetchWebhooks()
-        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+        let webhook = webhooks.filter((w)=>w.token).first();
         if(!webhook){
-          webhook = await Debug.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          webhook = await Debug.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }

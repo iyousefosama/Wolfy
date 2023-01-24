@@ -1,5 +1,5 @@
-const Discord = require('discord.js')
-const { Client, Intents, Collection } = require('discord.js')
+const discord = require('discord.js')
+const { Client } = require('discord.js')
 const fs = require('fs');
 
 /**

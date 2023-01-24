@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const text = require('../../util/string');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
     const rand = Math.random();
     tail = Math.round(tail) || Math.round(Math.random() * 999) + 1;
 
-    const embed = new discord.MessageEmbed()
+    const embed = new discord.EmbedBuilder()
     .setColor('#2F3136')
     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
     .setDescription(`\`\`\`${text.commatize(Math.round(rand * tail))}\`\`\``)

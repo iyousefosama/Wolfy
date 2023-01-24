@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
   name: "ban",
@@ -47,7 +47,7 @@ module.exports = {
       return message.channel.send(`\\❌ | ${message.author}, I couldn't ban that user!`)
     };
 
-    const ban = new discord.MessageEmbed()
+    const ban = new discord.EmbedBuilder()
     .setAuthor({ name: member.user.tag, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048})})
     .setDescription([ `<:tag:813830683772059748> Successfully Banned the user from the server`, !args[0] ? '' :
     ` for reason: \`${reason || 'Unspecified'}\`` ].join(''))

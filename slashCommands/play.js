@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 const playdl = require("play-dl");
 
@@ -33,7 +33,7 @@ module.exports = {
 	async execute(client, interaction) {
         if (!interaction.member.voice.channel){
             return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
-          } else if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId){
+          } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
             return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
           };
 
@@ -55,7 +55,7 @@ module.exports = {
             return await interaction.editReply({ content: "<:error:888264104081522698>  Could not join your voice channel!", ephemeral: true });
         }
 
-		let embed = new MessageEmbed()
+		let embed = new EmbedBuilder()
 
 		if (interaction.options.getSubcommand() === "song") {
             let url = interaction.options.getString("url")

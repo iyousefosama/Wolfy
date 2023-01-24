@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
     name: "shutdown",
@@ -13,8 +13,8 @@ module.exports = {
     OwnerOnly: true,
     async execute(client, message, args) {
 
-    var loading = new discord.MessageEmbed()
-    .setColor(`YELLOW`)
+    var loading = new discord.EmbedBuilder()
+    .setColor(`Yellow`)
     .setDescription(`<a:Loading_Color:759734580122484757> Shutting down now...`)
     await message.channel.send({ embeds: [loading] })
     .then(() => process.exit())

@@ -1,7 +1,7 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js')
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { EmbedBuilder } = require('discord.js')
+const { ActionRowBuilder, MessageSelectMenu } = require('discord.js');
 const schema = require('../schema/GuildSchema')
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
         }
 
         if (interaction.options.getSubcommand() === 'show') {
-            let config_embed = new MessageEmbed()
+            let config_embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setTitle(`Configuration Settings`)
             .setDescription(`<a:Settings:841321893750505533> \`${interaction.guild.name}\` configuration settings!`)
@@ -58,7 +58,7 @@ module.exports = {
             .setFooter({ text: `configuration | \©️${new Date().getFullYear()} Wolf`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             interaction.editReply({ embeds: [config_embed]})
         } else if (interaction.options.getSubcommand() === 'edit') {
-            /*const row = new MessageActionRow()
+            /*const row = new ActionRowBuilder()
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId('kwthbek4m221pyDAdowp')

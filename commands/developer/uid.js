@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: "uid",

@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const snekfetch = require('snekfetch');
 const fetch = require('node-fetch');
@@ -55,7 +55,7 @@ module.exports = {
                 if (data.platforms.linux) platforms.push('Linux');
             }
 
-        const embed = new discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
             .setColor(0x101D2F)
             .setAuthor({ name: 'Steam', iconURL: 'https://i.imgur.com/xxr2UBZ.png', url: 'http://store.steampowered.com/' })
             .setTitle(data.name)

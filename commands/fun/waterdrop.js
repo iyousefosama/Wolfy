@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
@@ -54,8 +54,8 @@ module.exports = {
     const randomIndex4 = Math.floor(Math.random() * level4.length)
     const level4Random = level4[randomIndex4]
     let i = 0
-  const setting = new Discord.MessageEmbed()
-  .setColor(`YELLOW`)
+  const setting = new discord.EmbedBuilder()
+  .setColor(`Yellow`)
   .setDescription(`<a:pp527:768869552871571496> Please wait 10 seconds as we're setting up the jumps!`)
   message.channel.send({ embeds: [setting] }).then(msg => {
     setTimeout(() => {
@@ -171,7 +171,7 @@ module.exports = {
                 a1 = a2 = a3 = b1 = b2 = b3 = c1 = c2 = '⬜'
             }
         }
-        const Embed = new Discord.MessageEmbed()
+        const Embed = new discord.EmbedBuilder()
             .setTitle(`Waterdrop! - Round ${i + 1}`)
             .setDescription(`🧍‍♂️\n🟫\n\n\n\n\n\n🟩🟩🟩🟩🟩\n🟩${a1}${a2}${a3}🟩\n🟩${b1}${b2}${b3}🟩\n🟩${c1}${c2}${c3}🟩\n🟩🟩🟩🟩🟩`)
             .setFooter('You have 10 seconds to jump into the water!\nYou may type "cancel" at any time to stop the game.\n(Upper left, Up, Upper Right, Left, Middle, Right, Bottom Left, Bottom, Bottom Right)')
@@ -326,7 +326,7 @@ module.exports = {
         }
             i++
             if (a1 == '🟥' || a2 == '🟥' || a3 == '🟥' || b1 == '🟥' || b2 == '🟥' || b3 == '🟥' || c1 == '🟥' || c2 == '🟥' || c3 == '🟥' || d == '🟥') {
-                const embedLose = new Discord.MessageEmbed()
+                const embedLose = new discord.EmbedBuilder()
                     .setTitle("You Losed!")
                     .setDescription(`${description}\n\n\n🟩🟩🟩🟩🟩\n🟩${a1}${a2}${a3}🟩\n🟩${b1}${b2}${b3}🟩\n🟩${c1}${c2}${c3}🟩\n🟩🟩🟩🟩🟩`)
                     .setColor(15158332)

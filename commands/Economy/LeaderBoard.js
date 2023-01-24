@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
 
@@ -41,8 +41,8 @@ module.exports = {
 
         let pos = 0
 
-        const embed = new discord.MessageEmbed()
-        .setAuthor({ name: client.user.username + '\'s leaderboard', iconURL: client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})) })
+        const embed = new discord.EmbedBuilder()
+        .setAuthor({ name: client.user.username + '\'s leaderboard', iconURL: client.user.displayAvatarURL(({dynamic: true, extension:'png', size: 512})) })
         .setColor('738ADB')
         .setTitle('<a:ShinyMoney:877975108038324224> Credits LeaderBoard!')
         .setTimestamp()

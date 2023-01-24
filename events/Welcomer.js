@@ -1,10 +1,11 @@
-const Discord = require('discord.js')
-const { MessageEmbed} = require('discord.js')
+const discord = require('discord.js')
+const { EmbedBuilder} = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
 const canvacord = require('canvacord')
+const { AuditLogEvent, ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'guildMemberAdd',
@@ -23,11 +24,11 @@ module.exports = {
         let msg;
         if (!Channel || !data.greeter.welcome.channel){
           return;
-        } else if (Channel.type !== 'GUILD_TEXT') {
+        } else if (Channel.type !== ChannelType.GuildText) {
           return;
         } else if (!data.greeter.welcome.isEnabled){
           return;
-        } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+        } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
           return;
         } else {
           // Do nothing..
@@ -37,11 +38,11 @@ module.exports = {
         const type = welcome.type === 'msg' && !welcome.message ? 'default' : welcome.type;
 
         if (type === 'default'){
-            let embed = new MessageEmbed()
-            .setColor('DARK_GREEN')
+            let embed = new EmbedBuilder()
+            .setColor('DarkGreen')
             .setTitle(`${member.user.tag} has joined the server!`)
             .setURL('https://Wolfy.yoyojoe.repl.co')
-            .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
+            .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
             .setDescription(`Hello ${member}, welcome to **${member.guild.name}**!\n\nYou are our **${string.ordinalize(member.guild.memberCount)}** member!`)
             .setFooter({ text: `${member.user.username} (${member.user.id})` })
             .setTimestamp()
@@ -57,11 +58,11 @@ module.exports = {
         //if message was embed
         if (type === 'embed'){
           const message = await modifier.modify(data.greeter.welcome.embed, member);
-          const embed = new Discord.MessageEmbed()
-          .setColor('DARK_GREEN')
+          const embed = new discord.EmbedBuilder()
+          .setColor('DarkGreen')
           .setTitle(`${member.user.tag} has joined the server!`)
           .setURL('https://Wolfy.yoyojoe.repl.co')
-          .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
+          .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
           .setDescription(message)
           .setFooter({ text: `${member.user.username} (${member.user.id})` })
           .setTimestamp()
@@ -70,7 +71,7 @@ module.exports = {
        if (type === 'image'){
         const WelcomeFile = new canvacord.Welcomer()
         .setMemberCount(member.guild.memberCount)
-        .setAvatar(member.displayAvatarURL({format: "png", size: 1024}))
+        .setAvatar(member.displayAvatarURL({extension:"png", size: 1024}))
         .setUsername(member.user.username)
         .setDiscriminator(member.user.discriminator)
         .setGuildName(member.guild.name)
@@ -83,7 +84,7 @@ module.exports = {
         .setColor("background", "#2a2a2b");
         await WelcomeFile.build()
         .then(data => {
-            const attachment = new Discord.MessageAttachment(data, "Welcomer.png");
+            const attachment = new discord.AttachmentBuilder(data, "Welcomer.png");
             return client.channels.cache.get(welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, files: [attachment]});
         });
        };

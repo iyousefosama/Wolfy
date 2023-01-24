@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
@@ -55,11 +55,11 @@ module.exports = {
         let Box = quest?.current;
     
         var currentdate = date + time
-        const nulle = new Discord.MessageEmbed()
+        const nulle = new discord.EmbedBuilder()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, You can only give \`350\` cookies for free you should now buy **UltimateCookie Machine**!\nType \`${client.prefix}buy UltimateCookie\` to buy the item.`)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-        .setColor('RED')
+        .setColor('Red')
         if(!item && data.cookies.givecookies == 350) return message.channel.send({ embeds: [nulle] })
         let moneyget = Math.floor(Math.random() * 70) + 10
         data.credits += Math.floor(moneyget);
@@ -77,7 +77,7 @@ module.exports = {
           }
         return Promise.all([ data.save(), FriendData.save() ])
         .then(() => {
-          const embed = new Discord.MessageEmbed()
+          const embed = new discord.EmbedBuilder()
           .setTitle(`<a:Cookie:853495749370839050> Cookie is gived!`)
           .setDescription(`**${message.author.username}**, gived ${Friend} a cookie!\n<a:ShinyMoney:877975108038324224> ${message.author.username} got (\`+${moneyget}\`) credits for being a nice friend!\n\n📥 ${data.cookies.totalcookies} | 📤 ${data.cookies.givecookies}`)
           .setColor('#E6CEA0')

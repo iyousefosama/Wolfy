@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
 const tc = require('../functions/TimeConvert')
@@ -92,7 +92,7 @@ module.exports = {
 
                 
 
-                const embed = new discord.MessageEmbed()
+                const embed = new discord.EmbedBuilder()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
                 .setDescription(`<:Tag:836168214525509653> Praying times for continent \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
                 .addFields(

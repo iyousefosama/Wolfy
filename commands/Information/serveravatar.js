@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
     name: "serveravatar",
@@ -30,7 +30,7 @@ module.exports = {
     const avatar = guild.iconURL({ dynamic: true, size: 1024 });
     if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this server!`})
 
-    let avatarserver = new discord.MessageEmbed()
+    let avatarserver = new discord.EmbedBuilder()
     .setColor(color)
     .setAuthor({ name: guild.name, iconURL: avatar })
     .setDescription(`[**${guild.name}** avatar link](${avatar})`)

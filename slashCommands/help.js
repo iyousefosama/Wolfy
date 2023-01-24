@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const discord= require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
@@ -8,63 +8,63 @@ module.exports = {
 		.setName('help')
 		.setDescription('Replies with commands helplist!'),
 	async execute(client, interaction) {
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel(`Info`)
         .setCustomId("1")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("776670895371714570");
-        const button2 = new MessageButton()
+        const button2 = new ButtonBuilder()
         .setLabel(`Search`)
         .setCustomId("2")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("845681277922967572");
-        const button3 = new MessageButton()
+        const button3 = new ButtonBuilder()
         .setLabel(`Utilities`)
         .setCustomId("3")
-        .setStyle('PRIMARY')
+        .setStyle('Primary')
         .setEmoji("836168684379701279");
-        const button4 = new MessageButton()
+        const button4 = new ButtonBuilder()
         .setLabel(`Moderator`)
         .setCustomId("4")
-        .setStyle("DANGER")
+        .setStyle("Danger")
         .setEmoji("853496185443319809");
-        const button5 = new MessageButton()
+        const button5 = new ButtonBuilder()
         .setLabel(`Fun`)
         .setCustomId("5")
-        .setStyle("SUCCESS")
+        .setStyle("Success")
         .setEmoji("768867196302524426");
-        const button6 = new MessageButton()
+        const button6 = new ButtonBuilder()
         .setLabel(`Setup`)
         .setCustomId("6")
-        .setStyle("PRIMARY")
+        .setStyle("Primary")
         .setEmoji("836168687891382312");
-        const button7 = new MessageButton()
+        const button7 = new ButtonBuilder()
         .setLabel(`Bot`)
         .setCustomId("7")
-        .setStyle("PRIMARY")
-        .setEmoji("841711382739157043");
-        const button8 = new MessageButton()
+        .setStyle("Primary")
+        .setEmoji("887500717106024520");
+        const button8 = new ButtonBuilder()
         .setLabel(`Levels`)
         .setCustomId("8")
-        .setStyle("PRIMARY")
+        .setStyle("Primary")
         .setEmoji("853495519455215627");
-        const button9 = new MessageButton()
+        const button9 = new ButtonBuilder()
         .setLabel(`Economy`)
         .setCustomId("9")
-        .setStyle("PRIMARY")
+        .setStyle("Primary")
         .setEmoji("877975108038324224");
-        const button10 = new MessageButton()
-        .setStyle('LINK')
+        const button10 = new ButtonBuilder()
+        .setStyle(`Link`)
         .setEmoji('853495912775942154')
         .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands`) 
         .setLabel('Add me'); 
     
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
       .addComponents(button, button2, button3, button4, button5);
-      const row2 = new MessageActionRow()
+      const row2 = new ActionRowBuilder()
       .addComponents(button6, button7, button8, button9, button10);
     
-      const help = new discord.MessageEmbed()
+      const help = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle(`Hi ${interaction.user.username}, how can i help you?`)
       .setURL(client.config.websites["website"])
@@ -84,7 +84,7 @@ module.exports = {
           { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${client.config.prefix}help level\`\`\``, inline: true},
           { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${client.config.prefix}help eco\`\`\``, inline: true}
       )
-      const info = new discord.MessageEmbed()
+      const info = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
       .setURL(client.config.websites["website"])
@@ -99,7 +99,7 @@ module.exports = {
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const search = new discord.MessageEmbed()
+      const search = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:Search:845681277922967572> Search Commands')
       .setURL(client.config.websites["website"])
@@ -115,7 +115,7 @@ module.exports = {
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const Utl = new discord.MessageEmbed()
+      const Utl = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:pp350:836168684379701279> Utilities Commands')
       .setURL(client.config.websites["website"])
@@ -125,48 +125,50 @@ module.exports = {
           { name: `${client.config.prefix}suggestion`, value: `> \`Send your suggestion for the server\``},
           { name: `${client.config.prefix}remind`, value: `> \`The bot will reminde you for anything\``},
           { name: `${client.config.prefix}report`, value: `> \`To report someone in the server\``},
-          { name: `${client.config.prefix}live`, value: `> \`Start new youtube together party\``},
           { name: `${client.config.prefix}bin`, value: `> \`To upload a code to sourcebin\``},
           { name: `${client.config.prefix}ticket`, value: `> \`Open new ticket in the server\``},
           { name: `${client.config.prefix}rename`, value: `> \`Change ticket name\``},
           { name: `${client.config.prefix}delete`, value: `> \`Delete your ticket in the server\``},
-          { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``}
+          { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``},
+          { name: `${client.config.prefix}`, value: `> \`Calculates an equation by wolfy\``}
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const moderator = new discord.MessageEmbed()
+      const moderator = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:pp989:853496185443319809> Moderator Commands')
       .setURL(client.config.websites["website"])
       .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setThumbnail(client.user.displayAvatarURL())
       .addFields(
-        { name: `${client.config.prefix}ban`, value: `> \`Bans a member from the server\``},
-        { name: `${client.config.prefix}hackban`, value: `> \`Bans a member not in the server\``},
-        { name: `${client.config.prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
-        { name: `${client.config.prefix}unban`, value: `> \`unBans a member from the server\``},
-        { name: `${client.config.prefix}kick`, value: `> \`Kick a member from the server\``},
-        { name: `${client.config.prefix}dm`, value: `> \`Dms someone in the server with message\``},
-        { name: `${client.config.prefix}warn`, value: `> \`Warn a user in the server!\``},
-        { name: `${client.config.prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
-        { name: `${client.config.prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
-        { name: `${client.config.prefix}say`, value: `> \`The bot will repeat what you say\``},
-        { name: `${client.config.prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
-        { name: `${client.config.prefix}embedsetup`, value: `> \`Display the setup embed message!\``},
-        { name: `${client.config.prefix}respond`, value: `> \`Respond to a user suggestion in the server.\``},
-        { name: `${client.config.prefix}nick`, value: `> \`Changes the nickname of a member\``},
-        { name: `${client.config.prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
-        { name: `${client.config.prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
-        { name: `${client.config.prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
-        { name: `${client.config.prefix}timeout`, value: `> \`Timeout the user for temporarily time to not chat or react or connect to voice channels!\``},
-        { name: `${client.config.prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
-        { name: `${client.config.prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
-        { name: `${client.config.prefix}voicekick`, value: `> \`Kick all users that are connected to the current channel\``},
-        { name: `${client.config.prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``}
+          { name: `${client.config.prefix}ban`, value: `> \`Bans a member from the server\``},
+          { name: `${client.config.prefix}hackban`, value: `> \`Bans a member not in the server\``},
+          { name: `${client.config.prefix}softban`, value: `> \`Kicks a user and deletes all their messages in the past 7 days\``},
+          { name: `${client.config.prefix}unban`, value: `> \`unBans a member from the server\``},
+          { name: `${client.config.prefix}kick`, value: `> \`Kick a member from the server\``},
+          { name: `${client.config.prefix}dm`, value: `> \`Dms someone in the server with message\``},
+          { name: `${client.config.prefix}warn`, value: `> \`Warn a user in the server!\``},
+          { name: `${client.config.prefix}warnings`, value: `> \`Display the mentioned user warns list and ids\``},
+          { name: `${client.config.prefix}removewarn`, value: `> \`Remove a user warn from the warns list by the id\``},
+          { name: `${client.config.prefix}say`, value: `> \`The bot will repeat what you say\``},
+          { name: `${client.config.prefix}embed`, value: `> \`The bot will repeat what you say with embed\``},
+          { name: `${client.config.prefix}embedsetup`, value: `> \`Display the setup embed message!\``},
+          { name: `${client.config.prefix}respond`, value: `> \`Respond to a user suggestion in the server.\``},
+          { name: `${client.config.prefix}nick`, value: `> \`Changes the nickname of a member\``},
+          { name: `${client.config.prefix}slowmo`, value: `> \`Adding slowmotion chat to a channel\``},
+          { name: `${client.config.prefix}nuke`, value: `> \`Nuke any channel (this will delete all the channel and create newone!)\``},
+          { name: `${client.config.prefix}mute/unmute`, value: `> \`Mute/Unmute someone from texting!\``},
+          { name: `${client.config.prefix}timeout`, value: `> \`Timeout the user for temporarily time to not chat or react or connect to voice channels!\``},
+          { name: `${client.config.prefix}lock`, value: `> \`Lock the permissions for @everyone from talking in the channel\``},
+          { name: `${client.config.prefix}unlock`, value: `> \`Unlock the permissions for @everyone from talking in the channel\``},
+          { name: `${client.config.prefix}voicekick`, value: `> \`Kick all users that are connected to the current channel\``},
+          { name: `${client.config.prefix}clear`, value: `> \`Clear/Delete message with quantity you want (from 2 to 100)\``},
+          { name: `${client.config.prefix}purge`, value: `> \`Clear messages of the user with quantity you want (from 2 to 100)\``},
+          { name: `${client.config.prefix}infraction`, value: `> \`To enable/disable/Edit infraction point protection system!\``}
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const Fun = new discord.MessageEmbed()
+      const Fun = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
       .setURL(client.config.websites["website"])
@@ -179,11 +181,12 @@ module.exports = {
           { name: `${client.config.prefix}meme`, value: `> \`Gives random memes\``},
           { name: `${client.config.prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\``},
           { name: `${client.config.prefix}tweet`, value: `> \`Send your message as tweet message\``},
+          { name: `${client.config.prefix}guess`, value: `> \`Start playing new guess the number game.\``},
           { name: `${client.config.prefix}waterdrop`, value: `> \`Start playing waterdrop game\``}
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const setup = new discord.MessageEmbed()
+      const setup = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<:MOD:836168687891382312> **Setup Commands**')
       .setURL(client.config.websites["website"])
@@ -201,11 +204,12 @@ module.exports = {
           { name: `${client.config.prefix}smRole`, value: `> \`Setup the select menu role list!\``},
           { name: `${client.config.prefix}badwords`, value: `> \`Add/remove/show blacklisted words for the current guild.\``},
           { name: `${client.config.prefix}[cmd]toggle`, value: `> \`To toggle a cmd <off/on> from setup cmds!\``},
-          { name: `${client.config.prefix}setclient.config.prefix`, value: `> \`To set the bot client.config.prefix to another one!\``},
+          { name: `${client.config.prefix}antilinktoggle`, value: `> \`To enable/disable Anti-Links protection!\``},
+          { name: `${client.config.prefix}setprefix`, value: `> \`To set the bot setprefix to another one!\``},
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const bot = new discord.MessageEmbed()
+      const bot = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<:Bot:841711382739157043> **Bot Commands**')
       .setURL(client.config.websites["website"])
@@ -221,7 +225,7 @@ module.exports = {
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const level = new discord.MessageEmbed()
+      const level = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:Up:853495519455215627> **LeveledRoles Commands**')
       .setURL(client.config.websites["website"])
@@ -238,7 +242,7 @@ module.exports = {
       )
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
-      const Eco = new discord.MessageEmbed()
+      const Eco = new discord.EmbedBuilder()
       .setColor('738ADB')
       .setTitle('<a:ShinyMoney:877975108038324224> **Economy Commands**')
       .setURL(client.config.websites["website"])
@@ -322,9 +326,9 @@ module.exports = {
             button7.setDisabled(true)
             button8.setDisabled(true)
             button9.setDisabled(true)
-            const newrow = new MessageActionRow()
+            const newrow = new ActionRowBuilder()
             .addComponents(button, button2, button3, button4, button5);
-            const newrow2 = new MessageActionRow()
+            const newrow2 = new ActionRowBuilder()
             .addComponents(button6, button7, button8, button9, button10);
             interaction.editReply({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
         })

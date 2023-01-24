@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
         if (!interaction.member.voice.channel){
             return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
-          } else if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId){
+          } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
             return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
           } else if (!client.player.getQueue(interaction.guild.id)){
             return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
@@ -25,7 +25,7 @@ module.exports = {
 		queue.skip()
         await interaction.editReply({
             embeds: [
-                new MessageEmbed().setDescription(`${currentSong.title} has been skipped!`).setThumbnail(currentSong.thumbnail).setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) }).setFooter({ text: `Duration: ${currentSong.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+                new EmbedBuilder().setDescription(`${currentSong.title} has been skipped!`).setThumbnail(currentSong.thumbnail).setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) }).setFooter({ text: `Duration: ${currentSong.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             ]
         })
 	},

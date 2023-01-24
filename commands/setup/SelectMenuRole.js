@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
+const discord= require('discord.js');
+const { ActionRowBuilder, MessageSelectMenu, ChannelType } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -89,11 +89,11 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author}**, Invalid Emoji - Please supply the id of the emoji!`)
         }
 
-        const FinallEmb = new discord.MessageEmbed()
-        .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        const FinallEmb = new discord.EmbedBuilder()
+        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
-        .setFooter(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
+        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setTimestamp()
         await message.channel.send({ embeds: [FinallEmb], ephemeral: true})
 
@@ -101,7 +101,7 @@ module.exports = {
         if(thmsg.first().content == '1') {
         data.Mod.smroles.value1 = role.id;
         await data.save().then(() => {
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder()
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId('kwthbek4m221pyddhwk')
@@ -126,17 +126,17 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
               data.Mod.smroles.value1 = role.id;
               await data.save().then(() => {
-                  const row = new MessageActionRow()
+                  const row = new ActionRowBuilder()
                   .addComponents(
                       new MessageSelectMenu()
                           .setCustomId('kwthbek4m221pyddhwk')
@@ -206,7 +206,7 @@ module.exports = {
             }
         }
 
-        const FinallEmb = new discord.MessageEmbed()
+        const FinallEmb = new discord.EmbedBuilder()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -219,7 +219,7 @@ module.exports = {
         data.Mod.smroles.value1 = role.id;
         data.Mod.smroles.value2 = role2.id;
         await data.save().then(() => {
-            const row2 = new MessageActionRow()
+            const row2 = new ActionRowBuilder()
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId('kwthbek4m221pyddhwk')
@@ -250,18 +250,18 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
               data.Mod.smroles.value1 = role.id;
               data.Mod.smroles.value2 = role2.id;
               await data.save().then(() => {
-                const row2 = new MessageActionRow()
+                const row2 = new ActionRowBuilder()
                 .addComponents(
                     new MessageSelectMenu()
                         .setCustomId('kwthbek4m221pyddhwk')
@@ -361,7 +361,7 @@ module.exports = {
         }
 
 
-        const FinallEmb = new discord.MessageEmbed()
+        const FinallEmb = new discord.EmbedBuilder()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -375,7 +375,7 @@ module.exports = {
             data.Mod.smroles.value2 = role2.id;
             data.Mod.smroles.value3 = role3.id;
             await data.save().then(() => {
-                const row2 = new MessageActionRow()
+                const row2 = new ActionRowBuilder()
                 .addComponents(
                     new MessageSelectMenu()
                         .setCustomId('kwthbek4m221pyddhwk')
@@ -412,11 +412,11 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -424,7 +424,7 @@ module.exports = {
               data.Mod.smroles.value2 = role2.id;
               data.Mod.smroles.value3 = role3.id;
               await data.save().then(() => {
-                  const row2 = new MessageActionRow()
+                  const row2 = new ActionRowBuilder()
                   .addComponents(
                       new MessageSelectMenu()
                           .setCustomId('kwthbek4m221pyddhwk')
@@ -553,7 +553,7 @@ module.exports = {
             }
         }
 
-        const FinallEmb = new discord.MessageEmbed()
+        const FinallEmb = new discord.EmbedBuilder()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -568,7 +568,7 @@ module.exports = {
             data.Mod.smroles.value3 = role3.id;
             data.Mod.smroles.value4 = role4.id;
             await data.save().then(() => {
-                const row2 = new MessageActionRow()
+                const row2 = new ActionRowBuilder()
                 .addComponents(
                     new MessageSelectMenu()
                         .setCustomId('kwthbek4m221pyddhwk')
@@ -611,11 +611,11 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -624,7 +624,7 @@ module.exports = {
               data.Mod.smroles.value3 = role3.id;
               data.Mod.smroles.value4 = role4.id;
               await data.save().then(() => {
-                  const row2 = new MessageActionRow()
+                  const row2 = new ActionRowBuilder()
                   .addComponents(
                       new MessageSelectMenu()
                           .setCustomId('kwthbek4m221pyddhwk')
@@ -783,7 +783,7 @@ module.exports = {
             }
         }
 
-        const FinallEmb = new discord.MessageEmbed()
+        const FinallEmb = new discord.EmbedBuilder()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -799,7 +799,7 @@ module.exports = {
             data.Mod.smroles.value4 = role4.id;
             data.Mod.smroles.value5 = role5.id;
             await data.save().then(() => {
-                const row2 = new MessageActionRow()
+                const row2 = new ActionRowBuilder()
                 .addComponents(
                     new MessageSelectMenu()
                         .setCustomId('kwthbek4m221pyddhwk')
@@ -848,11 +848,11 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -862,7 +862,7 @@ module.exports = {
               data.Mod.smroles.value4 = role4.id;
               data.Mod.smroles.value5 = role5.id;
               await data.save().then(() => {
-                  const row2 = new MessageActionRow()
+                  const row2 = new ActionRowBuilder()
                   .addComponents(
                       new MessageSelectMenu()
                           .setCustomId('kwthbek4m221pyddhwk')
@@ -1052,7 +1052,7 @@ module.exports = {
         }
 
         
-        const FinallEmb = new discord.MessageEmbed()
+        const FinallEmb = new discord.EmbedBuilder()
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true, size: 2048}))
         .setColor('#e6a54a')
         .setDescription(`<a:Right:877975111846731847> **${message.author.username}**, What the channel to send the menu to?\n\n<:1_:890489883032952876> Current channel\n<:2_:890489925059887134> Another channel`)
@@ -1069,7 +1069,7 @@ module.exports = {
             data.Mod.smroles.value5 = role5.id;
             data.Mod.smroles.value6 = role6.id;
             await data.save().then(() => {
-                const row2 = new MessageActionRow()
+                const row2 = new ActionRowBuilder()
                 .addComponents(
                     new MessageSelectMenu()
                         .setCustomId('kwthbek4m221pyddhwk')
@@ -1124,11 +1124,11 @@ module.exports = {
 
             Embedchannel = message.guild.channels.cache.get(thchannel);
 
-            if (!Embedchannel || Embedchannel.type !== 'GUILD_TEXT' && Embedchannel.type !== 'GUILD_NEWS'){
+            if (!Embedchannel || Embedchannel.type !== ChannelType.GuildText && Embedchannel.type !== 'GUILD_NEWS'){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -1139,7 +1139,7 @@ module.exports = {
               data.Mod.smroles.value5 = role5.id;
               data.Mod.smroles.value6 = role6.id;
               await data.save().then(() => {
-                  const row2 = new MessageActionRow()
+                  const row2 = new ActionRowBuilder()
                   .addComponents(
                       new MessageSelectMenu()
                           .setCustomId('kwthbek4m221pyddhwk')

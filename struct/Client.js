@@ -9,7 +9,7 @@ const processEvents = require(`../util/processEvents`);
 const consoleUtil = require(`../util/console`);
 
 /**
- * Optimized hub for interacting with the Discord API
+ * Optimized hub for interacting with the discord API
  * @extends {Client}
  */
 
@@ -34,7 +34,7 @@ module.exports = class WolfyClient extends Client{
     if (!this.token && 'TOKEN' in process.env){
       /**
       * Authorization token for the logged in bot.
-      * If present, this defaults to `process.env.TOKEN` or `process.env.DISCORD_TOKEN` when instantiated
+      * If present, this defaults to `process.env.TOKEN` or `process.env.discord_TOKEN` when instantiated
       * <warn> This should be kept private at all times </warn>
       * @type {?string}
       */

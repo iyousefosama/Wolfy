@@ -1,5 +1,5 @@
-const Discord = require('discord.js')
-const { Collection } = require('discord.js')
+const discord = require('discord.js')
+const { Collection, PermissionsBitField, ChannelType } = require('discord.js')
 const text = require('../util/string');
 const userSchema = require('../schema/user-schema')
 const schema = require('../schema/GuildSchema')
@@ -45,7 +45,7 @@ module.exports = {
             // Do nothing..
           };
       }
-      if(message.channel.type === 'DM') {
+      if(message.channel.type === ChannelType.DM) {
         prefix = client.prefix;
       } else if (message.content.startsWith('wolfy')) {
         prefix = 'wolfy ';
@@ -57,22 +57,18 @@ module.exports = {
         // Do nothing..
       };
 
-      if (!prefix){
+      if (!prefix || !message.content.startsWith(prefix)){
         return { executed: false, reason: 'PREFIX'};
       };
-
-      if(message.author.bot || !message.content.startsWith(prefix)) return;
       const args = message.content.slice(prefix.length).split(/ +/g);
       if (!args.length) return message.channel.send({ content: `You didn't pass any command to reload, ${message.author}!`});
       const commandName = args.shift().toLowerCase();
-  
       const cmd = client.commands.get(commandName)
           //+ aliases: [""],
           || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
   
           if(commandName.length < 1) return { executed: false, reason: 'NOT_FOUND' };
           if (!cmd) return message.channel.send({ content: `\\❌ | ${message.author}, There is no command with name or alias \`${commandName}\`!`}), { executed: false, reason: 'NOT_FOUND' };
-          
                   //+ Blacklisted
                   try {
                       UserData = await userSchema.findOne({
@@ -82,28 +78,26 @@ module.exports = {
                       console.log(error)
                       message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
                   }
-                  if(UserData?.Status.Blacklisted.current == true) return message.channel.send({ content: `\`\`\`diff\n- You are blacklisted from using the bot!\n\n+ Reason: ${UserData.Status.Blacklisted.reason}\`\`\``})
-  
           try{
 
               // Permissions: To check for default permissions in the guild
-              if (message.guild && message.channel.type == "GUILD_TEXT"){
-                  if (!message.channel?.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+              if (message.guild){
+                  if (!message.channel?.permissionsFor(message.guild.members.me).has(PermissionsBitField.Flags.SendMessages)){
                     return { executed: false, reason: 'PERMISSION_SEND'};
                   } else {
                     // Do nothing..
                   };
-                  if (!message.channel?.permissionsFor(message.guild.me).has('VIEW_CHANNEL')){
+                  if (!message.channel?.permissionsFor(message.guild.members.me).has(PermissionsBitField.Flags.ViewChannel)){
                     return { executed: false, reason: 'PERMISSION_VIEW_CHANNEL'};
                   } else {
                     // Do nothing..
                   };
-                  if (!message.channel?.permissionsFor(message.guild.me).has('READ_MESSAGE_HISTORY')){
+                  if (!message.channel?.permissionsFor(message.guild.members.me).has(PermissionsBitField.Flags.ReadMessageHistory)){
                     return message.channel.send({ content: '"Missing Access", the bot is missing the \`READ_MESSAGE_HISTORY\` permission please enable it!'})
                   } else {
                     // Do nothing..
                   };
-                  if (!message.channel?.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+                  if (!message.channel?.permissionsFor(message.guild.members.me).has(PermissionsBitField.Flags.EmbedLinks)){
                     return message.channel.send({ content: '\"Missing Permissions\", the bot is missing the \`EMBED_LINKS\` permission please enable it!'})
                   } else {
                     // Do nothing..
@@ -123,15 +117,15 @@ module.exports = {
                   desc += `\n\nExamples:\n${cmd.examples.map(x=>`\`${prefix}${cmd.name} ${x}\n\``).join(' ')}`;
               }
       
-              const NoArgs = new Discord.MessageEmbed()
+              const NoArgs = new discord.EmbedBuilder()
               .setDescription(desc)
-              .setColor('RED')
+              .setColor('Red')
               return message.channel.send({ embeds: [NoArgs] });
           }
   
               //+ cooldown 1, //seconds(s)
               if (!cooldowns.has(cmd.name)) {
-                  cooldowns.set(cmd.name, new Discord.Collection());
+                  cooldowns.set(cmd.name, new discord.Collection());
               }
               
               const now = Date.now();
@@ -162,8 +156,8 @@ module.exports = {
                        if (message.guild && !client.owners.includes(message.author.id)) {
                          const authorPerms = message.channel.permissionsFor(message.author);
                          if (!authorPerms || !authorPerms.has(cmd.permissions)) {
-                              const PermsEmbed = new Discord.MessageEmbed()
-                              .setColor(`RED`)
+                              const PermsEmbed = new discord.EmbedBuilder()
+                              .setColor(`Red`)
                               .setDescription(`<a:pp802:768864899543466006> You don't have \`${text.joinArray(cmd.permissions)}\` permission(s) to use ${cmd.name} command.`)
                               return message.channel.send({ embeds: [PermsEmbed] })
                            }
@@ -173,10 +167,10 @@ module.exports = {
                    //+ clientpermissions: [""],
                    if (cmd.clientpermissions) {
                       if (message.guild) {
-                      const clientPerms = message.channel.permissionsFor(message.guild.me);
+                      const clientPerms = message.channel.permissionsFor(message.guild.members.me);
                       if (!clientPerms || !clientPerms.has(cmd.clientpermissions)) {
-                          const ClientPermsEmbed = new Discord.MessageEmbed()
-                          .setColor(`RED`)
+                          const ClientPermsEmbed = new discord.EmbedBuilder()
+                          .setColor(`Red`)
                           .setDescription(`<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(cmd.clientpermissions)}\` permission(s)`)
                           return message.channel.send({ embeds: [ClientPermsEmbed] })
                       }
@@ -184,32 +178,32 @@ module.exports = {
                   }
   
                   //+ guildOnly: true/false,
-                  if (cmd.guildOnly && message.channel.type === 'DM') {
-                      const NoDmEmbed = new Discord.MessageEmbed()
-                      .setColor(`RED`)
+                  if (cmd.guildOnly && message.channel.type === ChannelType.DM) {
+                      const NoDmEmbed = new discord.EmbedBuilder()
+                      .setColor(`Red`)
                       .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`)
                       return message.reply({ embeds: [NoDmEmbed] })
                   }
   
                   //+ dmOnly: true/false,
-                  if (cmd.dmOnly && message.channel.type === 'GUILD_TEXT') {
-                      const NoGuildEmbed = new Discord.MessageEmbed()
-                      .setColor(`RED`)
+                  if (cmd.dmOnly && message.channel.type === ChannelType.GuildText) {
+                      const NoGuildEmbed = new discord.EmbedBuilder()
+                      .setColor(`Red`)
                       .setDescription(`<a:pp802:768864899543466006> I can\'t execute that command inside the server!`)
                       return message.channel.send({ embeds: [NoGuildEmbed] })
                   }
   
                   if(cmd.guarded) {
-                      const GuardedEmbed = new Discord.MessageEmbed()
-                      .setColor(`RED`)
+                      const GuardedEmbed = new discord.EmbedBuilder()
+                      .setColor(`Red`)
                       .setDescription(`<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`)
                       return message.channel.send({ embeds: [GuardedEmbed] })
                   }
   
                   if(cmd.OwnerOnly) {
                       if(!client.owners.includes(message.author.id)) {
-                          const DevOnlyEmbed = new Discord.MessageEmbed()
-                          .setColor(`RED`)
+                          const DevOnlyEmbed = new discord.EmbedBuilder()
+                          .setColor(`Red`)
                           .setDescription(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)
                           return message.channel.send({ embeds: [DevOnlyEmbed] })
   

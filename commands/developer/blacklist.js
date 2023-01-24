@@ -36,9 +36,9 @@ module.exports = {
       };
 
     const timestamp = Math.floor(Date.now() / 1000)
-    const done = new discord.MessageEmbed()
+    const done = new discord.EmbedBuilder()
     .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
-    .setColor(`RED`)
+    .setColor(`Red`)
     .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**\n• At: <t:${timestamp}>\n\n\`\`\`${reason.join(' ') || 'Unspecified'}\`\`\``)
     .setTimestamp()
     .setFooter({ text: `BlackList | \©️${new Date().getFullYear()} WOLFY` })

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   name: "avatar",
@@ -34,10 +34,10 @@ module.exports = {
       user = message.author;
     };
 
-    const avatar = user.displayAvatarURL({ format: 'png' || 'gif', dynamic: true, size: 1024 });
+    const avatar = user.displayAvatarURL({ extension:'png' || 'gif', dynamic: true, size: 1024 });
     if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this user!`})
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
     .setColor(color)
     .setDescription(`[**${user.tag}** avatar link](${avatar})`)

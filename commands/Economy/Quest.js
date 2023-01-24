@@ -1,8 +1,8 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const moment = require("moment");
-const { MessageAttachment, MessageEmbed } = require('discord.js');
-const file = new MessageAttachment('./assets/Images/treasure.png');
+const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
+const file = new AttachmentBuilder('./assets/Images/treasure.png');
 const quests = require('../../assets/json/quests.json');
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
@@ -61,7 +61,7 @@ module.exports = {
 
         if(args[0] && args[0].toLowerCase() == 'claim') {
             if(data.progress.completed < 4) {
-                const NotNow = new MessageEmbed()
+                const NotNow = new EmbedBuilder()
                 .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
                 .setDescription([
                 `<:error:888264104081522698> You didn't complete your quests yet!\n`,
@@ -90,7 +90,7 @@ module.exports = {
             data.credits += Math.floor(moneyget);
             await data.save()
             .then(() => {
-                const embed = new Discord.MessageEmbed()
+                const embed = new discord.EmbedBuilder()
                 .setTitle(`<a:ShinyCoin:853495846984876063> Claimed your daily quests reward!`)
                 .setDescription([
                 `<a:ShinyMoney:877975108038324224> **${message.author.tag}**, You received **${Math.floor(moneyget)}** from daily quests reward!`,
@@ -103,7 +103,7 @@ module.exports = {
             .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
         }
         const QuestEmbed = new Pages(_.chunk(data.progress.quests, 4).map((chunk, i, o) => {
-            return new MessageEmbed()
+            return new EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
         .setTitle("Daily Quests")
         .setDescription(`Your daily quests will be refreshed at \`${moment.duration(data.progress.TimeReset - now, 'milliseconds').format('H [hours, and] m [minutes,]')}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix}quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`)

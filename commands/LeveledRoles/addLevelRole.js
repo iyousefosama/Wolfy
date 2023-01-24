@@ -52,7 +52,7 @@ module.exports = {
         }
         data.Mod.Level.Roles.push(RoleObj)
         await data.save().then(() => {
-            return message.channel.send(`\\✔️ **${message.member.displayName}**, New Level Role has been successfully added.`)
+            return message.channel.send(`\\✔️ **${message.member.displayName}**, New Level Role has been Successfully added.`)
         }).catch(() => {
             return message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``})
         })

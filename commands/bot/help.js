@@ -1,5 +1,5 @@
 const discord = require('discord.js')
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     name: "help",
@@ -17,63 +17,63 @@ module.exports = {
     examples: [''],
     async execute(client, message, args) {
     let EmbedName = args.slice(0).join(" ")
-    const button = new MessageButton()
+    const button = new ButtonBuilder()
     .setLabel(`Info`)
     .setCustomId("1")
-    .setStyle('PRIMARY')
+    .setStyle('Primary')
     .setEmoji("776670895371714570");
-    const button2 = new MessageButton()
+    const button2 = new ButtonBuilder()
     .setLabel(`Search`)
     .setCustomId("2")
-    .setStyle('PRIMARY')
+    .setStyle('Primary')
     .setEmoji("845681277922967572");
-    const button3 = new MessageButton()
+    const button3 = new ButtonBuilder()
     .setLabel(`Utilities`)
     .setCustomId("3")
-    .setStyle('PRIMARY')
+    .setStyle('Primary')
     .setEmoji("836168684379701279");
-    const button4 = new MessageButton()
+    const button4 = new ButtonBuilder()
     .setLabel(`Moderator`)
     .setCustomId("4")
-    .setStyle("DANGER")
+    .setStyle("Danger")
     .setEmoji("853496185443319809");
-    const button5 = new MessageButton()
+    const button5 = new ButtonBuilder()
     .setLabel(`Fun`)
     .setCustomId("5")
-    .setStyle("SUCCESS")
+    .setStyle("Success")
     .setEmoji("768867196302524426");
-    const button6 = new MessageButton()
+    const button6 = new ButtonBuilder()
     .setLabel(`Setup`)
     .setCustomId("6")
-    .setStyle("PRIMARY")
+    .setStyle("Primary")
     .setEmoji("836168687891382312");
-    const button7 = new MessageButton()
+    const button7 = new ButtonBuilder()
     .setLabel(`Bot`)
     .setCustomId("7")
-    .setStyle("PRIMARY")
-    .setEmoji("841711382739157043");
-    const button8 = new MessageButton()
+    .setStyle("Primary")
+    .setEmoji("887500717106024520");
+    const button8 = new ButtonBuilder()
     .setLabel(`Levels`)
     .setCustomId("8")
-    .setStyle("PRIMARY")
+    .setStyle("Primary")
     .setEmoji("853495519455215627");
-    const button9 = new MessageButton()
+    const button9 = new ButtonBuilder()
     .setLabel(`Economy`)
     .setCustomId("9")
-    .setStyle("PRIMARY")
+    .setStyle("Primary")
     .setEmoji("877975108038324224");
-    const button10 = new MessageButton()
-    .setStyle('LINK')
+    const button10 = new ButtonBuilder()
+    .setStyle(`Link`)
     .setEmoji('853495912775942154')
     .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands`) 
     .setLabel('Add me'); 
 
-    const row = new MessageActionRow()
+    const row = new ActionRowBuilder()
   .addComponents(button, button2, button3, button4, button5);
-  const row2 = new MessageActionRow()
+  const row2 = new ActionRowBuilder()
   .addComponents(button6, button7, button8, button9, button10);
 
-    const help = new discord.MessageEmbed()
+    const help = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle(`Hi ${message.author.username}, how can i help you?`)
 	.setURL(client.config.websites["website"])
@@ -93,7 +93,7 @@ module.exports = {
         { name: '<a:Up:853495519455215627> Levels helplist', value: `\`\`\`${client.config.prefix}help level\`\`\``, inline: true},
         { name: '<a:ShinyMoney:877975108038324224> Economy helplist', value: `\`\`\`${client.config.prefix}help eco\`\`\``, inline: true}
     )
-    const info = new discord.MessageEmbed()
+    const info = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle(`<a:BackPag:776670895371714570> Informations Commands`)
     .setURL(client.config.websites["website"])
@@ -108,7 +108,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const search = new discord.MessageEmbed()
+    const search = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:Search:845681277922967572> Search Commands')
     .setURL(client.config.websites["website"])
@@ -124,7 +124,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const Utl = new discord.MessageEmbed()
+    const Utl = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:pp350:836168684379701279> Utilities Commands')
     .setURL(client.config.websites["website"])
@@ -143,7 +143,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const moderator = new discord.MessageEmbed()
+    const moderator = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:pp989:853496185443319809> Moderator Commands')
     .setURL(client.config.websites["website"])
@@ -177,7 +177,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const Fun = new discord.MessageEmbed()
+    const Fun = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:pp434:836168673755660290> **Fun Commands**')
     .setURL(client.config.websites["website"])
@@ -195,7 +195,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const setup = new discord.MessageEmbed()
+    const setup = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<:MOD:836168687891382312> **Setup Commands**')
     .setURL(client.config.websites["website"])
@@ -218,7 +218,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const bot = new discord.MessageEmbed()
+    const bot = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<:Bot:841711382739157043> **Bot Commands**')
     .setURL(client.config.websites["website"])
@@ -234,7 +234,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const level = new discord.MessageEmbed()
+    const level = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:Up:853495519455215627> **LeveledRoles Commands**')
     .setURL(client.config.websites["website"])
@@ -251,7 +251,7 @@ module.exports = {
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()
-    const Eco = new discord.MessageEmbed()
+    const Eco = new discord.EmbedBuilder()
     .setColor('738ADB')
     .setTitle('<a:ShinyMoney:877975108038324224> **Economy Commands**')
     .setURL(client.config.websites["website"])
@@ -358,9 +358,9 @@ module.exports = {
         button7.setDisabled(true)
         button8.setDisabled(true)
         button9.setDisabled(true)
-        const newrow = new MessageActionRow()
+        const newrow = new ActionRowBuilder()
         .addComponents(button, button2, button3, button4, button5);
-        const newrow2 = new MessageActionRow()
+        const newrow2 = new ActionRowBuilder()
         .addComponents(button6, button7, button8, button9, button10);
         msg.edit({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
     })

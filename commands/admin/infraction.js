@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -79,18 +79,18 @@ module.exports = {
           const state = ['Disabled', 'Enabled'][Number(data.Mod.Logs.isEnabled)];
           data.Mod.Infraction.isEnabled = data.Mod.Infraction.isEnabled;
     
-          const embed = new Discord.MessageEmbed()
-            .setColor('GREEN')
+          const embed = new discord.EmbedBuilder()
+            .setColor('Green')
             .setDescription([
               '<a:Correct:812104211386728498>\u2000|\u2000',
-              `Infraction points Feature has been successfully **${state}**!\n\n`,
+              `Infraction points Feature has been Successfully **${state}**!\n\n`,
               `To **${!data.Mod.Infraction.isEnabled ? 're-enable' : 'disable'}** this`,
               `feature, use the \`${client.prefix}infraction toggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
           }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         } else {
-            const Else = new Discord.MessageEmbed()
+            const Else = new discord.EmbedBuilder()
             .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
             .setColor('738ADB')
             .setDescription([

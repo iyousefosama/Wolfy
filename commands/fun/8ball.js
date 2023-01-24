@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
   name: "8ball",
@@ -25,7 +25,7 @@ module.exports = {
     let result = Math.floor((Math.random() * replies.length));
     let question = args.slice(1).join(" ");
     
-    const eightball = new discord.MessageEmbed()
+    const eightball = new discord.EmbedBuilder()
   .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
   .setTitle("My Answer is!")
   .setColor('#dfb86d')

@@ -2,6 +2,7 @@ const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require("moment");
+const { ChannelType } = require('discord.js')
 
 module.exports = {
     name: "report",
@@ -51,25 +52,25 @@ module.exports = {
     }
     let Channel = client.channels.cache.get(data.Mod.Reports.channel)
     if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
-    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
+    if(Channel.type !== ChannelType.GuildText) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the reports channel please contact mod or use \`w!setreportch\` cmd.`})
     if(!data.Mod.Reports.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **reports** command is disabled in this server!`})
 
     let Avatar = user.displayAvatarURL(({dynamic: true, size: 512}));
 
     if (TimeOutData.reports > now){
-        const embed = new discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
         .setTitle(`<a:pp802:768864899543466006> Report already Send!`)
         .setDescription(`\\❌ **${message.author.tag}**, You already send your **report** earlier!\nYou can send your report again after \`${moment.duration(TimeOutData.reports - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-        .setColor('RED')
+        .setColor('Red')
         message.channel.send({ embeds: [embed] })
       } else {
     TimeOutData.reports = Math.floor(Date.now() + duration);
     await TimeOutData.save()
-    const embed = new discord.MessageEmbed()
+    const embed = new discord.EmbedBuilder()
     .setTitle('New Report!')
     .setDescription(`The Member \`${message.author.tag}\` has reported the user \`${user.tag}\`!`)
-    .setColor("RED")
+    .setColor("Red")
     .setThumbnail(Avatar)
     .addFields(
         { name: "Member ID", value: `${message.author.id}`, inline: true},

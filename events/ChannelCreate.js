@@ -1,6 +1,7 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
 let logs = [];
+const { AuditLogEvent, ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'channelCreate',
@@ -18,14 +19,16 @@ module.exports = {
           } catch(err) {
               console.log(err)
           }
+
           let Channel = client.channels.cache.get(data.Mod.Logs.channel)
+
           if (!Channel || !data.Mod.Logs.channel){
             return;
-          } else if (Channel.type !== 'GUILD_TEXT') {
+          } else if (Channel.type !== ChannelType.GuildText) {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+          } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -33,7 +36,7 @@ module.exports = {
 
           const fetchedLogs = await channel.guild.fetchAuditLogs({
             limit: 1,
-            type: 'CHANNEL_CREATE',
+            type: AuditLogEvent.ChannelCreate,
         });
         // Since there's only 1 audit log entry in this collection, grab the first one
         const channelLog = fetchedLogs.entries.first();
@@ -46,15 +49,15 @@ module.exports = {
 
         const { executor, target, type, id, name } = channelLog;
         const types = {
-          GUILD_TEXT: "Text Channel",
-          GUILD_VOICE: "Voice Channel",
-          GUILD_CATEGORY: "CATEGORY",
-          GUILD_NEWS: "News Channel",
-          GUILD_STORE: "Store Channel",
-          GUILD_NEWS_THREAD: "News Thread",
-          GUILD_PUBLIC_THREAD: "Public Thread",
-          GUILD_PRIVATE_THREAD: "Private Thread",
-          GUILD_STAGE_VOICE: "Stage Voice"
+          0: "Text Channel",
+          2: "Voice Channel",
+          4: "CATEGORY",
+          5: "Guild Announcement",
+          10: "News Thread",
+          11: "Public Thread",
+          12: "Private Thread",
+          13: "Stage Voice",
+          15: "Guild Forum"
       }
         if(!channelLog || !channelLog.available && target.id != channel.id) {
           return;
@@ -62,7 +65,7 @@ module.exports = {
           //Do nothing..
         }
 
-            const ChannelCreate = new Discord.MessageEmbed()
+            const ChannelCreate = new discord.EmbedBuilder()
             .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTitle('<a:Up:853495519455215627> Channel Created!')
             .setDescription(`<a:iNFO:853495450111967253> **Channel Name:** ${channel.name}\n<:pp198:853494893439352842> **Channel ID:** \`${channel.id}\`\n\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n<:Tag:836168214525509653> **ChannelType:** \`\`\`${types[channel.type]}\`\`\``)
@@ -73,9 +76,9 @@ module.exports = {
             const webhooks = await Channel.fetchWebhooks()
             logs.push(ChannelCreate)
             setTimeout(async function(){
-            let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+            let webhook = webhooks.filter((w)=>w.token).first();
             if(!webhook){
-              webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+              webhook = await Channel.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})(botname, {avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
             } else if(webhooks.size <= 10) {
               // Do no thing...
             }
@@ -83,8 +86,5 @@ module.exports = {
             .catch(() => {})
             logs = [];
           }, 5000);
-              // add more functions on ready  event callback function...
-            
-              return;
     }
 }

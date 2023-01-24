@@ -1,10 +1,10 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = (args, oldEmbed) => {
 
   //temporarily removed support for Embed fields and timestamp
   const parameter = args.join(' ');
-  const success = []; // Stores confirmation messages if embed values are succesfully saved
+  const Success = []; // Stores confirmation messages if embed values are succesfully saved
   const fails = []; // Stores fail messages if embed values provided cannot be saved
   const validModifiers =  [
     '{avatar}',
@@ -61,13 +61,13 @@ module.exports = (args, oldEmbed) => {
       // The key is a url service and has a set value from the user
       if (websiteTest(val)){
         // The value passes the website test and considered a valid url
-        success.push(`**Embed#${key}** has successfully been set!`);
+        Success.push(`**Embed#${key}** has Successfully been set!`);
       } else if (validModifiers.includes(val.trim())){
         // The value is not a url but a valid modifier
-        success.push(`**Embed#${key}** has successfully been set (Modifier)!`);
+        Success.push(`**Embed#${key}** has Successfully been set (Modifier)!`);
       } else if (embedProps[key] === ' '){
         // The value is a non-empty non-falsy value string
-        success.push(`**Embed#${key}** has successfully been removed!`);
+        Success.push(`**Embed#${key}** has Successfully been removed!`);
       } else {
         // The value is not a valid url
         // The value is not a valid modifier
@@ -84,7 +84,7 @@ module.exports = (args, oldEmbed) => {
     embedProps.color = undefined;
     fails.push('The provided **Color Hex Code** is invalid. Please make sure you are passing a valid Hex Code');
   } else if (embedProps.color){
-    success.push('**Embed#color** has successfully been set!')
+    Success.push('**Embed#color** has Successfully been set!')
   };
 
   //----------testing string lengths-----------------------//
@@ -98,22 +98,22 @@ module.exports = (args, oldEmbed) => {
       embedProps[key] = undefined;
       fails.push(`Embed **${key}** is only limited to **${limits[key]}** characters. Yours have **${val.length}**`);
     } else {
-      success.push(`**Embed#${key}** has successfully been set!`);
+      Success.push(`**Embed#${key}** has Successfully been set!`);
     };
   };
 
   //>>>>>END>>>>>>>>>>*double checking variables*>>>>>>>>>>//
   //>>>>>>>>>**Check if new Outgoing data are present>>>>>>//
 
-  if (!success.length){
+  if (!Success.length){
     if (!fails.length){
-      return { error: 'NO_EMBED_OPTIONS', success, fails };
+      return { error: 'NO_EMBED_OPTIONS', Success, fails };
     } else {
-      return { error: 'EMBED_OPTIONS_INVALID', success, fails };
+      return { error: 'EMBED_OPTIONS_INVALID', Success, fails };
     };
   } else {
 
-    const embed = new MessageEmbed(oldEmbed || {})
+    const embed = new EmbedBuilder(oldEmbed || {})
 
     embed.setAuthor(
       embedProps.authorName || embed.author?.name || '',
@@ -143,7 +143,7 @@ module.exports = (args, oldEmbed) => {
       isEmpty(embedProps.footerImage, embed.footer?.iconURL),
     );
 
-    return { embed, success, fails };
+    return { embed, Success, fails };
   };
 };
 

@@ -1,11 +1,11 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = class Paginate{
   constructor(...array){
 
     /**
-		 * Array of MessageEmbed instance to paginate
-		 * @type {MessageEmbed[]}
+		 * Array of EmbedBuilder instance to paginate
+		 * @type {EmbedBuilder[]}
      * @private
      */
     this._array = [ ...array ].flat();
@@ -22,9 +22,9 @@ module.exports = class Paginate{
   };
 
   /**
-  * Add more MessageEmbed to the array
-  * @param {MessageEmbed?[]} MessageEmbed An array or a single MessageEmbed instance
-  * @returns {MessageEmbed?[]} The array of the added MessageEmbeds
+  * Add more EmbedBuilder to the array
+  * @param {EmbedBuilder?[]} EmbedBuilder An array or a single EmbedBuilder instance
+  * @returns {EmbedBuilder?[]} The array of the added EmbedBuilders
   */
   add(...item){
     this._array.push(...item.flat());
@@ -35,7 +35,7 @@ module.exports = class Paginate{
   /**
   * Delete some elements from the array
   * @param {number} index the index of the element to remove
-  * @returns {MessageEmbed?[]} The array of the deleted MessageEmbed
+  * @returns {EmbedBuilder?[]} The array of the deleted EmbedBuilder
   */
   delete(index){
     if (typeof index !== 'number'){
@@ -55,7 +55,7 @@ module.exports = class Paginate{
   /**
   * Moves the index up to view the next element from the array
   * Circular - will revert to 0 if the index exceeds array length
-  * @returns {?MessageEmbed} The element from the array
+  * @returns {?EmbedBuilder} The element from the array
   */
   next(){
     if (!this._array.length){
@@ -69,7 +69,7 @@ module.exports = class Paginate{
   /**
   * Moves the index down to view the previous element from the array
   * Circular - will revert to the max index if the index is less than 0
-  * @returns {?MessageEmbed} The element from the array
+  * @returns {?EmbedBuilder} The element from the array
   */
   previous(){
     if (!this._array.length){
@@ -82,7 +82,7 @@ module.exports = class Paginate{
 
   /**
   * The current embed using the current index
-  * @type {?MessageEmbed}
+  * @type {?EmbedBuilder}
   * @readonly
   */
   get currentPage(){
@@ -91,7 +91,7 @@ module.exports = class Paginate{
 
   /**
   * The first embed from the array
-  * @type {?MessageEmbed}
+  * @type {?EmbedBuilder}
   * @readonly
   */
   get firstPage(){
@@ -100,7 +100,7 @@ module.exports = class Paginate{
 
   /**
   * The last embed from the array
-  * @type {?MessageEmbed}
+  * @type {?EmbedBuilder}
   * @readonly
   */
   get lastPage(){
@@ -143,8 +143,8 @@ module.exports = class Paginate{
   */
   _validate(){
     for (const el of this._array){
-      if (!(el instanceof MessageEmbed)){
-        throw new Error('Paginate: Passed argument is not an instance of MessageEmbed!')
+      if (!(el instanceof EmbedBuilder)){
+        throw new Error('Paginate: Passed argument is not an instance of EmbedBuilder!')
       };
     };
     return;

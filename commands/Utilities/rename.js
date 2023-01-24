@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -49,7 +49,7 @@ module.exports = {
 
     // if the channel is a ticket then...
     if(message.channel.parent == categoryID){
-        const rename = new discord.MessageEmbed()
+        const rename = new discord.EmbedBuilder()
         .setColor(`GREEN`)
         .setDescription('<a:pp399:768864799625838604> Ticket name changed')
         message.channel.send({ embeds: [rename] })

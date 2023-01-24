@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const mcapi = require('mcapi');
 
@@ -13,7 +13,7 @@ module.exports = {
 
         try{
             let uuid = await mcapi.usernameToUUID(`${query}`)
-            let embed = new Discord.MessageEmbed()
+            let embed = new discord.EmbedBuilder()
             .setTitle(`User: ${query}`)
             .addField("Name:", `${query}`)
             .addField("UUID:", uuid)
@@ -24,7 +24,7 @@ module.exports = {
             .setThumbnail(`https://minotar.net/cube/${query}/100.png)`)
             interaction.editReply({ embeds: [embed] });
         } catch(e) {
-            let embed2 = new Discord.MessageEmbed()
+            let embed2 = new discord.EmbedBuilder()
             .setDescription('<a:pp681:774089750373597185> **|** The specified user was not found!')
             interaction.editReply({ embeds: [embed2] })
         }

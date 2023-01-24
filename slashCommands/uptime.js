@@ -12,8 +12,8 @@ module.exports = {
 		const hide = interaction.options.getBoolean('hide');
 
         let time = ms(client.uptime);
-        var uptime = new discord.MessageEmbed()
-        .setColor(`DARK_GREEN`)
+        var uptime = new discord.EmbedBuilder()
+        .setColor(`DarkGreen`)
         .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
         var msg = interaction.editReply({ embeds: [uptime], ephemeral: true})
 	},

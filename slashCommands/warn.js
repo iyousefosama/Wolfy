@@ -1,7 +1,7 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { PermissionFlagsBits } = require('discord-api-types/v10');
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const uuid = require('uuid');
 const warnSchema = require('../schema/Warning-Schema')
 
@@ -81,7 +81,7 @@ module.exports = {
 				const warnGrammar = warnCount === 1 ? '' : 's';
 
 				interaction.editReply({ content: `\\✔️ Successfully warned **${user.tag}**, They now have \`${warnCount}\` warning${warnGrammar}` });
-                const dmembed = new MessageEmbed()
+                const dmembed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setColor('#e6a54a')
                 .setTitle(`⚠️ Warned **${interaction.user.username}**`)
@@ -104,7 +104,7 @@ module.exports = {
 					return interaction.editReply({ content: '\\❌ | That user don\'t have any warns for now!', ephemeral: true });
 
 				let string = '';
-				const embed = new MessageEmbed()
+				const embed = new EmbedBuilder()
                 .setAuthor({ name: `${interaction.user.username}\'s Warn list!`, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setColor('#2F3136')
                 .setDescription(string)

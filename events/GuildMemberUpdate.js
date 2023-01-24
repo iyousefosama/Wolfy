@@ -1,7 +1,9 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 let logs = [];
+const { AuditLogEvent, ChannelType } = require('discord.js')
+
 module.exports = {
     name: 'guildMemberUpdate',
     async execute(client, oldMember, newMember) {
@@ -23,11 +25,11 @@ module.exports = {
         let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if (!Channel || !data.Mod.Logs.channel){
             return;
-          } else if (Channel.type !== 'GUILD_TEXT') {
+          } else if (Channel.type !== ChannelType.GuildText) {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+          } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -36,7 +38,7 @@ module.exports = {
 
         const fetchedLogs = await oldMember.guild.fetchAuditLogs({
           limit: 1,
-          type: "GUILD_MEMBER_UPDATE",
+          type: AuditLogEvent.GuildMemberUpdate,
         });
 
         const memberlog = fetchedLogs.entries.first();
@@ -58,7 +60,7 @@ module.exports = {
 
         let MemberUpdate;
         if (oldMember.nickname != newMember.nickname) {
-          MemberUpdate = new Discord.MessageEmbed()
+          MemberUpdate = new discord.EmbedBuilder()
           .setAuthor({ name: oldMember.user.tag + ` (${oldMember.id})`, iconURL: oldMember.user.displayAvatarURL({dynamic: true, size: 2048}) })
           .setTitle('📝 Member Nickname Updated!')
           .setDescription(`\`${[ oldMember.nickname ? oldMember.nickname : oldMember.user.tag ]}\` **➜** \`${[ newMember.nickname ? newMember.nickname : newMember.user.tag ]}\`\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`)
@@ -67,7 +69,7 @@ module.exports = {
           .setTimestamp()
         } else if(oldMember.roles.cache.size < newMember.roles.cache.size) {
           let role = newMember.roles.cache.filter(r => !oldMember.roles.cache.has(r.id)).first();
-          MemberUpdate = new Discord.MessageEmbed()
+          MemberUpdate = new discord.EmbedBuilder()
            .setTitle('📝 Member Role Added!')
            .setAuthor({ name: oldMember.user.tag, iconURL: oldMember.user.displayAvatarURL({dynamic: true, size: 2048}) })
            .setColor('#2F3136')
@@ -76,7 +78,7 @@ module.exports = {
            .setTimestamp()
           } else if(oldMember.roles.cache.size > newMember.roles.cache.size) {
            let role = oldMember.roles.cache.filter(r => !newMember.roles.cache.has(r.id)).first();
-           MemberUpdate = new Discord.MessageEmbed()
+           MemberUpdate = new discord.EmbedBuilder()
            .setTitle('📝 Member Role Removed!')
            .setAuthor({ name: oldMember.user.tag, iconURL: oldMember.user.displayAvatarURL({dynamic: true, size: 2048}) })
            .setColor('#2F3136')
@@ -91,9 +93,9 @@ module.exports = {
         const webhooks = await Channel.fetchWebhooks()
         logs.push(MemberUpdate)
         setTimeout(async function(){
-        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+        let webhook = webhooks.filter((w)=>w.token).first();
         if(!webhook){
-          webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          webhook = await Channel.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})(botname, {avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }

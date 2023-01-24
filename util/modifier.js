@@ -6,7 +6,7 @@ async function modify(str, member){
   const owner = await member.guild.members.fetch(member.guild.ownerID);
   const modifiers = {
     "{avatar}": member.user.displayAvatarURL(),
-    "{avatarDynamic}": member.user.displayAvatarURL({ dynamic: true, format: 'png'}),
+    "{avatarDynamic}": member.user.displayAvatarURL({ dynamic: true, extension:'png'}),
     "{channelCount}": member.guild.channels.cache.size,
     "{categoryChannelCount}": member.guild.channels.cache.filter( c => c.type === 'category').size,
     "{textChannelCount}": member.guild.channels.cache.filter( c => c.type === 'text').size,
@@ -17,7 +17,7 @@ async function modify(str, member){
     "{displayColor}": member.displayColor,
     "{displayName}": member.displayName,
     "{guildIcon}": member.guild.iconURL(),
-    "{guildIconDynamic}": member.guild.iconURL({dynamic: true, format: 'png'}),
+    "{guildIconDynamic}": member.guild.iconURL({dynamic: true, extension:'png'}),
     "{guildName}": member.guild.name,
     "{joinedAt}": member.joinedAt,
     "{joinedAtMDY}": moment(member.joinedAt).format('dddd, MMMM D YYYY'),
@@ -28,7 +28,7 @@ async function modify(str, member){
     "{userTag}": member.user.tag,
     "{userDiscrim}": member.user.discriminator,
     "{userAvatar}": member.user.displayAvatarURL(),
-    "{userAvatarDynamic}": member.user.displayAvatarURL({ dynamic: true, format: 'png'}),
+    "{userAvatarDynamic}": member.user.displayAvatarURL({ dynamic: true, extension:'png'}),
     "{usermention}": member.toString(),
     "{memberJoinRank}": member.guild.memberCount,
     "{memberJoinRankOrdinalized}": text.ordinalize(member.guild.memberCount)

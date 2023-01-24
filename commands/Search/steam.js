@@ -28,7 +28,7 @@ module.exports = {
     // Input Checking
     (async () => {
         if (!query || args.length < 1) {
-            const em = new discord.MessageEmbed()
+            const em = new discord.EmbedBuilder()
                 .setAuthor({ name: message.member.displayName, iconURL: message.author.displayAvatarURL })
                 .setTitle('Please provide something to search for')
                 .setDescription(`Incorrect Usage: ${prefix}steam <game search>`)
@@ -73,7 +73,7 @@ module.exports = {
             if (data.platforms.linux) platforms.push('Linux');
         }
 
-        const embed = new discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
             .setColor(0x101D2F)
             .setAuthor({ name: 'Steam', iconURL: 'https://i.imgur.com/xxr2UBZ.png', url: 'http://store.steampowered.com/' })
             .setTitle(data.name)

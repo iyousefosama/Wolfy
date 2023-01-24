@@ -1,6 +1,6 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const _ = require('lodash');
-const { MessageEmbed, GuildEmoji } = require('discord.js');
+const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
@@ -46,9 +46,9 @@ module.exports = {
         let Box = quest?.current;
 
         const pages = new Pages(_.chunk(selected, 24).map((chunk, i, o) => {
-          return new MessageEmbed()
+          return new EmbedBuilder()
           .setTitle('Wolfy\'s Market')
-          .setColor('GREY')
+          .setColor('Grey')
           .setURL('https://wolfy.yoyojoe.repl.co/')
           .setFooter({ text: `Wolfy\'s Market | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}` })
           .addFields(...chunk.map(item => {

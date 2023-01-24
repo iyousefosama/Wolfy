@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Mute-Schema')
 
 module.exports = {
@@ -63,7 +63,7 @@ module.exports = {
     data.Muted = false
     await data.save()
     .then(() => {
-    const unmute = new discord.MessageEmbed()
+    const unmute = new discord.EmbedBuilder()
     .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
     .setDescription(`<:On:841711383284547625> Unmuted the user ${member}!`)
     .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })

@@ -1,9 +1,9 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const fetch = require('node-fetch');
 
 module.exports = {
     name: "djs",
-    aliases: ["Djs", "Discord.js", "discord.js"],
+    aliases: ["Djs", "discord.js", "discord.js"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false
@@ -21,7 +21,7 @@ module.exports = {
 
         let query = args.join(" ");
                 // Input Checking
-                if (!query[0]) { message.channel.send({ content: '<:Discordjs:805086222749007874> **Please specify what do you want to search in the Discord.JS library!**'}) } else {
+                if (!query[0]) { message.channel.send({ content: '<:discordjs:805086222749007874> **Please specify what do you want to search in the discord.JS library!**'}) } else {
     
     
                     // Executing
@@ -32,11 +32,11 @@ module.exports = {
                             if (embed && !embed.error) {
                                 message.channel.send({ embeds: [embed] });
                             } else {
-                                message.reply({ content: `<a:Wrong:812104211361693696> | Failed to find anything using the specified query in DiscordJS library. Please try again.`});
+                                message.reply({ content: `<a:Wrong:812104211361693696> | Failed to find anything using the specified query in discordJS library. Please try again.`});
                             }
                         })
                         .catch(err => {
-                            message.reply({ content: '<a:Wrong:812104211361693696> | Failed to find anything using the specified query in DiscordJS library. Please try again.'})
+                            message.reply({ content: '<a:Wrong:812104211361693696> | Failed to find anything using the specified query in discordJS library. Please try again.'})
                         });
                 }
     }

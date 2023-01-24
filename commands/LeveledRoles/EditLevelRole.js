@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -34,18 +34,18 @@ module.exports = {
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
 
-    const provideID = new Discord.MessageEmbed()
+    const provideID = new discord.EmbedBuilder()
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
     .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setDescription('<a:Nnno:853494186002481182> You need to provide a \`roleID\`!')
-    .setColor('RED')
+    .setColor('Red')
     .setTimestamp()
-    const provide = new Discord.MessageEmbed()
+    const provide = new discord.EmbedBuilder()
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
     .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setTitle('You need to provide a number.')
     .setDescription('<a:Nnno:853494186002481182> This will change the \`Level Number\`!')
-    .setColor('RED')
+    .setColor('Red')
     .setTimestamp()
 
     const Role_To_Edit = args[0]

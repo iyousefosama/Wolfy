@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
@@ -64,7 +64,7 @@ module.exports = {
               const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
 
-              const embed = new MessageEmbed()
+              const embed = new EmbedBuilder()
               .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
               .setDescription(`<a:pp989:853496185443319809> **Successfully** deleted ${getRemovedWarnedUser.user.tag} warning!\nWarning${warnedRemoveGrammar} count: \`${warnedRemoveCount}\``)
               .setTimestamp()

@@ -1,4 +1,4 @@
-const Discord = require("discord.js")
+const discord = require("discord.js")
 const fetch = require("node-fetch");
 
 module.exports = {
@@ -19,18 +19,18 @@ module.exports = {
         'Wolfy bot!'
       ],
     async execute(client, message, args) {
-    var loading = new Discord.MessageEmbed()
-    .setColor(`YELLOW`)
+    var loading = new discord.EmbedBuilder()
+    .setColor(`Yellow`)
     .setDescription(`<a:Loading_Color:759734580122484757> Loading...`)
     var msg = await message.channel.send({ embeds: [loading] })
 
         let text = args.slice(0).join(" ");
 
-        const ERR = new Discord.MessageEmbed()
-        .setColor('RED')
+        const ERR = new discord.EmbedBuilder()
+        .setColor('Red')
         .setDescription('<a:pp681:774089750373597185> You must enter a message!')
-        const ERR2 = new Discord.MessageEmbed()
-        .setColor('RED')
+        const ERR2 = new discord.EmbedBuilder()
+        .setColor('Red')
         .setDescription('<a:pp681:774089750373597185> You must enter a message!')
 
         if(!text){
@@ -42,8 +42,8 @@ if(text.length > 100) return message.channel.send({ content: 'Sorry you can\`t t
         try {
             let res = await fetch(encodeURI(`https://nekobot.xyz/api/imagegen?type=tweet&username=${message.author.username}&text=${text}`));
             let json = await res.json();
-            let attachment = new Discord.MessageAttachment(json.message, "tweet.png");
-            await message.channel.send({files: [attachment]});
+            let attachment = new discord.AttachmentBuilder(json.message, "tweet.png");
+            await message.channel.send({ files: [attachment] });
             msg.delete();
         } catch(e){
             msg.edit({ embeds: [ERR2]});

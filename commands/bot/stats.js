@@ -1,4 +1,4 @@
-const { MessageEmbed, version: discord_version } = require('discord.js'); // requiring discord modules
+const { EmbedBuilder, version: discord_version } = require('discord.js'); // requiring discord modules
 const { version, author } = require('../../package.json');
 const { release, cpus } = require('os');
 const moment = require(`moment`) // requiring moment
@@ -18,9 +18,9 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
     examples: [''],
     async execute(client, message, args) {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
     .setColor('738ADB') // will set the color for the embed
-    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL(({dynamic: true, format: 'png', size: 512})) })
+    .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL(({dynamic: true, extension:'png', size: 512})) })
     .setTitle(`${client.user.username} Bot's stats`) // make the title for the cmd
     .setURL(client.config.websites["website"])
     .setThumbnail(client.user.displayAvatarURL()) // it will put the bot avatar (pfp) in the embed
@@ -37,7 +37,7 @@ module.exports = {
     <a:Settings:841321893750505533> **System**
     🧠 **Memory Used** (heap)**:** [\` ${(heapUsed / 1024 / 1024).toFixed(0)} MB \`]
     🖥️ **OS:** ${process.platform} ${release}
-    <:Discordjs:805086222749007874>**DiscordJS:** v${discord_version}
+    <:discordjs:805086222749007874>**discordJS:** v${discord_version}
     <:nodejs:805092302011236422> **Node:** ${process.version}
     <a:Right:877975111846731847> **CPU:** ${cpus()[0].model}
     \n\n**Stats**`)

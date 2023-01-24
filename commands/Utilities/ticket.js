@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const discord= require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ChannelType, PermissionsBitField } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const TicketSchema = require('../../schema/Ticket-Schema')
 
@@ -72,29 +72,29 @@ module.exports = {
     if(TicketAvailable) return message.channel.send({ content: "<a:pp681:774089750373597185> You already have a ticket!"})
 
     // making the ticket channel
-    message.guild.channels.create(userName.toLowerCase() + "-" + userDiscriminator, {
-        type: 'GUILD_TEXT',
+    message.guild.channels.create({ name: userName.toLowerCase() + "-" + userDiscriminator, 
+        type: ChannelType.GUILD_TEXT,
         parent: categoryID,
         permissionOverwrites: [
             {
                 id: message.guild.id,
-                deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+                deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel],
             },
             {
                 id: message.author.id,
-                allow: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'ATTACH_FILES', 'CONNECT', 'ADD_REACTIONS', 'READ_MESSAGE_HISTORY'],
+                allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.AttachFiles, PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.AddReactions, PermissionsBitField.Flags.ReadMessageHistory],
             },
         ],
     }).then(async (channel) => {
                     message.react('758141943833690202').catch(() => message.channel.send(`<:Verify:841711383191879690> Successfully created ${channel} ticket!`))
-                    const button = new MessageButton()
+                    const button = new ButtonBuilder()
                     .setLabel(`Close`)
                     .setCustomId("98418541981561")
-                    .setStyle('SECONDARY')
+                    .setStyle('Secondary')
                     .setEmoji("🔒");
-                    const row = new MessageActionRow()
+                    const row = new ActionRowBuilder()
                     .addComponents(button);
-                    var ticketEmbed = new discord.MessageEmbed()
+                    var ticketEmbed = new discord.EmbedBuilder()
                     .setAuthor({ name: `Welcome in your ticket ${message.author.tag}`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:tag:813830683772059748> Send here your message or question!
                     

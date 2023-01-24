@@ -1,7 +1,7 @@
 const discord = require('discord.js')
 const moment = require(`moment`)
 const Page = require('../../util/Paginate');
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 
 const verificationLevels = {
     NONE: '<a:Error:836169051310260265> None',
@@ -80,12 +80,12 @@ module.exports = {
     
     // creating embed1
     const pages = new Page(
-        new MessageEmbed() 			 
+        new EmbedBuilder() 			 
         .setTitle(`${name} server info (page 1/2)`)
         
         .setURL(message.guild.iconURL())
     
-        .setThumbnail(message.guild.iconURL({dynamic: true, format: 'png', size: 512}))
+        .setThumbnail(message.guild.iconURL({dynamic: true, extension:'png', size: 512}))
     
         .setTimestamp()
         
@@ -100,12 +100,12 @@ module.exports = {
         📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}
         \u200b
         `),
-        new MessageEmbed() 	
+        new EmbedBuilder() 	
 	.setTitle(`${name} server info (page 2/2)`)
     
    .setURL(message.guild.iconURL())
 
-   .setThumbnail(message.guild.iconURL({dynamic: true, format: 'png', size: 512}))
+   .setThumbnail(message.guild.iconURL({dynamic: true, extension:'png', size: 512}))
 
    .setTimestamp()
 
@@ -125,17 +125,17 @@ module.exports = {
    \u200b
    `)
     );
-    const button = new MessageButton()
+    const button = new ButtonBuilder()
     .setLabel(`Prev`)
     .setCustomId("51984198419841941")
-    .setStyle('PRIMARY')
+    .setStyle('Primary')
     .setEmoji("890490643548352572");
-    const button2 = new MessageButton()
+    const button2 = new ButtonBuilder()
     .setLabel(`Next`)
     .setCustomId("51984198419841942")
-    .setStyle('PRIMARY')
+    .setStyle('Primary')
     .setEmoji("890490558492061736")
-    const row = new discord.MessageActionRow()
+    const row = new discord.ActionRowBuilder()
     .addComponents(button, button2)
     const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
     const filter = i => i.user.id === message.author.id;
@@ -158,7 +158,7 @@ module.exports = {
     collector.on('end', async () => {
       button.setDisabled(true)
       button2.setDisabled(true)
-      const newrow = new MessageActionRow()
+      const newrow = new ActionRowBuilder()
       .addComponents(button, button2);
       msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
   });

@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const sb = require('sourcebin');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -23,6 +23,9 @@ module.exports = {
     message.channel.sendTyping()
     // get the file's URL
     const file = message.attachments.first()?.url;
+
+    let text;
+    if(file) {
     // fetch the file from the external URL
     const response = await fetch(file);
 
@@ -34,7 +37,8 @@ module.exports = {
       );
 
     // take the response stream and read it to completion
-    const text = await response.text();
+     text = await response.text();
+    }
 
     if (text) {
         content = text;
@@ -50,18 +54,18 @@ module.exports = {
                 content,
                 language: 'javascript'
             }
-        ]);
-        const embed = new Discord.MessageEmbed()
+        ])
+        const embed = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
         .setTitle('We uploaded your code on sourcebin')
         .setDescription(`<a:iNFO:853495450111967253> Click the button to go there!`)
-        .setColor('RED')
+        .setColor('Red')
         .setTimestamp()
         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(
-            new MessageButton()
-            .setStyle('LINK')
+            new ButtonBuilder()
+            .setStyle(`Link`)
             .setEmoji('841711383191879690')
             .setURL(`${value.url}`) 
             .setLabel('Click Here!'),

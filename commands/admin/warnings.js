@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const warnSchema = require('../../schema/Warning-Schema')
 
 module.exports = {
@@ -45,11 +45,9 @@ module.exports = {
             content: `<a:Wrong:812104211361693696> | ${message.author}, I couldn't found user warns list!`
         });
 
-        let string = '';
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({ name: `${user.user.username}\'s Warn list!`, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
             .setColor('#2F3136')
-            .setDescription(string)
             .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
 
@@ -61,7 +59,7 @@ module.exports = {
             const getModeratorUser = message.guild.members.cache.find(
                 (user) => user.id === authorId,
             );
-            string += embed
+            embed
                 .addFields({ name: `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`, value: `• *Warn Reason:* ${reason}\n• *Warned At:* <t:${timestamp}>`})
         }
 

@@ -1,11 +1,12 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
 let logs = []
+const { AuditLogEvent, ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'messageDelete',
     async execute(client, message, messageDelete) {
-        if (message.channel.type === 'DM') return;
+        if (message.channel.type === ChannelType.DM) return;
         if (message.author == client) return;
         if (!message.author) return;
         if(message.embeds[0]) return;
@@ -23,11 +24,11 @@ module.exports = {
         let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if (!Channel || !data.Mod.Logs.channel){
             return;
-          } else if (Channel.type !== 'GUILD_TEXT') {
+          } else if (Channel.type !== ChannelType.GuildText) {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+          } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
@@ -35,11 +36,11 @@ module.exports = {
 
         const timestamp = Math.floor(Date.now() / 1000)
         const Msg = message.toString().substr(0, 500);
-        const DeletedLog = new Discord.MessageEmbed()
+        const DeletedLog = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle(`<a:Down:853495989796470815> Deleted Message`)
         .setDescription(`<a:iNFO:853495450111967253>  **Member**: \`${message.author.tag}\` (${message.author.id})\n<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${Msg || '❌ | Unkown message!'}\n\`\`\``)
-        .setColor('RED')
+        .setColor('Red')
         .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTimestamp()
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
@@ -47,9 +48,9 @@ module.exports = {
         const webhooks = await Channel.fetchWebhooks()
         logs.push(DeletedLog)
         setTimeout(async function(){
-        let webhook = webhooks.filter((w)=>w.type === "Incoming" && w.token).first();
+        let webhook = webhooks.filter((w)=>w.token).first();
         if(!webhook){
-          webhook = await Channel.createWebhook(botname, {avatar: client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 })})
+          webhook = await Channel.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})(botname, {avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }

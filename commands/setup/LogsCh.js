@@ -1,5 +1,6 @@
-const Discord = require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const { ChannelType } = require('discord.js')
 
 module.exports = {
     name: "setLogsch",
@@ -21,11 +22,11 @@ module.exports = {
           const channelID = args[0];
           channel = message.guild.channels.cache.get(channelID);
       
-          if (!channel || channel.type !== 'GUILD_TEXT'){
+          if (!channel || channel.type !== ChannelType.GuildText){
             return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`);
-          } else if (!channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
             return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`);
-          } else if (!channel.permissionsFor(message.guild.me).has('EMBED_LINKS')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
             return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`);
           };
           
@@ -46,8 +47,8 @@ module.exports = {
         data.Mod.Logs.channel = channel.id
         await data.save()
         .then(() => {
-          const embed = new Discord.MessageEmbed()
-          .setColor('DARK_GREEN')
+          const embed = new discord.EmbedBuilder()
+          .setColor('DarkGreen')
           .setDescription([
             '<a:Correct:812104211386728498>\u2000|\u2000',
             `Successfully set the Logs channel to ${channel}!\n\n`,

@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const market = require('../../assets/json/market.json');
 
@@ -34,11 +34,11 @@ module.exports = {
         const item2 = data.profile.inventory.find(x => x.id == 4);
         const item3 = data.profile.inventory.find(x => x.id == 5);
 
-        const nulle = new Discord.MessageEmbed()
+        const nulle = new discord.EmbedBuilder()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, you didn't buy a pickaxe to mine yet!\n\nType \`${client.prefix}market\` to show the market.`)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-        .setColor('RED')
+        .setColor('Red')
         if(!item && !item2 && !item3) return message.channel.send({ embeds: [nulle] })
     
         const quest = data.progress.quests?.find(x => x.id == 7);

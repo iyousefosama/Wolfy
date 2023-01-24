@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../schema/GuildSchema')
 const UserSchema = require('../schema/LevelingSystem-Schema')
 
@@ -44,10 +44,10 @@ exports.Level = async function (message) {
     if(Userdata.System.xp >= Userdata.System.required) {
         Userdata.System.required = Math.floor((Userdata.System.level +1) * (Userdata.System.level +1) * 100);
         Userdata.System.level++
-        const LevelUp = new Discord.MessageEmbed()
+        const LevelUp = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
         .setDescription(`${message.author}, You have leveled up to level **${Userdata.System.level}!** <a:pp330:853495519455215627>`)
-        .setColor('DARK_GREEN')
+        .setColor('DarkGreen')
         .setTimestamp()
         message.channel.send({ embeds: [LevelUp] }).then(msg => {
             setTimeout(() => {

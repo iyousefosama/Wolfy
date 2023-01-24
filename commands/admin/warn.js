@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
@@ -80,14 +80,14 @@ module.exports = {
         const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
         const warnGrammar = warnCount === 1 ? '' : 's';
         if(warnCount >= 20) return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, Maximum warnings number is \`20\`!` })
-        const warnEmbed = new MessageEmbed()
+        const warnEmbed = new EmbedBuilder()
         .setAuthor({ name: user.user.tag, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#e6a54a')
         .setTitle(`⚠️ Warned **${user.user.username}**`)
         .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${message.author.tag}`)
         .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         message.channel.send({ embeds: [warnEmbed] })
-        const dmembed = new MessageEmbed()
+        const dmembed = new EmbedBuilder()
         .setAuthor({ name: user.user.tag, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#e6a54a')
         .setTitle(`⚠️ Warned **${user.user.username}**`)

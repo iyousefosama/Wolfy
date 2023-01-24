@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const _embed = require('./embed');
 
 function error(message, options = {}){
@@ -8,8 +8,8 @@ function error(message, options = {}){
   // option.source -> The source url for the guide
 
   return message.channel.send(
-    new MessageEmbed()
-    .setColor('RED')
+    new EmbedBuilder()
+    .setColor('Red')
     .setFooter(`${options.type} | \©️${new Date().getFullYear()} Wolfy`)
     .setDescription([
       `❌\u2000\u2000|\u2000\u2000${options.title}\n\n`,
@@ -22,13 +22,13 @@ function error(message, options = {}){
 function saveDocument(document, message, options = {}){
   return document.save()
   .then(() => message.channel.send(
-    new MessageEmbed()
-    .setColor('GREEN')
-    .setFooter(`${options.type} | \©️${new Date().getFullYear()} Mai`)
+    new EmbedBuilder()
+    .setColor('Green')
+    .setFooter(`${options.type} | \©️${new Date().getFullYear()} Wolfy`)
     .setDescription([
       `<a:animatedcheck:758316325025087500>\u2000\u2000|\u2000\u2000${options.title}\n\n`,
       options.subtitle ? options.subtitle + '\n' : '',
-      `[**Learn More**](${options.source}) on how to configure wolfy's ${options.type} feature.`
+      `[**Learn More**](${options.source}) on how to configure Wolfy's ${options.type} feature.`
     ].join(''))
   ));
 };

@@ -1,6 +1,6 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const axios = require('axios');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: "clyde",
@@ -26,7 +26,7 @@ module.exports = {
     axios
     .get(`https://nekobot.xyz/api/imagegen?type=clyde&text=${args?.join(" ")}`)
     .then((res) => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
         .setImage(res.data.message)
         message.reply({ embeds: [embed] }).catch(() => null)
     })

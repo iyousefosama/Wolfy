@@ -1,5 +1,6 @@
+const { Channel } = require('diagnostics_channel');
 const discord = require('discord.js');
-
+const { ChannelType } = require('discord.js');
 module.exports = {
     name: "nuke",
     aliases: ["Nuke", "NUKE"],
@@ -16,6 +17,9 @@ module.exports = {
     examples: [''],
     async execute(client, message, args) {
 
+    if(message.channel.type !== ChannelType.GuildText) {
+      return message.channel.send(`\\❌ | **${message.author.tag}**, Must be only used in text channels!`);
+    }
     await message.channel.send(`Are you sure you want to nuke ${message.channel}? \`(y/n)\``);
 
     const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
@@ -27,8 +31,8 @@ module.exports = {
       return message.channel.send(`\\❌ | **${message.author.tag}**, Cancelled the \`nuke\` command!`);
     };
 
-    let nuke = new discord.MessageEmbed()
-    .setColor(`RED`)
+    let nuke = new discord.EmbedBuilder()
+    .setColor(`Red`)
     .setDescription(`<a:Error:836169051310260265> This channel will be nuked after \`(3 Seconds)\``)
     return message.channel.send({ embeds: [nuke] })
     .then(() => setTimeout(() => message.channel.clone()

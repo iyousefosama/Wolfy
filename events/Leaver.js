@@ -1,9 +1,10 @@
-const Discord = require('discord.js')
-const { MessageEmbed} = require('discord.js')
+const discord = require('discord.js')
+const { EmbedBuilder} = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
+const { AuditLogEvent, ChannelType } = require('discord.js')
 
 module.exports = {
     name: 'guildMemberRemove',
@@ -22,11 +23,11 @@ module.exports = {
         let msg;
         if (!Channel || !data.greeter.leaving.channel){
           return;
-        } else if (Channel.type !== 'GUILD_TEXT') {
+        } else if (Channel.type !== ChannelType.GuildText) {
           return;
         } else if (!data.greeter.leaving.isEnabled){
           return;
-        } else if(!Channel.guild.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+        } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
           return;
         } else {
           // Do nothing..
@@ -36,11 +37,11 @@ module.exports = {
         const type = leave.type === 'msg' && !leave.message ? 'default' : leave.type;
       
         if (type === 'default'){
-            let embed = new MessageEmbed()
-            .setColor('RED')
+            let embed = new EmbedBuilder()
+            .setColor('Red')
             .setTitle(`👋 ${member.user.tag} has left our server!`)
             .setURL('https://Wolfy.yoyojoe.repl.co')
-            .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
+            .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
             .setDescription(`**GoodBye ${member}**, sorry to see you go!\n\n<a:pp833:853495989796470815> We are back to \`${member.guild.memberCount}\` members!`)
             .setFooter({ text: `${member.user.username} (${member.user.id})` })
             .setTimestamp()
@@ -56,11 +57,11 @@ module.exports = {
         //if message was embed
         if (type === 'embed'){
           const message = await modifier.modify(data.greeter.leaving.embed, member);
-          const embed = new Discord.MessageEmbed()
-          .setColor('DARK_GREEN')
+          const embed = new discord.EmbedBuilder()
+          .setColor('DarkGreen')
           .setTitle(`${member.user.tag} has joined the server!`)
           .setURL('https://Wolfy.yoyojoe.repl.co')
-          .setThumbnail(member.user.displayAvatarURL({format: 'png', dynamic: true}))
+          .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
           .setDescription(message)
           .setFooter({ text: `${member.user.username} (${member.user.id})` })
           .setTimestamp()

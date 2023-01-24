@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const ms = require('ms')
 const schema = require('../../schema/TimeOut-Schema')
 
@@ -41,20 +41,20 @@ module.exports = {
               data.Reminder.time = 0;
               data.Reminder.reason = null;
               await data.save().then(() => {
-                return message.channel.send(`<:success:888264105851490355> **${message.author.tag}**, Successfully canceled the last reminder!`)
+                return message.channel.send(`<:Success:888264105851490355> **${message.author.tag}**, Successfully canceled the last reminder!`)
               }).catch(() => {
                 return message.channel.send(`\\❌ **${message.author.tag}**, Something went wrong!`)
               })
             }
             // Input Checking
-            const reminderErr = new discord.MessageEmbed()
+            const reminderErr = new discord.EmbedBuilder()
               .setDescription(`Error! You must state a duration for your reminder!. \`${client.prefix}remind [time] [reason]\``)
-              .setColor('RED')
+              .setColor('Red')
             if (!time || !ms(time)) return message.channel.send({ embeds: [reminderErr]})
     
-            const noReasonInput = new discord.MessageEmbed()
+            const noReasonInput = new discord.EmbedBuilder()
               .setDescription(`Error! Please state your remind reason! \`${client.prefix}remind [time] [reason]\``)
-              .setColor('RED')
+              .setColor('Red')
             if (!reason) return message.channel.send({ embeds: [noReasonInput]})
     
             if(data.Reminder.current) return message.channel.send(`\\❌ **${message.author.tag}**, looks like you already have an active reminder! cancel it by ${prefix}reminder 0`)
@@ -63,14 +63,14 @@ module.exports = {
             data.Reminder.time = Math.floor(Date.now() + ms(time));
             data.Reminder.reason = reason;
             await data.save().then(() => {
-              const dnEmbed = new discord.MessageEmbed()
+              const dnEmbed = new discord.EmbedBuilder()
               .setAuthor({ name: '| Reminder Set!', iconURL: message.author.displayAvatarURL() })
               .setDescription(`Successfully Set \`${message.author.tag}'s\` reminder!`)
               .addFields(
                { name: '❯ Remind You In:', value: time },
                { name: '❯ Remind Reason:', value: reason }
               )
-              .setColor('GREEN')
+              .setColor('Green')
               .setTimestamp()
               .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL()})
             message.channel.send({ embeds: [dnEmbed]})

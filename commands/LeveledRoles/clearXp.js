@@ -37,11 +37,9 @@ module.exports = {
           return message.channel.send(`\\❌ | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`);
         } else if (member.id === client.user.id){
           return message.channel.send(`\\❌ | ${message.author}, You cannot clear xp for me!`);
-        } else if (member.id === message.guild.ownerId){
+        } else if (member.id != message.guild.ownerId && member.id === message.guild.ownerId){
           return message.channel.send(`\\❌ | ${message.author}, You cannot clear xp for a server owner!`);
-        } else if (client.owners.includes(member.id)){
-          return message.channel.send(`\\❌ | ${message.author}, You can't clear xp for my developer through me!`);
-        } else if (message.member.roles.highest.position < member.roles.highest.position){
+        }else if (message.member.roles.highest.position < member.roles.highest.position){
           return message.channel.send(`\\❌ | ${message.author}, You can't clear xp for that user! He/She has a higher role than yours`);
         };
 

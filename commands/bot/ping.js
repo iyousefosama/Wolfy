@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
     name: "ping",
@@ -15,17 +15,17 @@ module.exports = {
     clientpermissions: ["USE_EXTERNAL_EMOJIS"],
     examples: [''],
     async execute(client, message, args) {
-        const loading = new discord.MessageEmbed()
-        .setColor('GOLD')
+        const loading = new discord.EmbedBuilder()
+        .setColor('Gold')
         .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
-        let msg = message.channel.send({ embeds: [loading]}).then(msg => {
+        await message.channel.send({ embeds: [loading]}).then(msg => {
         const ping = msg.createdTimestamp - message.createdTimestamp;
-        let Pong = new discord.MessageEmbed()
-        .setColor('YELLOW')
+        let Pong = new discord.EmbedBuilder()
+        .setColor('#ffff66')
         .setDescription(`Pong!`)
         msg.edit({ embeds: [Pong]})
-        let Ping = new discord.MessageEmbed()
-        .setColor('DARK_GREEN')
+        let Ping = new discord.EmbedBuilder()
+        .setColor('DarkGreen')
         .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
         msg.edit({ embeds: [Ping] })
     })

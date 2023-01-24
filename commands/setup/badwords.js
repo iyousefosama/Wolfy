@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const text = require('../../util/string');
 
@@ -47,7 +47,7 @@ module.exports = {
             data.Mod.BadWordsFilter.BDW.push(WordToBeAdded)
             await data.save()
             .then(() => {
-                const added = new Discord.MessageEmbed()
+                const added = new discord.EmbedBuilder()
                 .setColor('738ADB')
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
@@ -69,7 +69,7 @@ module.exports = {
             data.Mod.BadWordsFilter.BDW = array
             await data.save()
             .then(() => {
-                const removed = new Discord.MessageEmbed()
+                const removed = new discord.EmbedBuilder()
                 .setColor('738ADB')
                 .setDescription([
                   '<a:pp989:853496185443319809>\u2000|\u2000',
@@ -83,7 +83,7 @@ module.exports = {
               }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         } else if(type.toLowerCase() !== 'remove' && type.toLowerCase() !== 'add') {
             if(!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) return message.channel.send(`\\❌ **${message.member.displayName}**, There is no blacklisted words in this server!`)
-            const BadWordsEmbed = new Discord.MessageEmbed()
+            const BadWordsEmbed = new discord.EmbedBuilder()
             .setColor('738ADB')
             .setDescription([
               'Current blacklisted words from this server:\n',

@@ -1,4 +1,4 @@
-const { MessageEmbed, TextChannel } = require('discord.js');
+const { EmbedBuilder, TextChannel } = require('discord.js');
 
   module.exports = {
     name: "fleave",

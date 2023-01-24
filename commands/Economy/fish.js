@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
@@ -34,11 +34,11 @@ module.exports = {
         const quest = data.progress.quests?.find(x => x.id == 1);
         let Box = quest?.current;
         
-        const nulle = new Discord.MessageEmbed()
+        const nulle = new discord.EmbedBuilder()
         .setTitle(`<a:Wrong:812104211361693696> Missing item!`)
         .setDescription(`**${message.author.username}**, you didn't buy the **FishingPole** item from the shop!\nType \`${client.prefix}market\` to show the market.`)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-        .setColor('RED')
+        .setColor('Red')
         if(!item) return message.channel.send({ embeds: [nulle] })
     
         let moneyget;

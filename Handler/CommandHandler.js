@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const { Client, Intents, Collection } = require('discord.js')
 const fs = require('fs');
 
@@ -7,7 +7,7 @@ const fs = require('fs');
  */
 
 module.exports = async (client) => {
-    client.commands = new Discord.Collection();
+    client.commands = new discord.Collection();
 
     const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {

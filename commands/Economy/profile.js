@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const discord = require('discord.js');
+const { AttachmentBuilder } = require('discord.js')
 const schema = require('../../schema/Economy-Schema')
 const { createCanvas, loadImage } = require('canvas');
 
@@ -47,7 +48,7 @@ module.exports = {
           const emblem = data.profile.badge ? await loadImage(data.profile.badge) : null;
           const def = await loadImage(data.profile.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg');
           const defpattern = await loadImage(data.profile.pattern || 'https://i.imgur.com/nx5qJUb.png');
-          const avatar = await loadImage(member.user.displayAvatarURL({format: 'png'}));
+          const avatar = await loadImage(member.user.displayAvatarURL({ extension: 'png' }));
           // add the wallpaper
           ctx.drawImage(def,300,65,475,250);
     
@@ -254,10 +255,10 @@ module.exports = {
             ctx.drawImage(hat,0,0,300,300);
           };
 
-          message.channel.send({
+          return await message.channel.send({
             files: [{
               attachment: canvas.toBuffer(),
-              name: 'rank.png'
+              name: 'profile.png'
             }]
           });
 }

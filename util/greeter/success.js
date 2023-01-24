@@ -1,20 +1,20 @@
 module.exports = {
   STATS_IS_DEF: {
-    title: '%TITLE Feature message has been successfully reverted to **default**!',
+    title: '%TITLE Feature message has been Successfully reverted to **default**!',
     subtitle: [
-      '%STATE members will now be announced by wolf\'s default announce message.',
+      '%STATE members will now be announced by Mai\'s default announce message.',
       `To change the message, use \`%PREFIX%COMMAND [options] [additional parameters]\``
     ].join('\n')
   },
   TYPE_IS_MESSAGE: {
-    title: '%TITLE Feature message has been successfully changed to **text mode**!',
+    title: '%TITLE Feature message has been Successfully changed to **text mode**!',
     subtitle: [
       '%STATE members will now be announced through your guild\'s configured %TYPE message.',
       `To change the message, use \`%PREFIX%COMMAND [options] [additional parameters]\``,
     ].join('\n')
   },
   TYPE_IS_EMBED: {
-    title: '%TITLE Feature message has been successfully changed to **embed mode**!',
+    title: '%TITLE Feature message has been Successfully changed to **embed mode**!',
     subtitle: [
       '%STATE members will now be announced through your guild\'s configured %TYPE message.',
       `To change the message, use \`%PREFIX%COMMAND [options] [additional parameters]\``,

@@ -1,5 +1,5 @@
-const discord = require('discord.js');
-const { MessageEmbed } = require('discord.js') // npm i discord.js
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js') // npm i discord.js
 const fetch = require('node-fetch') // npm i node-fetch
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
     clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
     examples: [
         'Iphone 6',
-        'Discord'
+        'discord'
       ],
     async execute(client, message, args) {
     if(message.channel.nsfw === false) return message.reply(`\\❌ **${message.author.tag}**, Sorry but you can use this command in nsfw channels only!`)
@@ -36,7 +36,7 @@ module.exports = {
     console.log(response)
     try {
         if(response.type === 'disambiguation') { // If Their Are Many Results With Same Searched Topic
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
             .setColor(0x7289DA)
             .setTitle(response.title) // Title Of Topic
@@ -49,7 +49,7 @@ module.exports = {
             message.channel.send({ embeds: [embed] })
         }
         else { // If Only One Result
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
             .setColor(0x7289DA)
             .setTitle(response.title) // Title Of Topic

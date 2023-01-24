@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -41,11 +41,11 @@ module.exports = {
           const state = ['Disabled', 'Enabled'][Number(data.Mod.AntiLink.isEnabled)];
           data.Mod.AntiLink.isEnabled = data.Mod.AntiLink.isEnabled;
     
-          const embed = new Discord.MessageEmbed()
-            .setColor('GREEN')
+          const embed = new discord.EmbedBuilder()
+            .setColor('Green')
             .setDescription([
               '<a:Correct:812104211386728498>\u2000|\u2000',
-              `AntiLink protection Feature has been successfully **${state}**!\n\n`,
+              `AntiLink protection Feature has been Successfully **${state}**!\n\n`,
               `To **${!data.Mod.AntiLink.isEnabled ? 're-enable' : 'disable'}** this`,
               `feature, use the \`${client.prefix}antilinktoggle\` command.`
             ].join(' '))

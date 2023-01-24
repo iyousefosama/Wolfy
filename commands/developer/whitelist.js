@@ -35,7 +35,7 @@ module.exports = {
             return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, You cannot blacklist me!` });
           };
 
-    const done = new discord.MessageEmbed()
+    const done = new discord.EmbedBuilder()
     .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
     .setColor(`GREEN`)
     .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted **${user.tag}**`)

@@ -1,8 +1,8 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const parser = require('../../util/greeter/parser');
 const errors = require('../../util/greeter/errors');
-const success = require('../../util/greeter/success');
+const Success = require('../../util/greeter/Success');
 
 module.exports = {
     name: "setwelcomemsg",
@@ -44,8 +44,8 @@ module.exports = {
               data.greeter.welcome.type = 'msg';
               data.greeter.welcome.message = `${text}`;
               await data.save()
-              const msgembed = new MessageEmbed()
-              .setColor('GREEN')
+              const msgembed = new EmbedBuilder()
+              .setColor('Green')
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
                 `Welcomer message has been Successfully set!\n\n`,
@@ -59,8 +59,8 @@ module.exports = {
               data.greeter.welcome.type = 'embed';
               data.greeter.welcome.embed = `${text}`;
               await data.save()
-              const embedmsg = new MessageEmbed()
-              .setColor('GREEN')
+              const embedmsg = new EmbedBuilder()
+              .setColor('Green')
               .setDescription([
                 '<a:Correct:812104211386728498>\u2000|\u2000',
                 `Welcomer embed has been Successfully set!\n\n`,

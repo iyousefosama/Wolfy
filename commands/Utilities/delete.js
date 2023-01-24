@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const TicketSchema = require('../../schema/Ticket-Schema')
 const moment = require('moment');
@@ -51,8 +51,8 @@ return message.channel.send({ content: `\\❌ **${message.member.displayName}**,
     if(message.channel.parent == categoryID){
     
         // deletes the ticket / channel
-        const close = new discord.MessageEmbed()
-        .setColor(`RED`)
+        const close = new discord.EmbedBuilder()
+        .setColor(`Red`)
         .setDescription('<a:pp681:774089750373597185> Ticket will be deleted in 5 seconds')
         message.channel.send({ embeds: [close]})
         .then(channel => {

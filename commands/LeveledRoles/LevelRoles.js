@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
         return Roles.RoleId
     })
 
-    const Success = new Discord.MessageEmbed()
+    const Success = new discord.EmbedBuilder()
     .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
     .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
     .setDescription(`<a:Bagopen:877975110806540379> \`${message.guild.name}\` Leveled Roles List!\n\n`)

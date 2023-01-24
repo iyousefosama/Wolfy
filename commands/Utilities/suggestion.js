@@ -2,6 +2,7 @@ const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require("moment");
+const { ChannelType } = require('discord.js')
 
 module.exports = {
     name: "suggestion",
@@ -47,21 +48,21 @@ module.exports = {
     if (!suggestion) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, Please provide a suggestions!`})
     let Channel = client.channels.cache.get(data.Mod.Suggestion.channel)
     if(!Channel) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
-    if(Channel.type !== 'GUILD_TEXT') return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
+    if(channel.type !== ChannelType.GuildText) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the suggestions channel please contact mod or use \`w!setSuggch\` cmd.`})
     if(!data.Mod.Suggestion.isEnabled) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **suggestions** command is disabled in this server!`})
     if (TimeOutData.suggestion > now){
-        const embed = new discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
         .setTitle(`<a:pp802:768864899543466006> Suggestion already Send!`)
         .setDescription(`\\❌ **${message.author.tag}**, You already send your **suggestion** earlier!\nYou can send your suggestion again after \`${moment.duration(TimeOutData.suggestion - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-        .setColor('RED')
+        .setColor('Red')
         message.channel.send({ embeds: [embed] })
       } else {
-    const embed = new discord.MessageEmbed()
+    const embed = new discord.EmbedBuilder()
     .setTitle(`<a:pp659:853495803967307887> ${message.member.displayName}'s Suggestion`)
     .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
     .setDescription(suggestion)
-    .setThumbnail(message.author.displayAvatarURL(({dynamic: true, format: 'png', size: 512})))
+    .setThumbnail(message.author.displayAvatarURL(({dynamic: true, extension:'png', size: 512})))
     .addFields({ name: '<a:iNFO:853495450111967253> Status', value: 'Under Review', inline: true})
     .setFooter({ text: `Suggestion System | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.avatarURL({dynamic: true}) })
     message.delete().catch(() => null)
@@ -73,7 +74,7 @@ module.exports = {
     TimeOutData.suggestion = Math.floor(Date.now() + duration);
     await TimeOutData.save()
     setTimeout(async function(){
-    message.channel.send({ content: `<:Verify:841711383191879690> **${message.member.displayName}**, Successfully sent Your **suggestion**!`})
+    message.channel.send({ content: `<:Verify:841711383191879690> ${message.author}, Successfully sent Your **suggestion**!`})
     }, 900);
 }
 }

@@ -73,7 +73,7 @@ module.exports = {
     var status = member.presence?.status;
     const requiredXP = Userdata.System.required;
     const rank = new canvacord.Rank()
-    .setAvatar(user.displayAvatarURL({format: "png", size: 1024}))
+    .setAvatar(user.displayAvatarURL({extension:"png", size: 1024}))
     .setProgressBar("#FFFFFF", "COLOR")
     .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
     .setCurrentXP(Userdata.System.xp)
@@ -84,7 +84,7 @@ module.exports = {
     .setDiscriminator(user.discriminator)
     const img = await rank.build()
     .then(data => {
-        const attachment = new discord.MessageAttachment(data, "RankCard.png");
+        const attachment = new discord.AttachmentBuilder(data, { name: "RankCard.png"});
         message.channel.send({ files: [attachment] });
     });
     }

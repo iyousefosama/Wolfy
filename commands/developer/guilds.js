@@ -1,4 +1,4 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 
 module.exports = {
     name: "guilds",
@@ -17,7 +17,7 @@ module.exports = {
             list += `${guild.name} (${guild.id}) | ${guild.memberCount} members | Owner: ${guild.ownerId}.\n`
         })
     
-        const output = new discord.MessageAttachment(Buffer.from(list), 'guilds.txt');
+        const output = new discord.AttachmentBuilder(Buffer.from(list), 'guilds.txt');
         message.reply({ content: `${message.author}, Here is my guilds(\`${client.guilds.cache.size}\`) list!`, files: [output] });
 }
 }

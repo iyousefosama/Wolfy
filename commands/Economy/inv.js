@@ -1,10 +1,10 @@
-const Discord = require('discord.js');
-const { MessageEmbed, GuildEmoji } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     name: "inv",
@@ -33,14 +33,14 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        let button = new MessageButton()
-        .setStyle('PRIMARY')
+        let button = new ButtonBuilder()
+        .setStyle('Primary')
         .setEmoji('853495153280155668')
         .setLabel('Minging inventory')
         .setCustomId("652196854196854984")
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(button);
-        const Mineinv = new Discord.MessageEmbed()
+        const Mineinv = new discord.EmbedBuilder()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('#2F3136')
         .setTitle(`<a:BackPag:776670895371714570> ${message.author.username}\'s mining Inventory!`)
@@ -61,8 +61,8 @@ module.exports = {
         }
 
         const pages = new Pages(_.chunk(data.profile.inventory, 25).map((chunk, i, o) => {
-          return new MessageEmbed()
-          .setColor('GREY')
+          return new EmbedBuilder()
+          .setColor('Grey')
           .setTitle(`${message.author.tag}'s Inventory`)
           .setURL('https://wolfy.yoyojoe.repl.co/')
           .setFooter({ text: `${message.author.tag}'s Inventory | \©️${new Date().getFullYear()} Wolfy\u2000\u2000•\u2000\u2000Page ${i+1} of ${o.length}` })
@@ -95,7 +95,7 @@ module.exports = {
     })
         Butcollector.on('end', message => {
             button.setDisabled(true)
-            const newrow = new MessageActionRow()
+            const newrow = new ActionRowBuilder()
             .addComponents(button);
             msg.edit({embeds: [pages.firstPage], components: [newrow]}).catch(() => null)
         })

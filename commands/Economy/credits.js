@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 
@@ -40,14 +40,14 @@ module.exports = {
         let credits = data.credits
         let bank = data.Bank.balance.credits
         const dailyUsed = data.timer.daily.timeout !== 0 && data.timer.daily.timeout - Date.now() > 0;
-        const bal = new Discord.MessageEmbed()
+        const bal = new discord.EmbedBuilder()
         .setAuthor({ name: `${user.user.username}'s wallet`, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
-        .setColor('GREY')
+        .setColor('Grey')
         .setDescription(`<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(credits)}\`!\n${data.Bank.balance.credits !== null
             ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
             : `\\❌ **${user.user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
           }\n\n━━━━━━━━━━━━━━\n${
-            dailyUsed ? '<:success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
+            dailyUsed ? '<:Success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
           }`)
         .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTimestamp()

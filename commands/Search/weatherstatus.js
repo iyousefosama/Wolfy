@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const weather = require("weather-js");
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
         let current = result[0].current;
         let location = result[0].location;
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
         .setAuthor({ name: '🗺 ' + current.observationpoint})
         .setDescription(`> ${current.skytext}`)
         .setThumbnail(current.imageUrl)

@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const { Client, Intents, Collection } = require('discord.js')
 const fs = require('fs');
 const commands=[]
@@ -8,7 +8,7 @@ const commands=[]
  */
 
 module.exports = async (client) => {
-    client.commands = new Discord.Collection();
+    client.commands = new discord.Collection();
     client.slashCommands = new Collection();
 
     const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));

@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
+const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
@@ -8,7 +8,7 @@ module.exports = {
 		.setName('invite')
 		.setDescription('Replies with bot links/invite!'),
 	async execute(client, interaction) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new discord.EmbedBuilder()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
         .setTimestamp()
@@ -17,27 +17,27 @@ module.exports = {
         .setTitle(`${client.user.username} Links`)
         .setDescription(`<a:Cookie:853495749370839050> **Hey, ${interaction.user.username}** that's all my special links!\n\n\`\`\`You can support our bot with voting it on top.gg\`\`\``)
         .setURL(client.config.websites["website"])
-        let button = new MessageButton()
-        .setStyle('LINK')
+        let button = new ButtonBuilder()
+        .setStyle(`Link`)
         .setEmoji('853495153280155668')
         .setURL(client.config.websites["support"]) 
         .setLabel('Support server'); 
-        let button2 = new MessageButton()
-        .setStyle('LINK')
+        let button2 = new ButtonBuilder()
+        .setStyle(`Link`)
         .setEmoji('841711382739157043')
         .setURL(client.config.websites["invite"]) 
         .setLabel('Add bot!'); 
-        let button3 = new MessageButton()
-        .setStyle('LINK')
+        let button3 = new ButtonBuilder()
+        .setStyle(`Link`)
         .setEmoji('853496052899381258')
         .setURL(client.config.websites["top.gg"]) 
         .setLabel('Vote here!'); 
-        let button4 = new MessageButton()
-        .setStyle('LINK')
+        let button4 = new ButtonBuilder()
+        .setStyle(`Link`)
         .setEmoji('853495912775942154')
         .setURL(client.config.websites["website"]) 
         .setLabel('Bot Website!');
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(button, button2, button3, button4);
         interaction.editReply({ embeds: [embed], components: [row] })
 	},

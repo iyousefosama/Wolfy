@@ -60,7 +60,7 @@ module.exports = {
       data.credits = data.credits + Math.round(amount);
 
       return data.save()
-      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, You successfully withdrawn **${text.commatize(Math.floor(amount / 1.1))}** credits from your bank! (+5% fee).`))
+      .then(() => message.channel.send(`<:moneytransfer:892745164324474900> **${message.author.tag}**, You Successfully withdrawn **${text.commatize(Math.floor(amount / 1.1))}** credits from your bank! (+5% fee).`))
       .catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
   }

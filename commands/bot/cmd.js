@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const discord= require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const text = require('../../util/string');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
     examples: [],
     async execute(client, message, [query]) {
         if (!query){
-            const embed = new Discord.MessageEmbed()
+            const embed = new discord.EmbedBuilder()
             .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
             .setTitle('<:error:888264104081522698> \`\`\`Unknown Commands\`\`\`')
             .setDescription(`\\❌ **${message.author.username}**, you didn't type the command to get informations about!`)
@@ -34,7 +34,7 @@ module.exports = {
           }
 
           
-          const embed = new Discord.MessageEmbed()
+          const embed = new discord.EmbedBuilder()
           .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
           .setColor('738ADB')
           .setTitle(`${client.prefix}${cmd.name}`)

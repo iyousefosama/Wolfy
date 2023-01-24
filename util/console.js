@@ -5,7 +5,7 @@
  * @param {string} title The string to apply the color to
  * @returns {undefined}
  */
- function success(message, title = 'SUCCESS!'){
+ function Success(message, title = 'Success!'){
     return console.log('\x1b[32m', title, '\x1b[0m', message);
   };
   
@@ -29,4 +29,4 @@
     return console.log(title ,'\x1b[31mERR!\x1b[0m', message);
   };
   
-  module.exports = { success, warn, error }
+  module.exports = { Success, warn, error }

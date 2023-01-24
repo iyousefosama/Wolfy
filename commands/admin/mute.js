@@ -1,6 +1,6 @@
-const discord = require('discord.js');
+const discord= require('discord.js');
 const schema = require('../../schema/Mute-Schema')
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
 
 module.exports = {
     name: "mute",
@@ -63,55 +63,67 @@ module.exports = {
         return message.channel.send(`\\❌ | ${message.author}, You cannot mute a server owner!`)
     }
 
-    let mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "Muted")
+    let mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted")
     // If bot didn't find Muted role in the server
     if (!mutedRole) {
-        const button = new MessageButton()
+        const button = new ButtonBuilder()
         .setLabel(`Yes`)
         .setCustomId("98541984198419841")
-        .setStyle('SUCCESS')
+        .setStyle('Success')
         .setEmoji("758141943833690202");
-        const button2 = new MessageButton()
+        const button2 = new ButtonBuilder()
         .setLabel(`No`)
         .setCustomId("8749481894198419841")
-        .setStyle('DANGER')
+        .setStyle('Danger')
         .setEmoji("888264104081522698");
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
         .addComponents(button, button2);
-        const Embed = new discord.MessageEmbed()
+        const Embed = new discord.EmbedBuilder()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setTimestamp()
             .setDescription(`\\❌ **${message.author.tag}**, There is no \`muted\` role in this guild,\n\nWould you like to generate one?`)
-            .setColor('RED')
+            .setColor('Red')
         const msg = await message.reply({ embeds: [Embed], components: [row] })
         const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '98541984198419841'){
+
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
+
                 if (message.guild.roles.cache.size >= 250) {
                     return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Failed to generate a \`Muted\` role. Your server has too many roles! **[250]**`, ephemeral: true})
                 }
-                if (!message.channel.permissionsFor(message.guild.me).has('MANAGE_CHANNELS')) {
+
+                if (!message.channel.permissionsFor(message.guild.members.me).has('MANAGE_CHANNELS')) {
                     return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, I do not have the proper permissions to create this role! \`MANAGE_CHANNELS\``, ephemeral: true})
                 }
-                const mutedRole = await message.guild.roles.create({
+
+                await message.guild.roles.create({
                         name: 'Muted',
-                        color: '#646060'
+                        color: '#646060',
+                        permissions: []}).then(async role => {
+                            message.guild.channels.cache.forEach(async channel => {
+                                if(channel.type != ChannelType.GuildText) {
+                                    return;
+                                } else {
+                                    await channel.permissionOverwrites.edit(role, {
+                                        'SendMessages': false,
+                                        'AddReactions': false,
+                                        'Connect': false,
+                                        'Speak': false
+                                    })
+                                }
+                            })
+                    await interactionCreate.reply({ content: `<:Verify:841711383191879690> A \`${role.name}\` role has been created!`, ephemeral: true})
+                }).catch(() => {
+                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Something went wrong while creating the muted role!`})
                 })
-                interactionCreate.reply({ content: '<:Verify:841711383191879690> A `muted` role has been created!', ephemeral: true})
-                message.guild.channels.cache.forEach(async (channel, id) => {
-                    await channel.permissionOverwrites.edit(mutedRole, {
-                        SEND_MESSAGES: false,
-                        ADD_REACTIONS: false,
-                        CONNECT: false,
-                        SPEAK: false
-                    })
-                });
 
                 try {
+                    mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted")
                     member.roles.add(mutedRole)
-                    const muteAdded = new discord.MessageEmbed()
+                    const muteAdded = new discord.EmbedBuilder()
                     .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
                     .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason || 'Unspecified'}\`!`)
                     .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
@@ -122,7 +134,7 @@ module.exports = {
                 }
                 button.setDisabled(true)
                 button2.setDisabled(true)
-                const newrow = new MessageActionRow()
+                const newrow = new ActionRowBuilder()
                 .addComponents(button, button2);
                 msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
                 }
@@ -131,7 +143,7 @@ module.exports = {
                     interactionCreate.reply({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`mute\` command!`, ephemeral: true})
                     button.setDisabled(true)
                     button2.setDisabled(true)
-                    const newrow = new MessageActionRow()
+                    const newrow = new ActionRowBuilder()
                     .addComponents(button, button2);
                     msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
                 }
@@ -139,7 +151,7 @@ module.exports = {
         collector.on('end', message => {
             button.setDisabled(true)
             button2.setDisabled(true)
-            const newrow = new MessageActionRow()
+            const newrow = new ActionRowBuilder()
             .addComponents(button, button2);
             msg.edit({embeds: [Embed], components: [newrow]}).catch(() => null)
         })
@@ -150,7 +162,7 @@ module.exports = {
             data.Muted = true
             await data.save()
             .then(() => {
-                const mute = new discord.MessageEmbed()
+                const mute = new discord.EmbedBuilder()
                 .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
                 .setDescription(`<:off:759732760562368534> I muted ${member} for reason: \`${reason || 'Unspecified'}\`!`)
                 .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })

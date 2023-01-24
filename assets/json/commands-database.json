@@ -69,7 +69,7 @@
     ],
     "examples": [
       "@WOLF Hello, how are you today ?",
-      "742682490216644619 We started a giveaway for your birthday come!"
+      "742682490216644619 We have started a giveaway for your birthday!"
     ]
   },
   {
@@ -85,7 +85,7 @@
     "usage": "",
     "group": "Moderation",
     "description": "Display the setup embed message!",
-    "cooldown": 260,
+    "cooldown": 30,
     "guarded": false,
     "permissions": [
       "MANAGE_MESSAGES"
@@ -120,6 +120,30 @@
     ],
     "examples": [
       "742682490216644619 Big scammer!"
+    ]
+  },
+  {
+    "name": "infraction",
+    "aliases": [
+      "infraction",
+      "INFRACTION"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable/Edit infraction point protection system!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      ""
     ]
   },
   {
@@ -235,7 +259,7 @@
     "args": false,
     "usage": "",
     "group": "Moderation",
-    "description": "Nuke any channel (this will delete all the channel and create newone!)",
+    "description": "ReCreate any channel without messages (this will delete all the channel and create newone!)",
     "cooldown": 20,
     "guarded": false,
     "permissions": [
@@ -251,6 +275,29 @@
     ]
   },
   {
+    "name": "purge",
+    "aliases": [
+      "Purge"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<quantity>",
+    "group": "Moderation",
+    "description": "Clear messages of the user with quantity you want (from 2 to 100)",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "clientPermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      "20"
+    ]
+  },
+  {
     "name": "removewarn",
     "aliases": [
       "RemoveWarn",
@@ -261,6 +308,7 @@
     "guildOnly": true,
     "args": true,
     "usage": "<user>",
+    "group": "Moderation",
     "description": "Remove a user warn from the warns list by the id",
     "cooldown": 5,
     "guarded": false,
@@ -285,6 +333,7 @@
     "description": "Respond to a user suggestion in the server.",
     "cooldown": 3,
     "guarded": false,
+    "group": "Moderation",
     "permissions": [
       "ADMINISTRATOR"
     ],
@@ -625,10 +674,7 @@
     "permissions": [],
     "clientpermissions": [
       "USE_EXTERNAL_EMOJIS",
-      "EMBED_LINKS",
-      "ATTACH_FILES",
-      "VIEW_CHANNEL",
-      "READ_MESSAGE_HISTORY"
+      "ATTACH_FILES"
     ],
     "examples": [
       ""
@@ -816,13 +862,28 @@
     "args": true,
     "usage": "<guildID>",
     "group": "developer",
-    "cooldown": 60,
+    "cooldown": 15,
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
       "EMBED_LINKS",
       "ATTACH_FILES"
     ]
+  },
+  {
+    "name": "guilds",
+    "aliases": [
+      "Guilds",
+      "servers"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true
   },
   {
     "name": "shutdown",
@@ -1039,7 +1100,7 @@
     "usage": "",
     "group": "Economy",
     "description": "Take your fishingpole and start fishing",
-    "cooldown": 17,
+    "cooldown": 13,
     "guarded": false,
     "permissions": [],
     "examples": [
@@ -1738,7 +1799,7 @@
     ]
   },
   {
-    "name": "addrolle",
+    "name": "addrole",
     "aliases": [
       "Addrole",
       "ADDROLE",
@@ -1903,7 +1964,7 @@
     "name": "djs",
     "aliases": [
       "Djs",
-      "Discord.js",
+      "discord.js",
       "discord.js"
     ],
     "dmOnly": false,
@@ -1931,8 +1992,8 @@
     ],
     "dmOnly": false,
     "guildOnly": true,
-    "args": false,
-    "usage": "",
+    "args": true,
+    "usage": "<lyrics title>",
     "group": "Search",
     "description": "The bot will show you the lyrics for the music you are searching for!",
     "cooldown": 5,
@@ -1943,7 +2004,9 @@
       "ADD_REACTIONS",
       "EMBED_LINKS"
     ],
-    "examples": []
+    "examples": [
+      "Venom"
+    ]
   },
   {
     "name": "steam",
@@ -1987,7 +2050,7 @@
     "guarded": false,
     "permissions": [],
     "examples": [
-      "Egypt"
+      "Cairo, egypt"
     ]
   },
   {
@@ -2012,7 +2075,33 @@
     ],
     "examples": [
       "Iphone 6",
-      "Discord"
+      "discord"
+    ]
+  },
+  {
+    "name": "antilinktoggle",
+    "aliases": [
+      "AntiLinkToggle",
+      "ANTILINKTOGGLE",
+      "Antilinktoggle",
+      "anti-link-toggle"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable Anti-Links protection!",
+    "cooldown": 5,
+    "guarded": false,
+    "permissions": [
+      "ADMINISTRATOR"
+    ],
+    "clientpermissions": [
+      "MANAGE_MESSAGES"
+    ],
+    "examples": [
+      ""
     ]
   },
   {
@@ -2155,6 +2244,7 @@
     "guarded": false,
     "permissions": [
       "MANAGE_CHANNELS",
+      "VIEW_CHANNEL",
       "ADMINISTRATOR"
     ],
     "examples": [
@@ -2489,69 +2579,21 @@
     ]
   },
   {
-    "name": "antilinktoggle",
+    "name": "startg",
     "aliases": [
-      "AntiLinkToggle",
-      "ANTILINKTOGGLE",
-      "Antilinktoggle",
-      "anti-link-toggle"
+      "STARTG"
     ],
     "dmOnly": false,
     "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable Anti-Links protection!",
-    "cooldown": 5,
-    "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
-    "clientpermissions": [
-      "MANAGE_MESSAGES"
-    ],
-    "examples": [
-      ""
-    ]
-  },
-  {
-    "name": "infraction",
-    "aliases": [
-      "infraction",
-      "INFRACTION"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable/Edit infraction point protection system!",
-    "cooldown": 5,
-    "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
-    "clientpermissions": [
-      "MANAGE_MESSAGES"
-    ],
-    "examples": [
-      ""
-    ]
-  },
-  {
-    "name": "mail",
-    "aliases": [
-      "MAIL"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
+    "args": true,
+    "usage": "[Winners Number] [Time] [Prize]",
+    "group": "Test",
     "description": "Desc..",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
+    "permissions": [
+      "MANAGE_MESSAGES"
+    ],
     "clientpermissions": [],
     "examples": []
   },
@@ -2564,9 +2606,9 @@
     "guildOnly": true,
     "args": false,
     "usage": "",
-    "group": "test",
+    "group": "Unspecified",
     "description": "Developer test tool!",
-    "cooldown": 2,
+    "cooldown": 1,
     "guarded": false,
     "permissions": [],
     "examples": []
@@ -2580,8 +2622,8 @@
     ],
     "dmOnly": false,
     "guildOnly": true,
-    "args": true,
-    "usage": "<code>",
+    "args": false,
+    "usage": "<code(or File with the message)>",
     "group": "Utilities",
     "description": "To upload a code to sourcebin",
     "cooldown": 10,
@@ -2593,6 +2635,23 @@
     "examples": [
       "message.channel.send('Hello, world!')"
     ]
+  },
+  {
+    "name": "calc",
+    "aliases": [
+      "Calc"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<equation>",
+    "group": "Utilities",
+    "description": "Calculates an equation by wolfy",
+    "cooldown": 3,
+    "guarded": false,
+    "permissions": [],
+    "clientpermissions": [],
+    "examples": []
   },
   {
     "name": "delete",

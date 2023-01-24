@@ -17,9 +17,9 @@ module.exports = {
     let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
 
     if(!user){ 
-        let em = new discord.MessageEmbed()
+        let em = new discord.EmbedBuilder()
         .setTitle('Error :')
-        .setColor('RED')
+        .setColor('Red')
         .setDescription(`
         **Usage:**
        ${prefix}dm (user) (message)
@@ -37,7 +37,7 @@ module.exports = {
     let dm = args.slice(1).join(" ")
     if(!dm) return message.channel.send({ content: "I can't dm an empty message" })
 
-    const dmembed = new discord.MessageEmbed()
+    const dmembed = new discord.EmbedBuilder()
       .setAuthor({ name: user.user.username, iconURL: user.user.displayAvatarURL({dynamic: true}) })
       .setTitle(`__Hey, ${user.user.username} you have a new message from bot developer__ <a:pp659:853495803967307887>`)
       .setURL('https://Wolfy.yoyojoe.repl.co')
@@ -45,8 +45,8 @@ module.exports = {
       .setTimestamp()
       .setImage(`https://cdn.discordapp.com/attachments/830926767728492565/874777015058858044/unnamed_2.png`)
 
-    const err = new discord.MessageEmbed()
-        .setColor(`RED`)
+    const err = new discord.EmbedBuilder()
+        .setColor(`Red`)
         .setDescription(`<a:pp802:768864899543466006> I can't send messages to ${user}`)
 
     try {
@@ -54,8 +54,8 @@ module.exports = {
     } catch (error) {
         return message.channel.send({ embeds: [err] })
     }
-    let done = new discord.MessageEmbed()
-    .setColor(`GREEN`)
+    let done = new discord.EmbedBuilder()
+    .setColor(`Green`)
     .setDescription(`<a:pp399:768864799625838604> Successfully DM the user ${user}`)
     message.channel.send({ embeds: [done] })
 }

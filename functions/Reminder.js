@@ -1,4 +1,4 @@
-const Discord = require('discord.js')
+const discord = require('discord.js')
 const { Client } = require('discord.js')
 const schema = require('../schema/TimeOut-Schema')
 
@@ -41,9 +41,9 @@ module.exports = async (client) => {
             member.Reminder.current = false;
             member.Reminder.time = 0;
             await member.save().then(async () => {
-              const reminderEmbed = new Discord.MessageEmbed()
+              const reminderEmbed = new discord.EmbedBuilder()
               .setAuthor({ name: 'Reminder Alert!', iconURL: user.displayAvatarURL() })
-              .setColor('DARK_GREEN')
+              .setColor('DarkGreen')
               .addFields(
                 { name: '❯ Remind Reason', value: member.Reminder.reason}
               )
