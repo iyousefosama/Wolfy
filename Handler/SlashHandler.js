@@ -25,7 +25,7 @@ for (const file of slashFiles) {
 		client.on("ready", async () => {
             await new Promise(r=>setTimeout(r,1500))
             client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });
-			if(false){
+			if(client.config.loadSlashsGlobal){
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
 					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
@@ -33,7 +33,7 @@ for (const file of slashFiles) {
 			} else {
 				client.guilds.cache.map(g => g).forEach(async (guild) => {
 					try{
-						guild.commands.set([])
+						guild.commands.set(commands)
 						.then(slashCommandsData => {
 							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
 						}).catch((e)=>console.log(e))
