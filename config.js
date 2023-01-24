@@ -52,7 +52,7 @@ const settings = {
       }
     },
 
-    loadSlashsGlobal: false,
+    loadSlashsGlobal: true,
     
     // Array of owners recognized by the bot. ID here will be given access to
     // owner based commands.
