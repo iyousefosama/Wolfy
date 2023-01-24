@@ -40,7 +40,7 @@ exports.checkMsg = async function (client, message) {
       const owner = await message.guild.fetchOwner()
       if (message.author.id === message.guild.ownerId) {
         return;
-       } else if (message.channel?.permissionsFor(message.author).has("ADMINISTRATOR")) {
+       } else if (message.channel?.permissionsFor(message.member).has("ADMINISTRATOR")) {
         return;
        } else if (!GuildData || !data || !GuildData.Mod.Infraction?.isEnabled) {
          return;

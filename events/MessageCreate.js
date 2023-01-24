@@ -154,7 +154,7 @@ module.exports = {
                    //+ permissions: [""],
                    if (cmd.permissions) {
                        if (message.guild && !client.owners.includes(message.author.id)) {
-                         const authorPerms = message.channel.permissionsFor(message.author);
+                         const authorPerms = message.channel.permissionsFor(message.member);
                          if (!authorPerms || !authorPerms.has(cmd.permissions)) {
                               const PermsEmbed = new discord.EmbedBuilder()
                               .setColor(`Red`)

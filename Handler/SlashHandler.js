@@ -35,7 +35,7 @@ for (const file of slashFiles) {
 					try{
 						guild.commands.set(commands)
 						.then(slashCommandsData => {
-							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for: ${`${guild.name}`}`); 
+							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded as a public commands!`); 
 						}).catch((e)=>console.log(e))
 					}catch (e){
 						console.log(e)

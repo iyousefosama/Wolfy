@@ -28,7 +28,7 @@ exports.badword = async function (client, message) {
   const owner = await message.guild.fetchOwner()
  if (message.author.id === message.guild.ownerId) {
    return;
- } else if (message.channel?.permissionsFor(message.author).has("ADMINISTRATOR")) {
+ } else if (message.channel?.permissionsFor(message.member).has("ADMINISTRATOR")) {
   return;
  } else if (!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) {
     return;
