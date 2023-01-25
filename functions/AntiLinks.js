@@ -1,9 +1,9 @@
 const schema = require('../schema/GuildSchema')
 const UserSchema = require('../schema/Infraction-Schema')
 const InfFunction = require('../functions/Infraction')
+const { PermissionsBitField } = require('discord.js')
 
 exports.checkMsg = async function (client, message) {
-
     if(!message) {
         return;
     }
@@ -40,7 +40,7 @@ exports.checkMsg = async function (client, message) {
       const owner = await message.guild.fetchOwner()
       if (message.author.id === message.guild.ownerId) {
         return;
-       } else if (message.channel?.permissionsFor(message.member).has("ADMINISTRATOR")) {
+       } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
         return;
        } else if (!GuildData || !data || !GuildData.Mod.Infraction?.isEnabled) {
          return;
