@@ -29,7 +29,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.guild?.me.permissions.has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
+          } else if(!Channel.permissionsFor(Channel.guild.members.me).has("EMBED_LINKS", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY", "VIEW_AUDIT_LOG", "SEND_MESSAGES")) {
             return;
           } else {
             // Do nothing..
