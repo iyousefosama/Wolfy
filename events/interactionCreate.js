@@ -49,6 +49,8 @@ module.exports = {
      
       let TicketData;
       if (interaction.isButton()) {
+              ///////////// Ticket button inteaction
+              if (interaction.customId === 'ticket') {
                 //+ cooldown 1, //seconds(s)
                 if (!cooldowns.has("btn")) {
                   cooldowns.set("btn", new discord.Collection());
@@ -63,16 +65,14 @@ module.exports = {
                   const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
               
                   if (now < expirationTime) {
-                    await interaction.deferUpdate()
                     if(CoolDownCurrent[interaction.user.id]) {
-                      return await interaction.deferUpdate()
+                      return;
                     }
                     const timeLeft = (expirationTime - now) / 1000;
                     CoolDownCurrent[interaction.user.id] = true;
-                      return interaction.followUp({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, fetchReply: true}).then(msg => {
+                      return await interaction.reply({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, ephemeral: true, fetchReply: true}).then(() => {
                           setTimeout(() => {
                               delete CoolDownCurrent[interaction.user.id]
-                              msg.delete().catch(() => null)
                            }, 3000)
                           })
                   }
@@ -80,8 +80,6 @@ module.exports = {
               timestamps.set(interaction.user.id, now);
               setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount, delete CoolDownCurrent[interaction.user.id]);
 
-              ///////////// Ticket button inteaction
-              if (interaction.customId === 'ticket') {
                 await interaction.deferUpdate()
                 let data;
                 let TicketData;
@@ -142,11 +140,11 @@ module.exports = {
             parent: categoryID,
             permissionOverwrites: [
               {
-                  id: message.guild.id,
+                  id: interaction.guild.id,
                   deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel],
               },
               {
-                  id: message.author.id,
+                  id: interaction.user.id,
                   allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.AttachFiles, PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.AddReactions, PermissionsBitField.Flags.ReadMessageHistory],
               },
           ],
@@ -175,6 +173,34 @@ module.exports = {
                 }
                 //// Ticket controll interactions
         if(interaction.customId === '98418541981561') {
+          //+ cooldown 1, //seconds(s)
+                                if (!cooldowns.has("btn")) {
+                                  cooldowns.set("btn", new discord.Collection());
+                              }
+                              
+                
+                              const now = Date.now();
+                              const timestamps = cooldowns.get("btn");
+                              const cooldownAmount = (4 || 2) * 1000;
+                              
+                              if (timestamps.has(interaction.user.id)) {
+                                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+                              
+                                  if (now < expirationTime) {
+                                    if(CoolDownCurrent[interaction.user.id]) {
+                                      return;
+                                    }
+                                    const timeLeft = (expirationTime - now) / 1000;
+                                    CoolDownCurrent[interaction.user.id] = true;
+                                      return await interaction.reply({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, ephemeral: true, fetchReply: true}).then(() => {
+                                          setTimeout(() => {
+                                              delete CoolDownCurrent[interaction.user.id]
+                                           }, 3000)
+                                          })
+                                  }
+                              }
+                              timestamps.set(interaction.user.id, now);
+                              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount, delete CoolDownCurrent[interaction.user.id]);
           await interaction.deferUpdate()
           try{
           TicketData = await TicketSchema.findOne({
@@ -277,6 +303,34 @@ module.exports = {
               return await interaction.user.send({ embeds: [embed] }), interaction.followUp({ content: `${interaction.user} Successfully sent you the \`transcript\` in the dms!`, ephemeral: true });
           })
         } else if(interaction.customId == "98418541981565") {
+          //+ cooldown 1, //seconds(s)
+                                if (!cooldowns.has("btn")) {
+                                  cooldowns.set("btn", new discord.Collection());
+                              }
+                              
+                
+                              const now = Date.now();
+                              const timestamps = cooldowns.get("btn");
+                              const cooldownAmount = (4 || 2) * 1000;
+                              
+                              if (timestamps.has(interaction.user.id)) {
+                                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+                              
+                                  if (now < expirationTime) {
+                                    if(CoolDownCurrent[interaction.user.id]) {
+                                      return;
+                                    }
+                                    const timeLeft = (expirationTime - now) / 1000;
+                                    CoolDownCurrent[interaction.user.id] = true;
+                                      return await interaction.reply({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, ephemeral: true, fetchReply: true}).then(() => {
+                                          setTimeout(() => {
+                                              delete CoolDownCurrent[interaction.user.id]
+                                           }, 3000)
+                                          })
+                                  }
+                              }
+                              timestamps.set(interaction.user.id, now);
+                              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount, delete CoolDownCurrent[interaction.user.id]);
           await interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
@@ -311,6 +365,34 @@ module.exports = {
         })
 
         } else if(interaction.customId == "98418541981566") {
+          //+ cooldown 1, //seconds(s)
+                                if (!cooldowns.has("btn")) {
+                                  cooldowns.set("btn", new discord.Collection());
+                              }
+                              
+                
+                              const now = Date.now();
+                              const timestamps = cooldowns.get("btn");
+                              const cooldownAmount = (4 || 2) * 1000;
+                              
+                              if (timestamps.has(interaction.user.id)) {
+                                  const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+                              
+                                  if (now < expirationTime) {
+                                    if(CoolDownCurrent[interaction.user.id]) {
+                                      return;
+                                    }
+                                    const timeLeft = (expirationTime - now) / 1000;
+                                    CoolDownCurrent[interaction.user.id] = true;
+                                      return await interaction.reply({ content: ` **${interaction.user.username}**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`, ephemeral: true, fetchReply: true}).then(() => {
+                                          setTimeout(() => {
+                                              delete CoolDownCurrent[interaction.user.id]
+                                           }, 3000)
+                                          })
+                                  }
+                              }
+                              timestamps.set(interaction.user.id, now);
+                              setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount, delete CoolDownCurrent[interaction.user.id]);
           await interaction.deferUpdate()
           try{
             TicketData = await TicketSchema.findOne({
@@ -494,7 +576,7 @@ module.exports = {
     }  
             console.log(`(/) ${interaction.user.tag}|(${interaction.user.id}) in #${interaction.channel.name}|(${interaction.channel.id}) used: /${interaction.commandName}`)
             await interaction.deferReply().catch(() => {});
-            await slash.execute(client, interaction);
+            slash.execute(client, interaction);
         } catch (error) {
             console.error(error);
             await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(() => {});

@@ -312,39 +312,39 @@ module.exports = {
 
     collector.on('collect', async interactionCreate => {
         if(interactionCreate.customId === '1'){
-            if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+            if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
             interactionCreate.reply({ embeds: [info], ephemeral: true})
             }
             if(interactionCreate.customId === '2'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [search], ephemeral: true})
             }
             if(interactionCreate.customId === '3'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [Utl], ephemeral: true})
             }
             if(interactionCreate.customId === '4'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [moderator], ephemeral: true})
             }
             if(interactionCreate.customId === '5'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [Fun], ephemeral: true})
             }
             if(interactionCreate.customId === '6'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [setup], ephemeral: true})
             }
             if(interactionCreate.customId === '7'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [bot], ephemeral: true})
             }
             if(interactionCreate.customId === '8'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [level], ephemeral: true})
             }
             if(interactionCreate.customId === '9'){
-                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate()
+                if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
                 interactionCreate.reply({ embeds: [Eco], ephemeral: true})
             }
 })

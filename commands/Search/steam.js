@@ -22,7 +22,6 @@ module.exports = {
         'Portal 2'
       ],
     async execute(client, message, args) {
-    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
     const query = args.join(' ');
         
     // Input Checking
