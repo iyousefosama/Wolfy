@@ -48,6 +48,7 @@
     "txtgen": "3.0.1",
     "uuid": "^8.3.2",
     "weather-js": "^2.0.0",
+    "youtube-sr": "^4.3.4",
     "ytdl-core": "^4.8.3"
   }
 }
