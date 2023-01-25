@@ -7,6 +7,7 @@ const schema = require('../schema/GiveAway-Schema')
 
 module.exports = async (client) => {
     await new Promise(r=>setTimeout(r,10000))
+    /*
     const checkGiveaways = async () => {
         if(!client.database.connected) return;
         let data;
@@ -57,4 +58,6 @@ module.exports = async (client) => {
         setTimeout(checkQuests, 30000)
       }
       checkQuests()
+
+      */
 };

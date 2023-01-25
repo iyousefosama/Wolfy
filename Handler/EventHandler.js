@@ -14,6 +14,8 @@ module.exports = async (client) => {
         console.log(`[Events] Loaded event ${file}`);
         if (event.once) {
             client.once(event.name, (...args) => event.execute(client, ...args));
+        } else if(event.isRestEvent) {
+            client.rest.on(event.name, (...args) => event.execute(client, ...args));
         } else {
             client.on(event.name, (...args) => event.execute(client, ...args));
             }

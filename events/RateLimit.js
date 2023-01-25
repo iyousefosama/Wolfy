@@ -3,6 +3,7 @@ let logs = [];
 
 module.exports = {
     name: 'rateLimit',
+    isRestEvent: true,
     async execute(client, info) {
       if (!info){
         return;
