@@ -5,7 +5,7 @@ module.exports = {
     name: "withdraw",
     aliases: ["Withdraw", "WITHDRAW"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '<amount>',
     group: 'Economy',

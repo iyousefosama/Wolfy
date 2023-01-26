@@ -6,7 +6,7 @@ module.exports = {
     name: "setbirthday",
     aliases: ["SetBirthday", "SETBIRTHDAY"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '<date>',
     group: 'Economy',

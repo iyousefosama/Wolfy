@@ -5,7 +5,7 @@ module.exports = {
     name: "use",
     aliases: ["Use", "USE", "equip"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '[item id]',
     group: 'Economy',

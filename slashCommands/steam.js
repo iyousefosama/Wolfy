@@ -7,7 +7,7 @@ const html2md = require('html2markdown');
 const text = require('../util/string');
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks],
 	data: new SlashCommandBuilder()
 		.setName('steam')
 		.setDescription('Gives informations about the steam game!')

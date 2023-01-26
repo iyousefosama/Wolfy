@@ -10,7 +10,7 @@ module.exports = {
     name: "inv",
     aliases: ["Inv", "inventory", "Inventory", "INVENTORY"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'Economy',

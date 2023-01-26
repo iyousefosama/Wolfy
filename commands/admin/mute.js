@@ -13,8 +13,8 @@ module.exports = {
     description: 'Mute someone from texting!',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_ROLES"],
-    clientpermissions: ["MANAGE_ROLES", "MANAGE_CHANNELS"],
+    permissions: [discord.PermissionsBitField.Flags.ManageRoles],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageRoles, discord.PermissionsBitField.Flags.ManageChannels],
     examples: [
         '@BADGUY Don\'t spam in chat!',
         '742682490216644619'

@@ -6,7 +6,7 @@ const ecoschema = require('../schema/Economy-Schema')
 const Userschema = require('../schema/LevelingSystem-Schema')
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     guildOnly: true,
 	data: new SlashCommandBuilder()
 		.setName('rank')

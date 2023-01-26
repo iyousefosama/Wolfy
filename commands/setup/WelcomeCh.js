@@ -13,7 +13,7 @@ module.exports = {
     description: 'Setup the welcome channel bot will send message when user join there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.Administrator],
     examples: [
       '877130715337220136'
     ],
@@ -26,7 +26,7 @@ module.exports = {
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid channel ID.`});
           } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
-          } else if (!channel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`});
           };
           

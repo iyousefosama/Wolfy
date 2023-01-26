@@ -14,7 +14,7 @@ module.exports = {
     description: 'To upload a code to sourcebin',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [
         'message.channel.send(\'Hello, world!\')'
       ],

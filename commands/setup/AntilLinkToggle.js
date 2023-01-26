@@ -12,8 +12,8 @@ module.exports = {
     description: 'To enable/disable Anti-Links protection!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
     ''
     ],

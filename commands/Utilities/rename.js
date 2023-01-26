@@ -12,8 +12,8 @@ module.exports = {
     description: 'Change ticket name',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS"],
-    clientpermissions: ["MANAGE_CHANNELS"],
+    permissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [
         'Test-ticket'
       ],

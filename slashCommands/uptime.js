@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const ms = require('parse-ms');
 
 module.exports = {
-	clientpermissions: ['EMBED_LINKS',  'USE_EXTERNAL_EMOJIS'],
+	clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks,  discord.PermissionsBitField.Flags.UseExternalEmojis],
 	data: new SlashCommandBuilder()
 		.setName('uptime')
 		.setDescription('Replies with bot uptime!')

@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 
 module.exports = {
     name: "purge",
@@ -11,8 +11,8 @@ module.exports = {
     description: 'Clear messages of the user with quantity you want (from 2 to 100)',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ['MANAGE_MESSAGES'],
-    clientPermissions: ['MANAGE_MESSAGES'],
+    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
       '20'],
     async execute(client, message, [member = '', ...args]) {

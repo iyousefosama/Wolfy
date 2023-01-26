@@ -12,7 +12,7 @@ module.exports = {
     description: 'Set the bot prefix to another one!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
     examples: [
       '!',
       'l!'

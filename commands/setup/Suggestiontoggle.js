@@ -12,7 +12,7 @@ module.exports = {
     description: 'To allow or disable suggestion command!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS", "ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.Administrator],
     examples: [''],
     async execute(client, message, args) {
           

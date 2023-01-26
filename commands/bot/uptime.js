@@ -5,14 +5,14 @@ module.exports = {
     name: "uptime",
     aliases: ["Uptime", "UPTIME"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'bot',
     description: 'Show the bot uptime',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [''],
     async execute(client, message, args) {
     let time = ms(client.uptime);

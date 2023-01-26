@@ -6,7 +6,7 @@ module.exports = {
     name: "command",
     aliases: ["Command", "COMMAND", "cmd", "commandhelp", "helpcommand"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '<cmdName>',
     group: 'bot',

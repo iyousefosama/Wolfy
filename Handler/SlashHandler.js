@@ -28,14 +28,14 @@ for (const file of slashFiles) {
 			if(client.config.loadSlashsGlobal){
 				client.application.commands.set(commands)
 				.then(slashCommandsData => {
-					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`All possible Guilds`}`); 
+					console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for as a public commands`); 
 				}).catch((e)=>console.log(e));
 			} else {
 				client.guilds.cache.map(g => g).forEach(async (guild) => {
 					try{
 						guild.commands.set(commands)
 						.then(slashCommandsData => {
-							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded as a public commands!`); 
+							console.log(`(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map(d => d.options).flat().length} Subcommands)`} Loaded for ${`${guild.name}`}!`); 
 						}).catch((e)=>console.log(e))
 					}catch (e){
 						console.log(e)

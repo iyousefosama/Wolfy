@@ -5,7 +5,7 @@ const { ActionRowBuilder, MessageSelectMenu } = require('discord.js');
 const schema = require('../schema/GuildSchema')
 
 module.exports = {
-    permissions: ['ADMINISTRATOR'],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
     guildOnly: true,
     data: new SlashCommandBuilder()
         .setName('config')

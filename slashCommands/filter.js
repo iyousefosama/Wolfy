@@ -4,7 +4,7 @@ const { EmbedBuilder } = require('discord.js')
 const fetch = require("node-fetch");
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     data: new SlashCommandBuilder()
         .setName('filter')
         .setDescription('Adds filters to your avatar!')

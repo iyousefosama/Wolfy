@@ -1,6 +1,6 @@
-const { Channel } = require('diagnostics_channel');
 const discord = require('discord.js');
 const { ChannelType } = require('discord.js');
+
 module.exports = {
     name: "nuke",
     aliases: ["Nuke", "NUKE"],
@@ -12,8 +12,8 @@ module.exports = {
     description: 'ReCreate any channel without messages (this will delete all the channel and create newone!)',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS"],
-    clientpermissions: ["MANAGE_MESSAGES", "MANAGE_CHANNELS"],
+    permissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
     async execute(client, message, args) {
 

@@ -5,7 +5,7 @@ module.exports = {
   name: "weather",
   aliases: ["WeatherStatus", "WEATHERSTATUS", "Weatherstatus", "weatherstatus"],
   dmOnly: false, //or false
-  guildOnly: true, //or false
+  guildOnly: false, //or false
   args: true, //or false
   usage: '<city>',
   group: 'Search',

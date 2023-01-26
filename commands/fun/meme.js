@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
     async execute(client, message, args) {
     message.channel.sendTyping()

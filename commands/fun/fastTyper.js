@@ -15,7 +15,7 @@ module.exports = {
     description: 'Start playing fastTyper game',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "READ_MESSAGE_HISTORY"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
     examples: [''],
     async execute(client, message, args) {
         let data;

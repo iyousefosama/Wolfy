@@ -11,8 +11,8 @@ module.exports = {
   description: 'Kick a member from the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: ["KICK_MEMBERS"],
-  clientpermissions: ["KICK_MEMBERS"],
+  permissions: [discord.PermissionsBitField.Flags.KickMembers],
+  clientpermissions: [discord.PermissionsBitField.Flags.KickMembers],
   examples: [
     '@BADGUY',
     '742682490216644619'

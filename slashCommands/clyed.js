@@ -4,7 +4,7 @@ const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
 	data: new SlashCommandBuilder()
 		.setName('clyed')
 		.setDescription('Send your message as clyed text message!')

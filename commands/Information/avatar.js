@@ -1,3 +1,4 @@
+const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
   cooldown: 1, //seconds(s)
   guarded: false, //or false
   permissions: [],
-  clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
+  clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
   examples: [
     '@WOLF',
     '724580315481243668',

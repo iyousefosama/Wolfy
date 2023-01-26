@@ -1,3 +1,5 @@
+const discord = require('discord.js')
+
 module.exports = {
     name: "rps",
     aliases: ["RPS", "Rps"],
@@ -9,7 +11,7 @@ module.exports = {
     description: 'Playing rock/paper/scissors vs the bot',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "READ_MESSAGE_HISTORY"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
     permissions: [],
     examples: [
         'rock',

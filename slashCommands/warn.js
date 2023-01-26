@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const warnSchema = require('../schema/Warning-Schema')
 
 module.exports = {
-    permissions: ['ADMINISTRATOR'],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
 	guildOnly: true,
     data: new SlashCommandBuilder()
         .setName('warn')

@@ -5,7 +5,7 @@ module.exports = {
     name: "setbio",
     aliases: ["SetBio", "SETBIO"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '<bio>',
     group: 'Economy',

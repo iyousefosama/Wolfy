@@ -16,7 +16,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["EMBED_LINKS", "ADD_REACTIONS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AddReactions],
     examples: [
         'Add voice channels!'
       ],    

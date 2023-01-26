@@ -1,3 +1,4 @@
+const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema');
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
     description: 'Add a level role as a prize for users when they be active',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
+    permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageRoles],
     examples: [
         '@ActiveMember 5'
       ],

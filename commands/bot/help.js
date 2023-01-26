@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
     async execute(client, message, args) {
     let EmbedName = args.slice(0).join(" ")

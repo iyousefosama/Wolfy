@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'ATTACH_FILES'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     data: new SlashCommandBuilder()
         .setName('avatar')
         .setDescription('Replies with avatar!')

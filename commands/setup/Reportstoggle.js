@@ -12,7 +12,7 @@ module.exports = {
     description: 'To allow or disable reports command!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_CHANNELS"],
+    permissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
     async execute(client, message, args) {
           

@@ -13,7 +13,7 @@ module.exports = {
   description: 'The bot will reminde you for anything',
   cooldown: 5, //seconds(s)
   guarded: false, //or false
-  permissions: ["USE_EXTERNAL_EMOJIS"],
+  permissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
   examples: [
     '5m To start my new project!',
     '30s To skip this ad'

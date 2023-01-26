@@ -18,7 +18,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS", "EMBED_LINKS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions, discord.PermissionsBitField.Flags.EmbedLinks],
     examples: ['Venom'],
     async execute(client, message, args) {
     const query = args.join(' ');

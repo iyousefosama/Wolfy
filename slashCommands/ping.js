@@ -2,7 +2,7 @@ const discord= require('discord.js');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('@discordjs/builders');
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with bot ping!')

@@ -130,7 +130,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -254,7 +254,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -416,7 +416,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -615,7 +615,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -852,7 +852,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 
@@ -1128,7 +1128,7 @@ module.exports = {
                 return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
               } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
-              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('EMBED_LINKS')){
+              } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
                 return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
               };
 

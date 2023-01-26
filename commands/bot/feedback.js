@@ -7,7 +7,7 @@ module.exports = {
     name: "feedback",
     aliases: ["Feedback", "FEEDBACK", "issue", "reportbug", "ReportBug", "REPORTBUG", "reportbug"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '<issue>',
     group: 'bot',
@@ -15,7 +15,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions],
     examples: [
       'The bot ping commands not working it\'s showing undefined ping!'
     ],

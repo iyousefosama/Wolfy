@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
 	data: new SlashCommandBuilder()
 		.setName('invite')
 		.setDescription('Replies with bot links/invite!'),

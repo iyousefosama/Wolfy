@@ -13,7 +13,7 @@ module.exports = {
     description: 'To show you all level roles in the guild',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["USE_EXTERNAL_EMOJIS"],
+    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [],
     async execute(client, message, args) {
     

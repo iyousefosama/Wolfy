@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 
 module.exports = {
   name: "ban",
@@ -11,8 +11,8 @@ module.exports = {
   description: 'Bans a member from the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: ["BAN_MEMBERS"],
-  clientpermissions: ["BAN_MEMBERS"],
+  permissions: [discord.PermissionsBitField.Flags.BanMembers],
+  clientpermissions: [discord.PermissionsBitField.Flags.BanMembers],
   examples: [
     '@BADGUY Toxic member',
     '742682490216644619'

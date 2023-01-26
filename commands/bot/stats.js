@@ -1,3 +1,4 @@
+const discord = require('discord.js')
 const { EmbedBuilder, version: discord_version } = require('discord.js'); // requiring discord modules
 const { version, author } = require('../../package.json');
 const { release, cpus } = require('os');
@@ -8,14 +9,14 @@ module.exports = {
     name: "stats",
     aliases: ["Botinfo", "BotInfo", "BOTINFO", "Stats", "STATS"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'bot',
     description: 'Show bot stats and informations',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
     async execute(client, message, args) {
     const embed = new EmbedBuilder()

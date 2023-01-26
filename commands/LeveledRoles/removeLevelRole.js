@@ -13,7 +13,7 @@ module.exports = {
     description: 'Remove a level role from the list',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR", "MANAGE_ROLES"],
+    permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageRoles],
     examples: [
         '804860582066520104'
       ],

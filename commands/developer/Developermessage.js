@@ -11,7 +11,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
-    clientpermissions: ["EMBED_LINKS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     async execute(client, message, args) {
 
     let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])

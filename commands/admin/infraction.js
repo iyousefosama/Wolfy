@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
     description: 'To enable/disable/Edit infraction point protection system!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
-    clientpermissions: ["MANAGE_MESSAGES"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
+    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
     ''
     ],

@@ -151,14 +151,23 @@ module.exports = {
               }
               timestamps.set(message.author.id, now);
               setTimeout(() => timestamps.delete(message.author.id), cooldownAmount, delete CoolDownCurrent[message.author.id]);  
+              function getPermissionName(permission) {
+                for (const perm of Object.keys(PermissionsBitField.Flags)) {
+                  if (PermissionsBitField.Flags[perm] === permission) {
+                    return perm;
+                  }
+                }
+                return 'UnknownPermission';
+              }
                    //+ permissions: [""],
                    if (cmd.permissions) {
                        if (message.guild && !client.owners.includes(message.author.id)) {
                          const authorPerms = message.channel.permissionsFor(message.member);
                          if (!authorPerms || !authorPerms.has(cmd.permissions)) {
+                              const permsNames = cmd.permissions?.map(perm => getPermissionName(perm))
                               const PermsEmbed = new discord.EmbedBuilder()
                               .setColor(`Red`)
-                              .setDescription(`<a:pp802:768864899543466006> You don't have \`${text.joinArray(cmd.permissions)}\` permission(s) to use ${cmd.name} command.`)
+                              .setDescription(`<a:pp802:768864899543466006> You don't have \`${text.joinArray(permsNames)}\` permission(s) to use ${cmd.name} command.`)
                               return message.channel.send({ embeds: [PermsEmbed] })
                            }
                         }

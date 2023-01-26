@@ -12,7 +12,7 @@ module.exports = {
     description: 'To enable/disable levelRoles cmd',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.Administrator],
     examples: [''],
     async execute(client, message, args) {
           

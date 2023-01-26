@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     group: 'Moderation',
-    permissions: ["ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
     examples: [
     '854382039524048956 accept very good suggestion',
     '854382039524048956 deny Sorry your suggestion is refused'

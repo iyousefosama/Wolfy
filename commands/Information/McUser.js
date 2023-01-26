@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [
         'Notch'
       ],

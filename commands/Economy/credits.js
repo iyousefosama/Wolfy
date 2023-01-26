@@ -6,7 +6,7 @@ module.exports = {
     name: "credits",
     aliases: ["Credits", "CREDITS", "bal", "credit"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '<user>',
     group: 'Economy',

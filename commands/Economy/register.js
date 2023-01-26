@@ -5,7 +5,7 @@ module.exports = {
     name: "register",
     aliases: ["Register", "REGISTER"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'Economy',

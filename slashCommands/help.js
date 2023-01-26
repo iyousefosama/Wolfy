@@ -3,7 +3,7 @@ const discord= require('discord.js');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Replies with commands helplist!'),

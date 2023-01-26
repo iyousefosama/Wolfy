@@ -7,7 +7,7 @@ module.exports = {
     name: "profile",
     aliases: ["Profile", "PROFILE"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'Economy',

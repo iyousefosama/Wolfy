@@ -1,3 +1,4 @@
+const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
@@ -11,7 +12,7 @@ module.exports = {
     description: 'Set the welcome msg or embed',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
     examples: [
       'msg {tag} has joined {guildName} server!',
       'embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'

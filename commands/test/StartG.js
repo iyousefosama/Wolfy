@@ -13,7 +13,7 @@ module.exports = {
     description: 'Desc..',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: ['MANAGE_MESSAGES'],
+    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
     clientpermissions: [],
     examples: [],
     async execute(client, message, [Winners='', Time='', ...args]) {

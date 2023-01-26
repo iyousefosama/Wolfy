@@ -14,7 +14,7 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: ["EMBED_LINKS", "USE_EXTERNAL_EMOJIS", "ATTACH_FILES"],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [
         '@WOLF',
         ''
@@ -35,12 +35,16 @@ module.exports = {
     const activityNames = activity?.map(activity => activity?.name).join(", ");
     var status = member.presence?.status;
 
-    if(status == null) status = '<:offline:809995754021978112> Offline'
-    // organising the code so it don't look bad
-    if(status == 'dnd') status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb" // if the person is dnd  so it will type in the embed Do no Distrub
-    if(status == 'online') status = "<:online:809995753921576960> Online"
-    if(status == 'offline') status = "<:offline:809995754021978112> Offline"
-    if(status === 'idle') status = "<:Idle:809995753656549377> Idle"
+    if(status == null || status == 'offline') {
+        status = '<:offline:809995754021978112> Offline';
+    } else if (status == 'dnd') {
+        status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb";;
+    } else if (status == 'online') {
+        status = "<:online:809995753921576960> Online";
+    } else if (status === 'idle') {
+        status = "<:Idle:809995753656549377> Idle";
+    }
+
     const flags = {
         DiscordEmployee: '<:discord_Staff:911761250759893012> discord Employee',
         DiscordPartner: '<:discord_partner:911760719266086942> discord Partner',

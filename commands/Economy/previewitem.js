@@ -1,3 +1,4 @@
+const discord = require('discord.js')
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 
@@ -5,14 +6,14 @@ module.exports = {
     name: "previewitem",
     aliases: ["Previewitem"],
     dmOnly: false, //or false
-    guildOnly: true, //or false
+    guildOnly: false, //or false
     args: true, //or false
     usage: '[item ID]',
     group: 'Economy',
     description: 'Check what you can buy from the shop.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    clientPermissions: [ 'MANAGE_MESSAGES', 'ATTACH_FILES' ],
+    clientPermissions: [ discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.AttachFiles ],
     permissions: [],
     examples: [
         '6',

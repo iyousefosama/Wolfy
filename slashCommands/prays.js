@@ -6,7 +6,7 @@ const cfl = require('../functions/CapitalizedChar')
 const moment = require("moment");
 
 module.exports = {
-    clientpermissions: ['EMBED_LINKS', 'READ_MESSAGE_HISTORY'],
+    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
 	data: new SlashCommandBuilder()
 		.setName('prays')
 		.setDescription('Replies with prays times!')

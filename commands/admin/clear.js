@@ -1,3 +1,4 @@
+const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js');
 const moment = require('moment');
 
@@ -12,8 +13,8 @@ module.exports = {
   description: 'Clear/Delete message with quantity you want (from 2 to 100)',
   cooldown: 10, //seconds(s)
   guarded: false, //or false
-  permissions: ['MANAGE_MESSAGES'],
-  clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
+  permissions: [discord.PermissionsBitField.Flags.ManageMessages],
+  clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
   examples: [
     '20'],
     async execute(client, message, [quantity]) {

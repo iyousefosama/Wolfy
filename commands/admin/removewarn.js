@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
@@ -14,7 +14,7 @@ module.exports = {
     description: 'Remove a user warn from the warns list by the id',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: ["ADMINISTRATOR"],
+    permissions: [discord.PermissionsBitField.Flags.Administartor],
     examples: [
     '@WOLF 72c53c46-7449-4076-9af2-5acda635cbf4',
     '742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4'
