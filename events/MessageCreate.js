@@ -8,6 +8,7 @@ const CoolDownCurrent = {};
 const leveling = require('../functions/LevelTrigger')
 const WordW = require('../functions/BadWordsFilter')
 const AntiLinksProtection = require('../functions/AntiLinks')
+const cmdManager = require('../functions/Manager')
 
 module.exports = {
     name: 'messageCreate',
@@ -218,6 +219,8 @@ module.exports = {
   
                       }
                   }
+          // Start CmdManager function at ../functions/Manager bath
+          //cmdManager.manage(client, message, cmd)
           console.log(`${message.author.tag}|(${message.author.id}) in #${message.channel.name}|(${message.channel.id}) sent: ${message.content}`)
           cmd.execute(client, message, args, { executed: true });
       } catch(err){

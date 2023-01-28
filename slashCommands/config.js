@@ -1,7 +1,5 @@
 const discord= require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder } = require('discord.js')
-const { ActionRowBuilder, MessageSelectMenu } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } = require('@discordjs/builders');
 const schema = require('../schema/GuildSchema')
 
 module.exports = {
@@ -53,25 +51,41 @@ module.exports = {
                 { name: `Welcome is Enabled?`, value: `> ${data.greeter.welcome.isEnabled || '\\❌'}`, inline: true},
                 { name: `Leaver is Enabled?`, value: `> ${data.greeter.leaving.isEnabled || '\\❌'}`, inline: true},
                 { name: `Ticket is Enabled?`, value: `> ${data.Mod.Tickets.isEnabled || '\\❌'}`, inline: true},
+                { name: `AntiLinks is Enabled?`, value: `> ${data.Mod.AntiLink.isEnabled || '\\❌'}`, inline: true},
             )
             .setColor('#2F3136')
             .setFooter({ text: `configuration | \©️${new Date().getFullYear()} Wolf`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             interaction.editReply({ embeds: [config_embed]})
         } else if (interaction.options.getSubcommand() === 'edit') {
-            /*const row = new ActionRowBuilder()
+            /*
+            const row = new ActionRowBuilder()
             .addComponents(
-                new MessageSelectMenu()
+                new StringSelectMenuBuilder()
                     .setCustomId('kwthbek4m221pyDAdowp')
                     .setPlaceholder('Nothing selected!').addOptions([
                         {
-                            label: 'Anti Link',
-                            description: 'Choose this option to enable/disable anti-link protection!',
-                            value: '58142965841859641',
-                            emoji: '836168687891382312',
+                            label: 'Set Channels',
+                            description: 'Choose an command or event to set it\'s channel',
+                            value: '9485179841985419841',
+                            emoji: '836168214525509653',
+                        },
+                        {
+                            label: 'Toggle commands & events',
+                            description: 'Choose an command or event to toggle it off or on',
+                            value: '9485179841985419842',
+                            emoji: '853495044015259688',
+                        },
+                        {
+                            label: 'Others',
+                            description: 'Didn\'t find what you want? check here',
+                            value: '9485179841985419843',
+                            emoji: '853494653701849090',
                         },
                     ]),
             )
-            interaction.reply({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** config edit list!`, components: [row] });*/
+
+            interaction.editReply({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** config edit list!`, components: [row] });
+            */
             interaction.editReply({ content: `<a:Settings:841321893750505533> Under Maintenance!` });
         }
 }

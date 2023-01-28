@@ -3,7 +3,7 @@ const { Collection, PermissionsBitField, ChannelType } = require('discord.js')
 const sourcebin = require('sourcebin_js');
 const schema = require('../schema/GuildSchema')
 const TicketSchema = require('../schema/Ticket-Schema')
-const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder } = require('discord.js');
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
 
@@ -529,14 +529,57 @@ module.exports = {
             member.roles.add(role6).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role6}** for ${member.user.tag}, \`${err}\`!`}));
             interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role6} for you!`, ephemeral: true })
           }
-         } else if (choice == "dollar5219198151218") {
-          interaction.reply({ content: "You choosed the \`$\` currency!\nPlease type the number of credits to show it's currency!", ephemeral: true })
+         };
+
+         if (choice == "9485179841985419841") {
+            const row = new ActionRowBuilder()
+            .addComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId('kwthbek4m221pyDAdowp')
+                    .setPlaceholder('Nothing selected!').addOptions([
+                        {
+                            label: 'Welcome Channel',
+                            description: 'Choose to set the channel for greeting event',
+                            value: '9851985198150',
+                            emoji: ':wave:',
+                        },
+                        {
+                            label: 'Leaver Channel',
+                            description: 'Choose to set the channel for leaver event',
+                            value: '9851985198151',
+                            emoji: '853495989796470815',
+                        },
+                        {
+                            label: 'Logs Channel',
+                            description: 'Choose to set the channel for logs events',
+                            value: '9851985198152',
+                            emoji: '853496185443319809',
+                        },
+                        {
+                            label: 'Suggestions Channel',
+                            description: 'Choose to set the channel for suggestion command',
+                            value: '9851985198153',
+                            emoji: '853494953560375337',
+                        },
+                        {
+                            label: 'Reports Channel',
+                            description: 'Choose to set the channel for report command',
+                            value: '9851985198154',
+                            emoji: '911761250759893012',
+                        },
+                    ]),
+            )
+            await interaction.update({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** Set Channels list!`, components: [row] });
+          
+          
+          /*
           const filter = msg => msg.member.id == interaction.member.id;
     
           let number = await interaction.channel.awaitMessages({ filter, max: 1 })
-          if(number.first().content == 'cancel') return interaction.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`\` command!`});
+          if(number.first().content == 'cancel') return interaction.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`command\`!`});
           number = number.first().content
           interaction.channel.send({ content: `\`${number}$\` will equals *${number * 10} - ${number * 20}*!` })
+          */
          }
         }
         if (interaction.isChatInputCommand()) {

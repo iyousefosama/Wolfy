@@ -1,5 +1,5 @@
 const discord= require('discord.js');
-const { ActionRowBuilder, MessageSelectMenu, ChannelType } = require('discord.js');
+const { ActionRowBuilder, StringSelectMenuBuilder, ChannelType } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
 module.exports = {
@@ -103,7 +103,7 @@ module.exports = {
         await data.save().then(() => {
             const row = new ActionRowBuilder()
             .addComponents(
-                new MessageSelectMenu()
+                new StringSelectMenuBuilder()
                     .setCustomId('kwthbek4m221pyddhwk')
                     .setPlaceholder('Nothing selected!').addOptions([
                         {
@@ -138,7 +138,7 @@ module.exports = {
               await data.save().then(() => {
                   const row = new ActionRowBuilder()
                   .addComponents(
-                      new MessageSelectMenu()
+                      new StringSelectMenuBuilder()
                           .setCustomId('kwthbek4m221pyddhwk')
                           .setPlaceholder('Nothing selected!').addOptions([
                               {
@@ -221,7 +221,7 @@ module.exports = {
         await data.save().then(() => {
             const row2 = new ActionRowBuilder()
             .addComponents(
-                new MessageSelectMenu()
+                new StringSelectMenuBuilder()
                     .setCustomId('kwthbek4m221pyddhwk')
                     .setPlaceholder('Nothing selected!').addOptions([
                         {
@@ -263,7 +263,7 @@ module.exports = {
               await data.save().then(() => {
                 const row2 = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId('kwthbek4m221pyddhwk')
                         .setPlaceholder('Nothing selected!').addOptions([
                             {
@@ -377,7 +377,7 @@ module.exports = {
             await data.save().then(() => {
                 const row2 = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId('kwthbek4m221pyddhwk')
                         .setPlaceholder('Nothing selected!').addOptions([
                             {
@@ -426,7 +426,7 @@ module.exports = {
               await data.save().then(() => {
                   const row2 = new ActionRowBuilder()
                   .addComponents(
-                      new MessageSelectMenu()
+                      new StringSelectMenuBuilder()
                           .setCustomId('kwthbek4m221pyddhwk')
                           .setPlaceholder('Nothing selected!').addOptions([
                               {
@@ -570,7 +570,7 @@ module.exports = {
             await data.save().then(() => {
                 const row2 = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId('kwthbek4m221pyddhwk')
                         .setPlaceholder('Nothing selected!').addOptions([
                             {
@@ -626,7 +626,7 @@ module.exports = {
               await data.save().then(() => {
                   const row2 = new ActionRowBuilder()
                   .addComponents(
-                      new MessageSelectMenu()
+                      new StringSelectMenuBuilder()
                           .setCustomId('kwthbek4m221pyddhwk')
                           .setPlaceholder('Nothing selected!').addOptions([
                               {
@@ -801,7 +801,7 @@ module.exports = {
             await data.save().then(() => {
                 const row2 = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId('kwthbek4m221pyddhwk')
                         .setPlaceholder('Nothing selected!').addOptions([
                             {
@@ -864,7 +864,7 @@ module.exports = {
               await data.save().then(() => {
                   const row2 = new ActionRowBuilder()
                   .addComponents(
-                      new MessageSelectMenu()
+                      new StringSelectMenuBuilder()
                           .setCustomId('kwthbek4m221pyddhwk')
                           .setPlaceholder('Nothing selected!').addOptions([
                               {
@@ -1071,7 +1071,7 @@ module.exports = {
             await data.save().then(() => {
                 const row2 = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new StringSelectMenuBuilder()
                         .setCustomId('kwthbek4m221pyddhwk')
                         .setPlaceholder('Nothing selected!').addOptions([
                             {
@@ -1141,7 +1141,7 @@ module.exports = {
               await data.save().then(() => {
                   const row2 = new ActionRowBuilder()
                   .addComponents(
-                      new MessageSelectMenu()
+                      new StringSelectMenuBuilder()
                           .setCustomId('kwthbek4m221pyddhwk')
                           .setPlaceholder('Nothing selected!').addOptions([
                               {

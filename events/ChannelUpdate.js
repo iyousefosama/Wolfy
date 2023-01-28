@@ -64,12 +64,29 @@ module.exports = {
           //Do nothing..
         }
 
+
+
         /*
-        const PermissionsObj = Object.values(newChannel.permissionOverwrites);
+        const oldPermissionsObj = Object.values(oldChannel.permissionOverwrites.cache);
+        const PermissionsObj = Object.values(newChannel.permissionOverwrites.cache);
         console.log(PermissionsObj)
         PermissionsObj.forEach(e => {
           console.log(e.permissionOverwrites)
         });
+        */
+
+       /*
+        let oldPermissions = Object.values(oldChannel.permissionOverwrites);
+        let newPermissions = Object.values(newChannel.permissionOverwrites);
+        let mappedPermissions = oldPermissions.map((oldPermission, index) => {
+            let newPermission = newPermissions[index];
+            return {
+                roleOrMember: oldPermission.id,
+                oldPermission: oldPermission.allow,
+                newPermission: newPermission.allow
+            }
+        });
+        console.log(oldPermissions, newPermissions, mappedPermissions);
         */
 
 

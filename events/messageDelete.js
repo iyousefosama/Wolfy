@@ -10,7 +10,7 @@ module.exports = {
         if (message.author == client) return;
         if (!message.author) return;
         if(message.embeds[0]) return;
-        if(message.attachments.size) return;
+        const file = message.attachments.first()?.url;
 
         let data;
         try{
@@ -34,12 +34,34 @@ module.exports = {
             // Do nothing..
           };
 
+          const fetchedLogs = await message.guild.fetchAuditLogs({
+            limit: 1,
+            type: AuditLogEvent.MessageDelete,
+          });
+  
+          const messagelog = fetchedLogs.entries.first();
+          
+          if(!messagelog) {
+            return;
+          } else {
+            //Do nothing..
+          }
+  
+          const { executor, target } = messagelog;
+
+          if(messagelog.available && target.id != message.author.id) {
+            return;
+          } else {
+            //Do nothing..
+          }
+
         const timestamp = Math.floor(Date.now() / 1000)
         const Msg = message.toString().substr(0, 500);
         const DeletedLog = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
         .setTitle(`<a:Down:853495989796470815> Deleted Message`)
-        .setDescription(`<a:iNFO:853495450111967253>  **Member**: \`${message.author.tag}\` (${message.author.id})\n<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${Msg || '❌ | Unkown message!'}\n\`\`\``)
+        .setDescription(`<a:iNFO:853495450111967253>  **Member**: ${message.author.tag}(\`${message.author.id}\`)\n${executor.id != message.author.id ? `**Moderator**: ${executor.tag}(\`${executor.id}\`)\n` : ''}<:pp198:853494893439352842> **In**: ${message.channel}\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${Msg || '❌ | Unkown message!'}\n\`\`\``)
+        .setImage(file)
         .setColor('Red')
         .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
         .setTimestamp()

@@ -9,25 +9,25 @@ module.exports = {
     guildOnly: true,
 	data: new SlashCommandBuilder()
     .setName("play")
-    .setDescription("Plays songs from youtube")
+    .setDescription("Plays tracks from youtube")
     .addSubcommand((subcommand) =>
         subcommand
             .setName("search")
-            .setDescription("Searches for song based on provided name")
+            .setDescription("Searches for tracks based on provided name")
             .addStringOption((option) =>
-                option.setName("name").setDescription("The search keywords(Song name)").setRequired(true)
+                option.setName("name").setDescription("The search keywords(Track name)").setRequired(true)
             )
     )
     .addSubcommand((subcommand) =>
         subcommand
-            .setName("song")
+            .setName("load")
             .setDescription("Loads a single song from a url")
-            .addStringOption((option) => option.setName("url").setDescription("the song's url").setRequired(true))
+            .addStringOption((option) => option.setName("url").setDescription("the track's url").setRequired(true))
     )
     .addSubcommand((subcommand) =>
         subcommand
             .setName("playlist")
-            .setDescription("Loads a playlist of songs from a url")
+            .setDescription("Loads a playlist of tracks from a url")
             .addStringOption((option) => option.setName("url").setDescription("the playlist's url").setRequired(true))
     ),
 	async execute(client, interaction) {
