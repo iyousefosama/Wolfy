@@ -21,7 +21,7 @@ module.exports = {
     .addSubcommand((subcommand) =>
         subcommand
             .setName("load")
-            .setDescription("Loads a single song from a url")
+            .setDescription("Loads a single track from a url")
             .addStringOption((option) => option.setName("url").setDescription("the track's url").setRequired(true))
     )
     .addSubcommand((subcommand) =>
