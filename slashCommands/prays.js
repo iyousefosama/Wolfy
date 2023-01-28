@@ -4,16 +4,17 @@ const fetch = require('node-fetch');
 const tc = require('../functions/TimeConvert')
 const cfl = require('../functions/CapitalizedChar')
 const moment = require("moment");
+const momentTZ = require('moment-timezone');
 
 module.exports = {
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
 	data: new SlashCommandBuilder()
 		.setName('prays')
 		.setDescription('Replies with prays times!')
-        .addStringOption(option => option.setName('continent').setDescription('Enter continent name.').setRequired(true))
+        .addStringOption(option => option.setName('country').setDescription('Enter country name.').setRequired(true))
         .addStringOption(option => option.setName('city').setDescription('Enter city name.').setRequired(true)),
 	async execute(client, interaction) {
-        const country = interaction.options.getString('continent');
+        const country = interaction.options.getString('country');
         const city = interaction.options.getString('city');
 
         const url = `https://aladhan.p.rapidapi.com/timingsByCity?country=${country}&city=${city}`;
@@ -43,26 +44,28 @@ module.exports = {
 
                 let d;
                 let dinMS;
-                try {
 
-                const timezone = `${cfl.capitalizeFirstLetter(country)}/${cfl.capitalizeFirstLetter(city)}`;
+                let options = {}
+                const timezone = momentTZ.tz.guess(`${cfl.capitalizeFirstLetter(city)}, ${cfl.capitalizeFirstLetter(country)}`);
 
-                let options = {
-                  timeZone: timezone,
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric',
-                  millisecond: 'numeric',
-                },
-                formatter = new Intl.DateTimeFormat([], options);
-                d = new Date(formatter.format(new Date()).split(",").join(" "))
-                dinMS = Math.floor(d.getTime() / 1000)
-              } catch {
-                return await interaction.editReply({ content: '<:error:888264104081522698> I can\'t identify this timezone, please write the right \`Continent\`!' });
-              }
+                if (timezone) {
+                  options = {
+                    timeZone: timezone,
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    millisecond: 'numeric',
+                  },
+                  formatter = new Intl.DateTimeFormat([], options);
+  
+                  d = new Date(formatter.format(new Date()).split(",").join(" "))
+                  dinMS = Math.floor(d.getTime() / 1000)
+                } else {
+                  return await interaction.editReply({ content: '<:error:888264104081522698> I can\'t identify this timezone, please write the right \`County, City\`!' });
+                }
 
                 let pTimeInS;
                 let str;
