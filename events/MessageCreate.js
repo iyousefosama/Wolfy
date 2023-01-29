@@ -9,6 +9,7 @@ const leveling = require('../functions/LevelTrigger')
 const WordW = require('../functions/BadWordsFilter')
 const AntiLinksProtection = require('../functions/AntiLinks')
 const cmdManager = require('../functions/Manager')
+const Chatbot = require('../functions/ChatBot')
 
 module.exports = {
     name: 'messageCreate',
@@ -29,6 +30,8 @@ module.exports = {
           WordW.badword(client, message)
           // Start anti-links protection function at ../functions/AntiLinks bath
           AntiLinksProtection.checkMsg(client, message)
+          // Start ChatBot function at ../functions/ChatBot bath
+          Chatbot.chat(client, message)
 
           try{
               data = await schema.findOne({
