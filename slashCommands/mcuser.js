@@ -1,6 +1,6 @@
 const discord= require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const mcapi = require('mcapi');
+const minecraftPlayer = require("minecraft-player");
 
 module.exports = {
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
@@ -11,22 +11,32 @@ module.exports = {
 	async execute(client, interaction) {
         const query = interaction.options.getString('query');
 
-        try{
-            let uuid = await mcapi.usernameToUUID(`${query}`)
-            let embed = new discord.EmbedBuilder()
-            .setTitle(`User: ${query}`)
-            .addField("Name:", `${query}`)
-            .addField("UUID:", uuid)
-            .addField("Download:", `[Download](https://minotar.net/download/${query})`)
-            .addField("NameMC:", `[Click Here](https://mine.ly/${query}.1)`)
-            .setImage(`https://minecraftskinstealer.com/api/v1/skin/render/fullbody/${query}/700`)
-            .setColor('#ffd167')
-            .setThumbnail(`https://minotar.net/cube/${query}/100.png)`)
+        let user;
+        try {
+        user = await minecraftPlayer(query);
+        } catch {
+            return;
+        }
+    
+        if (user) {
+            const embed = new discord.EmbedBuilder()
+            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+            .addFields(
+                { name: "Name:", value: `${user.username}`, inline: true},
+                { name: "NameHistory:", value: `${user.usernameHistory.map(x => `${x.username}\n`)}`, inline: false},
+                { name: "UUID:", value: `\`${user.uuid}\``},
+                { name: "CreatedAt", value: user.createdAt || "Unknown", inline: true },
+                { name: "Download:", value: `[Download](https://minotar.net/download/${user.username})`, inline: true},
+                { name: "NameMC:", value: `[Click Here](https://mine.ly/${user.username}.1)`, inline: true}
+            )
+            .setImage(`https://minotar.net/armor/body/${user.username}/100.png`)
+            .setColor('#2c2f33')
+            .setThumbnail(`https://minotar.net/helm/${user.username}/100.png`)
+            .setTimestamp()
+            .setFooter({ text: user.username + `\'s mcuser | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({dynamic: true}) })
             interaction.editReply({ embeds: [embed] });
-        } catch(e) {
-            let embed2 = new discord.EmbedBuilder()
-            .setDescription('<a:pp681:774089750373597185> **|** The specified user was not found!')
-            interaction.editReply({ embeds: [embed2] })
+        } else {
+            return interaction.editReply({ content: "<a:pp681:774089750373597185> **|** The specified user was not found!"})    
         }
 	},
 };

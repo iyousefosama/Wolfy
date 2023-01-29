@@ -42,21 +42,23 @@ exports.checkMsg = async function (client, message) {
         return;
        } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
         return;
-       } else if (!GuildData || !data || !GuildData.Mod.Infraction?.isEnabled) {
+       } else if (!GuildData || !data || !GuildData.Mod.AntiLink?.isEnabled) {
          return;
        } else {
          // Do nothing..
        };
        
 
-       if(GuildData.Mod.AntiLink?.isEnabled) {
         if (message.content.toLowerCase().includes(`http://`) || message.content.toLowerCase().includes(`https://`) || message.content.toLowerCase().includes(`discord.gg/`)) {
             message.delete().then(() => {
                 setTimeout(async () => {
-                // Start the Infraction for links at ../functions/Infraction bath
-                InfFunction.Infraction(client, message)
+                  if(GuildData.Mod.Infraction?.isEnabled) {
+                    // Start the Infraction for links at ../functions/Infraction bath
+                    InfFunction.Infraction(client, message)
+                  } else {
+                    return message.channel.send({ content: `${message.author}, Links and discord invites are not allowed in this server!`})
+                  }
                 }, 100)
             })
            }
-       }
   };

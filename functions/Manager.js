@@ -40,7 +40,7 @@ exports.manage = async function (client, message, cmd) {
 
     const cmdCount = cmdData.UsedCommandsInv[cmd.name] ? cmdData.UsedCommandsInv[cmd.name].length + 1 : 1;
 
-    const firstLvl = Math.floor(Math.random() * 20) + 25;
+    const firstLvl = Math.floor(Math.random() * 20) + 50;
     if(cmdCount >= firstLvl) {
         let data;
         try{

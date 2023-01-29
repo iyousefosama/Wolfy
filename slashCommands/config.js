@@ -57,7 +57,7 @@ module.exports = {
             .setFooter({ text: `configuration | \©️${new Date().getFullYear()} Wolf`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
             interaction.editReply({ embeds: [config_embed]})
         } else if (interaction.options.getSubcommand() === 'edit') {
-            /*
+/*
             const row = new ActionRowBuilder()
             .addComponents(
                 new StringSelectMenuBuilder()
@@ -67,25 +67,25 @@ module.exports = {
                             label: 'Set Channels',
                             description: 'Choose an command or event to set it\'s channel',
                             value: '9485179841985419841',
-                            emoji: '836168214525509653',
+                            //emoji: '836168214525509653',
                         },
                         {
                             label: 'Toggle commands & events',
                             description: 'Choose an command or event to toggle it off or on',
                             value: '9485179841985419842',
-                            emoji: '853495044015259688',
+                            //emoji: '853495044015259688',
                         },
                         {
                             label: 'Others',
                             description: 'Didn\'t find what you want? check here',
                             value: '9485179841985419843',
-                            emoji: '853494653701849090',
+                            //emoji: '853494653701849090',
                         },
                     ]),
             )
 
             interaction.editReply({ content: `<:Tag:836168214525509653> **${interaction.guild.name}** config edit list!`, components: [row] });
-            */
+*/
             interaction.editReply({ content: `<a:Settings:841321893750505533> Under Maintenance!` });
         }
 }

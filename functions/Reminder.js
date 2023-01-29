@@ -51,7 +51,7 @@ module.exports = async (client) => {
               .setFooter({ text: 'Successfully Reminded!', iconURL: client.user.displayAvatarURL() })
           try {
               await user.send({ embeds: [reminderEmbed] })
-          } catch (error) {
+          } catch {
               return //message.channel.send({ content: `> **Here is your reminder! • [** <@${message.author.id}> **]**`, embeds: [reminderEmbed]});
           }
             })

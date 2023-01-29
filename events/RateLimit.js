@@ -8,6 +8,7 @@ module.exports = {
       if (!info){
         return;
       };
+
       if(!client.config.channels.debug) {
         return;
       } else {

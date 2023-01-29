@@ -1,5 +1,5 @@
 const discord= require('discord.js');
-const mcapi = require('mcapi');
+const minecraftPlayer = require("minecraft-player");
 
 module.exports = {
     name: "mcuser",
@@ -19,22 +19,34 @@ module.exports = {
       ],
     async execute(client, message, args) {
 
-    try{
-        let uuid = await mcapi.usernameToUUID(`${args.join(" ")}`)
-        let embed = new discord.EmbedBuilder()
-        .setTitle(`User: ${args.join(" ")}`)
-        .addField("Name:", `${args.join(" ")}`)
-        .addField("UUID:", uuid)
-        .addField("Download:", `[Download](https://minotar.net/download/${args.join(" ")})`)
-        .addField("NameMC:", `[Click Here](https://mine.ly/${args.join(" ")}.1)`)
-        .setImage(`https://minecraftskinstealer.com/api/v1/skin/render/fullbody/${args.join(" ")}/700`)
-        .setColor('RANDOM')
-        .setThumbnail(`https://minotar.net/cube/${args.join(" ")}/100.png)`)
+    const mcuser = args.join(" ");
+
+    let user;
+    try {
+    user = await minecraftPlayer(mcuser);
+    } catch {
+        return;
+    }
+
+    if (user) {
+        const embed = new discord.EmbedBuilder()
+        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+        .addFields(
+            { name: "Name:", value: `${user.username}`, inline: true},
+            { name: "NameHistory:", value: `${user.usernameHistory.map(x => `${x.username}\n`)}`, inline: false},
+            { name: "UUID:", value: user.uuid},
+            { name: "CreatedAt", value: user.createdAt || "Unknown", inline: true },
+            { name: "Download:", value: `[Download](https://minotar.net/download/${user.username})`, inline: true},
+            { name: "NameMC:", value: `[Click Here](https://mine.ly/${user.username}.1)`, inline: true}
+        )
+        .setImage(`https://minotar.net/armor/body/${user.username}/100.png`)
+        .setColor('#2c2f33')
+        .setThumbnail(`https://minotar.net/helm/${user.username}/100.png`)
+        .setTimestamp()
+        .setFooter({ text: user.username + `\'s mcuser | \©️${new Date().getFullYear()} Wolfy`, iconURL: message.guild.iconURL({dynamic: true}) })
         message.channel.send({ embeds: [embed] });
-    } catch(e) {
-        let embed2 = new discord.EmbedBuilder()
-        .setDescription('<a:pp681:774089750373597185> **|** The specified user was not found!')
-        message.channel.send({ embeds: [embed2] })
+    } else {
+        return message.reply({ content: "<a:pp681:774089750373597185> **|** The specified user was not found!"})    
     }
 }
 }
