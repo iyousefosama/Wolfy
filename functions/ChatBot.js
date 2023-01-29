@@ -46,7 +46,7 @@ exports.chat = async function (client, message) {
 
 
         let messages = Array.from(await message.channel.messages.fetch({
-            limit: 20,
+            limit: 80,
             before: message.id
         }))
         messages = messages.map(m=>m[1])
