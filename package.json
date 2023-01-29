@@ -32,7 +32,7 @@
     "humanize-duration": "^3.28.0",
     "jsdom": "^16.4.0",
     "math-expression-evaluator": "^1.4.0",
-    "mcapi": "^1.0.1",
+    "minecraft-player": "^1.0.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.40",
     "mongoose": "^5.13.15",
