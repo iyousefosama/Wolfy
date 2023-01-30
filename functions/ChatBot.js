@@ -69,12 +69,12 @@ exports.chat = async function (client, message) {
         prompt += `${client.user.username}:`
 
     
-        const response = await openai.createCompletion({
+        await openai.createCompletion({
             prompt,
             model: "text-davinci-003",
             max_tokens: 500,
             stop: ["\n"]
-        }).then(async () => {
+        }).then(async response => {
           return await message.reply(response.data.choices[0].text || "Hmmm")
         }).catch(() => null)
 }
