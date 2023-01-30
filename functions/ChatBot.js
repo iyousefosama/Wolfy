@@ -45,6 +45,7 @@ exports.chat = async function (client, message) {
           */
 
 
+
         let messages = Array.from(await message.channel.messages.fetch({
             limit: 5,
             before: message.id
@@ -55,8 +56,11 @@ exports.chat = async function (client, message) {
         let users = [...new Set([...messages.map(m=> m.member.displayName), client.user.username])]
     
         let lastUser = users.pop()
+
+
     
         let prompt = `The following is a conversation between ${users.join(", ")}, and ${lastUser} in discord. \n\n`
+
 
         for (let i = messages.length - 1; i >= 0; i--) {
             const m = messages[i]
@@ -70,9 +74,9 @@ exports.chat = async function (client, message) {
             model: "text-davinci-003",
             max_tokens: 500,
             stop: ["\n"]
-        })
-    
-        await message.reply(response.data.choices[0].text || "Hmmm")
+        }).then(async () => {
+          return await message.reply(response.data.choices[0].text || "Hmmm")
+        }).catch(() => null)
 }
 
 };
