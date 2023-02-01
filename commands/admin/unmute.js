@@ -54,7 +54,7 @@ module.exports = {
     if (message.member.roles.highest.position <= member.roles.highest.position) return message.channel.send(`\\❌ | ${message.author}, User could not be Unmuted!`);
     if (member.roles.cache.find(r => r.name.toLowerCase() != 'muted' && data?.Muted != true)) return message.channel.send(`\\❌ | ${message.author}, User is already Unmuted!`);
 
-    let mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "Muted")
+    let mutedRole = message.guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted")
     
     if(!mutedRole) {
         return message.reply({ content: "<a:pp681:774089750373597185> | I can't find a \`muted\` role in this server, please create one!"}).then(()=>  message.react("💢")).catch(() => null)
