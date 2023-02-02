@@ -46,9 +46,6 @@ module.exports = {
         
         let target;
         let RemoveEmbed;
-        console.log(kickLog?.createdAt > member.joinedAt)
-        console.log(kickLog)
-        console.log(kickLog?.target.id == member.id)
 
         if (kickLog && kickLog?.createdAt > member.joinedAt && kickLog?.target.id == member.id) {
           const { executor, target } = kickLog;

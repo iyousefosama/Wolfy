@@ -724,7 +724,7 @@ module.exports = {
        }
       }
     }  
-            console.log(`(/) ${interaction.user.tag}|(${interaction.user.id}) in #${interaction.channel.name}|(${interaction.channel.id}) used: /${interaction.commandName}`)
+            console.log(`(/) ${interaction.user.tag}|(${interaction.user.id}) in ${interaction.guild ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})` : 'DMS'} used: /${interaction.commandName}`)
             await interaction.deferReply().catch(() => {});
             slash.execute(client, interaction);
         } catch (error) {

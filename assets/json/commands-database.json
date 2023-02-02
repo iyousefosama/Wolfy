@@ -13,15 +13,15 @@
     "description": "Bans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "BAN_MEMBERS"
-    ],
     "clientpermissions": [
-      "BAN_MEMBERS"
+      "4"
     ],
     "examples": [
-      "@BADGUY Toxic member",
-      "742682490216644619"
+      "w!ban @BADGUY Toxic member",
+      "w!ban 742682490216644619"
+    ],
+    "permissions": [
+      "BanMembers"
     ]
   },
   {
@@ -39,15 +39,15 @@
     "description": "Clear/Delete message with quantity you want (from 2 to 100)",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
     "clientPermissions": [
-      "MANAGE_MESSAGES",
-      "EMBED_LINKS"
+      "8192",
+      "16384"
     ],
     "examples": [
-      "20"
+      "w!clear 20"
+    ],
+    "permissions": [
+      "ManageMessages"
     ]
   },
   {
@@ -64,12 +64,12 @@
     "description": "Dms someone in the server with message",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "@WOLF Hello, how are you today ?",
-      "742682490216644619 We have started a giveaway for your birthday!"
+      "w!dm @WOLF Hello, how are you today ?",
+      "w!dm 742682490216644619 We have started a giveaway for your birthday!"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -87,15 +87,15 @@
     "description": "Display the setup embed message!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES",
-      "EMBED_LINKS"
+      "8192",
+      "16384"
     ],
     "examples": [
-      ""
+      "w!EmbedSetup"
+    ],
+    "permissions": [
+      "ManageMessages"
     ]
   },
   {
@@ -112,14 +112,14 @@
     "description": "Bans a member not in the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "BAN_MEMBERS"
-    ],
     "clientpermissions": [
-      "BAN_MEMBERS"
+      "4"
     ],
     "examples": [
-      "742682490216644619 Big scammer!"
+      "w!hackban 742682490216644619 Big scammer!"
+    ],
+    "permissions": [
+      "BanMembers"
     ]
   },
   {
@@ -136,14 +136,14 @@
     "description": "To enable/disable/Edit infraction point protection system!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES"
+      "8192"
     ],
     "examples": [
-      ""
+      "w!infraction"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -160,15 +160,15 @@
     "description": "Kick a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "KICK_MEMBERS"
-    ],
     "clientpermissions": [
-      "KICK_MEMBERS"
+      "2"
     ],
     "examples": [
-      "@BADGUY",
-      "742682490216644619"
+      "w!kick @BADGUY",
+      "w!kick 742682490216644619"
+    ],
+    "permissions": [
+      "KickMembers"
     ]
   },
   {
@@ -185,15 +185,15 @@
     "description": "Lock the permissions for @everyone from talking in the channel",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      ""
+      "w!lock"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "ManageMessages"
     ]
   },
   {
@@ -210,16 +210,16 @@
     "description": "Mute someone from texting!",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MANAGE_ROLES"
-    ],
     "clientpermissions": [
-      "MANAGE_ROLES",
-      "MANAGE_CHANNELS"
+      "268435456",
+      "16"
     ],
     "examples": [
-      "@BADGUY Don't spam in chat!",
-      "742682490216644619"
+      "w!mute @BADGUY Don't spam in chat!",
+      "w!mute 742682490216644619"
+    ],
+    "permissions": [
+      "ManageRoles"
     ]
   },
   {
@@ -237,15 +237,15 @@
     "description": "Changes the nickname of a member",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MANAGE_NICKNAMES"
-    ],
     "clientpermissions": [
-      "MANAGE_NICKNAMES"
+      "134217728"
     ],
     "examples": [
-      "@WOLF JoeMama",
-      "742682490216644619 Unknown user!"
+      "w!nick @WOLF JoeMama",
+      "w!nick 742682490216644619 Unknown user!"
+    ],
+    "permissions": [
+      "ManageNicknames"
     ]
   },
   {
@@ -262,16 +262,16 @@
     "description": "ReCreate any channel without messages (this will delete all the channel and create newone!)",
     "cooldown": 20,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES",
-      "MANAGE_CHANNELS"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES",
-      "MANAGE_CHANNELS"
+      "8192",
+      "16"
     ],
     "examples": [
-      ""
+      "w!nuke"
+    ],
+    "permissions": [
+      "ManageMessages",
+      "ManageChannels"
     ]
   },
   {
@@ -287,14 +287,14 @@
     "description": "Clear messages of the user with quantity you want (from 2 to 100)",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
-    "clientPermissions": [
-      "MANAGE_MESSAGES"
+    "clientpermissions": [
+      "8192"
     ],
     "examples": [
-      "20"
+      "w!purge 20"
+    ],
+    "permissions": [
+      "ManageMessages"
     ]
   },
   {
@@ -312,12 +312,12 @@
     "description": "Remove a user warn from the warns list by the id",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "@WOLF 72c53c46-7449-4076-9af2-5acda635cbf4",
-      "742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4"
+      "w!removewarn @WOLF 72c53c46-7449-4076-9af2-5acda635cbf4",
+      "w!removewarn 742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -334,12 +334,12 @@
     "cooldown": 3,
     "guarded": false,
     "group": "Moderation",
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "854382039524048956 accept very good suggestion",
-      "854382039524048956 deny Sorry your suggestion is refused"
+      "w!respond 854382039524048956 accept very good suggestion",
+      "w!respond 854382039524048956 deny Sorry your suggestion is refused"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -356,14 +356,14 @@
     "description": "The bot will repeat what you say",
     "cooldown": 20,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES"
+      "8192"
     ],
     "examples": [
-      "Hello everyone how are you?"
+      "w!say Hello everyone how are you?"
+    ],
+    "permissions": [
+      "ManageMessages"
     ]
   },
   {
@@ -381,15 +381,15 @@
     "description": "The bot will repeat what you say with embed",
     "cooldown": 20,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES"
+      "8192"
     ],
     "examples": [
-      "GREEN Hello, this is an example embed",
-      "#d8bfd8 Hello, this is an example embed"
+      "w!embed GREEN Hello, this is an example embed",
+      "w!embed #d8bfd8 Hello, this is an example embed"
+    ],
+    "permissions": [
+      "ManageMessages"
     ]
   },
   {
@@ -406,14 +406,14 @@
     "description": "Adding slowmotion chat to a channel",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      "5s"
+      "w!slowmode 5s"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -430,15 +430,15 @@
     "description": "Kicks a user and deletes all their messages in the past 7 days",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "BAN_MEMBERS"
-    ],
     "clientpermissions": [
-      "BAN_MEMBERS"
+      "4"
     ],
     "examples": [
-      "@BADGUY",
-      "742682490216644619"
+      "w!softban @BADGUY",
+      "w!softban 742682490216644619"
+    ],
+    "permissions": [
+      "BanMembers"
     ]
   },
   {
@@ -455,15 +455,15 @@
     "description": "Bans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "clientpermissions": [
-      "ADMINISTRATOR"
+      null
     ],
     "examples": [
-      "@BADGUY 5h Toxic member",
-      "742682490216644619 5h"
+      "w!timeout @BADGUY 5h Toxic member",
+      "w!timeout 742682490216644619 5h"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -480,15 +480,15 @@
     "description": "UnBans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "BAN_MEMBERS"
-    ],
     "clientpermissions": [
-      "BAN_MEMBERS"
+      "4"
     ],
     "examples": [
-      "@FreeGuy",
-      "829819269806030879"
+      "w!unban @FreeGuy",
+      "w!unban 829819269806030879"
+    ],
+    "permissions": [
+      "BanMembers"
     ]
   },
   {
@@ -505,15 +505,15 @@
     "description": "Unlock the permissions for @everyone from talking in the channel",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      ""
+      "w!unlock"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "ManageMessages"
     ]
   },
   {
@@ -530,15 +530,15 @@
     "description": "Unmute someone from texting!",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MANAGE_ROLES"
-    ],
     "clientpermissions": [
-      "MANAGE_ROLES"
+      "268435456"
     ],
     "examples": [
-      "@BADGUY",
-      "742682490216644619"
+      "w!unmute @BADGUY",
+      "w!unmute 742682490216644619"
+    ],
+    "permissions": [
+      "ManageRoles"
     ]
   },
   {
@@ -556,13 +556,13 @@
     "description": "Kicks all user in the voice channel!",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MOVE_MEMBERS"
-    ],
     "clientpermissions": [
-      "MOVE_MEMBERS"
+      "16777216"
     ],
-    "examples": []
+    "examples": [],
+    "permissions": [
+      "MoveMembers"
+    ]
   },
   {
     "name": "warn",
@@ -577,12 +577,12 @@
     "description": "Warn a user in the server!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "@BadGuy Spamming in chat!",
-      "742682490216644619 Dm Ad!"
+      "w!warn @BadGuy Spamming in chat!",
+      "w!warn 742682490216644619 Dm Ad!"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -601,12 +601,12 @@
     "description": "Display the mentioned user warns list and ids",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "@BadGuy",
-      "742682490216644619"
+      "w!warnings @BadGuy",
+      "w!warnings 742682490216644619"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -619,15 +619,15 @@
       "helpcommand"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<cmdName>",
     "group": "bot",
     "description": "Display informations and helplist about any command.",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "feedback",
@@ -641,21 +641,21 @@
       "reportbug"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<issue>",
     "group": "bot",
     "description": "To give a feedback about bot or to report bug",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "ADD_REACTIONS"
+      "262144",
+      "64"
     ],
     "examples": [
-      "The bot ping commands not working it's showing undefined ping!"
-    ]
+      "w!feedback The bot ping commands not working it's showing undefined ping!"
+    ],
+    "permissions": []
   },
   {
     "name": "help",
@@ -671,14 +671,14 @@
     "description": "Display main bot helplist embed.",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "262144",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!help"
+    ],
+    "permissions": []
   },
   {
     "name": "links",
@@ -699,15 +699,15 @@
     "description": "Shows all bot special link vote/invite ..",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!links"
+    ],
+    "permissions": []
   },
   {
     "name": "ping",
@@ -716,20 +716,20 @@
       "Ping"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "bot",
     "description": "Shows the bot ping",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS"
+      "262144"
     ],
     "examples": [
-      ""
-    ]
+      "w!ping"
+    ],
+    "permissions": []
   },
   {
     "name": "stats",
@@ -741,7 +741,7 @@
       "STATS"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "bot",
@@ -749,13 +749,14 @@
     "cooldown": 5,
     "guarded": false,
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!stats"
+    ],
+    "permissions": []
   },
   {
     "name": "uptime",
@@ -764,7 +765,7 @@
       "UPTIME"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "bot",
@@ -772,11 +773,12 @@
     "cooldown": 15,
     "guarded": false,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS"
+      "262144"
     ],
     "examples": [
-      ""
-    ]
+      "w!uptime"
+    ],
+    "permissions": []
   },
   {
     "name": "addcredits",
@@ -793,9 +795,10 @@
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "VIEW_CHANNEL"
-    ]
+      "262144",
+      "1024"
+    ],
+    "permissions": []
   },
   {
     "name": "blacklist",
@@ -812,9 +815,10 @@
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "VIEW_CHANNEL"
-    ]
+      "262144",
+      "1024"
+    ],
+    "permissions": []
   },
   {
     "name": "devmsg",
@@ -832,9 +836,10 @@
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
-      "EMBED_LINKS",
-      "ATTACH_FILES"
-    ]
+      "16384",
+      "32768"
+    ],
+    "permissions": []
   },
   {
     "name": "eval",
@@ -849,7 +854,8 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true
+    "OwnerOnly": true,
+    "permissions": []
   },
   {
     "name": "fleave",
@@ -866,9 +872,10 @@
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
-      "EMBED_LINKS",
-      "ATTACH_FILES"
-    ]
+      "16384",
+      "32768"
+    ],
+    "permissions": []
   },
   {
     "name": "guilds",
@@ -883,7 +890,8 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true
+    "OwnerOnly": true,
+    "permissions": []
   },
   {
     "name": "shutdown",
@@ -898,7 +906,8 @@
     "group": "developer",
     "cooldown": 10,
     "guarded": false,
-    "OwnerOnly": true
+    "OwnerOnly": true,
+    "permissions": []
   },
   {
     "name": "status",
@@ -913,7 +922,8 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true
+    "OwnerOnly": true,
+    "permissions": []
   },
   {
     "name": "uid",
@@ -928,7 +938,8 @@
     "group": "developer",
     "cooldown": 1,
     "guarded": false,
-    "OwnerOnly": true
+    "OwnerOnly": true,
+    "permissions": []
   },
   {
     "name": "whitelist",
@@ -945,10 +956,11 @@
     "guarded": false,
     "OwnerOnly": true,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "EMBED_LINKS",
-      "VIEW_CHANNEL"
-    ]
+      "262144",
+      "16384",
+      "1024"
+    ],
+    "permissions": []
   },
   {
     "name": "bank",
@@ -957,17 +969,17 @@
       "BANK"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "To check your credits balance in bank",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!bank"
+    ],
+    "permissions": []
   },
   {
     "name": "beg",
@@ -976,17 +988,17 @@
       "BEG"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Want to earn money some more? Why don't you try begging, maybe someone will give you.",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!beg"
+    ],
+    "permissions": []
   },
   {
     "name": "buy",
@@ -995,18 +1007,18 @@
       "BUY"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "[item id]",
     "group": "Economy",
     "description": "To buy items from the market.",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "1",
-      "6"
-    ]
+      "w!buy 1",
+      "w!buy 6"
+    ],
+    "permissions": []
   },
   {
     "name": "cookie",
@@ -1022,10 +1034,10 @@
     "description": "To send cookie for a friend as a gift",
     "cooldown": 6,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "@WOLF"
-    ]
+      "w!cookie @WOLF"
+    ],
+    "permissions": []
   },
   {
     "name": "credits",
@@ -1036,18 +1048,18 @@
       "credit"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "<user>",
     "group": "Economy",
     "description": "To check your credits balance in wallet",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "@WOLF",
-      ""
-    ]
+      "w!credits @WOLF",
+      "w!credits"
+    ],
+    "permissions": []
   },
   {
     "name": "daily",
@@ -1056,17 +1068,17 @@
       "DAILY"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "To get your daily reward",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!daily"
+    ],
+    "permissions": []
   },
   {
     "name": "deposit",
@@ -1075,18 +1087,18 @@
       "DEPOSIT"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Deposit credits from your wallet to safeguard",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "500",
-      "all"
-    ]
+      "w!deposit 500",
+      "w!deposit all"
+    ],
+    "permissions": []
   },
   {
     "name": "fish",
@@ -1102,10 +1114,10 @@
     "description": "Take your fishingpole and start fishing",
     "cooldown": 13,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!fish"
+    ],
+    "permissions": []
   },
   {
     "name": "inv",
@@ -1116,17 +1128,17 @@
       "INVENTORY"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Show your inventory items!",
     "cooldown": 15,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!inv"
+    ],
+    "permissions": []
   },
   {
     "name": "leaderboard",
@@ -1137,15 +1149,15 @@
       "LEADERBOARD"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Developer test tool!",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "market",
@@ -1162,15 +1174,15 @@
     "description": "Open the economy market!",
     "cooldown": 15,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "ADD_REACTIONS",
-      "EMBED_LINKS"
+      "262144",
+      "64",
+      "16384"
     ],
     "examples": [
-      ""
-    ]
+      "w!market"
+    ],
+    "permissions": []
   },
   {
     "name": "mine",
@@ -1186,10 +1198,10 @@
     "description": "What you know about mining down in the deep?",
     "cooldown": 8,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!mine"
+    ],
+    "permissions": []
   },
   {
     "name": "previewitem",
@@ -1197,7 +1209,7 @@
       "Previewitem"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "[item ID]",
     "group": "Economy",
@@ -1205,14 +1217,14 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "MANAGE_MESSAGES",
-      "ATTACH_FILES"
+      "8192",
+      "32768"
     ],
-    "permissions": [],
     "examples": [
-      "6",
-      "8"
-    ]
+      "w!previewitem 6",
+      "w!previewitem 8"
+    ],
+    "permissions": []
   },
   {
     "name": "profile",
@@ -1221,17 +1233,17 @@
       "PROFILE"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Shows your profile card!",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!profile"
+    ],
+    "permissions": []
   },
   {
     "name": "quests",
@@ -1241,17 +1253,17 @@
       "quest"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "Refresh/Show current quests and the current progress.",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!quests"
+    ],
+    "permissions": []
   },
   {
     "name": "register",
@@ -1260,17 +1272,17 @@
       "REGISTER"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
     "description": "To register a bank account",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      ""
-    ]
+      "w!register"
+    ],
+    "permissions": []
   },
   {
     "name": "sell",
@@ -1279,18 +1291,18 @@
       "SELL"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "[item] <amount>",
     "group": "Economy",
     "description": "Sell item from your inventory and get some credits!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "coal 13",
-      "diamond 2"
-    ]
+      "w!sell coal 13",
+      "w!sell diamond 2"
+    ],
+    "permissions": []
   },
   {
     "name": "setbio",
@@ -1299,15 +1311,15 @@
       "SETBIO"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<bio>",
     "group": "Economy",
     "description": "Sets your profile card bio.",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "setbirthday",
@@ -1316,17 +1328,17 @@
       "SETBIRTHDAY"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<date>",
     "group": "Economy",
     "description": "Sets your profile card birthday.",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "09-26"
-    ]
+      "w!setbirthday 09-26"
+    ],
+    "permissions": []
   },
   {
     "name": "tip",
@@ -1342,11 +1354,11 @@
     "description": "Send a tip for your friend!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "@WOLF",
-      "724580315481243668"
-    ]
+      "w!tip @WOLF",
+      "w!tip 724580315481243668"
+    ],
+    "permissions": []
   },
   {
     "name": "transfer",
@@ -1362,10 +1374,10 @@
     "description": "Transfer credits from your wallet to your friends!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "@WOLF 550"
-    ]
+      "w!transfer @WOLF 550"
+    ],
+    "permissions": []
   },
   {
     "name": "use",
@@ -1375,18 +1387,18 @@
       "equip"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "[item id]",
     "group": "Economy",
     "description": "Equips an item from your inventory.",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "6",
-      "8"
-    ]
+      "w!use 6",
+      "w!use 8"
+    ],
+    "permissions": []
   },
   {
     "name": "withdraw",
@@ -1395,18 +1407,18 @@
       "WITHDRAW"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": false,
     "usage": "<amount>",
     "group": "Economy",
     "description": "Withdraw credits from your bank to your wallet",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "900",
-      "all"
-    ]
+      "w!withdraw 900",
+      "w!withdraw all"
+    ],
+    "permissions": []
   },
   {
     "name": "8ball",
@@ -1422,15 +1434,15 @@
     "description": "Ask the 8ball anything and it will answer",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
     "examples": [
-      "Is wolfy a good bot?",
-      "Should i sleep after 1 hour?"
-    ]
+      "w!8ball Is wolfy a good bot?",
+      "w!8ball Should i sleep after 1 hour?"
+    ],
+    "permissions": []
   },
   {
     "name": "clyde",
@@ -1446,17 +1458,17 @@
     "description": "Send your message as clyde text message",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES",
-      "READ_MESSAGE_HISTORY"
+      "16384",
+      "262144",
+      "32768",
+      "65536"
     ],
     "examples": [
-      "Hello you are ratelimit. lol",
-      "Wolfy is cool!"
-    ]
+      "w!clyde Hello you are ratelimit. lol",
+      "w!clyde Wolfy is cool!"
+    ],
+    "permissions": []
   },
   {
     "name": "fast",
@@ -1477,12 +1489,13 @@
     "cooldown": 15,
     "guarded": false,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
     "examples": [
-      ""
-    ]
+      "w!fast"
+    ],
+    "permissions": []
   },
   {
     "name": "guess",
@@ -1498,14 +1511,14 @@
     "description": "Start playing new guess the number game.",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
     "examples": [
-      ""
-    ]
+      "w!guess"
+    ],
+    "permissions": []
   },
   {
     "name": "joke",
@@ -1521,14 +1534,14 @@
     "description": "The bot will tell you random joke from the api",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
     "examples": [
-      ""
-    ]
+      "w!joke"
+    ],
+    "permissions": []
   },
   {
     "name": "meme",
@@ -1544,14 +1557,14 @@
     "description": "Get a random memes from reddit",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "ATTACH_FILES"
+      "16384",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!meme"
+    ],
+    "permissions": []
   },
   {
     "name": "reverse",
@@ -1566,11 +1579,11 @@
     "description": "Reverse the words you want!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "Hello, everyone!",
-      "Hello, World!"
-    ]
+      "w!reverse Hello, everyone!",
+      "w!reverse Hello, World!"
+    ],
+    "permissions": []
   },
   {
     "name": "roll",
@@ -1586,16 +1599,16 @@
     "description": "Let's flip the coin!",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
     "examples": [
-      "10",
-      "600",
-      "1568"
-    ]
+      "w!roll 10",
+      "w!roll 600",
+      "w!roll 1568"
+    ],
+    "permissions": []
   },
   {
     "name": "rps",
@@ -1612,15 +1625,15 @@
     "cooldown": 1,
     "guarded": false,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "READ_MESSAGE_HISTORY"
+      "262144",
+      "65536"
     ],
-    "permissions": [],
     "examples": [
-      "rock",
-      "paper",
-      "scissors"
-    ]
+      "w!rps rock",
+      "w!rps paper",
+      "w!rps scissors"
+    ],
+    "permissions": []
   },
   {
     "name": "tweet",
@@ -1636,16 +1649,16 @@
     "description": "Send your message as tweet message",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      "Hello, world!",
-      "Wolfy bot!"
-    ]
+      "w!tweet Hello, world!",
+      "w!tweet Wolfy bot!"
+    ],
+    "permissions": []
   },
   {
     "name": "waterdrop",
@@ -1662,16 +1675,16 @@
     "description": "Start playing waterdrop game",
     "cooldown": 15,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES",
-      "READ_MESSAGE_HISTORY"
+      "16384",
+      "262144",
+      "32768",
+      "65536"
     ],
     "examples": [
-      ""
-    ]
+      "w!waterdrop"
+    ],
+    "permissions": []
   },
   {
     "name": "avatar",
@@ -1687,16 +1700,16 @@
     "description": "Get a user's avatar.",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "ATTACH_FILES"
+      "16384",
+      "32768"
     ],
     "examples": [
-      "@WOLF",
-      "724580315481243668",
-      ""
-    ]
+      "w!avatar @WOLF",
+      "w!avatar 724580315481243668",
+      "w!avatar"
+    ],
+    "permissions": []
   },
   {
     "name": "mcuser",
@@ -1712,15 +1725,15 @@
     "description": "Get a minecraft player info/skin",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      "Notch"
-    ]
+      "w!mcuser Notch"
+    ],
+    "permissions": []
   },
   {
     "name": "serveravatar",
@@ -1737,15 +1750,15 @@
     "description": "Get a server's avatar.",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!serveravatar"
+    ],
+    "permissions": []
   },
   {
     "name": "server",
@@ -1763,15 +1776,15 @@
     "description": "Shows informations about a server",
     "cooldown": 10,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      ""
-    ]
+      "w!server"
+    ],
+    "permissions": []
   },
   {
     "name": "user",
@@ -1787,16 +1800,16 @@
     "description": "Shows informations about a user",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      "@WOLF",
-      ""
-    ]
+      "w!user @WOLF",
+      "w!user"
+    ],
+    "permissions": []
   },
   {
     "name": "addrole",
@@ -1814,12 +1827,12 @@
     "description": "Add a level role as a prize for users when they be active",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR",
-      "MANAGE_ROLES"
-    ],
     "examples": [
-      "@ActiveMember 5"
+      "w!addrole @ActiveMember 5"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
     ]
   },
   {
@@ -1837,12 +1850,12 @@
     "description": "Clear the xp for a user in the server",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "@WOLF",
-      "724580315481243668"
+      "w!clearxp @WOLF",
+      "w!clearxp 724580315481243668"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -1860,12 +1873,12 @@
     "description": "Edit the guild level role to another one",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR",
-      "MANAGE_ROLES"
-    ],
     "examples": [
-      "804860582066520104 9"
+      "w!editrole 804860582066520104 9"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
     ]
   },
   {
@@ -1887,9 +1900,10 @@
     "cooldown": 10,
     "guarded": false,
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS"
+      "262144"
     ],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "rank",
@@ -1909,14 +1923,15 @@
     "cooldown": 5,
     "guarded": false,
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS",
-      "ATTACH_FILES"
+      "16384",
+      "262144",
+      "32768"
     ],
     "examples": [
-      "@WOLF",
-      ""
-    ]
+      "w!rank @WOLF",
+      "w!rank"
+    ],
+    "permissions": []
   },
   {
     "name": "removerole",
@@ -1932,12 +1947,12 @@
     "description": "Remove a level role from the list",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR",
-      "MANAGE_ROLES"
-    ],
     "examples": [
-      "804860582066520104"
+      "w!removerole 804860582066520104"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
     ]
   },
   {
@@ -1954,11 +1969,11 @@
     "description": "Shows informations about covid in any country",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "Canada",
-      "all"
-    ]
+      "w!covid Canada",
+      "w!covid all"
+    ],
+    "permissions": []
   },
   {
     "name": "djs",
@@ -1975,14 +1990,14 @@
     "description": "Searching for anthing in djs library",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS"
+      "16384",
+      "262144"
     ],
     "examples": [
-      "embeds"
-    ]
+      "w!djs embeds"
+    ],
+    "permissions": []
   },
   {
     "name": "lyrics",
@@ -1998,15 +2013,15 @@
     "description": "The bot will show you the lyrics for the music you are searching for!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "USE_EXTERNAL_EMOJIS",
-      "ADD_REACTIONS",
-      "EMBED_LINKS"
+      "262144",
+      "64",
+      "16384"
     ],
     "examples": [
-      "Venom"
-    ]
+      "w!lyrics Venom"
+    ],
+    "permissions": []
   },
   {
     "name": "steam",
@@ -2015,22 +2030,22 @@
       "STEAM"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<query>",
     "group": "Search",
     "description": "To search for any game information in steam",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS"
+      "16384",
+      "262144"
     ],
     "examples": [
-      "Among us",
-      "Portal 2"
-    ]
+      "w!steam Among us",
+      "w!steam Portal 2"
+    ],
+    "permissions": []
   },
   {
     "name": "weather",
@@ -2041,17 +2056,17 @@
       "weatherstatus"
     ],
     "dmOnly": false,
-    "guildOnly": true,
+    "guildOnly": false,
     "args": true,
     "usage": "<city>",
     "group": "Search",
     "description": "Shows the weather status in any country",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "examples": [
-      "Cairo, egypt"
-    ]
+      "w!weather Cairo, egypt"
+    ],
+    "permissions": []
   },
   {
     "name": "wikipedia",
@@ -2068,15 +2083,15 @@
     "description": "To search for anything in wikipedia",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS"
+      "16384",
+      "262144"
     ],
     "examples": [
-      "Iphone 6",
-      "discord"
-    ]
+      "w!wikipedia Iphone 6",
+      "w!wikipedia discord"
+    ],
+    "permissions": []
   },
   {
     "name": "antilinktoggle",
@@ -2094,14 +2109,14 @@
     "description": "To enable/disable Anti-Links protection!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES"
+      "8192"
     ],
     "examples": [
-      ""
+      "w!antilinktoggle"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -2119,14 +2134,14 @@
     "description": "Add/remove/show blacklisted words for the current guild.",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "clientpermissions": [
-      "MANAGE_MESSAGES"
+      "8192"
     ],
     "examples": [
-      "bad"
+      "w!badwords bad"
+    ],
+    "permissions": [
+      "Administrator"
     ]
   },
   {
@@ -2144,12 +2159,12 @@
     "description": "To enable/disable badwords filter!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!badwordstoggle"
+    ],
+    "permissions": [
+      "ManageMessages",
+      "Administrator"
     ]
   },
   {
@@ -2169,12 +2184,12 @@
     "description": "Setup the leave channel bot will send message when user leave there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "877130715337220136"
+      "w!setLeaverch 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2193,12 +2208,12 @@
     "description": "To allow or disable leaver channel!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!leavertoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2217,12 +2232,12 @@
     "description": "To enable/disable levelRoles cmd",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!leveltoggle"
+    ],
+    "permissions": [
+      "ManageMessages",
+      "Administrator"
     ]
   },
   {
@@ -2242,13 +2257,13 @@
     "description": "Setup the logs channel bot will send logs there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "VIEW_CHANNEL",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "877130715337220136"
+      "w!setLogsch 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "ViewChannel",
+      "Administrator"
     ]
   },
   {
@@ -2266,12 +2281,12 @@
     "description": "To allow or disable logs channel!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!logstoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2290,12 +2305,12 @@
     "description": "Setup the reports channel bot will send reports from users there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "877130715337220136"
+      "w!setreportch 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2313,11 +2328,11 @@
     "description": "To allow or disable reports command!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "examples": [
-      ""
+      "w!reportstoggle"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -2338,15 +2353,15 @@
     "description": "Setup the select menu role list!",
     "cooldown": 15,
     "guarded": false,
-    "permissions": [
-      "MANAGE_ROLES"
-    ],
     "clientPermissions": [
       "MANAGE_ROLES"
     ],
     "examples": [
-      "1",
-      "6"
+      "w!smRole 1",
+      "w!smRole 6"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -2359,12 +2374,12 @@
     "description": "Set the welcome msg or embed",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "msg {tag} has just leaved {guildName} server!",
-      "embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+      "w!setleavermsg msg {tag} has just leaved {guildName} server!",
+      "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -2382,12 +2397,12 @@
     "description": "Set the bot prefix to another one!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "!",
-      "l!"
+      "w!setprefix !",
+      "w!setprefix l!"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -2400,12 +2415,12 @@
     "description": "Set the welcome msg or embed",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "msg {tag} has joined {guildName} server!",
-      "embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+      "w!setwelcomemsg msg {tag} has joined {guildName} server!",
+      "w!setwelcomemsg embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ],
+    "permissions": [
+      "UnknownPermission"
     ]
   },
   {
@@ -2423,12 +2438,12 @@
     "description": "To enable/disable Select menu roles!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_ROLES",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!smroletoggle"
+    ],
+    "permissions": [
+      "ManageRoles",
+      "Administrator"
     ]
   },
   {
@@ -2448,11 +2463,11 @@
     "description": "Setup the suggestion channel bot will send suggestions from users there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "examples": [
-      "877130715337220136"
+      "w!setSuggch 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -2471,12 +2486,12 @@
     "description": "To allow or disable suggestion command!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!suggestionstoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2496,14 +2511,14 @@
     "description": "Setup the ticket category bot will create tickets channels from users there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      "877130715337220136"
+      "w!setTicketch 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -2521,12 +2536,12 @@
     "description": "To allow or disable ticket feature!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!ticketstoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2546,12 +2561,12 @@
     "description": "Setup the welcome channel bot will send message when user join there!",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      "877130715337220136"
+      "w!setWelcomech 877130715337220136"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2570,12 +2585,12 @@
     "description": "To allow or disable welcome channel!",
     "cooldown": 30,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS",
-      "ADMINISTRATOR"
-    ],
     "examples": [
-      ""
+      "w!welcometoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
     ]
   },
   {
@@ -2591,11 +2606,11 @@
     "description": "Desc..",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MANAGE_MESSAGES"
-    ],
     "clientpermissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": [
+      "ManageMessages"
+    ]
   },
   {
     "name": "test",
@@ -2610,8 +2625,8 @@
     "description": "Developer test tool!",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "bin",
@@ -2629,12 +2644,13 @@
     "cooldown": 10,
     "guarded": false,
     "clientpermissions": [
-      "EMBED_LINKS",
-      "USE_EXTERNAL_EMOJIS"
+      "16384",
+      "262144"
     ],
     "examples": [
-      "message.channel.send('Hello, world!')"
-    ]
+      "w!bin message.channel.send('Hello, world!')"
+    ],
+    "permissions": []
   },
   {
     "name": "calc",
@@ -2649,9 +2665,9 @@
     "description": "Calculates an equation by wolfy",
     "cooldown": 3,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [],
-    "examples": []
+    "examples": [],
+    "permissions": []
   },
   {
     "name": "delete",
@@ -2667,14 +2683,14 @@
     "description": "Delete your ticket in the server",
     "cooldown": 1,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      ""
+      "w!delete"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -2693,12 +2709,12 @@
     "description": "The bot will reminde you for anything",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [
-      "USE_EXTERNAL_EMOJIS"
-    ],
     "examples": [
-      "5m To start my new project!",
-      "30s To skip this ad"
+      "w!remind 5m To start my new project!",
+      "w!remind 30s To skip this ad"
+    ],
+    "permissions": [
+      "UseExternalEmojis"
     ]
   },
   {
@@ -2715,14 +2731,14 @@
     "description": "Change ticket name",
     "cooldown": 2,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      "Test-ticket"
+      "w!rename Test-ticket"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   },
   {
@@ -2739,14 +2755,14 @@
     "description": "To report someone in the server",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "VIEW_CHANNEL",
-      "USE_EXTERNAL_EMOJIS"
+      "1024",
+      "262144"
     ],
     "examples": [
-      "@WOLF bad boy"
-    ]
+      "w!report @WOLF bad boy"
+    ],
+    "permissions": []
   },
   {
     "name": "suggestion",
@@ -2762,14 +2778,14 @@
     "description": "Send your suggestion for the server",
     "cooldown": 5,
     "guarded": false,
-    "permissions": [],
     "clientpermissions": [
-      "EMBED_LINKS",
-      "ADD_REACTIONS"
+      "16384",
+      "64"
     ],
     "examples": [
-      "Add voice channels!"
-    ]
+      "w!suggestion Add voice channels!"
+    ],
+    "permissions": []
   },
   {
     "name": "ticket",
@@ -2785,11 +2801,12 @@
     "cooldown": 30,
     "guarded": false,
     "clientpermissions": [
-      "MANAGE_CHANNELS"
+      "16"
     ],
     "examples": [
-      ""
-    ]
+      "w!ticket"
+    ],
+    "permissions": []
   },
   {
     "name": "ticketpanel",
@@ -2804,11 +2821,11 @@
     "description": "Setup the ticket panel in the server",
     "cooldown": 160,
     "guarded": false,
-    "permissions": [
-      "MANAGE_CHANNELS"
-    ],
     "examples": [
-      ""
+      "w!ticketpanel"
+    ],
+    "permissions": [
+      "ManageChannels"
     ]
   }
 ]

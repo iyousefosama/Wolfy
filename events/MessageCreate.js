@@ -49,7 +49,7 @@ module.exports = {
             // Do nothing..
           };
       }
-      if(message.channel.type === ChannelType.DM) {
+      if(message.channel?.type === ChannelType.DM) {
         prefix = client.prefix;
       } else if (message.content.startsWith('wolfy')) {
         prefix = 'wolfy ';
@@ -224,7 +224,7 @@ module.exports = {
                   }
           // Start CmdManager function at ../functions/Manager bath
           //cmdManager.manage(client, message, cmd)
-          console.log(`${message.author.tag}|(${message.author.id}) in #${message.channel.name}|(${message.channel.id}) sent: ${message.content}`)
+          console.log(`${message.author.tag}|(${message.author.id}) in ${message.guild ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})` : 'DMS'} sent: ${message.content}`)
           cmd.execute(client, message, args, { executed: true });
       } catch(err){
           message.reply(`<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to WOLF#1045\``);
