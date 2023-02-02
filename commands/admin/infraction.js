@@ -12,7 +12,7 @@ module.exports = {
     description: 'To enable/disable/Edit infraction point protection system!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administartor],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
     clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
     ''

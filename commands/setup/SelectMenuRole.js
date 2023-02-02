@@ -13,8 +13,8 @@ module.exports = {
     description: 'Setup the select menu role list!',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
-    permissions: ['MANAGE_ROLES'],
-    clientPermissions: ['MANAGE_ROLES'],
+    permissions: [discord.PermissionsBitField.Flags.ManageRoles],
+    clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
     examples: ['1', '6'], 
     async execute(client, message, [quantity]) {
 

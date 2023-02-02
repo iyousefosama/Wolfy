@@ -15,6 +15,7 @@ module.exports = {
     description: 'Show your level & rank and your current and next xp',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [
         '@WOLF',

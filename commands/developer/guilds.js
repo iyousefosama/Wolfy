@@ -11,6 +11,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
+    permissions: [],
     async execute(client, message, args) {
         var list = "";
         client.guilds.cache.forEach(guild => {

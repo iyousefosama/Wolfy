@@ -12,6 +12,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
+    permissions: [],
     async execute(client, message, args) {
 
     const content = args.join(" ")

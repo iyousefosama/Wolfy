@@ -12,8 +12,8 @@ module.exports = {
   description: 'Bans a member from the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.Administartor],
-  clientpermissions: [discord.PermissionsBitField.Flags.Administartor],
+  permissions: [discord.PermissionsBitField.Flags.Administrator],
+  clientpermissions: [discord.PermissionsBitField.Flags.Administrator],
   examples: [
     '@BADGUY 5h Toxic member',
     '742682490216644619 5h'

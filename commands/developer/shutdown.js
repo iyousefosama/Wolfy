@@ -11,6 +11,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
+    permissions: [],
     async execute(client, message, args) {
 
     var loading = new discord.EmbedBuilder()

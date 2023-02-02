@@ -13,7 +13,7 @@ module.exports = {
     description: 'Clear the xp for a user in the server',
     cooldown: 3, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administartor],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
     examples: [
         '@WOLF',
         '724580315481243668'

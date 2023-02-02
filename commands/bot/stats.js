@@ -16,6 +16,7 @@ module.exports = {
     description: 'Show bot stats and informations',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
     async execute(client, message, args) {

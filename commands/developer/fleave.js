@@ -12,6 +12,7 @@ const { EmbedBuilder, TextChannel } = require('discord.js');
     cooldown: 15, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
+    permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     async execute(client, message, [id = '', ...reason]) {
 

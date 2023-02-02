@@ -12,6 +12,7 @@ module.exports = {
     cooldown: 1, //seconds(s)
     guarded: false, //or false
     OwnerOnly: true,
+    permissions: [],
     async execute(client, message, args) {
         const head = Date.now().toString(36);
         const tail = Math.random().toString(36).substr(2);

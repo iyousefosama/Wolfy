@@ -14,6 +14,7 @@ module.exports = {
     description: 'Open new ticket in the server',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
+    permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
     async execute(client, message, args) {

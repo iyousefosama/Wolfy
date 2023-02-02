@@ -13,7 +13,7 @@ module.exports = {
     description: 'Add/remove/show blacklisted words for the current guild.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administartor],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
     clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
     'bad'

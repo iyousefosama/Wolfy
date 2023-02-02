@@ -69,7 +69,7 @@
       "w!dm 742682490216644619 We have started a giveaway for your birthday!"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -143,7 +143,7 @@
       "w!infraction"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -317,7 +317,7 @@
       "w!removewarn 742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -339,7 +339,7 @@
       "w!respond 854382039524048956 deny Sorry your suggestion is refused"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -456,14 +456,14 @@
     "cooldown": 1,
     "guarded": false,
     "clientpermissions": [
-      null
+      "8"
     ],
     "examples": [
       "w!timeout @BADGUY 5h Toxic member",
       "w!timeout 742682490216644619 5h"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -582,7 +582,7 @@
       "w!warn 742682490216644619 Dm Ad!"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -606,7 +606,7 @@
       "w!warnings 742682490216644619"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -1855,7 +1855,7 @@
       "w!clearxp 724580315481243668"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -2116,7 +2116,7 @@
       "w!antilinktoggle"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -2379,7 +2379,7 @@
       "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -2402,7 +2402,7 @@
       "w!setprefix l!"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {
@@ -2420,7 +2420,7 @@
       "w!setwelcomemsg embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
     ],
     "permissions": [
-      "UnknownPermission"
+      "Administrator"
     ]
   },
   {

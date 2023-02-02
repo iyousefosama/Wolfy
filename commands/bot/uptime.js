@@ -12,6 +12,7 @@ module.exports = {
     description: 'Show the bot uptime',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
+    permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [''],
     async execute(client, message, args) {
