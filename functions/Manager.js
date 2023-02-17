@@ -14,8 +14,8 @@ exports.manage = async function (client, message, cmd) {
         return;
     };
 
-    const now = Date.now();
-    const DeleteDuration = 1.814e+9; // 3 Weeks
+    const now = Math.floor(Date.now() / 1000);
+    const DeleteDuration = Math.floor(1.814e+9 / 1000); // 4 Weeks
     const DateToDel = Math.floor(now + DeleteDuration)
     const duration = Math.floor(3000)
     const UsedCommandsWarnsResetduration = Math.floor(57600000)
