@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {

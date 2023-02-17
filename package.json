@@ -1,10 +1,7 @@
 {
   "name": "wolfy-bot",
-  "version": "2.3.5",
+  "version": "2.3.9",
   "main": "index.js",
-  "engines": {
-    "node": "16.x"
-  },
   "scripts": {
     "test": "node test.js",
     "start": "node index.js",
@@ -44,6 +41,7 @@
     "parse-ms": "^2.1.0",
     "play-dl": "^1.9.5",
     "snekfetch": "^4.0.4",
+    "soundcloud-scraper": "^5.0.3",
     "sourcebin": "^4.2.5",
     "sourcebin_js": "^0.0.3-ignore",
     "txtgen": "3.0.1",

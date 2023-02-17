@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const got = require('got')
 

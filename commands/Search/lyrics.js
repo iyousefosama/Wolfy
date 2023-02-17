@@ -43,7 +43,7 @@ module.exports = {
             .setColor('Grey')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
-                { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
+                { name: '<:pp421:853495091338674206> Track', value: `\`\`\`${data.title}\`\`\``, inline: true },
             )
             .setDescription(data.lyrics)
             .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
@@ -72,7 +72,7 @@ module.exports = {
             .setColor('Grey')
             .addFields(
                 { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
-                { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
+                { name: '<:pp421:853495091338674206> track', value: `\`\`\`${data.title}\`\`\``, inline: true },
             )
             .setDescription(x)
             .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
@@ -119,130 +119,6 @@ module.exports = {
           .addComponents(button, button2);
           msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
       });
-    }/*else {
-    let singer;
-    let song;
-    const filter = msg => msg.author.id === message.author.id;
-
-    let singerEmb = new discord.EmbedBuilder()
-    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-    .setColor(`#d6a565`)
-    .setDescription(`<a:Loading:841321898302373909> | Please send the **artist** name!`)
-    .setFooter({ text: `1/2 | type "cancel" to cancel the command`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-    message.channel.send({ embeds: [singerEmb] })
-    let col = await message.channel.awaitMessages({ filter, max: 1})
-    if(col.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
-    else if(col.first().content == `${client.prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
-    singer = col.first().content
-
-    let songEmb = new discord.EmbedBuilder()
-    .setColor(`#98ff98`)
-    .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-    .setDescription(`<a:Loading:841321898302373909> | Please send the **song** name!`)
-    .setFooter({ text: `2/2 | type "cancel" to cancel the command`, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
-    message.channel.send({ embeds: [songEmb]})
-    let col2 = await message.channel.awaitMessages({ filter, max: 1 })
-    if(col2.first().content == 'cancel') return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`});
-    else if(col2.first().content == `${client.prefix}lyrics`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`lyrics\` command!`})
-    song = col2.first().content
-    message.channel.sendTyping()
-
-    const data = await fetch(`https://some-random-api.ml/lyrics?title=${encodeURI(song)}`)
-    .then(res => res.json())
-    .catch(() => null);
-
-    if (!data || data.error){
-        return message.channel.send(`\\\❌ | ${message.author}, I couldn't find the lyrics!`)
-      };
-
-    let res = await lyricsFinder(singer, song) || `\\\❌ | ${message.author}, I couldn't find the lyrics!`;
-
-    if (data.lyrics.length < 2000){
-        for(let i = 0; i < res.length; i += 2048) {
-            let lyrics = res.substring(i, Math.min(res.length, i + 2048))
-        const LowLy = new discord.EmbedBuilder()
-        .setThumbnail(data.thumbnail.genius)
-        .setAuthor(`${data.title}\n${data.author}`, null, data.links.genius)
-        .setColor('Grey')
-        .addFields(
-            { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
-            { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
-        )
-        .setDescription(lyrics)
-        .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-        .setTimestamp()
-        return message.channel.send({ embeds: [LowLy]})
-        }
     }
-
-    const lyrics_array = res.split('\n');
-    const lyrics_subarray = [ '' ];
-    let n = 0;
-
-    for (const line of lyrics_array){
-      if (lyrics_subarray[n].length + line.length < 2000){
-        lyrics_subarray[n] = lyrics_subarray[n] + line + '\n'
-      } else {
-        n++
-        lyrics_subarray.push(line);
-      };
-    };
-
-    const pages = new Page(
-      lyrics_subarray.map((x,i) =>
-        new EmbedBuilder()
-      .setThumbnail(data.thumbnail.genius)
-      .setAuthor({ name: `${data.title}\n${data.author}`, iconURL: null, url: data.links.genius })
-      .setColor('Grey')
-      .addFields(
-          { name: '<:pp421:853495091338674206> Artist', value: `\`\`\`${data.author}\`\`\``, inline: true },
-          { name: '<:pp421:853495091338674206> Song', value: `\`\`\`${data.title}\`\`\``, inline: true },
-      )
-      .setDescription(x)
-      .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-      .setTimestamp()
-      )
-  );
-  const button = new ButtonBuilder()
-  .setLabel(`Prev`)
-  .setCustomId("51984198419841941")
-  .setStyle('Primary')
-  .setEmoji("890490643548352572");
-  const button2 = new ButtonBuilder()
-  .setLabel(`Next`)
-  .setCustomId("51984198419841942")
-  .setStyle('Primary')
-  .setEmoji("890490558492061736")
-
-  const row = new discord.ActionRowBuilder()
-  .addComponents(button, button2)
-
-  const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
-
-  const filter1 = i => i.user.id === message.author.id;
-
-  const collector = msg.createMessageComponentCollector({ filter1, fetch: true  })
-
-  let timeout = setTimeout(()=> collector.stop(), 180000)
-
-  collector.on('collect', async interactionCreate => {
-    interactionCreate.deferUpdate()
-    if (interactionCreate.customId === '51984198419841941') {
-      msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex-1}/${pages.size}\``, embeds: [pages.previous()] })
-    } else if(interactionCreate.customId === '51984198419841942') {
-      msg.edit({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.next()] })
-    }
-
-    timeout.refresh()
-  });
-
-  collector.on('end', async () => {
-    button.setDisabled(true)
-    button2.setDisabled(true)
-    const newrow = new ActionRowBuilder()
-    .addComponents(button, button2);
-    msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
-});
-}*/
 }
 }

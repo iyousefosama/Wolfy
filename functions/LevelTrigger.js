@@ -42,7 +42,7 @@ exports.Level = async function (message) {
     const randomXp = Math.floor(Math.random() * 46) + 1;
     Userdata.System.xp += randomXp;
     if(Userdata.System.xp >= Userdata.System.required) {
-        Userdata.System.required = Math.floor((Userdata.System.level +1) * (Userdata.System.level +1) * 100);
+        Userdata.System.required = Math.floor((Userdata.System.level+1) * (Userdata.System.level+1) * 100);
         Userdata.System.level++
         const LevelUp = new discord.EmbedBuilder()
         .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})

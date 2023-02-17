@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 

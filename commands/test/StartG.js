@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/GiveAway-Schema')
 const ms = require('ms')
 
@@ -9,7 +9,7 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '[Winners Number] [Time] [Prize]',
-    group: 'Test',
+    group: 'Unspecified',
     description: 'Desc..',
     cooldown: 2, //seconds(s)
     guarded: false, //or false

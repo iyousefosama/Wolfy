@@ -16,7 +16,7 @@ module.exports = {
     examples: [
         '@WOLF 550'
       ],
-    async execute(client, message, [user='', amount='']) {
+    async execute(client, message, [user='', amount='', ...args]) {
 
         if (!user.match(/\d{17,19}/)){
             return message.channel.send({ content: `<a:pp802:768864899543466006> Please provide the ID of the user or mention!`});
@@ -27,6 +27,8 @@ module.exports = {
           .catch(() => null);
     
           amount = Math.round(amount.split(',').join('')) || 'Nothing';
+
+          const reason = args.slice(0).join(" ")
     
           if (!user){
             return message.channel.send({ content: `<a:Wrong:812104211361693696> | ${message.author}, User could not be found! Please ensure the supplied ID is valid.`});
@@ -71,7 +73,8 @@ module.exports = {
         if(Math.ceil(amount * 1.1) > data.credits) { 
             message.channel.send(`\\❌ **${message.author.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`)
         } else {
-            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to transfer **${Math.floor(amount / 1.1)}** to ${user}? Your new palance will be **${Math.floor(data.credits - amount * 1.1)}**! \`(y/n)\``})
+            const amountToAdd = amount / 1.1;
+            await message.channel.send({ content: `<a:iNFO:853495450111967253> **${message.author.tag}**, Are you sure you want to transfer **${text.commatize(amountToAdd)}** to ${user}(10% fee applies)? Your new palance will be **${Math.floor(data.credits - (amount * 1.1))}**! \`(y/n)\``})
             const filter = _message => message.author.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
         
             const proceed = await message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
@@ -83,9 +86,10 @@ module.exports = {
             };
 
             data.credits -= Math.floor(amount * 1.1);
-            FriendData.credits += Math.floor(amount);
+            FriendData.credits += Math.floor(amountToAdd);
+            user.send({ content: `\`\`\`${message.author.tag} transfered ${text.commatize(amountToAdd)} to you\n${reason ? `Said:\n${reason}\`\`\`` : "\`\`\`"}` }).catch(() => null)
             return Promise.all([ data.save(), FriendData.save() ])
-            .then(()=> message.channel.send(`<a:Money:836169035191418951> **${message.author.tag}**, Successfully transferred \`${text.commatize(Math.floor(amount / 1.1))}\` to **${user}**!`))
+            .then(()=> message.channel.send(`<a:Money:836169035191418951> **${message.author.tag}**, Successfully transferred \`${text.commatize(Math.floor(amount))}\` to **${user}**!`))
             .catch(err => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``));
         }
 }

@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     usage: '<user>',
     group: 'Economy',
     description: 'To send cookie for a friend as a gift',
-    cooldown: 6, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     examples: [

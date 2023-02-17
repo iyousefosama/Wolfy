@@ -10,24 +10,25 @@ module.exports.registerPlayerEvents = (player) => {
         queue.metadata.channel.send(`[${queue.guild.name}] Error emitted from the connection: ${error.message}`);
     });
 
+    /*
     player.on("trackAdd", async (queue, track) => {
-        await new Promise(r=>setTimeout(r,500))
+    });
+    */
+
+    player.on("trackStart", async (queue, track) => {
+        return await queue.metadata.channel.send(`<a:Up:853495519455215627> Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
     });
 
-    player.on("trackStart", (queue, track) => {
-        queue.metadata.channel.send(`<a:Up:853495519455215627> Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
+    player.on("botDisconnect", async (queue) => {
+        return await queue.metadata.channel.send("\\❌ **clearing queue,** I was manually disconnected from the voice channel!");
     });
 
-    player.on("botDisconnect", (queue) => {
-        queue.metadata.channel.send("\\❌ **clearing queue,** I was manually disconnected from the voice channel!");
+    player.on("channelEmpty", async (queue) => {
+        return await queue.metadata.channel.send("\\❌ **left,** Nobody is in the voice channel!");
     });
 
-    player.on("channelEmpty", (queue) => {
-        queue.metadata.channel.send("\\❌ **left,** Nobody is in the voice channel!");
-    });
-
-    player.on("queueEnd", (queue) => {
-        queue.metadata.channel.send("<:Verify:841711383191879690> Queue finished!");
+    player.on("queueEnd", async (queue) => {
+        return await queue.metadata.channel.send("<:Verify:841711383191879690> Queue finished!");
     });
 
 };

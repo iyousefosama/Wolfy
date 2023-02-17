@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const math = require('math-expression-evaluator');
 
 module.exports = {

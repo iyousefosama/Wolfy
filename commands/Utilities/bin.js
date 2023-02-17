@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const sb = require('sourcebin');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const fetch = require('node-fetch');

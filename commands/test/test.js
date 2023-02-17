@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const { joinVoiceChannel } = require('@discordjs/voice');
 const { Permissions } = require('discord.js');

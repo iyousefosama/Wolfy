@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/Mute-Schema')
 const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
 

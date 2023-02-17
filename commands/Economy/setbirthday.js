@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const moment = require('moment');
 const schema = require('../../schema/Economy-Schema')
 

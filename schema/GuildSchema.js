@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
      prefix: { type: String, default: null },
      blacklisted: { type: Boolean, default: false },
      
-   Mod: {
+     Mod: {
       Suggestion: {
         isEnabled: { type: Boolean, default: false },
         channel: { type: String, default: null },

@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js') // npm i discord.js
 const fetch = require('node-fetch') // npm i node-fetch
 

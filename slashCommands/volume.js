@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const discord= require('discord.js');
+const discord = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
@@ -16,15 +16,15 @@ module.exports = {
         const queue = client.player.getQueue(interaction.guildId)
 
         if (!interaction.member.voice.channel){
-            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");
+            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
             return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
           } else if (!client.player.getQueue(interaction.guild.id)){
-            return await interaction.editReply("<:error:888264104081522698> There are no songs in the queue!");
+            return await interaction.editReply("<:error:888264104081522698> There are no tracks in the queue!");
           };
 
         if (!vol) return await interaction.editReply(`❌ Please add the volume, current volume is \`${queue.volume}\`!`)
-        if (vol < 0 || vol > 100) return void ctx.sendFollowUp({ content: '❌ Volume range must be \`1-100\`!' });
+        if (vol < 0 || vol > 100) return await interaction.editReply({ content: '❌ Volume range must be \`1-100\`!' });
         const Success = queue.setVolume(vol);
         await interaction.editReply({ content: Success ? `<:Success:888264105851490355> **Successfully** set the volume to \`${vol}%\`!` : '<:error:888264104081522698> Something went wrong!'})
 	},

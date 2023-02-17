@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
 
@@ -10,7 +10,7 @@ module.exports = {
     args: false, //or false
     usage: '',
     group: 'Economy',
-    description: 'Developer test tool!',
+    description: 'Get a list for the 10 richest users that using wolfy',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
@@ -50,7 +50,6 @@ module.exports = {
             pos++
             if(obj.userID == message.author.id) {
                 embed.setFooter({ text: `Your position is ${pos}!`, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 1024 }) });
-                
             }
         }
     

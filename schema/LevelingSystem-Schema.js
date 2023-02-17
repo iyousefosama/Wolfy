@@ -7,7 +7,7 @@ const levelSchema = mongoose.Schema({
     System: {
         level: { type: Number, default: 0 },
         xp: { type: Number, default: 0 },
-        required: { type: Number, default: 125 }
+        required: { type: Number, default: 225 }
     }
 })
 

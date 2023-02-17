@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const ms = require('ms')
 const schema = require('../../schema/TimeOut-Schema')
 

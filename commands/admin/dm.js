@@ -46,20 +46,15 @@ module.exports = {
       .setColor('Aqua')
       .setDescription(`<a:Notification:811283631380234250> **${message.author.username}**: ${dm}`)
       .setTimestamp()
-      .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) });
+      .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({dynamic: true}) })
 
-    const err = new discord.EmbedBuilder()
+    return await user.send({ embeds: [dmembed] }).then(() => {
+        let done = new discord.EmbedBuilder()
+        .setColor(`Green`)
+        .setDescription(`<a:pp399:768864799625838604> Successfully DM the user ${user}`)
+        message.channel.send({ embeds: [done] })
+    }).catch(() => message.channel.send({ embeds: [new discord.EmbedBuilder()
         .setColor(`Red`)
-        .setDescription(`<a:pp802:768864899543466006> I can't send messages to ${user}`)
-
-    try {
-        await user.send({ embeds: [dmembed] })
-    } catch (error) {
-        return message.channel.send({ embeds: [err] })
-    }
-    let done = new discord.EmbedBuilder()
-    .setColor(`Green`)
-    .setDescription(`<a:pp399:768864799625838604> Successfully DM the user ${user}`)
-    message.channel.send({ embeds: [done] })
+        .setDescription(`<a:pp802:768864899543466006> I can't send messages to ${user}`)] }))
 }
 }

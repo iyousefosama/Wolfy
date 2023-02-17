@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const _ = require('lodash');
 const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const Pages = require('../../util/Paginate');

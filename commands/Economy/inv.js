@@ -1,4 +1,4 @@
-const discord= require('discord.js');
+const discord = require('discord.js');
 const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const _ = require('lodash');

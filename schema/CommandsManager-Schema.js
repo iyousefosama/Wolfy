@@ -11,6 +11,10 @@ const cmdmanagerSchema = mongoose.Schema({
       default: {}
     },
 
+    timerStart: { type: Number, default: 0 },
+
+    timerEnd: { type: Number, default: 0 },
+
     timeoutReset: { type: Date, default: null },
 
     UsedCommandsWarn: { type: Number, default: 0 },
