@@ -16,14 +16,16 @@ exports.chat = async function (client, message) {
     // Do nothing..
   }
 
-    if (message.channel.type === ChannelType.DM) return;
-    if (message.author == client.user) return;
-    if (message.author.bot){
-        return;
-      };
-    if(message.embeds[0]) return;
-    const file = message.attachments.first()?.url;
-    const Channel = message.guild.channels.cache.get(client.config.channels.chatbot)
+  if (message.channel.type === ChannelType.DM) return;
+  if (message.author == client.user) return;
+  if (message.author.bot){
+      return;
+    };
+  //if(message.embeds[0]) return;
+
+  const file = message.attachments.first()?.url;
+  const Channel = message.guild.channels.cache.get(client.config.channels.chatbot)
+
     if(message.channel.id == Channel?.id) {
         message.channel.sendTyping()
         /*
@@ -45,8 +47,6 @@ exports.chat = async function (client, message) {
           .catch(() => message.reply('Sorry, but something went wrong while responding to this message!').catch(() => null));
           */
 
-
-
         let messages = Array.from(await message.channel.messages.fetch({
             limit: 5,
             before: message.id
@@ -65,7 +65,7 @@ exports.chat = async function (client, message) {
 
         for (let i = messages.length - 1; i >= 0; i--) {
             const m = messages[i]
-            prompt += `${m.member.displayName}: ${file ? file : ''}${m.content}\n`
+            prompt += `${m.member.displayName}: ${file ? 'Discord attachment added: Url:' + file + '\n' : ''}${m.content}\n`
         }
         prompt += `${client.user.username}:`
 
