@@ -10,7 +10,7 @@ module.exports = {
     guildOnly: true, //or false
     args: false, //or false
     usage: '',
-    group: 'Utilities',
+    group: 'Tickets',
     description: 'Open new ticket in the server',
     cooldown: 30, //seconds(s)
     guarded: false, //or false

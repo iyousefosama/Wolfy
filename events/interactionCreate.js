@@ -37,18 +37,20 @@ module.exports = {
       } catch (err) {
         console.log(err)
       }
-      let data;
-      try{
-          data = await schema.findOne({
-              GuildID: interaction.guild.id
-          })
-      } catch(err) {
-          console.log(err)
-          interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
-      }
      
       let TicketData;
       if (interaction.isButton()) {
+        let data;
+        if(interaction.guild) {
+          try{
+              data = await schema.findOne({
+                  GuildID: interaction.guild.id
+              })
+          } catch(err) {
+              console.log(err)
+              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+          }
+        } 
               ///////////// Ticket button inteaction
               if (interaction.customId === 'ticket') {
                 //+ cooldown 1, //seconds(s)

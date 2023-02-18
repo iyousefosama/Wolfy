@@ -8,7 +8,7 @@ module.exports = {
     guildOnly: true, //or false
     args: true, //or false
     usage: '<Name>',
-    group: 'Utilities',
+    group: 'Tickets',
     description: 'Change ticket name',
     cooldown: 2, //seconds(s)
     guarded: false, //or false

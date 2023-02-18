@@ -325,7 +325,7 @@ module.exports = {
         };
     
         return message.channel.send({ embeds: [
-          new EmbedBuilder()
+          new discord.EmbedBuilder()
           .setColor('738ADB')
           .setTitle('<a:ShinyMoney:877975108038324224> **Economy Commands**')
           .addFields(fields.sort((A,B) => B.value.length - A.value.length))

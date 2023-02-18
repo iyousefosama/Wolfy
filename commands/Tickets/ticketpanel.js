@@ -9,7 +9,7 @@ module.exports = {
     guildOnly: true, //or false
     args: false, //or false
     usage: '(Optional: Embed description)',
-    group: 'Utilities',
+    group: 'Tickets',
     description: 'Setup the ticket panel in the server',
     cooldown: 160, //seconds(s)
     guarded: false, //or false
