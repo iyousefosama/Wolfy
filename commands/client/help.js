@@ -327,12 +327,12 @@ module.exports = {
         return message.channel.send({ embeds: [
           new discord.EmbedBuilder()
           .setColor('738ADB')
-          .setTitle('<a:ShinyMoney:877975108038324224> **Economy Commands**')
+          .setTitle('<:Tag:836168214525509653> Wolfy\'s full commands list!')
           .addFields(fields.sort((A,B) => B.value.length - A.value.length))
-          .setAuthor({ name: 'Wolfy\'s full commands list!', iconURL: message.author.displayAvatarURL()})
+          .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL()})
           .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy`})
           .setDescription([
-            `You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
+            `<:star:888264104026992670> You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
           ].join('\n'))
         ]});
     } else {
