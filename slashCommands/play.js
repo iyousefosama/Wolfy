@@ -10,27 +10,12 @@ module.exports = {
 	data: new SlashCommandBuilder()
     .setName("play")
     .setDescription("Plays tracks on discord voice channel from other platforms")
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("search")
-            .setDescription("Searches for tracks based on provided name")
-            .addStringOption((option) =>
-                option.setName("name").setDescription("The search keywords(Track name)").setRequired(true)
-            )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("load")
-            .setDescription("Loads a single track from a url")
-            .addStringOption((option) => option.setName("url").setDescription("the track's url").setRequired(true))
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("playlist")
-            .setDescription("Loads a playlist of tracks from a url")
-            .addStringOption((option) => option.setName("url").setDescription("the playlist's url").setRequired(true))
+    .addStringOption((option) =>
+    option.setName("track").setDescription("Search for a track in different platforms by url or name").setRequired(true)
     ),
 	async execute(client, interaction) {
+        const trackInput = interaction.options.getString("track")
+
         if (!interaction.member.voice.channel){
             return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
@@ -43,12 +28,15 @@ module.exports = {
         let queue;
         
         if(!OldQueue) {
+
             queue = await client.player?.createQueue(interaction.guild, {
                 metadata: {
                     channel: channel
                 },
                 async onBeforeCreateStream(track, source, _queue) {
+                    if (source === "youtube") {
                     return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
+                    }
                 },
             })
     
@@ -64,56 +52,21 @@ module.exports = {
 
 		let embed = new EmbedBuilder()
 
-		if (interaction.options.getSubcommand() === "track") {
-            let url = interaction.options.getString("url")
-            const result = await client.player.search(url, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
-            })
-            if (result.tracks.length === 0) return await interaction.editReply("<:error:888264104081522698> No results found for this url!")
-            
-            const track = result.tracks[0]
-            await queue.addTrack(track)
-            embed
-                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-                .setDescription(`**[${track.title}](${track.url})** has been added to the Queue`)
-                .setThumbnail(track.thumbnail)
-                .setFooter({ text: `Duration: ${track.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-		} else if (interaction.options.getSubcommand() === "playlist") {
-            let url = interaction.options.getString("url")
-            const result = await client.player.search(url, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
-            })
+        const result = await client.player.search(trackInput, {
+            requestedBy: interaction.user,
+            searchEngine: QueryType.AUTO
+        })
 
-            if (result.tracks.length === 0)
-                return await interaction.editReply("<:error:888264104081522698> No results found for this url!")
-            
-            const playlist = result.playlist
-            await queue.addTracks(result.tracks)
-            embed
-                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-                .setDescription(`**${result.tracks.length} tracks from [${playlist.title}](${playlist.url})** have been added to the Queue`)
-                .setThumbnail(playlist.thumbnail)
-                .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-		} else if (interaction.options.getSubcommand() === "search") {
-            let name = interaction.options.getString("name")
-            const result = await client.player.search(name, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
-            })
-
-            if (result.tracks.length === 0)
-                return await interaction.editReply("<:error:888264104081522698> No results found for this track name!")
-            
-            const track = result.tracks[0]
-            await queue.addTrack(track)
-            embed
-            .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
-            .setDescription(`**[${track.title}](${track.url})** has been added to the Queue`)
-            .setThumbnail(track.thumbnail)
-            .setFooter({ text: `Duration: ${track.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-		}
+        if (result.tracks.length === 0)
+            return await interaction.editReply("<:error:888264104081522698> No results found for this track name!")
+        
+        const track = result.tracks[0]
+        await queue.addTrack(track)
+        embed
+        .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+        .setDescription(`**[${track.title}](${track.url})** has been added to the Queue`)
+        .setThumbnail(track.thumbnail)
+        .setFooter({ text: `Duration: ${track.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
 
         try {
             if (!queue.connection) {
@@ -124,7 +77,7 @@ module.exports = {
             return await interaction.editReply({ content: 'Could not join your voice channel!' });
         }
 
-        if (!queue.playing) await queue.play()
+        if (!queue.playing) await queue.play();
 
         
         return await interaction.editReply({

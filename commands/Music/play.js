@@ -38,7 +38,9 @@ module.exports = {
                     channel: channel
                 },
                 async onBeforeCreateStream(track, source, _queue) {
+                    if (source === "youtube") {
                     return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
+                    }
                 },
             })
     

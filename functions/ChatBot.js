@@ -65,7 +65,7 @@ exports.chat = async function (client, message) {
 
         for (let i = messages.length - 1; i >= 0; i--) {
             const m = messages[i]
-            prompt += `${m.member.displayName}: ${file ? 'Discord attachment added: Url:' + file + '\n' : ''}${m.content}\n`
+            prompt += `${m.member.displayName}: ${m.content} - ${file ? file : ''}\n`
         }
         prompt += `${client.user.username}:`
 

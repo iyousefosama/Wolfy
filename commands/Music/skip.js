@@ -30,14 +30,13 @@ module.exports = {
             return await message.reply("<:error:888264104081522698> There are no songs in the queue!");
           };
 
-        const currentSong = queue.current
+        const currenttrack = queue.current
 
-		queue.skip().then(async () => {
-      return await interaction.message({
+		queue.skip()
+      return await message.channel.send({
         embeds: [
-            new EmbedBuilder().setDescription(`${currentSong.title} has been skipped!`).setThumbnail(currentSong.thumbnail).setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) }).setFooter({ text: `Duration: ${currentSong.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
+            new EmbedBuilder().setDescription(`${currenttrack.title} has been skipped!`).setThumbnail(currenttrack.thumbnail).setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) }).setFooter({ text: `Duration: ${currenttrack.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})
         ]
     })
-  }).catch(() => message.channel.send(`\`❌ [Queue_ERR]:\` Unable to play or add the current track, please try again later!`));
 }
 }

@@ -44,7 +44,7 @@ module.exports = {
           } else {
         let moneyget = Math.floor(500);
         const previousStreak = data.streak.current;
-        const rewardables = market.filter(x => ![1,2].includes(x.id));
+        const rewardables = market.filter(x => ![1,6].includes(x.id));
         const item = rewardables[Math.floor(Math.random() * rewardables.length)];
         streakreset = false, itemreward = false;
         const quest = data.progress.quests?.find(x => x.id == 8);

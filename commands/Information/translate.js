@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const fetch = require('node-fetch');
 
 module.exports = {
     name: "translate",
@@ -6,19 +7,19 @@ module.exports = {
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false
-    usage: '<language code> <language to translate>',
+    usage: '<language code> <Sentence to translate>',
     group: 'Informations',
     description: 'Translate from to any language you want!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientpermissions: [],
-    examples: [],
+    examples: [
+      'ar Hello, my old friend.'
+    ],
     async execute(client, message, [lang='', ...args]) {
 
         const text = args.slice(0).join(" ")
-
-        const fetch = require('node-fetch');
 
         const encodedParams = new URLSearchParams();
         encodedParams.append("q", text);
