@@ -23,7 +23,6 @@ exports.chat = async function (client, message) {
     };
   //if(message.embeds[0]) return;
 
-  const file = message.attachments.first()?.url;
   const Channel = message.guild.channels.cache.get(client.config.channels.chatbot)
 
     if(message.channel.id == Channel?.id) {
@@ -65,6 +64,7 @@ exports.chat = async function (client, message) {
 
         for (let i = messages.length - 1; i >= 0; i--) {
             const m = messages[i]
+            const file = messages[i].attachments.first()?.url;
             prompt += `${m.member.displayName}: ${m.content} - ${file ? file : ''}\n`
         }
         prompt += `${client.user.username}:`
