@@ -39,7 +39,7 @@ module.exports = {
 
       const amt = amount;
       const quest = data.progress.quests.find(x => x.id == 5);
-      let Box = quest.current;
+      let Box = quest?.current;
 
       if (amount?.toLowerCase() === 'all'){
         amount = Math.floor(data.credits / 1.05);
