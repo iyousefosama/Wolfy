@@ -18,7 +18,7 @@ module.exports = {
             list += `${guild.name} (${guild.id}) | ${guild.memberCount} members | Owner: ${guild.ownerId}.\n`
         })
     
-        const output = new discord.AttachmentBuilder(Buffer.from(list), 'guilds.txt')
+        const output = new discord.AttachmentBuilder(Buffer.from(list), { name: 'guilds.txt'})
         return await message.reply({ content: `${message.author}, Here is my guilds(\`${client.guilds.cache.size}\`) list!`, files: [output] });
 }
 }

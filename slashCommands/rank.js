@@ -63,9 +63,9 @@ module.exports = {
     .setRequiredXP(requiredXP)
     .setUsername(interaction.user.username)
     .setDiscriminator(interaction.user.discriminator)
-    const img = await rank.build()
+    await rank.build()
     .then(data => {
-        const attachment = new discord.AttachmentBuilder(data, "RankCard.png");
+        const attachment = new discord.AttachmentBuilder(data,  { name: "RankCard.png" });
         interaction.editReply({ files: [attachment], ephemeral: hide });
     });
 	},

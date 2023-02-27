@@ -84,7 +84,7 @@ module.exports = {
         .setColor("background", "#2a2a2b");
         await WelcomeFile.build()
         .then(data => {
-            const attachment = new discord.AttachmentBuilder(data, "Welcomer.png");
+            const attachment = new discord.AttachmentBuilder(data,  { name: "Welcomer.png" });
             return client.channels.cache.get(welcome.channel).send({ content: `> Hey, welcome ${member} <a:Up:853495519455215627> `, files: [attachment]});
         });
        };
