@@ -64,9 +64,10 @@ exports.chat = async function (client, message) {
 
         for (let i = messages.length - 1; i >= 0; i--) {
             const m = messages[i]
-            const file = messages[i].attachments.first()?.url;
-            prompt += `${m.member.displayName}: ${m.content} - ${file ? file : ''}\n`
+            const file = m.attachments.first()?.proxyURL;
+            prompt += `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.content} ${m.attachments.first()?.proxyURL ? '- ' + m.attachments.first()?.proxyURL : ''}\n`
         }
+        console.log(prompt)
         prompt += `${client.user.username}:`
 
     
@@ -76,6 +77,7 @@ exports.chat = async function (client, message) {
             max_tokens: 500,
             stop: ["\n"]
         }).then(async response => {
+          console.log(response.data)
           return await message.reply(response.data.choices[0].text || "Hmmm")
         }).catch(() => null)
 }

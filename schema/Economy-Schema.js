@@ -11,6 +11,15 @@ const ecoSchema = mongoose.Schema({
         default: 275
     },
 
+    LimitedCurrency: {
+      balance: { type: Number, default: 0 },
+
+      info: {
+        PersonalAddress: { type: Boolean, default: false },
+        Enabled: { type: Boolean, default: false }
+      }
+    },
+
     Bank: {
       balance: {
         credits: { type: Number, default: 0 },

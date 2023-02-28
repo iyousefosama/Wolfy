@@ -12,7 +12,7 @@ module.exports = {
     usage: '',
     group: 'Tickets',
     description: 'Open new ticket in the server',
-    cooldown: 30, //seconds(s)
+    cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientpermissions: [discord.PermissionsBitField.Flags.ManageChannels],
@@ -105,7 +105,7 @@ module.exports = {
                     channel.send({ content: `${message.author}`, embeds: [ticketEmbed], components: [row] }).then(async () => {
                         TicketData.ChannelId = channel.id;
                         TicketData.IsClosed = false;
-                        TicketData.OpenTimeStamp = Math.floor(Date.now())
+                        TicketData.OpenTimeStamp = Math.floor(Date.now() / 1000)
                         await TicketData.save().catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`));
                     })
                 })

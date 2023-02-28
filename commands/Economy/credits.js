@@ -20,7 +20,7 @@ module.exports = {
       ],
     async execute(client, message, args) {
 
-        let user = message.mentions.members.first() || message.member;
+        let user = message.mentions.members?.first() || message.member;
 
         let data;
         try{
