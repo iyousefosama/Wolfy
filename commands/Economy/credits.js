@@ -18,9 +18,18 @@ module.exports = {
         '@WOLF',
         ''
       ],
-    async execute(client, message, args) {
+    async execute(client, message, [user = '']) {
 
-        let user = message.mentions.members?.first() || message.member;
+      if (message.guild){
+        const id = (user.match(/\d{17,19}/)||[])[0] || message.author.id;
+  
+        member = await message.guild.members.fetch(id)
+        .catch(() => message.member);
+  
+        user = member.user;
+      } else {
+        user = message.author;
+      };
 
         let data;
         try{
@@ -41,11 +50,11 @@ module.exports = {
         let bank = data.Bank.balance.credits
         const dailyUsed = data.timer.daily.timeout !== 0 && data.timer.daily.timeout - Date.now() > 0;
         const bal = new discord.EmbedBuilder()
-        .setAuthor({ name: `${user.user.username}'s wallet`, iconURL: user.user.displayAvatarURL({dynamic: true, size: 2048}) })
+        .setAuthor({ name: `${user.username}'s wallet`, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
         .setColor('Grey')
         .setDescription(`<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(credits)}\`!\n${data.Bank.balance.credits !== null
             ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
-            : `\\❌ **${user.user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
+            : `\\❌ **${user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
           }\n\n━━━━━━━━━━━━━━\n${
             dailyUsed ? '<:Success:888264105851490355> Daily reward is **claimed**!' : `\\⚠️ Daily reward is **avaliable**!`
           }`)

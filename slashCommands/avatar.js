@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js')
+const https = require('https');
 
 module.exports = {
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
@@ -28,7 +29,7 @@ module.exports = {
               user = interaction.user;
             };
         
-            const avatar = user.displayAvatarURL({ extension:'png' || 'gif', dynamic: true, size: 1024 });
+            let avatar = user.displayAvatarURL({ extension: 'gif', dynamic: true, size: 1024 });
 
             if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
                 let avatarserver = new EmbedBuilder()
@@ -43,25 +44,61 @@ module.exports = {
                 .setTimestamp()
                 interaction.editReply({ embeds: [avatarserver] })
             } else if(interaction.options.getSubcommand() === 'user') {
-                const embed = new EmbedBuilder()
-                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
-                .setColor(color)
-                .setDescription(`[**${user.tag}** avatar link](${avatar})`)
-                .setURL(avatar)
-                .setImage(avatar)
-                .setFooter({ text: 'Avatar' + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: client.user.displayAvatarURL({dynamic: true}) })
-                .setTimestamp() 
-                interaction.editReply({ embeds: [embed] })
+                https
+                .request(avatar, { method: 'HEAD' }, (response) => {
+                  if (response.statusCode !== 200) {
+                    avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' || 'jpg' });
+                  } else if (response.headers['content-type'].startsWith('image/')) {
+                    // Do nothing here...
+                  } else {
+                    avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
+                  }
+            
+                  if(!avatar) return interaction.editReply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
+              
+                  const embed = new EmbedBuilder()
+                  .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                  .setColor(color)
+                  .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+                  .setURL(avatar)
+                  .setImage(avatar)
+                  .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({dynamic: true}) })
+                  .setTimestamp()
+                  interaction.editReply({ embeds: [embed]})
+                })
+                .on('error', (error) => {
+                  console.error(error);
+                  return interaction.editReply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
+                })
+                .end()
             } else {
-                const embed = new EmbedBuilder()
-                .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
-                .setColor(color)
-                .setDescription(`[**${user.tag}** avatar link](${avatar})`)
-                .setURL(avatar)
-                .setImage(avatar)
-                .setFooter({ text: 'Avatar' })
-                .setTimestamp() 
-                interaction.editReply({ embeds: [embed] })
+                https
+                .request(avatar, { method: 'HEAD' }, (response) => {
+                  if (response.statusCode !== 200) {
+                    avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' || 'jpg' });
+                  } else if (response.headers['content-type'].startsWith('image/')) {
+                    // Do nothing here...
+                  } else {
+                    avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
+                  }
+            
+                  if(!avatar) return interaction.editReply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
+              
+                  const embed = new EmbedBuilder()
+                  .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
+                  .setColor(color)
+                  .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+                  .setURL(avatar)
+                  .setImage(avatar)
+                  .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({dynamic: true}) })
+                  .setTimestamp()
+                  interaction.editReply({ embeds: [embed]})
+                })
+                .on('error', (error) => {
+                  console.error(error);
+                  return interaction.editReply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
+                })
+                .end()
             }
 }
 };

@@ -1,5 +1,6 @@
 const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
+const https = require('https');
 
 module.exports = {
   name: "avatar",
@@ -35,17 +36,33 @@ module.exports = {
       user = message.author;
     };
 
-    const avatar = user.displayAvatarURL({ extension:'png' || 'gif', dynamic: true, size: 1024 });
-    if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this user!`})
+    let avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'gif' });
+    https
+    .request(avatar, { method: 'HEAD' }, (response) => {
+      if (response.statusCode !== 200) {
+        avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'png' || 'jpg' });
+      } else if (response.headers['content-type'].startsWith('image/')) {
+        // Do nothing here...
+      } else {
+        avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
+      }
 
-    const embed = new EmbedBuilder()
-    .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-    .setColor(color)
-    .setDescription(`[**${user.tag}** avatar link](${avatar})`)
-    .setURL(avatar)
-    .setImage(avatar)
-    .setFooter({ text: 'Avatar' })
-    .setTimestamp()
-    message.channel.send({ embeds: [embed]})
+      if(!avatar) return message.channel.send({ content: `\\❌ | ${message.author}, I can't find an avatar for this user!`})
+  
+      const embed = new EmbedBuilder()
+      .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+      .setColor(color)
+      .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+      .setURL(avatar)
+      .setImage(avatar)
+      .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: message.guild.iconURL({dynamic: true}) })
+      .setTimestamp()
+      message.channel.send({ embeds: [embed]})
+    })
+    .on('error', (error) => {
+      console.error(error);
+      return message.channel.send({ content: `\\❌ | ${message.author}, Something went wrong, please try again later!`})
+    })
+    .end()
   }
 }

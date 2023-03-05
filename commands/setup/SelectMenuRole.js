@@ -11,7 +11,7 @@ module.exports = {
     usage: '(Roles count)',
     group: 'setup',
     description: 'Setup the select menu role list!',
-    cooldown: 15, //seconds(s)
+    cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageRoles],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
