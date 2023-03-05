@@ -16,7 +16,7 @@ module.exports = {
             return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
             return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
-          } else if (!client.player.getQueue(interaction.guild.id)){
+          } else if (!queue){
             return await interaction.editReply("<:error:888264104081522698> There are no tracks in the queue!");
           };
 
@@ -36,7 +36,7 @@ module.exports = {
         const volume = currentQueue.volume;
         const repeatMode = currentQueue.repeatMode;
 
-		await interaction.editReply({
+		return await interaction.editReply({
 			embeds: [new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setFooter({ text: `Duration: ${track.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})

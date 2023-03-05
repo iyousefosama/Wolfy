@@ -34,18 +34,9 @@ module.exports = {
                     channel: channel
                 },
                 async onBeforeCreateStream(track, source, _queue) {
-                    if (source === "youtube") {
                     return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
-                    }
                 },
             })
-    
-            try {
-                if (!queue.connection) await queue.connect(interaction.member.voice.channel);
-            } catch {
-                queue.destroy();
-                return await interaction.editReply({ content: "<:error:888264104081522698>  Could not join your voice channel!", ephemeral: true });
-            }
         } else {
             queue = OldQueue;
         }

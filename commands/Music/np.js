@@ -20,7 +20,7 @@ module.exports = {
       ''
     ],
   async execute(client, message, args) {
-        const queue = client.player.getQueue(interaction.guildId)
+        const queue = client.player.getQueue(message.guildId)
 
         if (!message.member.voice.channel){
             return await message.reply("<:error:888264104081522698>  Sorry, you need to join a voice channel first to play a song!");
