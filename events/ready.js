@@ -36,7 +36,7 @@ module.exports = {
         ].join('\n'))
         
         function randomStatus() {
-            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", "🌙 Ramadan Kareem"]
+            let status = ["🤖 Wolfy Bot", "🤖 w!help", "🤖 Poob Beep", "😫 Trying to pass an exam"]
             let rstatus = Math.floor(Math.random() * status.length);
 
             client.user.setPresence({ activities: [{ name: status[rstatus], type: ActivityType.Playing }], status: 'online' });
