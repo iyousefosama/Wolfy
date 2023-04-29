@@ -1,5 +1,3 @@
-const Discord = require('discord.js')
-
 const Client = require(`${process.cwd()}/struct/Client`);
 
 const config = require(`${process.cwd()}/config`);
