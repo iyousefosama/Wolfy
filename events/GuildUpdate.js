@@ -41,8 +41,6 @@ module.exports = {
         });
 
         const guildlog = fetchedLogs.entries.first();
-
-        console.log(guildlog)
         
         if(!guildlog) {
           return;
@@ -52,8 +50,6 @@ module.exports = {
 
         const { executor, target } = guildlog;
         const timestamp = Math.floor(Date.now() / 1000)
-
-        console.log(target.id, oldGuild.id)
 
         if(!guildlog || target.id != oldGuild.id) {
           return;
