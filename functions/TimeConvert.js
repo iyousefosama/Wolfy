@@ -9,3 +9,17 @@ exports.tConvert = function (time) {
         }
         return time.join (''); // return adjusted time or original string
 };
+
+exports.t24Convert = function (time) {
+  let hours = parseInt(time.substr(0, 2));
+  let minutes = parseInt(time.substr(3, 2));
+
+  if (time.indexOf('am') !== -1 && hours === 12) {
+    hours = 0;
+  }
+  if (time.indexOf('pm') !== -1 && hours !== 12) {
+    hours += 12;
+  }
+
+  return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2);
+};
