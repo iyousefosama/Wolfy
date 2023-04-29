@@ -10,9 +10,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('prays')
 		.setDescription('Replies with prays times!')
-        .addStringOption(option => option.setName('location').setDescription('Name of the location or state-name or country-name or latitude and longitude .').setRequired(true)),
+        .addStringOption(option => option.setName('location').setDescription('Name of the location or state-name or country-name or latitude and longitude .').setRequired(true))
+        .addBooleanOption(option => option.setName('summertime').setDescription('If true then hours are incremented by 1+')),
 	async execute(client, interaction) {
         const location = interaction.options.getString('location');
+        const SummerTime = interaction.options.getBoolean('summertime');
 
         const url = `https://muslimsalat.p.rapidapi.com/${location}.json`;
         const options = {
@@ -77,14 +79,17 @@ module.exports = {
                   const [hours, minutes] = timeComponents.split(':');
              
                   pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
-                  pTimeInS = Math.floor(pTimeInS / 1000)
-                  console.log(pTimeInS)
-                  console.log(dinMS)
+                  pTimeInS = Math.floor(pTimeInS / 100)
+
+                  if (SummerTime) {
+                    pTimeInS = Math.floor(pTimeInS + 3600000)
+                    dinMS = Math.floor(dinMS + 3600000)
+                  }
 
                   if(dinMS < Math.floor(pTimeInS)) {
                     if(!marked) {
                       const TimeDiff = Math.floor((pTimeInS) - dinMS);
-                      nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff * 1000, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
+                      nxtStr = "> Currently not working..."//`${pTime[0]}  \`${moment.duration(TimeDiff * 1000, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
@@ -93,7 +98,12 @@ module.exports = {
 
                 
 
-                console.log(json)
+                function toSummerTime(date, time) {
+                  const standardTime = new Date(`${date} ${time}`);
+                  const daylightTime = new Date(standardTime.getTime() + 3600000); // add 1 hour (3600000 milliseconds)
+                  return daylightTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                }
+
                 const embed = new discord.EmbedBuilder()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
                 .setDescription(`<:Tag:836168214525509653> Praying times for \`${json.country}\` \`${json.state}\`!`)
@@ -104,7 +114,7 @@ module.exports = {
                 )
                 .addFields(
                   result.flatMap(i => [
-                    { name: i[0], value: `\`\`\`${tc.tConvert(i[1])}\`\`\``, inline: true },
+                    { name: i[0], value: `\`\`\`${SummerTime ? toSummerTime(json.items[0].date_for.split('-').join('/'), tc.tConvert(i[1])) : tc.tConvert(i[1])}\`\`\``, inline: true },
                   ])
                 )
                 .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
