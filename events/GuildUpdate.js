@@ -67,7 +67,7 @@ module.exports = {
         .setDescription([
             oldGuild.name !== newGuild.name ? `Name: \`${oldGuild.name}\` **➜** \`${newGuild.name}\`` : ``,
             oldGuild.region !== newGuild.region ? `Region: \`${oldGuild.region}\` **➜** \`${newGuild.region}\`` : ``,
-            oldGuild.icon !== newGuild.icon ? `Icon: [url](${oldGuild.icon}) **➜** [url](${newGuild.icon})` : ``,
+            oldGuild.icon !== newGuild.icon ? `Icon: [url](${oldGuild.iconURL({dynamic: true})}) **➜** [url](${newGuild.iconURL({dynamic: true})})` : ``,
             oldGuild.ownerID !== newGuild.ownerID ? `ownerID: \`${oldGuild.ownerID}\` **➜** \`${newGuild.AuditLogEventownerID}\`` : ``,
             oldGuild.verificationLevel !== newGuild.verificationLevel ? `Verification Level: \`${oldGuild.verificationLevel}\` **➜** \`${newGuild.ownerID}\`` : ``,
             oldGuild.systemChannelID !== newGuild.systemChannelID ? `systemChannelID: \`${oldGuild.systemChannelID}\` **➜** \`${newGuild.systemChannelID}\`` : ``,
@@ -76,8 +76,9 @@ module.exports = {
             oldGuild.defaultMessageNotifications !== newGuild.defaultMessageNotifications ? `defaultMessageNotifications: \`${oldGuild.defaultMessageNotifications}\` **➜** \`${newGuild.defaultMessageNotifications}\`` : ``,
             `\n\n<:MOD:836168687891382312> **Executor:** ${executor.tag}\n<a:Right:877975111846731847> **At:** <t:${timestamp}>`
         ].join(' '))
+        .setThumbnail(oldGuild.icon !== newGuild ? newGuild.iconURL({dynamic: true}) : null)
         .setColor('#2F3136')
-        .setFooter({ text: oldGuild.name, iconURL: oldGuild.iconURL({dynamic: true}) })
+        .setFooter({ text: newGuild.name, iconURL: newGuild.iconURL({dynamic: true}) })
         .setTimestamp()
 
 
