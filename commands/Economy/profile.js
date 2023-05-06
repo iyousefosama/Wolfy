@@ -1,5 +1,3 @@
-const discord = require('discord.js');
-const { AttachmentBuilder } = require('discord.js')
 const schema = require('../../schema/Economy-Schema')
 const { createCanvas, loadImage } = require('canvas');
 
