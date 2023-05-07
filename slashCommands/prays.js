@@ -97,8 +97,7 @@ module.exports = {
                   if(dinMS < pTimeInS) {
                     if(!marked) {
                       const TimeDiff = Math.floor(pTimeInS - dinMS);
-                      console.log(TimeDiff * 1000, moment.duration(TimeDiff * 1000, 'milliseconds'))
-                      nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff * 1000, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
+                      nxtStr = `${pTime[0]}  \`<t:${TimeDiff}:R>\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
