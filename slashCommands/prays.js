@@ -40,6 +40,7 @@ module.exports = {
                 try {
 
                 const timezone = json.data.meta.timezone;
+
                 let options = {};
 
                 if (timezone) {
@@ -92,10 +93,10 @@ module.exports = {
                   const [day, month, year] = dateComponents.split('/');
                   const [hours, minutes] = timeComponents.split(':');
              
-                  pTimeInS = new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime();
-                  if(dinMS < Math.floor(pTimeInS / 1000)) {
+                  pTimeInS = Math.floor(new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime() / 1000);
+                  if(dinMS < pTimeInS) {
                     if(!marked) {
-                      const TimeDiff = Math.floor((pTimeInS / 1000) - dinMS);
+                      const TimeDiff = Math.floor(pTimeInS - dinMS);
                       nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff * 1000, 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
