@@ -96,8 +96,8 @@ module.exports = {
                   pTimeInS = Math.floor(new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime() / 1000);
                   if(dinMS < pTimeInS) {
                     if(!marked) {
-                      const TimeDiff = Math.floor(pTimeInS - dinMS);
-                      nxtStr = `${pTime[0]}  \`<t:${TimeDiff}:R>\`!`
+                      const TimeDiff = Math.floor(pTimeInS - dinMS) * 1000;
+                      nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff , 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
                       result[num][0] = pTime[0] + '(\`Next\`)'
                       marked = true;
                     }
