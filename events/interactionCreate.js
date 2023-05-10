@@ -468,70 +468,35 @@ module.exports = {
           if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
           let choice = interaction.values[0]
           const member = interaction.member
+
+          // Get all the roles at once
+          const roles = [
+            data?.Mod.smroles.value1,
+            data?.Mod.smroles.value2,
+            data?.Mod.smroles.value3,
+            data?.Mod.smroles.value4,
+            data?.Mod.smroles.value5,
+            data?.Mod.smroles.value6,
+          ].map((value) => interaction.guild.roles.cache.get(value)).filter((role) => !!role);
           
-          role1 = interaction.guild.roles.cache.get(data?.Mod.smroles.value1)
-          role2 = interaction.guild.roles.cache.get(data?.Mod.smroles.value2)
-          role3 = interaction.guild.roles.cache.get(data?.Mod.smroles.value3)
-          role4 = interaction.guild.roles.cache.get(data?.Mod.smroles.value4)
-          role5 = interaction.guild.roles.cache.get(data?.Mod.smroles.value5)
-          role6 = interaction.guild.roles.cache.get(data?.Mod.smroles.value6)
-          if(choice == data.Mod.smroles.value1){
-          if(!role1) {
-            return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
+          // Find the selected role and perform the necessary action
+          const selectedRole = roles.find((role) => role?.id === choice);
+          if (!selectedRole) {
+            return interaction.reply({ content: `\\❌ I can't find this role in the guild!`, ephemeral: true });
           }
-          if (member.roles.cache.has(role1.id)) {
-            member.roles.remove(role1).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role1}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role1} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role1).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role1}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role1} for you!`, ephemeral: true })
+          
+          if (member.roles.cache.has(selectedRole.id)) {
+            member.roles.remove(selectedRole).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
+            return await interaction.update().then(() => {
+              interaction.reply({ content: `<a:pp833:853495989796470815> Successfully removed ${selectedRole} from you!`, ephemeral: true });
+            })
+          } else {
+            member.roles.add(selectedRole).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
+            return await interaction.update().then(() => {
+              interaction.reply({ content: `<a:pp330:853495519455215627> Successfully added ${selectedRole} for you!`, ephemeral: true });
+            })
           }
-         } else if(choice == data.Mod.smroles.value2) {
-          if(!role2) return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
-          if (member.roles.cache.has(role2.id)) {
-            member.roles.remove(role2).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role2}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role2} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role2).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role2}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role2} for you!`, ephemeral: true })
-          }
-         } else if(choice == data.Mod.smroles.value3) {
-          if(!role3) return interaction.reply({content: `\\❌ I can't find this role in the guild!`, ephemeral: true})
-          if (member.roles.cache.has(role3.id)) {
-            member.roles.remove(role3).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to remove the role **${role3}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role3} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role3).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role3}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role3} for you!`, ephemeral: true })
-          }
-         } else if(choice == data.Mod.smroles.value4) {
-          if(!role4) return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
-          if (member.roles.cache.has(role4.id)) {
-            member.roles.remove(role4).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role4}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role4} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role4).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role4}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role2} for you!`, ephemeral: true })
-          }
-         } else if(choice == data.Mod.smroles.value5) {
-          if(!role5) return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
-          if (member.roles.cache.has(role5.id)) {
-            member.roles.remove(role5).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role5}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role5} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role5).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role5}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role5} for you!`, ephemeral: true })
-          }
-         } else if(choice == data.Mod.smroles.value6) {
-          if(!role6) return interaction.reply({content: `\\❌ I can't find this roloe in the guild!`, ephemeral: true})
-          if (member.roles.cache.has(role6.id)) {
-            member.roles.remove(role6).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role6}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({content: `<a:pp833:853495989796470815> Successfully removed ${role6} from you!`, ephemeral: true})
-          } else{
-            member.roles.add(role6).catch(async (err)=> await interaction.channel.send({ content: `\\❌ Failed to add the role **${role6}** for ${member.user.tag}, \`${err}\`!`}));
-            interaction.reply({ content: `<a:pp330:853495519455215627> Successfully addded ${role6} for you!`, ephemeral: true })
-          }
-         };
+
 
 
          // Just a function!
