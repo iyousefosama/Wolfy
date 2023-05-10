@@ -486,15 +486,13 @@ module.exports = {
           }
           
           if (member.roles.cache.has(selectedRole.id)) {
-            member.roles.remove(selectedRole).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
-            return await interaction.update().then(() => {
+            return await member.roles.remove(selectedRole).then(() => {
               interaction.reply({ content: `<a:pp833:853495989796470815> Successfully removed ${selectedRole} from you!`, ephemeral: true });
-            })
+            }).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
           } else {
-            member.roles.add(selectedRole).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
-            return await interaction.update().then(() => {
+            return await member.roles.add(selectedRole).then(() => {
               interaction.reply({ content: `<a:pp330:853495519455215627> Successfully added ${selectedRole} for you!`, ephemeral: true });
-            })
+            }).catch(async (err) => await interaction.channel.send({ content: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!` }));
           }
 
 
