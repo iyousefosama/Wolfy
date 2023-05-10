@@ -38,19 +38,7 @@ module.exports = {
         console.log(err)
       }
      
-      let TicketData;
       if (interaction.isButton()) {
-        let data;
-        if(interaction.guild) {
-          try{
-              data = await schema.findOne({
-                  GuildID: interaction.guild.id
-              })
-          } catch(err) {
-              console.log(err)
-              interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
-          }
-        } 
               ///////////// Ticket button inteaction
               if (interaction.customId === 'ticket') {
                 //+ cooldown 1, //seconds(s)
@@ -464,7 +452,19 @@ module.exports = {
           })
         }
       }
+        let data;
+
         if(interaction.isStringSelectMenu()){
+          if(interaction.guild) {
+            try{
+                data = await schema.findOne({
+                    GuildID: interaction.guild.id
+                })
+            } catch(err) {
+                console.log(err)
+                interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+            }
+          } 
           if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
           let choice = interaction.values[0]
           const member = interaction.member
