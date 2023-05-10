@@ -1,4 +1,5 @@
 const schema = require('../../schema/Economy-Schema')
+const { createCanvas, loadImage } = require('canvas')
 
 module.exports = {
     name: "profile",
@@ -10,7 +11,7 @@ module.exports = {
     group: 'Economy',
     description: 'Shows your profile card!',
     cooldown: 2, //seconds(s)
-    guarded: true, //or false
+    guarded: false, //or false
     permissions: [],
     examples: [''],
     async execute(client, message, [member = '']) {
