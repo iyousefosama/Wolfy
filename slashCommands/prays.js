@@ -81,32 +81,36 @@ module.exports = {
                 return await interaction.editReply({ content: '<:error:888264104081522698> I can\'t identify this timezone, please write the right \`Continent\`!' });
               }
 
-                let pTimeInS;
-                let str;
-                let nxtStr = null;
-                let num = -1;
-                let marked = false;
-                result.forEach(async pTime => {
-                  num++
-                  str = `${json.data.date.readable.split(' ').join('/')} ${pTime[1]}`;
-                  const [dateComponents, timeComponents] = str.split(' ');
-                  const [day, month, year] = dateComponents.split('/');
-                  const [hours, minutes] = timeComponents.split(':');
-             
-                  pTimeInS = Math.floor(new Date(+year, +moment().month(month).format("M")-1, +day, +hours, +minutes, +00).getTime() / 1000);
-                  if(dinMS < pTimeInS) {
-                    if(!marked) {
-                      const TimeDiff = Math.floor(pTimeInS - dinMS) * 1000;
-                      nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff , 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
-                      result[num][0] = pTime[0] + '(\`Next\`)'
-                      marked = true;
-                    }
+              let pTimeInMS;
+              let str;
+              let nxtStr = null;
+              let num = -1;
+              let marked = false;
+              
+              for (const pTime of result) {
+                num++;
+                str = `${json.data.date.readable.split(' ').join('/')} ${pTime[1]}`;
+                const [dateComponents, timeComponents] = str.split(' ');
+                const [day, month, year] = dateComponents.split('/');
+                const [hours, minutes] = timeComponents.split(':');
+               
+                const formatter = new Intl.DateTimeFormat([], { month: 'numeric' });
+                const monthNumber = await formatter.format(new Date(`${year}-${month}-${day}`));
+                pTimeInMS = Math.floor(new Date(+year, monthNumber - 1, +day, +hours, +minutes, +00).getTime() / 1000);
+              
+                if (dinMS < pTimeInMS) {
+                  if (!marked) {
+                    const TimeDiff = Math.floor(pTimeInMS - dinMS) * 1000;
+                    nxtStr = `${pTime[0]}  \`${moment.duration(TimeDiff , 'milliseconds').format('H [hours, and] m [minutes,]')}\`!`
+                    result[num][0] = pTime[0] + '(\`Next\`)'
+                    marked = true;
                   }
-                });
+                }
+              }
                 
                 const embed = new discord.EmbedBuilder()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true })})
-                .setDescription(`<:Tag:836168214525509653> Praying times for continent \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
+                .setDescription(`<:Tag:836168214525509653> Praying times for country \`${cfl.capitalizeFirstLetter(country)}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`)
                 .addFields(
                     { name: '<:star:888264104026992670> Date', value: `<t:${dinMS}>`, inline: false},
                     { name: '<:Timer:853494926850654249> Next Pray in:', value: nxtStr || "Tomorrow!", inline: false},
