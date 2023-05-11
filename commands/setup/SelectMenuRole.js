@@ -205,7 +205,5 @@ module.exports = {
     } else {
         return message.reply({ content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`, ephemeral: true })
     }
-
-
 }
 }
