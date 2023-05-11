@@ -48,17 +48,17 @@ module.exports = {
             } else {
               // Do nothing..
             }
-            const Debug = await client.channels.cache.get(client.config.channels.debug)
+            const Debug = await client.channels.cache.get(client.config.channels.debug) || await client.channels.cache.get("877130715337220136");
             const botname = client.user.username;
             setTimeout(async function(){
             const webhooks = await Debug?.fetchWebhooks()
-            let webhook = webhooks.filter((w)=>/*w.type === "Incoming" &&*/ w.token).first();
+            let webhook = webhooks?.filter((w)=>/*w.type === "Incoming" &&*/ w.token).first();
             if(!webhook){
-              webhook = await Debug.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
+              webhook = await Debug?.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension:'png', dynamic: true, size: 128 })})
             } else if(webhooks.size <= 10) {
               // Do no thing...
             }
-            webhook.send({ content: message, embeds: [embed] })
+            webhook?.send({ content: message, embeds: [embed] })
             .catch(() => {});
           }, 5000);
       
