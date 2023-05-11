@@ -2,7 +2,8 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    clientpermissions: [discord.PermissionsBitField.Flags.Administrator],
     guildOnly: true,
     data: new SlashCommandBuilder()
         .setName('automod')
