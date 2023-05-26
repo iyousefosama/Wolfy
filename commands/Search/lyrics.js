@@ -1,5 +1,4 @@
 const discord = require('discord.js')
-//const lyricsFinder = require("lyrics-finder")
 const fetch = require('node-fetch');
 const { EmbedBuilder, GuildEmoji } = require('discord.js');
 const text = require('../../util/string');
@@ -28,7 +27,7 @@ module.exports = {
     }
 
         message.channel.sendTyping()
-        const data = await fetch(`https://some-random-api.ml/lyrics?title=${encodeURI(query)}`)
+        const data = await fetch(`https://some-random-api.com/others/lyrics?title=${encodeURI(query)}`)
         .then(res => res.json())
         .catch(() => null);
     

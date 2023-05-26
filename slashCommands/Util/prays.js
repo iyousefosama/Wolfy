@@ -1,9 +1,9 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const fetch = require('node-fetch');
-const tc = require('../functions/TimeConvert')
-const cfl = require('../functions/CapitalizedChar')
-const schema = require('../schema/TimeOut-Schema')
+const tc = require('../../functions/TimeConvert')
+const cfl = require('../../functions/CapitalizedChar')
+const schema = require('../../schema/TimeOut-Schema')
 const moment = require("moment");
 
 module.exports = {
@@ -15,91 +15,125 @@ module.exports = {
         .addStringOption(option => option.setName('city').setDescription('Enter city name.').setRequired(true))
         .addBooleanOption(option => option.setName('summertime').setDescription('Enable/Disable summer time')),
 	async execute(client, interaction) {
+    function LoadButtons(MAX_BTNS, arr) {
+      const MAX_BUTTONS_PER_ROW = 5;
+      const MAX_BUTTONS_PER_MESSAGE = MAX_BTNS;
+    
+      const buttonRows = [];
+      let currentRow = new ActionRowBuilder();
+    
+      for (let i = 0; i < arr.length; i++) {
+        const [label, value] = arr[i];
+        const button = new ButtonBuilder()
+          .setLabel(label)
+          .setCustomId(`${value}`)
+          .setStyle(1);
+    
+        if (
+          currentRow.components.length >= MAX_BUTTONS_PER_ROW ||
+          buttonRows.length * MAX_BUTTONS_PER_ROW + currentRow.components.length >= MAX_BUTTONS_PER_MESSAGE
+        ) {
+          // Start a new row if the current row is full or the message limit is reached
+          buttonRows.push(currentRow);
+          currentRow = new ActionRowBuilder();
+        }
+    
+        currentRow.addComponents(button);
+      }
+    
+      // Add the last row if it's not empty
+      if (currentRow.components.length > 0) {
+        buttonRows.push(currentRow);
+      }
+    
+      return buttonRows;
+    }
+    
+    async function setReminder(interaction, timezone, prayerTime) {
+      try {
+        let data = await schema.findOne({ userId: interaction.user.id });
+    
+        if (!data) {
+          data = await schema.create({ userId: interaction.user.id });
+        }
+    
+        if (data.Reminder.current) {
+          return interaction.channel.send(`\\❌ ${interaction.user}, looks like you already have an active reminder!`);
+        }
+
+        const [hours, minutes] = prayerTime.split(':');
+
+        // Get the current date and time with the correct timezone
+        let currentDatetime;
+        await CurrentTime(timezone).then(async (time) => {
+          console.log(time, time.date, time.timezone);
+          currentDatetime = await time.date.toLocaleString('en-US', { timeZone: time.timezone });
+        });
+
+        // Extract the year, month, and day components from the current date and time
+        const [date, time] = currentDatetime.split(', ');
+        const [month, day, year] = date.split('/');
+        
+        // Set the hour and minute of the current date
+        const prayerDatetime = new Date(+year, month - 1, day, hours, minutes);
+        const prayerTimeInMS = prayerDatetime.getTime();
+    
+        const currentTime = new Date(+year, month - 1, day, time);
+        console.log(currentTime, prayerTimeInMS)
+        const timeDiffInSeconds = prayerTimeInMS - currentTime;
+        const timeDiffInMs = timeDiffInSeconds * 1000;
+        console.log(timeDiffInMs)
+    
+        data.Reminder.current = true;
+        data.Reminder.time = Math.floor(prayerTimeInMS);
+        data.Reminder.reason = `${interaction.label} will start soon`;
+    
+        await data.save();
+    
+        const dnEmbed = new discord.EmbedBuilder()
+          .setAuthor({ name: '| Reminder Set!', iconURL: interaction.user.displayAvatarURL() })
+          .setDescription(`Successfully set \`${interaction.user.tag}'s\` reminder!`)
+          .addFields(
+            { name: '❯ Remind You In:', value: moment.duration(timeDiffInMs, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds,]') },
+            { name: '❯ Remind Reason:', value: `${interaction.customId} will start soon` }
+          )
+          .setColor('Green')
+          .setTimestamp()
+          .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL() });
+    
+        interaction.channel.send({ embeds: [dnEmbed], ephemeral: true });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    async function CurrentTime(timezone) {
+      let options = {};
+      options = {
+        timeZone: timezone,
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        millisecond: 'numeric',
+      },
+      formatter = new Intl.DateTimeFormat([], options);
+      const d = new Date(formatter.format(new Date()).split(",").join(" "))
+      summertime ? d.setHours(d.getHours() + 1) : d.getTime() // add one hour for summer timezones
+      return {
+        date: d,
+        timezone: timezone,
+        MiliSeconds: Math.floor(d.getTime() / 1000)
+      }
+    }
+    
+        // Main code
         const country = interaction.options.getString('country');
         const city = interaction.options.getString('city');
         const summertime = interaction.options.getBoolean('summertime');
 
-        function LoadButtons(MAX_BTNS, arr) {
-          const MAX_BUTTONS_PER_ROW = 5;
-          const MAX_BUTTONS_PER_MESSAGE = MAX_BTNS;
-          
-          const buttonRows = [];
-          
-          let currentRow = new ActionRowBuilder();
-          for (let i = 0; i < arr.length; i++) {
-            const [label, value] = arr[i];
-            const button = new ButtonBuilder()
-              .setLabel(label)
-              .setCustomId(label)
-              .setStyle(1)
-              
-            if (currentRow.components.length >= MAX_BUTTONS_PER_ROW || buttonRows.length * MAX_BUTTONS_PER_ROW + currentRow.components.length >= MAX_BUTTONS_PER_MESSAGE) {
-              // start a new row if the current row is full or the message limit is reached
-              buttonRows.push(currentRow);
-              currentRow = new ActionRowBuilder();
-            }
-            
-            currentRow.addComponents(button);
-          }
-
-          // add the last row if it's not empty
-          if (currentRow.components.length > 0) {
-            buttonRows.push(currentRow);
-          }
-
-          return buttonRows;
-        }
-
-        async function Reminder(interaction, CurrentTime, json) {
-          let data;
-          try{
-              data = await schema.findOne({
-                userId: interaction.user.id
-              })
-              if(!data) {
-              data = await schema.create({
-                userId: interaction.user.id
-              })
-              }
-          } catch(err) {
-              console.log(err)
-          }
-
-          console.log(json.data[interaction.customId])
-          str = `${json.data.date.readable.split(' ').join('/')} ${json.data[interaction.customId]}`;
-          const [dateComponents, timeComponents] = str.split(' ');
-          const [day, month, year] = dateComponents.split('/');
-          const [hours, minutes] = timeComponents.split(':');
-         
-          const formatter = new Intl.DateTimeFormat([], { month: 'numeric' });
-          const monthNumber = await formatter.format(new Date(`${year}-${month}-${day}`));
-          pTimeInMS = Math.floor(new Date(+year, monthNumber - 1, +day, +hours, +minutes, +00).getTime() / 1000);
-
-          if(data.Reminder.current) return interaction.channel.send(`\\❌ ${interaction.user}, looks like you already have an active reminder!`)
-          const Time = CurrentTime
-          const ptime = pTimeInMS
-          console.log(Time, ptime)
-          const TimeDiff = Math.floor(ptime - Time) * 1000
-          const Reason = `${interaction.customId} will start soon`
-          
-          // Executing
-          data.Reminder.current = true;
-          data.Reminder.time = Math.floor(ptime);
-          data.Reminder.reason = Reason;
-          return await data.save().then(() => {
-            const dnEmbed = new discord.EmbedBuilder()
-            .setAuthor({ name: '| Reminder Set!', iconURL: interaction.user.displayAvatarURL() })
-            .setDescription(`Successfully Set \`${interaction.user.tag}'s\` reminder!`)
-            .addFields(
-             { name: '❯ Remind You In:', value: `${moment.duration(TimeDiff , 'milliseconds').format('H [hours,] m [minutes, and] s [seconds,]')}` },
-             { name: '❯ Remind Reason:', value: `${Reason}` }
-            )
-            .setColor('Green')
-            .setTimestamp()
-            .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL()})
-          interaction.channel.send({ embeds: [dnEmbed], ephemeral: true })
-          })
-        }
 
         const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}`;
         const options = {
@@ -121,38 +155,22 @@ module.exports = {
                 // Find the index of the Sunset array
                 index = result.findIndex(elem => elem[0] === 'Sunset');
 
-                //Declaring the rows array that has all the buttons in row(s)
-                const rows = await LoadButtons(25, result);
-
                 // Delete the Sunset array using the splice method
                 if (index !== -1) {
                   result.splice(index, 1);
                 }
 
-                let d;
-                let dinMS;
-                try {
-
+                //Declaring the rows array that has all the buttons in row(s)
+                const rows = await LoadButtons(25, result);
                 const timezone = json.data.meta.timezone;
 
-                let options = {};
-
+                let dinMS;
+                try {
+                  
                 if (timezone) {
-
-                options = {
-                  timeZone: timezone,
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                  second: 'numeric',
-                  millisecond: 'numeric',
-                },
-                formatter = new Intl.DateTimeFormat([], options);
-                d = new Date(formatter.format(new Date()).split(",").join(" "))
-                summertime ? d.setHours(d.getHours() + 1) : d.getTime() // add one hour for summer timezones
-                dinMS = Math.floor(d.getTime() / 1000)
+                  CurrentTime(timezone).then(async time => {
+                    dinMS = await time.MiliSeconds
+                  })
               } else {
                 return await interaction.editReply({ content: '<:error:888264104081522698> I can\'t identify this timezone, please write the right \`County, City\`!' });
               }
@@ -236,8 +254,10 @@ module.exports = {
                 const collector = msg.createMessageComponentCollector({ filter: filter, time: 180000, fetch: true });
       
                 collector.on('collect', async interaction => {
-                  await interaction.deferUpdate();
-                  Reminder(interaction, dinMS, json)
+                  interaction.deferUpdate().then(async () => {
+                    const PrayingTime = result.find((time) => time[1] === interaction.customId)[1]
+                    await setReminder(interaction, timezone, PrayingTime)
+                  })
                 })
               collector.on('end', collection => {
                 msg.edit({ embeds: [embed], components: []})

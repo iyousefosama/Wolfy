@@ -2,7 +2,7 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js')
 const uuid = require('uuid');
-const warnSchema = require('../schema/Warning-Schema')
+const warnSchema = require('../../schema/Warning-Schema')
 
 module.exports = {
     permissions: [discord.PermissionsBitField.Flags.Administrator],

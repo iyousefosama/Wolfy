@@ -4,10 +4,12 @@ const { ChannelType } = require('discord.js')
 const { OpenAIApi, Configuration } = require("openai")
 
 const config = new Configuration({
-    apiKey: "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"
+    apiKey: "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"
 })
 
 const openai = new OpenAIApi(config)
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 exports.chat = async function (client, message) {
   if (!message) {
@@ -46,40 +48,67 @@ exports.chat = async function (client, message) {
           .catch(() => message.reply('Sorry, but something went wrong while responding to this message!').catch(() => null));
           */
 
-        let messages = Array.from(await message.channel.messages.fetch({
-            limit: 5,
-            before: message.id
-        }))
-        messages = messages.map(m=>m[1])
-        messages.unshift(message)
+          const maxRetries = 3; // Maximum number of retries
+          let retryCount = 0;
+          let response = null;
+          
+          while (retryCount < maxRetries) {
+            try {
+              let messages = Array.from(await message.channel.messages.fetch({
+                limit: 5,
+                before: message.id
+              }));
+              messages = messages.map(m => m[1]);
+              messages.unshift(message);
+          
+              let users = [...new Set([...messages.map(m => m.member.displayName), client.user.username])];
+          
+              let lastUser = users.pop();
+          
+              let prompt = `The following is a conversation between ${users.join(", ")}, and ${lastUser} in discord. \n\n`;
+          
+              for (let i = messages.length - 1; i >= 0; i--) {
+                const m = messages[i];
+                prompt += `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.content}\n`;
+              }
+          
+              prompt += `${client.user.username}:`;
+          
+              response = await openai.createCompletion({
+                prompt,
+                model: "text-davinci-003",
+                max_tokens: 500,
+                stop: ["\n"]
+              });
+          
+              if (response && response.data) {
+                await message.reply(response.data.choices[0].text || "Hmmm");
+                break;
+              } else {
+                // Retry the request after delay
+                const delayTime = Math.pow(2, retryCount) * 1000;
+                await delay(delayTime);
+                retryCount++;
+              }
+            } catch (error) {
+              if (error.response && error.response.status === 429) {
+                // Rate limit exceeded, retry after delay
+                const delayTime = Math.pow(2, retryCount) * 1000;
+                await delay(delayTime);
+                retryCount++;
+              } else {
+                console.error(error);
+                break;
+              }
+            }
+          }
+          
+          if (!response || !response.data) {
+            // Handle failure case
+            await message.reply("An error occurred while processing the request.");
+          }
 
-        let users = [...new Set([...messages.map(m=> m.member.displayName), client.user.username])]
-    
-        let lastUser = users.pop()
 
-
-    
-        let prompt = `The following is a conversation between ${users.join(", ")}, and ${lastUser} in discord. \n\n`
-
-
-        for (let i = messages.length - 1; i >= 0; i--) {
-            const m = messages[i]
-            const file = m.attachments.first()?.proxyURL;
-            prompt += `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.content} ${m.attachments.first()?.proxyURL ? '- ' + m.attachments.first()?.proxyURL : ''}\n`
-        }
-        console.log(prompt)
-        prompt += `${client.user.username}:`
-
-    
-        await openai.createCompletion({
-            prompt,
-            model: "text-davinci-003",
-            max_tokens: 500,
-            stop: ["\n"]
-        }).then(async response => {
-          console.log(response.data)
-          return await message.reply(response.data.choices[0].text || "Hmmm")
-        }).catch(() => null)
 }
 
 };

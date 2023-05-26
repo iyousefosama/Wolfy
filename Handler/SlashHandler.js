@@ -1,27 +1,38 @@
 const discord = require('discord.js')
-const { Client, Intents, Collection } = require('discord.js')
+const { Client } = require('discord.js')
 const fs = require('fs');
 const commands=[]
+const path = require('path');
 
 /**
  * @param {Client} client
  */
 
 module.exports = async (client) => {
-    client.commands = new discord.Collection();
-    client.slashCommands = new Collection();
+client.slashCommands = new discord.Collection();
 
-    const slashFiles = fs.readdirSync('./slashCommands').filter(file => file.endsWith('.js'));
-for (const file of slashFiles) {
-    if (slashFiles.length <= 0) {
-        console.log("(/) Can't find any slash commands!");
+function readCommands(dir) {
+  const folders = fs.readdirSync(dir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+  for (const folder of folders) {
+    const folderPath = path.join(dir, folder);
+    const files = fs.readdirSync(folderPath)
+      .filter(file => file.endsWith('.js'));
+
+    for (const file of files) {
+      const filePath = path.join(folderPath, file);
+      const slash = require(filePath);
+      client.slashCommands.set(file.split(/.js$/)[0], slash);
+      commands.push(slash.data.toJSON());
     }
-    const slash = require(`../slashCommands/${file}`);
-    client.slashCommands.set(file.split(/.js$/)[0],slash);
-    commands.push(slash.data.toJSON());
+  }
 }
 
-
+const slashCommandsDir = path.join(__dirname, '../slashCommands');
+readCommands(slashCommandsDir);
+  
 		client.on("ready", async () => {
             await new Promise(r=>setTimeout(r,1500))
             client.user.setPresence({ activities: [{ name: 'Loading...', type: "COMPETING" }], status: 'dnd' });

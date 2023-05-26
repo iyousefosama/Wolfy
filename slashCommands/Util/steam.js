@@ -4,7 +4,7 @@ const snekfetch = require('snekfetch');
 const fetch = require('node-fetch');
 const { decode } = require('he');
 const html2md = require('html2markdown');
-const text = require('../util/string');
+const text = require('../../util/string');
 
 module.exports = {
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks],

@@ -1,9 +1,9 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const canvacord = require('canvacord')
-const schema = require('../schema/GuildSchema')
-const ecoschema = require('../schema/Economy-Schema')
-const Userschema = require('../schema/LevelingSystem-Schema')
+const schema = require('../../schema/GuildSchema')
+const ecoschema = require('../../schema/Economy-Schema')
+const Userschema = require('../../schema/LevelingSystem-Schema')
 
 module.exports = {
     clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
