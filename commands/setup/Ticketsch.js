@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
+const { ChannelType } = require('discord.js');
 
 module.exports = {
     name: "setTicketch",
@@ -22,7 +23,7 @@ module.exports = {
           const channelID = args[0];
           channel = message.guild.channels.cache.get(channelID);
       
-          if (!channel || channel.type !== 'GUILD_CATEGORY'){
+          if (!channel || channel.type !== ChannelType.GuildCategory){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid \`CATEGORY\` ID!`});
           } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
