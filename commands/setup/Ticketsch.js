@@ -25,9 +25,9 @@ module.exports = {
       
           if (!channel || channel.type !== ChannelType.GuildCategory){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid \`CATEGORY\` ID!`});
-          } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.SendMessages)){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
-          } else if (!channel.permissionsFor(message.guild.me).has('MANAGE_CHANNELS')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.ManageChannels)){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to manage channels on ${channel} and try again.`});
           };
           
