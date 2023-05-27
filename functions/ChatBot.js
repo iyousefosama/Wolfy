@@ -107,8 +107,6 @@ exports.chat = async function (client, message) {
             // Handle failure case
             await message.reply("An error occurred while processing the request.");
           }
-
-
 }
 
 };
