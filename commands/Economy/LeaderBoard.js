@@ -31,11 +31,11 @@ module.exports = {
             .includes(obj.userID)) members.push(obj)
         }
 
-        members = members.sort(function (b, a) {
+        members = await members.sort(function (b, a) {
             return a.credits - b.credits
         })
     
-        members = members.filter(function BigEnough(value) {
+        members = await members.filter(function BigEnough(value) {
             return value.credits > 0
         })
 
@@ -53,11 +53,11 @@ module.exports = {
             }
         }
     
-        members = members.slice(0, 10)
+        members = await members.slice(0, 10)
         let desc = ''
     
         for(let i = 0; i < members.length; i++) {
-            let user = client.users.cache.get(members[i].userID)
+            let user = await client.users.cache.get(members[i].userID)
             if(!user) return;
             let bal = members[i].credits
             if(i == 0) {
@@ -72,8 +72,11 @@ module.exports = {
             desc += `${Num} ${user.tag} - \`${text.commatize(bal)}\` \n`
         }
 
-        embed.setDescription(desc)
-        message.channel.send({ embeds: [embed]})
+        embed.setDescription(desc).then(() => {
+            return message.channel.send({ embeds: [embed]});
+        }).catch((err) => {
+            return message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err.message}`})
+        })
 
 }
 }

@@ -102,7 +102,7 @@ module.exports = {
             .setColor('#E6CEA0')
             message.channel.send({ embeds: [embed] })
         })
-        .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`))
+        .catch((err) => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err.message}`))
     }
 }
 }
