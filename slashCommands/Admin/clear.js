@@ -1,0 +1,55 @@
+const discord = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
+const moment = require('moment');
+
+module.exports = {
+    permissions: [discord.PermissionsBitField.Flags.Administrator],
+	guildOnly: true,
+    data: new SlashCommandBuilder()
+        .setName('clear')
+        .setDescription('Clear/Delete message with quantity you want (from 2 to 100)')
+        .addIntegerOption(option => option.setName('quantity').setDescription('The total messages to delete from the current channel').setRequired(true)),
+    async execute(client, interaction) {
+        const { guild, options } = interaction;
+
+        let quantity = options.getInteger('quantity') || 2;
+        quantity = Math.round(quantity);
+
+        if (!quantity || quantity < 2 || quantity > 100){
+          return interaction.editReply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`});
+        };
+    
+        interaction.deleteReply().catch(() => null).then(() => interaction.channel.bulkDelete(quantity, true))
+        .then(async messages => {
+    
+          const count = messages.size;
+          const _id = Math.random().toString(36).slice(-7);
+          const debug = await client.channels.cache.get(client.config.channels.debug)
+    
+          messages = messages.filter(Boolean).map(message => {
+            return [
+              `[${moment(message.createdAt).format('dddd, do MMMM YYYY hh:mm:ss')}]`,
+              `${message.author.tag} : ${message.content}\r\n\r\n`
+            ].join(' ');
+          });
+    
+          messages.push(`Messages Cleared on ![](${interaction.guild.iconURL({size: 32})}) **${interaction.guild.name}** - **#${interaction.channel.name}** --\r\n\r\n`);
+          messages = messages.reverse().join('');
+    
+          const res = debug ? await debug.send({
+            content: `\`\`\`BULKDELETE FILE - ServerID: ${interaction.guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.author.id}\`\`\``,
+            files: [{ attachment: Buffer.from(messages), name: `bulkdlt-${_id}.txt`}]
+          }).then(message => [message.attachments.first().url, message.attachments.first().id])
+          .catch(() => ['', null]) : ['', null];
+    
+          const url = (res[0].match(/\d{17,19}/)||[])[0];
+          const id = res[1];
+    
+            return await interaction.channel.send({ content: `<a:Mod:853496185443319809> | ${interaction.user}, Successfully deleted \`${count}\` messages from this channel!`}).then(msg => {
+              setTimeout(() => {
+                  msg.delete().catch(() => null)
+               }, 5000)
+              }).catch(() => null)
+        });
+    },
+};
