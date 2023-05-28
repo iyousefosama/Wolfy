@@ -46,7 +46,7 @@ module.exports = {
         const [label, value] = arr[i];
         const button = new ButtonBuilder()
           .setLabel(label)
-          .setCustomId(`${value}`)
+          .setCustomId(`${label} ${value}`)
           .setStyle(1);
 
         if (
@@ -71,6 +71,7 @@ module.exports = {
       return buttonRows;
     }
 
+    ///
     async function setReminder(interaction, timezone, prayerTime) {
       try {
         let data = await schema.findOne({ userId: interaction.user.id });
@@ -80,9 +81,16 @@ module.exports = {
         }
 
         if (data.Reminder.current) {
-          return interaction.channel.send(
-            `\\❌ ${interaction.user}, looks like you already have an active reminder!`
-          );
+          await interaction.channel.send(`${interaction.user}, looks like you already have an \`active reminder\`, do you want to add this one instead? \`(y/n)\``);
+
+          const filter = _message => interaction.user.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
+          const proceed = await interaction.channel.awaitMessages({ filter, max: 1, time: 40000, errors: ['time'] })
+          .then(collected => ['y','yes'].includes(collected.first().content.toLowerCase()) ? true : false)
+          .catch(() => false);
+      
+          if (!proceed){
+            return interaction.channel.send(`\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`);
+          };
         }
 
         const [hours, minutes] = prayerTime.split(":");
@@ -90,29 +98,34 @@ module.exports = {
         // Get the current date and time with the correct timezone
         let currentDatetime;
         await CurrentTime(timezone).then(async (time) => {
-          console.log(time, time.date, time.timezone);
           currentDatetime = await time.date.toLocaleString("en-US", {
             timeZone: time.timezone,
+            hour12: false,
           });
         });
 
         // Extract the year, month, and day components from the current date and time
         const [date, time] = currentDatetime.split(", ");
         const [month, day, year] = date.split("/");
+        const [hour, minute, second] = time.split(":")
 
         // Set the hour and minute of the current date
         const prayerDatetime = new Date(+year, month - 1, day, hours, minutes);
-        const prayerTimeInMS = prayerDatetime.getTime();
+        const prayTime = prayerDatetime.getTime();
 
-        const currentTime = new Date(+year, month - 1, day, time);
-        console.log(currentTime, prayerTimeInMS);
-        const timeDiffInSeconds = prayerTimeInMS - currentTime;
-        const timeDiffInMs = timeDiffInSeconds * 1000;
-        console.log(timeDiffInMs);
+        const currentTime = new Date(+year, month - 1, day, hour, minute, second).getTime();
+        const timeDiffInMs = prayTime - currentTime;
+        console.log(prayTime, currentTime, timeDiffInMs)
+
+        if(currentTime >= prayTime || timeDiffInMs <= 0) {
+          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This praying time has already passed!`})
+        }
+
+        const Reason = interaction.customId.split(' ')[0]
 
         data.Reminder.current = true;
-        data.Reminder.time = Math.floor(prayerTimeInMS);
-        data.Reminder.reason = `${interaction.label} will start soon`;
+        data.Reminder.time = Math.floor(prayTime);
+        data.Reminder.reason = `${Reason} will start soon`;
 
         await data.save();
 
@@ -133,7 +146,7 @@ module.exports = {
             },
             {
               name: "❯ Remind Reason:",
-              value: `${interaction.customId} will start soon`,
+              value: `${Reason} will start soon`,
             }
           )
           .setColor("Green")
@@ -150,8 +163,7 @@ module.exports = {
     }
 
     async function CurrentTime(timezone) {
-      let options = {};
-      (options = {
+      let options = {
         timeZone: timezone,
         year: "numeric",
         month: "numeric",
@@ -159,11 +171,12 @@ module.exports = {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
-        millisecond: "numeric",
-      }),
-        (formatter = new Intl.DateTimeFormat([], options));
+      };
+    
+      let formatter = new Intl.DateTimeFormat([], options);
       const d = new Date(formatter.format(new Date()).split(",").join(" "));
       summertime ? d.setHours(d.getHours() + 1) : d.getTime(); // add one hour for summer timezones
+    
       return {
         date: d,
         timezone: timezone,
@@ -206,9 +219,8 @@ module.exports = {
         }
 
         //Declaring the rows array that has all the buttons in row(s)
-        /*
-                rows = await LoadButtons(25, result);
-                */
+        rows = await LoadButtons(25, result);
+
         const timezone = json.data.meta.timezone;
 
         let dinMS;
@@ -354,9 +366,10 @@ module.exports = {
 
             collector.on("collect", async (interaction) => {
               if (interaction.isButton()) {
+
                 interaction.deferUpdate().then(async () => {
                   const PrayingTime = result.find(
-                    (time) => time[1] === interaction.customId
+                    (time) => time[1] === interaction.customId.split(' ')[1]
                   )[1];
                   await setReminder(interaction, timezone, PrayingTime);
                 });
