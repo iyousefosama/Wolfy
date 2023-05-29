@@ -10,6 +10,7 @@ const tc = require("../../functions/TimeConvert");
 const cfl = require("../../functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
 const moment = require("moment");
+const momentTz = require('moment-timezone');
 
 module.exports = {
   clientpermissions: [
@@ -30,9 +31,6 @@ module.exports = {
         .setName("city")
         .setDescription("Enter city name.")
         .setRequired(true)
-    )
-    .addBooleanOption((option) =>
-      option.setName("summertime").setDescription("Enable/Disable summer time")
     ),
   async execute(client, interaction) {
     function LoadButtons(MAX_BTNS, arr) {
@@ -109,16 +107,16 @@ module.exports = {
         const [month, day, year] = date.split("/");
         const [hour, minute, second] = time.split(":")
 
+        const TimeToRemove = 600000;
         // Set the hour and minute of the current date
         const prayerDatetime = new Date(+year, month - 1, day, hours, minutes);
-        const prayTime = prayerDatetime.getTime();
+        const prayTime = Math.floor(prayerDatetime.getTime() - TimeToRemove);
 
         const currentTime = new Date(+year, month - 1, day, hour, minute, second).getTime();
         const timeDiffInMs = prayTime - currentTime;
-        console.log(prayTime, currentTime, timeDiffInMs)
 
         if(currentTime >= prayTime || timeDiffInMs <= 0) {
-          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This praying time has already passed!`})
+          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This pray time has already passed!`})
         }
 
         const Reason = interaction.customId.split(' ')[0]
@@ -162,7 +160,12 @@ module.exports = {
       }
     }
 
+
+
     async function CurrentTime(timezone) {
+      const now = momentTz().tz(timezone);
+      const isDST = now.isDST();
+    
       let options = {
         timeZone: timezone,
         year: "numeric",
@@ -171,11 +174,16 @@ module.exports = {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
+        hour12: false, // Use 24-hour format
       };
     
       let formatter = new Intl.DateTimeFormat([], options);
-      const d = new Date(formatter.format(new Date()).split(",").join(" "));
-      summertime ? d.setHours(d.getHours() + 1) : d.getTime(); // add one hour for summer timezones
+      const d = new Date(formatter.format(now.toDate()).split(",").join(" "));
+    
+      // Adjust the time for DST if applicable
+      if (isDST) {
+        d.setHours(d.getHours() + 1);
+      }
     
       return {
         date: d,
@@ -183,11 +191,11 @@ module.exports = {
         MiliSeconds: Math.floor(d.getTime() / 1000),
       };
     }
+    
 
     // Main code
     const country = interaction.options.getString("country");
     const city = interaction.options.getString("city");
-    const summertime = interaction.options.getBoolean("summertime");
 
     const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}`;
     const options = {
