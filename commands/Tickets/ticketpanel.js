@@ -11,7 +11,7 @@ module.exports = {
     usage: '(Optional: Embed description)',
     group: 'Tickets',
     description: 'Setup the ticket panel in the server',
-    cooldown: 160, //seconds(s)
+    cooldown: 8, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
