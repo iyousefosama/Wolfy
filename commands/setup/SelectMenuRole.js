@@ -93,7 +93,7 @@ module.exports = {
       }
 
       async function getEmoji(message, filter) {
-        await message.reply(`<a:Loading:841321898302373909> **${message.author}**, Please type the emoji you want to get the ID for.`)
+        await message.reply(`<a:Loading:841321898302373909> **${message.author}**, Please type the emoji you want to get the ID for(From the server)`)
 
         let receivedMessage = await message.channel.awaitMessages({ filter, max: 1 });
         
@@ -102,9 +102,12 @@ module.exports = {
           return null;
         }
 
-        let selectedEmojiId = receivedMessage.first().content;
+        let selectedEmojiId = receivedMessage.first().content.toString();
+
         let emoji = message.guild.emojis.cache.get(selectedEmojiId) ||
-        message.guild.emojis.cache.find(e => e.id === selectedEmojiId);
+        message.guild.emojis.cache.find(e => e.id === selectedEmojiId) ||
+        client.emojis.cache.get(selectedEmojiId) || client.emojis.cache.find(e => e.id === selectedEmojiId)
+        || client.emojis.cache.find(emoji => emoji.name === selectedEmojiId);
         
         return emoji;
       }
