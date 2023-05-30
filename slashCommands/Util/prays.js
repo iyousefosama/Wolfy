@@ -124,6 +124,7 @@ module.exports = {
         data.Reminder.current = true;
         data.Reminder.time = Math.floor(prayTime);
         data.Reminder.reason = `${Reason} will start soon`;
+        data.Reminder.timezone = timezone;
 
         await data.save();
 

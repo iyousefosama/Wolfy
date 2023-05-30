@@ -20,6 +20,11 @@ const TimeOutSchema = mongoose.Schema({
             default: 0
         }, 
 
+        timezone: {
+            type: String,
+            default: 'UTC'
+        },
+
         reason: {
             type: String,
             default: null
