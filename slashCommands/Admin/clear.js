@@ -48,7 +48,7 @@ module.exports = {
             return await interaction.channel.send({ content: `<a:Mod:853496185443319809> | ${interaction.user}, Successfully deleted \`${count}\` messages from this channel!`}).then(msg => {
               setTimeout(() => {
                   msg.delete().catch(() => null)
-               }, 5000)
+               }, 10000)
               }).catch(() => null)
         });
     },

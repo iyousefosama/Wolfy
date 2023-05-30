@@ -1,6 +1,6 @@
 const discord = require('discord.js')
-let logs = []
 const { ChannelType } = require('discord.js')
+let logs = []
 
 module.exports = {
     name: 'messageCreate',
@@ -24,7 +24,7 @@ module.exports = {
         .setDescription(`<:Humans:853495153280155668> **User:** ${message.author.tag} (\`${message.author.id}\`)\n• **At:** <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${msg || '❌ | Unkown message!'}\n\`\`\``)
         .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
 
-        const Debug = await client.channels.cache.get(client.config.channels.debug)
+        const Debug = await client.channels.cache.get(client.config.channels.debug) || await client.channels.cache.get("877130715337220136");
         const botname = client.user.username;
         logs.push(dmEmbed)
         setTimeout(async function(){
@@ -35,10 +35,11 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: logs.slice(0, 10).map(log => log)})
-        .catch(() => {})
-        logs = []
-      }, 5000);
+        while (logs.length > 0) {
+          webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
+          logs = logs.slice(10); // Remove the sent embeds from the logs
+        }
+      }, 10000);
           // add more functions on ready  event callback function...
         
           return;

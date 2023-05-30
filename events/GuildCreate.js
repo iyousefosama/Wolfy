@@ -27,7 +27,7 @@ module.exports = {
         }
         webhook.send({ embeds: [join] })
         .catch(() => {});
-      }, 5000);
+      }, 10000);
         
           // add more functions on ready  event callback function...
         

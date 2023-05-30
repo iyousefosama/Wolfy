@@ -61,7 +61,7 @@ module.exports = {
           webhook.send({embeds: logs.slice(0, 10).map(log => log)})
           .catch(() => {})
           logs = [];
-        }, 5000);
+        }, 10000);
         
           // add more functions on ready  event callback function...
         

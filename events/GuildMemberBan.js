@@ -1,5 +1,4 @@
 const discord = require('discord.js')
-const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 let logs = [];
 const { AuditLogEvent, ChannelType } = require('discord.js')
@@ -7,7 +6,11 @@ const { AuditLogEvent, ChannelType } = require('discord.js')
 module.exports = {
     name: 'guildBanAdd',
     async execute(client, member) {
-        if(!member) return;
+        if(!member) {
+          return;
+        } else {
+          // Do nothing...
+        }
 
         let data;
         try{
@@ -18,6 +21,7 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
+
         let Channel = client.channels.cache.get(data.Mod.Logs.channel)
         if (!Channel || !data.Mod.Logs.channel){
             return;
@@ -52,7 +56,7 @@ module.exports = {
 
           const timestamp = Math.floor(Date.now() / 1000)
 
-          if(!banLog.available && target.id != member.user.id) {
+          if(!banLog.available && target.id != member.id) {
             return;
           } else {
             //Do nothing..
@@ -75,10 +79,11 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: logs.slice(0, 10).map(log => log)})
-        .catch(() => {})
-        logs = [];
-      }, 5000);
+        while (logs.length > 0) {
+          webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
+          logs = logs.slice(10); // Remove the sent embeds from the logs
+        }
+      }, 10000);
           // add more functions on ready  event callback function...
         
           return;

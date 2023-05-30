@@ -241,7 +241,7 @@ module.exports = {
           } else {
             return await interaction.editReply({
               content:
-                "<:error:888264104081522698> I can't identify this timezone, please write the right `County, City`!",
+                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
             });
           }
         } catch (e) {

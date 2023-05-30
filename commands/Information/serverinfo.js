@@ -117,9 +117,9 @@ module.exports = {
    <a:pp754:768867196302524426> **Member Count:** ${message.guild.memberCount}
    <:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}
    🤖 **Bots:** ${members.filter(member => member.user.bot).size}
-   <:online:809995753921576960> **Online:** ${members.filter(member => member.presence?.status === 'online').size}
-   <:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence?.status === 'offline').size}
-   <:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence?.status === 'idle').size}
+   <:online:809995753921576960> **Online:** ${members.filter(member => member.presence?.status == 'online').size}
+   <:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence?.status == null).size}
+   <:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence?.status == 'idle').size}
    ⌨️ **Text Channels:** ${channels.filter(channel => channel.type === 'GUILD_TEXT').size}
    <:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'GUILD_VOICE').size}
    \u200b
@@ -137,7 +137,7 @@ module.exports = {
     .setEmoji("890490558492061736")
     const row = new discord.ActionRowBuilder()
     .addComponents(button, button2)
-    const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
+    const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
     const filter = i => i.user.id === message.author.id;
 
     const collector = msg.createMessageComponentCollector({ filter, fetch: true  })

@@ -58,10 +58,11 @@ module.exports = {
         } else if(webhooks.size <= 10) {
           // Do no thing...
         }
-        webhook.send({embeds: logs.slice(0, 10).map(log => log)})
-        .catch(() => {})
-        logs = [];
-      }, 5000);
+        while (logs.length > 0) {
+          webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
+          logs = logs.slice(10); // Remove the sent embeds from the logs
+        }
+      }, 10000);
           // add more functions on ready  event callback function...
         
           return;

@@ -52,7 +52,7 @@ exports.Level = async function (message) {
         message.channel.send({ embeds: [LevelUp] }).then(msg => {
             setTimeout(() => {
                 msg.delete().catch(() => null)
-             }, 5000)
+             }, 10000)
 
              if(!data.Mod.Level.Roles.length) return;
              let role = data.Mod.Level.Roles.filter(x => x.Level == Userdata.System.level)

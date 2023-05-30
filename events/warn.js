@@ -24,7 +24,7 @@ module.exports = {
             }
             webhook.send({embeds: [warn]})
             .catch(() => {});
-          }, 5000);
+          }, 10000);
 
         // add more functions on ready  event callback function...
       

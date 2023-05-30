@@ -60,7 +60,7 @@ module.exports = {
       webhook.send({ content: Channel ? `RateLimit from **[${Channel.guild.name}](${Channel.guild.iconURL({dynamic: true})})** - \`#${Channel.name}\`!\r\n\r\n` : `RateLimit from bath \`${info.path}\`!`, embeds: logs.slice(0, 10).map(log => log), files: [{ attachment: output ? Buffer.from(output) : Buffer.from('No OutPut!'), name: `Ratelimit-${_id}.txt`}]})
       .catch(() => {})
       logs = []
-    }, 5000);
+    }, 10000);
       
         // add more functions on ready  event callback function...
       
