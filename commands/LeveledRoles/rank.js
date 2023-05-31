@@ -79,7 +79,7 @@ module.exports = {
     .setBackground("IMAGE", `${ecodata.profile?.background || 'https://i.imgur.com/299Kt1F.png'}` || 'https://i.imgur.com/299Kt1F.png')
     .setCurrentXP(Userdata.System.xp)
     .setLevel(Userdata.System.level)
-    .setStatus(status)
+    .setStatus(status || "online")
     .setRequiredXP(requiredXP)
     .setUsername(user.username)
     .setDiscriminator(user.discriminator)
