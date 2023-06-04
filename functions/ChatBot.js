@@ -65,7 +65,7 @@ exports.chat = async function (client, message) {
           
               let lastUser = users.pop();
           
-              let prompt = `The following is a conversation between ${users.join(", ")}, and ${lastUser} in discord. \n\n`;
+              let prompt = `The following is a conversation between ${users.join(", ")}, and ${lastUser} the ai chat bot in discord. \n\n`;
           
               for (let i = messages.length - 1; i >= 0; i--) {
                 const m = messages[i];
@@ -77,8 +77,7 @@ exports.chat = async function (client, message) {
               response = await openai.createCompletion({
                 prompt,
                 model: "text-davinci-003",
-                max_tokens: 500,
-                stop: ["\n"]
+                max_tokens: 500
               });
           
               if (response && response.data) {

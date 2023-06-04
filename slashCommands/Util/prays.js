@@ -295,7 +295,7 @@ module.exports = {
         // Declaring the actionrow and pushing it to the rows array
         const ActionRow = new ActionRowBuilder().addComponents(
           new StringSelectMenuBuilder()
-            .setCustomId("kwthbek4m221pyddhwk2")
+            .setCustomId("kwthbek4m221pyddhwp4")
             .setPlaceholder("Nothing selected!")
             .addOptions([
               {
@@ -391,11 +391,12 @@ module.exports = {
             });
           });
       })
+
       .catch((err) => {
         console.log(err);
-        interaction.editReply({
+        interaction.channel.send({
           content:
-            "<:error:888264104081522698> Something went wrong, please try again later!",
+            `<:error:888264104081522698> ${interaction.user} Something went wrong, please try again later!`,
         });
       });
   },
