@@ -19,4 +19,4 @@ client.listentoProcessEvents([
 	require(`./functions/${functions}`)(client);
 });
 
-client.login(process.env.TOKEN_URI);
+client.login(process.env.TOKEN);
