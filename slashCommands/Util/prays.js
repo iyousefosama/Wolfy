@@ -79,7 +79,7 @@ module.exports = {
         }
 
         if (data.Reminder.current) {
-          await interaction.channel.send(`${interaction.user}, looks like you already have an \`active reminder\`, do you want to add this one instead? \`(y/n)\``);
+          await interaction.channel.send(`${interaction.user}, looks like you already have an \`active reminder\`, do you want to add this one instead? \`(y/n)\``).catch(() => null);
 
           const filter = _message => interaction.user.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
           const proceed = await interaction.channel.awaitMessages({ filter, max: 1, time: 40000, errors: ['time'] })
@@ -87,7 +87,7 @@ module.exports = {
           .catch(() => false);
       
           if (!proceed){
-            return interaction.channel.send(`\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`);
+            return interaction.channel.send(`\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`).catch(() => null);
           };
         }
 
@@ -116,7 +116,7 @@ module.exports = {
         const timeDiffInMs = prayTime - currentTime;
 
         if(currentTime >= prayTime || timeDiffInMs <= 0) {
-          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This pray time has already passed!`})
+          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This pray time has already passed!`}).catch(() => null)
         }
 
         const Reason = interaction.customId.split(' ')[0]
@@ -155,7 +155,7 @@ module.exports = {
             iconURL: client.user.displayAvatarURL(),
           });
 
-        interaction.channel.send({ embeds: [dnEmbed], ephemeral: true });
+        interaction.channel.send({ embeds: [dnEmbed], ephemeral: true }).catch(() => null);
       } catch (err) {
         console.log(err);
       }
@@ -164,7 +164,7 @@ module.exports = {
 
 
     async function CurrentTime(timezone) {
-      const now = momentTz().tz(timezone);
+      const now = momentTz().tz(timezone); // Initialize with the current time in the provided timezone
       const isDST = now.isDST();
     
       let options = {
@@ -192,6 +192,7 @@ module.exports = {
         MiliSeconds: Math.floor(d.getTime() / 1000),
       };
     }
+    
     
 
     // Main code
@@ -270,14 +271,7 @@ module.exports = {
             new Date(`${year}-${month}-${day}`)
           );
           pTimeInMS = Math.floor(
-            new Date(
-              +year,
-              monthNumber - 1,
-              +day,
-              +hours,
-              +minutes,
-              +00
-            ).getTime() / 1000
+            new Date(+year, monthNumber - 1, +day, +hours, +minutes, 0).getTime() / 1000
           );
 
           if (dinMS < pTimeInMS) {
@@ -298,6 +292,12 @@ module.exports = {
             .setCustomId("kwthbek4m221pyddhwp4")
             .setPlaceholder("Nothing selected!")
             .addOptions([
+              {
+                label: "Remind Before",
+                description: `Choose this option to set a time to remind to before the pray(like 5minutes before)`,
+                value: "remind_before1",
+                //emoji: emoji.id,
+              },
               {
                 label: "Set timezone",
                 description: `Choose this option to set the default timezone for the cmd.`,
