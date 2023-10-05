@@ -54,7 +54,7 @@ module.exports = {
       const elapsed = Math.abs(Date.now() - message.createdTimestamp);
       const embed = new EmbedBuilder()
       .setColor(color)
-      .addField('\\📥 Input',`\`\`\`js\n${text.truncate(text.clean(code),1000)}\`\`\``)
+      .addFields([{ name: '\\📥 Input', value: `\`\`\`js\n${text.truncate(text.clean(code),1000)}\`\`\``}])
       .setFooter({ text: [
         `Type: ${type}`,
         `Evaluated in ${elapsed}ms.`,

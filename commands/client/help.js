@@ -140,7 +140,7 @@ module.exports = {
         { name: `${client.config.prefix}rename`, value: `> \`Change ticket name\``},
         { name: `${client.config.prefix}delete`, value: `> \`Delete your ticket in the server\``},
         { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\``},
-        { name: `${client.config.prefix}`, value: `> \`Calculates an equation by wolfy\``}
+        { name: `${client.config.prefix}calc`, value: `> \`Calculates an equation by wolfy\``}
     )
     .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
     .setTimestamp()

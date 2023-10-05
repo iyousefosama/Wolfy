@@ -22,6 +22,13 @@ module.exports = {
             return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
           };
 
+          
+        // verifies song is not a spotify link
+        if (trackInput.includes("spotify")) return interaction.editReply({
+          content: `Spotify not supported ❌`,
+          ephemeral: true,
+        });
+
         const guild = client.guilds.cache.get(interaction.guild.id);
         const channel = guild.channels.cache.get(interaction.channel.id);
         const OldQueue = client.player.getQueue(interaction.guild.id);

@@ -13,11 +13,14 @@ player.events.on('connection', (queue) => {
 });
 */
 
+let wasNotfied = false
+
 // v5
-player.on('connectionCreate', (queue) => {
-    queue.connection.voiceConnection.on('stateChange', (oldState, newState) => {
+player.on('connectionCreate', async (queue) => {
+    queue.connection.voiceConnection.on('stateChange', async (oldState, newState) => {
         if (oldState.status === VoiceConnectionStatus.Ready && newState.status === VoiceConnectionStatus.Connecting) {
-            queue.connection.voiceConnection.configureNetworking();
+            wasNotfied = true
+            return await queue.connection.voiceConnection.configureNetworking();
         }
     })
 });
@@ -38,7 +41,14 @@ player.on('connectionCreate', (queue) => {
     */
 
     player.on("trackStart", async (queue, track) => {
-        return await queue.metadata.channel.send(`<a:Up:853495519455215627> Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
+        if(!wasNotfied) {
+            return await queue.metadata.channel.send(`<a:Up:853495519455215627> Started playing: **${track.title}** in **${queue.connection.channel.name}**!`).then(msg => {
+                msg.react('841711383191879690').catch(() => null)
+            });
+            wasNotfied = true
+        } else {
+            // Do nothing..
+        }
     });
 
     player.on("botDisconnect", async (queue) => {

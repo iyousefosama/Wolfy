@@ -98,9 +98,9 @@ module.exports = {
   }
 
     const userEmbed = new discord.EmbedBuilder()
-     .setAuthor({ name: `User information of ${member.user.username}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
+     .setAuthor({ name: `User information of ${member.displayName}`, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}), url: member.user.displayAvatarURL({dynamic: true, size: 2048}) })
      .addFields(
-		{ name: '<a:pp224:853495450111967253> **Tag: **', value: member.user.tag || 'None' },
+		{ name: '<a:pp224:853495450111967253> **DisplayName: **', value: member.displayName || 'None' },
         { name: '<:pp499:836168214525509653> **Username: **', value: member.user.username || 'None' },
 		{ name: '\u200B' || '-', value: '\u200B' || '-' },
 		{ name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },

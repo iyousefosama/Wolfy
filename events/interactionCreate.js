@@ -294,11 +294,10 @@ module.exports = {
           })
         } else if(interaction.customId == "98418541981565") {
           //+ cooldown 1, //seconds(s)
-                                if (!cooldowns.has("btn")) {
-                                  cooldowns.set("btn", new discord.Collection());
-                              }
+          if (!cooldowns.has("btn")) {
+            cooldowns.set("btn", new discord.Collection());
+        }
                               
-                
                               const now = Date.now();
                               const timestamps = cooldowns.get("btn");
                               const cooldownAmount = (4 || 2) * 1000;
@@ -455,6 +454,7 @@ module.exports = {
         let data;
 
         if(interaction.isStringSelectMenu()){
+          let choice = interaction.values[0]
 
           async function SelectRoles() {
             if(interaction.guild) {
@@ -468,7 +468,6 @@ module.exports = {
               }
             } 
             if(!data) return interaction.reply(`\\❌ I can't find this guild \`data\` in the data base!`)
-            let choice = interaction.values[0]
             const member = interaction.member
   
             // Get all the roles at once
@@ -501,6 +500,10 @@ module.exports = {
           switch(interaction.customId) {
             case 'kwthbek4m221pyddhwk':
               return SelectRoles()
+            case 'kwthbek4m221pyddhwp4':
+              if(choice == 'auto_reminder1') {
+                
+              }
               default:
                 return;
 

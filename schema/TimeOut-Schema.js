@@ -15,6 +15,30 @@ const TimeOutSchema = mongoose.Schema({
             default: false
         },
 
+        Prays: {
+            autoPray: {
+                type: Boolean,
+                default: false
+            },
+
+            remindBefore: {
+                type: Number,
+                default: 10000
+            },
+            
+            nextPrays: {
+                next: {
+                    type: Array,
+                    default: []
+                },
+                
+                current: {
+                    type: Boolean,
+                    default: false
+                }
+            }
+        },
+
         time: {
             type: Date,
             default: 0

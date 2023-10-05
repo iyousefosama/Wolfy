@@ -22,6 +22,7 @@ module.exports = {
     async execute(client, message, args) {
         message.channel.sendTyping()
         const SlashCommands = client.slashCommands?.size;
+        const members = text.commatize(client.guilds.cache.reduce((a,b) => a + b.memberCount, 0));
 
         const embed = new EmbedBuilder()
         .setColor('738ADB') // will set the color for the embed
@@ -56,7 +57,7 @@ module.exports = {
               },
             { name: '<a:pp594:768866151827767386> **Guilds:**', value: `\`\`\`${client.guilds.cache.size}\`\`\``},
             { name: '⌨️ **Channels:**', value: `\`\`\`${client.channels.cache.size}\`\`\`` },
-            { name: '<:pp833:853495153280155668> **Users:**', value: `\`\`\`${client.users.cache.size}\`\`\`` },
+            { name: '<:pp833:853495153280155668> **Members:**', value: `\`\`\`${members}\`\`\`` },
             )
 
         message.reply({ content: `> **Viewing ${client.user.username}'s stats for • [**  ${message.author.tag} **]**`,embeds: [embed], allowedMentions: { repliedUser: true } })

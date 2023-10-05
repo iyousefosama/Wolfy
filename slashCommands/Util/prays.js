@@ -10,7 +10,7 @@ const tc = require("../../functions/TimeConvert");
 const cfl = require("../../functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
 const moment = require("moment");
-const momentTz = require('moment-timezone');
+const momentTz = require("moment-timezone");
 
 module.exports = {
   clientpermissions: [
@@ -79,16 +79,31 @@ module.exports = {
         }
 
         if (data.Reminder.current) {
-          await interaction.channel.send(`${interaction.user}, looks like you already have an \`active reminder\`, do you want to add this one instead? \`(y/n)\``).catch(() => null);
+          await interaction.channel
+            .send(
+              `${interaction.user}, looks like you already have an \`active reminder\`, do you want to add this one instead? \`(y/n)\``
+            )
+            .catch(() => null);
 
-          const filter = _message => interaction.user.id === _message.author.id && ['y','n','yes','no'].includes(_message.content.toLowerCase());
-          const proceed = await interaction.channel.awaitMessages({ filter, max: 1, time: 40000, errors: ['time'] })
-          .then(collected => ['y','yes'].includes(collected.first().content.toLowerCase()) ? true : false)
-          .catch(() => false);
-      
-          if (!proceed){
-            return interaction.channel.send(`\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`).catch(() => null);
-          };
+          const filter = (_message) =>
+            interaction.user.id === _message.author.id &&
+            ["y", "n", "yes", "no"].includes(_message.content.toLowerCase());
+          const proceed = await interaction.channel
+            .awaitMessages({ filter, max: 1, time: 40000, errors: ["time"] })
+            .then((collected) =>
+              ["y", "yes"].includes(collected.first().content.toLowerCase())
+                ? true
+                : false
+            )
+            .catch(() => false);
+
+          if (!proceed) {
+            return interaction.channel
+              .send(
+                `\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`
+              )
+              .catch(() => null);
+          }
         }
 
         const [hours, minutes] = prayerTime.split(":");
@@ -105,21 +120,32 @@ module.exports = {
         // Extract the year, month, and day components from the current date and time
         const [date, time] = currentDatetime.split(", ");
         const [month, day, year] = date.split("/");
-        const [hour, minute, second] = time.split(":")
+        const [hour, minute, second] = time.split(":");
 
         const TimeToRemove = 600000;
         // Set the hour and minute of the current date
         const prayerDatetime = new Date(+year, month - 1, day, hours, minutes);
         const prayTime = Math.floor(prayerDatetime.getTime() - TimeToRemove);
 
-        const currentTime = new Date(+year, month - 1, day, hour, minute, second).getTime();
+        const currentTime = new Date(
+          +year,
+          month - 1,
+          day,
+          hour,
+          minute,
+          second
+        ).getTime();
         const timeDiffInMs = prayTime - currentTime;
 
-        if(currentTime >= prayTime || timeDiffInMs <= 0) {
-          return interaction.channel.send({ content: `\\❌ ${interaction.user}, This pray time has already passed!`}).catch(() => null)
+        if (currentTime >= prayTime || timeDiffInMs <= 0) {
+          return interaction.channel
+            .send({
+              content: `\\❌ ${interaction.user}, This pray time has already passed!`,
+            })
+            .catch(() => null);
         }
 
-        const Reason = interaction.customId.split(' ')[0]
+        const Reason = interaction.customId.split(" ")[0];
 
         data.Reminder.current = true;
         data.Reminder.time = Math.floor(prayTime);
@@ -155,18 +181,18 @@ module.exports = {
             iconURL: client.user.displayAvatarURL(),
           });
 
-        interaction.channel.send({ embeds: [dnEmbed], ephemeral: true }).catch(() => null);
+        interaction.channel
+          .send({ embeds: [dnEmbed], ephemeral: true })
+          .catch(() => null);
       } catch (err) {
         console.log(err);
       }
     }
 
-
-
     async function CurrentTime(timezone) {
       const now = momentTz().tz(timezone); // Initialize with the current time in the provided timezone
       const isDST = now.isDST();
-    
+
       let options = {
         timeZone: timezone,
         year: "numeric",
@@ -177,23 +203,21 @@ module.exports = {
         second: "numeric",
         hour12: false, // Use 24-hour format
       };
-    
+
       let formatter = new Intl.DateTimeFormat([], options);
       const d = new Date(formatter.format(now.toDate()).split(",").join(" "));
-    
+
       // Adjust the time for DST if applicable
       if (isDST) {
         d.setHours(d.getHours() + 1);
       }
-    
+
       return {
         date: d,
         timezone: timezone,
         MiliSeconds: Math.floor(d.getTime() / 1000),
       };
     }
-    
-    
 
     // Main code
     const country = interaction.options.getString("country");
@@ -271,7 +295,14 @@ module.exports = {
             new Date(`${year}-${month}-${day}`)
           );
           pTimeInMS = Math.floor(
-            new Date(+year, monthNumber - 1, +day, +hours, +minutes, 0).getTime() / 1000
+            new Date(
+              +year,
+              monthNumber - 1,
+              +day,
+              +hours,
+              +minutes,
+              0
+            ).getTime() / 1000
           );
 
           if (dinMS < pTimeInMS) {
@@ -375,10 +406,9 @@ module.exports = {
 
             collector.on("collect", async (interaction) => {
               if (interaction.isButton()) {
-
                 interaction.deferUpdate().then(async () => {
                   const PrayingTime = result.find(
-                    (time) => time[1] === interaction.customId.split(' ')[1]
+                    (time) => time[1] === interaction.customId.split(" ")[1]
                   )[1];
                   await setReminder(interaction, timezone, PrayingTime);
                 });
@@ -395,8 +425,7 @@ module.exports = {
       .catch((err) => {
         console.log(err);
         interaction.channel.send({
-          content:
-            `<:error:888264104081522698> ${interaction.user} Something went wrong, please try again later!`,
+          content: `<:error:888264104081522698> ${interaction.user} Something went wrong, please try again later!`,
         });
       });
   },

@@ -82,7 +82,6 @@ module.exports = {
     .setStatus(status || "online")
     .setRequiredXP(requiredXP)
     .setUsername(user.username)
-    .setDiscriminator(user.discriminator)
     const img = await rank.build()
     .then(data => {
         const attachment = new discord.AttachmentBuilder(data, { name: "RankCard.png"});

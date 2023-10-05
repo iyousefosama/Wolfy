@@ -12,7 +12,7 @@ module.exports = {
         if (oldState.channel === null && newState.channel === null) return;
 
         let data;
-        try{
+        try {
             data = await schema.findOne({
                 GuildID: oldState.guild.id
             })
@@ -20,7 +20,7 @@ module.exports = {
         } catch(err) {
             console.log(err)
         }
-        let Channel = client.channels.cache.get(data.Mod.Logs.channel)
+        let Channel = client.channels.cache.get(data.Mod?.Logs.channel)
         if (!Channel || !data.Mod.Logs.channel){
             return;
           } else if (Channel.type !== ChannelType.GuildText) {
