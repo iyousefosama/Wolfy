@@ -11,7 +11,12 @@ const TicketSchema = mongoose.Schema({
 
     IsClosed: { type: Boolean, default: false },
 
-    OpenTimeStamp: { type: Number, default: 0 }
+    OpenTimeStamp: { type: Number, default: 0 },
+
+    Panels: {
+        type: [Object],
+        default: [{}]
+    }
 })
 
 
