@@ -23,7 +23,7 @@ client.listentoProcessEvents([
 });
  
 server.all('/', (req, res) => {
-  res.send(`OK`)
+  res.send(`I'm alive!`)
 })
  
 function keepAlive() {
