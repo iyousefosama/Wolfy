@@ -31,7 +31,7 @@
     "minecraft-player": "^1.0.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.40",
-    "mongoose": "^5.13.16",
+    "mongoose": "^5.13.20",
     "ms": "^2.1.3",
     "node": "^16.19.0",
     "node-fetch": "^2.6.9",
