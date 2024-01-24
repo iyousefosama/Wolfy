@@ -77,7 +77,7 @@ module.exports = {
       //Do nothing..
     }
 
-
+    
     const timestamp = Math.floor(Date.now() / 1000);
     const Msg = message.toString().substr(0, 500);
     const DeletedLog = new discord.EmbedBuilder()
