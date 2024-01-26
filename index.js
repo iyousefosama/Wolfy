@@ -5,8 +5,9 @@ const config = require(`${process.cwd()}/config`);
 // create a new Discord client 
 const client = new Client(config);
 
-const express = require('express');
-const server = express();
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 4000;
 
 client.listentoProcessEvents([
   'unhandledRejection',
@@ -21,13 +22,13 @@ client.listentoProcessEvents([
 ["Reminder", "checkQuests", "Modules"].forEach((functions) => {
 	require(`./functions/${functions}`)(client);
 });
- 
-server.all('/', (req, res) => {
-  res.send(`I'm alive!`)
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
 })
- 
-function keepAlive() {
-  server.listen(3000, () => { console.log("Alive") });
-}
+
+app.listen(port, () => {
+  console.log(`Express connected.`)
+})
 
 client.login(process.env.TOKEN);
