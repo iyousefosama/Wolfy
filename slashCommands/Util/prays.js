@@ -109,7 +109,7 @@ module.exports = {
 
           let currentDatetime;
           await CurrentTime(timezone).then(async (time) => {
-            currentDatetime = await time.date.toLocaleString("en-US", {
+            currentDatetime = time.date.toLocaleString("en-US", {
               timeZone: time.timezone,
               hour12: false,
             });
@@ -194,6 +194,7 @@ module.exports = {
       async function CurrentTime(timezone) {
         const now = momentTz().tz(timezone);
         const isDST = now.isDST();
+        console.log(isDST)
 
         let options = {
           timeZone: timezone,
