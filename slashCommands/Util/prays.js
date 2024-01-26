@@ -21,10 +21,16 @@ module.exports = {
     .setName("prays")
     .setDescription("Replies with prays times!")
     .addStringOption((option) =>
-      option.setName("country").setDescription("Enter country name.").setRequired(true)
+      option
+        .setName("country")
+        .setDescription("Enter country name.")
+        .setRequired(true)
     )
     .addStringOption((option) =>
-      option.setName("city").setDescription("Enter city name.").setRequired(true)
+      option
+        .setName("city")
+        .setDescription("Enter city name.")
+        .setRequired(true)
     ),
   async execute(client, interaction) {
     try {
@@ -114,7 +120,13 @@ module.exports = {
           const [hour, minute, second] = time.split(":");
 
           const TimeToRemove = 600000;
-          const prayerDatetime = new Date(+year, month - 1, day, hours, minutes);
+          const prayerDatetime = new Date(
+            +year,
+            month - 1,
+            day,
+            hours,
+            minutes
+          );
           const prayTime = Math.floor(prayerDatetime.getTime() - TimeToRemove);
 
           const currentTime = new Date(
@@ -224,8 +236,6 @@ module.exports = {
               content:
                 "<:error:888264104081522698> Please enter valid country and city in the options!",
             });
-
-
           }
 
           let rows = [];
@@ -249,8 +259,8 @@ module.exports = {
           let dinMS;
           try {
             if (timezone) {
-              CurrentTime(timezone).then(async (time) => {
-                dinMS = await time.MiliSeconds;
+              dinMS = await CurrentTime(timezone).then(async (time) => {
+                return time.MiliSeconds;
               });
             } else {
               return await interaction.editReply({
