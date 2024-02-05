@@ -3,6 +3,7 @@ const { EmbedBuilder } = require('discord.js')
 const schema = require('../schema/GuildSchema')
 let logs = [];
 const { AuditLogEvent, ChannelType } = require('discord.js')
+//const { Permissions } = require('discord.js');
 
 module.exports = {
     name: 'channelUpdate',
@@ -64,30 +65,39 @@ module.exports = {
           //Do nothing..
         }
 
-
-
         /*
-        const oldPermissionsObj = Object.values(oldChannel.permissionOverwrites.cache);
-        const PermissionsObj = Object.values(newChannel.permissionOverwrites.cache);
-        console.log(PermissionsObj)
-        PermissionsObj.forEach(e => {
-          console.log(e.permissionOverwrites)
-        });
-        */
-
-       /*
         let oldPermissions = Object.values(oldChannel.permissionOverwrites);
-        let newPermissions = Object.values(newChannel.permissionOverwrites);
-        let mappedPermissions = oldPermissions.map((oldPermission, index) => {
-            let newPermission = newPermissions[index];
-            return {
-                roleOrMember: oldPermission.id,
-                oldPermission: oldPermission.allow,
-                newPermission: newPermission.allow
+        let mappedPermissions = oldPermissions.map((oldPermission) => {
+          let roleOrMember = oldPermission.type === 'role' ? oldChannel.guild.roles.cache.get(oldPermission.id) : oldChannel.guild.members.cache.get(oldPermission.id);
+          let oldPermissions = new Permissions(oldPermission.allow).toArray();
+          let newPermissions = new Permissions(oldPermission.deny).toArray();
+          let changedPermissions = [];
+
+          oldPermissions.forEach(permission => {
+            if (!newPermissions.includes(permission)) {
+              changedPermissions.push(`❌ ${permission}`);
             }
+          });
+
+          newPermissions.forEach(permission => {
+            if (!oldPermissions.includes(permission)) {
+              changedPermissions.push(`✅ ${permission}`);
+            }
+          });
+
+          return {
+            roleOrMember: roleOrMember,
+            changedPermissions: changedPermissions
+          };
         });
-        console.log(oldPermissions, newPermissions, mappedPermissions);
-        */
+
+        let permissionsChanges = mappedPermissions.map(permissionChange => {
+          let roleOrMember = permissionChange.roleOrMember;
+          let changedPermissions = permissionChange.changedPermissions.join('\n');
+
+          return `${roleOrMember}: \n${changedPermissions}`;
+        });
+*/
 
 
         ChannelUpdate = new EmbedBuilder()
@@ -96,6 +106,7 @@ module.exports = {
         .setColor('#e6a54a')
         .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
         .setTimestamp()
+        .addFields({name: 'Permissions Changes', value: permissionsChanges.join('\n\n')})
         .setDescription([
              `<:pp198:853494893439352842> **Channel:** ${oldChannel.name}(\`${oldChannel.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n`,
               oldChannel.name !== newChannel.name ? `\`${oldChannel.name}\` **➜** \`${newChannel.name}\`\n` : '',

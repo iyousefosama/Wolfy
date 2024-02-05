@@ -194,7 +194,6 @@ module.exports = {
       async function CurrentTime(timezone) {
         const now = momentTz().tz(timezone);
         const isDST = now.isDST();
-        console.log(isDST)
 
         let options = {
           timeZone: timezone,
@@ -234,24 +233,15 @@ module.exports = {
         .then(async (json) => {
           if (json.code != 200) {
             return interaction.editReply({
-              content:
-                "<:error:888264104081522698> Please enter valid country and city in the options!",
+              content: "<:error:888264104081522698> Please enter valid country and city in the options!",
             });
           }
 
           let rows = [];
-          var json_data = json.data.timings;
-          var result = [];
-          for (var i in json_data) result.push([i, json_data[i]]);
-          let index;
-          index = json_data.Imsak.length - 1;
-          result.splice(-index);
-
-          index = result.findIndex((elem) => elem[0] === "Sunset");
-
-          if (index !== -1) {
-            result.splice(index, 1);
-          }
+          const json_data = json.data.timings;
+          let result = Object.entries(json_data)
+            .filter(([key]) => key !== "Imsak" && key !== "Sunset")
+            .map(([key, value]) => [key, value]);
 
           rows = await LoadButtons(25, result);
 
@@ -260,20 +250,16 @@ module.exports = {
           let dinMS;
           try {
             if (timezone) {
-              dinMS = await CurrentTime(timezone).then(async (time) => {
-                return time.MiliSeconds;
-              });
+              dinMS = await CurrentTime(timezone).then((time) => time.MiliSeconds);
             } else {
               return await interaction.editReply({
-                content:
-                  "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+                content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
               });
             }
           } catch (e) {
             console.error(e);
             return await interaction.editReply({
-              content:
-                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+              content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
             });
           }
 
@@ -310,7 +296,7 @@ module.exports = {
                 const TimeDiff = Math.floor(pTimeInMS - dinMS) * 1000;
                 nxtStr = `${pTime[0]}  <t:${pTimeInMS}:R> - *${moment
                   .duration(TimeDiff, "milliseconds")
-                  .format("H [hours, and] m [minutes, and] s [seconds,]")}*!`;
+                  .humanize()}*!`;
                 result[num][0] = pTime[0] + "(`Next`)";
                 marked = true;
               }
@@ -413,7 +399,7 @@ module.exports = {
                 }
               });
 
-              collector.on("end", async (collection) => {
+              collector.on("end", async () => {
                 return await msg.edit({ embeds: [embed], components: [] });
               });
             });
