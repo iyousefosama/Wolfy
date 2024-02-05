@@ -223,7 +223,8 @@ module.exports = {
                       }
                   }
           // Start CmdManager function at ../functions/Manager bath
-          cmdManager.manage(client, message, cmd)
+          // ! Each command gives a reward!!
+          // cmdManager.manage(client, message, cmd)
           console.log(`${message.author.tag}|(${message.author.id}) in ${message.guild ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})` : 'DMS'} sent: ${message.content}`)
           cmd.execute(client, message, args, { executed: true });
       } catch(err){
