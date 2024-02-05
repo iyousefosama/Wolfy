@@ -4,7 +4,7 @@ module.exports = {
     name: 'warn',
     async execute(client, info) {
 
-            const warn = new Discord.MessageEmbed()
+            const warn = new Discord.EmbedBuilder()
             .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true, size: 2048}))
             .setTitle('The Client got a general warn!')
             .setColor('RED')

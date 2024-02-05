@@ -43,7 +43,7 @@ module.exports = {
                 const nameHistory = nameHistoryResponse.data.map(entry => entry.name);
 
                 // Build the embed
-                const embed = new discord.MessageEmbed()
+                const embed = new discord.EmbedBuilder()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
                     .addFields(
                         { name: "Name:", value: `${user.name}`, inline: true },

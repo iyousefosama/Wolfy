@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const canvacord = require("canvacord");
+const { Font, RankCardBuilder } = require("canvacord");
+
+// load default font
+Font.loadDefault();
 const schema = require("../../schema/GuildSchema");
 const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
@@ -15,7 +18,7 @@ module.exports = {
     .setName("rank")
     .setDescription("Show your level & rank and your current and next xp!")
     .addUserOption((option) =>
-    option.setName("target").setDescription("User to show the level for!")
+      option.setName("target").setDescription("User to show the level for!")
     ),
   async execute(client, interaction) {
     const hide = interaction.options.getBoolean("hide");
@@ -77,15 +80,11 @@ module.exports = {
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
-    var status = interaction.member.presence?.status;
+    var status = member.presence?.status;
     const requiredXP = Userdata.System.required;
-    const rank = new canvacord.Rank()
-      .setAvatar(
-        user.displayAvatarURL({ extension: "png", size: 1024 })
-      )
-      .setProgressBar("#FFFFFF", "COLOR")
+    const rank = new RankCardBuilder()
+      .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
       .setBackground(
-        "IMAGE",
         `${ecodata.profile?.background || "https://i.imgur.com/299Kt1F.png"}` ||
           "https://i.imgur.com/299Kt1F.png"
       )
@@ -93,12 +92,16 @@ module.exports = {
       .setLevel(Userdata.System.level)
       .setStatus(status || "online")
       .setRequiredXP(requiredXP)
-      .setUsername(interaction.user.username)
-    await rank.build().then((data) => {
-      const attachment = new discord.AttachmentBuilder(data, {
-        name: "RankCard.png",
+      .setUsername(user.username);
+    await rank
+      .build({
+        format: "png",
+      })
+      .then((data) => {
+        const attachment = new discord.AttachmentBuilder(data, {
+          name: "RankCard.png",
+        });
+        interaction.editReply({ files: [attachment], ephemeral: hide });
       });
-      interaction.editReply({ files: [attachment], ephemeral: hide });
-    });
   },
 };

@@ -52,7 +52,6 @@ module.exports = class Mongoose{
       consoleUtil.error(error.name, 'db');
     });
 
-    this.db.set('useFindAndModify',false)
     this.db.Promise = global.Promise;
 
     this.db.connection.on('connected', () => consoleUtil.Success('Connected to MongoDB!'));

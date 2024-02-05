@@ -78,8 +78,8 @@ module.exports = {
                       UserData = await userSchema.findOne({
                           userId: message.author.id
                       })
-                  } catch (error) {
-                      console.log(error)
+                  } catch (err) {
+                      console.log(err)
                       message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
                   }
           try{

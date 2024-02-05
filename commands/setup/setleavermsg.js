@@ -9,7 +9,7 @@ module.exports = {
     args: false, //or false
     usage: '<msg/embed> <text>',
     group: 'setup',
-    description: 'Set the welcome msg or embed',
+    description: 'Set the leaver msg or embed',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.Administrator],

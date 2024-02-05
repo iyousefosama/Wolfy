@@ -4,6 +4,7 @@ const { version, author } = require('../../package.json');
 const { release, cpus } = require('os');
 const moment = require(`moment`) // requiring moment
 const { heapUsed, heapTotal } = process.memoryUsage();
+const text = require('../../util/string');
 
 module.exports = {
     name: "stats",
