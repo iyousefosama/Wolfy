@@ -223,10 +223,7 @@ module.exports = {
                       }
                   }
           // Start CmdManager function at ../functions/Manager bath
-          // ! (node:10528) DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated. See: https://mongoosejs.com/docs/5.x/docs/deprecations.html#findandmodify
-          /*
           cmdManager.manage(client, message, cmd)
-          */
           console.log(`${message.author.tag}|(${message.author.id}) in ${message.guild ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})` : 'DMS'} sent: ${message.content}`)
           cmd.execute(client, message, args, { executed: true });
       } catch(err){

@@ -40,6 +40,7 @@ const settings = {
       config: {
         useUnifiedTopology: true,
         useNewUrlParser: true,
+        useFindAndModify: false,
         autoIndex: false,
         poolSize: 5,
         connectTimeoutMS: 10000,
