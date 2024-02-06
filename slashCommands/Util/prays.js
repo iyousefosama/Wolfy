@@ -11,6 +11,7 @@ const cfl = require("../../functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
 const moment = require("moment");
 const momentTz = require("moment-timezone");
+moment.tz.setDefault("Africa/Cairo");
 
 module.exports = {
   clientpermissions: [
@@ -206,8 +207,13 @@ module.exports = {
           hour12: false,
         };
 
+        // Create a new moment-timezone object for formatting without changing the original 'now' object
+        const formattedMoment = momentTz(now).tz(timezone);
+
         let formatter = new Intl.DateTimeFormat([], options);
-        const d = new Date(formatter.format(now.toDate()).split(",").join(" "));
+        const d = new Date(
+          formatter.format(formattedMoment.toDate()).split(",").join(" ")
+        );
 
         if (isDST) {
           d.setHours(d.getHours() + 1);
@@ -233,7 +239,8 @@ module.exports = {
         .then(async (json) => {
           if (json.code != 200) {
             return interaction.editReply({
-              content: "<:error:888264104081522698> Please enter valid country and city in the options!",
+              content:
+                "<:error:888264104081522698> Please enter valid country and city in the options!",
             });
           }
 
@@ -250,16 +257,20 @@ module.exports = {
           let dinMS;
           try {
             if (timezone) {
-              dinMS = await CurrentTime(timezone).then((time) => time.MiliSeconds);
+              dinMS = await CurrentTime(timezone).then(
+                (time) => time.MiliSeconds
+              );
             } else {
               return await interaction.editReply({
-                content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+                content:
+                  "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
               });
             }
           } catch (e) {
             console.error(e);
             return await interaction.editReply({
-              content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+              content:
+                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
             });
           }
 
