@@ -207,13 +207,22 @@ module.exports = {
           hour12: false,
         };
 
-        // Create a new moment-timezone object for formatting without changing the original 'now' object
-        const formattedMoment = momentTz(now).tz(timezone);
+        let formatter;
+        let d;
+        try {
+          const formattedMoment = momentTz(now).tz(timezone);
 
-        let formatter = new Intl.DateTimeFormat([], options);
-        const d = new Date(
-          formatter.format(formattedMoment.toDate()).split(",").join(" ")
-        );
+          formatter = new Intl.DateTimeFormat("en-US", options);
+          d = new Date(
+            formatter.format(formattedMoment.toDate()).split(",").join(" ")
+          );
+        } catch (err) {
+          await interaction.editReply({
+            content:
+            "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+          });
+          throw new Error(err);
+        }
 
         if (isDST) {
           d.setHours(d.getHours() + 1);
