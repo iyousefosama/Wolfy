@@ -106,7 +106,7 @@ module.exports = {
         .setColor('#e6a54a')
         .setFooter({ text: oldChannel.guild.name, iconURL: oldChannel.guild.iconURL({dynamic: true}) })
         .setTimestamp()
-        .addFields({name: 'Permissions Changes', value: permissionsChanges.join('\n\n')})
+        /*.addFields({name: 'Permissions Changes', value: permissionsChanges.join('\n\n')})*/
         .setDescription([
              `<:pp198:853494893439352842> **Channel:** ${oldChannel.name}(\`${oldChannel.id}\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag}\n\n`,
               oldChannel.name !== newChannel.name ? `\`${oldChannel.name}\` **➜** \`${newChannel.name}\`\n` : '',

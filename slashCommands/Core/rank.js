@@ -56,6 +56,7 @@ module.exports = {
         content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`,
       });
     let ecodata;
+    let Userdata;
     try {
       ecodata = await ecoschema.findOne({
         userID: user.id,
@@ -68,9 +69,9 @@ module.exports = {
         ecodata = await ecoschema.create({
           userID: user.id,
         });
-        if (!Userdata) {
+        if (!Userdata || Userdata == null || Userdata == undefined) {
           return interaction.channel.send({
-            content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`,
+            content: `\\❌ **${interaction.member.displayName}**, This member didn't get xp yet!`,
           });
         }
       }
@@ -81,13 +82,10 @@ module.exports = {
       );
     }
     var status = member.presence?.status;
-    const requiredXP = Userdata.System.required;
+    const requiredXP = Userdata.System?.required;
     const rank = new RankCardBuilder()
       .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
-      .setBackground(
-        `${ecodata.profile?.background || ""}` ||
-          ""
-      ) // https://i.imgur.com/299Kt1F.png
+      .setBackground(`${ecodata.profile?.background || ""}` || "") // https://i.imgur.com/299Kt1F.png
       .setCurrentXP(Userdata.System.xp)
       .setLevel(Userdata.System.level)
       .setStatus(status || "online")

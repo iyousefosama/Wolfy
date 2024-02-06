@@ -88,9 +88,8 @@ module.exports = {
     const rank = new RankCardBuilder()
       .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
       .setBackground(
-        `${ecodata.profile?.background || "https://i.imgur.com/299Kt1F.png"}` ||
-          "https://i.imgur.com/299Kt1F.png"
-      )
+        `${ecodata.profile?.background || ""}`
+      ) // https://i.imgur.com/299Kt1F.png
       .setCurrentXP(Userdata.System.xp)
       .setLevel(Userdata.System.level)
       .setStatus(status || "online")
