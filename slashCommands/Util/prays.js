@@ -213,8 +213,6 @@ module.exports = {
           d.setHours(d.getHours() + 1);
         }
 
-        d.setHours(d.getHours() - 2);
-
         return {
           date: d,
           timezone: timezone,
