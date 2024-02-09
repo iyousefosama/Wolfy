@@ -53,22 +53,21 @@ module.exports = {
       (await client.channels.cache.get(client.config.channels.debug)) ||
       (await client.channels.cache.get("877130715337220136"));
     setTimeout(async function () {
+      let webhook;
       const webhooks = await Debug.fetchWebhooks();
-      const webhookWithToken = webhooks.find((w) => w.token);
+      webhook = webhooks.find((w) => w.token).first();
 
       if (!webhookWithToken || webhooks.size < 10) {
-        const webhook = await Debug.createWebhook({
+        webhook = await Debug.createWebhook({
           name: botname,
           avatar: botIcon,
         });
-        webhook.send({ content: msg, embeds: [left] });
       } else {
         Debug.send("Can't create a new webhook for wolfy!");
         // Do nothing...
       }
     }, 10000);
-
-    // add more functions on ready  event callback function...
+    webhook.send({ content: msg, embeds: [left] });
 
     return;
   },
