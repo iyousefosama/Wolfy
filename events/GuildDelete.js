@@ -54,14 +54,18 @@ module.exports = {
       (await client.channels.cache.get("877130715337220136"));
     setTimeout(async function () {
       const webhooks = await Debug.fetchWebhooks();
-      let webhook = webhooks.filter((w) => w.token).first();
-      if (!webhook || webhooks.size < 10) {
-        webhook = await Debug.createWebhook({ name: botname, avatar: botIcon });
+      const webhookWithToken = webhooks.find((w) => w.token);
+
+      if (!webhookWithToken || webhooks.size < 10) {
+        const webhook = await Debug.createWebhook({
+          name: botname,
+          avatar: botIcon,
+        });
+        webhook.send({ content: msg, embeds: [left] });
       } else {
         Debug.send("Can't create a new webhook for wolfy!");
-        // Do no thing...
+        // Do nothing...
       }
-      webhook.send({ content: msg, embeds: [left] }).catch(() => {});
     }, 10000);
 
     // add more functions on ready  event callback function...
