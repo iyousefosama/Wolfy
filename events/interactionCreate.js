@@ -1021,6 +1021,14 @@ module.exports = {
             ephemeral: true,
           });
         }
+
+        if (slash.ownerOnly && client.owners.includes(interaction.user.id)) {
+          return interaction.reply({
+            content:
+              "<a:pp802:768864899543466006> This command is limited for developers only!",
+            ephemeral: true,
+          });
+        }
         //+ permissions: [""],
         if (slash.permissions) {
           if (interaction.guild) {

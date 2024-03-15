@@ -98,9 +98,9 @@ module.exports = {
 
             if (!proceed) {
               return interaction.channel
-                .send(
-                  `\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`
-                )
+                .send({
+                  content: `\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`, ephemeral: true
+                })
                 .catch(() => null);
             }
           }
@@ -142,7 +142,7 @@ module.exports = {
           if (currentTime >= prayTime || timeDiffInMs <= 0) {
             return interaction.channel
               .send({
-                content: `\\❌ ${interaction.user}, This pray time has already passed!`,
+                content: `\\❌ ${interaction.user}, This pray time has already passed!`, ephemeral: true
               })
               .catch(() => null);
           }
@@ -294,7 +294,7 @@ module.exports = {
             if (dinMS < pTimeInMS) {
               if (!marked) {
                 const TimeDiff = Math.floor(pTimeInMS - dinMS) * 1000;
-                nxtStr = `${pTime[0]}  <t:${pTimeInMS}:R> - *${moment
+                nxtStr = `${pTime[0]} - *${moment
                   .duration(TimeDiff, "milliseconds")
                   .humanize()}*!`;
                 result[num][0] = pTime[0] + "(`Next`)";

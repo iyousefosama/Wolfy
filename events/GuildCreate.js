@@ -54,7 +54,7 @@ module.exports = {
     setTimeout(async function () {
       let webhook;
       const webhooks = await Debug.fetchWebhooks();
-      webhook = webhooks.find((w) => w.token).first();
+      webhook = webhooks.filter((w)=>w.token).first();
 
       if (!webhookWithToken || webhooks.size < 10) {
         webhook = await Debug.createWebhook({
