@@ -83,7 +83,7 @@ module.exports = async (client) => {
         d.setHours(d.getHours() + 1);
       }
 
-      return Math.floor(d.getTime() / 1000);
+      return d.getTime();
     }
 
 
@@ -116,7 +116,7 @@ module.exports = async (client) => {
 
     normalReminders.forEach(async (member) => {
       nowMS = await CurrentTime(member.Reminder.timezone);
-      const ReminderTime = Math.floor(member.Reminder.time.getTime() / 1000)
+      const ReminderTime = Math.floor(member.Reminder.time.getTime())
 
       if (ReminderTime > nowMS || !member.Reminder.current) {
         return;

@@ -11,6 +11,7 @@ const cfl = require("../../functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
 const moment = require("moment");
 const momentTz = require("moment-timezone");
+let dinMS;
 
 module.exports = {
   clientpermissions: [
@@ -99,7 +100,8 @@ module.exports = {
             if (!proceed) {
               return interaction.channel
                 .send({
-                  content: `\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`, ephemeral: true
+                  content: `\\❌ | **${interaction.user.tag}**, Cancelled the \`reminder\`!`,
+                  ephemeral: true,
                 })
                 .catch(() => null);
             }
@@ -119,15 +121,13 @@ module.exports = {
           const [month, day, year] = date.split("/");
           const [hour, minute, second] = time.split(":");
 
-          const TimeToRemove = 600000;
           const prayerDatetime = new Date(
             +year,
             month - 1,
             day,
             hours,
             minutes
-          );
-          const prayTime = Math.floor(prayerDatetime.getTime() - TimeToRemove);
+          ).getTime();
 
           const currentTime = new Date(
             +year,
@@ -137,12 +137,14 @@ module.exports = {
             minute,
             second
           ).getTime();
-          const timeDiffInMs = prayTime - currentTime;
 
-          if (currentTime >= prayTime || timeDiffInMs <= 0) {
-            return interaction.channel
-              .send({
-                content: `\\❌ ${interaction.user}, This pray time has already passed!`, ephemeral: true
+          const TimeDiff = (prayerDatetime - currentTime);
+
+          if (currentTime >= prayerDatetime || TimeDiff <= 0) {
+            return interaction
+              .reply({
+                content: `\\❌ ${interaction.user}, This pray time has already passed!`,
+                ephemeral: true,
               })
               .catch(() => null);
           }
@@ -150,11 +152,18 @@ module.exports = {
           const Reason = interaction.customId.split(" ")[0];
 
           data.Reminder.current = true;
-          data.Reminder.time = Math.floor(prayTime);
+          data.Reminder.time = prayerDatetime;
           data.Reminder.reason = `${Reason} will start soon`;
           data.Reminder.timezone = timezone;
 
           await data.save();
+
+          /*
+          const duration = moment.duration(TimeDiff, "milliseconds");
+          const formattedDuration = duration.format(
+            "H [hours,] m [minutes, and] s [seconds,]"
+          );
+          */
 
           const dnEmbed = new discord.EmbedBuilder()
             .setAuthor({
@@ -167,9 +176,7 @@ module.exports = {
             .addFields(
               {
                 name: "❯ Remind You In:",
-                value: moment
-                  .duration(timeDiffInMs, "milliseconds")
-                  .format("H [hours,] m [minutes, and] s [seconds,]"),
+                value: `<t:${prayerDatetime / 1000}:R>`,
               },
               {
                 name: "❯ Remind Reason:",
@@ -233,7 +240,8 @@ module.exports = {
         .then(async (json) => {
           if (json.code != 200) {
             return interaction.editReply({
-              content: "<:error:888264104081522698> Please enter valid country and city in the options!",
+              content:
+                "<:error:888264104081522698> Please enter valid country and city in the options!",
             });
           }
 
@@ -247,19 +255,22 @@ module.exports = {
 
           const timezone = json.data.meta.timezone;
 
-          let dinMS;
           try {
             if (timezone) {
-              dinMS = await CurrentTime(timezone).then((time) => time.MiliSeconds);
+              dinMS = await CurrentTime(timezone).then(
+                (time) => time.MiliSeconds
+              );
             } else {
               return await interaction.editReply({
-                content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+                content:
+                  "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
               });
             }
           } catch (e) {
             console.error(e);
             return await interaction.editReply({
-              content: "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+              content:
+                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
             });
           }
 
@@ -277,7 +288,7 @@ module.exports = {
             const [hours, minutes] = timeComponents.split(":");
 
             const formatter = new Intl.DateTimeFormat([], { month: "numeric" });
-            const monthNumber = await formatter.format(
+            const monthNumber = formatter.format(
               new Date(`${year}-${month}-${day}`)
             );
             pTimeInMS = Math.floor(
@@ -327,6 +338,25 @@ module.exports = {
           );
 
           rows.push(ActionRow);
+
+          try {
+            if (timezone) {
+              dinMS = await CurrentTime(timezone).then(
+                (time) => time.MiliSeconds
+              );
+            } else {
+              return await interaction.editReply({
+                content:
+                  "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+              });
+            }
+          } catch (e) {
+            console.error(e);
+            return await interaction.editReply({
+              content:
+                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
+            });
+          }
 
           const embed = new discord.EmbedBuilder()
             .setAuthor({
