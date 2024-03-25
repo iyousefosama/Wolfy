@@ -339,25 +339,6 @@ module.exports = {
 
           rows.push(ActionRow);
 
-          try {
-            if (timezone) {
-              dinMS = await CurrentTime(timezone).then(
-                (time) => time.MiliSeconds
-              );
-            } else {
-              return await interaction.editReply({
-                content:
-                  "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
-              });
-            }
-          } catch (e) {
-            console.error(e);
-            return await interaction.editReply({
-              content:
-                "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
-            });
-          }
-
           const embed = new discord.EmbedBuilder()
             .setAuthor({
               name: interaction.user.username,

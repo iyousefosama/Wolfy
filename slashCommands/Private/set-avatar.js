@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
+  ownerOnly: true,
   data: new SlashCommandBuilder()
     .setName("set-avatar")
     .setDescription("🛠 Developer only, set's the avatar for the bot")
