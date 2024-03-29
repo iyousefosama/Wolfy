@@ -35,7 +35,7 @@ exports.Level = async function (message) {
     );
   }
 
-  if (!data.Mod.Level.isEnabled) {
+  if (!data?.Mod?.Level.isEnabled) {
     return;
   }
 

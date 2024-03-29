@@ -31,7 +31,7 @@ module.exports = {
       console.log(err);
     }
 
-    if(!data.Mod || !data.Mod.Logs) {
+    if (!data?.Mod?.Logs) {
       return;
     }
 
