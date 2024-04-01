@@ -14,8 +14,16 @@ const market = require("../../assets/json/market.json");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("quest")
-    .setDescription("Refresh/Show current quests and the current progress."),
+    .setDescription("Refresh/Show current quests and the current progress.")
+    .addStringOption((option) =>
+      option
+        .setName("action")
+        .setDescription("Action you want to preform on the command")
+        .addChoices({ name: "claim", value: "claim_daily_reward" })
+    ),
   async execute(client, interaction) {
+    const option = interaction.options.getString("action");
+
     let data;
     try {
       data = await schema.findOne({
@@ -27,10 +35,10 @@ module.exports = {
         });
       }
     } catch (err) {
-        console.log(err);
-        interaction.editReply(
-          `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-        );
+      console.log(err);
+      interaction.editReply(
+        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+      );
     }
 
     const now = Date.now();
@@ -63,7 +71,7 @@ module.exports = {
       );
     }
 
-    if (args[0] && args[0].toLowerCase() == "claim") {
+    if (option && option == "claim_daily_reward") {
       if (data.progress.completed < 4) {
         const NotNow = new EmbedBuilder()
           .setAuthor({

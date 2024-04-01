@@ -16,7 +16,7 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("action")
-        .setDescription("Cction you want to preform on the loop")
+        .setDescription("Action you want to preform on the command")
         .setRequired(true)
         .addChoices(
           { name: "Queue", value: "enable_loop_queue" },
