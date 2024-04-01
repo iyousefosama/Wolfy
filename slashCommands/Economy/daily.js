@@ -21,6 +21,9 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      interaction.editReply(
+        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+      );
     }
     const now = Date.now();
     const duration = Math.floor(86400000);
