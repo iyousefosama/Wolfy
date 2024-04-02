@@ -53,11 +53,10 @@ module.exports = {
       (await client.channels.cache.get(client.config.channels.debug)) ||
       (await client.channels.cache.get("877130715337220136"));
     setTimeout(async function () {
-      let webhook;
       const webhooks = await Debug.fetchWebhooks();
-      webhook = webhooks.filter((w) => w.token).first();
+      let webhook = webhooks.filter((w) => w.token).first();
 
-      if (!webhookWithToken || webhooks.size < 10) {
+      if (!webhook || webhooks.size < 10) {
         webhook = await Debug.createWebhook({
           name: botname,
           avatar: botIcon,
