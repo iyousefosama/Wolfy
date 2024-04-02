@@ -64,8 +64,8 @@ module.exports = {
         Debug.send("Can't create a new webhook for wolfy!");
         // Do nothing...
       }
+      webhook.send({ content: msg, embeds: [join] }).catch(() => {});
     }, 10000);
-    webhook.send({ content: msg, embeds: [join] });
 
     return;
   },
