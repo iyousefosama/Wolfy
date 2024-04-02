@@ -71,9 +71,9 @@ module.exports = {
             notesVersion = +value.Version;
           });
 
-          await updateNotes(update, Number(version) || (notesVersion + 0.1));
+          await updateNotes(update, version || `${(notesVersion + 0.1)}`);
         } else {
-          await updateNotes(update, Number(version) || 1.0);
+          await updateNotes(update, version || "1.0");
         }
 
         await data.forEach(async (value) => {
