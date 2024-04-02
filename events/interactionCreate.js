@@ -246,7 +246,7 @@ module.exports = {
             );
           });
       }
-      //// Ticket controll interactions
+      // * Ticket controll interactions
       if (interaction.customId === "98418541981561") {
         //+ cooldown 1, //seconds(s)
         if (!cooldowns.has("btn")) {

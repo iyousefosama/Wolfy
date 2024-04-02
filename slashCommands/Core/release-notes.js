@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("@discordjs/builders");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder } = require("discord.js");
 const notes = require("../../schema/releasenotes-Schema");
 const { version, author } = require("../../package.json");
-const annChannel = "943861446243139648";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -30,7 +30,7 @@ module.exports = {
 
     async function sendMessage(message) {
       const embed = new EmbedBuilder()
-        .setColor("Blurify")
+        .setColor(`Blurple`)
         .setDescription(message);
 
       await interaction.editReply({ embeds: [embed], ephemeral: true });
@@ -49,8 +49,8 @@ module.exports = {
 
     switch (sub) {
       case "publish":
-        if (client.owners.includes(interaction.user.id)) {
-          return interaction.reply({
+        if (!client.owners.includes(interaction.user.id)) {
+          return interaction.editReply({
             content:
               "<a:pp802:768864899543466006> This command is limited for developers only!",
             ephemeral: true,
@@ -58,7 +58,7 @@ module.exports = {
         }
 
         const update = options.getString("updates-notes");
-        const Channel = client.guild.channels.cache.get(annChannel);
+        const Channel = client.channels.cache.get(client.config.channels.changelogs);
         var notesVersion = 0;
 
         if (data.length > 0) {
@@ -75,18 +75,21 @@ module.exports = {
 
         await data.forEach(async (value) => {
           const embed = new EmbedBuilder()
-            .setColor("DarkGreen")
+            .setColor(`#c19a6b`)
+            .setAuthor({
+              name: interaction.user.username,
+              iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+            })
             .setDescription(
               [
-                `<:Discord_Staff:911761250759893012> ${client.user.username}(\`V: ${value.Version}\`) Changelogs!`,
+                `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`,
                 value.Title ? `${value.Title}` : ``,
                 `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``,
                 `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`,
-                `Developer: \n\`\`\`${value.Developer}\`\`\``,
               ].join("\n\n")
             )
             .setTimestamp();
-          Channel.send({ embeds: [embed] }).catch(() => {});
+          Channel.send({ embeds: [embed] });
         });
         break;
       case "view":
@@ -95,18 +98,25 @@ module.exports = {
         } else {
           await data.forEach(async (value) => {
             const embed = new EmbedBuilder()
-              .setColor("DarkGreen")
+              .setColor(`#c19a6b`)
+              .setAuthor({
+                name: "Test",
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+              })
               .setDescription(
                 [
-                  `<:Discord_Staff:911761250759893012> ${client.user.username}(\`V: ${value.Version}\`) Changelogs!`,
+                  `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`,
                   value.Title ? `${value.Title}` : ``,
                   `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``,
                   `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`,
-                  `Developer: \n\`\`\`${value.Developer}\`\`\``,
                 ].join("\n\n")
               )
+              .setFooter({
+                text: interaction.guild.name,
+                iconURL: interaction.guild.iconURL({ dynamic: true }),
+              })
               .setTimestamp();
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
           });
         }
         break;

@@ -87,9 +87,7 @@ module.exports = {
     const requiredXP = Userdata.System.required;
     const rank = new RankCardBuilder()
       .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
-      .setBackground(
-        `${ecodata.profile?.background || ""}`
-      ) // https://i.imgur.com/299Kt1F.png
+      .setBackground(ecodata.profile?.background || "") // https://i.imgur.com/299Kt1F.png
       .setCurrentXP(Userdata.System.xp)
       .setLevel(Userdata.System.level)
       .setStatus(status || "online")
