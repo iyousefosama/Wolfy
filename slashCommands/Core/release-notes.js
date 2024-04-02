@@ -58,7 +58,10 @@ module.exports = {
         }
 
         const update = options.getString("updates-notes");
-        const Channel = client.channels.cache.get(client.config.channels.changelogs);
+        const changeLogs =
+          (await client.channels.cache.get(
+            client.config.channels.changelogs
+          )) || (await client.channels.cache.get("887589978127863808"));
         var notesVersion = 0;
 
         if (data.length > 0) {
@@ -89,7 +92,7 @@ module.exports = {
               ].join("\n\n")
             )
             .setTimestamp();
-          Channel.send({ embeds: [embed] });
+          return await changeLogs.send({ embeds: [embed] });
         });
         break;
       case "view":
@@ -116,7 +119,7 @@ module.exports = {
                 iconURL: interaction.guild.iconURL({ dynamic: true }),
               })
               .setTimestamp();
-            await interaction.editReply({ embeds: [embed], ephemeral: true });
+            return await interaction.editReply({ embeds: [embed], ephemeral: true });
           });
         }
         break;
