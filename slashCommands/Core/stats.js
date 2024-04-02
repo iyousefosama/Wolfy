@@ -1,5 +1,9 @@
 const discord = require("discord.js");
-const { EmbedBuilder, version: discord_version } = require("discord.js"); // requiring discord modules
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  version: discord_version,
+} = require("@discordjs/builders");
 const { version, author } = require("../../package.json");
 const { release, cpus } = require("os");
 const moment = require(`moment`); // requiring moment
@@ -7,32 +11,20 @@ const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
 module.exports = {
-  name: "stats",
-  aliases: ["Botinfo", "BotInfo", "client", "Stats", "STATS"],
-  dmOnly: false, //or false
-  guildOnly: false, //or false
-  args: false, //or false
-  usage: "",
-  group: "bot",
-  description: "Shows bot stats and informations",
-  cooldown: 5, //seconds(s)
-  guarded: false, //or false
-  permissions: [],
   clientpermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.UseExternalEmojis,
-    discord.PermissionsBitField.Flags.AttachFiles,
   ],
-  examples: [""],
-  async execute(client, message, args) {
-    message.channel.sendTyping();
+  data: new SlashCommandBuilder()
+    .setName("stats")
+    .setDescription("Shows bot stats and informations"),
+  async execute(client, interaction) {
     const SlashCommands = client.slashCommands?.size;
     const members = text.commatize(
       client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
     );
 
     const embed = new EmbedBuilder()
-      .setColor("738ADB") // will set the color for the embed
       .setAuthor({
         name: client.user.username,
         iconURL: client.user.displayAvatarURL({
@@ -101,10 +93,9 @@ module.exports = {
         }
       );
 
-    message.reply({
-      content: `> **Viewing ${client.user.username}'s stats for • [**  ${message.author.tag} **]**`,
+    interaction.editReply({
+      content: `> **Viewing ${client.user.username}'s stats for • [**  ${interaction.user.username} **]**`,
       embeds: [embed],
-      allowedMentions: { repliedUser: true },
     });
   },
 };
