@@ -47,12 +47,12 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
     if (!data.Mod.Level.isEnabled)
-      return interaction.editReply({
+      return interaction.reply({
         content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`,
       });
     let ecodata;
@@ -99,7 +99,7 @@ module.exports = {
         const attachment = new discord.AttachmentBuilder(data, {
           name: "RankCard.png",
         });
-        interaction.editReply({ files: [attachment], ephemeral: hide });
+        interaction.reply({ files: [attachment], ephemeral: hide });
       });
   },
 };

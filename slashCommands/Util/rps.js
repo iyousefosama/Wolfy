@@ -32,20 +32,20 @@ module.exports = {
         const option = options[Math.floor(Math.random() * options.length)]
         const soo = words[Math.floor(Math.random() * words.length)]
         if (rock) {
-            interaction.editReply({ content: `> My choice was ${option}!`})
+            interaction.reply({ content: `> My choice was ${option}!`})
         } else if (rock == false) {
-            interaction.editReply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `> \`${soo}\``})
         } else if (paper) {
-            interaction.editReply({ content: `> My choice was ${option}!`})
+            interaction.reply({ content: `> My choice was ${option}!`})
         } else if (paper == false) {
-            interaction.editReply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `> \`${soo}\``})
         } else if (scissors) {
-            interaction.editReply({ content: `> My choice was ${option}!`})
+            interaction.reply({ content: `> My choice was ${option}!`})
         } else if (scissors == false) {
-            interaction.editReply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `> \`${soo}\``})
         }
         else {
-            await interaction.editReply({ content: '\\❌ You didn\'t choose the \`option\`!'});
+            await interaction.reply({ content: '\\❌ You didn\'t choose the \`option\`!'});
         }
 	},
 };

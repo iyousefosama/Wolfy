@@ -275,7 +275,7 @@ module.exports = {
       .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
       .setTimestamp()
     
-        const msg = await interaction.editReply({ embeds: [help], components: [row, row2] })
+        const msg = await interaction.reply({ embeds: [help], components: [row, row2] })
         const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
     
         collector.on('collect', async interactionCreate => {
@@ -330,7 +330,7 @@ module.exports = {
             .addComponents(button, button2, button3, button4, button5);
             const newrow2 = new ActionRowBuilder()
             .addComponents(button6, button7, button8, button9, button10);
-            interaction.editReply({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
+            interaction.reply({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
         })
 	},
 };

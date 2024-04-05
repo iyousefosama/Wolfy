@@ -13,15 +13,15 @@ module.exports = {
         const queue = client.player.getQueue(interaction.guildId)
 
         if (!interaction.member.voice.channel){
-            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
+            return await interaction.reply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
-            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+            return await interaction.reply("<:error:888264104081522698> You are not in my voice channel!");
           } else if (!queue){
-            return await interaction.editReply("<:error:888264104081522698> There are no tracks in the queue!");
+            return await interaction.reply("<:error:888264104081522698> There are no tracks in the queue!");
           };
 
           if(!queue.playing) {
-            return await interaction.editReply("<:error:888264104081522698> There is no played track in this server!");
+            return await interaction.reply("<:error:888264104081522698> There is no played track in this server!");
           }
 
 
@@ -36,7 +36,7 @@ module.exports = {
         const volume = currentQueue.volume;
         const repeatMode = currentQueue.repeatMode;
 
-		return await interaction.editReply({
+		return await interaction.reply({
 			embeds: [new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setFooter({ text: `Duration: ${track.duration}`, iconURL: client.user.displayAvatarURL({ dynamic: true })})

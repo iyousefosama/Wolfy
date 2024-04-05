@@ -27,7 +27,7 @@ module.exports = {
                 term: query
             });
 
-            if (!search.body.items.length) return interaction.editReply({ content: `\\❌ No results found for **${query}** on steam!`});
+            if (!search.body.items.length) return interaction.reply({ content: `\\❌ No results found for **${query}** on steam!`});
 
             const {
                 id,
@@ -76,7 +76,7 @@ module.exports = {
             ])
             .setFooter({ text: `Steam @ Steam.Inc©` })
             .setTimestamp()
-        return interaction.editReply({ embeds: [embed] })
+        return interaction.reply({ embeds: [embed] })
     })();
 	},
 };

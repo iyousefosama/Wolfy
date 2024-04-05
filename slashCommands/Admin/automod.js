@@ -27,7 +27,7 @@ module.exports = {
                 const TriggerType = Rules.map(x => x.triggerType).filter(x => x === 4)
 
                 if (TriggerType.length > 0) {
-                    return interaction.editReply(`\\❌ Could not create the autoModeration rule, there is another rule with TriggerType \`4\`!`)
+                    return interaction.reply(`\\❌ Could not create the autoModeration rule, there is another rule with TriggerType \`4\`!`)
                 }
 
                 guild.autoModerationRules.create({
@@ -52,9 +52,9 @@ module.exports = {
                         }
                     ]
                 }).then(async result => {
-                    await interaction.editReply(`\\✔️ Successfully created the new auto-moderation rules for \`${guild.name}\``)
+                    await interaction.reply(`\\✔️ Successfully created the new auto-moderation rules for \`${guild.name}\``)
                 }).catch(async err => {
-                    return await interaction.editReply(`${err.message}`)
+                    return await interaction.reply(`${err.message}`)
                 })
 
         }

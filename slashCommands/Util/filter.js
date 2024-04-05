@@ -34,7 +34,7 @@ module.exports = {
     const user = interaction.options.getUser('target') || interaction.user;
 
     if (!filterOptions[selectedFilter]) {
-      await interaction.editReply({ content: `\\❌ You didn't choose a valid filter option!\n\`\`\`\n${availableOptions}\n\`\`\``, ephemeral: true });
+      await interaction.reply({ content: `\\❌ You didn't choose a valid filter option!\n\`\`\`\n${availableOptions}\n\`\`\``, ephemeral: true });
       return;
     }
 
@@ -54,12 +54,12 @@ module.exports = {
     const json = await res.json();
 
     if (json.status === 'error' || !json) {
-      await interaction.editReply({ content: `\\❌ Something went wrong with the API, please try again later.`, ephemeral: true });
+      await interaction.reply({ content: `\\❌ Something went wrong with the API, please try again later.`, ephemeral: true });
       return;
     }
 
     console.log(json)
     const attachment = new AttachmentBuilder(json.output_url, `${selectedFilter}.png`);
-    await interaction.editReply({ files: [attachment] });
+    await interaction.reply({ files: [attachment] });
   },
 };

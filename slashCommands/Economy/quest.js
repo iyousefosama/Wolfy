@@ -36,7 +36,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
@@ -66,7 +66,7 @@ module.exports = {
       );
       data.progress.TimeReset = Math.floor(now + duration);
       await data.save();
-      return interaction.editReply(
+      return interaction.reply(
         `\\✔️ **${interaction.user.tag}**, Successfully refreshed the quests`
       );
     }
@@ -92,9 +92,9 @@ module.exports = {
             iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setTimestamp();
-        return interaction.editReply({ embeds: [NotNow] });
+        return interaction.reply({ embeds: [NotNow] });
       } else if (data.progress.claimed) {
-        return interaction.editReply(
+        return interaction.reply(
           `\\❌ **${interaction.user.tag}**, You already claimed your reward today!`
         );
       }
@@ -140,10 +140,10 @@ module.exports = {
               }),
             })
             .setColor("#E6CEA0");
-          return interaction.editReply({ embeds: [embed] });
+          return interaction.reply({ embeds: [embed] });
         })
         .catch((err) =>
-          interaction.editReply(
+          interaction.reply(
             `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`
           )
         );
@@ -194,7 +194,7 @@ module.exports = {
       })
     );
 
-    await interaction.editReply({
+    await interaction.reply({
       embeds: [QuestEmbed.firstPage],
       files: [file],
     });

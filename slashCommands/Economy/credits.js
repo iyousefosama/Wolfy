@@ -38,7 +38,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
@@ -74,6 +74,6 @@ module.exports = {
         }),
       })
       .setTimestamp();
-    interaction.editReply({ embeds: [bal] });
+    interaction.reply({ embeds: [bal] });
   },
 };

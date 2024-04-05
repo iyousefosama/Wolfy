@@ -21,7 +21,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
@@ -33,7 +33,7 @@ module.exports = {
       data.Bank.balance.credits === null ||
       data.Bank.info.Enabled == false
     ) {
-      return interaction.editReply(
+      return interaction.reply(
         `\\❌ **${interaction.user.tag}**, You don't have a *bank* yet! To create one, type \`${client.prefix}register\`.`
       );
     }
@@ -63,19 +63,19 @@ module.exports = {
             .humanize()}\` to get your reward! **(5% + 150)**`
         )
         .setTimestamp();
-      interaction.editReply({ embeds: [embed] });
+      interaction.reply({ embeds: [embed] });
     } else if (data.Bank.balance.credits + moneyadd > 100000) {
       data.timer.banktime.timeout = Date.now() + duration;
       data.Bank.balance.credits = Math.floor(100000);
       return data
         .save()
         .then(() => {
-          interaction.editReply(
+          interaction.reply(
             `\\❌ **${interaction.user.tag}**, Your bank is overflowed please withdraw some money from your bank.`
           );
         })
         .catch((err) =>
-          interaction.editReply(
+          interaction.reply(
             `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
           )
         );
@@ -106,10 +106,10 @@ module.exports = {
                 )}\` to get your next reward! **(5% + 150)**`
             )
             .setTimestamp();
-          interaction.editReply({ embeds: [checkembed] });
+          interaction.reply({ embeds: [checkembed] });
         })
         .catch((err) =>
-          interaction.editReply(
+          interaction.reply(
             `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
           )
         );

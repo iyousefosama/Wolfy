@@ -21,7 +21,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
@@ -46,7 +46,7 @@ module.exports = {
           }),
         })
         .setColor("Red");
-      interaction.editReply({ embeds: [embed] });
+      interaction.reply({ embeds: [embed] });
     } else {
       let moneyget = Math.floor(500);
       const previousStreak = data.streak.current;
@@ -97,7 +97,7 @@ module.exports = {
           { $set: { "progress.quests.$.received": true } }
         );
         data.progress.completed++;
-        interaction.editReply({
+        interaction.reply({
           content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`,
         });
       }
@@ -129,10 +129,10 @@ module.exports = {
               }),
             })
             .setColor("#E6CEA0");
-          interaction.editReply({ embeds: [embed] });
+          interaction.reply({ embeds: [embed] });
         })
         .catch((err) =>
-          interaction.editReply(
+          interaction.reply(
             `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err.message}`
           )
         );

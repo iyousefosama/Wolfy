@@ -17,14 +17,14 @@ module.exports = {
         const trackInput = interaction.options.getString("track")
 
         if (!interaction.member.voice.channel){
-            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
+            return await interaction.reply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
-            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+            return await interaction.reply("<:error:888264104081522698> You are not in my voice channel!");
           };
 
           
         // verifies song is not a spotify link
-        if (trackInput.includes("spotify")) return interaction.editReply({
+        if (trackInput.includes("spotify")) return interaction.reply({
           content: `Spotify not supported ❌`,
           ephemeral: true,
         });
@@ -56,7 +56,7 @@ module.exports = {
         })
 
         if (result.tracks.length === 0)
-            return await interaction.editReply("<:error:888264104081522698> No results found for this track name!")
+            return await interaction.reply("<:error:888264104081522698> No results found for this track name!")
         
         const track = result.tracks[0]
         await queue.addTrack(track)
@@ -72,13 +72,13 @@ module.exports = {
             }
         } catch {
             client.player.deleteQueue(interaction.guild);
-            return await interaction.editReply({ content: 'Could not join your voice channel!' });
+            return await interaction.reply({ content: 'Could not join your voice channel!' });
         }
 
         if (!queue.playing) await queue.play();
 
         
-        return await interaction.editReply({
+        return await interaction.reply({
             embeds: [embed]
         })
 	},

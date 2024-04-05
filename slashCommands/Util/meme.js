@@ -37,7 +37,7 @@ module.exports = {
             memeEmbed.setColor('#87ceeb') // getting a random embed color
             memeEmbed.setFooter({ text: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` })
     
-            interaction.editReply({ embeds: [memeEmbed], ephemeral: hide }) // sending the embed
+            interaction.reply({ embeds: [memeEmbed], ephemeral: hide }) // sending the embed
         })
 	},
 };

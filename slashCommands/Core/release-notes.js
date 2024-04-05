@@ -1,5 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  Events,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+} = require("discord.js");
 const notes = require("../../schema/releasenotes-Schema");
 const { version, author } = require("../../package.json");
 
@@ -11,12 +18,6 @@ module.exports = {
       subcommand
         .setName("publish")
         .setDescription("🛠 Developers only, Publish new release notes")
-        .addStringOption((option) =>
-          option
-            .setName("updates-notes")
-            .setDescription("The notes to publish")
-            .setRequired(true)
-        )
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -33,7 +34,7 @@ module.exports = {
         .setColor(`Blurple`)
         .setDescription(message);
 
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], ephemeral: true });
     }
 
     async function updateNotes(update, version) {
@@ -50,50 +51,39 @@ module.exports = {
     switch (sub) {
       case "publish":
         if (!client.owners.includes(interaction.user.id)) {
-          return interaction.editReply({
+          return interaction.reply({
             content:
               "<a:pp802:768864899543466006> This command is limited for developers only!",
             ephemeral: true,
           });
         }
 
-        const update = options.getString("updates-notes");
-        const changeLogs =
-          (await client.channels.cache.get(
-            client.config.channels.changelogs
-          )) || (await client.channels.cache.get("887589978127863808"));
-        var notesVersion = 0;
+        // Create the modal
+        const modal = new ModalBuilder()
+          .setCustomId("releaseNotesModal")
+          .setTitle("Publish Release notes");
 
-        if (data.length > 0) {
-          await notes.deleteMany();
+        // Add components to modal
 
-          await data.forEach(async (value) => {
-            notesVersion = +value.Version;
-          });
+        // Create the text input component
+        const notesInput = new TextInputBuilder()
+          .setCustomId("notesInput")
+          .setLabel("Type new release notes to publish")
+          // Paragraph means multiple lines of text.
+          .setStyle(TextInputStyle.Paragraph)
+          .setRequired(true);
 
-          await updateNotes(update, version || `${(notesVersion + 0.1)}`);
-        } else {
-          await updateNotes(update, version || "1.0");
-        }
+        // An action row only holds one text input,
+        // so you need one action row per text input.
+        const secondActionRow = new ActionRowBuilder().addComponents(
+          notesInput
+        );
 
-        await data.forEach(async (value) => {
-          const embed = new EmbedBuilder()
-            .setColor(`#c19a6b`)
-            .setAuthor({
-              name: interaction.user.username,
-              iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setDescription(
-              [
-                `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`,
-                value.Title ? `${value.Title}` : ``,
-                `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``,
-                `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`,
-              ].join("\n\n")
-            )
-            .setTimestamp();
-          return await changeLogs.send({ embeds: [embed] });
-        });
+        // Add inputs to the modal
+        modal.addComponents(secondActionRow);
+
+        // Show the modal to the user
+        await interaction.showModal(modal);
         break;
       case "view":
         if (data.length == 0) {
@@ -119,7 +109,10 @@ module.exports = {
                 iconURL: interaction.guild.iconURL({ dynamic: true }),
               })
               .setTimestamp();
-            return await interaction.editReply({ embeds: [embed], ephemeral: true });
+            return await interaction.reply({
+              embeds: [embed],
+              ephemeral: true,
+            });
           });
         }
         break;

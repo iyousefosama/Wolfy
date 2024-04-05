@@ -93,7 +93,7 @@ module.exports = {
         }
       );
 
-    interaction.editReply({
+    interaction.reply({
       content: `> **Viewing ${client.user.username}'s stats for • [**  ${interaction.user.username} **]**`,
       embeds: [embed],
     });

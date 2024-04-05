@@ -16,7 +16,7 @@ module.exports = {
         quantity = Math.round(quantity);
 
         if (!quantity || quantity < 2 || quantity > 100){
-          return interaction.editReply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`});
+          return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`});
         };
     
         interaction.deleteReply().catch(() => null).then(() => interaction.channel.bulkDelete(quantity, true))

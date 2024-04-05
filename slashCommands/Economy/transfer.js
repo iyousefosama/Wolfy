@@ -35,29 +35,29 @@ module.exports = {
     let reason = options.getString("reason");
 
     if (!user) {
-      return interaction.editReply({
+      return interaction.reply({
         content: `<a:Wrong:812104211361693696> | ${interaction.user}, User could not be found! Please ensure the supplied ID is valid.`,
       });
     }
 
     if (user.id === interaction.user.id) {
-      return interaction.editReply({
+      return interaction.reply({
         content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to yourself!`,
       });
     }
 
     if (user.id === client.user.id) {
-      return interaction.editReply({
+      return interaction.reply({
         content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to me!`,
       });
     }
 
     if (!amount || amount === "Nothing" || isNaN(amount)) {
-      return interaction.editReply(
+      return interaction.reply(
         `\\❌ **${interaction.user.tag}**, \`${amount}\` is not a valid amount!`
       );
     } else if (amount < 100 || amount > 50000) {
-      return interaction.editReply(
+      return interaction.reply(
         `\\❌ **${interaction.user.tag}**, only valid amount to transfer is between **100** and **50,000**!`
       );
     }
@@ -82,18 +82,18 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
 
     if (Math.ceil(amount * 1.1) > data.credits) {
-      interaction.editReply(
+      interaction.reply(
         `\\❌ **${interaction.user.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`
       );
     } else {
       const amountToAdd = amount / 1.1;
-      await interaction.editReply({
+      await interaction.reply({
         content: `<a:iNFO:853495450111967253> **${
           interaction.user.tag
         }**, Are you sure you want to transfer **${text.commatize(
@@ -116,7 +116,7 @@ module.exports = {
         .catch(() => false);
 
       if (!proceed) {
-        return interaction.editReply({
+        return interaction.reply({
           content: `<a:Wrong:812104211361693696> | ${interaction.user}, Cancelled the \`transfer\` command!`,
         });
       }
@@ -132,7 +132,7 @@ module.exports = {
         .catch(() => null);
       return Promise.all([data.save(), FriendData.save()])
         .then(() =>
-          interaction.editReply(
+          interaction.reply(
             `<a:Money:836169035191418951> **${
               interaction.user.tag
             }**, Successfully transferred \`${text.commatize(
@@ -141,7 +141,7 @@ module.exports = {
           )
         )
         .catch((err) =>
-          interaction.editReply(
+          interaction.reply(
             `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
           )
         );

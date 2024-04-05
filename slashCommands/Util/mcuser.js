@@ -35,31 +35,31 @@ module.exports = {
           error.response.statusText
         );
         if (error.response.status === 404) {
-          return interaction.editReply({
+          return interaction.reply({
             content:
               "<a:pp681:774089750373597185> **|** The specified user was not found!",
           });
         } else {
-          return interaction.editReply({
+          return interaction.reply({
             content: `Error: ${error.response.statusText}`,
           });
         }
       } else if (error.request) {
         console.error("No response received from the server");
-        return interaction.editReply({
+        return interaction.reply({
           content:
             "No response received from the server. Please try again later.",
         });
       } else {
         console.error("Error setting up the request:", error.message);
-        return interaction.editReply({
+        return interaction.reply({
           content: "An unexpected error occurred. Please try again later.",
         });
       }
     }
 
     if (!user) {
-      return interaction.editReply({
+      return interaction.reply({
         content:
           "<a:pp681:774089750373597185> **|** The specified user was not found!",
       });
@@ -70,7 +70,7 @@ module.exports = {
       try {
 
       } catch (err) {
-        await interaction.editReply({
+        await interaction.reply({
           content: `\\❌ An unexpected error occurred, while retrieving name history!`,
         });
         throw new Error(err);
@@ -116,6 +116,6 @@ module.exports = {
         iconURL: interaction.guild.iconURL({ dynamic: true }),
       });
 
-    return await interaction.editReply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed] });
   },
 };

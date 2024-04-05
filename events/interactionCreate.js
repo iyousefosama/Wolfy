@@ -7,6 +7,7 @@ const {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ButtonBuilder,
+  EmbedBuilder,
 } = require("discord.js");
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
@@ -802,6 +803,14 @@ module.exports = {
           return;
       }
     }
+
+    // * Modals submite interactions
+    if (interaction.isModalSubmit()) {
+      if (interaction.customId === "releaseNotesModal") {
+        const releaseNotes = require("../functions/ModalsHandle/release-notes");
+        return releaseNotes.publish(client, interaction);
+      }
+    }
     if (interaction.isChatInputCommand()) {
       const slash = client.slashCommands.get(interaction.commandName);
 
@@ -864,7 +873,7 @@ module.exports = {
               : "DMS"
           } used: /${interaction.commandName}`
         );
-        await interaction.deferReply().catch(() => {});
+        //await interaction.deferReply().catch(() => {});
         slash.execute(client, interaction);
       } catch (error) {
         console.error(error);

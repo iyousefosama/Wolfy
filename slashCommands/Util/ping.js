@@ -12,16 +12,16 @@ module.exports = {
         var loading = new discord.EmbedBuilder()
         .setColor('Gold')
         .setDescription(`<a:Loading_Color:759734580122484757> Finding bot ping...`)
-        interaction.editReply({ embeds: [loading]}).then(msg => { // sends this once you send the cmd
+        interaction.reply({ embeds: [loading]}).then(msg => { // sends this once you send the cmd
         const ping = msg.createdTimestamp - interaction.createdTimestamp; // calculation the time between when u send the message and when the bot reply
         let Pong = new discord.EmbedBuilder()
         .setColor('Yellow')
         .setDescription(`Pong!`)
-        interaction.editReply({ embeds: [Pong]})
+        interaction.reply({ embeds: [Pong]})
         let Ping = new discord.EmbedBuilder()
         .setColor('DarkGreen')
         .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
-        interaction.editReply({ embeds: [Ping], ephemeral: hide })
+        interaction.reply({ embeds: [Ping], ephemeral: hide })
         }).catch(() => null)
 	},
 };

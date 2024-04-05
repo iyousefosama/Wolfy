@@ -12,7 +12,7 @@ module.exports = {
       data = await schema.find({});
     } catch (err) {
       console.log(err);
-      interaction.editReply(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
@@ -78,9 +78,9 @@ module.exports = {
     }
 
     embed.setDescription(desc);
-    return await interaction.editReply({ embeds: [embed] }).catch((err) => {
+    return await interaction.reply({ embeds: [embed] }).catch((err) => {
       console.log(err);
-      interaction.editReply({
+      interaction.reply({
         content: `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err.message}`,
       });
     });

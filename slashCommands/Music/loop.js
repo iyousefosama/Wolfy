@@ -29,7 +29,7 @@ module.exports = {
     const queue = client.player.getQueue(interaction.guildId);
 
     if (!interaction.member.voice.channel) {
-      return await interaction.editReply(
+      return await interaction.reply(
         "<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!"
       );
     } else if (
@@ -37,17 +37,17 @@ module.exports = {
       interaction.member.voice.channelId !==
         interaction.guild.members.me.voice.channelId
     ) {
-      return await interaction.editReply(
+      return await interaction.reply(
         "<:error:888264104081522698> You are not in my voice channel!"
       );
     } else if (!queue) {
-      return await interaction.editReply(
+      return await interaction.reply(
         "<:error:888264104081522698> There are no tracks in the queue!"
       );
     }
 
     if (!queue.playing) {
-      return await interaction.editReply(
+      return await interaction.reply(
         "<:error:888264104081522698> There is no played track in this server!"
       );
     }
@@ -55,7 +55,7 @@ module.exports = {
     switch (repeat) {
       case "enable_loop_queue": {
         if (queue.repeatMode === 1) {
-          return interaction.editReply({
+          return interaction.reply({
             content: `❌ ${interaction.member}, You must first disable the current music in the loop mode \`(/loop [false])\` `,
             ephemeral: true,
           });
@@ -63,7 +63,7 @@ module.exports = {
 
         const success = queue.setRepeatMode(QueueRepeatMode.QUEUE);
 
-        return interaction.editReply({
+        return interaction.reply({
           content: success
             ? `✔ Repeat mode **enabled** the whole queue will be repeated endlessly 🔁`
             : `❌ ${interaction.member}, Something went wrong!`,
@@ -73,7 +73,7 @@ module.exports = {
       case "disable_loop": {
         const success = queue.setRepeatMode(QueueRepeatMode.OFF);
 
-        return interaction.editReply({
+        return interaction.reply({
           content: success
             ? `✔ Repeat mode **disabled**!`
             : `❌ ${interaction.member}, Something went wrong!`,
@@ -82,14 +82,14 @@ module.exports = {
       }
       case "enable_loop_song": {
         if (queue.repeatMode === 2)
-          return interaction.editReply({
+          return interaction.reply({
             content: `❌ ${interaction.member}, You must first disable the current music in the loop mode (\`/loop Disable\`)`,
             ephemeral: true,
           });
 
         const success = queue.setRepeatMode(QueueRepeatMode.TRACK);
 
-        return interaction.editReply({
+        return interaction.reply({
           content: success
             ? `✔ Repeat mode **enabled** the current song will be repeated endlessly! (\`you can end the loop with /loop disable\`)`
             : `❌ ${interaction.member}, Something went wrong!`,

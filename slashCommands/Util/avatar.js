@@ -42,7 +42,7 @@ module.exports = {
                 .setImage (interaction.guild.iconURL({ extension:'png', dynamic: true, size: 1024 }))
                 .setFooter({ text: interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.user.avatarURL({dynamic: true}) })
                 .setTimestamp()
-                interaction.editReply({ embeds: [avatarserver] })
+                interaction.reply({ embeds: [avatarserver] })
             } else if(interaction.options.getSubcommand() === 'user') {
                 https
                 .request(avatar, { method: 'HEAD' }, (response) => {
@@ -54,7 +54,7 @@ module.exports = {
                     avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
                   }
             
-                  if(!avatar) return interaction.editReply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
+                  if(!avatar) return interaction.reply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
               
                   const embed = new EmbedBuilder()
                   .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
@@ -64,11 +64,11 @@ module.exports = {
                   .setImage(avatar)
                   .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({dynamic: true}) })
                   .setTimestamp()
-                  interaction.editReply({ embeds: [embed]})
+                  interaction.reply({ embeds: [embed]})
                 })
                 .on('error', (error) => {
                   console.error(error);
-                  return interaction.editReply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
+                  return interaction.reply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
                 })
                 .end()
             } else {
@@ -82,7 +82,7 @@ module.exports = {
                     avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
                   }
             
-                  if(!avatar) return interaction.editReply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
+                  if(!avatar) return interaction.reply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!`})
               
                   const embed = new EmbedBuilder()
                   .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
@@ -92,11 +92,11 @@ module.exports = {
                   .setImage(avatar)
                   .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({dynamic: true}) })
                   .setTimestamp()
-                  interaction.editReply({ embeds: [embed]})
+                  interaction.reply({ embeds: [embed]})
                 })
                 .on('error', (error) => {
                   console.error(error);
-                  return interaction.editReply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
+                  return interaction.reply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!`})
                 })
                 .end()
             }

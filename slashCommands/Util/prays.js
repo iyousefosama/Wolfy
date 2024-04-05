@@ -239,7 +239,7 @@ module.exports = {
         .then((res) => res.json())
         .then(async (json) => {
           if (json.code != 200) {
-            return interaction.editReply({
+            return interaction.reply({
               content:
                 "<:error:888264104081522698> Please enter valid country and city in the options!",
             });
@@ -261,14 +261,14 @@ module.exports = {
                 (time) => time.MiliSeconds
               );
             } else {
-              return await interaction.editReply({
+              return await interaction.reply({
                 content:
                   "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
               });
             }
           } catch (e) {
             console.error(e);
-            return await interaction.editReply({
+            return await interaction.reply({
               content:
                 "<:error:888264104081522698> I can't identify this timezone, please write the right `City, Country`!",
             });

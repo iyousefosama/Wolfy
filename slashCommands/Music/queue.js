@@ -13,18 +13,18 @@ module.exports = {
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
         if (!interaction.member.voice.channel){
-            return await interaction.editReply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
+            return await interaction.reply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a track!");
           } else if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId){
-            return await interaction.editReply("<:error:888264104081522698> You are not in my voice channel!");
+            return await interaction.reply("<:error:888264104081522698> You are not in my voice channel!");
           } else if (!client.player.getQueue(interaction.guild.id)){
-            return await interaction.editReply("<:error:888264104081522698> There are no tracks in the queue!");
+            return await interaction.reply("<:error:888264104081522698> There are no tracks in the queue!");
           };
 
         const totalPages = Math.ceil(queue.tracks.length / 10) || 1
         const page = (interaction.options.getNumber("page") || 1) - 1
 
         if (page > totalPages) 
-            return await interaction.editReply(`<:error:888264104081522698> **Invalid Page.** There are only a total of \`${totalPages}\` pages of tracks!`)
+            return await interaction.reply(`<:error:888264104081522698> **Invalid Page.** There are only a total of \`${totalPages}\` pages of tracks!`)
         
         const queueString = queue.tracks.slice(page * 10, page * 10 + 10).map((track, i) => {
             return `**${page * 10 + i + 1}.** \`[${track.duration}]\` ${track.title} -- <@${track.requestedBy.id}>`
@@ -32,7 +32,7 @@ module.exports = {
 
         const currenttrack = queue.current
 
-        await interaction.editReply({
+        await interaction.reply({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
