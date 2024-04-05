@@ -330,7 +330,7 @@ module.exports = {
             .addComponents(button, button2, button3, button4, button5);
             const newrow2 = new ActionRowBuilder()
             .addComponents(button6, button7, button8, button9, button10);
-            interaction.reply({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
+            interaction.editReply({embeds: [help], components: [newrow, newrow2]}).catch(() => null)
         })
 	},
 };

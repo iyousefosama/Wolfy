@@ -74,6 +74,6 @@ module.exports = {
         }),
       })
       .setTimestamp();
-    interaction.reply({ embeds: [bal] });
+    return await interaction.reply({ embeds: [bal] });
   },
 };
