@@ -32,7 +32,7 @@ module.exports = async (client) => {
       };
 
       try {
-        const response = await fetch(url, options);
+        const response = await fetch(url, options).catch(() => {});
         const json = await response.json();
         if (json.code !== 200) {
           return null;
