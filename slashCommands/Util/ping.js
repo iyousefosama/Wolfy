@@ -17,11 +17,11 @@ module.exports = {
         let Pong = new discord.EmbedBuilder()
         .setColor('Yellow')
         .setDescription(`Pong!`)
-        interaction.reply({ embeds: [Pong]})
+        interaction.editReply({ embeds: [Pong]})
         let Ping = new discord.EmbedBuilder()
         .setColor('DarkGreen')
         .setDescription(`<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(client.ws.ping)}ms\`!`)
-        interaction.reply({ embeds: [Ping], ephemeral: hide })
+        interaction.editReply({ embeds: [Ping], ephemeral: hide })
         }).catch(() => null)
 	},
 };

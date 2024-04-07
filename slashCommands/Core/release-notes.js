@@ -105,8 +105,8 @@ module.exports = {
                 ].join("\n\n")
               )
               .setFooter({
-                text: interaction.guild.name,
-                iconURL: interaction.guild.iconURL({ dynamic: true }),
+                text: interaction.guild?.name,
+                iconURL: interaction.guild?.iconURL({ dynamic: true }),
               })
               .setTimestamp();
             return await interaction.reply({
