@@ -1,4 +1,3 @@
-const fs = require("fs");
 const discord = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 const UserSchema = require("../../schema/LevelingSystem-Schema");
@@ -44,11 +43,14 @@ module.exports = {
         avatar:
           message.guild.members.cache
             .get(user.userId)
-            ?.user.displayAvatarURL({ dynamic: true }) || "https://github.com/twlite.png",
+            ?.user.displayAvatarURL({ dynamic: true }) ||
+          "https://github.com/twlite.png",
         username:
-          message.guild.members.cache.get(user.userId)?.user.username || "Unknown",
+          message.guild.members.cache.get(user.userId)?.user.username ||
+          "Unknown",
         displayName:
-          message.guild.members.cache.get(user.userId)?.displayName || "Unknown",
+          message.guild.members.cache.get(user.userId)?.displayName ||
+          "Unknown",
         level: user.System.level || 1,
         xp: user.System.xp || 0,
         rank: index + 1,
@@ -60,13 +62,18 @@ module.exports = {
           image: message.guild.iconURL({ dynamic: true }) || "", // Valid guild icon URL or empty string
           subtitle: `${message.guild.memberCount} members`,
         })
+        // changing variant
+        .setVariant("horizontal")
+        /*
+      // or
+      .setVariant("default")
+      */
         .setPlayers(
           leaderboardData.map((player) => ({
             ...player,
             avatar: player.avatar || "https://github.com/twlite.png", // Provide a default avatar URL if it's empty
           }))
-        )
-        .setBackground("https://imgur.com/D2vq0kU.jpg");
+        );
 
       const image = await lb.build({ format: "png" });
 

@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require("@discordjs/builders");
 const moment = require("moment");
 
 module.exports = {
-  permissions: [discord.PermissionsBitField.Flags.Administrator],
+  permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageMessages],
   guildOnly: true,
   data: new SlashCommandBuilder()
     .setName("clear")
@@ -18,6 +18,7 @@ module.exports = {
     ),
   async execute(client, interaction) {
     const { guild, options } = interaction;
+    await interaction.deferReply().catch(() => {})
 
     let quantity = options.getInteger("quantity") || 2;
     quantity = Math.round(quantity);

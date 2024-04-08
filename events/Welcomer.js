@@ -3,8 +3,9 @@ const { EmbedBuilder } = require("discord.js");
 const schema = require("../schema/GuildSchema");
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
-const { Font } = require("canvacord");
-const { GreetingsCard } = require("canvacord");
+const { GreetingsCard, Font } = require("canvacord");
+Font.loadDefault();
+
 const { ChannelType } = require("discord.js");
 
 module.exports = {
@@ -62,12 +63,10 @@ module.exports = {
         )
         .setFooter({ text: `${member.user.username} (${member.user.id})` })
         .setTimestamp();
-      return client.channels.cache
-        .get(data.greeter.welcome.channel)
-        .send({
-          content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
-          embeds: [embed],
-        });
+      return client.channels.cache.get(data.greeter.welcome.channel).send({
+        content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
+        embeds: [embed],
+      });
     }
 
     //if message was text, send the text
@@ -94,14 +93,19 @@ module.exports = {
         .setDescription(message)
         .setFooter({ text: `${member.user.username} (${member.user.id})` })
         .setTimestamp();
-      return client.channels.cache
-        .get(data.greeter.welcome.channel)
-        .send({
-          content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
-          embeds: [embed],
-        });
+      return client.channels.cache.get(data.greeter.welcome.channel).send({
+        content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
+        embeds: [embed],
+      });
     }
     if (type === "image") {
+      // create card
+      const card = new GreetingsCard()
+        .setAvatar("https://cdn.discordapp.com/embed/avatars/0.png")
+        .setDisplayName("Wumpus")
+        .setType("welcome")
+        .setMessage("Welcome to the server!");
+
       const Card = new GreetingsCard()
         .setMemberCount(member.guild.memberCount)
         .setAvatar(member.displayAvatarURL({ extension: "png", size: 1024 }))
@@ -119,12 +123,10 @@ module.exports = {
         const attachment = new discord.AttachmentBuilder(data, {
           name: "Welcomer.png",
         });
-        return client.channels.cache
-          .get(welcome.channel)
-          .send({
-            content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
-            files: [attachment],
-          });
+        return client.channels.cache.get(welcome.channel).send({
+          content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
+          files: [attachment],
+        });
       });
     }
   },
