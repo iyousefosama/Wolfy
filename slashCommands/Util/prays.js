@@ -138,7 +138,7 @@ module.exports = {
             second
           ).getTime();
 
-          const TimeDiff = (prayerDatetime - currentTime);
+          const TimeDiff = prayerDatetime - currentTime;
 
           if (currentTime >= prayerDatetime || TimeDiff <= 0) {
             return interaction
@@ -387,7 +387,7 @@ module.exports = {
             })
             .setTimestamp();
           await interaction
-            .editReply({ embeds: [embed], components: rows })
+            .reply({ embeds: [embed], components: rows })
             .then((msg) => {
               const filter = (int) => int.user.id == interaction.user.id;
 
@@ -416,8 +416,8 @@ module.exports = {
             });
         })
         .catch((err) => {
-          console.error(err);
-          interaction.channel.send({
+          console.log(err);
+          interaction.reply({
             content: `<:error:888264104081522698> ${interaction.user} Something went wrong, please try again later!`,
           });
         });
