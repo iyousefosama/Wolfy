@@ -43,14 +43,7 @@ module.exports = {
         usersData.map(async (user, index) => {
           let guildMember = message.guild.members.cache.get(user.userId);
           if (!guildMember) {
-            try {
-              guildMember = await message.guild.members.fetch(user.userId);
-            } catch (err) {
-              message.channel.send(`Failed to fetch member with ID ${user.userId}`)
-              console.error(
-                `Failed to fetch member with ID ${user.userId}: ${err}`
-              );
-            }
+            guildMember = await message.guild.members.fetch(user.userId).catch(() => {})
           }
           const { username, displayName } = guildMember?.user || {};
           const { level = 1, xp = 0 } = user.System || {};
@@ -75,7 +68,9 @@ module.exports = {
           subtitle: `${message.guild.memberCount} members`,
         })
         .setBackgroundColor("#808080")
-        .setBackground("https://i.postimg.cc/xdDkjgxx/65084df8cbc05b0ee92a0c235d754b57.png")
+        .setBackground(
+          "https://i.postimg.cc/xdDkjgxx/65084df8cbc05b0ee92a0c235d754b57.png"
+        )
         .setPlayers(
           leaderboardData.map((player) => ({
             ...player,
@@ -83,7 +78,7 @@ module.exports = {
           }))
         );
 
-      const image = await lb.build({ format: "png"});
+      const image = await lb.build({ format: "png" });
 
       // Reply the image to the message
       return message.reply({ files: [image] });
