@@ -39,22 +39,34 @@ module.exports = {
         .sort({ "System.level": -1, "System.xp": -1 })
         .limit(10); // Change the limit as needed
 
-      const leaderboardData = usersData.map((user, index) => ({
-        avatar:
-          message.guild.members.cache
-            .get(user.userId)
-            ?.user.displayAvatarURL({ dynamic: true }) ||
-          "https://github.com/twlite.png",
-        username:
-          message.guild.members.cache.get(user.userId)?.user.username ||
-          "Unknown",
-        displayName:
-          message.guild.members.cache.get(user.userId)?.displayName ||
-          "Unknown",
-        level: user.System.level || 1,
-        xp: user.System.xp || 0,
-        rank: index + 1,
-      }));
+      const leaderboardData = await Promise.all(
+        usersData.map(async (user, index) => {
+          let guildMember = message.guild.members.cache.get(user.userId);
+          if (!guildMember) {
+            try {
+              guildMember = await message.guild.members.fetch(user.userId);
+            } catch (err) {
+              message.channel.send(`Failed to fetch member with ID ${user.userId}`)
+              console.error(
+                `Failed to fetch member with ID ${user.userId}: ${err}`
+              );
+            }
+          }
+          const { username, displayName } = guildMember?.user || {};
+          const { level = 1, xp = 0 } = user.System || {};
+
+          return {
+            avatar:
+              guildMember.user?.displayAvatarURL({ dynamic: true }) ||
+              "https://github.com/twlite.png",
+            username: username || "Unknown",
+            displayName: displayName || "Unknown",
+            level,
+            xp,
+            rank: index + 1,
+          };
+        })
+      );
 
       const lb = new LeaderboardBuilder()
         .setHeader({
@@ -62,20 +74,16 @@ module.exports = {
           image: message.guild.iconURL({ dynamic: true }) || "", // Valid guild icon URL or empty string
           subtitle: `${message.guild.memberCount} members`,
         })
-        // changing variant
-        .setVariant("horizontal")
-        /*
-      // or
-      .setVariant("default")
-      */
+        .setBackgroundColor("#808080")
+        .setBackground("https://i.postimg.cc/xdDkjgxx/65084df8cbc05b0ee92a0c235d754b57.png")
         .setPlayers(
           leaderboardData.map((player) => ({
             ...player,
-            avatar: player.avatar || "https://github.com/twlite.png", // Provide a default avatar URL if it's empty
+            avatar: player.avatar, // Provide a default avatar URL if it's empty
           }))
         );
 
-      const image = await lb.build({ format: "png" });
+      const image = await lb.build({ format: "png"});
 
       // Reply the image to the message
       return message.reply({ files: [image] });
