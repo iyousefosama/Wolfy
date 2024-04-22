@@ -1,4 +1,5 @@
 const discord = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require("../../schema/GuildSchema");
 const UserSchema = require("../../schema/LevelingSystem-Schema");
 const { Font, LeaderboardBuilder } = require("canvacord");
@@ -7,44 +8,43 @@ const { Font, LeaderboardBuilder } = require("canvacord");
 Font.loadDefault();
 
 module.exports = {
-  name: "levelboard",
-  aliases: [],
-  dmOnly: false,
+  clientpermissions: [
+    discord.PermissionsBitField.Flags.EmbedLinks,
+    discord.PermissionsBitField.Flags.ReadMessageHistory,
+    discord.PermissionsBitField.Flags.Connect,
+    discord.PermissionsBitField.Flags.Speak,
+  ],
   guildOnly: true,
-  args: false,
-  usage: "",
-  group: "LeveledRoles",
-  description: "Shows leaderboard for most leveled users",
-  cooldown: 10,
-  guarded: false,
-  permissions: [],
-  clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
-  examples: [],
-  async execute(client, message, args) {
-    message.channel.sendTyping();
+  data: new SlashCommandBuilder()
+    .setName("level-board")
+    .setDescription("Shows leaderboard for most leveled users"),
+  async execute(client, interaction) {
+
+    await interaction.deferReply().catch(() => {});
+
     let data;
     try {
       data = await schema.findOne({
-        GuildID: message.guild.id,
+        GuildID: interaction.guild.id,
       });
       if (!data || !data.Mod.Level.isEnabled) {
-        return message.channel.send({
-          content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+        return await interaction.reply({
+          content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
         });
       }
 
       // Fetch user data from the database
       const usersData = await UserSchema.find({
-        guildId: message.guild.id,
+        guildId: interaction.guild.id,
       })
         .sort({ "System.level": -1, "System.xp": -1 })
         .limit(10); // Change the limit as needed
 
       const leaderboardData = await Promise.all(
         usersData.map(async (user, index) => {
-          let guildMember = message.guild.members.cache.get(user.userId);
+          let guildMember = interaction.guild.members.cache.get(user.userId);
           if (!guildMember) {
-            guildMember = await message.guild.members
+            guildMember = await interaction.guild.members
               .fetch(user.userId)
               .catch(() => {});
           }
@@ -66,9 +66,9 @@ module.exports = {
 
       const lb = new LeaderboardBuilder()
         .setHeader({
-          title: message.guild.name,
-          image: message.guild.iconURL({ dynamic: true }) || "", // Valid guild icon URL or empty string
-          subtitle: `${message.guild.memberCount} members`,
+          title: interaction.guild.name,
+          image: interaction.guild.iconURL({ dynamic: true }) || "", // Valid guild icon URL or empty string
+          subtitle: `${interaction.guild.memberCount} members`,
         })
         .setBackgroundColor("#808080")
         .adjustCanvas()
@@ -86,10 +86,10 @@ module.exports = {
       const image = await lb.build({ format: "png" });
 
       // Reply the image to the message
-      return message.reply({ files: [image] });
+      return await interaction.editReply({ files: [image] });
     } catch (err) {
       console.log(err);
-      message.channel.send(
+      interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
