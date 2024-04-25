@@ -1,7 +1,7 @@
 const discord = require("discord.js");
 const { Client } = require("discord.js");
 const schema = require("../schema/TimeOut-Schema");
-const momentTz = require('moment-timezone');
+const momentTz = require("moment-timezone");
 const fetch = require("node-fetch");
 /**
  * @param {Client} client
@@ -23,8 +23,7 @@ module.exports = async (client) => {
     }
 
     async function getPrayerTimes(timezone) {
-
-      const { country, city } = timezone.split('/');
+      const { country, city } = timezone.split("/");
 
       const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}`;
       const options = {
@@ -33,14 +32,22 @@ module.exports = async (client) => {
 
       try {
         const response = await fetch(url, options).catch(() => {});
-        const json = await response.json();
+        const json = await response?.json().catch((err) => {
+          return;
+        });
         if (json.code !== 200) {
           return null;
         }
 
         const json_data = json.data.timings;
 
-        const propertiesToDelete = ["Sunset", "Imsak", "Midnight", "Firstthird", "Lastthird"];
+        const propertiesToDelete = [
+          "Sunset",
+          "Imsak",
+          "Midnight",
+          "Firstthird",
+          "Lastthird",
+        ];
 
         for (const property of propertiesToDelete) {
           delete json_data[property];
@@ -48,9 +55,9 @@ module.exports = async (client) => {
 
         const result = {};
         for (const key in json_data) {
-            const localTime = momentTz(json_data[key], "HH:mm");
-            const tzTime = localTime.clone().tz(timezone);
-            result[key] = tzTime.unix();
+          const localTime = momentTz(json_data[key], "HH:mm");
+          const tzTime = localTime.clone().tz(timezone);
+          result[key] = tzTime.unix();
         }
 
         return result;
@@ -86,15 +93,14 @@ module.exports = async (client) => {
       return d.getTime();
     }
 
-
-    let memberUserIds = data.map(obj => obj.userId);
+    let memberUserIds = data.map((obj) => obj.userId);
 
     let members = [];
     for (let userId of memberUserIds) {
       try {
         const user = await client.users.fetch(userId);
         if (user) {
-          members.push(data.find(obj => obj.userId === userId));
+          members.push(data.find((obj) => obj.userId === userId));
         }
       } catch (err) {
         console.log(`Failed to fetch user with ID: ${userId}`);
@@ -109,14 +115,14 @@ module.exports = async (client) => {
       let nowMS = await CurrentTime(value.Reminder.timezone);
       return value.Reminder.time > 0 || value.Reminder.time > nowMS;
     });
-    
+
     const autoReminders = members.filter(function (value) {
       return value.Reminder.Prays.autoPray;
     });
 
     normalReminders.forEach(async (member) => {
       nowMS = await CurrentTime(member.Reminder.timezone);
-      const ReminderTime = Math.floor(member.Reminder.time.getTime())
+      const ReminderTime = Math.floor(member.Reminder.time.getTime());
 
       if (ReminderTime > nowMS || !member.Reminder.current) {
         return;
@@ -153,15 +159,17 @@ module.exports = async (client) => {
       if (prayerTimes) {
         const currentTime = await CurrentTime(member.Reminder.timezone);
         const user = client.users.cache.get(member.userId);
-        
+
         // Sort prayers by time
-        const sortedPrayers = Object.entries(prayerTimes).sort((a, b) => a[1] - b[1]);
-    
+        const sortedPrayers = Object.entries(prayerTimes).sort(
+          (a, b) => a[1] - b[1]
+        );
+
         // Filter upcoming prayers
         const upcomingPrayers = sortedPrayers.filter(
           ([prayerName, prayerTime]) => prayerTime > currentTime
         );
-    
+
         // Get the next prayer
         const nextPrayer = upcomingPrayers.shift();
 
@@ -178,12 +186,17 @@ module.exports = async (client) => {
         }
 
         //Check if it passed
-        if (!nextPrayer || nextPrayer.length < 2 || nextPrayer[1] > currentTime || !member.Reminder.Prays.nextPrays.current) {
+        if (
+          !nextPrayer ||
+          nextPrayer.length < 2 ||
+          nextPrayer[1] > currentTime ||
+          !member.Reminder.Prays.nextPrays.current
+        ) {
           return;
         } else {
           // Do nothing...
         }
-    
+
         if (nextPrayer) {
           const [prayerName, prayerTime] = nextPrayer;
           const formattedPrayerTime = momentTz.unix(prayerTime).format("HH:mm");
@@ -204,7 +217,7 @@ module.exports = async (client) => {
               text: "Auto Reminder",
               iconURL: client.user.displayAvatarURL(),
             });
-    
+
           try {
             await user.send({ embeds: [reminderEmbed] });
           } catch {
@@ -214,8 +227,6 @@ module.exports = async (client) => {
         }
       }
     });
-    
-    
 
     setTimeout(checkReminders, 30000);
   };
