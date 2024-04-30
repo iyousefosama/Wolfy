@@ -23,9 +23,14 @@ function readCommands(dir) {
 
     for (const file of files) {
       const filePath = path.join(folderPath, file);
-      const slash = require(filePath);
-      client.slashCommands.set(file.split(/.js$/)[0], slash);
-      commands.push(slash.data.toJSON());
+      const command = require(filePath);
+      client.slashCommands.set(file.split(/.js$/)[0], command);
+
+	  if (command.data instanceof discord.SlashCommandBuilder) {
+		commands.push(command.data.toJSON());
+	  } else {
+		commands.push(command.data);
+	  }
     }
   }
 }
