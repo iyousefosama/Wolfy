@@ -812,9 +812,9 @@ module.exports = {
       }
     }
     if (interaction.isChatInputCommand()) {
-      const slash = client.slashCommands.get(interaction.commandName);
+      const command = client.slashCommands.get(interaction.commandName);
 
-      if (!slash) {
+      if (!command) {
         return;
       } else if (interaction.user.bot) {
         return;
@@ -823,7 +823,7 @@ module.exports = {
       }
 
       try {
-        if (slash.guildOnly && interaction.channel.type === "DM") {
+        if (command.data.guildOnly ? command.data.guildOnly : command.guildOnly && interaction.channel.type === "DM") {
           return interaction.reply({
             content:
               "<a:pp802:768864899543466006> I can't execute that command inside DMs!",
@@ -831,7 +831,7 @@ module.exports = {
           });
         }
 
-        if (slash.ownerOnly && !client.owners.includes(interaction.user.id)) {
+        if (command.data.ownerOnly ? command.data.ownerOnly : command.ownerOnly && !client.owners.includes(interaction.user.id)) {
           return interaction.reply({
             content:
               "<a:pp802:768864899543466006> This command is limited for developers only!",
@@ -839,28 +839,30 @@ module.exports = {
           });
         }
         //+ permissions: [""],
-        if (slash.permissions) {
+        if (command.data.permissions ? command.data.permissions : command.permissions) {
           if (interaction.guild) {
             const sauthorPerms = interaction.channel.permissionsFor(
               interaction.user
             );
-            if (!sauthorPerms || !sauthorPerms.has(slash.permissions)) {
+            if (!sauthorPerms || !sauthorPerms.has(command.data.permissions ? command.data.permissions : command.permissions)) {
               return interaction.reply({
-                content: `<a:pp802:768864899543466006> You don\'t have \`${slash.permissions}\` permission(s) to use ${interaction.commandName} command.`,
+                content: `<a:pp802:768864899543466006> You don\'t have \`${command.data.permissions ? command.data.permissions : command.permissions}\` permission(s) to use ${interaction.commandName} command.`,
                 ephemeral: true,
               });
             }
           }
         }
+
+        const clientPermissions = command.data.permissions ? command.data.permissions : command.permissions;
         //+ clientpermissions: [""],
-        if (slash.clientpermissions) {
+        if (clientPermissions) {
           if (interaction.guild) {
             const sclientPerms = interaction.channel.permissionsFor(
               interaction.guild.members.me
             );
-            if (!sclientPerms || !sclientPerms.has(slash.clientpermissions)) {
+            if (!sclientPerms || !sclientPerms.has(clientPermissions)) {
               return interaction.reply({
-                content: `<a:pp802:768864899543466006> The bot is missing \`${slash.clientpermissions}\` permission(s)!`,
+                content: `<a:pp802:768864899543466006> The bot is missing \`${clientPermissions}\` permission(s)!`,
                 ephemeral: true,
               });
             }
@@ -874,7 +876,7 @@ module.exports = {
           } used: /${interaction.commandName}`
         );
         //await interaction.deferReply().catch(() => {});
-        slash.execute(client, interaction);
+        command.execute(client, interaction);
       } catch (error) {
         console.error(error);
         await interaction

@@ -8,18 +8,18 @@ const { Font, LeaderboardBuilder } = require("canvacord");
 Font.loadDefault();
 
 module.exports = {
-  clientpermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-    discord.PermissionsBitField.Flags.Connect,
-    discord.PermissionsBitField.Flags.Speak,
-  ],
-  guildOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("level-board")
-    .setDescription("Shows leaderboard for most leveled users"),
+  data: {
+    name: "level-board",
+    description: "Shows leaderboard for most leveled users",
+    clientpermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory,
+      discord.PermissionsBitField.Flags.Connect,
+      discord.PermissionsBitField.Flags.Speak,
+    ],
+    guildOnly: true,
+  },
   async execute(client, interaction) {
-
     await interaction.deferReply().catch(() => {});
 
     let data;
@@ -28,7 +28,7 @@ module.exports = {
         GuildID: interaction.guild.id,
       });
       if (!data || !data.Mod.Level.isEnabled) {
-        return await interaction.reply({
+        return await interaction.editReply({
           content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
         });
       }
