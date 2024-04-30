@@ -12,7 +12,7 @@ module.exports = {
   data: {
     name: "ping",
     description: "Replies with bot ping!",
-    intergration_types: [1],
+    intergration_types: [0, 1],
     contexts: [0, 1, 2],
     options: [
       {
