@@ -12,8 +12,8 @@ module.exports = {
   data: {
     name: "ping",
     description: "Replies with bot ping!",
-    "integration_types": [0, 1],
-    "contexts": [0, 1, 2],
+    integration_types: [0, 1],
+    contexts: [0, 1, 2],
     options: [
       {
         name: "hide",
@@ -36,6 +36,7 @@ module.exports = {
         */
   },
   async execute(client, interaction) {
+    await interaction.deferReply().catch(() => {});
     const hide = interaction.options.getBoolean("hide");
 
     var loading = new discord.EmbedBuilder()
@@ -44,10 +45,10 @@ module.exports = {
         `<a:Loading_Color:759734580122484757> Finding bot ping...`
       );
     interaction
-      .reply({ embeds: [loading], ephemeral: hide  })
-      .then((msg) => {
+      .editReply({ embeds: [loading], ephemeral: hide })
+      .then((inter) => {
         // sends this once you send the cmd
-        const ping = msg.createdTimestamp - interaction.createdTimestamp; // calculation the time between when u send the message and when the bot reply
+        const ping = inter.createdTimestamp - interaction.createdTimestamp; // calculation the time between when u send the message and when the bot reply
         let Pong = new discord.EmbedBuilder()
           .setColor("Yellow")
           .setDescription(`Pong!`);
@@ -59,7 +60,7 @@ module.exports = {
               client.ws.ping
             )}ms\`!`
           );
-        interaction.editReply({ embeds: [Ping]});
+        interaction.editReply({ embeds: [Ping] });
       })
       .catch(() => null);
   },
