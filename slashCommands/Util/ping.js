@@ -12,8 +12,8 @@ module.exports = {
   data: {
     name: "ping",
     description: "Replies with bot ping!",
-    intergration_types: [0, 1],
-    contexts: [0, 1, 2],
+    "integration_types": [0, 1],
+    "contexts": [0, 1, 2],
     options: [
       {
         name: "hide",
