@@ -30,7 +30,7 @@ const settings = {
     // logging channels for the bot. To disable logging specific events - pass
     // a falsy value (undefined, null, 0). You may also remove the property
     // altogether, although this is not preferred.
-    channels: { debug: '840892477614587914', votes: "840892477614587914", chatbot: "1115038503139545108", changelogs: "887589978127863808" },
+    channels: { debug: '887505644146536458', votes: "840892477614587914", chatbot: "1115038503139545108", changelogs: "887589978127863808" },
   
     // enable/disable database system in the bot, this will automatically disable
     // all commands and features that requires database if disabled.
