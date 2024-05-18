@@ -5,10 +5,6 @@ const {
 } = require("@discordjs/builders");
 
 module.exports = {
-  clientpermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-  ],
   data: {
     name: "ping",
     description: "Replies with bot ping!",
@@ -21,6 +17,10 @@ module.exports = {
         type: 5,
         required: false,
       },
+    ],
+    clientpermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory,
     ],
     /*
     cooldown: 1, // Cooldown in seconds, by default it's 2 seconds | OPTIONAL

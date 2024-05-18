@@ -35,7 +35,7 @@ module.exports = async (client) => {
         const json = await response?.json().catch((err) => {
           return;
         });
-        if (json.code !== 200) {
+        if (json?.code !== 200) {
           return null;
         }
 
