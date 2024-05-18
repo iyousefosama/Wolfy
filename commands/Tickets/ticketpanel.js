@@ -24,7 +24,7 @@ module.exports = {
     let text = args.slice(0).join(" ");
 
     async function MessageInput(message) {
-      const filter = (msg) => msg.author.id == message.author.id;
+      const filter = (msg) => msg.author.id === message.author.id;
 
       const msg = await message.channel.awaitMessages({ filter, max: 1 });
 
@@ -119,7 +119,7 @@ module.exports = {
         .setTimestamp();
       const button = new ButtonBuilder()
         .setLabel("Open ticket")
-        .setCustomId("ticket")
+        .setCustomId(BtnId)
         .setEmoji("📩")
         .setStyle("Primary");
       const row = new ActionRowBuilder().addComponents(button);
@@ -174,9 +174,8 @@ module.exports = {
       `${message.author}, Please type the tickets category id for this panel!`
     );
 
-    const channel = await message.guild.channels.cache.get(
-      MessageInput(message)
-    );
+    const msg = await MessageInput(message);
+    const channel = await message.guild.channels.cache.get(msg);
 
     if (!channel || channel.type !== ChannelType.GuildCategory) {
       return message.channel.send({
@@ -207,9 +206,8 @@ module.exports = {
     data.Panels.push(TicketObject);
 
     await data.save().then(async () => {
-      Final(message, Embed(message, `${channel.id}`));
+      const CreatedEmbed = await Embed(message, `${channel.id}`)
+      Final(message, CreatedEmbed);
     });
-
-    console.log(data.Panels.length);
   },
 };
