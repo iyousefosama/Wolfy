@@ -44,6 +44,7 @@
     "sourcebin": "^5.0.0",
     "sourcebin_js": "^0.0.3-ignore",
     "txtgen": "3.0.1",
+    "undici": "^6.18.0",
     "uuid": "^8.3.2",
     "weather-js": "^2.0.0",
     "youtube-sr": "^4.3.11",

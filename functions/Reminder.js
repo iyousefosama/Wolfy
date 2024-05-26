@@ -112,8 +112,7 @@ module.exports = async (client) => {
     });
 
     const normalReminders = members.filter(async function (value) {
-      let nowMS = await CurrentTime(value.Reminder.timezone);
-      return value.Reminder.time > 0 || value.Reminder.time > nowMS;
+      return value.Reminder.time > 0 || value.Reminder.time > Date.now();
     });
 
     const autoReminders = members.filter(function (value) {
@@ -121,10 +120,9 @@ module.exports = async (client) => {
     });
 
     normalReminders.forEach(async (member) => {
-      nowMS = await CurrentTime(member.Reminder.timezone);
       const ReminderTime = Math.floor(member.Reminder.time.getTime());
 
-      if (ReminderTime > nowMS || !member.Reminder.current) {
+      if (ReminderTime > Date.now() || !member.Reminder.current) {
         return;
       } else {
         // Do nothing...
@@ -228,7 +226,7 @@ module.exports = async (client) => {
       }
     });
 
-    setTimeout(checkReminders, 30000);
+    setTimeout(checkReminders, 10000);
   };
   checkReminders();
 };

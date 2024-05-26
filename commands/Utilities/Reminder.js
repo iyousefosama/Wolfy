@@ -57,7 +57,7 @@ module.exports = {
               .setColor('Red')
             if (!reason) return message.channel.send({ embeds: [noReasonInput]})
     
-            if(data.Reminder.current) return message.channel.send(`\\❌ **${message.author.tag}**, looks like you already have an active reminder! cancel it by ${client.config.prefix}reminder 0`)
+            if(data.Reminder.current) return message.channel.send(`\\❌ **${message.author}**, looks like you already have an active reminder! cancel it by \`${client.config.prefix}reminder 0\``)
             // Executing
             data.Reminder.current = true;
             data.Reminder.time = Math.floor(Date.now() + ms(time));
