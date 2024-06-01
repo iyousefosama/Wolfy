@@ -3,15 +3,15 @@ const discord = require("discord.js");
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 module.exports = {
-  clientpermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-  ],
   data: {
     name: "help",
     description: "Replies with commands helplist!",
-    "integration_types": [0, 1],
-    "contexts": [0, 1, 2],
+    integration_types: [0, 1],
+    contexts: [0, 1, 2],
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory,
+    ],
   },
   async execute(client, interaction) {
     const button = new ButtonBuilder()

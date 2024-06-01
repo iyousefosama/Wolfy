@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: [],
+    clientPermissions: [],
     examples: [
       'ar Hello, my old friend.'
     ],

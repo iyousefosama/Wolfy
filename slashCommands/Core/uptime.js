@@ -3,11 +3,11 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const ms = require('parse-ms');
 
 module.exports = {
-	clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks,  discord.PermissionsBitField.Flags.UseExternalEmojis],
 	data: new SlashCommandBuilder()
-		.setName('uptime')
-		.setDescription('Replies with bot uptime!')
-		.addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
+	.setName('uptime')
+	.setDescription('Replies with bot uptime!')
+	.addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
+	clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks,  discord.PermissionsBitField.Flags.UseExternalEmojis],
 	async execute(client, interaction) {
 		const hide = interaction.options.getBoolean('hide');
 

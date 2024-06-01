@@ -4,7 +4,7 @@ const { EmbedBuilder } = require('discord.js')
 const https = require('https');
 
 module.exports = {
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     data: new SlashCommandBuilder()
         .setName('avatar')
         .setDescription('Replies with avatar!')

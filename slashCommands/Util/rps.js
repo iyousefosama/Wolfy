@@ -2,7 +2,7 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
+    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     guildOnly: true,
 	data: new SlashCommandBuilder()
 		.setName('rps')

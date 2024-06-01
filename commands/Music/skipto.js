@@ -15,7 +15,7 @@ module.exports = {
   cooldown: 3, //seconds(s)
   guarded: false, //or false
   permissions: [],
-  clientpermissions: [discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
+  clientPermissions: [discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
   examples: [
       '6'
     ],

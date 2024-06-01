@@ -5,11 +5,9 @@ const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
 module.exports = {
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
-	guildOnly: true,
-    data: new SlashCommandBuilder()
-        .setName('warn')
-        .setDescription('Warn a user, get a list of a user, remove warn from the user!')
+	data: new SlashCommandBuilder()
+	.setName('warn')
+	.setDescription('Warn a user, get a list of a user, remove warn from the user!')
         .addSubcommand(subcommand =>
             subcommand
                 .setName('add')
@@ -18,7 +16,7 @@ module.exports = {
                 .addStringOption(option => option.setName('reason').setDescription('Enter the reason for the warn').setRequired(true)))
         .addSubcommand(subcommand =>
             subcommand
-                .setName('remove')
+			.setName('remove')
                 .setDescription('Remove a warn from the user!')
                 .addUserOption(option => option.setName('target').setDescription('The user to remove the warn').setRequired(true))
                 .addStringOption(option => option.setName('warnid').setDescription('Enter the warn id from (warnings list)').setRequired(true)))
@@ -27,6 +25,8 @@ module.exports = {
                 .setName('list')
                 .setDescription('Get the list of warns for the user')
                 .addUserOption(option => option.setName('target').setDescription('Select a user').setRequired(true))),
+			permissions: [discord.PermissionsBitField.Flags.Administrator],
+			guildOnly: true,
     async execute(client, interaction) {
         const subCommandName = interaction.options._subcommand;
         const add = interaction.options.getSubcommand('add');

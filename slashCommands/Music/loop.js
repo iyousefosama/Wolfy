@@ -3,7 +3,7 @@ const discord = require("discord.js");
 const { QueueRepeatMode } = require("discord-player");
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.ReadMessageHistory,
     discord.PermissionsBitField.Flags.Connect,

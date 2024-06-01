@@ -12,7 +12,7 @@ module.exports = {
   cooldown: 1, //seconds(s)
   guarded: false, //or false
   permissions: [discord.PermissionsBitField.Flags.BanMembers],
-  clientpermissions: [discord.PermissionsBitField.Flags.BanMembers],
+  clientPermissions: [discord.PermissionsBitField.Flags.BanMembers],
   examples: [
     '@BADGUY Toxic member',
     '742682490216644619'

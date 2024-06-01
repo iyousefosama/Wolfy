@@ -11,7 +11,7 @@ module.exports = {
     description: 'Playing rock/paper/scissors vs the bot',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
+    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
     permissions: [],
     examples: [
         'rock',

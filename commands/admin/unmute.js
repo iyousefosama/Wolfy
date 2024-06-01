@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageRoles],
-    clientpermissions: [discord.PermissionsBitField.Flags.ManageRoles],
+    clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
     examples: [
         '@BADGUY',
         '742682490216644619'

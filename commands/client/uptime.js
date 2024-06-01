@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 15, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
+    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [''],
     async execute(client, message, args) {
     let time = ms(client.uptime);

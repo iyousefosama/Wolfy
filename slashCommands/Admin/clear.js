@@ -3,10 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("@discordjs/builders");
 const moment = require("moment");
 
 module.exports = {
-  permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageMessages],
-  guildOnly: true,
   data: new SlashCommandBuilder()
-    .setName("clear")
+  .setName("clear")
     .setDescription(
       "Clear/Delete message with quantity you want (from 2 to 100)"
     )
@@ -15,7 +13,9 @@ module.exports = {
         .setName("quantity")
         .setDescription("The total messages to delete from the current channel")
         .setRequired(true)
-    ),
+      ),
+      permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageMessages],
+      guildOnly: true,
   async execute(client, interaction) {
     const { guild, options } = interaction;
     await interaction.deferReply().catch(() => {})

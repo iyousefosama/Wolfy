@@ -11,7 +11,7 @@ module.exports = {
   data: {
     name: "level-board",
     description: "Shows leaderboard for most leveled users",
-    clientpermissions: [
+    clientPermissions: [
       discord.PermissionsBitField.Flags.EmbedLinks,
       discord.PermissionsBitField.Flags.ReadMessageHistory,
       discord.PermissionsBitField.Flags.Connect,

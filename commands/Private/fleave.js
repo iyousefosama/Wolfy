@@ -13,7 +13,7 @@ const { EmbedBuilder, TextChannel } = require('discord.js');
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     async execute(client, message, [id = '', ...reason]) {
 
     if (!id.match(/\d{17,19}/)){

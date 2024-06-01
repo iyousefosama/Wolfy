@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: [],
+    clientPermissions: [],
     examples: [],
     async execute(client, message, args) {
         message.channel.sendTyping()

@@ -16,7 +16,7 @@ const filterOptions = {
 const availableOptions = Object.keys(filterOptions).join(', ');
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     'EMBED_LINKS',
     'ATTACH_FILES'
   ],

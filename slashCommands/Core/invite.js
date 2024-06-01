@@ -3,13 +3,13 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  clientpermissions: [
+  data: new SlashCommandBuilder()
+  .setName("invite")
+  .setDescription("Replies with bot links/invite!"),
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.ReadMessageHistory,
   ],
-  data: new SlashCommandBuilder()
-    .setName("invite")
-    .setDescription("Replies with bot links/invite!"),
   async execute(client, interaction) {
     const embed = new EmbedBuilder()
       .setAuthor({

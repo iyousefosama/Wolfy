@@ -12,7 +12,7 @@ module.exports = {
   cooldown: 2, //seconds(s)
   guarded: false, //or false
   permissions: [],
-  clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
+  clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
   examples: [
     'Is wolfy a good bot?',
     'Should i sleep after 1 hour?'

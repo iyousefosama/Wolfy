@@ -11,13 +11,13 @@ const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
 module.exports = {
-  clientpermissions: [
+  data: new SlashCommandBuilder()
+  .setName("stats")
+  .setDescription("Shows bot stats and informations"),
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.UseExternalEmojis,
   ],
-  data: new SlashCommandBuilder()
-    .setName("stats")
-    .setDescription("Shows bot stats and informations"),
   async execute(client, interaction) {
     const SlashCommands = client.slashCommands?.size;
     const members = text.commatize(

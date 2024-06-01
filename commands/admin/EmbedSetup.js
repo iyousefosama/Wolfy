@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 30, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
+    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
     examples: [''],
     async execute(client, message, args) {
 

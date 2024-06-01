@@ -3,7 +3,7 @@ const discord = require('discord.js');
 const ms = require('ms')
 
 module.exports = {
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
+    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
     guildOnly: true,
 	data: new SlashCommandBuilder()
     .setName("seek")

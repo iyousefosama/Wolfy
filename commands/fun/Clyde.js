@@ -14,7 +14,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles, discord.PermissionsBitField.Flags.ReadMessageHistory],
+    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles, discord.PermissionsBitField.Flags.ReadMessageHistory],
     examples: [
         'Hello you are ratelimit. lol',
         'Wolfy is cool!'

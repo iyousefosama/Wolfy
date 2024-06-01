@@ -13,7 +13,7 @@
     "description": "Bans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "4"
     ],
     "examples": [
@@ -87,7 +87,7 @@
     "description": "Display the setup embed message!",
     "cooldown": 30,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192",
       "16384"
     ],
@@ -112,7 +112,7 @@
     "description": "Bans a member not in the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "4"
     ],
     "examples": [
@@ -136,7 +136,7 @@
     "description": "To enable/disable/Edit infraction point protection system!",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -160,7 +160,7 @@
     "description": "Kick a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "2"
     ],
     "examples": [
@@ -185,7 +185,7 @@
     "description": "Lock the permissions for @everyone from talking in the channel",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -210,7 +210,7 @@
     "description": "Mute someone from texting!",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "268435456",
       "16"
     ],
@@ -237,7 +237,7 @@
     "description": "Changes the nickname of a member",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "134217728"
     ],
     "examples": [
@@ -262,7 +262,7 @@
     "description": "ReCreate any channel without messages (this will delete all the channel and create newone!)",
     "cooldown": 20,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192",
       "16"
     ],
@@ -287,7 +287,7 @@
     "description": "Clear messages of the user with quantity you want (from 2 to 100)",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -356,7 +356,7 @@
     "description": "The bot will repeat what you say",
     "cooldown": 20,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -381,7 +381,7 @@
     "description": "The bot will repeat what you say with embed",
     "cooldown": 20,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -406,7 +406,7 @@
     "description": "Adding slowmotion chat to a channel",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -430,7 +430,7 @@
     "description": "Kicks a user and deletes all their messages in the past 7 days",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "4"
     ],
     "examples": [
@@ -455,7 +455,7 @@
     "description": "Bans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8"
     ],
     "examples": [
@@ -480,7 +480,7 @@
     "description": "UnBans a member from the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "4"
     ],
     "examples": [
@@ -505,7 +505,7 @@
     "description": "Unlock the permissions for @everyone from talking in the channel",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -530,7 +530,7 @@
     "description": "Unmute someone from texting!",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "268435456"
     ],
     "examples": [
@@ -556,7 +556,7 @@
     "description": "Kicks all user in the voice channel!",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16777216"
     ],
     "examples": [],
@@ -648,7 +648,7 @@
     "description": "To give a feedback about bot or to report bug",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "64"
     ],
@@ -671,7 +671,7 @@
     "description": "Display main bot helplist embed.",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "32768"
     ],
@@ -699,7 +699,7 @@
     "description": "Shows all bot special link vote/invite ..",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -723,7 +723,7 @@
     "description": "Shows the bot ping",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144"
     ],
     "examples": [
@@ -748,7 +748,7 @@
     "description": "Show bot stats and informations",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -772,7 +772,7 @@
     "description": "Show the bot uptime",
     "cooldown": 15,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144"
     ],
     "examples": [
@@ -794,7 +794,7 @@
     "cooldown": 5,
     "guarded": false,
     "OwnerOnly": true,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "1024"
     ],
@@ -814,7 +814,7 @@
     "cooldown": 5,
     "guarded": false,
     "OwnerOnly": true,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "1024"
     ],
@@ -835,7 +835,7 @@
     "cooldown": 5,
     "guarded": false,
     "OwnerOnly": true,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "32768"
     ],
@@ -871,7 +871,7 @@
     "cooldown": 15,
     "guarded": false,
     "OwnerOnly": true,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "32768"
     ],
@@ -955,7 +955,7 @@
     "cooldown": 5,
     "guarded": false,
     "OwnerOnly": true,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "16384",
       "1024"
@@ -1174,7 +1174,7 @@
     "description": "Open the economy market!",
     "cooldown": 15,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "64",
       "16384"
@@ -1434,7 +1434,7 @@
     "description": "Ask the 8ball anything and it will answer",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1458,7 +1458,7 @@
     "description": "Send your message as clyde text message",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768",
@@ -1488,7 +1488,7 @@
     "description": "Start playing fastTyper game",
     "cooldown": 15,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1511,7 +1511,7 @@
     "description": "Start playing new guess the number game.",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1534,7 +1534,7 @@
     "description": "The bot will tell you random joke from the api",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1557,7 +1557,7 @@
     "description": "Get a random memes from reddit",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "32768"
     ],
@@ -1599,7 +1599,7 @@
     "description": "Let's flip the coin!",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1624,7 +1624,7 @@
     "description": "Playing rock/paper/scissors vs the bot",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "65536"
     ],
@@ -1649,7 +1649,7 @@
     "description": "Send your message as tweet message",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1675,7 +1675,7 @@
     "description": "Start playing waterdrop game",
     "cooldown": 15,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768",
@@ -1700,7 +1700,7 @@
     "description": "Get a user's avatar.",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "32768"
     ],
@@ -1725,7 +1725,7 @@
     "description": "Get a minecraft player info/skin",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1750,7 +1750,7 @@
     "description": "Get a server's avatar.",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1776,7 +1776,7 @@
     "description": "Shows informations about a server",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1800,7 +1800,7 @@
     "description": "Shows informations about a user",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1899,7 +1899,7 @@
     "description": "To show you all level roles in the guild",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144"
     ],
     "examples": [],
@@ -1922,7 +1922,7 @@
     "description": "Show your level & rank and your current and next xp",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144",
       "32768"
@@ -1990,7 +1990,7 @@
     "description": "Searching for anthing in djs library",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144"
     ],
@@ -2013,7 +2013,7 @@
     "description": "The bot will show you the lyrics for the music you are searching for!",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "262144",
       "64",
       "16384"
@@ -2037,7 +2037,7 @@
     "description": "To search for any game information in steam",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144"
     ],
@@ -2083,7 +2083,7 @@
     "description": "To search for anything in wikipedia",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144"
     ],
@@ -2109,7 +2109,7 @@
     "description": "To enable/disable Anti-Links protection!",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -2134,7 +2134,7 @@
     "description": "Add/remove/show blacklisted words for the current guild.",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "8192"
     ],
     "examples": [
@@ -2511,7 +2511,7 @@
     "description": "Setup the ticket category bot will create tickets channels from users there!",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -2606,7 +2606,7 @@
     "description": "Desc..",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [],
+    "clientPermissions": [],
     "examples": [],
     "permissions": [
       "ManageMessages"
@@ -2643,7 +2643,7 @@
     "description": "To upload a code to sourcebin",
     "cooldown": 10,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "262144"
     ],
@@ -2665,7 +2665,7 @@
     "description": "Calculates an equation by wolfy",
     "cooldown": 3,
     "guarded": false,
-    "clientpermissions": [],
+    "clientPermissions": [],
     "examples": [],
     "permissions": []
   },
@@ -2683,7 +2683,7 @@
     "description": "Delete your ticket in the server",
     "cooldown": 1,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -2731,7 +2731,7 @@
     "description": "Change ticket name",
     "cooldown": 2,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [
@@ -2755,7 +2755,7 @@
     "description": "To report someone in the server",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "1024",
       "262144"
     ],
@@ -2778,7 +2778,7 @@
     "description": "Send your suggestion for the server",
     "cooldown": 5,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16384",
       "64"
     ],
@@ -2800,7 +2800,7 @@
     "description": "Open new ticket in the server",
     "cooldown": 30,
     "guarded": false,
-    "clientpermissions": [
+    "clientPermissions": [
       "16"
     ],
     "examples": [

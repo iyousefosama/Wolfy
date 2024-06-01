@@ -13,7 +13,7 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ViewChannel],
+    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ViewChannel],
     async execute(client, message, [user='', amount=''] ) {
 
     if (!user.match(/\d{17,19}/)){

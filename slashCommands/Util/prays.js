@@ -14,7 +14,7 @@ const momentTz = require("moment-timezone");
 let dinMS;
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.ReadMessageHistory,
   ],

@@ -12,7 +12,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageChannels],
-    clientpermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [
       '5s'
     ],

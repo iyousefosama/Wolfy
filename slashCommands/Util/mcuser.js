@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const axios = require("axios");
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.ReadMessageHistory,
   ],

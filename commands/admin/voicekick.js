@@ -12,7 +12,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.MoveMembers],
-    clientpermissions: [discord.PermissionsBitField.Flags.MoveMembers],
+    clientPermissions: [discord.PermissionsBitField.Flags.MoveMembers],
     examples: [],
     async execute(client, message, [ member = '', ...args]) {
 

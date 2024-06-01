@@ -9,7 +9,7 @@ const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.AttachFiles,
   ],

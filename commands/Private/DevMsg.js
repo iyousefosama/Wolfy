@@ -12,7 +12,7 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    clientpermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     async execute(client, message, [user='', ...args]) {
 
         user = await client.users

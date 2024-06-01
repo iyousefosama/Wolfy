@@ -5,7 +5,7 @@ const { QueryType } = require("discord-player");
 const playdl = require("play-dl");
 
 module.exports = {
-  clientpermissions: [
+  clientPermissions: [
     discord.PermissionsBitField.Flags.EmbedLinks,
     discord.PermissionsBitField.Flags.ReadMessageHistory,
     discord.PermissionsBitField.Flags.Connect,

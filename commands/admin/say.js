@@ -12,7 +12,7 @@ module.exports = {
     cooldown: 20, //seconds(s)
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientpermissions: [discord.PermissionsBitField.Flags.ManageMessages],
+    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
         'Hello everyone how are you?'
       ],

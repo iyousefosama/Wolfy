@@ -12,7 +12,7 @@ module.exports = {
   cooldown: 2, //seconds(s)
   guarded: false, //or false
   permissions: [discord.PermissionsBitField.Flags.ManageNicknames],
-  clientpermissions: [discord.PermissionsBitField.Flags.ManageNicknames],
+  clientPermissions: [discord.PermissionsBitField.Flags.ManageNicknames],
   examples: [
     '@WOLF JoeMama',
     '742682490216644619 Unknown user!'

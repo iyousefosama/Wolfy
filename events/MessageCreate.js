@@ -177,14 +177,14 @@ module.exports = {
                         }
                        }
   
-                   //+ clientpermissions: [""],
-                   if (cmd.clientpermissions) {
+                   //+ clientPermissions: [""],
+                   if (cmd.clientPermissions) {
                       if (message.guild) {
                       const clientPerms = message.channel.permissionsFor(message.guild.members.me);
-                      if (!clientPerms || !clientPerms.has(cmd.clientpermissions)) {
+                      if (!clientPerms || !clientPerms.has(cmd.clientPermissions)) {
                           const ClientPermsEmbed = new discord.EmbedBuilder()
                           .setColor(`Red`)
-                          .setDescription(`<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(cmd.clientpermissions)}\` permission(s)`)
+                          .setDescription(`<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(cmd.clientPermissions)}\` permission(s)`)
                           return message.channel.send({ embeds: [ClientPermsEmbed] })
                       }
                      }

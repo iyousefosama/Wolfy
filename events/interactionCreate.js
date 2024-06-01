@@ -42,30 +42,18 @@ module.exports = {
         } else {
           // Do nothing..
         }
-        if (
+        /*         if (
           !interaction.channel
             .permissionsFor(interaction.guild.members.me)
             .has(PermissionsBitField.Flags.ReadMessageHistory)
         ) {
-          return interaction.channel.send({
+          return interaction.reply({
             content:
               '"Missing Access", the bot is missing the `READ_MESSAGE_HISTORY` permission please enable it!',
           });
         } else {
           // Do nothing..
-        }
-        if (
-          !interaction.channel
-            .permissionsFor(interaction.guild.members.me)
-            .has(PermissionsBitField.Flags.EmbedLinks)
-        ) {
-          return interaction.channel.send({
-            content:
-              '"Missing Permissions", the bot is missing the `EMBED_LINKS` permission please enable it!',
-          });
-        } else {
-          // Do nothing..
-        }
+        } */
       }
     } catch (err) {
       console.log(err);
@@ -104,6 +92,13 @@ module.exports = {
       }
 
       try {
+        async function sendMessage(message) {
+          const embed = new EmbedBuilder()
+            .setColor(`Red`)
+            .setDescription(message);
+
+          await interaction.reply({ embeds: [embed], ephemeral: true });
+        }
         function getPermissionName(permission) {
           for (const perm of Object.keys(discord.PermissionsBitField.Flags)) {
             if (discord.PermissionsBitField.Flags[perm] === permission) {
@@ -113,83 +108,56 @@ module.exports = {
           return "UnknownPermission";
         }
 
-        if (
-          command.data.guildOnly
-            ? command.data.guildOnly
-            : command.guildOnly && interaction.channel.type === "DM"
-        ) {
-          return interaction.reply({
-            content:
-              "<a:pp802:768864899543466006> I can't execute that command inside DMs!",
-            ephemeral: true,
-          });
+        let state = command.guildOnly
+          ? command.guildOnly
+          : command.data.guildOnly;
+
+        if (state && interaction.channel.type === ChannelType.DM) {
+          return sendMessage("I can't execute that command **inside DMs**!");
         }
 
-        if (
-          command.data.ownerOnly
-            ? command.data.ownerOnly
-            : command.ownerOnly && !client.owners.includes(interaction.user.id)
-        ) {
-          return interaction.reply({
-            content:
-              "<a:pp802:768864899543466006> This command is limited for developers only!",
-            ephemeral: true,
-          });
+        state = command.data.ownerOnly
+          ? command.data.ownerOnly
+          : command.ownerOnly;
+
+        if (state && !client.owners.includes(interaction.user.id)) {
+          return sendMessage("This command is limited for **developers only**!");
         }
         //+ permissions: [""],
-        if (
-          command.data.permissions
-            ? command.data.permissions
-            : command.permissions
-        ) {
+        state = command.data.permissions
+          ? command.data.permissions
+          : command.permissions;
+        if (state) {
           if (interaction.guild) {
             const sauthorPerms = interaction.channel.permissionsFor(
               interaction.user
             );
-            if (
-              !sauthorPerms ||
-              !sauthorPerms.has(
-                command.data.permissions
-                  ? command.data.permissions
-                  : command.permissions
-              )
-            ) {
-              const permsNames = command.permissions?.map((perm) =>
-                getPermissionName(perm)
-              );
-              return interaction.reply({
-                content: `<a:pp802:768864899543466006> You don\'t have \`${
-                  command.data.permissions
-                    ? command.data.permissions
-                    : command.permissions
-                }\` permission(s) to use ${text.joinArray(
-                  permsNames
-                )} command.`,
-                ephemeral: true,
-              });
+            if (!sauthorPerms || !sauthorPerms.has(state)) {
+              const permsNames = state?.map((perm) => getPermissionName(perm));
+              return sendMessage(`You don\'t have \`${text.joinArray(
+                permsNames
+              )}\` permission(s) to use **${command.data.name}** command.`);
             }
           }
         }
 
-        const clientPermissions = command.data.permissions
-          ? command.data.permissions
-          : command.permissions;
-        //+ clientpermissions: [""],
-        if (clientPermissions) {
+        state = command.data.clientPermissions
+          ? command.data.clientPermissions
+          : command.clientPermissions;
+        //+ clientPermissions: [""],
+        if (state) {
           if (interaction.guild) {
             const sclientPerms = interaction.channel.permissionsFor(
               interaction.guild.members.me
             );
-            if (!sclientPerms || !sclientPerms.has(clientPermissions)) {
-              return interaction.reply({
-                content: `<a:pp802:768864899543466006> The bot is missing \`${clientPermissions}\` permission(s)!`,
-                ephemeral: true,
-              });
+            if (!sclientPerms || !sclientPerms.has(state)) {
+              const permsNames = state?.map((perm) => getPermissionName(perm));
+              return sendMessage(`The client is missing \`${permsNames}\` permission(s)!`);
             }
           }
         }
         console.log(
-          `(/) ${interaction.user.tag}|(${interaction.user.id}) in ${
+          `(/) ${interaction.user.username}|(${interaction.user.id}) in ${
             interaction.guild
               ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
               : "DMS"

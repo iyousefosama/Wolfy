@@ -14,7 +14,7 @@ module.exports = {
   cooldown: 10,
   guarded: false,
   permissions: [],
-  clientpermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
+  clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
   examples: [],
   async execute(client, message, args) {
     message.channel.sendTyping();

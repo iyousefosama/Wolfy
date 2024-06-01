@@ -18,7 +18,7 @@ module.exports = {
         required: false,
       },
     ],
-    clientpermissions: [
+    clientPermissions: [
       discord.PermissionsBitField.Flags.EmbedLinks,
       discord.PermissionsBitField.Flags.ReadMessageHistory,
     ],
