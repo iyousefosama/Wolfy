@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, ChannelType } = require('discord.js')
 const https = require('https');
 
 module.exports = {
@@ -32,6 +32,9 @@ module.exports = {
             let avatar = user.displayAvatarURL({ extension: 'gif', dynamic: true, size: 1024 });
 
             if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
+              if(interaction.channel.type != ChannelType.GuildText) {
+                return interaction.reply({ content: `\\❌ | ${interaction.user}, This option can only be used in text channels!`, ephemeral: true })
+              }
                 let avatarserver = new EmbedBuilder()
                 .setColor("#ed7947")
                 .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL() })

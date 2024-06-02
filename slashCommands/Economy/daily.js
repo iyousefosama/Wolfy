@@ -97,7 +97,7 @@ module.exports = {
           { $set: { "progress.quests.$.received": true } }
         );
         data.progress.completed++;
-        interaction.reply({
+        interaction.followUp({
           content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`,
         });
       }

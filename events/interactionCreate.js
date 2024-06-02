@@ -8,15 +8,11 @@ const {
   PermissionsBitField,
   ChannelType,
 } = require("discord.js");
-const sourcebin = require("sourcebin_js");
-const schema = require("../schema/GuildSchema");
-const TicketSchema = require("../schema/Ticket-Schema");
-const cooldowns = new Collection();
-const CoolDownCurrent = {};
 const text = require("../util/string");
 const Ticket = require("../functions/ButtonHandle/Ticket");
 const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
+const logSys = require("../functions/logSys");
 
 module.exports = {
   name: "interactionCreate",
@@ -121,7 +117,9 @@ module.exports = {
           : command.ownerOnly;
 
         if (state && !client.owners.includes(interaction.user.id)) {
-          return sendMessage("This command is limited for **developers only**!");
+          return sendMessage(
+            "This command is limited for **developers only**!"
+          );
         }
         //+ permissions: [""],
         state = command.data.permissions
@@ -134,9 +132,11 @@ module.exports = {
             );
             if (!sauthorPerms || !sauthorPerms.has(state)) {
               const permsNames = state?.map((perm) => getPermissionName(perm));
-              return sendMessage(`You don\'t have \`${text.joinArray(
-                permsNames
-              )}\` permission(s) to use **${command.data.name}** command.`);
+              return sendMessage(
+                `You don\'t have \`${text.joinArray(
+                  permsNames
+                )}\` permission(s) to use **${command.data.name}** command.`
+              );
             }
           }
         }
@@ -152,19 +152,23 @@ module.exports = {
             );
             if (!sclientPerms || !sclientPerms.has(state)) {
               const permsNames = state?.map((perm) => getPermissionName(perm));
-              return sendMessage(`The client is missing \`${permsNames}\` permission(s)!`);
+              return sendMessage(
+                `The client is missing \`${permsNames}\` permission(s)!`
+              );
             }
           }
         }
-        console.log(
-          `(/) ${interaction.user.username}|(${interaction.user.id}) in ${
-            interaction.guild
-              ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
-              : "DMS"
-          } used: /${interaction.commandName}`
-        );
         //await interaction.deferReply().catch(() => {});
-        command.execute(client, interaction);
+        command.execute(client, interaction).then(() => {
+          logSys(client, interaction, true);
+          console.log(
+            `(/) ${interaction.user.username}|(${interaction.user.id}) in ${
+              interaction.guild
+                ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
+                : "DMS"
+            } used: /${interaction.commandName}`
+          );
+        });
       } catch (error) {
         console.error(error);
         await interaction
