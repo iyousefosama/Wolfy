@@ -20,13 +20,13 @@ module.exports = async (client) => {
       // timerDuration has expired, deletes the data
       userData.timerStart = 0;
       userData.timerEnd = 0;
-      await userData.deleteOne({ userID: message.author.id });
+      await userData.deleteOne({ userID: userData.userID });
     } else {
       // timerDuration has not expired, set the remaining time
       setTimeout(async () => {
         userData.timerStart = 0;
         userData.timerEnd = 0;
-        await userData.deleteOne({ userID: message.author.id });
+        await userData.deleteOne({ userID: userData.userID });
       }, Math.floor(userData.timerEnd - userData.timerStart));
     }
   }
