@@ -2,6 +2,7 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 const { EmbedBuilder, ActivityType } = require('discord.js')
 const { version } = require('./../package.json');
+const ManagerCheck = require("../functions/ManagerCheck")
 
 module.exports = {
     name: 'ready',
@@ -9,6 +10,7 @@ module.exports = {
     async execute(client) {
         await new Promise(r=>setTimeout(r,3500))
         consoleUtil.Success(`${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)\n\n`);
+        ManagerCheck(client)
 
         /*======================================================
            Sends a notification to a log channel (if available)
