@@ -3,6 +3,14 @@ const schema = require('../schema/GuildSchema')
 let logs = [];
 const { AuditLogEvent, ChannelType } = require('discord.js')
 
+const requiredPermissions = [
+  discord.PermissionsBitField.Flags.ViewAuditLog,
+  discord.PermissionsBitField.Flags.SendMessages,
+  discord.PermissionsBitField.Flags.ViewChannel,
+  discord.PermissionsBitField.Flags.ReadMessageHistory,
+  discord.PermissionsBitField.Flags.EmbedLinks,
+];
+
 module.exports = {
     name: 'guildBanAdd',
     async execute(client, member) {
@@ -29,7 +37,7 @@ module.exports = {
             return;
           } else if (!data.Mod.Logs.isEnabled){
             return;
-          } else if(!Channel.permissionsFor(Channel.guild.members.me).has([discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ViewChannel, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.ViewAuditLog, discord.PermissionsBitField.Flags.SendMessages])) {
+          } else if(!Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)) {
             return;
           } else {
             // Do nothing..

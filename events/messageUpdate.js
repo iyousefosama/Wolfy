@@ -3,17 +3,27 @@ const schema = require("../schema/GuildSchema");
 let logs = [];
 const { AuditLogEvent, ChannelType } = require("discord.js");
 
+const requiredPermissions = [
+  discord.PermissionsBitField.Flags.ViewAuditLog,
+  discord.PermissionsBitField.Flags.SendMessages,
+  discord.PermissionsBitField.Flags.ViewChannel,
+  discord.PermissionsBitField.Flags.ReadMessageHistory,
+  discord.PermissionsBitField.Flags.EmbedLinks,
+];
+
 module.exports = {
   name: "messageUpdate",
   async execute(client, oldMessage, newMessage) {
-    if (!oldMessage.guild) return;
-    if (oldMessage.author == client) return;
-    if (!oldMessage.author) return;
-    if (oldMessage.embeds[0]) return;
-    if (oldMessage.attachments.size) return;
-    if (oldMessage.author.bot) {
+    //if (oldMessage.attachments.size) return;
+    if (
+      oldMessage.channel.type != ChannelType.GuildText ||
+      oldMessage.author == client ||
+      !oldMessage.author ||
+      oldMessage.embeds[0]
+    )
       return;
-    }
+
+    const file = newMessage.attachments.first()?.url;
 
     let data;
     try {
@@ -37,13 +47,7 @@ module.exports = {
     } else if (!data.Mod.Logs.isEnabled) {
       return;
     } else if (
-      !Channel.permissionsFor(Channel.guild.members.me).has([
-        discord.PermissionsBitField.Flags.EmbedLinks,
-        discord.PermissionsBitField.Flags.ViewChannel,
-        discord.PermissionsBitField.Flags.ReadMessageHistory,
-        discord.PermissionsBitField.Flags.ViewAuditLog,
-        discord.PermissionsBitField.Flags.SendMessages
-      ])
+      !Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)
     ) {
       return;
     } else {
@@ -81,6 +85,7 @@ module.exports = {
         iconURL: oldMessage.guild.iconURL({ dynamic: true }),
       })
       .setTimestamp()
+      .setImage(file)
       .setThumbnail(oldMessage.author.displayAvatarURL({ dynamic: true }));
     const botname = client.user.username;
     const webhooks = await Channel.fetchWebhooks();

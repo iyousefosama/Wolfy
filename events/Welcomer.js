@@ -7,6 +7,13 @@ const { GreetingsCard, Font } = require("canvacord");
 Font.loadDefault();
 
 const { ChannelType } = require("discord.js");
+const requiredPermissions = [
+  discord.PermissionsBitField.Flags.ViewAuditLog,
+  discord.PermissionsBitField.Flags.SendMessages,
+  discord.PermissionsBitField.Flags.ViewChannel,
+  discord.PermissionsBitField.Flags.ReadMessageHistory,
+  discord.PermissionsBitField.Flags.EmbedLinks,
+];
 
 module.exports = {
   name: "guildMemberAdd",
@@ -29,13 +36,7 @@ module.exports = {
     } else if (!data.greeter.welcome.isEnabled) {
       return;
     } else if (
-      !Channel.permissionsFor(Channel.guild.members.me).has([
-        discord.PermissionsBitField.Flags.EmbedLinks,
-        discord.PermissionsBitField.Flags.ViewChannel,
-        discord.PermissionsBitField.Flags.ReadMessageHistory,
-        discord.PermissionsBitField.Flags.ViewAuditLog,
-        discord.PermissionsBitField.Flags.SendMessages
-      ])
+      !Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)
     ) {
       return;
     } else {
