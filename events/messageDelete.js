@@ -96,7 +96,7 @@ module.exports = {
         }<:pp198:853494893439352842> **In**: ${
           message.channel
         }\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${
-          Msg || "❌ | Unkown message!"
+          Msg || "❌ Unkown message"
         }\n\`\`\``
       )
       .setImage(file)

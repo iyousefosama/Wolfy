@@ -1,28 +1,23 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const discord = require("discord.js");
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
+const { PermissionsBitField, EmbedBuilder } = require("discord.js");
 const { QueryType } = require("discord-player");
 const playdl = require("play-dl");
 
 module.exports = {
   clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-    discord.PermissionsBitField.Flags.Connect,
-    discord.PermissionsBitField.Flags.Speak,
+    PermissionsBitField.Flags.EmbedLinks,
+    PermissionsBitField.Flags.ReadMessageHistory,
+    PermissionsBitField.Flags.Connect,
+    PermissionsBitField.Flags.Speak,
   ],
   guildOnly: true,
   data: new SlashCommandBuilder()
     .setName("play")
-    .setDescription(
-      "Plays tracks on discord voice channel from other platforms"
-    )
-    .addStringOption((option) =>
+    .setDescription("Plays tracks on discord voice channel from other platforms")
+    .addStringOption(option =>
       option
         .setName("track")
-        .setDescription(
-          "Search for a track in different platforms by url or name"
-        )
+        .setDescription("Search for a track in different platforms by URL or name")
         .setRequired(true)
     ),
   async execute(client, interaction) {
@@ -36,14 +31,14 @@ module.exports = {
     } else if (
       interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.members.me.voice.channelId
+      interaction.guild.members.me.voice.channelId
     ) {
       return await interaction.editReply(
         "<:error:888264104081522698> You are not in my voice channel!"
       ).catch(() => {});
     }
 
-    // verifies song is not a spotify link
+    // Verifies the song is not a Spotify link
     if (trackInput.includes("spotify"))
       return interaction.editReply({
         content: `Spotify not supported ❌`,
@@ -70,7 +65,7 @@ module.exports = {
       queue = OldQueue;
     }
 
-    let embed = new EmbedBuilder();
+    const embed = new EmbedBuilder();
 
     const result = await client.player.search(trackInput, {
       requestedBy: interaction.user,
@@ -83,7 +78,7 @@ module.exports = {
       ).catch(() => {});
 
     const track = result.tracks[0];
-    await queue.addTrack(track);
+    queue.addTrack(track); // This should ensure the track is added to the queue
     embed
       .setAuthor({
         name: interaction.user.tag,

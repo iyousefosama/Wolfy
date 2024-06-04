@@ -74,9 +74,9 @@ module.exports = {
         } [Jump to the message](${
           oldMessage.url
         })\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Old Message**: \`\`\`\n${
-          oldMsg || "❌ | Unkown message!"
+          oldMsg || "❌ Unkown message"
         }\n\`\`\`\n<a:Right:877975111846731847> **New Message**: \`\`\`\n${
-          newMsg || "❌ | Unkown message!"
+          newMsg || "❌ Unkown message"
         }\n\`\`\``
       )
       .setColor("#2F3136")
