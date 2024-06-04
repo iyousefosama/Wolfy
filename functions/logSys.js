@@ -75,5 +75,5 @@ module.exports = async (client, e, isSlash = false) => {
       webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
       logs = logs.slice(10); // Remove the sent embeds from the logs
     }
-  }, 10000);
+  }, 40000);
 };
