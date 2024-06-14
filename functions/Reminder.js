@@ -103,7 +103,7 @@ module.exports = async (client) => {
           members.push(data.find((obj) => obj.userId === userId));
         }
       } catch (err) {
-        console.log(`Failed to fetch user with ID: ${userId}`);
+        return;
       }
     }
 
