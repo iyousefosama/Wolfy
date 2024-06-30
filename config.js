@@ -65,7 +65,7 @@ const settings = {
     // websites affiliated with the bot, can be accessed through
     // Client#config#websites
     websites: {
-      "website": "https://iiblackwolf.github.io/WolfySite",
+      "website": "https://wolfy-navy.vercel.app/",
       "invite": "https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands",
       "support": "https://discord.gg/qYjus2rujb",
       "top.gg": "https://top.gg/bot/821655420410003497",
