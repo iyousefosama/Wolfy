@@ -41,6 +41,8 @@ module.exports = {
                     return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
                 },
             })
+
+            queue.connect()
         } else {
             queue = OldQueue
         }
