@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionsBitField, EmbedBuilder } = require("discord.js");
 const { QueryType } = require("discord-player");
-const playdl = require("play-dl");
 
 module.exports = {
   clientPermissions: [
@@ -55,11 +54,11 @@ module.exports = {
         metadata: {
           channel: channel,
         },
-        async onBeforeCreateStream(track, source, _queue) {
+/*         async onBeforeCreateStream(track, source, _queue) {
           return (
             await playdl.stream(track.url, { discordPlayerCompatibility: true })
           ).stream;
-        },
+        }, */
       });
     } else {
       queue = OldQueue;

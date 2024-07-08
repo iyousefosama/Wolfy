@@ -1,7 +1,6 @@
 const discord = require('discord.js');
 const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
-const playdl = require("play-dl");
 const ms = require('ms')
 
 module.exports = {
