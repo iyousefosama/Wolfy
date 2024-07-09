@@ -14,18 +14,13 @@ module.exports = {
   description: 'Bans a member from the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.BanMembers],
-  clientPermissions: [discord.PermissionsBitField.Flags.BanMembers],
+  permissions: ["BanMembers"],
+  clientPermissions: ["BanMembers"],
   examples: [
     '@BADGUY Toxic member',
     '742682490216644619'
   ],
-      /**
-   *
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").Message} message
-   *
-   */
+
   async execute(client, message, [ member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

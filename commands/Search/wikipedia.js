@@ -17,7 +17,7 @@ module.exports = {
     cooldown: 3, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis],
+    clientPermissions: ["EmbedLinks", "UseExternalEmojis"],
     examples: [
         'Iphone 6',
         'discord'

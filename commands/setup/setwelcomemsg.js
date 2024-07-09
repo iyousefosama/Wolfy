@@ -15,7 +15,7 @@ module.exports = {
     description: 'Set the welcome msg or embed',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
       'msg {tag} has joined {guildName} server!',
       'embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'

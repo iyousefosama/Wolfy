@@ -15,8 +15,8 @@ module.exports = {
     group: "NONE",
     clientPermissions: [],
     permissions: [
-      discord.PermissionsBitField.Flags.Administrator,
-      discord.PermissionsBitField.Flags.ManageMessages
+      "Administrator",
+      "ManageMessages"
     ],
     options: [
       {

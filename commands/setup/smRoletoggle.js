@@ -15,7 +15,7 @@ module.exports = {
     description: 'To enable/disable Select menu roles!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageRoles, discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["ManageRoles", "Administrator"],
     examples: [''],
 
   async execute(client, message, args) {

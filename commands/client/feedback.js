@@ -18,7 +18,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions],
+    clientPermissions: ["UseExternalEmojis", "AddReactions"],
     examples: [
       'The bot ping commands not working it\'s showing undefined ping!'
     ],

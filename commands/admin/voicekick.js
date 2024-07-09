@@ -14,8 +14,8 @@ module.exports = {
     description: 'Kicks all user in the voice channel!',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.MoveMembers],
-    clientPermissions: [discord.PermissionsBitField.Flags.MoveMembers],
+    permissions: ["MoveMembers"],
+    clientPermissions: ["MoveMembers"],
     examples: [],
     
     async execute(client, message, [ member = '', ...args]) {

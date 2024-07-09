@@ -16,7 +16,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
+    clientPermissions: ["UseExternalEmojis", "ReadMessageHistory"],
     examples: [''],
 
   async execute(client, message, args) {

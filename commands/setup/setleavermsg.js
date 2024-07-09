@@ -15,7 +15,7 @@ module.exports = {
     description: 'Set the leaver msg or embed',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
       'msg {tag} has just leaved {guildName} server!',
       'embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'

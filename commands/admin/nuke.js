@@ -15,8 +15,8 @@ module.exports = {
     description: 'ReCreate any channel without messages (this will delete all the channel and create newone!)',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
+    permissions: ["ManageMessages", "ManageChannels"],
+    clientPermissions: ["ManageMessages", "ManageChannels"],
     examples: [''],
 
   async execute(client, message, args) {

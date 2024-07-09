@@ -19,7 +19,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.ViewChannel, discord.PermissionsBitField.Flags.UseExternalEmojis],
+    clientPermissions: ["ViewChannel", "UseExternalEmojis"],
     examples: [
         '@WOLF bad boy'
       ],

@@ -15,7 +15,7 @@ module.exports = {
     description: 'To enable/disable badwords filter!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["ManageMessages", "Administrator"],
     examples: [''],
 
   async execute(client, message, args) {

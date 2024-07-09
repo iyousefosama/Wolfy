@@ -16,16 +16,11 @@ module.exports = {
   description: 'Clear/Delete message with quantity you want (from 2 to 100)',
   cooldown: 10, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-  clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
+  permissions: ["ManageMessages"],
+  clientPermissions: ["ManageMessages", "EmbedLinks"],
   examples: [
     '20'],
-        /**
-   *
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").Message} message
-   *
-   */
+  
     async execute(client, message, [quantity]) {
 
     quantity = Math.round(quantity);

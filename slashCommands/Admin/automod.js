@@ -13,10 +13,10 @@ module.exports = {
     cooldown: 0,
     group: "NONE",
     clientPermissions: [
-      discord.PermissionsBitField.Flags.Administrator
+      "Administrator"
     ],
     permissions: [
-      discord.PermissionsBitField.Flags.Administrator
+      "Administrator"
     ],
     options: [
       {

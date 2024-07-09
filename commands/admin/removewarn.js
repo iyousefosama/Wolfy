@@ -17,7 +17,7 @@ module.exports = {
     description: 'Remove a user warn from the warns list by the id',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
     '@WOLF 72c53c46-7449-4076-9af2-5acda635cbf4',
     '742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4'

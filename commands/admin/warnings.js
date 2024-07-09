@@ -15,7 +15,7 @@ module.exports = {
     description: 'Display the mentioned user warns list and ids',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
         '@BadGuy',
         '742682490216644619'

@@ -16,7 +16,7 @@ module.exports = {
     description: 'Check what you can buy from the shop.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    clientPermissions: [ discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.AttachFiles ],
+    clientPermissions: [ "ManageMessages", "AttachFiles" ],
     permissions: [],
     examples: [
         '6',

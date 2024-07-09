@@ -14,8 +14,8 @@ module.exports = {
     description: 'Clear messages of the user with quantity you want (from 2 to 100)',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages],
+    permissions: ["ManageMessages"],
+    clientPermissions: ["ManageMessages"],
     examples: [
       '20'],
       

@@ -15,7 +15,7 @@ module.exports = {
     description: 'To allow or disable welcome channel!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["ManageChannels", "Administrator"],
     examples: [''],
 
   async execute(client, message, args) {

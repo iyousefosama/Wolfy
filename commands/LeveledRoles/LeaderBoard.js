@@ -21,7 +21,7 @@ module.exports = {
   cooldown: 10,
   guarded: false,
   permissions: [],
-  clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
+  clientPermissions: ["UseExternalEmojis"],
   examples: [],
   /**
    *

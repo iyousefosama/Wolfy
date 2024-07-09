@@ -21,7 +21,7 @@ module.exports = {
     cooldown: 15, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions, discord.PermissionsBitField.Flags.EmbedLinks],
+    clientPermissions: ["UseExternalEmojis", "AddReactions", "EmbedLinks"],
     examples: [''], 
     
     async execute(client, message, [type]) {

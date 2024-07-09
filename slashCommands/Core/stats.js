@@ -22,8 +22,8 @@ module.exports = {
     cooldown: 0,
     group: "NONE",
     clientPermissions: [
-        discord.PermissionsBitField.Flags.EmbedLinks,
-        discord.PermissionsBitField.Flags.UseExternalEmojis
+        "EmbedLinks",
+        "UseExternalEmojis"
     ],
     permissions: [],
     options: []

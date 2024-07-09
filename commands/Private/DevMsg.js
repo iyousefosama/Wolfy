@@ -15,7 +15,7 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    clientPermissions: ["EmbedLinks", "AttachFiles"],
     
     async execute(client, message, [user='', ...args]) {
 

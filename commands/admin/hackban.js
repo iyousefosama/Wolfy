@@ -14,8 +14,8 @@ module.exports = {
   description: 'Bans a member not in the server',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.BanMembers],
-  clientPermissions: [discord.PermissionsBitField.Flags.BanMembers],
+  permissions: ["BanMembers"],
+  clientPermissions: ["BanMembers"],
   examples: [
     '742682490216644619 Big scammer!'
   ],

@@ -8,6 +8,7 @@ const {
   PermissionsBitField,
   ChannelType,
 } = require("discord.js");
+const { parsePermissions } = require("../util/class/utils");
 const text = require("../util/string");
 const Ticket = require("../functions/ButtonHandle/Ticket");
 const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
@@ -98,65 +99,40 @@ module.exports = {
 
           await interaction.reply({ embeds: [embed], ephemeral: true });
         }
-        function getPermissionName(permission) {
-          for (const perm of Object.keys(discord.PermissionsBitField.Flags)) {
-            if (discord.PermissionsBitField.Flags[perm] === permission) {
-              return perm;
-            }
-          }
-          return "UnknownPermission";
-        }
 
-        let state = command.guildOnly
-          ? command.guildOnly
-          : command.data.guildOnly;
-
-        if (state && interaction.channel.type === ChannelType.DM) {
+        if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
           return sendMessage("I can't execute that command **inside DMs**!");
         }
 
-        state = command.data.ownerOnly
-          ? command.data.ownerOnly
-          : command.ownerOnly;
 
-        if (state && !client.owners.includes(interaction.user.id)) {
+        if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
           return sendMessage(
             "This command is limited for **developers only**!"
           );
         }
         //+ permissions: [""],
-        state = command.data.permissions
-          ? command.data.permissions
-          : command.permissions;
-        if (state) {
+        if (command.data.permissions && command.data.permissions > 0) {
           if (interaction.guild) {
-            const sauthorPerms = interaction.channel.permissionsFor(
+            const userPerms = interaction.channel.permissionsFor(
               interaction.user
             );
-            if (!sauthorPerms || !sauthorPerms.has(state)) {
-              const permsNames = state?.map((perm) => getPermissionName(perm));
+            if (!userPerms || !userPerms.has(command.data.permissions)) {
               return sendMessage(
-                `You don\'t have \`${text.joinArray(
-                  permsNames
-                )}\` permission(s) to use **${command.data.name}** command.`
+                `You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`
               );
             }
           }
         }
 
-        state = command.data.clientPermissions
-          ? command.data.clientPermissions
-          : command.clientPermissions;
         //+ clientPermissions: [""],
-        if (state) {
+        if (command.data.clientPermissions && command.data.clientPermissions > 0) {
           if (interaction.guild) {
-            const sclientPerms = interaction.channel.permissionsFor(
+            const clientPerms = interaction.channel.permissionsFor(
               interaction.guild.members.me
             );
-            if (!sclientPerms || !sclientPerms.has(state)) {
-              const permsNames = state?.map((perm) => getPermissionName(perm));
+            if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
               return sendMessage(
-                `The client is missing \`${permsNames}\` permission(s)!`
+                `The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`
               );
             }
           }

@@ -14,8 +14,8 @@ module.exports = {
     description: 'The bot will repeat what you say',
     cooldown: 20, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages],
+    permissions: ["ManageMessages"],
+    clientPermissions: ["ManageMessages"],
     examples: [
         'Hello everyone how are you?'
       ],

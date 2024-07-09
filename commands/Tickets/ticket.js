@@ -18,7 +18,7 @@ module.exports = {
     cooldown: 10, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    clientPermissions: ["ManageChannels"],
     examples: [''],
 
   async execute(client, message, args) {

@@ -10,7 +10,7 @@ module.exports = {
         cooldown: 0,
         group: "NONE",
         clientPermissions: [
-            discord.PermissionsBitField.Flags.UseExternalEmojis
+            "UseExternalEmojis"
         ],
         permissions: [],
         options: [

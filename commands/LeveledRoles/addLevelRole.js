@@ -15,7 +15,7 @@ module.exports = {
     description: 'Add a level role as a prize for users when they be active',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageRoles],
+    permissions: ["Administrator", "ManageRoles"],
     examples: [
         '@ActiveMember 5'
       ],

@@ -14,8 +14,8 @@ module.exports = {
     description: 'UnBans a member from the server',
     cooldown: 1, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.BanMembers],
-    clientPermissions: [discord.PermissionsBitField.Flags.BanMembers],
+    permissions: ["BanMembers"],
+    clientPermissions: ["BanMembers"],
     examples: [
         '@FreeGuy',
         '829819269806030879'

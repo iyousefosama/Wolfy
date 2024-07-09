@@ -16,7 +16,7 @@ module.exports = {
     description: 'Warn a user in the server!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
       '@BadGuy Spamming in chat!',
       '742682490216644619 Dm Ad!'

@@ -19,8 +19,8 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.UseExternalEmojis,
+    "EmbedLinks",
+    "UseExternalEmojis",
   ],
   examples: ["message.channel.send('Hello, world!')"],
   /**

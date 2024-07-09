@@ -1,6 +1,5 @@
-const discord = require("discord.js");
-const { Collection, PermissionsBitField, ChannelType } = require("discord.js");
-const text = require("../util/string");
+const { Collection, PermissionsBitField, ChannelType, EmbedBuilder } = require("discord.js");
+const { parsePermissions } = require("../util/class/utils");
 const userSchema = require("../schema/user-schema");
 const schema = require("../schema/GuildSchema");
 const cooldowns = new Collection();
@@ -165,7 +164,7 @@ module.exports = {
             .join(" ")}`;
         }
 
-        const NoArgs = new discord.EmbedBuilder()
+        const NoArgs = new EmbedBuilder()
           .setDescription(desc)
           .setColor("Red");
         return message.channel.send({ embeds: [NoArgs] });
@@ -173,7 +172,7 @@ module.exports = {
 
       //+ cooldown 1, //seconds(s)
       if (!cooldowns.has(cmd.name)) {
-        cooldowns.set(cmd.name, new discord.Collection());
+        cooldowns.set(cmd.name, new Collection());
       }
 
       const now = Date.now();
@@ -212,28 +211,17 @@ module.exports = {
         cooldownAmount,
         delete CoolDownCurrent[message.author.id]
       );
-      function getPermissionName(permission) {
-        for (const perm of Object.keys(PermissionsBitField.Flags)) {
-          if (PermissionsBitField.Flags[perm] === permission) {
-            return perm;
-          }
-        }
-        return "UnknownPermission";
-      }
+
       //+ permissions: [""],
-      if (cmd.permissions) {
+      if (cmd.permissions && cmd.permissions.length > 0) {
         if (message.guild && !client.owners.includes(message.author.id)) {
           const authorPerms = message.channel.permissionsFor(message.member);
           if (!authorPerms || !authorPerms.has(cmd.permissions)) {
-            const permsNames = cmd.permissions?.map((perm) =>
-              getPermissionName(perm)
-            );
-            const PermsEmbed = new discord.EmbedBuilder()
+
+            const PermsEmbed = new EmbedBuilder()
               .setColor(`Red`)
               .setDescription(
-                `<a:pp802:768864899543466006> You don't have \`${text.joinArray(
-                  permsNames
-                )}\` permission(s) to use ${cmd.name} command.`
+                `<a:pp802:768864899543466006> You don't have ${parsePermissions(cmd.permissions)} to use ${cmd.name} command.`
               );
             return message.channel.send({ embeds: [PermsEmbed] });
           }
@@ -241,18 +229,16 @@ module.exports = {
       }
 
       //+ clientPermissions: [""],
-      if (cmd.clientPermissions) {
+      if (cmd.clientPermissions && cmd.clientPermissions.length > 0) {
         if (message.guild) {
           const clientPerms = message.channel.permissionsFor(
             message.guild.members.me
           );
           if (!clientPerms || !clientPerms.has(cmd.clientPermissions)) {
-            const ClientPermsEmbed = new discord.EmbedBuilder()
+            const ClientPermsEmbed = new EmbedBuilder()
               .setColor(`Red`)
               .setDescription(
-                `<a:pp802:768864899543466006> The bot is missing \`${text.joinArray(
-                  cmd.clientPermissions
-                )}\` permission(s)`
+                `<a:pp802:768864899543466006> The bot is missing ${parsePermissions(cmd.clientPermissions)}`
               );
             return message.channel.send({ embeds: [ClientPermsEmbed] });
           }
@@ -261,7 +247,7 @@ module.exports = {
 
       //+ guildOnly: true/false,
       if (cmd.guildOnly && message.channel.type === ChannelType.DM) {
-        const NoDmEmbed = new discord.EmbedBuilder()
+        const NoDmEmbed = new EmbedBuilder()
           .setColor(`Red`)
           .setDescription(
             `<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`
@@ -271,7 +257,7 @@ module.exports = {
 
       //+ dmOnly: true/false,
       if (cmd.dmOnly && message.channel.type === ChannelType.GuildText) {
-        const NoGuildEmbed = new discord.EmbedBuilder()
+        const NoGuildEmbed = new EmbedBuilder()
           .setColor(`Red`)
           .setDescription(
             `<a:pp802:768864899543466006> I can\'t execute that command inside the server!`
@@ -280,7 +266,7 @@ module.exports = {
       }
 
       if (cmd.guarded) {
-        const GuardedEmbed = new discord.EmbedBuilder()
+        const GuardedEmbed = new EmbedBuilder()
           .setColor(`Red`)
           .setDescription(
             `<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`
@@ -290,7 +276,7 @@ module.exports = {
 
       if (cmd.OwnerOnly) {
         if (!client.owners.includes(message.author.id)) {
-          const DevOnlyEmbed = new discord.EmbedBuilder()
+          const DevOnlyEmbed = new EmbedBuilder()
             .setColor(`Red`)
             .setDescription(
               `<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`

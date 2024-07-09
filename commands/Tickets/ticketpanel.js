@@ -21,7 +21,7 @@ module.exports = {
   description: "Setup the ticket panel in the server",
   cooldown: 8, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.ManageChannels],
+  permissions: ["ManageChannels"],
   examples: [""],
   /**
    *
@@ -91,7 +91,7 @@ module.exports = {
           );
         } else if (
           !Embedchannel.permissionsFor(message.guild.members.me).has(
-            discord.PermissionsBitField.Flags.EmbedLinks
+            "EmbedLinks"
           )
         ) {
           return message.channel.send(
@@ -202,7 +202,7 @@ module.exports = {
     } else if (
       !channel
         .permissionsFor(message.guild.members.me)
-        .has(discord.PermissionsBitField.Flags.ManageChannels)
+        .has("ManageChannels")
     ) {
       return message.channel.send({
         content: `\\❌ **${message.member.displayName}**, I need you to give me permission to manage channels on ${channel} and try again.`,

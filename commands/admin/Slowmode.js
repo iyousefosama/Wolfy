@@ -14,8 +14,8 @@ module.exports = {
     description: 'Adding slowmotion chat to a channel',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    permissions: ["ManageChannels"],
+    clientPermissions: ["ManageChannels"],
     examples: [
       '5s'
     ],

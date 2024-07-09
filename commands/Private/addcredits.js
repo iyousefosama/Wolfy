@@ -16,7 +16,7 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ViewChannel],
+    clientPermissions: ["UseExternalEmojis", "ViewChannel"],
     
     async execute(client, message, [user='', amount=''] ) {
 

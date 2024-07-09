@@ -8,9 +8,9 @@ const { AuditLogEvent, ChannelType } = require("discord.js");
 const requiredPermissions = [
   discord.PermissionsBitField.Flags.ViewAuditLog,
   discord.PermissionsBitField.Flags.SendMessages,
-  discord.PermissionsBitField.Flags.ViewChannel,
-  discord.PermissionsBitField.Flags.ReadMessageHistory,
-  discord.PermissionsBitField.Flags.EmbedLinks,
+  "ViewChannel",
+  "ReadMessageHistory",
+  "EmbedLinks",
 ];
 
 const BEV = require("../util/types/baseEvents");

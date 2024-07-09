@@ -17,8 +17,8 @@ module.exports = {
     description: 'Delete your ticket in the server',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    permissions: ["ManageChannels"],
+    clientPermissions: ["ManageChannels"],
     examples: [''],
 
   async execute(client, message, args) {

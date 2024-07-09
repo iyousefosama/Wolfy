@@ -15,8 +15,8 @@ module.exports = {
     description: 'Unlock the permissions for @everyone from talking in the channel',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.ManageMessages],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    permissions: ["ManageChannels", "ManageMessages"],
+    clientPermissions: ["ManageChannels"],
     examples: [''],
     
     async execute(client, message, [ channelID='', ...args ]) {

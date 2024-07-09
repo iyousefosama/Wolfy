@@ -11,8 +11,8 @@ module.exports = {
     integration_types: [0, 1],
     contexts: [0, 1, 2],
     clientPermissions: [
-      discord.PermissionsBitField.Flags.EmbedLinks,
-      discord.PermissionsBitField.Flags.ReadMessageHistory,
+      "EmbedLinks",
+      "ReadMessageHistory",
     ],
   },
   async execute(client, interaction) {

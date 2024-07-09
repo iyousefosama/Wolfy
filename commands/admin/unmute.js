@@ -15,8 +15,8 @@ module.exports = {
     description: 'Unmute someone from texting!',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageRoles],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
+    permissions: ["ManageRoles"],
+    clientPermissions: ["ManageRoles"],
     examples: [
         '@BADGUY',
         '742682490216644619'

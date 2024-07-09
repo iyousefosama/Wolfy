@@ -15,8 +15,8 @@ module.exports = {
     description: 'Display the setup embed message!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
+    permissions: ["ManageMessages"],
+    clientPermissions: ["ManageMessages", "EmbedLinks"],
     examples: [''],
 
   async execute(client, message, args) {
@@ -242,7 +242,7 @@ module.exports = {
                             message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})
-                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
+                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has("EmbedLinks")){
                             message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})

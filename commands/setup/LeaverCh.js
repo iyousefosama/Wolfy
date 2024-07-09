@@ -16,7 +16,7 @@ module.exports = {
     description: 'Setup the leave channel bot will send message when user leave there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["ManageChannels", "Administrator"],
     examples: [
       '877130715337220136'
     ],
@@ -30,7 +30,7 @@ module.exports = {
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid channel ID.`});
           } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
-          } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.EmbedLinks)){
+          } else if (!channel.permissionsFor(message.guild.members.me).has("EmbedLinks")){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`});
           };
           

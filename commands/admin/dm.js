@@ -14,7 +14,7 @@ module.exports = {
     description: 'Dms someone in the server with message',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    permissions: ["Administrator"],
     examples: [
         '@WOLF Hello, how are you today ?',
         '742682490216644619 We have started a giveaway for your birthday!'

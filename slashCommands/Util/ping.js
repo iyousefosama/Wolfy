@@ -22,8 +22,8 @@ module.exports = {
       }
     ],
     clientPermissions: [
-      discord.PermissionsBitField.Flags.EmbedLinks,
-      discord.PermissionsBitField.Flags.ReadMessageHistory
+      "EmbedLinks",
+      "ReadMessageHistory"
     ],
 
     /*

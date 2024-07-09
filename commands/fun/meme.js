@@ -16,7 +16,7 @@ module.exports = {
     cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    clientPermissions: ["EmbedLinks", "AttachFiles"],
     examples: [''],
 
   async execute(client, message, args) {

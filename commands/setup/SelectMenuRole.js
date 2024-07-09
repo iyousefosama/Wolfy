@@ -27,8 +27,8 @@ module.exports = {
   description: "Setup the select menu role list!",
   cooldown: 10, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.ManageRoles],
-  clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
+  permissions: ["ManageRoles"],
+  clientPermissions: ["ManageRoles"],
   examples: ["1", "6"],
   
   async execute(client, message, [quantity]) {
@@ -292,7 +292,7 @@ module.exports = {
         );
       } else if (
         !Embedchannel.permissionsFor(message.guild.members.me).has(
-          discord.PermissionsBitField.Flags.EmbedLinks
+          "EmbedLinks"
         )
       ) {
         return message.channel.send(

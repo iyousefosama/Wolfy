@@ -23,9 +23,9 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.UseExternalEmojis,
-    discord.PermissionsBitField.Flags.AttachFiles,
+    "EmbedLinks",
+    "UseExternalEmojis",
+    "AttachFiles",
   ],
   examples: ["@WOLF", ""],
   

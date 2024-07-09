@@ -14,8 +14,8 @@ module.exports = {
   description: 'Kicks a user and deletes all their messages in the past 7 days',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
-  permissions: [discord.PermissionsBitField.Flags.BanMembers],
-  clientPermissions: [discord.PermissionsBitField.Flags.BanMembers],
+  permissions: ["BanMembers"],
+  clientPermissions: ["BanMembers"],
   examples: [
     '@BADGUY',
     '742682490216644619'

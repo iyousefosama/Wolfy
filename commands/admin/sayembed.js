@@ -17,8 +17,8 @@ module.exports = {
     description: 'The bot will repeat what you say with embed',
     cooldown: 5,
     guarded: false,
-    permissions: [discord.PermissionsBitField.Flags.ManageMessages],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages],
+    permissions: ["ManageMessages"],
+    clientPermissions: ["ManageMessages"],
     examples: [
         'GREEN Hello, this is an example embed',
         '#d8bfd8 Hello, this is an example embed'

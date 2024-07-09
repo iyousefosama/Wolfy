@@ -18,7 +18,6 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [],
-    
     async execute(client, message, [query]) {
         if (!query){
             const embed = new discord.EmbedBuilder()

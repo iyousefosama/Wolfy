@@ -16,8 +16,8 @@ module.exports = {
     description: 'Setup the ticket category bot will create tickets channels from users there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    permissions: [discord.PermissionsBitField.Flags.ManageChannels],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
+    permissions: ["ManageChannels"],
+    clientPermissions: ["ManageChannels"],
     examples: [
       '877130715337220136'
     ],
@@ -31,7 +31,7 @@ module.exports = {
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid \`CATEGORY\` ID!`});
           } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.SendMessages)){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
-          } else if (!channel.permissionsFor(message.guild.members.me).has(discord.PermissionsBitField.Flags.ManageChannels)){
+          } else if (!channel.permissionsFor(message.guild.members.me).has("ManageChannels")){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to manage channels on ${channel} and try again.`});
           };
           
