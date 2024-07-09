@@ -5,7 +5,6 @@ const {
 } = require("discord.js");
 const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
-const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
