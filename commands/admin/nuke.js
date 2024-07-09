@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const { ChannelType } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "nuke",
     aliases: ["Nuke", "NUKE"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
     if(message.channel.type !== ChannelType.GuildText) {
       return message.channel.send(`\\❌ | **${message.author.tag}**, Must be only used in text channels!`);

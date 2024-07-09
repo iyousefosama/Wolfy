@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "addcredits",
     aliases: ["Addcredits", "ADDCREDITS"],
@@ -14,6 +17,7 @@ module.exports = {
     OwnerOnly: true,
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ViewChannel],
+    
     async execute(client, message, [user='', amount=''] ) {
 
     if (!user.match(/\d{17,19}/)){

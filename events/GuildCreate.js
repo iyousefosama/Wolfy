@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const text = require("../util/string");
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"guildCreate">} */
 module.exports = {
   name: "guildCreate",
   async execute(client, guild) {

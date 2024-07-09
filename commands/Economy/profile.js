@@ -1,6 +1,9 @@
 const schema = require('../../schema/Economy-Schema')
 const { createCanvas, loadImage } = require('canvas')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "profile",
     aliases: ["Profile", "PROFILE"],
@@ -14,6 +17,7 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
+    
     async execute(client, message, [member = '']) {
 
         member = member.match(/\d{17,18}/)?.[0] || message.member.id;

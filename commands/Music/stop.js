@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "stop",
   aliases: ["Stop", "STOP"],
@@ -18,6 +21,13 @@ module.exports = {
   examples: [
       ''
     ],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
         const queue = client.player.getQueue(message.guildId)
 

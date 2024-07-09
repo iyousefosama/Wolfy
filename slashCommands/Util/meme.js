@@ -3,11 +3,27 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const got = require('got')
 
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory],
-	data: new SlashCommandBuilder()
-		.setName('meme')
-		.setDescription('Replies with a meme!')
-        .addBooleanOption(option => option.setName('hide').setDescription('Hide the output')),
+    data: {
+        name: "meme",
+        description: "Replies with a meme!",
+        dmOnly: false,
+        guildOnly: false,
+        cooldown: 0,
+        group: "NONE",
+        clientPermissions: [
+            discord.PermissionsBitField.Flags.EmbedLinks,
+            discord.PermissionsBitField.Flags.ReadMessageHistory
+        ],
+        permissions: [],
+        options: [
+            {
+                type: 5, // BOOLEAN
+                name: 'hide',
+                description: 'Hide the output',
+                required: false
+            }
+        ]
+    },
 	async execute(client, interaction) {
 
         const hide = interaction.options.getBoolean('hide');

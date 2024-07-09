@@ -3,6 +3,9 @@ const schema = require('../../schema/Economy-Schema')
 const moment = require("moment");
 const market = require('../../assets/json/market.json');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "daily",
     aliases: ["Daily", "DAILY"],
@@ -16,7 +19,8 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         try{

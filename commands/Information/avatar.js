@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
 const https = require('https');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "avatar",
   aliases: ["Avatar", "AVATAR"],
@@ -20,6 +23,7 @@ module.exports = {
     '724580315481243668',
     ''
   ],
+  
   async execute(client, message, [user = '']) {
     let color;
 

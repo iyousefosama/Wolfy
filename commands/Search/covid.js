@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const fetch = require('node-fetch');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "covid",
     aliases: ["Covid", "COVID"],
@@ -17,7 +20,8 @@ module.exports = {
         'Canada',
         'all'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         let countries = args.join(" ");
 
         const noArgs = new discord.EmbedBuilder()

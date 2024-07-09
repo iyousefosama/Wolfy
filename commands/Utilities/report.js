@@ -4,6 +4,9 @@ const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require("moment");
 const { ChannelType } = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "report",
     aliases: ["Report", "REPORT"],
@@ -20,7 +23,8 @@ module.exports = {
     examples: [
         '@WOLF bad boy'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     let user = message.mentions.users.first()
     if (!user) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, Please mention a user to report!` })
 

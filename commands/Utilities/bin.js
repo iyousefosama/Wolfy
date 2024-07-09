@@ -3,6 +3,9 @@ const sb = require("sourcebin");
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const fetch = require("node-fetch");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "bin",
   aliases: ["Sourcebin", "SOURCEBIN", "sourcebin"],
@@ -20,6 +23,13 @@ module.exports = {
     discord.PermissionsBitField.Flags.UseExternalEmojis,
   ],
   examples: ["message.channel.send('Hello, world!')"],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     let content;
     message.channel.sendTyping();

@@ -1,26 +1,37 @@
+const discord = require("discord.js")
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionsBitField, EmbedBuilder } = require("discord.js");
 const { QueryType } = require("discord-player");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    PermissionsBitField.Flags.EmbedLinks,
-    PermissionsBitField.Flags.ReadMessageHistory,
-    PermissionsBitField.Flags.Connect,
-    PermissionsBitField.Flags.Speak,
-  ],
-  guildOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("play")
-    .setDescription("Plays tracks on discord voice channel from other platforms")
-    .addStringOption(option =>
-      option
-        .setName("track")
-        .setDescription("Search for a track in different platforms by URL or name")
-        .setRequired(true)
-    ),
+  data: {
+    name: "play",
+    description: "Plays tracks on Discord voice channel from other platforms",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory,
+      discord.PermissionsBitField.Flags.Connect,
+      discord.PermissionsBitField.Flags.Speak
+    ],
+    permissions: [],
+    options: [
+      {
+        type: 3, // STRING
+        name: 'track',
+        description: 'Search for a track in different platforms by URL or name',
+        required: true
+      }
+    ]
+  },
   async execute(client, interaction) {
-    await interaction.deferReply().catch(() => {});
+    await interaction.deferReply().catch(() => { });
     const trackInput = interaction.options.getString("track");
 
     if (!interaction.member.voice.channel) {
@@ -34,7 +45,7 @@ module.exports = {
     ) {
       return await interaction.editReply(
         "<:error:888264104081522698> You are not in my voice channel!"
-      ).catch(() => {});
+      ).catch(() => { });
     }
 
     // Verifies the song is not a Spotify link
@@ -42,7 +53,7 @@ module.exports = {
       return interaction.editReply({
         content: `Spotify not supported ❌`,
         ephemeral: true,
-      }).catch(() => {});
+      }).catch(() => { });
 
     const guild = client.guilds.cache.get(interaction.guild.id);
     const channel = guild.channels.cache.get(interaction.channel.id);
@@ -54,11 +65,11 @@ module.exports = {
         metadata: {
           channel: channel,
         },
-/*         async onBeforeCreateStream(track, source, _queue) {
-          return (
-            await playdl.stream(track.url, { discordPlayerCompatibility: true })
-          ).stream;
-        }, */
+        /*         async onBeforeCreateStream(track, source, _queue) {
+                  return (
+                    await playdl.stream(track.url, { discordPlayerCompatibility: true })
+                  ).stream;
+                }, */
       });
     } else {
       queue = OldQueue;
@@ -74,7 +85,7 @@ module.exports = {
     if (result.tracks.length === 0)
       return await interaction.editReply(
         "<:error:888264104081522698> No results found for this track name!"
-      ).catch(() => {});
+      ).catch(() => { });
 
     const track = result.tracks[0];
     queue.addTrack(track); // This should ensure the track is added to the queue
@@ -100,13 +111,13 @@ module.exports = {
       client.player.deleteQueue(interaction.guild);
       return await interaction.editReply({
         content: "Could not join your voice channel!",
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     if (!queue.playing) await queue.play();
 
     return await interaction.editReply({
       embeds: [embed],
-    }).catch(() => {});
+    })
   },
 };

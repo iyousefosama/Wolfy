@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "previewitem",
     aliases: ["Previewitem"],
@@ -19,6 +22,7 @@ module.exports = {
         '6',
         '8'
     ], 
+    
     async execute(client, message, [id]) {
         if (!id){
             return message.channel.send(`\\❌ **${message.author.tag}**, Please specify the item ID!`);

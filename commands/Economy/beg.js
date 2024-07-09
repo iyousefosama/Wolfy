@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "beg",
     aliases: ["Beg", "BEG"],
@@ -14,7 +17,8 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         try{

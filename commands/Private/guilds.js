@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "guilds",
     aliases: ["Guilds", "servers"],
@@ -12,7 +15,8 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         var list = "";
         client.guilds.cache.forEach(guild => {
             list += `${guild.name} (${guild.id}) | ${guild.memberCount} members | Owner: ${guild.ownerId}.\n`

@@ -1,5 +1,8 @@
 const discord = require("discord.js");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "shutdown",
   aliases: ["Shutdown", "SHUTDOWN"],
@@ -12,6 +15,13 @@ module.exports = {
   guarded: false, //or false
   OwnerOnly: true,
   permissions: [],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     var loading = new discord.EmbedBuilder()
       .setColor(`Yellow`)

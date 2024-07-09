@@ -8,18 +8,30 @@ const schema = require("../../schema/GuildSchema");
 const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.AttachFiles,
-  ],
-  guildOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("rank")
-    .setDescription("Show your level & rank and your current and next xp!")
-    .addUserOption((option) =>
-      option.setName("target").setDescription("User to show the level for!")
-    ),
+  data: {
+    name: "rank",
+    description: "Show your level & rank and your current and next xp!",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.AttachFiles
+    ],
+    permissions: [],
+    options: [
+      {
+        type: 6, // USER
+        name: 'target',
+        description: 'User to show the level for'
+      }
+    ]
+  },
   async execute(client, interaction) {
     const hide = interaction.options.getBoolean("hide");
     const target = interaction.options.getUser("target");

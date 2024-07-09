@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "infraction",
     aliases: ["infraction", "INFRACTION"],
@@ -17,6 +20,7 @@ module.exports = {
     examples: [
     ''
     ],
+    
     async execute(client, message, [type = '', ...args]) {
 
         let num = Math.round(args[0]);

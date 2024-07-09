@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "command",
     aliases: ["Command", "COMMAND", "cmd", "commandhelp", "helpcommand"],
@@ -15,6 +18,7 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [],
+    
     async execute(client, message, [query]) {
         if (!query){
             const embed = new discord.EmbedBuilder()

@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "links",
     aliases: ["link", "inviteme", "invitebot", "vote", "support", "LINKS", "invite"],
@@ -15,7 +18,7 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
-    async execute(client, message, args) {
+  async execute(client, message, args) {
         const embed = new discord.EmbedBuilder()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL() })

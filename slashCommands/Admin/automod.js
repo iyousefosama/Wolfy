@@ -1,31 +1,45 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: 
-  new SlashCommandBuilder()
-    .setName("automod")
-    .setDescription("Setting auto moderation rules for the current guild!")
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("flagged-words")
-        .setDescription("Set the flagged words protection!")
-        .addIntegerOption((option) =>
-          option
-            .setName("mention-limit")
-            .setDescription(
-              "The total number of role & user mentions allowed per message"
-            )
-        )
-        .addBooleanOption((option) =>
-          option
-            .setName("mention-raid-protection")
-            .setDescription("Whether to automatically detect mention raids")
-        )
-    ),
+  data: {
+    name: "automod",
+    description: "Setting auto moderation rules for the current guild!",
+    dmOnly: false,
     guildOnly: true,
-    clientPermissions: [discord.PermissionsBitField.Flags.Administrator],
-    permissions: [discord.PermissionsBitField.Flags.Administrator],
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.Administrator
+    ],
+    permissions: [
+      discord.PermissionsBitField.Flags.Administrator
+    ],
+    options: [
+      {
+        type: 1, // SUB_COMMAND
+        name: 'flagged-words',
+        description: 'Set the flagged words protection!',
+        options: [
+          {
+            type: 4, // INTEGER
+            name: 'mention-limit',
+            description: 'The total number of role & user mentions allowed per message',
+            required: false
+          },
+          {
+            type: 5, // BOOLEAN
+            name: 'mention-raid-protection',
+            description: 'Whether to automatically detect mention raids',
+            required: false
+          }
+        ]
+      }
+    ]
+  },
   async execute(client, interaction) {
     const { guild, options } = interaction;
 

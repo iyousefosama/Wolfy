@@ -4,11 +4,27 @@ const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
-	data: new SlashCommandBuilder()
-		.setName('clyed')
-		.setDescription('Send your message as clyed text message!')
-        .addStringOption(option => option.setName('input').setDescription('Enter a input').setRequired(true)),
+    data: {
+        name: "clyed",
+        description: "Send your message as clyed text message!",
+        dmOnly: false,
+        guildOnly: false,
+        cooldown: 0,
+        group: "NONE",
+        clientPermissions: [
+            discord.PermissionsBitField.Flags.EmbedLinks,
+            discord.PermissionsBitField.Flags.AttachFiles
+        ],
+        permissions: [],
+        options: [
+            {
+                type: 3, // STRING
+                name: 'input',
+                description: 'Enter a input',
+                required: true
+            }
+        ]
+    },
 	async execute(client, interaction) {
         const input = interaction.options.getString('input');
 

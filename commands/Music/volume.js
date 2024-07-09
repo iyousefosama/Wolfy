@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "volume",
   aliases: ["Volume", "VOLUME"],
@@ -18,6 +21,7 @@ module.exports = {
   examples: [
       '70'
     ],
+    
   async execute(client, message, [vol]) {
         const queue = client.player.getQueue(message.guildId)
 

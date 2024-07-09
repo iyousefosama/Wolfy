@@ -3,6 +3,9 @@ const schema = require('../../schema/GuildSchema')
 const TicketSchema = require('../../schema/Ticket-Schema')
 const sourcebin = require('sourcebin_js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "delete",
     aliases: ["Delete", "DELETE"],
@@ -17,7 +20,8 @@ module.exports = {
     permissions: [discord.PermissionsBitField.Flags.ManageChannels],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         let TicketData;

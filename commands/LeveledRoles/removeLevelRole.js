@@ -2,6 +2,9 @@ const fs = require('fs')
 const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "removerole",
     aliases: ["Removerole", "REMOVEROLE"],
@@ -17,7 +20,8 @@ module.exports = {
     examples: [
         '804860582066520104'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         try{

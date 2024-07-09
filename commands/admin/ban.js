@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "ban",
   aliases: ["Ban", "BAN"],
@@ -17,6 +20,12 @@ module.exports = {
     '@BADGUY Toxic member',
     '742682490216644619'
   ],
+      /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   *
+   */
   async execute(client, message, [ member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

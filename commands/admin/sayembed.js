@@ -3,6 +3,9 @@ capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "embed",
     aliases: ["Sayembed", "SAYEMBED", "sayembed"],
@@ -20,7 +23,8 @@ module.exports = {
         'GREEN Hello, this is an example embed',
         '#d8bfd8 Hello, this is an example embed'
     ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         let text = args.slice(0).join(" ");
 
         /*

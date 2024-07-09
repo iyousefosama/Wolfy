@@ -10,14 +10,24 @@ const moment = require(`moment`); // requiring moment
 const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-  .setName("stats")
-  .setDescription("Shows bot stats and informations"),
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.UseExternalEmojis,
-  ],
+  data: {
+    name: "stats",
+    description: "Shows bot stats and information",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+        discord.PermissionsBitField.Flags.EmbedLinks,
+        discord.PermissionsBitField.Flags.UseExternalEmojis
+    ],
+    permissions: [],
+    options: []
+},
   async execute(client, interaction) {
     const SlashCommands = client.slashCommands?.size;
     const members = text.commatize(

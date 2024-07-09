@@ -4,10 +4,21 @@ const schema = require('../../schema/Economy-Schema')
 const moment = require("moment");
 const market = require('../../assets/json/market.json');
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("daily")
-    .setDescription("Get your daily reward!"),
+  data: {
+    name: "daily",
+    description: "Get your daily reward!",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: []
+  },
   async execute(client, interaction) {
     let data;
     try {
@@ -32,8 +43,7 @@ module.exports = {
       const embed = new discord.EmbedBuilder()
         .setTitle(`<a:ShinyCoin:853495846984876063> daily already Claimed!`)
         .setDescription(
-          `\\❌ **${
-            interaction.user.tag
+          `\\❌ **${interaction.user.tag
           }**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in \`${moment
             .duration(data.timer.daily.timeout - now, "milliseconds")
             .format("H [hours,] m [minutes, and] s [seconds]")}\``
@@ -110,8 +120,7 @@ module.exports = {
             .setTitle(`<a:ShinyCoin:853495846984876063> Claimed daily!`)
             .setDescription(
               [
-                `<a:ShinyMoney:877975108038324224> **${
-                  interaction.user.tag
+                `<a:ShinyMoney:877975108038324224> **${interaction.user.tag
                 }**, You received **${Math.floor(amount)}** from daily reward!`,
                 itemreward
                   ? `\n\\✔️  You received: **${item.name} - ${item.description}** from daily rewards.`

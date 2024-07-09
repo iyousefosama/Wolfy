@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const ms = require('ms')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "timeout",
   aliases: ["TimeOut", "TIMEOUT"],
@@ -18,6 +21,7 @@ module.exports = {
     '@BADGUY 5h Toxic member',
     '742682490216644619 5h'
   ],
+  
   async execute(client, message, [ member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

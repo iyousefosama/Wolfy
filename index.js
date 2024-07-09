@@ -9,6 +9,12 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 4000;
 
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port)
+
 client.listentoProcessEvents([
   'unhandledRejection',
   'uncaughtException'
@@ -16,19 +22,12 @@ client.listentoProcessEvents([
 
 
 ["SlashHandler", "CommandHandler", "EventHandler"].forEach((handler) => {
-	require(`./Handler/${handler}`)(client);
+  require(`./Handler/${handler}`)(client);
 });
 
 ["Reminder", "checkQuests", "Modules"].forEach((functions) => {
-	require(`./functions/${functions}`)(client);
+  require(`./functions/${functions}`)(client);
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.listen(port, () => {
-  console.log(`Express connected.`)
-})
 
 client.login(process.env.TOKEN);

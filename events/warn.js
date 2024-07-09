@@ -1,5 +1,8 @@
 const Discord = require("discord.js");
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"warn">} */
 module.exports = {
   name: "warn",
   async execute(client, info) {

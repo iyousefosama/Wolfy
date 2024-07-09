@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const { ChannelType } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "setTicketch",
     aliases: ["SetTicketCh", "SETTICKETCH", "setticketchannel", "setticketch", "setticketchannel"],
@@ -18,7 +21,8 @@ module.exports = {
     examples: [
       '877130715337220136'
     ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
       
           const channelID = args[0];
           channel = message.guild.channels.cache.get(channelID);

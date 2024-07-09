@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "softban",
   aliases: ["SoftBan", "SOFTBAN"],
@@ -17,6 +20,7 @@ module.exports = {
     '@BADGUY',
     '742682490216644619'
   ],
+  
   async execute(client, message, [ member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

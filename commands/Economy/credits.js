@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "credits",
     aliases: ["Credits", "CREDITS", "bal", "credit"],
@@ -18,6 +21,7 @@ module.exports = {
         '@WOLF',
         ''
       ],
+      
     async execute(client, message, [user = '']) {
 
       if (message.guild){

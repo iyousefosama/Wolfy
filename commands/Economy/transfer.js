@@ -1,6 +1,9 @@
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "transfer",
     aliases: ["Transfer", "TRANSFER"],
@@ -16,6 +19,7 @@ module.exports = {
     examples: [
         '@WOLF 550'
       ],
+      
     async execute(client, message, [user='', amount='', ...args]) {
 
         if (!user.match(/\d{17,19}/)){

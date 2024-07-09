@@ -3,6 +3,9 @@ const { EmbedBuilder } = require('discord.js');
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "removewarn",
     aliases: ["RemoveWarn", "removeWarn", "REMOVEWARN"],
@@ -19,6 +22,7 @@ module.exports = {
     '@WOLF 72c53c46-7449-4076-9af2-5acda635cbf4',
     '742682490216644619 72c53c46-7449-4076-9af2-5acda635cbf4'
     ], 
+    
     async execute(client, message, [user = '', ...args]) {
         let id = args.slice(0).join(" ")
         if (!user.match(/\d{17,19}/)){

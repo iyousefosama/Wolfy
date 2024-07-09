@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "status",
     aliases: ["Status", "STATUS"],
@@ -13,7 +16,8 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
     const content = args.join(" ")
     const splitt = content.split('');

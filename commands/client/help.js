@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "help",
     aliases: ["Help", "HELP"],
@@ -16,7 +19,7 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
-    async execute(client, message, args) {
+  async execute(client, message, args) {
         let EmbedName = args.slice(0).join(" ")
         const button = new ButtonBuilder()
             .setLabel(`Info`)

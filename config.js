@@ -50,7 +50,7 @@ const settings = {
 
     player: {
       ytdlOptions: {
-          /*quality: "highestaudio",*/
+          quality: "highestaudio",
           highWaterMark: 1 << 25,
           dlChunkSize: 0
       }

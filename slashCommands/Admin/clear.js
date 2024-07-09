@@ -2,23 +2,34 @@ const discord = require("discord.js");
 const { SlashCommandBuilder, EmbedBuilder } = require("@discordjs/builders");
 const moment = require("moment");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-  .setName("clear")
-    .setDescription(
-      "Clear/Delete message with quantity you want (from 2 to 100)"
-    )
-    .addIntegerOption((option) =>
-      option
-        .setName("quantity")
-        .setDescription("The total messages to delete from the current channel")
-        .setRequired(true)
-      ),
-      permissions: [discord.PermissionsBitField.Flags.Administrator, discord.PermissionsBitField.Flags.ManageMessages],
-      guildOnly: true,
+  data: {
+    name: "clear",
+    description: "Clear/Delete messages with the quantity you specify (from 2 to 100)",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [
+      discord.PermissionsBitField.Flags.Administrator,
+      discord.PermissionsBitField.Flags.ManageMessages
+    ],
+    options: [
+      {
+        type: 4, // INTEGER
+        name: 'quantity',
+        description: 'The total messages to delete from the current channel',
+        required: true
+      }
+    ]
+  },
   async execute(client, interaction) {
     const { guild, options } = interaction;
-    await interaction.deferReply().catch(() => {})
+    await interaction.deferReply().catch(() => { })
 
     let quantity = options.getInteger("quantity") || 2;
     quantity = Math.round(quantity);
@@ -53,28 +64,27 @@ module.exports = {
         messages.push(
           `Messages Cleared on ![](${interaction.guild.iconURL({
             size: 32,
-          })}) **${interaction.guild.name}** - **#${
-            interaction.channel.name
+          })}) **${interaction.guild.name}** - **#${interaction.channel.name
           }** --\r\n\r\n`
         );
         messages = messages.reverse().join("");
 
         const res = debug
           ? await debug
-              .send({
-                content: `\`\`\`BULKDELETE FILE - ServerID: ${interaction.guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.user.id}\`\`\``,
-                files: [
-                  {
-                    attachment: Buffer.from(messages),
-                    name: `bulkdlt-${_id}.txt`,
-                  },
-                ],
-              })
-              .then((message) => [
-                message.attachments.first().url,
-                message.attachments.first().id,
-              ])
-              .catch(() => ["", null])
+            .send({
+              content: `\`\`\`BULKDELETE FILE - ServerID: ${interaction.guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.user.id}\`\`\``,
+              files: [
+                {
+                  attachment: Buffer.from(messages),
+                  name: `bulkdlt-${_id}.txt`,
+                },
+              ],
+            })
+            .then((message) => [
+              message.attachments.first().url,
+              message.attachments.first().id,
+            ])
+            .catch(() => ["", null])
           : ["", null];
 
         const url = (res[0].match(/\d{17,19}/) || [])[0];

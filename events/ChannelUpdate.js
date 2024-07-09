@@ -13,6 +13,9 @@ const requiredPermissions = [
   discord.PermissionsBitField.Flags.EmbedLinks,
 ];
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"channelUpdate">} */
 module.exports = {
     name: 'channelUpdate',
     async execute(client, oldChannel, newChannel) {

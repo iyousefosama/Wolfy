@@ -2,28 +2,39 @@ const schema = require("../../schema/Economy-Schema");
 const text = require("../../util/string");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  guildOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("transfer")
-    .setDescription("Transfer credits from your wallet to your friends!")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("User to show the credits for!")
-        .setRequired(true)
-    )
-    .addIntegerOption((option) =>
-      option
-        .setName("quantity")
-        .setDescription("The total credits to transfer")
-        .setRequired(true)
-    )
-    .addStringOption((option) =>
-      option
-        .setName("reason")
-        .setDescription("Enter the reason for the transfer")
-    ),
+  data: {
+    name: "transfer",
+    description: "Transfer credits from your wallet to your friends!",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: [
+      {
+        type: 6, // USER
+        name: 'user',
+        description: 'User to transfer credits to',
+        required: true
+      },
+      {
+        type: 4, // INTEGER
+        name: 'quantity',
+        description: 'The total credits to transfer',
+        required: true
+      },
+      {
+        type: 3, // STRING
+        name: 'reason',
+        description: 'Enter the reason for the transfer'
+      }
+    ]
+  },
   async execute(client, interaction) {
     const { guild, options } = interaction;
 
@@ -94,13 +105,12 @@ module.exports = {
     } else {
       const amountToAdd = amount / 1.1;
       await interaction.reply({
-        content: `<a:iNFO:853495450111967253> **${
-          interaction.user.tag
-        }**, Are you sure you want to transfer **${text.commatize(
-          amountToAdd
-        )}** to ${user}(10% fee applies)? Your new palance will be **${Math.floor(
-          data.credits - amount * 1.1
-        )}**! \`(y/n)\``,
+        content: `<a:iNFO:853495450111967253> **${interaction.user.tag
+          }**, Are you sure you want to transfer **${text.commatize(
+            amountToAdd
+          )}** to ${user}(10% fee applies)? Your new palance will be **${Math.floor(
+            data.credits - amount * 1.1
+          )}**! \`(y/n)\``,
       });
       const filter = (_message) =>
         interaction.user.id === _message.author.id &&
@@ -133,8 +143,7 @@ module.exports = {
       return Promise.all([data.save(), FriendData.save()])
         .then(() =>
           interaction.reply(
-            `<a:Money:836169035191418951> **${
-              interaction.user.tag
+            `<a:Money:836169035191418951> **${interaction.user.tag
             }**, Successfully transferred \`${text.commatize(
               Math.floor(amount)
             )}\` to **${user}**!`

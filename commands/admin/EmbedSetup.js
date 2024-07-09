@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "EmbedSetup",
     aliases: ["embedsetup", "Embedsetup", "EMBEDSETUP"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [discord.PermissionsBitField.Flags.ManageMessages],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         const button = new ButtonBuilder()
         .setLabel(`desc`)

@@ -2,6 +2,9 @@ const market = require('../../assets/json/market.json');
 const schema = require('../../schema/Economy-Schema')
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "buy",
     aliases: ["Buy", "BUY"],
@@ -18,6 +21,7 @@ module.exports = {
       '1',
       '6'
     ],
+    
     async execute(client, message, [id]) {
         let data;
         try{

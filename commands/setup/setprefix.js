@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "setprefix",
     aliases: ["SetPrefix", "SETPREFIX", "prefix"],
@@ -17,6 +20,7 @@ module.exports = {
       '!',
       'l!'
     ],
+    
     async execute(client, message, [prefix]) {
       
       if (!prefix){

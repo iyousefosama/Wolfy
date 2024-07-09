@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "joke",
   aliases: ["Joke", "JOKE"],
@@ -16,6 +19,13 @@ module.exports = {
   permissions: [],
   clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
   examples: [''],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     const data = await fetch('https://sv443.net/jokeapi/v2/joke/Programming,Miscellaneous?blacklistFlags=nsfw,religious,political,racist,sexist')
     .then(res => res.json())

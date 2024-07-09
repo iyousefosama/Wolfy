@@ -2,6 +2,9 @@ const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "leaderboard",
   aliases: ["Lb", "LB", "lb", "LEADERBOARD"],
@@ -15,6 +18,13 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   examples: [],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     message.channel.sendTyping();
     try {

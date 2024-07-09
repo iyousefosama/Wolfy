@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "badwords",
     aliases: ["BadWords", "BADWORDS", "Badwords"],
@@ -18,6 +21,7 @@ module.exports = {
     examples: [
     'bad'
     ],
+    
     async execute(client, message, [type = '', ...args]) {
           
         let word = args[0]

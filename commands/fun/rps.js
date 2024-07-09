@@ -1,5 +1,8 @@
 const discord = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "rps",
     aliases: ["RPS", "Rps"],
@@ -18,7 +21,8 @@ module.exports = {
         'paper',
         'scissors'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     const messageArray = message.content.split(' ');
     const arg2 = messageArray.slice(1);;
     let search = arg2.slice(0).join(' ');

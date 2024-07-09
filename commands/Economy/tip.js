@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const moment = require('moment');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "tip",
     aliases: ["Tip", "TIP"],
@@ -18,6 +21,7 @@ module.exports = {
     '@WOLF',
     '724580315481243668'
     ], 
+    
     async execute(client, message, [user='']) {
 
         let tipper;

@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const ms = require('ms')
 const schema = require('../../schema/TimeOut-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "remind",
   aliases: ["remindme", "Remind", "Remindme", "reminder"],
@@ -18,6 +21,13 @@ module.exports = {
     '5m To start my new project!',
     '30s To skip this ad'
   ],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
         let reason = args.slice(1).join(" ")
         let time = args[0];

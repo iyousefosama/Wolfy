@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "reverse",
     aliases: ["Reverse"],
@@ -16,7 +19,8 @@ module.exports = {
         'Hello, everyone!',
         'Hello, World!'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     message.channel.send(args.join(' ').split('').reverse().join(' ') || 'No text to reverse.')
 }
 }

@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "roll",
   aliases: ["Roll", "ROLL"],
@@ -19,6 +22,7 @@ module.exports = {
       '600',
       '1568'
     ],
+    
   async execute(client, message, [tail]) {
 
     const rand = Math.random();

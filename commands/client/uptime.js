@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const ms = require('parse-ms');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "uptime",
     aliases: ["Uptime", "UPTIME"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     let time = ms(client.uptime);
     var uptime = new discord.EmbedBuilder()
         .setColor(`DarkGreen`)

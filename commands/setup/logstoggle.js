@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "logstoggle",
     aliases: ["Logstoggle", "LogsToggle", "LOGSTOGGLE"],
@@ -14,7 +17,8 @@ module.exports = {
     guarded: false, //or false
     permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.Administrator],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
           
         let data;
         try{

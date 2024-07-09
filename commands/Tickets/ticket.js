@@ -3,6 +3,9 @@ const { ActionRowBuilder, ButtonBuilder, ChannelType, PermissionsBitField } = re
 const schema = require('../../schema/GuildSchema')
 const TicketSchema = require('../../schema/Ticket-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "ticket",
     aliases: ["Ticket"],
@@ -17,7 +20,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         let TicketData;

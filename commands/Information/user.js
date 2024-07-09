@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const moment = require("moment");
 const axios = require("axios")
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "user",
     aliases: ["User", "USER"],
@@ -19,6 +22,7 @@ module.exports = {
         '@WOLF',
         ''
       ],
+      
     async execute(client, message, [user = '']) {
 
     if (message.guild){

@@ -3,14 +3,33 @@ const discord = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
+  data: {
+    name: "skipto",
+    description: "Skips the current track to a certain track",
+    dmOnly: false,
     guildOnly: true,
-	data: new SlashCommandBuilder()
-    .setName("skipto")
-    .setDescription("Skips the current track to a certain track")
-    .addNumberOption((option) => 
-    option.setName("tracknumber").setDescription("The track to skip to").setRequired(true)),
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+        discord.PermissionsBitField.Flags.EmbedLinks,
+        discord.PermissionsBitField.Flags.ReadMessageHistory,
+        discord.PermissionsBitField.Flags.Connect,
+        discord.PermissionsBitField.Flags.Speak
+    ],
+    permissions: [],
+    options: [
+        {
+            type: 10, // NUMBER
+            name: 'tracknumber',
+            description: 'The track number to skip to',
+            required: true
+        }
+    ]
+},
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
 

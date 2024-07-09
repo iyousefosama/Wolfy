@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "uid",
     aliases: ["UID", "Uid"],
@@ -13,7 +16,8 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         const head = Date.now().toString(36);
         const tail = Math.random().toString(36).substr(2);
 

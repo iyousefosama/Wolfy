@@ -4,6 +4,9 @@ const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require("moment");
 const { ChannelType } = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "suggestion",
     aliases: ["Suggestion", "sugg"],
@@ -20,7 +23,8 @@ module.exports = {
     examples: [
         'Add voice channels!'
       ],    
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     const now = Date.now();
     const duration = Math.floor(57600000)
     let data;

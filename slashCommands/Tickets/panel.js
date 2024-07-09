@@ -7,6 +7,9 @@ const {
 } = require("discord.js");
 const TicketSchema = require("../../schema/Ticket-Schema");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
   data: {
     name: "send-panel",

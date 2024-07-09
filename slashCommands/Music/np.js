@@ -3,12 +3,26 @@ const discord = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
-	guildOnly: true,
-	data: new SlashCommandBuilder()
-    .setName("np")
-    .setDescription("Displays informations about the currently playing track!"),
+  data: {
+    name: "np",
+    description: "Displays information about the currently playing track!",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+        discord.PermissionsBitField.Flags.EmbedLinks,
+        discord.PermissionsBitField.Flags.ReadMessageHistory,
+        discord.PermissionsBitField.Flags.Connect,
+        discord.PermissionsBitField.Flags.Speak
+    ],
+    permissions: [],
+    options: []
+},
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
 

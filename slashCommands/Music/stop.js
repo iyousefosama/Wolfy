@@ -3,12 +3,26 @@ const discord = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
+  data: {
+    name: "stop",
+    description: "Stops the current track and clears the queue",
+    dmOnly: false,
     guildOnly: true,
-	data: new SlashCommandBuilder()
-    .setName("stop")
-    .setDescription("Stops the current track and clears the queue"),
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+        discord.PermissionsBitField.Flags.EmbedLinks,
+        discord.PermissionsBitField.Flags.ReadMessageHistory,
+        discord.PermissionsBitField.Flags.Connect,
+        discord.PermissionsBitField.Flags.Speak
+    ],
+    permissions: [],
+    options: []
+},
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
 

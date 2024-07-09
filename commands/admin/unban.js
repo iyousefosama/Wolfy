@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "unban",
     aliases: ["Unban", "UNBAN"],
@@ -17,6 +20,7 @@ module.exports = {
         '@FreeGuy',
         '829819269806030879'
       ],
+      
     async execute(client, message, [ user = '', ...args ]) {
 
         if (!user.match(/\d{17,19}/)){

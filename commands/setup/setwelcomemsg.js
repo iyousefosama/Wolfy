@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "setwelcomemsg",
     dmOnly: false, //or false
@@ -17,6 +20,7 @@ module.exports = {
       'msg {tag} has joined {guildName} server!',
       'embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}'
     ],
+    
     async execute(client, message, [stats = '', ...args]) {
 
       let text = args.slice(0).join(" ")

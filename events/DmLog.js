@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const { ChannelType } = require('discord.js')
 let logs = []
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"messageCreate">} */
 module.exports = {
     name: 'messageCreate',
     async execute(client, message) {

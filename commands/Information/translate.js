@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const fetch = require('node-fetch');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "translate",
     aliases: ["Translate"],
@@ -17,6 +20,7 @@ module.exports = {
     examples: [
       'ar Hello, my old friend.'
     ],
+    
     async execute(client, message, [lang='', ...args]) {
 
         const text = args.slice(0).join(" ")

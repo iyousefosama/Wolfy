@@ -2,6 +2,9 @@ const fs = require("fs");
 const discord = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "levelroles",
   aliases: ["roles", "leveledroles", "level-roles"],
@@ -16,6 +19,13 @@ module.exports = {
   permissions: [],
   clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
   examples: [],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     message.channel.sendTyping();
 

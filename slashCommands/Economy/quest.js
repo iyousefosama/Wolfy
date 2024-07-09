@@ -11,16 +11,33 @@ const _ = require("lodash");
 const Pages = require("../../util/Paginate");
 const market = require("../../assets/json/market.json");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("quest")
-    .setDescription("Refresh/Show current quests and the current progress.")
-    .addStringOption((option) =>
-      option
-        .setName("action")
-        .setDescription("Action you want to preform on the command")
-        .addChoices({ name: "claim", value: "claim_daily_reward" })
-    ),
+  data: {
+    name: "quest",
+    description: "Refresh/Show current quests and the current progress.",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: [
+        {
+            type: 3, // STRING
+            name: 'action',
+            description: 'Action you want to perform on the command',
+            choices: [
+                {
+                    name: 'claim',
+                    value: 'claim_daily_reward'
+                }
+            ]
+        }
+    ]
+},
   async execute(client, interaction) {
     const option = interaction.options.getString("action");
 
@@ -186,7 +203,7 @@ module.exports = {
                     quest.name +
                     ` (${dataquest.current}/${dataquest.progress})`,
                   value: [
-                    `**Rewards:** <a:ShinyMoney:877975108038324224> \`${quest.reward}\` credits`,
+                    `**Rewards:** <a:ShinyMoney:877975108038324224${quest.reward}\` credits`,
                   ].join("\n"),
                 };
               })

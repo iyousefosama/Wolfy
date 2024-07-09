@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "addrole",
     aliases: ["Addrole", "ADDROLE", "addlevelroole", "add-role"],
@@ -16,7 +19,8 @@ module.exports = {
     examples: [
         '@ActiveMember 5'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         try{

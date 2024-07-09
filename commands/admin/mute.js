@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const schema = require('../../schema/Mute-Schema')
 const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "mute",
     aliases: ["Mute", "MUTE"],
@@ -19,6 +22,7 @@ module.exports = {
         '@BADGUY Don\'t spam in chat!',
         '742682490216644619'
       ],
+      
     async execute(client, message, [member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

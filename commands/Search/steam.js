@@ -4,6 +4,9 @@ const { decode } = require('he');
 const html2md = require('html2markdown');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "steam",
     aliases: ["Steam", "STEAM"],
@@ -21,7 +24,8 @@ module.exports = {
         'Among us',
         'Portal 2'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     const query = args.join(' ');
         
     // Input Checking

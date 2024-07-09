@@ -4,6 +4,9 @@ const {
   PermissionFlagsBits,
 } = require("@discordjs/builders");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
   data: {
     name: "ping",
@@ -16,12 +19,13 @@ module.exports = {
         description: "Hide the output",
         type: 5,
         required: false,
-      },
+      }
     ],
     clientPermissions: [
       discord.PermissionsBitField.Flags.EmbedLinks,
-      discord.PermissionsBitField.Flags.ReadMessageHistory,
+      discord.PermissionsBitField.Flags.ReadMessageHistory
     ],
+
     /*
     cooldown: 1, // Cooldown in seconds, by default it's 2 seconds | OPTIONAL
     permissions: [], // OPTIONAL

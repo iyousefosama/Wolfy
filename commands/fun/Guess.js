@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const currentGames = {};
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "guess",
     aliases: ["Guess", "GUESS"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         if (currentGames[message.guild.id]) {
 			return message.channel.send(`\\❌ | ${message.author}, There is a game already running in this guild!`);
 		}

@@ -1,13 +1,28 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  ownerOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("set-avatar")
-    .setDescription("🛠 Developer only, set's the avatar for the bot")
-    .addAttachmentOption((option) =>
-      option.setName("avatar").setDescription("The avatar to set!").setRequired(true)
-    ),
+  data: {
+    name: "set-avatar",
+    description: "🛠 Developer only, sets the avatar for the bot",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    ownerOnly: true,
+    options: [
+        {
+            type: 11, // ATTACHMENT
+            name: 'avatar',
+            description: 'The avatar to set!',
+            required: true
+        }
+    ]
+},
   async execute(client, interaction) {
     const attachment = interaction.options.getAttachment("avatar");
 

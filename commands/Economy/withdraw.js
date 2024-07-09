@@ -1,6 +1,9 @@
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "withdraw",
     aliases: ["Withdraw", "WITHDRAW"],
@@ -17,6 +20,7 @@ module.exports = {
       '900',
       'all'
     ],
+    
     async execute(client, message, [amount='']) {
 
         let data;

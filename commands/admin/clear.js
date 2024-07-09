@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js');
 const moment = require('moment');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: 'clear',
   aliases: [ 'delete', 'Clear', 'CLEAR'],
@@ -17,6 +20,12 @@ module.exports = {
   clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages, discord.PermissionsBitField.Flags.EmbedLinks],
   examples: [
     '20'],
+        /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   *
+   */
     async execute(client, message, [quantity]) {
 
     quantity = Math.round(quantity);

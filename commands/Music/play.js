@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "play",
     aliases: ["Play", "PLAY", "p"],
@@ -19,6 +22,7 @@ module.exports = {
         'Story Nights',
         'https://youtube.com/..'
     ],
+    
     async execute(client, message, [music]) {
         if (!message.member.voice.channel) {
             return await message.reply("<:error:888264104081522698> Sorry, you need to join a voice channel first to play a song!");

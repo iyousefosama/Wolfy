@@ -2,20 +2,31 @@ const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const axios = require("axios");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-  ],
-  data: new SlashCommandBuilder()
-    .setName("mcuser")
-    .setDescription("Gives information about a Minecraft user player!")
-    .addStringOption((option) =>
-      option
-        .setName("query")
-        .setDescription("Enter a player name")
-        .setRequired(true)
-    ),
+  data: {
+    name: "mcuser",
+    description: "Gives information about a Minecraft user player!",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory
+    ],
+    permissions: [],
+    options: [
+      {
+        type: 3, // STRING
+        name: 'query',
+        description: 'Enter a player name',
+        required: true
+      }
+    ]
+  },
   async execute(client, interaction) {
     const query = interaction.options.getString("query").toLowerCase();
 
@@ -64,7 +75,7 @@ module.exports = {
           "<a:pp681:774089750373597185> **|** The specified user was not found!",
       });
     }
-    
+
     let nameHistory;
     /*
       try {

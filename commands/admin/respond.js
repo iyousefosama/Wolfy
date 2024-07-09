@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "respond",
     aliases: ["Respond", "RESPOND"],
@@ -17,7 +20,8 @@ module.exports = {
     examples: [
     '854382039524048956 accept very good suggestion',
     '854382039524048956 deny Sorry your suggestion is refused'
-    ], 
+    ],
+    
     async execute(client, message, [id, action = '', ...reason]) {
         let data;
         try{

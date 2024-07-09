@@ -4,12 +4,28 @@ const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.ReadMessageHistory, discord.PermissionsBitField.Flags.Connect, discord.PermissionsBitField.Flags.Speak],
-    guildOnly: true,
-	data: new SlashCommandBuilder()
-    .setName("queue")
-    .setDescription("Displays the current track queue")
-    .addNumberOption(option => option.setName('page').setDescription('Page number of the queue')),
+    data: {
+        name: "queue",
+        description: "Displays the current track queue",
+        dmOnly: false,
+        guildOnly: true,
+        cooldown: 0,
+        group: "NONE",
+        clientPermissions: [
+            discord.PermissionsBitField.Flags.EmbedLinks,
+            discord.PermissionsBitField.Flags.ReadMessageHistory,
+            discord.PermissionsBitField.Flags.Connect,
+            discord.PermissionsBitField.Flags.Speak
+        ],
+        permissions: [],
+        options: [
+            {
+                type: 10, // NUMBER
+                name: 'page',
+                description: 'Page number of the queue'
+            }
+        ]
+    },
 	async execute(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId)
         if (!interaction.member.voice.channel){

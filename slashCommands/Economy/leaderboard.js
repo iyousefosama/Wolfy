@@ -3,12 +3,23 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require("../../schema/Economy-Schema");
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("leaderboard")
-    .setDescription("Get a list of the 10 richest users in Wolfy"),
+  data: {
+    name: "leaderboard",
+    description: "Get a list of the 10 richest users in Wolfy",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: []
+  },
   async execute(client, interaction) {
-    await interaction.deferReply().catch(() => {});
+    await interaction.deferReply().catch(() => { });
 
     try {
       const data = await schema.find({});
@@ -38,10 +49,10 @@ module.exports = {
           i === 0
             ? "<:medal:898358296694628414>"
             : i === 1
-            ? "🥈"
-            : i === 2
-            ? "🥉"
-            : `*${i + 1}.*`;
+              ? "🥈"
+              : i === 2
+                ? "🥉"
+                : `*${i + 1}.*`;
 
         embed.addFields({
           name: `${positionEmoji} ${user.tag}`,

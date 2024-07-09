@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "sell",
     aliases: ["Sell", "SELL"],
@@ -17,6 +20,7 @@ module.exports = {
         'coal 13',
         'diamond 2'
       ],
+      
     async execute(client, message, [item = '', ...amount]) {
 
         if(!item) {

@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/GuildSchema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "antilinktoggle",
     aliases: ["AntiLinkToggle", "ANTILINKTOGGLE", "Antilinktoggle", "anti-link-toggle"],
@@ -17,7 +20,8 @@ module.exports = {
     examples: [
     ''
     ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
           
         let data;
         try{

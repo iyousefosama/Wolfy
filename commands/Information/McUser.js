@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const minecraftPlayer = require("minecraft-player");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "mcuser",
   aliases: ["Mcuser", "MCUSER"],
@@ -18,6 +21,13 @@ module.exports = {
     discord.PermissionsBitField.Flags.AttachFiles,
   ],
   examples: ["Notch"],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     const query = args.join(" ");
 

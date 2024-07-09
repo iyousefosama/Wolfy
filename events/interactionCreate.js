@@ -14,6 +14,9 @@ const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"interactionCreate">} */
 module.exports = {
   name: "interactionCreate",
   async execute(client, interaction) {

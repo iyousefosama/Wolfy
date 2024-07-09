@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "cookie",
     aliases: ["Cookie", "COKKIE"],
@@ -16,7 +19,8 @@ module.exports = {
     examples: [
         '@WOLF'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let Friend = message.mentions.members.first()
         if(!Friend) {

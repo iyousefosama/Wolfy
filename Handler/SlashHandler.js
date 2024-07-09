@@ -53,7 +53,7 @@ module.exports = async (client) => {
           console.log(
             `(/) ${slashCommandsData.size} slashCommands ${`(With ${
               slashCommandsData.map((d) => d.options).flat().length
-            } Subcommands)`} Loaded for as a public commands`
+            } Subcommands)`} Loaded as a public commands`
           );
         })
         .catch((e) => console.log(e));

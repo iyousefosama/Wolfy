@@ -12,6 +12,9 @@ const cmdManager = require("../functions/Manager");
 const Chatbot = require("../functions/ChatBot");
 const logSys = require("../functions/logSys");
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"messageCreate">} */
 module.exports = {
   name: "messageCreate",
   async execute(client, message) {
@@ -295,6 +298,11 @@ module.exports = {
           return message.channel.send({ embeds: [DevOnlyEmbed] });
         }
       }
+
+      /*
+      * @type {import("discord.js").Client} client
+      * @type {import("discord.js").Message} message
+      */
       cmd.execute(client, message, args, { executed: true }).then(() => {
         // Start CmdManager function at ../functions/Manager bath
         cmdManager.manage(client, message, cmd);

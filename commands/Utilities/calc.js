@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const math = require("math-expression-evaluator");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "calc",
   aliases: ["Calc"],
@@ -15,6 +18,20 @@ module.exports = {
   permissions: [],
   clientPermissions: [],
   examples: [],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     await message.channel.sendTyping();
     const question = args.join(" ");

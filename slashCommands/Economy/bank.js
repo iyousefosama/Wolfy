@@ -4,10 +4,21 @@ const schema = require("../../schema/Economy-Schema");
 const moment = require("moment");
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("bank")
-    .setDescription("Check your credits balance in bank"),
+  data: {
+    name: "bank",
+    description: "Check your credits balance in bank",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: []
+},
   async execute(client, interaction) {
     let data;
     try {

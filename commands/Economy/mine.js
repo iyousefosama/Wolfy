@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 const market = require('../../assets/json/market.json');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "mine",
     aliases: ["Mine", "MINE"],
@@ -15,7 +18,8 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
         let data;
         try{

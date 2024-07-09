@@ -13,6 +13,9 @@ const requiredPermissions = [
   discord.PermissionsBitField.Flags.EmbedLinks,
 ];
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"roleUpdate">} */
 module.exports = {
   name: "roleUpdate",
   async execute(client, oldRole, newRole) {

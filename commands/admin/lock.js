@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const { ChannelType } = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "lock",
     aliases: ["Lock", "LOCK"],
@@ -15,9 +18,10 @@ module.exports = {
     permissions: [discord.PermissionsBitField.Flags.ManageChannels, discord.PermissionsBitField.Flags.ManageMessages],
     clientPermissions: [discord.PermissionsBitField.Flags.ManageChannels],
     examples: [''],
+    
     async execute(client, message, [ channelID='', ...args ]) {
 
-        channel = message.guild.channels.cache.get(channelID) || message.guild.channels.cache.get(message.channel.id);
+        let channel = message.guild.channels.cache.get(channelID) || message.guild.channels.cache.get(message.channel.id);
         
         let reason = args.slice(0).join(" ")
         if (!args[0]) reason = 'No reason specified'

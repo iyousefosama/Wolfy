@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "8ball",
   aliases: ["8Ball", "8BALL"],
@@ -17,6 +20,13 @@ module.exports = {
     'Is wolfy a good bot?',
     'Should i sleep after 1 hour?'
   ],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     message.channel.sendTyping()
     if(!args[2]) return message.reply({ content: "Please type a full Question!"});

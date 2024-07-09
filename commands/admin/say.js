@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "say",
     aliases: ["Say", "SAY"],
@@ -16,7 +19,8 @@ module.exports = {
     examples: [
         'Hello everyone how are you?'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
               let text = args.slice(0).join(" ")
               if (!text) return message.channel.send({ content: `<a:Wrong:812104211361693696> You need to type the message to send!`})

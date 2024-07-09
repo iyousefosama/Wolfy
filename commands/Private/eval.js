@@ -3,6 +3,9 @@ const { inspect } = require('util');
 const fetch = require('node-fetch');
 const text = require('../../util/string');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "eval",
     aliases: ["Eval", "EVAL"],
@@ -15,7 +18,8 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     try {
 
       const code = args.join(' ');

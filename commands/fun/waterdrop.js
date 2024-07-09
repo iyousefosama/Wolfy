@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "waterdrop",
     aliases: ["WaterDrop", "Waterdrop", "WATERDROP"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles, discord.PermissionsBitField.Flags.ReadMessageHistory],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         let data;
         try{
             data = await schema.findOne({

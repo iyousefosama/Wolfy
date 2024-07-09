@@ -3,13 +3,27 @@ const discord = require("discord.js");
 const text = require("../../util/string");
 const schema = require("../../schema/Economy-Schema");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("credits")
-    .setDescription("To check your or someone's credits balance in wallet")
-    .addUserOption((option) =>
-      option.setName("user").setDescription("User to show the credits for!")
-    ),
+  data: {
+    name: "credits",
+    description: "To check your or someone's credits balance in wallet",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: [
+        {
+            type: 6, // USER
+            name: 'user',
+            description: 'User to show the credits for!'
+        }
+    ]
+},
   async execute(client, interaction) {
     const target = interaction.options.getUser("user");
 

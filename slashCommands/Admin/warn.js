@@ -5,28 +5,71 @@ const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
 module.exports = {
-	data: new SlashCommandBuilder()
-	.setName('warn')
-	.setDescription('Warn a user, get a list of a user, remove warn from the user!')
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('add')
-                .setDescription('Warns a user!')
-                .addUserOption(option => option.setName('target').setDescription('The user to warn.').setRequired(true))
-                .addStringOption(option => option.setName('reason').setDescription('Enter the reason for the warn').setRequired(true)))
-        .addSubcommand(subcommand =>
-            subcommand
-			.setName('remove')
-                .setDescription('Remove a warn from the user!')
-                .addUserOption(option => option.setName('target').setDescription('The user to remove the warn').setRequired(true))
-                .addStringOption(option => option.setName('warnid').setDescription('Enter the warn id from (warnings list)').setRequired(true)))
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('list')
-                .setDescription('Get the list of warns for the user')
-                .addUserOption(option => option.setName('target').setDescription('Select a user').setRequired(true))),
-			permissions: [discord.PermissionsBitField.Flags.Administrator],
-			guildOnly: true,
+    data: {
+        name: 'warn',
+        description: 'Warn a user, get a list of a user, remove warn from the user!',
+        dmOnly: false,
+        guildOnly: true,
+        cooldown: 0,
+        group: 'NONE',
+        clientPermissions: [],
+        permissions: [
+            discord.PermissionsBitField.Flags.Administrator
+        ],
+        options: [
+            {
+                type: 1, // SUB_COMMAND
+                name: 'add',
+                description: 'Warns a user!',
+                options: [
+                    {
+                        type: 6, // USER
+                        name: 'target',
+                        description: 'The user to warn.',
+                        required: true
+                    },
+                    {
+                        type: 3, // STRING
+                        name: 'reason',
+                        description: 'Enter the reason for the warn',
+                        required: true
+                    }
+                ]
+            },
+            {
+                type: 1, // SUB_COMMAND
+                name: 'remove',
+                description: 'Remove a warn from the user!',
+                options: [
+                    {
+                        type: 6, // USER
+                        name: 'target',
+                        description: 'The user to remove the warn',
+                        required: true
+                    },
+                    {
+                        type: 3, // STRING
+                        name: 'warnid',
+                        description: 'Enter the warn id from (warnings list)',
+                        required: true
+                    }
+                ]
+            },
+            {
+                type: 1, // SUB_COMMAND
+                name: 'list',
+                description: 'Get the list of warns for the user',
+                options: [
+                    {
+                        type: 6, // USER
+                        name: 'target',
+                        description: 'Select a user',
+                        required: true
+                    }
+                ]
+            }
+        ]
+    },
     async execute(client, interaction) {
         const subCommandName = interaction.options._subcommand;
         const add = interaction.options.getSubcommand('add');

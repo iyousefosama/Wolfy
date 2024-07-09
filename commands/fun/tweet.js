@@ -1,6 +1,9 @@
 const discord = require("discord.js")
 const fetch = require("node-fetch");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "tweet",
     aliases: ["Tweet", "TWEET"],
@@ -18,7 +21,8 @@ module.exports = {
         'Hello, world!',
         'Wolfy bot!'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     var loading = new discord.EmbedBuilder()
     .setColor(`Yellow`)
     .setDescription(`<a:Loading_Color:759734580122484757> Loading...`)

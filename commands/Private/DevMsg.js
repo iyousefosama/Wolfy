@@ -1,5 +1,8 @@
 const discord = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "devmsg",
     aliases: ["Devmsg", "DEVMSG", "msg"],
@@ -13,6 +16,7 @@ module.exports = {
     OwnerOnly: true,
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    
     async execute(client, message, [user='', ...args]) {
 
         user = await client.users

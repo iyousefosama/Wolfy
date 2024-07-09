@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "purge",
     aliases: ["Purge"],
@@ -15,6 +18,7 @@ module.exports = {
     clientPermissions: [discord.PermissionsBitField.Flags.ManageMessages],
     examples: [
       '20'],
+      
     async execute(client, message, [member = '', ...args]) {
         let amount = args.slice(0).join(" ")
 

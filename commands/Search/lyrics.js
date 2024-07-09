@@ -5,6 +5,9 @@ const text = require('../../util/string');
 const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "lyrics",
     aliases: ["Lyrics", "LYRICS"],
@@ -19,7 +22,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions, discord.PermissionsBitField.Flags.EmbedLinks],
     examples: ['Venom'],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     const query = args.join(' ');
 
     if(!query) {

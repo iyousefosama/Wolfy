@@ -10,6 +10,9 @@ const _ = require("lodash");
 const Pages = require("../../util/Paginate");
 const market = require("../../assets/json/market.json");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "quests",
   aliases: ["Quests", "QUESTS", "quest"],
@@ -23,6 +26,13 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   examples: [""],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     let data;
     try {

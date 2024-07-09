@@ -2,14 +2,38 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
-    guildOnly: true,
-	data: new SlashCommandBuilder()
-		.setName('rps')
-		.setDescription('Play rock,paper,scissors game with the bot!')
-        .addBooleanOption(option => option.setName('rock').setDescription('Select the rock option'))
-        .addBooleanOption(option => option.setName('paper').setDescription('Select the paper option'))
-        .addBooleanOption(option => option.setName('scissors').setDescription('Select the scissors option')),
+    data: {
+        name: "rps",
+        description: "Play rock, paper, scissors game with the bot!",
+        dmOnly: false,
+        guildOnly: true,
+        cooldown: 0,
+        group: "NONE",
+        clientPermissions: [
+            discord.PermissionsBitField.Flags.UseExternalEmojis
+        ],
+        permissions: [],
+        options: [
+            {
+                type: 5, // BOOLEAN
+                name: 'rock',
+                description: 'Select the rock option',
+                required: false
+            },
+            {
+                type: 5, // BOOLEAN
+                name: 'paper',
+                description: 'Select the paper option',
+                required: false
+            },
+            {
+                type: 5, // BOOLEAN
+                name: 'scissors',
+                description: 'Select the scissors option',
+                required: false
+            }
+        ]
+    },
 	async execute(client, interaction) {
         const rock = interaction.options.getBoolean('rock');
         const paper = interaction.options.getBoolean('paper');
@@ -34,15 +58,15 @@ module.exports = {
         if (rock) {
             interaction.reply({ content: `> My choice was ${option}!`})
         } else if (rock == false) {
-            interaction.reply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `${soo}\``})
         } else if (paper) {
             interaction.reply({ content: `> My choice was ${option}!`})
         } else if (paper == false) {
-            interaction.reply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `${soo}\``})
         } else if (scissors) {
             interaction.reply({ content: `> My choice was ${option}!`})
         } else if (scissors == false) {
-            interaction.reply({ content: `> \`${soo}\``})
+            interaction.reply({ content: `${soo}\``})
         }
         else {
             await interaction.reply({ content: '\\❌ You didn\'t choose the \`option\`!'});

@@ -6,6 +6,9 @@ const { Font, LeaderboardBuilder } = require("canvacord");
 // Load font
 Font.loadDefault();
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "levelboard",
   aliases: [],
@@ -20,6 +23,13 @@ module.exports = {
   permissions: [],
   clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis],
   examples: [],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     message.channel.sendTyping();
     let data;

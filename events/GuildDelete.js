@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const text = require("../util/string");
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"guildDelete">} */
 module.exports = {
   name: "guildDelete",
   async execute(client, guild) {

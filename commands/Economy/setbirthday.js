@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const moment = require('moment');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "setbirthday",
     aliases: ["SetBirthday", "SETBIRTHDAY"],
@@ -15,6 +18,7 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: ['09-26'], 
+    
     async execute(client, message, [date]) {
 
         let data;

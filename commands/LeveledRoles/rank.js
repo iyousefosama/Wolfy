@@ -7,6 +7,9 @@ const schema = require("../../schema/GuildSchema");
 const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "rank",
   aliases: ["level", "Level", "LEVEL", "RANK", "Rank"],
@@ -25,6 +28,7 @@ module.exports = {
     discord.PermissionsBitField.Flags.AttachFiles,
   ],
   examples: ["@WOLF", ""],
+  
   async execute(client, message, [user = ""]) {
     const id = (user.match(/\d{17,19}/) || [])[0] || message.author.id;
 

@@ -3,6 +3,9 @@ const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 const ms = require('ms')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "seek",
   aliases: ["Seek", "SEEK"],
@@ -19,6 +22,7 @@ module.exports = {
   examples: [
       '1m'
     ],
+    
   async execute(client, message, [Tracktime]) {
     const queue = client.player.getQueue(message.guildId)
 

@@ -2,6 +2,9 @@ const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 const UserSchema = require('../../schema/LevelingSystem-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "clearxp",
     aliases: ["Clearxp", "ClearXp", "CLEARXP"],
@@ -18,6 +21,7 @@ module.exports = {
         '@WOLF',
         '724580315481243668'
       ],
+      
     async execute(client, message, [ member = '', ...args]) {
 
 

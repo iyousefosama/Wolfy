@@ -6,6 +6,9 @@ const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "inv",
     aliases: ["Inv", "inventory", "Inventory", "INVENTORY"],
@@ -19,6 +22,7 @@ module.exports = {
     guarded: false, //or false
     permissions: [],
     examples: [''],
+    
     async execute(client, message, [args='']) {
         let data;
         try{

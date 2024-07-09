@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js') // npm i discord.js
 const fetch = require('node-fetch') // npm i node-fetch
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "wikipedia",
     aliases: ["wiki", "WIKI", "Wiki"],
@@ -19,7 +22,8 @@ module.exports = {
         'Iphone 6',
         'discord'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     if(message.channel.nsfw === false) return message.reply(`\\❌ **${message.author.tag}**, Sorry but you can use this command in nsfw channels only!`)
     const wiki = args.join(' ');
     if(!wiki) return message.reply('\\❌ Provide A Query To Search.') // If No Topic Provided To Searched

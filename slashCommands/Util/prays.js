@@ -13,26 +13,37 @@ const moment = require("moment");
 const momentTz = require("moment-timezone");
 let dinMS;
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-  ],
-  data: new SlashCommandBuilder()
-    .setName("prays")
-    .setDescription("Replies with prays times!")
-    .addStringOption((option) =>
-      option
-        .setName("country")
-        .setDescription("Enter country name.")
-        .setRequired(true)
-    )
-    .addStringOption((option) =>
-      option
-        .setName("city")
-        .setDescription("Enter city name.")
-        .setRequired(true)
-    ),
+  data: {
+    name: "prays",
+    description: "Replies with prays times!",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory
+    ],
+    permissions: [],
+    options: [
+      {
+        type: 3, // STRING
+        name: 'country',
+        description: 'Enter country name.',
+        required: true
+      },
+      {
+        type: 3, // STRING
+        name: 'city',
+        description: 'Enter city name.',
+        required: true
+      }
+    ]
+  },
   async execute(client, interaction) {
     try {
       async function LoadButtons(MAX_BTNS, arr) {
@@ -52,8 +63,8 @@ module.exports = {
           if (
             currentRow.components.length >= MAX_BUTTONS_PER_ROW ||
             buttonRows.length * MAX_BUTTONS_PER_ROW +
-              currentRow.components.length >=
-              MAX_BUTTONS_PER_MESSAGE
+            currentRow.components.length >=
+            MAX_BUTTONS_PER_MESSAGE
           ) {
             buttonRows.push(currentRow);
             currentRow = new ActionRowBuilder();
@@ -376,10 +387,9 @@ module.exports = {
             )
             .setFooter({
               text: [
-                `Based on: ${
-                  json.data.meta.method.name
-                    ? json.data.meta.method.name
-                    : "Unknown"
+                `Based on: ${json.data.meta.method.name
+                  ? json.data.meta.method.name
+                  : "Unknown"
                 }\n`,
                 "Times may vary!",
               ].join(" "),

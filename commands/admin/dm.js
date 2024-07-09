@@ -1,5 +1,8 @@
 const discord = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "dm",
     aliases: ["Dm", "DM"],
@@ -16,10 +19,10 @@ module.exports = {
         '@WOLF Hello, how are you today ?',
         '742682490216644619 We have started a giveaway for your birthday!'
       ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
     let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
-
     if(!user){ 
         let em = new discord.EmbedBuilder()
         .setTitle('Error :')

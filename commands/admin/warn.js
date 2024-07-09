@@ -3,6 +3,9 @@ const { EmbedBuilder } = require('discord.js');
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "warn",
     aliases: ["Warn", "WARN"],
@@ -18,6 +21,7 @@ module.exports = {
       '@BadGuy Spamming in chat!',
       '742682490216644619 Dm Ad!'
       ],
+      
     async execute(client, message, [user = '', ...args]) {
         let reason = args.slice(0).join(" ")
         const owner = await message.guild.fetchOwner()

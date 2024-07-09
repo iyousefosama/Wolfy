@@ -1,6 +1,9 @@
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "deposit",
     aliases: ["Deposit", "DEPOSIT"],
@@ -17,6 +20,7 @@ module.exports = {
       '500',
       'all'
     ],
+    
     async execute(client, message, [amount='']) {
 
     let data;

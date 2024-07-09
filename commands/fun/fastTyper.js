@@ -4,6 +4,9 @@ const ms = require('ms')
 const inGame = new Set()
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "fast",
     aliases: ["Fast", "FastTyper", "FASTTYPER", "FAST", "FastTyper", "fastTyper"],
@@ -18,7 +21,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.ReadMessageHistory],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
         let data;
         try{
             data = await schema.findOne({

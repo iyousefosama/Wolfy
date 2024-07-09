@@ -3,6 +3,9 @@ const schema = require("../../schema/Economy-Schema");
 const moment = require("moment");
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "bank",
   aliases: ["Bank", "BANK"],
@@ -16,6 +19,13 @@ module.exports = {
   guarded: false, //or false
   permissions: [],
   examples: [""],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     let data;
     try {

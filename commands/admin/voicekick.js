@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "voicekick",
     aliases: ["VoiceKick", "Voicekick", "VOICEKICK"],
@@ -14,6 +17,7 @@ module.exports = {
     permissions: [discord.PermissionsBitField.Flags.MoveMembers],
     clientPermissions: [discord.PermissionsBitField.Flags.MoveMembers],
     examples: [],
+    
     async execute(client, message, [ member = '', ...args]) {
 
         const owner = await message.guild.fetchOwner()

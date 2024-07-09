@@ -12,6 +12,9 @@ const requiredPermissions = [
   discord.PermissionsBitField.Flags.EmbedLinks,
 ];
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"guildMemberUpdate">} */
 module.exports = {
   name: "guildMemberUpdate",
   async execute(client, oldMember, newMember) {

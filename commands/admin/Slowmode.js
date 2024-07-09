@@ -1,5 +1,8 @@
 const discord = require('discord.js')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "slowmode",
     aliases: ["Slowmode", "SLOWMODE"],
@@ -16,7 +19,8 @@ module.exports = {
     examples: [
       '5s'
     ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
     let time = args[0]
     let reason = args.slice(1).join(" ")

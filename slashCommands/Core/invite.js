@@ -2,14 +2,24 @@ const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-  .setName("invite")
-  .setDescription("Replies with bot links/invite!"),
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-  ],
+  data: {
+    name: "invite",
+    description: "Replies with bot links/invite!",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+        discord.PermissionsBitField.Flags.EmbedLinks,
+        discord.PermissionsBitField.Flags.ReadMessageHistory
+    ],
+    permissions: [],
+    options: []
+},
   async execute(client, interaction) {
     const embed = new EmbedBuilder()
       .setAuthor({

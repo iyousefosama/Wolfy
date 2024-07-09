@@ -29,6 +29,9 @@ const regions = {
     'us-south': 'US South'
 }
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "server",
     aliases: ["Server", "SERVER", "Serverinfo", "serverinfo"],
@@ -43,7 +46,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)
 
     // getting all the members of the server

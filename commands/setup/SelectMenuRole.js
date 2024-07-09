@@ -6,6 +6,9 @@ const {
 } = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "smRole",
   aliases: [
@@ -27,6 +30,7 @@ module.exports = {
   permissions: [discord.PermissionsBitField.Flags.ManageRoles],
   clientPermissions: [discord.PermissionsBitField.Flags.ManageRoles],
   examples: ["1", "6"],
+  
   async execute(client, message, [quantity]) {
     let data;
     try {

@@ -2,28 +2,38 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const discord = require("discord.js");
 const { QueueRepeatMode } = require("discord-player");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    discord.PermissionsBitField.Flags.EmbedLinks,
-    discord.PermissionsBitField.Flags.ReadMessageHistory,
-    discord.PermissionsBitField.Flags.Connect,
-    discord.PermissionsBitField.Flags.Speak,
-  ],
-  guildOnly: true,
-  data: new SlashCommandBuilder()
-    .setName("loop")
-    .setDescription("Loops the currently playing track!")
-    .addStringOption((option) =>
-      option
-        .setName("action")
-        .setDescription("Action you want to preform on the command")
-        .setRequired(true)
-        .addChoices(
-          { name: "Queue", value: "enable_loop_queue" },
-          { name: "Disable", value: "disable_loop" },
-          { name: "Song", value: "enable_loop_song" }
-        )
-    ),
+  data: {
+    name: "loop",
+    description: "Loops the currently playing track!",
+    dmOnly: false,
+    guildOnly: true,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      discord.PermissionsBitField.Flags.EmbedLinks,
+      discord.PermissionsBitField.Flags.ReadMessageHistory,
+      discord.PermissionsBitField.Flags.Connect,
+      discord.PermissionsBitField.Flags.Speak
+    ],
+    permissions: [],
+    options: [
+      {
+        type: 3, // STRING
+        name: 'action',
+        description: 'Action you want to perform on the command',
+        required: true,
+        choices: [
+          { name: 'Queue', value: 'enable_loop_queue' },
+          { name: 'Disable', value: 'disable_loop' },
+          { name: 'Song', value: 'enable_loop_song' }
+        ]
+      }
+    ]
+  },
   async execute(client, interaction) {
     const repeat = interaction.options.getString('action');
     const queue = client.player.getQueue(interaction.guildId);
@@ -35,7 +45,7 @@ module.exports = {
     } else if (
       interaction.guild.members.me.voice.channelId &&
       interaction.member.voice.channelId !==
-        interaction.guild.members.me.voice.channelId
+      interaction.guild.members.me.voice.channelId
     ) {
       return await interaction.reply(
         "<:error:888264104081522698> You are not in my voice channel!"

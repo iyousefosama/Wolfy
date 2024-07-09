@@ -1,5 +1,8 @@
 const discord = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "serveravatar",
     aliases: ["Serveravatar", "SERVERAVATAR", "savatar"],
@@ -14,7 +17,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     if (message.guild){
         const id = message.guild.id;
   

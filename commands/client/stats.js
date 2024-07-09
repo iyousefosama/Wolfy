@@ -6,6 +6,9 @@ const moment = require(`moment`); // requiring moment
 const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "stats",
   aliases: ["Botinfo", "BotInfo", "client", "Stats", "STATS"],
@@ -24,6 +27,13 @@ module.exports = {
     discord.PermissionsBitField.Flags.AttachFiles,
   ],
   examples: [""],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     message.channel.sendTyping();
     const SlashCommands = client.slashCommands?.size;

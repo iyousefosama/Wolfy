@@ -7,6 +7,9 @@ const { Font, LeaderboardBuilder } = require("canvacord");
 // Load font
 Font.loadDefault();
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
   data: {
     name: "level-board",

@@ -6,6 +6,9 @@ const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "market",
     aliases: ["Market", "MARKET", "shop"],
@@ -20,6 +23,7 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.UseExternalEmojis, discord.PermissionsBitField.Flags.AddReactions, discord.PermissionsBitField.Flags.EmbedLinks],
     examples: [''], 
+    
     async execute(client, message, [type]) {
 
         let data;

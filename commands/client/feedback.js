@@ -3,6 +3,9 @@ const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require('moment');
 const { author } = require('../../package.json');
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "feedback",
     aliases: ["Feedback", "FEEDBACK", "issue", "reportbug", "ReportBug", "REPORTBUG", "reportbug"],
@@ -19,7 +22,8 @@ module.exports = {
     examples: [
       'The bot ping commands not working it\'s showing undefined ping!'
     ],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
 
     const now = Date.now();
     const duration = Math.floor(86400000)

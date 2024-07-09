@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const got = require('got')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "meme",
     aliases: ["Meme", "MEME"],
@@ -15,7 +18,8 @@ module.exports = {
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
     examples: [''],
-    async execute(client, message, args) {
+
+  async execute(client, message, args) {
     message.channel.sendTyping()
     
     const memeEmbed = new discord.EmbedBuilder() // creating an embed

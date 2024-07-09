@@ -11,6 +11,9 @@ const requiredPermissions = [
   discord.PermissionsBitField.Flags.EmbedLinks,
 ];
 
+const BEV = require("../util/types/baseEvents");
+
+/** @type {BEV.BaseEvent<"voiceStateUpdate">} */
 module.exports = {
   name: "voiceStateUpdate",
   async execute(client, oldState, newState) {

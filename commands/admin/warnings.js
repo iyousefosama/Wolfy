@@ -2,6 +2,9 @@ const discord = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const warnSchema = require('../../schema/Warning-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "warnings",
     aliases: ["Warnings", "WARNINGS", "Warns", "warns", "WARNS"],
@@ -17,6 +20,7 @@ module.exports = {
         '@BadGuy',
         '742682490216644619'
         ],
+        
     async execute(client, message, [user = '']) {
 
         if (!user.match(/\d{17,19}/)){

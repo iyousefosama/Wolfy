@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Mute-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "unmute",
     aliases: ["Unmute", "UNMUTE"],
@@ -18,6 +21,7 @@ module.exports = {
         '@BADGUY',
         '742682490216644619'
       ],
+      
     async execute(client, message, [member = '', ...args]) {
 
     const owner = await message.guild.fetchOwner()

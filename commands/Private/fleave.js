@@ -1,7 +1,10 @@
 const discord = require('discord.js')
 const { EmbedBuilder, TextChannel } = require('discord.js');
 
-  module.exports = {
+  /**
+ * @type {import("../../util/types/baseCommand")}
+ */
+module.exports = {
     name: "fleave",
     aliases: ["Fleave", "FLEAVE"],
     dmOnly: false, //or false
@@ -14,6 +17,7 @@ const { EmbedBuilder, TextChannel } = require('discord.js');
     OwnerOnly: true,
     permissions: [],
     clientPermissions: [discord.PermissionsBitField.Flags.EmbedLinks, discord.PermissionsBitField.Flags.AttachFiles],
+    
     async execute(client, message, [id = '', ...reason]) {
 
     if (!id.match(/\d{17,19}/)){

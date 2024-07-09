@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const weather = require("weather-js");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "weather",
   aliases: ["WeatherStatus", "WEATHERSTATUS", "Weatherstatus", "weatherstatus"],
@@ -16,6 +19,13 @@ module.exports = {
   examples: [
     'Cairo, egypt'
   ],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     let city = args.join(" ");
     let degreetype = "C"; // You can change it to F. (fahrenheit.)

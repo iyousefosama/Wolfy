@@ -1,6 +1,9 @@
 const discord = require('discord.js')
 const schema = require('../../schema/user-schema')
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
     name: "whitelist",
     aliases: ["Whitelist", "WHITELIST"],
@@ -13,6 +16,7 @@ module.exports = {
     guarded: false, //or false
     OwnerOnly: true,
     permissions: [],
+    
     async execute(client, message, [user = '', ...reason] ) {
 
         if (!user.match(/\d{17,19}/)){

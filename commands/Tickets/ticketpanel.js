@@ -7,6 +7,9 @@ const {
 } = require("discord.js");
 const TicketSchema = require("../../schema/Ticket-Schema");
 
+/**
+ * @type {import("../../util/types/baseCommand")}
+ */
 module.exports = {
   name: "ticketpanel",
   aliases: ["TicketPanel"],
@@ -20,6 +23,13 @@ module.exports = {
   guarded: false, //or false
   permissions: [discord.PermissionsBitField.Flags.ManageChannels],
   examples: [""],
+  /**
+   *
+   * @param {import("discord.js").Client} client
+   * @param {import("discord.js").Message} message
+   * @param {String[]} args
+   *
+   */
   async execute(client, message, args) {
     let text = args.slice(0).join(" ");
 

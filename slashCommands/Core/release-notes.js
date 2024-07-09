@@ -10,20 +10,32 @@ const {
 const notes = require("../../schema/releasenotes-Schema");
 const { version, author } = require("../../package.json");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("release-notes")
-    .setDescription("View/Publish release notes for wolfy bot")
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("publish")
-        .setDescription("🛠 Developers only, Publish new release notes")
-    )
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("view")
-        .setDescription("View the most recent release notes")
-    ),
+  data: {
+    name: "release-notes",
+    description: "View/Publish release notes for wolfy bot",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [],
+    permissions: [],
+    options: [
+        {
+            type: 1, // SUB_COMMAND
+            name: 'publish',
+            description: '🛠 Developers only, Publish new release notes'
+        },
+        {
+            type: 1, // SUB_COMMAND
+            name: 'view',
+            description: 'View the most recent release notes'
+        }
+    ]
+},
   async execute(client, interaction) {
     const { options } = interaction;
     const sub = options.getSubcommand();
