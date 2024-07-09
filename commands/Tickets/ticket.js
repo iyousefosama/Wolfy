@@ -94,7 +94,7 @@ module.exports = {
                     message.react('758141943833690202').catch(() => message.channel.send(`<:Verify:841711383191879690> Successfully created ${channel} ticket!`))
                     const button = new ButtonBuilder()
                     .setLabel(`Close`)
-                    .setCustomId("98418541981561")
+                    .setCustomId("btn_close")
                     .setStyle('Secondary')
                     .setEmoji("🔒");
                     const row = new ActionRowBuilder()

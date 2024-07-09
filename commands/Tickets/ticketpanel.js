@@ -112,7 +112,7 @@ module.exports = {
       }
     }
 
-    async function Embed(message, BtnId = "ticket") {
+    async function Embed(message, BtnId = "btn_ticket") {
       const embed = new EmbedBuilder()
         .setColor("Red")
         .setAuthor({
@@ -140,7 +140,10 @@ module.exports = {
       };
     }
 
-    let data;
+    const embed = await Embed(message, "btn_ticket");
+    return message.channel.send(embed);
+
+ /*    let data;
     try {
       data = await TicketSchema.findOne({
         guildId: message.guild.id,
@@ -176,7 +179,7 @@ module.exports = {
       .catch(() => false);
 
     if (!proceed) {
-      const embed = await Embed(message, "ticket");
+      const embed = await Embed(message, "btn_ticket");
       return message.channel.send(embed);
     }
 
@@ -216,8 +219,8 @@ module.exports = {
     data.Panels.push(TicketObject);
 
     await data.save().then(async () => {
-      const CreatedEmbed = await Embed(message, `${channel.id}`)
+      const CreatedEmbed = await Embed(message, `btn_${channel.id}`)
       Final(message, CreatedEmbed);
-    });
+    }); */
   },
 };

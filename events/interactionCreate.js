@@ -5,7 +5,6 @@ const {
 } = require("discord.js");
 const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
-const Ticket = require("../functions/ButtonHandle/Ticket");
 const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
@@ -78,16 +77,6 @@ module.exports = {
 
       await component.action(client, interaction, parts);
     }
-    if (interaction.isButton()) {
-      // * Ticket button inteaction
-      if (interaction.customId === "ticket") {
-        Ticket.ticketBtn(client, interaction);
-      }
-      // * Checks if Ticket controll interactions
-      TicketControlls.click(client, interaction);
-    }
-    let data;
-
     if (interaction.isStringSelectMenu()) {
       smRole.select(client, interaction);
     }
