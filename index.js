@@ -2,7 +2,7 @@ const Client = require(`${process.cwd()}/struct/Client`);
 
 const config = require(`${process.cwd()}/config`);
 
-// create a new Discord client 
+// create a new Discord client
 const client = new Client(config);
 
 const express = require('express')

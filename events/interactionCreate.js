@@ -10,6 +10,7 @@ const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed} = require("../util/modules/embeds")
+const getLocalCommands = require('../util/helpers/getLocalCommands');
 
 const BEV = require("../util/types/baseEvents");
 
@@ -77,7 +78,12 @@ module.exports = {
       }
     }
     if (interaction.isChatInputCommand()) {
-      const command = client.slashCommands.get(interaction.commandName);
+      const localCommands = getLocalCommands();
+
+      const command = localCommands.find(
+        (cmd) => cmd.data.name === interaction.commandName
+      );
+/*       const command = client.slashCommands.get(interaction.commandName); */
 
       if (!command) {
         return interaction

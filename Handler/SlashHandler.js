@@ -9,7 +9,8 @@ const path = require("path");
  */
 
 module.exports = async (client) => {
-  client.slashCommands = new discord.Collection();
+ /*  client.slashCommands = new discord.Collection();
+  let commandFiles = []; // Array to store command file names
 
   function readCommands(dir) {
     const folders = fs
@@ -27,6 +28,7 @@ module.exports = async (client) => {
         const filePath = path.join(folderPath, file);
         const command = require(filePath);
         client.slashCommands.set(command.data.name, command);
+        commandFiles.push(command.data.name); // Store the command name
 
         if (command.data instanceof discord.SlashCommandBuilder) {
           commands.push(command.data.toJSON());
@@ -40,6 +42,19 @@ module.exports = async (client) => {
   const slashCommandsDir = path.join(__dirname, "../slashCommands");
   readCommands(slashCommandsDir);
 
+  // Function to remove deleted commands from client.slashCommands
+  function removeDeletedCommands() {
+    client.slashCommands.forEach((command, name) => {
+      if (!commandFiles.includes(name)) {
+        client.slashCommands.delete(name);
+        console.log(`🗑 Command '${name}' was deleted and removed from slashCommands.`);
+      }
+    });
+  }
+
+  removeDeletedCommands()
+
+
   client.on("ready", async () => {
     await new Promise((r) => setTimeout(r, 1500));
     client.user.setPresence({
@@ -51,13 +66,13 @@ module.exports = async (client) => {
         .set(commands)
         .then((slashCommandsData) => {
           console.log(
-            `(/) ${slashCommandsData.size} slashCommands ${`(With ${
-              slashCommandsData.map((d) => d.options).flat().length
+            `(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map((d) => d.options).flat().length
             } Subcommands)`} Loaded as a public commands`
           );
         })
         .catch((e) => console.log(e));
     } else {
+      client.application.commands.set([])
       client.guilds.cache
         .map((g) => g)
         .forEach(async (guild) => {
@@ -66,8 +81,7 @@ module.exports = async (client) => {
               .set(commands)
               .then((slashCommandsData) => {
                 console.log(
-                  `(/) ${slashCommandsData.size} slashCommands ${`(With ${
-                    slashCommandsData.map((d) => d.options).flat().length
+                  `(/) ${slashCommandsData.size} slashCommands ${`(With ${slashCommandsData.map((d) => d.options).flat().length
                   } Subcommands)`} Loaded for ${`${guild.name}`}!`
                 );
               })
@@ -77,5 +91,5 @@ module.exports = async (client) => {
           }
         });
     }
-  });
+  }); */
 };
