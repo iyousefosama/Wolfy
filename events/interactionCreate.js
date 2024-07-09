@@ -1,19 +1,15 @@
-const discord = require("discord.js");
 const {
-  ActionRowBuilder,
-  StringSelectMenuBuilder,
-  ButtonBuilder,
   EmbedBuilder,
-  Collection,
   PermissionsBitField,
   ChannelType,
 } = require("discord.js");
+const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
-const text = require("../util/string");
 const Ticket = require("../functions/ButtonHandle/Ticket");
 const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
+const { ErrorEmbed, InfoEmbed, SuccessEmbed} = require("../util/modules/embeds")
 
 const BEV = require("../util/types/baseEvents");
 
@@ -84,7 +80,9 @@ module.exports = {
       const command = client.slashCommands.get(interaction.commandName);
 
       if (!command) {
-        return;
+        return interaction
+          .reply({ content: "An error has occurred", ephemeral: true })
+          .catch(() => { });
       } else if (interaction.user.bot) {
         return;
       } else {
@@ -92,23 +90,14 @@ module.exports = {
       }
 
       try {
-        async function sendMessage(message) {
-          const embed = new EmbedBuilder()
-            .setColor(`Red`)
-            .setDescription(message);
-
-          await interaction.reply({ embeds: [embed], ephemeral: true });
-        }
 
         if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
-          return sendMessage("I can't execute that command **inside DMs**!");
+          return interaction.reply({ embeds: [ErrorEmbed("I can't execute that command **inside DMs**!")], ephemeral: true });
         }
 
 
         if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
-          return sendMessage(
-            "This command is limited for **developers only**!"
-          );
+          return interaction.reply({ embeds: [ErrorEmbed("This command can only be used by **developers**!")], ephemeral: true });
         }
         //+ permissions: [""],
         if (command.data.permissions && command.data.permissions > 0) {
@@ -117,9 +106,7 @@ module.exports = {
               interaction.user
             );
             if (!userPerms || !userPerms.has(command.data.permissions)) {
-              return sendMessage(
-                `You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`
-              );
+              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true }); 
             }
           }
         }
@@ -131,31 +118,44 @@ module.exports = {
               interaction.guild.members.me
             );
             if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
-              return sendMessage(
-                `The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`
-              );
+              return interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`)], ephemeral: true }); 
             }
           }
         }
-        //await interaction.deferReply().catch(() => {});
-        command.execute(client, interaction).then(() => {
-          logSys(client, interaction, true);
-          console.log(
-            `(/) ${interaction.user.username}|(${interaction.user.id}) in ${
-              interaction.guild
+        try {
+          //await interaction.deferReply().catch(() => {});
+          command.execute(client, interaction).then(() => {
+            logSys(client, interaction, true);
+            console.log(
+              `(/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
                 ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
                 : "DMS"
-            } used: /${interaction.commandName}`
-          );
-        });
+              } used: /${interaction.commandName}`
+            );
+          });
+        } catch (error) {
+          consoleUtil.error(error, "command-execute");
+
+          interaction.isRepliable
+            ? await interaction.reply({
+              content: "There was an error while executing this command!",
+              ephemeral: true,
+            })
+            : interaction.editReply({
+              content: "There was an error while executing this command!",
+            });
+        }
       } catch (error) {
         console.error(error);
-        await interaction
-          .editReply({
+
+        interaction.isRepliable
+          ? await interaction.reply({
             content: "There was an error while executing this command!",
             ephemeral: true,
           })
-          .catch(() => {});
+          : interaction.editReply({
+            content: "There was an error while executing this command!",
+          });
       }
     }
   },

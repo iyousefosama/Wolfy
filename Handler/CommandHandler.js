@@ -1,34 +1,40 @@
-const discord = require('discord.js')
-const { Client } = require('discord.js')
 const fs = require('fs');
+const path = require('path');
+const { Collection } = require('discord.js');
 const consoleUtil = require("../util/console");
 
-/**
- * @param {Client} client
- */
-
 module.exports = async (client) => {
-  consoleUtil.warn("Loading message commands...")
+  consoleUtil.warn("Loading message commands...");
   try {
-    client.commands = new discord.Collection();
+    client.commands = new Collection();
 
     const commandFolders = fs.readdirSync('./commands');
+
     for (const folder of commandFolders) {
-      const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+      const folderPath = path.join(__dirname, `../commands/${folder}`);
+      const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
 
       for (const file of commandFiles) {
-        const command = require(`../commands/${folder}/${file}`);
-        client.commands.set(command.name, command);
+        try {
+          const command = require(path.join(folderPath, file));
+          if (!command.name) {
+            consoleUtil.error(`Command file '${file}' is missing a 'name' property.`);
+            continue;
+          }
+          client.commands.set(command.name, command);
+          consoleUtil.Success(`'${command.name}' from '${file}'`, "Loaded command:");
+        } catch (error) {
+          consoleUtil.error(`Error loading command '${file}': ${error}`);
+        }
       }
 
-      if (commandFiles.length <= 0) {
-        consoleUtil.error("Can't find any commands!");
+      if (commandFiles.length === 0) {
+        consoleUtil.error(`No command files found in folder '${folder}'`);
+      } else {
+        consoleUtil.Success(`Loaded ${commandFiles.length} commands from '${folder}' folder!`, "# CMD FOLDER LOADED:");
       }
-
-      consoleUtil.Success(`Loaded ${commandFiles.length} commands in ${folder} folder!`)
     }
   } catch (error) {
     consoleUtil.error(`An error occurred while loading commands: ${error}`);
   }
-
 };

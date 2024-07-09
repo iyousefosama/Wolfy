@@ -14,7 +14,7 @@ module.exports = {
     name: "avatar",
     description: "Replies with avatar!",
     dmOnly: false,
-    guildOnly: false,
+    guildOnly: true,
     cooldown: 0,
     group: "NONE",
     clientPermissions: [

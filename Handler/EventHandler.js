@@ -6,7 +6,7 @@ const consoleUtil = require("../util/console");
  * @param {Client} client
  */
 module.exports = async (client) => {
-    consoleUtil.warn("Loading events...")
+    consoleUtil.warn("Loading events...", "Events:");
     try {
         const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 

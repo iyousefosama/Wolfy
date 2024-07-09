@@ -2,6 +2,8 @@ const { Collection, PermissionsBitField, ChannelType, EmbedBuilder } = require("
 const { parsePermissions } = require("../util/class/utils");
 const userSchema = require("../schema/user-schema");
 const schema = require("../schema/GuildSchema");
+const consoleUtil = require("../util/console");
+const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds");
 const cooldowns = new Collection();
 const CoolDownCurrent = {};
 const leveling = require("../functions/LevelTrigger");
@@ -130,8 +132,7 @@ module.exports = {
             .has(PermissionsBitField.Flags.ReadMessageHistory)
         ) {
           return message.channel.send({
-            content:
-              '"Missing Access", the bot is missing the `READ_MESSAGE_HISTORY` permission please enable it!',
+            embeds: [ErrorEmbed('"Missing Access", the bot is missing the `READ_MESSAGE_HISTORY` permission please enable it!')]
           });
         } else {
           // Do nothing..
@@ -142,8 +143,7 @@ module.exports = {
             .has(PermissionsBitField.Flags.EmbedLinks)
         ) {
           return message.channel.send({
-            content:
-              '"Missing Permissions", the bot is missing the `EMBED_LINKS` permission please enable it!',
+            embeds: [ErrorEmbed('"Missing Permissions", the bot is missing the `EMBED_LINKS` permission please enable it!')]
           });
         } else {
           // Do nothing..
@@ -191,11 +191,10 @@ module.exports = {
           CoolDownCurrent[message.author.id] = true;
           return message.channel
             .send({
-              content: ` **${
-                message.author.username
-              }**, please cool down! (**${timeLeft.toFixed(
-                0
-              )}** second(s) left)`,
+              content: ` **${message.author.username
+                }**, please cool down! (**${timeLeft.toFixed(
+                  0
+                )}** second(s) left)`,
             })
             .then((msg) => {
               setTimeout(() => {
@@ -218,12 +217,7 @@ module.exports = {
           const authorPerms = message.channel.permissionsFor(message.member);
           if (!authorPerms || !authorPerms.has(cmd.permissions)) {
 
-            const PermsEmbed = new EmbedBuilder()
-              .setColor(`Red`)
-              .setDescription(
-                `<a:pp802:768864899543466006> You don't have ${parsePermissions(cmd.permissions)} to use ${cmd.name} command.`
-              );
-            return message.channel.send({ embeds: [PermsEmbed] });
+            return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> You don't have ${parsePermissions(cmd.permissions)} to use ${cmd.name} command.`)] });
           }
         }
       }
@@ -235,75 +229,54 @@ module.exports = {
             message.guild.members.me
           );
           if (!clientPerms || !clientPerms.has(cmd.clientPermissions)) {
-            const ClientPermsEmbed = new EmbedBuilder()
-              .setColor(`Red`)
-              .setDescription(
-                `<a:pp802:768864899543466006> The bot is missing ${parsePermissions(cmd.clientPermissions)}`
-              );
-            return message.channel.send({ embeds: [ClientPermsEmbed] });
+            return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> The bot is missing ${parsePermissions(cmd.clientPermissions)}`)] });
           }
         }
       }
 
       //+ guildOnly: true/false,
       if (cmd.guildOnly && message.channel.type === ChannelType.DM) {
-        const NoDmEmbed = new EmbedBuilder()
-          .setColor(`Red`)
-          .setDescription(
-            `<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`
-          );
-        return message.reply({ embeds: [NoDmEmbed] });
+        return message.reply({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`)] });
       }
 
       //+ dmOnly: true/false,
       if (cmd.dmOnly && message.channel.type === ChannelType.GuildText) {
-        const NoGuildEmbed = new EmbedBuilder()
-          .setColor(`Red`)
-          .setDescription(
-            `<a:pp802:768864899543466006> I can\'t execute that command inside the server!`
-          );
-        return message.channel.send({ embeds: [NoGuildEmbed] });
+        return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> I can\'t execute that command inside the server!`)] });
       }
 
       if (cmd.guarded) {
-        const GuardedEmbed = new EmbedBuilder()
-          .setColor(`Red`)
-          .setDescription(
-            `<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`
-          );
-        return message.channel.send({ embeds: [GuardedEmbed] });
+        return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`)] });
       }
 
       if (cmd.OwnerOnly) {
         if (!client.owners.includes(message.author.id)) {
-          const DevOnlyEmbed = new EmbedBuilder()
-            .setColor(`Red`)
-            .setDescription(
-              `<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`
-            );
-          return message.channel.send({ embeds: [DevOnlyEmbed] });
+          return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)] });
         }
       }
 
-      /*
-      * @type {import("discord.js").Client} client
-      * @type {import("discord.js").Message} message
-      */
-      cmd.execute(client, message, args, { executed: true }).then(() => {
-        // Start CmdManager function at ../functions/Manager bath
-        cmdManager.manage(client, message, cmd);
-        logSys(client, message, false);
-        console.log(
-          `${message.author.tag}|(${message.author.id}) in ${
-            message.guild
+      try {
+        /*
+* @type {import("discord.js").Client} client
+* @type {import("discord.js").Message} message
+*/
+        cmd.execute(client, message, args, { executed: true }).then(() => {
+          // Start CmdManager function at ../functions/Manager bath
+          cmdManager.manage(client, message, cmd);
+          logSys(client, message, false);
+          console.log(
+            `${message.author.tag}|(${message.author.id}) in ${message.guild
               ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
               : "DMS"
-          } sent: ${message.content}`
-        );
-      });
+            } sent: ${message.content}`
+          );
+        });
+      } catch (error) {
+        consoleUtil.error(error, "message-execute");
+        message.reply("An error occurred while running this command");
+      }
     } catch (err) {
       message.reply(
-        `<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to WOLF#1045\``
+        `<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to developers\``
       );
       console.log(err);
     }
