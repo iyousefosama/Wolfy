@@ -47,7 +47,7 @@
  * @property {import('discord.js').PermissionResolvable[]} [clientPermissions] - Permissions required by the client to use the command.
  * @property {import('discord.js').PermissionResolvable[]} [permissions] - Permissions required by the user to use the command
  * @property {Validation[]} [validations] - List of validations to be run before the command is executed
- * @property {function(import('discord.js').Client,import('discord.js').Message, string[])} execute - The callback to be executed when the command is invoked
+ * @property {function(import('../../struct/Client'),import('discord.js').Message, string[])} execute - The callback to be executed when the command is invoked
  */
 
 /**

@@ -24,7 +24,7 @@
 /**
  * @typedef {Object} CommandData
  * @property {InteractionInfo} data - The interaction information for the command
- * @property {function(import('discord.js').Client, import('discord.js').Interaction)} execute - The callback to be executed when the command is invoked
+ * @property {function(import('../../struct/Client'), import('discord.js').Interaction)} execute - The callback to be executed when the command is invoked
  */
 
 /**

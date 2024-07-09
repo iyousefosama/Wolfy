@@ -2,36 +2,40 @@
 
 const { Client, Intents, Collection, version } = require('discord.js');
 const { performance } = require('perf_hooks');
-
+const ComponentsLoader = require("../Handler/ComponentsActionLoader");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
-
-const consoleUtil = require(`../util/console`);
 
 /**
  * Optimized hub for interacting with the discord API
  * @extends {Client}
  */
 
-module.exports = class WolfyClient extends Client{
+module.exports = class WolfyClient extends Client {
   /**
    * @param {ClientSettings} [settings] for this client, including the ClientOptions [options] for the client
    */
-  constructor(settings = {}){
+  constructor(settings = {}) {
     super(settings.client);
 
     // Initialize bot, log on terminal when instantiated.
     console.log(`Initializing the client. Please wait...`);
 
+        /**
+     * @type  {Collection<string, import("../util/types/baseComponent")>}
+     */
+        this.ComponentsAction = new Collection();
+        this.components = new Collection();
+
     /**
      * The default prefix this bot instance will be using.
      * @type {?string}
      */
-    if (typeof settings.prefix !== 'string'){
+    if (typeof settings.prefix !== 'string') {
       settings.prefix = 'w!';
     };
 
-    if (!this.token && 'TOKEN' in process.env){
+    if (!this.token && 'TOKEN' in process.env) {
       /**
       * Authorization token for the logged in bot.
       * If present, this defaults to `process.env.TOKEN` or `process.env.discord_TOKEN` when instantiated
@@ -54,7 +58,7 @@ module.exports = class WolfyClient extends Client{
     */
     this.database = null;
 
-    if (settings.database?.enable === true){
+    if (settings.database?.enable === true) {
       this.database = new Mongoose(this, settings.database);
     } else {
       // Do nothing..
@@ -83,7 +87,7 @@ module.exports = class WolfyClient extends Client{
      * Channel ID used by the bot to log errors when enabled.
      * @type {?Snowflake}
      */
-    if (typeof settings.channels?.debug === 'string'){
+    if (typeof settings.channels?.debug === 'string') {
       this.config.channels.debug = settings.channels.debug;
     } else {
       // Do nothing...
@@ -93,39 +97,39 @@ module.exports = class WolfyClient extends Client{
      * Channel ID used by the bot to send vote messages
      * @type {?Snowflake}
      */
-    if (typeof settings.channels?.votes === 'string'){
+    if (typeof settings.channels?.votes === 'string') {
       this.config.channels.votes = settings.channels.votes;
     } else {
       // Do nothing...
     };
 
-        /**
-     * Channel ID used for the chatbot
-     * @type {?Snowflake}
-     */
-         if (typeof settings.channels?.chatbot === 'string'){
-          this.config.channels.chatbot = settings.channels.chatbot;
-        } else {
-          // Do nothing...
-        };
+    /**
+ * Channel ID used for the chatbot
+ * @type {?Snowflake}
+ */
+    if (typeof settings.channels?.chatbot === 'string') {
+      this.config.channels.chatbot = settings.channels.chatbot;
+    } else {
+      // Do nothing...
+    };
 
-     /**
-     * 
-     * @type {?Boolean}
-     */
-         if (typeof settings.loadSlashsGlobal === 'boolean'){
-          this.config.loadSlashsGlobal = settings.loadSlashsGlobal;
-        } else {
-          // Do nothing...
-        };
+    /**
+    * 
+    * @type {?Boolean}
+    */
+    if (typeof settings.loadSlashsGlobal === 'boolean') {
+      this.config.loadSlashsGlobal = settings.loadSlashsGlobal;
+    } else {
+      // Do nothing...
+    };
 
     /**
      * Array of {@link User} IDs that will be considered by the bot it's owner.
      * Will be used by {@link CommandHandler} when attempting to read ownerOnly commands.
      * @type {?string[]}
      */
-    if (Array.isArray(settings.owners)){
-      if (settings.owners.length){
+    if (Array.isArray(settings.owners)) {
+      if (settings.owners.length) {
         this.config.owners = settings.owners;
       } else {
         // Do nothing
@@ -144,31 +148,60 @@ module.exports = class WolfyClient extends Client{
     // Execute these internal functions once the bot is ready!!
     this.once('ready', () => {
       this.bootTime = Math.round(performance.now());
+
+      this.loadComponents("/components");
       return;
     });
 
+
     // increment message count whenever this client emits the message event
     this.on('messageCreate', message => {
-      if (message.author.id === this.user.id){
+      if (message.author.id === this.user.id) {
         return this.messages.sent++;
       } else {
         return this.messages.received++;
       };
     });
   };
-  
+
+  /**
+ * Load all loadComponent from the specified directory
+ * @param {string} directory
+ */
+  loadComponents(directory) {
+    ComponentsLoader(this, directory)
+  };
+
+  /**
+   * Register Component file in the client
+   * @param {import("../util/types/baseComponent")} Component
+   */
+  loadComponent(Component) {
+
+    if (Component?.enabled) {
+      /*
+      if (this.Component.has(Component.name)) {
+        throw new Error(`Component ${Component.name} already registered`);
+      }*/
+      this.ComponentsAction.set(Component.name, Component);
+    } else {
+      this.logger.debug(`Skipping Component ${Component.name}. Disabled!`);
+    }
+
+
+  };
 
   /**
    * Bulk add collections to the collection manager
    * @param {...CollectionName} string The name of collections to add
    * @returns {WolfyClient}
    */
-  defineCollections(collection = []){
-    if (!Array.isArray(collection)){
+  defineCollections(collection = []) {
+    if (!Array.isArray(collection)) {
       throw new TypeError(`Client#defineCollections parameter expected type Array, received ${typeof collection}`);
     };
 
-    for (const col of collection){
+    for (const col of collection) {
       this.collections.add(col);
     };
 
@@ -181,18 +214,18 @@ module.exports = class WolfyClient extends Client{
    * @param {ProcessEventConfig} config The configuration for the process events.
    * @returns {void}
    */
-   listentoProcessEvents(events = [], config = {}){
-    if (!Array.isArray(events)){
+  listentoProcessEvents(events = [], config = {}) {
+    if (!Array.isArray(events)) {
       return;
     };
 
-    if (typeof config !== 'object'){
+    if (typeof config !== 'object') {
       config = {};
     };
 
-    for (const event of events){
+    for (const event of events) {
       process.on(event, (...args) => {
-        if (config.ignore && typeof config.ignore === 'boolean'){
+        if (config.ignore && typeof config.ignore === 'boolean') {
           return;
         } else {
           return processEvents(event, args, this);
@@ -209,17 +242,17 @@ module.exports = class WolfyClient extends Client{
   * @param {params} parameter Additional parameters for the Interval function
   * @returns {Timeout} timeout returns a Timeout object
   */
-  loop(fn, delay, ...param){
+  loop(fn, delay, ...param) {
     fn();
     return setInterval(fn, delay, ...param);
   };
 
-  
+
   /**
   * get logs
   * @returns {string<logs>} logged messages for this bot
   */
-  getlogs(){
+  getlogs() {
     return this.logs.join('\n') || 'Logs are currently Empty!'
   };
 
@@ -228,7 +261,7 @@ module.exports = class WolfyClient extends Client{
    * @type {ClientPrefix}
    * @readonly
    */
-  get prefix(){
+  get prefix() {
     return this.config.prefix;
   };
 
@@ -237,7 +270,7 @@ module.exports = class WolfyClient extends Client{
    * @type {ClientOwners[]}
    * @readonly
    */
-  get owners(){
+  get owners() {
     return this.config.owners;
   };
 
@@ -246,7 +279,7 @@ module.exports = class WolfyClient extends Client{
    * @type {Version{}}
    * @readonly
    */
-  get version(){
+  get version() {
     return {
       library: version,
       client: require(`${process.cwd()}/package.json`).version

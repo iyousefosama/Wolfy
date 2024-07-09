@@ -11,7 +11,7 @@ module.exports = {
   name: 'ready',
   once: true,
   /**
-  * @param {Client} client
+  * @param {import('../struct/Client')} client
   */
   async execute(client) {
     await new Promise(r => setTimeout(r, 3500))

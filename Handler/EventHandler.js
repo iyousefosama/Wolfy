@@ -21,7 +21,7 @@ module.exports = async (client) => {
             }
         }
 
-        consoleUtil.Success(`Loaded ${eventFiles.length} events!\n=================================================`)
+        consoleUtil.Success(`Loaded ${eventFiles.length} events!`)
     } catch (error) {
         consoleUtil.error(`An error occurred while loading events: ${error}`)
     }

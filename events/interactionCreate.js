@@ -9,7 +9,7 @@ const Ticket = require("../functions/ButtonHandle/Ticket");
 const TicketControlls = require("../functions/ButtonHandle/TicketControlls");
 const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
 const logSys = require("../functions/logSys");
-const { ErrorEmbed, InfoEmbed, SuccessEmbed} = require("../util/modules/embeds")
+const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
 const getLocalCommands = require('../util/helpers/getLocalCommands');
 
 const BEV = require("../util/types/baseEvents");
@@ -55,7 +55,29 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+    // Check if interaction is a button, select menu or modal submit
+    if (
+      interaction.isButton() ||
+      interaction.isModalSubmit() ||
+      interaction.isAnySelectMenu()
+    ) {
+      if (interaction?.customId?.startsWith("collect")) return;
 
+      let customId = interaction?.customId;
+
+      const parts = customId?.split("_");
+
+      // Check if interaction is a button
+      const component =
+        client.ComponentsAction.get(`${parts[0]}_${parts[1]}`) ||
+        client.ComponentsAction.get(`${parts[0]}_${parts[1]}_${parts[2]}`) ||
+        client.ComponentsAction.get(parts[0]) ||
+        client.ComponentsAction.get(customId);
+
+      if (!component) return;
+
+      await component.action(client, interaction, parts);
+    }
     if (interaction.isButton()) {
       // * Ticket button inteaction
       if (interaction.customId === "ticket") {
@@ -83,7 +105,7 @@ module.exports = {
       const command = localCommands.find(
         (cmd) => cmd.data.name === interaction.commandName
       );
-/*       const command = client.slashCommands.get(interaction.commandName); */
+      /*       const command = client.slashCommands.get(interaction.commandName); */
 
       if (!command) {
         return interaction
@@ -112,7 +134,7 @@ module.exports = {
               interaction.user
             );
             if (!userPerms || !userPerms.has(command.data.permissions)) {
-              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true }); 
+              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true });
             }
           }
         }
@@ -124,7 +146,7 @@ module.exports = {
               interaction.guild.members.me
             );
             if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
-              return interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`)], ephemeral: true }); 
+              return interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`)], ephemeral: true });
             }
           }
         }
