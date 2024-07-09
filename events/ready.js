@@ -28,7 +28,7 @@ module.exports = {
     const members = text.commatize(client.guilds.cache.reduce((a, b) => a + b.memberCount, 0));
     const commands = client.commands?.size;
     const boot = client.bootTime;
-    const SlashCommands = client.slashCommands?.size;
+    const SlashCommands = client.application.commands?.cache.size;
     const message = `${icon} \`[ ${version} ]\` **REBOOT**`;
 
     const embed = new EmbedBuilder()
