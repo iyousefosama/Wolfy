@@ -11,7 +11,6 @@ const WordW = require("../functions/BadWordsFilter");
 const AntiLinksProtection = require("../functions/AntiLinks");
 const cmdManager = require("../functions/Manager");
 const Chatbot = require("../functions/ChatBot");
-const logSys = require("../functions/logSys");
 
 const BEV = require("../util/types/baseEvents");
 
@@ -262,13 +261,10 @@ module.exports = {
         cmd.execute(client, message, args, { executed: true }).then(() => {
           // Start CmdManager function at ../functions/Manager bath
           cmdManager.manage(client, message, cmd);
-          logSys(client, message, false);
-          console.log(
-            `${message.author.tag}|(${message.author.id}) in ${message.guild
-              ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
-              : "DMS"
-            } sent: ${message.content}`
-          );
+          client.Log(client, message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
+            ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
+            : "DMS"
+          } sent: ${message.content}`)
         });
       } catch (error) {
         consoleUtil.error(error, "message-execute");

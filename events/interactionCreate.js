@@ -5,8 +5,6 @@ const {
 } = require("discord.js");
 const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
-const smRole = require("../functions/SelectMenuHandle/selectMenuRoles");
-const logSys = require("../functions/logSys");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
 const getLocalCommands = require('../util/helpers/getLocalCommands');
 
@@ -76,17 +74,6 @@ module.exports = {
 
       await component.action(client, interaction, parts);
     }
-    if (interaction.isStringSelectMenu()) {
-      smRole.select(client, interaction);
-    }
-
-    // * Modals submite interactions
-    if (interaction.isModalSubmit()) {
-      if (interaction.customId === "releaseNotesModal") {
-        const releaseNotes = require("../functions/ModalsHandle/release-notes");
-        return releaseNotes.publish(client, interaction);
-      }
-    }
     if (interaction.isChatInputCommand()) {
       const localCommands = getLocalCommands();
 
@@ -141,13 +128,10 @@ module.exports = {
         try {
           //await interaction.deferReply().catch(() => {});
           command.execute(client, interaction).then(() => {
-            logSys(client, interaction, true);
-            console.log(
-              `(/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
-                ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
-                : "DMS"
-              } used: /${interaction.commandName}`
-            );
+            client.Log(client, interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
+              ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
+              : "DMS"
+            } used: /${interaction.commandName}`)
           });
         } catch (error) {
           consoleUtil.error(error, "command-execute");

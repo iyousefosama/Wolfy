@@ -236,7 +236,7 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId("kwthbek4m221pyddhwk")
+        .setCustomId("menu_selectRole")
         .setPlaceholder("Nothing selected!")
         .addOptions(Arr)
     );

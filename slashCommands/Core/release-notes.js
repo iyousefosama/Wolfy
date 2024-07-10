@@ -72,7 +72,7 @@ module.exports = {
 
         // Create the modal
         const modal = new ModalBuilder()
-          .setCustomId("releaseNotesModal")
+          .setCustomId("modal_notes")
           .setTitle("Publish Release notes");
 
         // Add components to modal
