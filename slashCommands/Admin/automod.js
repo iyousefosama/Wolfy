@@ -37,11 +37,17 @@ module.exports = {
             required: false
           }
         ]
+      },
+      {
+        type: 1, // SUB_COMMAND
+        name: 'set-rules',
+        description: 'Set 9 automod rules in the current server!',
       }
     ]
   },
   async execute(client, interaction) {
     const { guild, options } = interaction;
+    await interaction.deferReply().catch(() => { })
 
     const sub = options.getSubcommand();
     const MentionLimit = options.getInteger("mention-limit") || 0;
@@ -55,7 +61,7 @@ module.exports = {
         );
 
         if (TriggerType.length > 0) {
-          return interaction.reply(
+          return interaction.editReply(
             `\\❌ Could not create the autoModeration rule, there is another rule with TriggerType \`4\`!`
           );
         }
@@ -84,13 +90,156 @@ module.exports = {
             ],
           })
           .then(async (result) => {
-            await interaction.reply(
+            await interaction.editReply(
               `\\✔️ Successfully created the new auto-moderation rules for \`${guild.name}\``
             );
           })
           .catch(async (err) => {
-            return await interaction.reply(`${err.message}`);
+            return await interaction.editReply(`${err.message}`);
           });
+        break;
+
+      case "set-rules":
+        if (Rules.length + 9 > 10) { // Checking if adding 9 rules will exceed the maximum number
+          return interaction.editReply(
+            `\\❌ Cannot create 9 auto-moderation rules as it will exceed the maximum allowed rules in the guild!`
+          );
+        }
+
+        let rulePromises = [];
+        for (let i = 0; i < 6; i++) {
+          rulePromises.push(
+            guild.autoModerationRules.create({
+              name: `Auto-Moderation Rule ${i + 1} by ${client.user.username}`,
+              creatorId: interaction.user.id,
+              enabled: true,
+              eventType: 1,
+              triggerType: 1,
+              triggerMetadata: {
+                mentionTotalLimit: MentionLimit,
+                mentionRaidProtectionEnabled: MentionRaid,
+                presets: [1, 2, 3],
+              },
+              actions: [
+                {
+                  type: 1,
+                  MetaData: {
+                    channel: interaction.channel,
+                    durationSeconds: 10,
+                    custommessage: `⚠️ ${interaction.user}, this action is not allowed in this server!`,
+                  },
+                },
+              ],
+            })
+          );
+        }
+        rulePromises.push(
+          guild.autoModerationRules.create({
+            name: `Auto-Moderation Rule by ${client.user.username}`,
+            creatorId: interaction.user.id,
+            enabled: true,
+            eventType: 1,
+            triggerType: 3,
+            triggerMetadata: {
+              mentionTotalLimit: MentionLimit,
+              mentionRaidProtectionEnabled: MentionRaid,
+              presets: [1, 2, 3],
+            },
+            actions: [
+              {
+                type: 1,
+                MetaData: {
+                  channel: interaction.channel,
+                  durationSeconds: 10,
+                  custommessage: `⚠️ ${interaction.user}, this action is not allowed in this server!`,
+                },
+              },
+            ],
+          })
+        );
+        rulePromises.push(
+          guild.autoModerationRules.create({
+            name: `Auto-Moderation Rule by ${client.user.username}`,
+            creatorId: interaction.user.id,
+            enabled: true,
+            eventType: 1,
+            triggerType: 4,
+            triggerMetadata: {
+              mentionTotalLimit: MentionLimit,
+              mentionRaidProtectionEnabled: MentionRaid,
+              presets: [1, 2, 3],
+            },
+            actions: [
+              {
+                type: 1,
+                MetaData: {
+                  channel: interaction.channel,
+                  durationSeconds: 10,
+                  custommessage: `⚠️ ${interaction.user}, this action is not allowed in this server!`,
+                },
+              },
+            ],
+          })
+        );
+        rulePromises.push(
+          guild.autoModerationRules.create({
+            name: `Auto-Moderation Rule by ${client.user.username}`,
+            creatorId: interaction.user.id,
+            enabled: true,
+            eventType: 1,
+            triggerType: 5,
+            triggerMetadata: {
+              mentionTotalLimit: MentionLimit,
+              mentionRaidProtectionEnabled: MentionRaid,
+              presets: [1, 2, 3],
+            },
+            actions: [
+              {
+                type: 1,
+                MetaData: {
+                  channel: interaction.channel,
+                  durationSeconds: 10,
+                  custommessage: `⚠️ ${interaction.user}, this action is not allowed in this server!`,
+                },
+              },
+            ],
+          })
+        );
+        rulePromises.push(
+          guild.autoModerationRules.create({
+            name: `Auto-Moderation Rule by ${client.user.username}`,
+            creatorId: interaction.user.id,
+            enabled: true,
+            eventType: 1,
+            triggerType: 6,
+            triggerMetadata: {
+              mentionTotalLimit: MentionLimit,
+              mentionRaidProtectionEnabled: MentionRaid,
+              presets: [1, 2, 3],
+            },
+            actions: [
+              {
+                type: 1,
+                MetaData: {
+                  channel: interaction.channel,
+                  durationSeconds: 10,
+                  custommessage: `⚠️ ${interaction.user}, this action is not allowed in this server!`,
+                },
+              },
+            ],
+          })
+        );
+
+        Promise.all(rulePromises)
+          .then(async (results) => {
+            await interaction.editReply(
+              `\\✔️ Successfully created 9 new auto-moderation rules for \`${guild.name}\``
+            );
+          })
+          .catch(async (err) => {
+            return await interaction.editReply(`${err.message}`);
+          });
+        break;
     }
   },
 };
