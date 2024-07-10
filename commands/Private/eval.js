@@ -69,7 +69,7 @@ module.exports = {
         await fetch('https://hastebin.com/documents', {
           method: 'POST',
           body: output,
-          headers: { 'Content-Type': 'text/plain' }
+          headers: { 'Content-Type': 'text/plain', 'Authorization': 'Bearer faac25c604d1f0f984c5de11c9b9e64f48ff46fc53688e3a340c7a787398a061f0cb69de054353fdcf4b5076878fafad033c61cf18f46f632714bbbd2a53b822' }
         }).then(res => res.json())
         .then(json => bin = 'https://hastebin.com/' + json.key + '.js')
         .catch(() => null)
