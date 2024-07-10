@@ -20,20 +20,21 @@ module.exports = {
       );
 
       for (const localCommand of localCommands) {
-        const { name, description, options } = localCommand;
+        const commandData = localCommand.data;
+        const { name, description, options, deleted } = commandData;
 
         const existingCommand = await applicationCommands.cache.find(
           (cmd) => cmd.name === name
         );
 
         if (existingCommand) {
-          if (localCommand.deleted) {
+          if (deleted) {
             await applicationCommands.delete(existingCommand.id);
             console.log(`🗑 Deleted command "${name}".`);
             continue;
           }
 
-          if (areCommandsDifferent(existingCommand, localCommand)) {
+          if (areCommandsDifferent(existingCommand, commandData)) {
             await applicationCommands.edit(existingCommand.id, {
               description,
               options,
@@ -42,7 +43,7 @@ module.exports = {
             console.log(`🔁 Edited command "${name}".`);
           }
         } else {
-          if (localCommand.deleted) {
+          if (deleted) {
             console.log(
               `⏩ Skipping registering command "${name}" as it's set to delete.`
             );
