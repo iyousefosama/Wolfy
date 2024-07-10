@@ -15,16 +15,7 @@ for (const path of paths){
     delete file.examples;
     file.examples = examples;
 
-    function getPermissionName(permission) {
-      for (const perm of Object.keys(PermissionsBitField.Flags)) {
-        if (PermissionsBitField.Flags[perm] === permission) {
-          return perm;
-        }
-      }
-      return 'UnknownPermission';
-    }
-
-    const permissions = file.permissions?.map(x => getPermissionName(x))
+    const permissions = file.permissions?.map(x => x)
     delete file.permissions;
     file.permissions = permissions;
 

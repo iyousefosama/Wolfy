@@ -14,7 +14,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "4"
+      "BanMembers"
     ],
     "examples": [
       "w!ban @BADGUY Toxic member",
@@ -40,8 +40,8 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "8192",
-      "16384"
+      "ManageMessages",
+      "EmbedLinks"
     ],
     "examples": [
       "w!clear 20"
@@ -88,8 +88,8 @@
     "cooldown": 30,
     "guarded": false,
     "clientPermissions": [
-      "8192",
-      "16384"
+      "ManageMessages",
+      "EmbedLinks"
     ],
     "examples": [
       "w!EmbedSetup"
@@ -113,37 +113,13 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "4"
+      "BanMembers"
     ],
     "examples": [
       "w!hackban 742682490216644619 Big scammer!"
     ],
     "permissions": [
       "BanMembers"
-    ]
-  },
-  {
-    "name": "infraction",
-    "aliases": [
-      "infraction",
-      "INFRACTION"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable/Edit infraction point protection system!",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "8192"
-    ],
-    "examples": [
-      "w!infraction"
-    ],
-    "permissions": [
-      "Administrator"
     ]
   },
   {
@@ -161,7 +137,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "2"
+      "KickMembers"
     ],
     "examples": [
       "w!kick @BADGUY",
@@ -186,7 +162,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16"
+      "ManageChannels"
     ],
     "examples": [
       "w!lock"
@@ -211,8 +187,8 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "268435456",
-      "16"
+      "ManageRoles",
+      "ManageChannels"
     ],
     "examples": [
       "w!mute @BADGUY Don't spam in chat!",
@@ -238,7 +214,7 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "134217728"
+      "ManageNicknames"
     ],
     "examples": [
       "w!nick @WOLF JoeMama",
@@ -263,8 +239,8 @@
     "cooldown": 20,
     "guarded": false,
     "clientPermissions": [
-      "8192",
-      "16"
+      "ManageMessages",
+      "ManageChannels"
     ],
     "examples": [
       "w!nuke"
@@ -288,7 +264,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "8192"
+      "ManageMessages"
     ],
     "examples": [
       "w!purge 20"
@@ -357,7 +333,7 @@
     "cooldown": 20,
     "guarded": false,
     "clientPermissions": [
-      "8192"
+      "ManageMessages"
     ],
     "examples": [
       "w!say Hello everyone how are you?"
@@ -376,13 +352,13 @@
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
-    "usage": "<color> <text>",
+    "usage": "<text>",
     "group": "Moderation",
     "description": "The bot will repeat what you say with embed",
-    "cooldown": 20,
+    "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "8192"
+      "ManageMessages"
     ],
     "examples": [
       "w!embed GREEN Hello, this is an example embed",
@@ -407,7 +383,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16"
+      "ManageChannels"
     ],
     "examples": [
       "w!slowmode 5s"
@@ -431,7 +407,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "4"
+      "BanMembers"
     ],
     "examples": [
       "w!softban @BADGUY",
@@ -456,7 +432,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "8"
+      "Administrator"
     ],
     "examples": [
       "w!timeout @BADGUY 5h Toxic member",
@@ -481,7 +457,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "4"
+      "BanMembers"
     ],
     "examples": [
       "w!unban @FreeGuy",
@@ -506,7 +482,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16"
+      "ManageChannels"
     ],
     "examples": [
       "w!unlock"
@@ -531,7 +507,7 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "268435456"
+      "ManageRoles"
     ],
     "examples": [
       "w!unmute @BADGUY",
@@ -557,7 +533,7 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "16777216"
+      "MoveMembers"
     ],
     "examples": [],
     "permissions": [
@@ -649,8 +625,8 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "64"
+      "UseExternalEmojis",
+      "AddReactions"
     ],
     "examples": [
       "w!feedback The bot ping commands not working it's showing undefined ping!"
@@ -672,8 +648,8 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "32768"
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!help"
@@ -700,9 +676,9 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!links"
@@ -724,7 +700,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "262144"
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!ping"
@@ -736,7 +712,7 @@
     "aliases": [
       "Botinfo",
       "BotInfo",
-      "BOTINFO",
+      "client",
       "Stats",
       "STATS"
     ],
@@ -745,13 +721,13 @@
     "args": false,
     "usage": "",
     "group": "bot",
-    "description": "Show bot stats and informations",
+    "description": "Shows bot stats and informations",
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!stats"
@@ -773,192 +749,10 @@
     "cooldown": 15,
     "guarded": false,
     "clientPermissions": [
-      "262144"
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!uptime"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "addcredits",
-    "aliases": [
-      "Addcredits",
-      "ADDCREDITS"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "clientPermissions": [
-      "262144",
-      "1024"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "blacklist",
-    "aliases": [
-      "Blacklist",
-      "BLACKLIST"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "clientPermissions": [
-      "262144",
-      "1024"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "devmsg",
-    "aliases": [
-      "Devmsg",
-      "DEVMSG",
-      "msg"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user> <message>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "clientPermissions": [
-      "16384",
-      "32768"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "eval",
-    "aliases": [
-      "Eval",
-      "EVAL"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<code>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "fleave",
-    "aliases": [
-      "Fleave",
-      "FLEAVE"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<guildID>",
-    "group": "developer",
-    "cooldown": 15,
-    "guarded": false,
-    "OwnerOnly": true,
-    "clientPermissions": [
-      "16384",
-      "32768"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "guilds",
-    "aliases": [
-      "Guilds",
-      "servers"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "shutdown",
-    "aliases": [
-      "Shutdown",
-      "SHUTDOWN"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "developer",
-    "cooldown": 10,
-    "guarded": false,
-    "OwnerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "status",
-    "aliases": [
-      "Status",
-      "STATUS"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<type>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "uid",
-    "aliases": [
-      "UID",
-      "Uid"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "<type>",
-    "group": "developer",
-    "cooldown": 1,
-    "guarded": false,
-    "OwnerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "whitelist",
-    "aliases": [
-      "Whitelist",
-      "WHITELIST"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "OwnerOnly": true,
-    "clientPermissions": [
-      "262144",
-      "16384",
-      "1024"
     ],
     "permissions": []
   },
@@ -1032,7 +826,7 @@
     "usage": "<user>",
     "group": "Economy",
     "description": "To send cookie for a friend as a gift",
-    "cooldown": 6,
+    "cooldown": 5,
     "guarded": false,
     "examples": [
       "w!cookie @WOLF"
@@ -1153,7 +947,7 @@
     "args": false,
     "usage": "",
     "group": "Economy",
-    "description": "Developer test tool!",
+    "description": "Get a list for the 10 richest users that using wolfy",
     "cooldown": 2,
     "guarded": false,
     "examples": [],
@@ -1175,9 +969,9 @@
     "cooldown": 15,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "64",
-      "16384"
+      "UseExternalEmojis",
+      "AddReactions",
+      "EmbedLinks"
     ],
     "examples": [
       "w!market"
@@ -1217,8 +1011,8 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "8192",
-      "32768"
+      "ManageMessages",
+      "AttachFiles"
     ],
     "examples": [
       "w!previewitem 6",
@@ -1233,7 +1027,7 @@
       "PROFILE"
     ],
     "dmOnly": false,
-    "guildOnly": false,
+    "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "Economy",
@@ -1435,8 +1229,8 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!8ball Is wolfy a good bot?",
@@ -1459,10 +1253,10 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768",
-      "65536"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!clyde Hello you are ratelimit. lol",
@@ -1489,8 +1283,8 @@
     "cooldown": 15,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!fast"
@@ -1512,8 +1306,8 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!guess"
@@ -1535,8 +1329,8 @@
     "cooldown": 3,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!joke"
@@ -1558,8 +1352,8 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "32768"
+      "EmbedLinks",
+      "AttachFiles"
     ],
     "examples": [
       "w!meme"
@@ -1600,8 +1394,8 @@
     "cooldown": 3,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!roll 10",
@@ -1625,8 +1419,8 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "65536"
+      "UseExternalEmojis",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!rps rock",
@@ -1650,9 +1444,9 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!tweet Hello, world!",
@@ -1676,10 +1470,10 @@
     "cooldown": 15,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768",
-      "65536"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles",
+      "ReadMessageHistory"
     ],
     "examples": [
       "w!waterdrop"
@@ -1701,8 +1495,8 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "32768"
+      "EmbedLinks",
+      "AttachFiles"
     ],
     "examples": [
       "w!avatar @WOLF",
@@ -1726,9 +1520,8 @@
     "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "AttachFiles"
     ],
     "examples": [
       "w!mcuser Notch"
@@ -1751,9 +1544,8 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "AttachFiles"
     ],
     "examples": [
       "w!serveravatar"
@@ -1777,12 +1569,31 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!server"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "translate",
+    "aliases": [
+      "Translate"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<language code> <Sentence to translate>",
+    "group": "Informations",
+    "description": "Translate from to any language you want!",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [],
+    "examples": [
+      "w!translate ar Hello, my old friend."
     ],
     "permissions": []
   },
@@ -1801,9 +1612,9 @@
     "cooldown": 3,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!user @WOLF",
@@ -1882,12 +1693,26 @@
     ]
   },
   {
-    "name": "LevelRoles",
+    "name": "levelboard",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "Shows leaderboard for most leveled users",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "UseExternalEmojis"
+    ],
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "levelroles",
     "aliases": [
       "roles",
-      "Roles",
-      "LeveledRoles",
-      "levelroles",
       "leveledroles",
       "level-roles"
     ],
@@ -1896,11 +1721,11 @@
     "args": false,
     "usage": "",
     "group": "LeveledRoles",
-    "description": "To show you all level roles in the guild",
+    "description": "Show all level roles in the guild",
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "262144"
+      "UseExternalEmojis"
     ],
     "examples": [],
     "permissions": []
@@ -1923,9 +1748,9 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144",
-      "32768"
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
     ],
     "examples": [
       "w!rank @WOLF",
@@ -1956,6 +1781,414 @@
     ]
   },
   {
+    "name": "NowPlaying",
+    "aliases": [
+      "np",
+      "Np",
+      "NP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Music",
+    "description": "Displays informations about the currently playing track!",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!NowPlaying"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "pause",
+    "aliases": [
+      "Pause",
+      "PAUSE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Music",
+    "description": "Pause the current playing track",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!pause"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "play",
+    "aliases": [
+      "Play",
+      "PLAY",
+      "p"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<Song>",
+    "group": "Music",
+    "description": "Plays tracks on discord voice channel from other platforms",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!play Story Nights",
+      "w!play https://youtube.com/.."
+    ],
+    "permissions": []
+  },
+  {
+    "name": "queue",
+    "aliases": [
+      "Queue",
+      "QUEUE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "(Optional: Page number)",
+    "group": "Music",
+    "description": "Displays the current track queue",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!queue",
+      "w!queue 3"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "resume",
+    "aliases": [
+      "Resume",
+      "RESUME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Music",
+    "description": "Shows informations about covid in any country",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!resume Story Nights",
+      "w!resume https://youtube.com/.."
+    ],
+    "permissions": []
+  },
+  {
+    "name": "seek",
+    "aliases": [
+      "Seek",
+      "SEEK"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<time>",
+    "group": "Music",
+    "description": "Seek to the given time",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!seek 1m"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "skip",
+    "aliases": [
+      "Skip",
+      "SKIP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Music",
+    "description": "Skips the current track",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!skip"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "skipto",
+    "aliases": [
+      "SkipTo",
+      "SKIPTO"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<tracknumber>",
+    "group": "Music",
+    "description": "Skips the current track to a certain track",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!skipto 6"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "stop",
+    "aliases": [
+      "Stop",
+      "STOP"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Music",
+    "description": "Stops the current track and clears the queue",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!stop"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "volume",
+    "aliases": [
+      "Volume",
+      "VOLUME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<quantity>",
+    "group": "Music",
+    "description": "Set the volume for the current queue",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "Connect",
+      "Speak"
+    ],
+    "examples": [
+      "w!volume 70"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "addcredits",
+    "aliases": [
+      "Addcredits",
+      "ADDCREDITS"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientPermissions": [
+      "UseExternalEmojis",
+      "ViewChannel"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "blacklist",
+    "aliases": [
+      "Blacklist",
+      "BLACKLIST"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "devmsg",
+    "aliases": [
+      "Devmsg",
+      "DEVMSG",
+      "msg"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user> <message>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "eval",
+    "aliases": [
+      "Eval",
+      "EVAL"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<code>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "fleave",
+    "aliases": [
+      "Fleave",
+      "FLEAVE"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<guildID>",
+    "group": "developer",
+    "cooldown": 15,
+    "guarded": false,
+    "OwnerOnly": true,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "guilds",
+    "aliases": [
+      "Guilds",
+      "servers"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "shutdown",
+    "aliases": [
+      "Shutdown",
+      "SHUTDOWN"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 10,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "status",
+    "aliases": [
+      "Status",
+      "STATUS"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "uid",
+    "aliases": [
+      "UID",
+      "Uid"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 1,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "whitelist",
+    "aliases": [
+      "Whitelist",
+      "WHITELIST"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "OwnerOnly": true,
+    "permissions": []
+  },
+  {
     "name": "covid",
     "aliases": [
       "Covid",
@@ -1976,30 +2209,6 @@
     "permissions": []
   },
   {
-    "name": "djs",
-    "aliases": [
-      "Djs",
-      "discord.js",
-      "discord.js"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<query>",
-    "group": "Search",
-    "description": "Searching for anthing in djs library",
-    "cooldown": 2,
-    "guarded": false,
-    "clientPermissions": [
-      "16384",
-      "262144"
-    ],
-    "examples": [
-      "w!djs embeds"
-    ],
-    "permissions": []
-  },
-  {
     "name": "lyrics",
     "aliases": [
       "Lyrics",
@@ -2014,9 +2223,9 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "262144",
-      "64",
-      "16384"
+      "UseExternalEmojis",
+      "AddReactions",
+      "EmbedLinks"
     ],
     "examples": [
       "w!lyrics Venom"
@@ -2038,8 +2247,8 @@
     "cooldown": 3,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144"
+      "EmbedLinks",
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!steam Among us",
@@ -2084,8 +2293,8 @@
     "cooldown": 3,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144"
+      "EmbedLinks",
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!wikipedia Iphone 6",
@@ -2110,7 +2319,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "8192"
+      "ManageMessages"
     ],
     "examples": [
       "w!antilinktoggle"
@@ -2135,7 +2344,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "8192"
+      "ManageMessages"
     ],
     "examples": [
       "w!badwords bad"
@@ -2164,6 +2373,30 @@
     ],
     "permissions": [
       "ManageMessages",
+      "Administrator"
+    ]
+  },
+  {
+    "name": "infraction",
+    "aliases": [
+      "infraction",
+      "INFRACTION"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable/Edit infraction point protection system!",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageMessages"
+    ],
+    "examples": [
+      "w!infraction"
+    ],
+    "permissions": [
       "Administrator"
     ]
   },
@@ -2351,17 +2584,17 @@
     "usage": "(Roles count)",
     "group": "setup",
     "description": "Setup the select menu role list!",
-    "cooldown": 15,
+    "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "MANAGE_ROLES"
+      "ManageRoles"
     ],
     "examples": [
       "w!smRole 1",
       "w!smRole 6"
     ],
     "permissions": [
-      "UnknownPermission"
+      "ManageRoles"
     ]
   },
   {
@@ -2371,7 +2604,7 @@
     "args": false,
     "usage": "<msg/embed> <text>",
     "group": "setup",
-    "description": "Set the welcome msg or embed",
+    "description": "Set the leaver msg or embed",
     "cooldown": 5,
     "guarded": false,
     "examples": [
@@ -2512,7 +2745,7 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16"
+      "ManageChannels"
     ],
     "examples": [
       "w!setTicketch 877130715337220136"
@@ -2594,6 +2827,23 @@
     ]
   },
   {
+    "name": "lds",
+    "aliases": [
+      "Test"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "GROUP",
+    "description": "Desc..",
+    "cooldown": 2,
+    "guarded": false,
+    "clientpermissions": [],
+    "examples": [],
+    "permissions": []
+  },
+  {
     "name": "startg",
     "aliases": [
       "STARTG"
@@ -2602,14 +2852,14 @@
     "guildOnly": true,
     "args": true,
     "usage": "[Winners Number] [Time] [Prize]",
-    "group": "Test",
+    "group": "Unspecified",
     "description": "Desc..",
     "cooldown": 2,
     "guarded": false,
-    "clientPermissions": [],
+    "clientpermissions": [],
     "examples": [],
     "permissions": [
-      "ManageMessages"
+      "8192"
     ]
   },
   {
@@ -2621,12 +2871,101 @@
     "guildOnly": true,
     "args": false,
     "usage": "",
-    "group": "Unspecified",
+    "group": "NONE",
     "description": "Developer test tool!",
     "cooldown": 1,
     "guarded": false,
     "examples": [],
     "permissions": []
+  },
+  {
+    "name": "delete",
+    "aliases": [
+      "Delete",
+      "DELETE"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Tickets",
+    "description": "Delete your ticket in the server",
+    "cooldown": 2,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!delete"
+    ],
+    "permissions": [
+      "ManageChannels"
+    ]
+  },
+  {
+    "name": "rename",
+    "aliases": [
+      "Rename",
+      "RENAME"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<Name>",
+    "group": "Tickets",
+    "description": "Change ticket name",
+    "cooldown": 2,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!rename Test-ticket"
+    ],
+    "permissions": [
+      "ManageChannels"
+    ]
+  },
+  {
+    "name": "ticket",
+    "aliases": [
+      "Ticket"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Tickets",
+    "description": "Open new ticket in the server",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!ticket"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "ticketpanel",
+    "aliases": [
+      "TicketPanel"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "(Optional: Embed description)",
+    "group": "Tickets",
+    "description": "Setup the ticket panel in the server",
+    "cooldown": 8,
+    "guarded": false,
+    "examples": [
+      "w!ticketpanel"
+    ],
+    "permissions": [
+      "ManageChannels"
+    ]
   },
   {
     "name": "bin",
@@ -2644,8 +2983,8 @@
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "262144"
+      "EmbedLinks",
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!bin message.channel.send('Hello, world!')"
@@ -2668,30 +3007,6 @@
     "clientPermissions": [],
     "examples": [],
     "permissions": []
-  },
-  {
-    "name": "delete",
-    "aliases": [
-      "Delete",
-      "DELETE"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Utilities",
-    "description": "Delete your ticket in the server",
-    "cooldown": 1,
-    "guarded": false,
-    "clientPermissions": [
-      "16"
-    ],
-    "examples": [
-      "w!delete"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
   },
   {
     "name": "remind",
@@ -2718,30 +3033,6 @@
     ]
   },
   {
-    "name": "rename",
-    "aliases": [
-      "Rename",
-      "RENAME"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<Name>",
-    "group": "Utilities",
-    "description": "Change ticket name",
-    "cooldown": 2,
-    "guarded": false,
-    "clientPermissions": [
-      "16"
-    ],
-    "examples": [
-      "w!rename Test-ticket"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
     "name": "report",
     "aliases": [
       "Report",
@@ -2756,8 +3047,8 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "1024",
-      "262144"
+      "ViewChannel",
+      "UseExternalEmojis"
     ],
     "examples": [
       "w!report @WOLF bad boy"
@@ -2779,53 +3070,12 @@
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
-      "16384",
-      "64"
+      "EmbedLinks",
+      "AddReactions"
     ],
     "examples": [
       "w!suggestion Add voice channels!"
     ],
     "permissions": []
-  },
-  {
-    "name": "ticket",
-    "aliases": [
-      "Ticket"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Utilities",
-    "description": "Open new ticket in the server",
-    "cooldown": 30,
-    "guarded": false,
-    "clientPermissions": [
-      "16"
-    ],
-    "examples": [
-      "w!ticket"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "ticketpanel",
-    "aliases": [
-      "TicketPanel"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "(Optional: Embed description)",
-    "group": "Utilities",
-    "description": "Setup the ticket panel in the server",
-    "cooldown": 160,
-    "guarded": false,
-    "examples": [
-      "w!ticketpanel"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
   }
 ]

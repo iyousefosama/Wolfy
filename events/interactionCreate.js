@@ -78,7 +78,7 @@ module.exports = {
       const localCommands = getLocalCommands();
 
       const command = localCommands.find(
-        (cmd) => cmd.data.name === interaction.commandName
+        (cmd) => cmd.name === interaction.commandName
       );
       /*       const command = client.slashCommands.get(interaction.commandName); */
 
