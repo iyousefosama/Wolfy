@@ -1,13 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const { Collection } = require('discord.js');
 const consoleUtil = require("../util/console");
 
 module.exports = async (client) => {
   consoleUtil.warn("Loading message commands...");
   try {
-    client.commands = new Collection();
-
     const commandFolders = fs.readdirSync('./commands');
 
     for (const folder of commandFolders) {

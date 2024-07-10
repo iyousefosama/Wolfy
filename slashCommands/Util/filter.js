@@ -15,20 +15,24 @@ const filterOptions = {
 
 const availableOptions = Object.keys(filterOptions).join(', ');
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
-  clientPermissions: [
-    'EMBED_LINKS',
-    'ATTACH_FILES'
-  ],
-  data: new SlashCommandBuilder()
-    .setName('filter')
-    .setDescription('Adds filters to your avatar!')
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('filter_option')
-        .setDescription('Select a filter option')
-        .addStringOption(option => option.setName('filter').setDescription('The filter option').setRequired(true))
-        .addUserOption(option => option.setName('target').setDescription('The user'))),
+  data: {
+    name: "filter",
+    description: "Adds filters to your avatar!",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
+    group: "NONE",
+    clientPermissions: [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    permissions: [],
+    deleted: true
+  },
   async execute(client, interaction) {
     const selectedFilter = interaction.options.getString('filter');
     const user = interaction.options.getUser('target') || interaction.user;
@@ -38,18 +42,18 @@ module.exports = {
       return;
     }
 
-    const apiKey = '5a2724fd-8e5c-4153-8a96-865565896743'; 
+    const apiKey = '5a2724fd-8e5c-4153-8a96-865565896743';
     const res = await fetch(`https://api.deepai.org/api/image-editor`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'api-key': apiKey
-        },
-        body: new URLSearchParams({
-          image: user.displayAvatarURL({ format: 'png', size: 2048, dynamic: true }),
-          text:  filterOptions[selectedFilter]
-        })
-      });
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'api-key': apiKey
+      },
+      body: new URLSearchParams({
+        image: user.displayAvatarURL({ format: 'png', size: 2048, dynamic: true }),
+        text: filterOptions[selectedFilter]
+      })
+    });
 
     const json = await res.json();
 

@@ -13,6 +13,7 @@
  * @property {string} name - The name of the command (must be lowercase)
  * @property {boolean} dmOnly - Whether the command is DM-only
  * @property {boolean} guildOnly - Whether the command is guild-only
+ * @property {boolean} deleted - Whether the command is deleted
  * @property {string} description - A short description of the command
  * @property {number} cooldown - The command cooldown in seconds
  * @property {CommandCategory} group - The category this command belongs to
@@ -38,6 +39,7 @@ module.exports = {
         dmOnly: false,
         guildOnly: false,
         cooldown: 0,
+        deleted: false,
         group: "NONE",
         clientPermissions: [],
         permissions: [],

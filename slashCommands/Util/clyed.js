@@ -3,6 +3,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
     data: {
         name: "clyed",

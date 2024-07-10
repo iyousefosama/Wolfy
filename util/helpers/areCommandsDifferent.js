@@ -2,14 +2,14 @@ module.exports = (existingCommand, localCommand) => {
     const areChoicesDifferent = (existingChoices, localChoices) => {
       for (const localChoice of localChoices) {
         const existingChoice = existingChoices?.find(
-          (choice) => choice.name === localChoice.data.name
+          (choice) => choice.name === localChoice.name
         );
   
         if (!existingChoice) {
           return true;
         }
   
-        if (localChoice.data.value !== existingChoice.value) {
+        if (localChoice.value !== existingChoice.value) {
           return true;
         }
       }
@@ -19,7 +19,7 @@ module.exports = (existingCommand, localCommand) => {
     const areOptionsDifferent = (existingOptions, localOptions) => {
       for (const localOption of localOptions) {
         const existingOption = existingOptions?.find(
-          (option) => option.name === localOption.data.name
+          (option) => option.name === localOption.name
         );
   
         if (!existingOption) {
@@ -44,8 +44,8 @@ module.exports = (existingCommand, localCommand) => {
     };
   
     if (
-      existingCommand.description !== localCommand.data.description ||
-      existingCommand.options?.length !== (localCommand.data.options?.length || 0) ||
+      existingCommand.description !== localCommand.description ||
+      existingCommand.options?.length !== (localCommand.options?.length || 0) ||
       areOptionsDifferent(existingCommand.options, localCommand.options || [])
     ) {
       return true;

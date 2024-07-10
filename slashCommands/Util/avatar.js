@@ -6,9 +6,6 @@ const https = require('https');
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
-/**
- * @type {import("../../util/types/baseCommandSlash")}
- */
 module.exports = {
   data: {
     name: "avatar",

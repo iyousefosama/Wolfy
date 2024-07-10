@@ -13,9 +13,9 @@ module.exports = (exceptions = []) => {
     const commandFiles = getAllFiles(commandCategory);
 
     for (const commandFile of commandFiles) {
-      const commandObject = require(commandFile);
+      const commandObject = require(commandFile).data;
 
-      if (exceptions.includes(commandObject.data.name)) {
+      if (exceptions.includes(commandObject.name)) {
         continue;
       }
 

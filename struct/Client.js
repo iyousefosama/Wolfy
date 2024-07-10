@@ -27,6 +27,7 @@ module.exports = class WolfyClient extends Client {
     /**
  * @type  {Collection<string, import("../util/types/baseComponent")>}
  */
+    this.commands = new Collection();
     this.ComponentsAction = new Collection();
     this.components = new Collection();
 
