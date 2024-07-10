@@ -94,34 +94,34 @@ module.exports = {
 
       try {
 
-        if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
+        if (command.guildOnly && interaction.channel.type === ChannelType.DM) {
           return interaction.reply({ embeds: [ErrorEmbed("I can't execute that command **inside DMs**!")], ephemeral: true });
         }
 
 
-        if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
+        if (command.ownerOnly && !client.owners.includes(interaction.user.id)) {
           return interaction.reply({ embeds: [ErrorEmbed("This command can only be used by **developers**!")], ephemeral: true });
         }
         //+ permissions: [""],
-        if (command.data.permissions && command.data.permissions > 0) {
+        if (command.permissions && command.permissions > 0) {
           if (interaction.guild) {
             const userPerms = interaction.channel.permissionsFor(
               interaction.user
             );
-            if (!userPerms || !userPerms.has(command.data.permissions)) {
-              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true });
+            if (!userPerms || !userPerms.has(command.permissions)) {
+              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true });
             }
           }
         }
 
         //+ clientPermissions: [""],
-        if (command.data.clientPermissions && command.data.clientPermissions > 0) {
+        if (command.clientPermissions && command.clientPermissions > 0) {
           if (interaction.guild) {
             const clientPerms = interaction.channel.permissionsFor(
               interaction.guild.members.me
             );
-            if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
-              return interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.data.clientPermissions)}\` permission(s)!`)], ephemeral: true });
+            if (!clientPerms || !clientPerms.has(command.clientPermissions)) {
+              return interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.clientPermissions)}\` permission(s)!`)], ephemeral: true });
             }
           }
         }
