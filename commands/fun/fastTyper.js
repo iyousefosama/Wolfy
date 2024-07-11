@@ -46,11 +46,11 @@ module.exports = {
         ogSentence.split(' ').forEach(argument => {
             sentence += '`' + argument.split('').join(' ') + '` '
         })
-        message.reply({ content: `Write the following message **(You have 15 seconds!)**:\n${sentence}` })
+        message.reply({ content: `Write the following message **(You have 30 seconds!)**:\n${sentence}` })
         try {
             msg = await message.channel.awaitMessages({filter, 
                 max: 1,
-                time: 15000,
+                time: 30000,
                 errors: ['time']
             })
         } catch (ex) {

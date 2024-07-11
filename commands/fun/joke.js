@@ -19,15 +19,8 @@ module.exports = {
   permissions: [],
   clientPermissions: ["UseExternalEmojis", "ReadMessageHistory"],
   examples: [''],
-  /**
-   *
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").Message} message
-   * @param {String[]} args
-   *
-   */
   async execute(client, message, args) {
-    const data = await fetch('https://sv443.net/jokeapi/v2/joke/Programming,Miscellaneous?blacklistFlags=nsfw,religious,political,racist,sexist')
+    const data = await fetch('https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist')
     .then(res => res.json())
     .catch(() => null);
 
