@@ -1,5 +1,4 @@
-const discord = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { ActionRowBuilder, StringSelectMenuBuilder, ComponentType } = require('discord.js');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -23,11 +22,37 @@ module.exports = {
         type: 1, // SUB_COMMAND
         name: 'flagged-words',
         description: 'Set the flagged words protection!',
+        options: [
+          {
+            type: 4, // INTEGER
+            name: 'action',
+            description: 'Action you want to perform when the keyword is detected',
+            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+          },
+          {
+            type: 7, // CHANNEL
+            name: 'channel',
+            description: 'The channel you want to send logs in'
+          }
+        ]
       },
       {
         type: 1, // SUB_COMMAND
         name: "spam-messages",
         description: 'Set the anti spam messages protection!',
+        options: [
+          {
+            type: 4, // INTEGER
+            name: 'action',
+            description: 'Action you want to perform when the keyword is detected',
+            choices: [{ name: "block message", value: 1 }, { name: "Send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+          },
+          {
+            type: 7, // CHANNEL
+            name: 'channel',
+            description: 'The channel you want to send logs in'
+          }
+        ]
       },
       {
         type: 1, // SUB_COMMAND
@@ -39,6 +64,17 @@ module.exports = {
             name: 'mentions',
             description: 'The total number of role & user mentions allowed per message',
             required: true
+          },
+          {
+            type: 4, // INTEGER
+            name: 'action',
+            description: 'Action you want to perform when the keyword is detected',
+            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+          },
+          {
+            type: 7, // CHANNEL
+            name: 'channel',
+            description: 'The channel you want to send logs in'
           }
         ]
       },
@@ -48,177 +84,290 @@ module.exports = {
         description: 'Block given keywords from being used',
         options: [
           {
-            type: 3, // String
+            type: 3, // STRING
             name: 'words',
             description: 'The words to block (ex: word1, word2)',
             required: true
+          },
+          {
+            type: 4, // INTEGER
+            name: 'action',
+            description: 'Action you want to perform when the keyword is detected',
+            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+          },
+          {
+            type: 7, // CHANNEL
+            name: 'channel',
+            description: 'The channel you want to send logs in'
           }
-        ]
+        ],
       },
     ]
   },
   async execute(client, interaction) {
     const { guild, options } = interaction;
-    await interaction.deferReply().catch(() => { })
+    await interaction.deferReply({ ephemeral: true }).catch(() => { })
 
     const sub = options.getSubcommand();
     const MentionLimit = options.getInteger("mentions") || 0;
+    const action = options.getInteger("action") || 1;
+    const channel = options.getChannel("channel") || interaction.channel;
     const keyword = options.getString("words") || 0;
     const Rules = await guild.autoModerationRules.fetch({ cache: false });
-    let TriggerType;
+    let ruleData;
 
     switch (sub) {
       case "flagged-words":
-        TriggerType = Rules.map((x) => x.triggerType).filter(
-          (x) => x === 4
+        // Fetch existing rules
+        const existingFlaggedRule = Rules.find(
+          (rule) => rule.triggerType === 4
         );
 
-        if (TriggerType.length > 0) {
-          return await interaction.editReply(`\\❌ This rule already exists!`);
+        // Rule data to create or update
+        ruleData = {
+          name: `Block profanity, sexual content, and slurs by ${client.user.username}`,
+          creatorId: interaction.user.id,
+          enabled: true,
+          eventType: 1,
+          triggerType: 4,
+          triggerMetadata: {
+            presets: [1, 2, 3],
+          },
+          actions: [
+            {
+              type: action,
+              metadata: {
+                channel: channel,
+                durationSeconds: 10,
+                customMessage: `⚠️ This message was blocked by ${client.user.username}, as it contains profanity, sexual content, or slurs!`,
+              },
+            },
+          ],
         }
 
-        guild.autoModerationRules
-          .create({
-            name: `Block profanity, sexual content, and slurs by ${client.user.username}`,
-            creatorId: interaction.user.id,
-            enabled: true,
-            eventType: 1,
-            triggerType: 4,
-            triggerMetadata: {
-              presets: [1, 2, 3],
-            },
-            actions: [
-              {
-                type: 1,
-                MetaData: {
-                  channel: interaction.channel,
-                  durationSeconds: 10,
-                  custommessage: `⚠️ This message was blocked by ${client.user.username}, as it contains profanity, sexual content, or slurs!`,
-                },
-              },
-            ],
-          })
-          .then(async (result) => {
-            await interaction.editReply(
-              `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
-            );
-          })
-          .catch(async (err) => {
-            return await interaction.editReply(`❌ Their were an error while creating the new auto-moderation rule: ${err.message}`);
-          });
+        // If a rule exists, update it; otherwise, create a new one
+        if (existingFlaggedRule) {
+          guild.autoModerationRules
+            .edit(existingFlaggedRule.id, ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+            });
+        } else {
+          guild.autoModerationRules
+            .create(ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+            });
+        }
         break;
       case "spam-messages":
-        TriggerType = Rules.map((x) => x.triggerType).filter(
-          (x) => x === 3
+        // Fetch existing rules
+        const existingSpamMsgRule = Rules.find(
+          (rule) => rule.triggerType === 3
         );
 
-        if (TriggerType.length > 0) {
-          return await interaction.editReply(`\\❌ This rule already exists!`);
+        // Rule data to create or update
+        ruleData = {
+          name: `Messages spam protection by ${client.user.username}`,
+          creatorId: interaction.user.id,
+          enabled: true,
+          eventType: 1,
+          triggerType: 3,
+          actions: [
+            {
+              type: action,
+              metadata: {
+                channel: channel,
+                durationSeconds: 10,
+                customMessage: `⚠️ Spamming messages is not allowed in this server!`,
+              },
+            },
+          ],
         }
 
-        guild.autoModerationRules
-          .create({
-            name: `Prevents spam messages by ${client.user.username}`,
-            creatorId: interaction.user.id,
-            enabled: true,
-            eventType: 1,
-            triggerType: 3,
-            actions: [
-              {
-                type: 1,
-                MetaData: {
-                  channel: interaction.channel,
-                  durationSeconds: 10,
-                  custommessage: `⚠️ Spamming messages is not allowed in this server!`,
-                },
-              },
-            ],
-          })
-          .then(async (result) => {
-            await interaction.editReply(
-              `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
-            );
-          })
-          .catch(async (err) => {
-            return await interaction.editReply(`❌ Their were an error while creating the new auto-moderation rule: ${err.message}`);
-          });
+        // If a rule exists, update it; otherwise, create a new one
+        if (existingSpamMsgRule) {
+          guild.autoModerationRules
+            .edit(existingSpamMsgRule.id, ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+            });
+        } else {
+          guild.autoModerationRules
+            .create(ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+            });
+        }
         break;
       case "mention-limit":
-        TriggerType = Rules.map((x) => x.triggerType).filter(
-          (x) => x === 5
+        // Fetch existing rules
+        const existingMentionLimitRule = Rules.find(
+          (rule) => rule.triggerType === 5
         );
 
-        if (TriggerType.length > 0) {
-          return await interaction.editReply(`\\❌ This rule already exists!`);
-        }
-
-        guild.autoModerationRules
-          .create({
-            name: `Prevents mentions spam by ${client.user.username}`,
-            creatorId: interaction.user.id,
-            enabled: true,
-            eventType: 1,
-            triggerType: 5,
-            triggerMetadata: {
-              mentionTotalLimit: MentionLimit
-            },
-            actions: [
-              {
-                type: 1,
-                MetaData: {
-                  channel: interaction.channel,
-                  durationSeconds: 10,
-                  custommessage: `⚠️ Mentions spam is not allowed in this server!`,
-                },
+        // Rule data to create or update
+        ruleData = {
+          name: `mentions spam prevention by ${client.user.username}`,
+          creatorId: interaction.user.id,
+          enabled: true,
+          eventType: 1,
+          triggerType: 5,
+          triggerMetadata: {
+            mentionTotalLimit: MentionLimit,
+          },
+          actions: [
+            {
+              type: action,
+              metadata: {
+                channel: channel,
+                duration: 10,
+                customMessage: `⚠️ Mentions spam is not allowed in this server!`,
               },
-            ],
-          })
-          .then(async (result) => {
-            await interaction.editReply(
-              `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
-            );
-          })
-          .catch(async (err) => {
-            return await interaction.editReply(`❌ Their were an error while creating the new auto-moderation rule: ${err.message}`);
-          });
+            },
+          ],
+        };
+
+        // If a rule exists, update it; otherwise, create a new one
+        if (existingMentionLimitRule) {
+          guild.autoModerationRules
+            .edit(existingMentionLimitRule.id, ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+            });
+        } else {
+          guild.autoModerationRules
+            .create(ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+            });
+        }
         break;
       case "keywords":
-        TriggerType = Rules.map((x) => x.triggerType).filter(
-          (x) => x === 1
+        // Fetch existing rules
+        const existingKeywordFilterRules = Rules.filter(
+          (rule) => rule.triggerType === 1
         );
 
-        if (TriggerType.length > 5) {
-          return await interaction.editReply(`\\❌ This rule already exists!`);
+        ruleData = {
+          name: `Blocked keywords protection by ${client.user.username}`,
+          creatorId: interaction.user.id,
+          enabled: true,
+          eventType: 1,
+          triggerType: 1,
+          triggerMetadata: {
+            keywordFilter: keyword.split(", "),
+          },
+          actions: [
+            {
+              type: action,
+              metadata: {
+                channel: channel,
+                durationSeconds: 10,
+                customMessage: `⚠️ This message was blocked by \`${client.user.username}\`, as it contains blocked keywords!`,
+              },
+            },
+          ],
         }
 
+        // Check if the number of existing rules with triggerType 1 exceeds the limit
+        if (existingKeywordFilterRules.size >= 6) {
+          const options = existingKeywordFilterRules.map(rule => ({
+            label: rule.name,
+            value: rule.id
+          }));
+
+          const selectMenu = new StringSelectMenuBuilder()
+            .setCustomId("collect_menu_selectRule")
+            .setPlaceholder('Select a rule to edit')
+            .addOptions(options);
+
+          const row = new ActionRowBuilder().addComponents(selectMenu);
+
+          const response = await interaction.editReply({
+            content: `\\❌ You cannot create more than 6 keyword filter rules! Please select an existing rule to edit:`,
+            components: [row]
+          });
+          // Set up a collector to listen for user selection
+          const collector = response.createMessageComponentCollector({
+            componentType: ComponentType.StringSelect,
+            time: 60000, // 60 seconds timeout
+          });
+
+          // Listen for user selection
+          collector.on('collect', async (selectInteraction) => {
+            if (selectInteraction.user.id !== interaction.user.id) return; // Ensure only the original user can interact
+
+            const selectedRuleId = selectInteraction.values[0];
+
+            guild.autoModerationRules
+              .edit(selectedRuleId, ruleData)
+              .then(async (result) => {
+                await interaction.editReply({
+                  content: `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\` with id: \`${selectedRuleId}\``,
+                  components: []
+                });
+              })
+              .catch(async (err) => {
+                return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+              });
+
+            collector.stop(); // Stop listening for further interactions
+          });
+
+          // Handle collector timeout
+          collector.on('end', (collected, reason) => {
+            if (reason === 'time') {
+              interaction.editReply({
+                content: 'Interaction timed out. Please try again.',
+                components: [],
+              });
+            }
+          });
+
+          return;
+        }
+
+        // Create the new rule
         guild.autoModerationRules
-          .create({
-            name: `Prevents mentions spam by ${client.user.username}`,
-            creatorId: interaction.user.id,
-            enabled: true,
-            eventType: 1,
-            triggerType: 1,
-            triggerMetadata: {
-              keywordFilter: keyword.split(", "),
-            },
-            actions: [
-              {
-                type: 1,
-                MetaData: {
-                  channelId: interaction.channel.id,
-                  durationSeconds: 10,
-                  customMessage: `⚠️ This message was blocked by \`${client.user.username}\`, as it contains blocked keywords!`,
-                },
-              },
-            ],
-          })
+          .create(ruleData)
           .then(async (result) => {
             await interaction.editReply(
               `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
             );
           })
           .catch(async (err) => {
-            return await interaction.editReply(`❌ Their were an error while creating the new auto-moderation rule: ${err.message}`);
+            return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
           });
         break;
     }
