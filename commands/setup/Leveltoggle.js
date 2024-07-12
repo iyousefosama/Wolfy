@@ -13,7 +13,7 @@ module.exports = {
     usage: '',
     group: 'setup',
     description: 'To enable/disable levelRoles cmd',
-    cooldown: 30, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ManageMessages", "Administrator"],
     examples: [''],

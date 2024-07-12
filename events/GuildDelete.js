@@ -59,12 +59,12 @@ module.exports = {
       const webhooks = await Debug.fetchWebhooks();
       let webhook = webhooks.filter((w) => w.token).first();
 
-      if (!webhook || webhooks.size < 10) {
+      if (!webhook) {
         webhook = await Debug.createWebhook({
           name: botname,
           avatar: botIcon,
         });
-      } else {
+      } else if (webhooks.size <= 10) {
         Debug.send("Can't create a new webhook for wolfy!");
         // Do nothing...
       }

@@ -25,7 +25,7 @@ module.exports = {
   usage: "(Roles count)",
   group: "setup",
   description: "Setup the select menu role list!",
-  cooldown: 10, //seconds(s)
+  cooldown: 5, //seconds(s)
   guarded: false, //or false
   permissions: ["ManageRoles"],
   clientPermissions: ["ManageRoles"],

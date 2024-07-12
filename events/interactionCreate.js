@@ -77,6 +77,9 @@ module.exports = {
     if (interaction.isChatInputCommand()) {
       const localCommands = getLocalCommands();
 
+      /**
+       * @type {import("../util/types/baseCommandSlash")}
+       */
       const command = localCommands.find(
         (cmd) => cmd.data.name === interaction.commandName
       );
@@ -84,7 +87,7 @@ module.exports = {
 
       if (!command) {
         return interaction
-          .reply({ content: "An error has occurred", ephemeral: true })
+          .reply({ embeds: [ErrorEmbed(`💢 An error has occurred, please try again later.`)], ephemeral: true })
           .catch(() => { });
       } else if (interaction.user.bot) {
         return;
@@ -102,20 +105,19 @@ module.exports = {
         if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
           return interaction.reply({ embeds: [ErrorEmbed("This command can only be used by **developers**!")], ephemeral: true });
         }
+
+
         //+ permissions: [""],
-        if (command.data.permissions && command.data.permissions > 0) {
+        if (command.data.permissions && command.data.permissions.length > 0) {
           if (interaction.guild) {
-            const userPerms = interaction.channel.permissionsFor(
-              interaction.user
-            );
-            if (!userPerms || !userPerms.has(command.permissions)) {
-              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have \`${parsePermissions(command.data.permissions)}\` permission(s) to use **${command.data.name}** command.`)], ephemeral: true });
+            if (!interaction.member.permissions.has(command.data.permissions)) {
+              return interaction.reply({ embeds: [ErrorEmbed(`You don\'t have ${parsePermissions(command.data.permissions)} to use **${command.data.name}** command.`)], ephemeral: true });
             }
           }
         }
 
         //+ clientPermissions: [""],
-        if (command.data.clientPermissions && command.data.clientPermissions > 0) {
+        if (command.data.clientPermissions && command.data.clientPermissions.length > 0) {
           if (interaction.guild) {
             const clientPerms = interaction.channel.permissionsFor(
               interaction.guild.members.me
@@ -131,7 +133,7 @@ module.exports = {
             client.Log(client, interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
               ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
               : "DMS"
-            } used: /${interaction.commandName}`)
+              } used: /${interaction.commandName}`)
           });
         } catch (error) {
           consoleUtil.error(error, "command-execute");
@@ -146,8 +148,7 @@ module.exports = {
             });
         }
       } catch (error) {
-        console.error(error);
-
+        consoleUtil.error(error);
         interaction.isRepliable
           ? await interaction.reply({
             content: "There was an error while executing this command!",

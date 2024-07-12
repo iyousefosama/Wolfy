@@ -12,8 +12,8 @@ module.exports = {
     dmOnly: false,
     guildOnly: true,
     cooldown: 0,
-    group: "NONE",
-    clientPermissions: [],
+    group: "ADMIN",
+    clientPermissions: ["ManageMessages"],
     permissions: [
       "Administrator",
       "ManageMessages"

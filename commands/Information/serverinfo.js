@@ -1,7 +1,7 @@
 const discord = require('discord.js')
 const moment = require(`moment`)
 const Page = require('../../util/Paginate');
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 
 const verificationLevels = {
     NONE: '<a:Error:836169051310260265> None',
@@ -122,10 +122,11 @@ module.exports = {
    <:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}
    🤖 **Bots:** ${members.filter(member => member.user.bot).size}
    <:online:809995753921576960> **Online:** ${members.filter(member => member.presence?.status == 'online').size}
-   <:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence?.status == null).size}
    <:Idle:809995753656549377> **Idle:** ${members.filter(member => member.presence?.status == 'idle').size}
-   ⌨️ **Text Channels:** ${channels.filter(channel => channel.type === 'GUILD_TEXT').size}
-   <:pp874:782758901829468180> **Voice Channels:** ${channels.filter(channel => channel.type === 'GUILD_VOICE').size}
+   <:8608_do_not_disturb:809995753577644073> **dnd:** ${members.filter(member => member.presence?.status == 'dnd').size}
+   <:offline:809995754021978112> **Offline:** ${members.filter(member => member.presence?.status == null).size}
+   ⌨️ **Text Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildText).size}
+    **Voice Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildVoice).size}
    \u200b
    `)
     );

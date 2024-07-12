@@ -13,7 +13,7 @@ module.exports = {
     usage: '',
     group: 'setup',
     description: 'To allow or disable reports command!',
-    cooldown: 30, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: ["ManageChannels"],
     examples: [''],

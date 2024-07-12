@@ -78,6 +78,9 @@ module.exports = {
         content: `You didn't pass any command to reload, ${message.author}!`,
       });
     const commandName = args.shift().toLowerCase();
+    /**
+     * @type {import("../util/types/baseCommand")}
+     */
     const cmd =
       client.commands.get(commandName) ||
       //+ aliases: [""],
