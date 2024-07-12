@@ -91,8 +91,8 @@ module.exports = {
       // Reply the image to the message
       return await interaction.editReply({ files: [image] });
     } catch (err) {
-      console.log(err);
-      interaction.reply(
+      console.error(err);
+      return await interaction.editReply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
