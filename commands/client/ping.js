@@ -15,7 +15,7 @@ module.exports = {
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
-    clientPermissions: ["UseExternalEmojis"],
+    clientPermissions: [],
     examples: [''],
     async execute(client, message, args) {
         const loading = new discord.EmbedBuilder()

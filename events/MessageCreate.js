@@ -250,7 +250,7 @@ module.exports = {
         return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> \`${cmd.name}\` is guarded!`)] });
       }
 
-      if (cmd.OwnerOnly) {
+      if (cmd.ownerOnly) {
         if (!client.owners.includes(message.author.id)) {
           return message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${cmd.name}\` is limited for developers only!`)] });
         }

@@ -32,7 +32,7 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           };
 
-          if(cmd.OwnerOnly === true) {
+          if(cmd.ownerOnly === true) {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           }
 

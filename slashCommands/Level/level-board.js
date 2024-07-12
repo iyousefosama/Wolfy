@@ -56,7 +56,7 @@ module.exports = {
 
           return {
             avatar:
-              guildMember?.user?.displayAvatarURL({ dynamic: true, format: "png" }) ||
+              guildMember?.user?.displayAvatarURL({ extension: "jpg", dynamic: true }).replace(".gif", ".jpg") ||
               "https://github.com/twlite.png",
             username: username || "Unknown",
             displayName: displayName || "Unknown",
@@ -70,7 +70,7 @@ module.exports = {
       const lb = new LeaderboardBuilder()
         .setHeader({
           title: interaction.guild.name,
-          image: interaction.guild.iconURL({ dynamic: true, format: "png" }) || "", // Valid guild icon URL or empty string
+          image: interaction.guild.iconURL({ dynamic: true, extension: "png" }) || "", // Valid guild icon URL or empty string
           subtitle: `${interaction.guild.memberCount} members`,
         })
         .setBackgroundColor("#808080")

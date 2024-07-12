@@ -2028,7 +2028,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "clientPermissions": [
       "UseExternalEmojis",
       "ViewChannel"
@@ -2048,7 +2048,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2065,7 +2065,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "clientPermissions": [
       "EmbedLinks",
       "AttachFiles"
@@ -2085,7 +2085,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2101,7 +2101,7 @@
     "group": "developer",
     "cooldown": 15,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "clientPermissions": [
       "EmbedLinks",
       "AttachFiles"
@@ -2121,7 +2121,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2137,7 +2137,7 @@
     "group": "developer",
     "cooldown": 10,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2153,7 +2153,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2169,7 +2169,7 @@
     "group": "developer",
     "cooldown": 1,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {
@@ -2185,7 +2185,7 @@
     "group": "developer",
     "cooldown": 5,
     "guarded": false,
-    "OwnerOnly": true,
+    "ownerOnly": true,
     "permissions": []
   },
   {

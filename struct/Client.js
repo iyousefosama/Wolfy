@@ -3,6 +3,7 @@
 const { Client, Collection, EmbedBuilder, version } = require('discord.js');
 const { performance } = require('perf_hooks');
 const ComponentsLoader = require("../Handler/ComponentsActionLoader");
+const SlashCommandLoader = require("../Handler/SlashHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const consoleUtil = require("../util/console")
@@ -153,6 +154,7 @@ module.exports = class WolfyClient extends Client {
     this.once('ready', () => {
       this.bootTime = Math.round(performance.now());
 
+      this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");
       return;
     });
@@ -175,6 +177,14 @@ module.exports = class WolfyClient extends Client {
   loadComponents(directory) {
     ComponentsLoader(this, directory)
   };
+
+  /**
+* Load all loadComponent from the specified directory
+* @param {string} directory
+*/
+  loadSlashCommands(directory) {
+    SlashCommandLoader(this, directory)
+  }
 
   /**
    * Register Component file in the client

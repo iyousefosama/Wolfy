@@ -39,6 +39,7 @@
  * @property {boolean} guildOnly - The name of the command (must be lowercase)
  * @property {boolean} args - The name of the command (must be lowercase)
  * @property {boolean} guarded - The name of the command (must be lowercase)
+ * @property {boolean} ownerOnly - The name of the command (must be lowercase)
  * @property {string} description - A short description of the command
  * @property {string} usage - A short description of the command
  * @property {number} cooldown - The command cooldown in seconds

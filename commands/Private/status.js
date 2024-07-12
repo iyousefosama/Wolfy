@@ -14,7 +14,7 @@ module.exports = {
     group: 'developer',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
-    OwnerOnly: true,
+    ownerOnly: true,
     permissions: [],
 
   async execute(client, message, args) {

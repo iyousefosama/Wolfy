@@ -21,7 +21,7 @@ client.listentoProcessEvents([
 ], { ignore: false });
 
 
-["SlashHandler", "CommandHandler", "EventHandler"].forEach((handler) => {
+["CommandHandler", "EventHandler"].forEach((handler) => {
   require(`./Handler/${handler}`)(client);
 });
 

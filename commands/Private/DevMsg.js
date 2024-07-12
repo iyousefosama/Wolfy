@@ -13,7 +13,7 @@ module.exports = {
     group: 'developer',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
-    OwnerOnly: true,
+    ownerOnly: true,
     permissions: [],
     clientPermissions: ["EmbedLinks", "AttachFiles"],
 
