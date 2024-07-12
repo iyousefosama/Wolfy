@@ -4,7 +4,9 @@ const getApplicationCommands = require('../util/helpers/getApplicationCommands')
 const getLocalCommands = require('../util/helpers/getLocalCommands');
 
 /**
- * @param {Client} client
+ * 
+ * @param {import("../struct/Client")} client 
+ * @param {string} directory directory containing the event files
  */
 module.exports = async (client, directory) => {
   try {

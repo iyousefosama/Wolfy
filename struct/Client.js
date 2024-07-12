@@ -4,6 +4,8 @@ const { Client, Collection, EmbedBuilder, version } = require('discord.js');
 const { performance } = require('perf_hooks');
 const ComponentsLoader = require("../Handler/ComponentsActionLoader");
 const SlashCommandLoader = require("../Handler/SlashHandler");
+const commandLoader = require("../Handler/CommandHandler");
+const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const consoleUtil = require("../util/console")
@@ -179,11 +181,27 @@ module.exports = class WolfyClient extends Client {
   };
 
   /**
-* Load all loadComponent from the specified directory
+* Load all slash commands from the specified directory
 * @param {string} directory
 */
   loadSlashCommands(directory) {
     SlashCommandLoader(this, directory)
+  }
+
+  /**
+* Load all text commands from the specified directory
+* @param {string} directory
+*/
+  loadCommands(directory) {
+    commandLoader(this, directory)
+  }
+
+  /**
+* Load all client events from the specified directory
+* @param {string} directory
+*/
+  loadEvents(directory) {
+    eventsLoader(this, directory)
   }
 
   /**
@@ -201,9 +219,19 @@ module.exports = class WolfyClient extends Client {
     } else {
       this.logger.debug(`Skipping Component ${Component.name}. Disabled!`);
     }
-
-
   };
+
+  expressServer() {
+    const express = require('express')
+    const app = express()
+    const port = process.env.PORT || 4000;
+
+    app.get('/', (req, res) => {
+      res.send('Hello World!')
+    })
+
+    app.listen(port)
+  }
 
   /**
    * Bulk add collections to the collection manager

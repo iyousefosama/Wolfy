@@ -75,7 +75,7 @@ module.exports = {
       await component.action(client, interaction, parts);
     }
     if (interaction.isChatInputCommand()) {
-      const localCommands = getLocalCommands();
+      const localCommands = getLocalCommands("/slashCommands");
 
       /**
        * @type {import("../util/types/baseCommandSlash")}

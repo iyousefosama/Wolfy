@@ -16,6 +16,7 @@ module.exports = {
   async execute(client) {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.Success(`${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)\n\n`);
+    client.expressServer();
     ManagerCheck(client)
 
     /*======================================================

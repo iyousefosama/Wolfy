@@ -2,18 +2,23 @@ const fs = require('fs');
 const path = require('path');
 const consoleUtil = require("../util/console");
 
-module.exports = async (client) => {
-  consoleUtil.warn("Reloading message commands...");
+/**
+ * 
+ * @param {import("../struct/Client")} client 
+ * @param {string} directory directory containing the event files
+ */
+module.exports = async (client, directory) => {
+  consoleUtil.warn("message commands...", "Loading:");
   try {
     // Clear all existing commands
     client.commands.clear();
 
-    const commandFolders = fs.readdirSync('./commands');
+    const commandFolders = fs.readdirSync(path.join(__dirname, "..", directory));
     let success = 0;
     let failed = 0;
 
     for (const folder of commandFolders) {
-      const folderPath = path.join(__dirname, `../commands/${folder}`);
+      const folderPath = path.join(__dirname, "..", directory, `${folder}`);
       const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
       success = 0;
       failed = 0;

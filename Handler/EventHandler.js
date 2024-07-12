@@ -1,17 +1,19 @@
-const { Client } = require('discord.js')
 const fs = require('fs');
+const path = require('path');
 const consoleUtil = require("../util/console");
 
 /**
- * @param {Client} client
+ * 
+ * @param {import("../struct/Client")} client 
+ * @param {string} directory directory containing the event files
  */
-module.exports = async (client) => {
+module.exports = async (client, directory) => {
     consoleUtil.warn("Loading events...", "Events:");
     try {
-        const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+        const eventFiles = fs.readdirSync(path.join(__dirname, "..", directory)).filter(file => file.endsWith('.js'));
 
         for (const file of eventFiles) {
-            const event = require(`../events/${file}`);
+            const event = require(`..${directory}/${file}`);
             if (event.once) {
                 client.once(event.name, (...args) => event.execute(client, ...args));
             } else if (event.isRestEvent) {
