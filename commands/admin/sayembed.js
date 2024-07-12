@@ -8,7 +8,7 @@ capitalize = (string) => {
  */
 module.exports = {
     name: "embed",
-    aliases: ["Sayembed", "SAYEMBED", "sayembed"],
+    aliases: ["sayembed"],
     dmOnly: false,
     guildOnly: true,
     args: true,

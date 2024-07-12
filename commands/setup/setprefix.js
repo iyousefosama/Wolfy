@@ -6,7 +6,7 @@ const schema = require('../../schema/GuildSchema')
  */
 module.exports = {
     name: "setprefix",
-    aliases: ["SetPrefix", "SETPREFIX", "prefix"],
+    aliases: ["prefix"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

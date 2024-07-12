@@ -8,7 +8,7 @@ const warnSchema = require('../../schema/Warning-Schema')
  */
 module.exports = {
     name: "warn",
-    aliases: ["Warn", "WARN"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

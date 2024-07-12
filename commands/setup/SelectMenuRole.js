@@ -10,7 +10,7 @@ const schema = require("../../schema/GuildSchema");
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
-  name: "smRole",
+  name: "smrole",
   aliases: [
     "SelectMenuRole",
     "smrole",
@@ -106,7 +106,7 @@ module.exports = {
 
     async function getSelectedRole(message, filter) {
       await message.reply(
-        `<a:Loading:841321898302373909> **${message.author}**, Please type the \`role id\`!`
+        `<a:Loading:841321898302373909> **${message.author}**, Please send the \`role-id\`!`
       );
 
       let receivedMessage = await message.channel.awaitMessages({
@@ -115,8 +115,7 @@ module.exports = {
       });
 
       if (
-        receivedMessage.first().content == "cancel" ||
-        receivedMessage.first().content == `${client.prefix}smr`
+        receivedMessage.first().content == "cancel"
       ) {
         await message.channel.send({
           content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`,
@@ -139,8 +138,7 @@ module.exports = {
       });
 
       if (
-        receivedMessage.first().content == "cancel" ||
-        receivedMessage.first().content == `${client.prefix}smr`
+        receivedMessage.first().content == "cancel"
       ) {
         await message.channel.send({
           content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`Select Menu role\` command!`,
@@ -277,26 +275,18 @@ module.exports = {
       if (
         !Embedchannel ||
         (Embedchannel.type !== ChannelType.GuildText &&
-          Embedchannel.type !== "GUILD_NEWS")
+          Embedchannel.type !== ChannelType.GuildAnnouncement)
       ) {
         return message.channel.send(
           `\\❌ **${message.member.displayName}**, please provide a valid channel ID.`
         );
       } else if (
         !Embedchannel.permissionsFor(message.guild.members.me).has(
-          "SEND_MESSAGES"
+          "SendMessages"
         )
       ) {
         return message.channel.send(
-          `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`
-        );
-      } else if (
-        !Embedchannel.permissionsFor(message.guild.members.me).has(
-          "EmbedLinks"
-        )
-      ) {
-        return message.channel.send(
-          `\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`
+          `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${Embedchannel} and try again.`
         );
       }
 

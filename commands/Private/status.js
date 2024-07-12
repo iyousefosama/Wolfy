@@ -6,7 +6,7 @@ const { EmbedBuilder } = require('discord.js');
  */
 module.exports = {
     name: "status",
-    aliases: ["Status", "STATUS"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

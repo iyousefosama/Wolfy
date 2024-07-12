@@ -6,7 +6,7 @@ const math = require("math-expression-evaluator");
  */
 module.exports = {
   name: "calc",
-  aliases: ["Calc"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

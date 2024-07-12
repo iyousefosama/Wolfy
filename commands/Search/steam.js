@@ -9,7 +9,7 @@ const text = require('../../util/string');
  */
 module.exports = {
     name: "steam",
-    aliases: ["Steam", "STEAM"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

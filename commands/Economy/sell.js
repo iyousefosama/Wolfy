@@ -6,7 +6,7 @@ const schema = require('../../schema/Economy-Schema')
  */
 module.exports = {
     name: "sell",
-    aliases: ["Sell", "SELL"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

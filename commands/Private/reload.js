@@ -5,7 +5,7 @@ const commandHandler = require("../../Handler/CommandHandler");
  */
 module.exports = {
     name: "reload",
-    aliases: [],
+    aliases: ["refresh"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false
@@ -17,7 +17,10 @@ module.exports = {
     permissions: [],
     async execute(client, message, args) {
         try {
-            await commandHandler(client);
+            client.loadEvents("/events");
+            client.loadCommands("/commands");
+            client.loadSlashCommands("/slashCommands");
+            client.loadComponents("/components");
 
             return message.reply({ content: "\\✔️ Successfully reloaded the commands!" });
         } catch (error) {

@@ -8,7 +8,7 @@ const fetch = require("node-fetch");
  */
 module.exports = {
   name: "bin",
-  aliases: ["Sourcebin", "SOURCEBIN", "sourcebin"],
+  aliases: ["sourcebin"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: false, //or false

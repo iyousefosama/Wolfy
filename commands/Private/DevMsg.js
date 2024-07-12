@@ -5,7 +5,7 @@ const discord = require('discord.js')
  */
 module.exports = {
     name: "devmsg",
-    aliases: ["Devmsg", "DEVMSG", "msg"],
+    aliases: ["msg"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

@@ -7,7 +7,7 @@ const text = require('../../util/string');
  */
 module.exports = {
     name: "command",
-    aliases: ["Command", "COMMAND", "cmd", "commandhelp", "helpcommand"],
+    aliases: ["cmd", "commandhelp", "helpcommand"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

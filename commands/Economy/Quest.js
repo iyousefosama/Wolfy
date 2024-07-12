@@ -15,7 +15,7 @@ const market = require("../../assets/json/market.json");
  */
 module.exports = {
   name: "quests",
-  aliases: ["Quests", "QUESTS", "quest"],
+  aliases: ["quest"],
   dmOnly: false, //or false
   guildOnly: false, //or false
   args: false, //or false

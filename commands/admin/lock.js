@@ -6,7 +6,7 @@ const { ChannelType } = require('discord.js')
  */
 module.exports = {
     name: "lock",
-    aliases: ["Lock", "LOCK"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

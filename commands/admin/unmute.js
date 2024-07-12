@@ -6,7 +6,7 @@ const schema = require('../../schema/Mute-Schema')
  */
 module.exports = {
     name: "unmute",
-    aliases: ["Unmute", "UNMUTE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

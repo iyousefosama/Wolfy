@@ -5,7 +5,7 @@ const discord = require('discord.js');
  */
 module.exports = {
     name: "ping",
-    aliases: ["PING", "Ping"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false

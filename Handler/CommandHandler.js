@@ -13,6 +13,9 @@ module.exports = async (client, directory) => {
     // Clear all existing commands
     client.commands.clear();
 
+    if(!directory) {
+      throw new Error('No directory provided!');
+    }
     const commandFolders = fs.readdirSync(path.join(__dirname, "..", directory));
     let success = 0;
     let failed = 0;
@@ -29,15 +32,20 @@ module.exports = async (client, directory) => {
           
           // Clear the cached module
           delete require.cache[require.resolve(filePath)];
-          
+          /**
+           * @type {import("../util/types/baseCommand")}
+           */
           const command = require(filePath);
-          if (!command.name) {
+          // ? Note: All client commands are set and recieved from user in lowercase!
+          const cmdName = command.name.toLowerCase();
+          
+          if (!cmdName) {
             consoleUtil.error(`Command file '${file}' is missing a 'name' property.`);
             failed++;
             continue;
           }
-          client.commands.set(command.name, command);
-          consoleUtil.Success(`'${command.name}' from '${file}'`, "Loaded command:");
+          client.commands.set(cmdName, command);
+          consoleUtil.Success(`'${cmdName}' from '${file}'`, "Loaded command:");
           success++;
         } catch (error) {
           consoleUtil.error(`Error loading command '${file}': ${error}`);

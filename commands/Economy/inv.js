@@ -11,7 +11,7 @@ const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
  */
 module.exports = {
     name: "inv",
-    aliases: ["Inv", "inventory", "Inventory", "INVENTORY"],
+    aliases: ["inventory"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false

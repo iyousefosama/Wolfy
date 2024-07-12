@@ -7,15 +7,11 @@ const client = new Client(config);
 
 client.loadEvents("/events");
 client.loadCommands("/commands");
+client.database?.init();
 
 client.listentoProcessEvents([
   'unhandledRejection',
   'uncaughtException'
 ], { ignore: false });
 
-["Reminder", "checkQuests", "Modules"].forEach((functions) => {
-  require(`./functions/${functions}`)(client);
-});
-
-
-client.login(process.env.TOKEN);
+client.login();

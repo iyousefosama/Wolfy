@@ -7,7 +7,7 @@ const UserSchema = require('../../schema/LevelingSystem-Schema')
  */
 module.exports = {
     name: "clearxp",
-    aliases: ["Clearxp", "ClearXp", "CLEARXP"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

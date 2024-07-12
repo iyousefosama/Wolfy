@@ -10,7 +10,7 @@ const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
  */
 module.exports = {
     name: "lyrics",
-    aliases: ["Lyrics", "LYRICS"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

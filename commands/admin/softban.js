@@ -5,7 +5,7 @@ const discord = require('discord.js');
  */
 module.exports = {
   name: "softban",
-  aliases: ["SoftBan", "SOFTBAN"],
+  aliases: ["soft-ban"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

@@ -7,7 +7,7 @@ const text = require('../../util/string');
  */
 module.exports = {
     name: "buy",
-    aliases: ["Buy", "BUY"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

@@ -8,7 +8,7 @@ const sourcebin = require('sourcebin_js');
  */
 module.exports = {
     name: "delete",
-    aliases: ["Delete", "DELETE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

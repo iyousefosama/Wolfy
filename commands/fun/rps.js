@@ -1,48 +1,49 @@
-const discord = require('discord.js')
-
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
     name: "rps",
-    aliases: ["RPS", "Rps"],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: true, //or false
+    aliases: [],
+    dmOnly: false,
+    guildOnly: true,
+    args: true,
     usage: '<option>',
     group: 'Fun',
     description: 'Playing rock/paper/scissors vs the bot',
-    cooldown: 1, //seconds(s)
-    guarded: false, //or false
-    clientPermissions: ["UseExternalEmojis", "ReadMessageHistory"],
+    cooldown: 1,
+    guarded: false,
+    clientPermissions: ["SendMessages"],
     permissions: [],
     examples: [
         'rock',
         'paper',
         'scissors'
-      ],
+    ],
 
-  async execute(client, message, args) {
-    const messageArray = message.content.split(' ');
-    const arg2 = messageArray.slice(1);;
-    let search = arg2.slice(0).join(' ');
+    async execute(client, message, args) {
+        const options = ['rock', 'paper', 'scissors'];
+        const userOption = args.join(' ').toLowerCase();
 
-    if (!search) return message.channel.send(`You must send a valid option! \`i.e\`**Rock, Paper, Scissors.**`)
+        if (!options.includes(userOption)) {
+            return message.channel.send(`You must send a valid option! \`i.e\`**${options.join(', ')}.**`);
+        }
 
-    const options = [
-        "rock 🪨",
-        "paper <:paper:814667582116331530>",
-        "scissors :scissors: "
-    ]
-    const option = options[Math.floor(Math.random() * options.length)]
-    if (search === 'rock') {
-        message.reply({ content: `My choice was ${option}!`})
-    }else if (search === 'paper') {
-        message.reply({ content: `My choice was ${option}!`})
-    }else if (search === 'scissors') {
-        message.reply({ content: `My choice was ${option}!`})
-    }else {
-        message.reply({ content: `**"${search}**" is not a valid Option! You must send a valid option! \`i.e\`**Rock, Paper, Scissors.**`})
-    }
+        message.channel.send({ content: `${message.author}, I choose...` }).then(msg => {
+            setTimeout(() => {
+            const botOption = options[Math.floor(Math.random() * options.length)];
+
+            let result;
+            if (userOption === 'rock') {
+                result = botOption === 'rock' ? 'It\'s a draw!' : botOption === 'paper' ? 'You lose!' : 'You win!';
+            } else if (userOption === 'paper') {
+                result = botOption === 'rock' ? 'You win!' : botOption === 'paper' ? 'It\'s a draw!' : 'You lose!';
+            } else if (userOption === 'scissors') {
+                result = botOption === 'rock' ? 'You lose!' : botOption === 'paper' ? 'You win!' : 'It\'s a draw!';
+            }
+
+            msg.edit({ content: `Your choice was \`${userOption}\`, my choice was \`${botOption}\`. **${result}**` });
+            }, 1000)
+        });
+
     }
 }

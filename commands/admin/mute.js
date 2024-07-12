@@ -7,7 +7,7 @@ const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
  */
 module.exports = {
     name: "mute",
-    aliases: ["Mute", "MUTE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

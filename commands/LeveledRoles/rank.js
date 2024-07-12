@@ -12,7 +12,7 @@ const Userschema = require("../../schema/LevelingSystem-Schema");
  */
 module.exports = {
   name: "rank",
-  aliases: ["level", "Level", "LEVEL", "RANK", "Rank"],
+  aliases: ["level"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: false, //or false

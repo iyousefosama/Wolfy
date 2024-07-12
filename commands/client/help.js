@@ -7,75 +7,59 @@ const text = require('../../util/string');
  */
 module.exports = {
     name: "help",
-    aliases: ["Help", "HELP"],
+    aliases: ["helpme"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'bot',
     description: 'Display main bot helplist embed.',
-    cooldown: 10, //seconds(s)
+    cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientPermissions: ["UseExternalEmojis", "AttachFiles"],
     examples: [''],
-  async execute(client, message, args) {
+    async execute(client, message, args) {
         let EmbedName = args.slice(0).join(" ")
-        const button = new ButtonBuilder()
-            .setLabel(`Info`)
-            .setCustomId("1")
-            .setStyle('Primary')
-            .setEmoji("776670895371714570");
-        const button2 = new ButtonBuilder()
-            .setLabel(`Search`)
-            .setCustomId("2")
-            .setStyle('Primary')
-            .setEmoji("845681277922967572");
-        const button3 = new ButtonBuilder()
-            .setLabel(`Utilities`)
-            .setCustomId("3")
-            .setStyle('Primary')
-            .setEmoji("836168684379701279");
-        const button4 = new ButtonBuilder()
-            .setLabel(`Moderator`)
-            .setCustomId("4")
-            .setStyle("Danger")
-            .setEmoji("853496185443319809");
-        const button5 = new ButtonBuilder()
-            .setLabel(`Fun`)
-            .setCustomId("5")
-            .setStyle("Success")
-            .setEmoji("768867196302524426");
-        const button6 = new ButtonBuilder()
-            .setLabel(`Setup`)
-            .setCustomId("6")
-            .setStyle("Primary")
-            .setEmoji("836168687891382312");
-        const button7 = new ButtonBuilder()
-            .setLabel(`Bot`)
-            .setCustomId("7")
-            .setStyle("Primary")
-            .setEmoji("888265210350166087");
-        const button8 = new ButtonBuilder()
-            .setLabel(`Levels`)
-            .setCustomId("8")
-            .setStyle("Primary")
-            .setEmoji("853495519455215627");
-        const button9 = new ButtonBuilder()
-            .setLabel(`Economy`)
-            .setCustomId("9")
-            .setStyle("Primary")
-            .setEmoji("877975108038324224");
-        const button10 = new ButtonBuilder()
-            .setStyle(`Link`)
+
+        // Define button data in an array
+        const buttonData = [
+            { label: 'Info', customId: '1', style: 'Primary', emoji: '776670895371714570' },
+            { label: 'Search', customId: '2', style: 'Primary', emoji: '845681277922967572' },
+            { label: 'Utilities', customId: '3', style: 'Primary', emoji: '836168684379701279' },
+            { label: 'Moderator', customId: '4', style: 'Danger', emoji: '853496185443319809' },
+            { label: 'Fun', customId: '5', style: 'Success', emoji: '768867196302524426' },
+            { label: 'Setup', customId: '6', style: 'Primary', emoji: '836168687891382312' },
+            { label: 'Bot', customId: '7', style: 'Primary', emoji: '888265210350166087' },
+            { label: 'Levels', customId: '8', style: 'Primary', emoji: '853495519455215627' },
+            { label: 'Economy', customId: '9', style: 'Primary', emoji: '877975108038324224' },
+        ];
+
+        // Create an array to store all button builders
+        const buttons = buttonData.map(data => (
+            new ButtonBuilder()
+                .setLabel(data.label)
+                .setCustomId(data.customId)
+                .setStyle(data.style)
+                .setEmoji(data.emoji)
+        ));
+
+
+        // Create rows of action components
+        const rows = [
+            new ActionRowBuilder().addComponents(...buttons.slice(0, 5)), // First row with first 5 buttons
+            new ActionRowBuilder().addComponents(...buttons.slice(5)),    // Second row with remaining buttons
+        ];
+
+
+        // Add a link button as the last component in the second row
+        const linkButton = new ButtonBuilder()
+            .setStyle('Link')
             .setEmoji('853495912775942154')
-            .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands`)
+            .setURL(client.websites["invite"])
             .setLabel('Add me');
 
-        const row = new ActionRowBuilder()
-            .addComponents(button, button2, button3, button4, button5);
-        const row2 = new ActionRowBuilder()
-            .addComponents(button6, button7, button8, button9, button10);
+        rows[1].addComponents(linkButton);
 
         const help = new discord.EmbedBuilder()
             .setColor('738ADB')
@@ -119,9 +103,6 @@ module.exports = {
             .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
             .setThumbnail(client.user.displayAvatarURL())
             .addFields(
-                { name: `${client.config.prefix}covid`, value: `> \`Shows informations about covid in any country\`` },
-                { name: `${client.config.prefix}djs`, value: `> \`Searching for anthing in djs library\`` },
-                { name: `${client.config.prefix}wikipedia`, value: `> \`To search for anything in wikipedia\`` },
                 { name: `${client.config.prefix}steam`, value: `> \`To search for any game information in steam\`` },
                 { name: `${client.config.prefix}weather`, value: `> \`Shows the weather status in any country\`` },
                 { name: `${client.config.prefix}lyrics`, value: `> \`The bot will show you the lyrics for the music you are searching for!\`` }
@@ -194,8 +175,7 @@ module.exports = {
                 { name: `${client.config.prefix}meme`, value: `> \`Gives random memes\`` },
                 { name: `${client.config.prefix}rps`, value: `> \`Playing rock/paper/scissors vs the bot\`` },
                 { name: `${client.config.prefix}tweet`, value: `> \`Send your message as tweet message\`` },
-                { name: `${client.config.prefix}guess`, value: `> \`Start playing new guess the number game.\`` },
-                { name: `${client.config.prefix}waterdrop`, value: `> \`Start playing waterdrop game\`` }
+                { name: `${client.config.prefix}guess`, value: `> \`Start playing new guess the number game.\`` }
             )
             .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
             .setTimestamp()
@@ -288,120 +268,90 @@ module.exports = {
             .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
             .setTimestamp()
         if (EmbedName) {
+            const fields = [];
+            const groups = [];
 
-            if (EmbedName.toLowerCase() === 'info' || EmbedName.toLowerCase() === 'information') {
-                return message.channel.send({ embeds: [info] })
-            } else if (EmbedName.toLowerCase() === 'search') {
-                return message.channel.send({ embeds: [search] })
-            } else if (EmbedName.toLowerCase() === 'utl' || EmbedName.toLowerCase() === 'util' || EmbedName.toLowerCase() === 'utilities') {
-                return message.channel.send({ embeds: [Utl] })
-            } else if (EmbedName.toLowerCase() === 'moderator' || EmbedName.toLowerCase() === 'mod') {
-                return message.channel.send({ embeds: [moderator] })
-            } else if (EmbedName.toLowerCase() === 'fun') {
-                return message.channel.send({ embeds: [Fun] })
-            } else if (EmbedName.toLowerCase() === 'setup') {
-                return message.channel.send({ embeds: [setup] })
-            } else if (EmbedName.toLowerCase() === 'bot') {
-                return message.channel.send({ embeds: [bot] })
-            } else if (EmbedName.toLowerCase() === 'level') {
-                return message.channel.send({ embeds: [level] })
-            } else if (EmbedName.toLowerCase() === 'eco' || EmbedName.toLowerCase() === 'economy') {
-                return message.channel.send({ embeds: [Eco] })
-            } else if (EmbedName.toLowerCase() === 'all') {
-                const fields = [];
-                const groups = [];
+            for (let cmd of client.commands) {
+                cmd = cmd[1]
+                if (cmd.group) {
+                    groups.push(cmd.group);
+                }
+            };
 
-                for (let cmd of client.commands) {
-                    cmd = cmd[1]
-                    if (cmd.group) {
-                        groups.push(cmd.group);
-                    }
-                };
+            var uniqueArr = [...new Set(groups)]
 
-                var uniqueArr = [...new Set(groups)]
-
-                for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified')) {
-                    fields.push({
-                        name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
-                        value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
-                    });
-                };
-
-                return message.channel.send({
-                    embeds: [
-                        new discord.EmbedBuilder()
-                            .setColor('738ADB')
-                            .setTitle('<:Tag:836168214525509653> Wolfy\'s full commands list!')
-                            .addFields(fields.sort((A, B) => B.value.length - A.value.length))
-                            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
-                            .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy` })
-                            .setDescription([
-                                `<:star:888264104026992670> You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
-                            ].join('\n'))
-                    ]
+            for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified')) {
+                fields.push({
+                    name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
+                    value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
                 });
-            } else {
-                return message.channel.send(`\\❌ | ${message.author}, Please type a valid group type or use \`${client.config.prefix}help\`!`);
-            }
+            };
+            const allCmds = new discord.EmbedBuilder()
+                .setColor('738ADB')
+                .setTitle('<:Tag:836168214525509653> Wolfy\'s full commands list!')
+                .addFields(fields.sort((A, B) => B.value.length - A.value.length))
+                .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+                .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy` })
+                .setDescription([
+                    `<:star:888264104026992670> You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
+                ].join('\n'))
 
+            const responses = {
+                "info": { embeds: [info], ephemeral: true },
+                "search": { embeds: [search], ephemeral: true },
+                "util": { embeds: [Utl], ephemeral: true },
+                "moderator": { embeds: [moderator], ephemeral: true },
+                "fun": { embeds: [Fun], ephemeral: true },
+                "setup": { embeds: [setup], ephemeral: true },
+                "bot": { embeds: [bot], ephemeral: true },
+                "level": { embeds: [level], ephemeral: true },
+                "eco": { embeds: [Eco], ephemeral: true },
+                "all": { embeds: [allCmds], ephemeral: true }
+            };
+
+            if(!responses[EmbedName.toLowerCase()]) return message.reply({ content: "\\❗ Invalid embed name!", ephemeral: true });
+
+            return message.reply(responses[EmbedName.toLowerCase()]);
         } else {
-            const msg = await message.reply({ embeds: [help], components: [row, row2] })
+            const msg = await message.reply({ embeds: [help], components: rows })
             const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
 
-            collector.on('collect', async interactionCreate => {
-                if (interactionCreate.customId === '1') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [info], ephemeral: true })
-                }
-                if (interactionCreate.customId === '2') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [search], ephemeral: true })
-                }
-                if (interactionCreate.customId === '3') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [Utl], ephemeral: true })
-                }
-                if (interactionCreate.customId === '4') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [moderator], ephemeral: true })
-                }
-                if (interactionCreate.customId === '5') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [Fun], ephemeral: true })
-                }
-                if (interactionCreate.customId === '6') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [setup], ephemeral: true })
-                }
-                if (interactionCreate.customId === '7') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [bot], ephemeral: true })
-                }
-                if (interactionCreate.customId === '8') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [level], ephemeral: true })
-                }
-                if (interactionCreate.customId === '9') {
-                    if (interactionCreate.user.id !== message.author.id) return interactionCreate.deferUpdate();
-                    interactionCreate.reply({ embeds: [Eco], ephemeral: true })
+            collector.on('collect', async interaction => {
+
+                // Define responses based on customId
+                const responses = {
+                    "1": { embeds: [info], ephemeral: true },
+                    "2": { embeds: [search], ephemeral: true },
+                    "3": { embeds: [Utl], ephemeral: true },
+                    "4": { embeds: [moderator], ephemeral: true },
+                    "5": { embeds: [Fun], ephemeral: true },
+                    "6": { embeds: [setup], ephemeral: true },
+                    "7": { embeds: [bot], ephemeral: true },
+                    "8": { embeds: [level], ephemeral: true },
+                    "9": { embeds: [Eco], ephemeral: true },
+                };
+
+                // Respond based on customId
+                if (responses[customId]) {
+                    interaction.reply(responses[customId]);
                 }
             })
-            collector.on('end', message => {
-                button.setDisabled(true)
-                button2.setDisabled(true)
-                button3.setDisabled(true)
-                button4.setDisabled(true)
-                button5.setDisabled(true)
-                button6.setDisabled(true)
-                button7.setDisabled(true)
-                button8.setDisabled(true)
-                button9.setDisabled(true)
-                const newrow = new ActionRowBuilder()
-                    .addComponents(button, button2, button3, button4, button5);
-                const newrow2 = new ActionRowBuilder()
-                    .addComponents(button6, button7, button8, button9, button10);
-                msg.edit({ embeds: [help], components: [newrow, newrow2] }).catch(() => null)
-            })
+            collector.on("end", (message) => {
+                // Disable all buttons
+                buttons.forEach(button => button.setDisabled(true));
+
+                // Create new rows with disabled buttons
+                const newrow = new ActionRowBuilder().addComponents(
+                    ...buttons.slice(0, 5)
+                );
+                const newrow2 = new ActionRowBuilder().addComponents(
+                    ...buttons.slice(5),
+                );
+
+                msg
+                    .edit({ embeds: [help], components: [newrow, newrow2] })
+                    .catch(() => null);
+            });
         }
     }
 }

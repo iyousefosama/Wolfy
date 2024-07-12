@@ -6,7 +6,7 @@ const schema = require('../../schema/GuildSchema')
  */
 module.exports = {
     name: "suggestionstoggle",
-    aliases: ["Suggestionstoggle", "SuggestionsToggle", "SUGGESTIONSTOGGLE", "suggtoggle"],
+    aliases: ["suggtoggle"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

@@ -5,7 +5,7 @@ const discord = require('discord.js');
  */
 module.exports = {
   name: "kick",
-  aliases: ["Kick", "KICK"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

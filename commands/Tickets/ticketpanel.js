@@ -12,7 +12,7 @@ const TicketSchema = require("../../schema/Ticket-Schema");
  */
 module.exports = {
   name: "ticketpanel",
-  aliases: ["TicketPanel"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: false, //or false

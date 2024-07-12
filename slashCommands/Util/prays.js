@@ -6,8 +6,8 @@ const {
   ButtonBuilder,
 } = require("discord.js");
 const fetch = require("node-fetch");
-const tc = require("../../functions/TimeConvert");
-const cfl = require("../../functions/CapitalizedChar");
+const tc = require("../../util/functions/TimeConvert");
+const cfl = require("../../util/functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
 const moment = require("moment");
 const momentTz = require("moment-timezone");

@@ -6,7 +6,7 @@ const currentGames = {};
  */
 module.exports = {
     name: "guess",
-    aliases: ["Guess", "GUESS"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

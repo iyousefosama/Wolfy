@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const consoleUtil = require(`${process.cwd()}/util/console`);
+const WolfyClient = require("./Client")
 
 module.exports = class Mongoose{
   constructor(client, options = {}){
@@ -7,7 +8,7 @@ module.exports = class Mongoose{
     /**
      * The client that instantiated this
      * @name Mongoose#client
-     * @type {MaiClient}
+     * @type {WolfyClient}
      * @readonly
      */
     Object.defineProperty(this, 'client', { value: client })

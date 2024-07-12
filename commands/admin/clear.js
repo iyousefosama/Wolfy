@@ -7,7 +7,7 @@ const moment = require('moment');
  */
 module.exports = {
   name: 'clear',
-  aliases: [ 'delete', 'Clear', 'CLEAR'],
+  aliases: [ 'delete'],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

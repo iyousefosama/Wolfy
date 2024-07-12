@@ -7,7 +7,7 @@ const market = require('../../assets/json/market.json');
  */
 module.exports = {
     name: "mine",
-    aliases: ["Mine", "MINE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

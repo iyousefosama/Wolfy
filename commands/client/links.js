@@ -6,14 +6,14 @@ const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
  */
 module.exports = {
     name: "links",
-    aliases: ["link", "inviteme", "invitebot", "vote", "support", "LINKS", "invite"],
+    aliases: ["link", "inviteme", "invitebot", "vote", "support", "invite"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false
     usage: '',
     group: 'bot',
     description: 'Shows all bot special link vote/invite ..',
-    cooldown: 10, //seconds(s)
+    cooldown: 2, //seconds(s)
     guarded: false, //or false
     permissions: [],
     clientPermissions: ["EmbedLinks", "UseExternalEmojis", "AttachFiles"],

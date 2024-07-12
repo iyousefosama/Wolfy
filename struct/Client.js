@@ -8,6 +8,8 @@ const commandLoader = require("../Handler/CommandHandler");
 const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
+const { Player } = require("discord-player")
+const { registerPlayerEvents } = require('../events/MusicEvents');
 const consoleUtil = require("../util/console")
 
 let Embedlogs = [];
@@ -32,6 +34,7 @@ module.exports = class WolfyClient extends Client {
  */
     this.commands = new Collection();
     this.ComponentsAction = new Collection();
+    this.cooldowns = new Collection();
     this.components = new Collection();
 
     /**
@@ -72,10 +75,21 @@ module.exports = class WolfyClient extends Client {
     };
 
     /**
+ * A dedicated music system for Wolfy.
+ * @type {MusicPlayer}
+ */
+    this.player = new Player(this, settings.player.ytdlOptions)
+
+    /**
      * Counter for messages received and sent by the bot
      * @type {?MessageCount}
      */
     this.messages = { received: 0, sent: 0 };
+
+    /**
+     * @type {Object}
+     */
+    this.CoolDownCurrent = {};
 
     /**
      * Pre-defined bot conifigurations.
@@ -86,6 +100,10 @@ module.exports = class WolfyClient extends Client {
       features: [],
       owners: [],
       loadSlashsGlobal: undefined,
+      player: {
+        ytdlOptions: {
+        },
+      },
       channels: { debug: null, votes: null, uploads: null, logs: null, chatbot: null },
       websites: settings.websites
     };
@@ -155,6 +173,7 @@ module.exports = class WolfyClient extends Client {
     // Execute these internal functions once the bot is ready!!
     this.once('ready', () => {
       this.bootTime = Math.round(performance.now());
+      registerPlayerEvents(this.player);
 
       this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");
@@ -399,6 +418,15 @@ module.exports = class WolfyClient extends Client {
    */
   get owners() {
     return this.config.owners;
+  };
+
+  /**
+   * The websites of this bot
+   * @type {ClientWebsites[]}
+   * @readonly
+   */
+  get websites() {
+    return this.config.websites;
   };
 
   /**

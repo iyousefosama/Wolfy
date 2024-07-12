@@ -10,8 +10,8 @@ module.exports = {
     description: "Replies with commands helplist!",
     integration_types: [0, 1],
     contexts: [0, 1, 2],
+    permissions: [],
     clientPermissions: [
-      "EmbedLinks",
       "ReadMessageHistory",
     ],
   },
@@ -165,18 +165,6 @@ module.exports = {
 
     const search = createCommandListEmbed("<a:Search:845681277922967572> Search Commands", [
       {
-        name: `${client.config.prefix}covid`,
-        value: `Shows informations about covid in any country`,
-      },
-      {
-        name: `${client.config.prefix}djs`,
-        value: `Searching for anthing in djs library`,
-      },
-      {
-        name: `${client.config.prefix}wikipedia`,
-        value: `To search for anything in wikipedia`,
-      },
-      {
         name: `${client.config.prefix}steam`,
         value: `To search for any game information in steam`,
       },
@@ -224,7 +212,7 @@ module.exports = {
         value: `Setup the ticket panel in the server`,
       },
       {
-        name: `${client.config.prefix}`,
+        name: `${client.config.prefix}calc`,
         value: `Calculates an equation by wolfy`,
       }
     ]);
@@ -354,10 +342,6 @@ module.exports = {
       {
         name: `${client.config.prefix}guess`,
         value: `Start playing new guess the number game.`,
-      },
-      {
-        name: `${client.config.prefix}waterdrop`,
-        value: `Start playing waterdrop game`,
       }
     ]);
     const setup = createCommandListEmbed("<:MOD:836168687891382312> **Setup Commands**", [

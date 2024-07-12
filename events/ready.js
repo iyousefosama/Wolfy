@@ -2,7 +2,9 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 const { EmbedBuilder, ActivityType, Client } = require('discord.js')
 const { version } = require('./../package.json');
-const ManagerCheck = require("../functions/ManagerCheck")
+const ManagerCheck = require("../util/functions/ManagerCheck")
+const Reminder = require("../util/functions/Reminder")
+const checkQuests = require("../util/functions/checkQuests")
 
 const BEV = require("../util/types/baseEvents");
 
@@ -17,7 +19,9 @@ module.exports = {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.Success(`${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)\n\n`);
     client.expressServer();
-    ManagerCheck(client)
+    ManagerCheck(client);
+    Reminder(client);
+    checkQuests(client);
 
     /*======================================================
        Sends a notification to a log channel (if available)

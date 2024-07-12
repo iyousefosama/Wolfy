@@ -6,7 +6,7 @@ const ms = require('ms')
  */
 module.exports = {
   name: "timeout",
-  aliases: ["TimeOut", "TIMEOUT"],
+  aliases: ["time-out"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

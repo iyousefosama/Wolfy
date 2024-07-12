@@ -6,7 +6,7 @@ const { EmbedBuilder, TextChannel } = require('discord.js');
  */
 module.exports = {
     name: "fleave",
-    aliases: ["Fleave", "FLEAVE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

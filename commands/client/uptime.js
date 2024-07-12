@@ -6,7 +6,7 @@ const ms = require('parse-ms');
  */
 module.exports = {
     name: "uptime",
-    aliases: ["Uptime", "UPTIME"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: false, //or false

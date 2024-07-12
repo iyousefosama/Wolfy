@@ -9,7 +9,7 @@ const { ChannelType } = require('discord.js')
  */
 module.exports = {
     name: "suggestion",
-    aliases: ["Suggestion", "sugg"],
+    aliases: ["sugg"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

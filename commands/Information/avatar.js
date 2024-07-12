@@ -7,7 +7,7 @@ const https = require('https');
  */
 module.exports = {
   name: "avatar",
-  aliases: ["Avatar", "AVATAR"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: false, //or false
   args: false, //or false

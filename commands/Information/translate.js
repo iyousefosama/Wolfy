@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
  */
 module.exports = {
     name: "translate",
-    aliases: ["Translate"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false
@@ -36,7 +36,7 @@ module.exports = {
           headers: {
             'content-type': 'application/x-www-form-urlencoded',
             'Accept-Encoding': 'application/gzip',
-            'X-RapidAPI-Key': 'fb2e04e80fmsh04e1c6145236183p1be7b5jsn634d4772bd71',
+            'X-RapidAPI-Key': process.env.GOOGLE_API_KEY,
             'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
           },
           body: encodedParams

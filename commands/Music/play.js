@@ -1,5 +1,4 @@
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
 /**
@@ -7,7 +6,7 @@ const { QueryType } = require("discord-player")
  */
 module.exports = {
     name: "play",
-    aliases: ["Play", "PLAY", "p"],
+    aliases: ["p"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

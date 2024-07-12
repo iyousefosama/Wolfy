@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
  */
 module.exports = {
     name: "tweet",
-    aliases: ["Tweet", "TWEET"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

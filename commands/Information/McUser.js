@@ -6,7 +6,7 @@ const minecraftPlayer = require("minecraft-player");
  */
 module.exports = {
   name: "mcuser",
-  aliases: ["Mcuser", "MCUSER"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: false, //or false
   args: true, //or false

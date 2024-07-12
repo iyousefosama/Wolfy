@@ -4,13 +4,11 @@ const userSchema = require("../schema/user-schema");
 const schema = require("../schema/GuildSchema");
 const consoleUtil = require("../util/console");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds");
-const cooldowns = new Collection();
-const CoolDownCurrent = {};
-const leveling = require("../functions/LevelTrigger");
-const WordW = require("../functions/BadWordsFilter");
-const AntiLinksProtection = require("../functions/AntiLinks");
-const cmdManager = require("../functions/Manager");
-const Chatbot = require("../functions/ChatBot");
+const leveling = require("../util/functions/LevelTrigger");
+const WordW = require("../util/functions/BadWordsFilter");
+const AntiLinksProtection = require("../util/functions/AntiLinks");
+const cmdManager = require("../util/functions/Manager");
+const Chatbot = require("../util/functions/ChatBot");
 
 const BEV = require("../util/types/baseEvents");
 
@@ -28,13 +26,13 @@ module.exports = {
     let data;
     let prefix;
     if (message.guild) {
-      // Start Leveling up function at ../functions/LevelTrigger bath
+      // Start Leveling up function at ../util/functions/LevelTrigger bath
       leveling.Level(message);
-      // Start Warning for badwords function at ../functions/BadWordsFilter bath
+      // Start Warning for badwords function at ../util/functions/BadWordsFilter bath
       WordW.badword(client, message);
-      // Start anti-links protection function at ../functions/AntiLinks bath
+      // Start anti-links protection function at ../util/functions/AntiLinks bath
       AntiLinksProtection.checkMsg(client, message);
-      // Start ChatBot function at ../functions/ChatBot bath
+      // Start ChatBot function at ../util/functions/ChatBot bath
       Chatbot.chat(client, message);
 
       try {
@@ -173,12 +171,12 @@ module.exports = {
       }
 
       //+ cooldown 1, //seconds(s)
-      if (!cooldowns.has(cmd.name)) {
-        cooldowns.set(cmd.name, new Collection());
+      if (!client.cooldowns.has(cmd.name)) {
+        client.cooldowns.set(cmd.name, new Collection());
       }
 
       const now = Date.now();
-      const timestamps = cooldowns.get(cmd.name);
+      const timestamps = client.cooldowns.get(cmd.name);
       const cooldownAmount = (cmd.cooldown || 3) * 1000;
 
       if (timestamps.has(message.author.id)) {
@@ -186,11 +184,11 @@ module.exports = {
           timestamps.get(message.author.id) + cooldownAmount;
 
         if (now < expirationTime) {
-          if (CoolDownCurrent[message.author.id]) {
+          if (client.CoolDownCurrent[message.author.id]) {
             return;
           }
           const timeLeft = (expirationTime - now) / 1000;
-          CoolDownCurrent[message.author.id] = true;
+          client.CoolDownCurrent[message.author.id] = true;
           return message.channel
             .send({
               content: ` **${message.author.username
@@ -200,7 +198,7 @@ module.exports = {
             })
             .then((msg) => {
               setTimeout(() => {
-                delete CoolDownCurrent[message.author.id];
+                delete client.CoolDownCurrent[message.author.id];
                 msg.delete().catch(() => null);
               }, 4000);
             });
@@ -210,7 +208,7 @@ module.exports = {
       setTimeout(
         () => timestamps.delete(message.author.id),
         cooldownAmount,
-        delete CoolDownCurrent[message.author.id]
+        delete client.CoolDownCurrent[message.author.id]
       );
 
       //+ permissions: [""],
@@ -262,7 +260,7 @@ module.exports = {
 * @type {import("discord.js").Message} message
 */
         cmd.execute(client, message, args, { executed: true }).then(() => {
-          // Start CmdManager function at ../functions/Manager bath
+          // Start CmdManager function at ../util/functions/Manager bath
           cmdManager.manage(client, message, cmd);
           client.Log(client, message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
             ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`

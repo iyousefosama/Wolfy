@@ -6,7 +6,7 @@ const schema = require('../../schema/user-schema')
  */
 module.exports = {
     name: "blacklist",
-    aliases: ["Blacklist", "BLACKLIST"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

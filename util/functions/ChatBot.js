@@ -9,6 +9,10 @@ const openai = new OpenAIApi(
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/**
+ * @param {import('discord.js').Client} client
+ * @param {import('discord.js').Message} message
+ */
 exports.chat = async function (client, message) {
   if (!message) {
     return;

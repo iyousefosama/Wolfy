@@ -7,7 +7,7 @@ const schema = require('../../schema/TimeOut-Schema')
  */
 module.exports = {
   name: "remind",
-  aliases: ["remindme", "Remind", "Remindme", "reminder"],
+  aliases: ["remindme", "reminder"],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

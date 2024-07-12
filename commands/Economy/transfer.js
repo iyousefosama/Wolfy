@@ -6,7 +6,7 @@ const text = require('../../util/string');
  */
 module.exports = {
     name: "transfer",
-    aliases: ["Transfer", "TRANSFER"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

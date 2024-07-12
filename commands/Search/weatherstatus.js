@@ -6,7 +6,7 @@ const weather = require("weather-js");
  */
 module.exports = {
   name: "weather",
-  aliases: ["WeatherStatus", "WEATHERSTATUS", "Weatherstatus", "weatherstatus"],
+  aliases: ["weatherstatus", "weather-status"],
   dmOnly: false, //or false
   guildOnly: false, //or false
   args: true, //or false

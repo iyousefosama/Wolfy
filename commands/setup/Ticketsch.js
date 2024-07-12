@@ -6,8 +6,8 @@ const { ChannelType } = require('discord.js');
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
-    name: "setTicketch",
-    aliases: ["SetTicketCh", "SETTICKETCH", "setticketchannel", "setticketch", "setticketchannel"],
+    name: "setticketch",
+    aliases: ["setticketchannel", "setticketschannel"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

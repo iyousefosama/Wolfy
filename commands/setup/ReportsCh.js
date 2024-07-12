@@ -7,7 +7,7 @@ const { ChannelType } = require('discord.js')
  */
 module.exports = {
     name: "setreportch",
-    aliases: ["SetReportCh", "SETREPORTCH", "setReportch", "setreportchannel"],
+    aliases: ["setreportchannel", "setreport"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

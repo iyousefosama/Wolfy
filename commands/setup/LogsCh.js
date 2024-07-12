@@ -6,8 +6,8 @@ const { ChannelType } = require('discord.js')
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
-    name: "setLogsch",
-    aliases: ["SetLogsCh", "SETLOGSCH", "setlogschannel", "setlogsch", "setlogschannel"],
+    name: "setlogsch",
+    aliases: ["setlogschannel", "setlog"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

@@ -1,6 +1,3 @@
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
-const { QueryType } = require("discord-player")
 const ms = require('ms')
 
 /**
@@ -8,7 +5,7 @@ const ms = require('ms')
  */
 module.exports = {
   name: "seek",
-  aliases: ["Seek", "SEEK"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: false, //or false

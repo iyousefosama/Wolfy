@@ -7,7 +7,7 @@ const { QueryType } = require("discord-player")
  */
 module.exports = {
   name: "volume",
-  aliases: ["Volume", "VOLUME"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: true, //or false

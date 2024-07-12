@@ -1,9 +1,12 @@
-const discord = require("discord.js");
-const schema = require("../schema/CommandsManager-Schema");
-const Ecoschema = require("../schema/Economy-Schema");
-const text = require("../util/string");
-const Manager = require("./Manager"); // Add this line to import the Manager module
+const schema = require("../../schema/CommandsManager-Schema");
+const Ecoschema = require("../../schema/Economy-Schema");
+const text = require("../string");
 
+/**
+ * @param {import('discord.js').Client} client
+ * @param {import('discord.js').Message} message
+ * @param {import("../types/baseCommand")} cmd
+ */
 exports.manage = async function (client, message, cmd) {
   if (!message || message.author.bot || message.author === client.user) {
     return;

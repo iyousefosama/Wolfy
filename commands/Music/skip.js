@@ -1,13 +1,11 @@
-const discord = require('discord.js');
-const { MessageActionRow, MessageButton, EmbedBuilder } = require('discord.js');
-const { QueryType } = require("discord-player")
+const { EmbedBuilder } = require('discord.js');
 
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
   name: "skip",
-  aliases: ["Skip", "SKIP"],
+  aliases: [],
   dmOnly: false, //or false
   guildOnly: true, //or false
   args: false, //or false

@@ -7,7 +7,7 @@ const schema = require('../../schema/GuildSchema')
  */
 module.exports = {
     name: "editrole",
-    aliases: ["Editrole", "EDITROLE", "editlevelrole"],
+    aliases: ["editlevelrole"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

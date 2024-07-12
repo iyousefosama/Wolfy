@@ -1,8 +1,7 @@
-const { Client } = require("discord.js");
-const schema = require("../schema/CommandsManager-Schema");
+const schema = require("../../schema/CommandsManager-Schema");
 
 /**
- * @param {Client} client
+ * @param {import('discord.js').Client} client
  */
 module.exports = async (client) => {
   await new Promise((r) => setTimeout(r, 5000));

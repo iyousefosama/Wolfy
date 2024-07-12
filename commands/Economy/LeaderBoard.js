@@ -7,7 +7,7 @@ const text = require("../../util/string");
  */
 module.exports = {
   name: "leaderboard",
-  aliases: ["Lb", "LB", "lb", "LEADERBOARD"],
+  aliases: ["lb"],
   dmOnly: false, //or false
   guildOnly: false, //or false
   args: false, //or false

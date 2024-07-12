@@ -8,7 +8,7 @@ const { author } = require('../../package.json');
  */
 module.exports = {
     name: "feedback",
-    aliases: ["Feedback", "FEEDBACK", "issue", "reportbug", "ReportBug", "REPORTBUG", "reportbug"],
+    aliases: [ "issue", "reportbug", "problem"],
     dmOnly: false, //or false
     guildOnly: false, //or false
     args: true, //or false

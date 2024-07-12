@@ -7,7 +7,7 @@ const schema = require('../../schema/GuildSchema')
  */
 module.exports = {
     name: "removerole",
-    aliases: ["Removerole", "REMOVEROLE"],
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: true, //or false

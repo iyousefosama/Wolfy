@@ -5,8 +5,8 @@ const { ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
-    name: "EmbedSetup",
-    aliases: ["embedsetup", "Embedsetup", "EMBEDSETUP"],
+    name: "embedsetup",
+    aliases: [],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

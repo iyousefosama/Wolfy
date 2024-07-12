@@ -34,7 +34,7 @@ const regions = {
  */
 module.exports = {
     name: "server",
-    aliases: ["Server", "SERVER", "Serverinfo", "serverinfo"],
+    aliases: ["serverinfo", "server-stats", "si"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false
