@@ -17,6 +17,13 @@ module.exports = {
     permissions: [],
     async execute(client, message, args) {
         try {
+            // Clear all existing commands
+            client.commands.clear();
+            client.components.clear(); // Assuming you have a collection for components
+
+            // Remove all event listeners
+            client.removeAllListeners();
+
             client.loadEvents("/events");
             client.loadCommands("/commands");
             client.loadSlashCommands("/slashCommands");
