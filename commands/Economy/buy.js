@@ -16,6 +16,7 @@ module.exports = {
     description: 'To buy items from the market.',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
       '1',

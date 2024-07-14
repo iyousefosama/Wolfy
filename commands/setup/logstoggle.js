@@ -15,6 +15,7 @@ module.exports = {
     description: 'To allow or disable logs channel!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels", "Administrator"],
     examples: [''],
 

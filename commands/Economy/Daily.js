@@ -17,6 +17,7 @@ module.exports = {
     description: 'To get your daily reward',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
 

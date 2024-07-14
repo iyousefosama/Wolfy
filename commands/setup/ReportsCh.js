@@ -16,6 +16,7 @@ module.exports = {
     description: 'Setup the reports channel bot will send reports from users there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels", "Administrator"],
     examples: [
       '877130715337220136'

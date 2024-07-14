@@ -15,12 +15,12 @@ module.exports = {
     description: 'Sell item from your inventory and get some credits!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
         'coal 13',
         'diamond 2'
       ],
-      
     async execute(client, message, [item = '', ...amount]) {
 
         if(!item) {

@@ -1,6 +1,3 @@
-const discord = require('discord.js');
-const { EmbedBuilder } = require('discord.js');
-
 /**
  * @type {import("../../util/types/baseCommand")}
  */

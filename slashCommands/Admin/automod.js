@@ -9,8 +9,8 @@ module.exports = {
     description: "Setting auto moderation rules for the current guild!",
     dmOnly: false,
     guildOnly: true,
-    cooldown: 0,
-    group: "ADMIN",
+    cooldown: 2,
+    group: "Moderation",
     clientPermissions: [
       "Administrator"
     ],
@@ -27,7 +27,7 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
           },
           {
             type: 7, // CHANNEL
@@ -69,7 +69,7 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
           },
           {
             type: 7, // CHANNEL
@@ -93,7 +93,7 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "block message & send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
           },
           {
             type: 7, // CHANNEL

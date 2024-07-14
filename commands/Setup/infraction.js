@@ -15,6 +15,7 @@ module.exports = {
     description: 'To enable/disable/Edit infraction point protection system!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["Administrator"],
     clientPermissions: ["ManageMessages"],
     examples: [

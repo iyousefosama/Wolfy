@@ -15,6 +15,7 @@ module.exports = {
     description: 'Want to earn money some more? Why don\'t you try begging, maybe someone will give you.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
 

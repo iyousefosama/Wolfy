@@ -16,6 +16,7 @@ module.exports = {
     description: 'Set the welcome msg or embed',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["Administrator"],
     examples: [
       'msg {tag} has joined {guildName} server!',

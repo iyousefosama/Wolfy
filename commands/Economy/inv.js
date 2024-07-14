@@ -20,6 +20,7 @@ module.exports = {
     description: 'Show your inventory items!',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
     

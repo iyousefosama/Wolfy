@@ -17,6 +17,7 @@ module.exports = {
     description: 'Delete your ticket in the server',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels"],
     clientPermissions: ["ManageChannels"],
     examples: [''],

@@ -15,9 +15,9 @@ module.exports = {
     description: 'To register a bank account',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
-
   async execute(client, message, args) {
 
         let data;

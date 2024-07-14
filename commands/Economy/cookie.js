@@ -15,6 +15,7 @@ module.exports = {
     description: 'To send cookie for a friend as a gift',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
         '@WOLF'

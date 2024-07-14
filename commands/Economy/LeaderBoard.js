@@ -16,6 +16,7 @@ module.exports = {
   description: "Get a list for the 10 richest users that using wolfy",
   cooldown: 2, //seconds(s)
   guarded: false, //or false
+  requiresDatabase: true,
   permissions: [],
   examples: [],
   /**

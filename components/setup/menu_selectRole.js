@@ -11,6 +11,7 @@ module.exports = {
     async action(client, interaction, parts) {
         let choice = interaction.values[0];
 
+        let data;
         if (interaction.guild) {
             try {
                 data = await schema.findOne({
@@ -28,6 +29,10 @@ module.exports = {
                 `\\❌ I can't find this guild \`data\` in the data base!`
             );
         const member = interaction.member;
+
+        if(data.Mod.smroles.id !== parts[2]) {
+            return interaction.reply({ content: "💢 This select menu is outdated!", ephemeral: true })
+        }
 
         // Get all the roles at once
         const roles = [
@@ -61,8 +66,9 @@ module.exports = {
                 })
                 .catch(
                     async (err) =>
-                        await interaction.channel.send({
+                        await interaction.reply({
                             content: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
+                            ephemeral: true
                         })
                 );
         } else {
@@ -76,8 +82,9 @@ module.exports = {
                 })
                 .catch(
                     async (err) =>
-                        await interaction.channel.send({
+                        await interaction.reply({
                             content: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
+                            ephemeral: true
                         })
                 );
         }

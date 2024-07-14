@@ -1,17 +1,18 @@
-const discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js')
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
     data: {
         name: 'warn',
         description: 'Warn a user, get a list of a user, remove warn from the user!',
         dmOnly: false,
         guildOnly: true,
-        cooldown: 0,
-        group: 'ADMIN',
+        cooldown: 3,
+        group: 'Moderation',
         clientPermissions: [],
         permissions: [
             "Administrator"

@@ -16,6 +16,7 @@ module.exports = {
     description: 'Setup the suggestion channel bot will send suggestions from users there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels"],
     examples: [
       '877130715337220136'

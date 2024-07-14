@@ -15,11 +15,11 @@ module.exports = {
     description: 'Transfer credits from your wallet to your friends!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
         '@WOLF 550'
       ],
-      
     async execute(client, message, [user='', amount='', ...args]) {
 
         if (!user.match(/\d{17,19}/)){

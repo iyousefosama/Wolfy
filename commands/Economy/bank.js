@@ -17,6 +17,7 @@ module.exports = {
   description: "To check your credits balance in bank",
   cooldown: 5, //seconds(s)
   guarded: false, //or false
+  requiresDatabase: true,
   permissions: [],
   examples: [""],
   /**

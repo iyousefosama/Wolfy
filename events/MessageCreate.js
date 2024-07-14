@@ -26,25 +26,28 @@ module.exports = {
     let data;
     let prefix;
     if (message.guild) {
-      // Start Leveling up function at ../util/functions/LevelTrigger bath
-      leveling.Level(message);
-      // Start Warning for badwords function at ../util/functions/BadWordsFilter bath
-      WordW.badword(client, message);
-      // Start anti-links protection function at ../util/functions/AntiLinks bath
-      AntiLinksProtection.checkMsg(client, message);
+      if (client.database?.connected) {
+        // Start Leveling up function at ../util/functions/LevelTrigger bath
+        leveling.Level(message);
+        // Start Warning for badwords function at ../util/functions/BadWordsFilter bath
+        WordW.badword(client, message);
+        // Start anti-links protection function at ../util/functions/AntiLinks bath
+        AntiLinksProtection.checkMsg(client, message);
+
+        try {
+          data = await schema.findOne({
+            GuildID: message.guild.id,
+          });
+        } catch (err) {
+          console.log(err);
+          message.channel.send(
+            `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+          );
+        }
+      }
       // Start ChatBot function at ../util/functions/ChatBot bath
       Chatbot.chat(client, message);
 
-      try {
-        data = await schema.findOne({
-          GuildID: message.guild.id,
-        });
-      } catch (err) {
-        console.log(err);
-        message.channel.send(
-          `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-        );
-      }
       const serverprefix = data?.prefix || "Not Set";
 
       if (message.content === "prefix") {
@@ -170,6 +173,16 @@ module.exports = {
         return message.channel.send({ embeds: [NoArgs] });
       }
 
+      if (cmd.requiresDatabase) {
+        if (!client.database?.connected) {
+          return message.channel.send({
+            embeds: [
+              ErrorEmbed(["💢 **Cannot connect to Database**", "This command requires a database connection."].join(" - "))
+            ]
+          });
+        };
+      };
+
       //+ cooldown 1, //seconds(s)
       if (!client.cooldowns.has(cmd.name)) {
         client.cooldowns.set(cmd.name, new Collection());
@@ -255,17 +268,13 @@ module.exports = {
       }
 
       try {
-        /*
-* @type {import("discord.js").Client} client
-* @type {import("discord.js").Message} message
-*/
         cmd.execute(client, message, args, { executed: true }).then(() => {
           // Start CmdManager function at ../util/functions/Manager bath
           cmdManager.manage(client, message, cmd);
-          client.Log(client, message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
+          client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
             ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
             : "DMS"
-          } sent: ${message.content}`)
+            } sent: ${message.content}`)
         });
       } catch (error) {
         consoleUtil.error(error, "message-execute");

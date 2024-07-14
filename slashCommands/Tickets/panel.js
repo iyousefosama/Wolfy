@@ -14,6 +14,7 @@ module.exports = {
   data: {
     name: "send-panel",
     description: "Sends the ticket panel to a channel",
+    group: "Ticket",
     options: [
       {
         type: discord.ApplicationCommandOptionType.Channel,
@@ -22,8 +23,8 @@ module.exports = {
         required: true,
       },
     ],
-    clientPermissions: [discord.PermissionsBitField.Flags.ManageGuild],
-    permissions: [discord.PermissionsBitField.Flags.ManageGuild],
+    clientPermissions: ["SendMessages"],
+    permissions: ["ManageGuild"],
     /*
         cooldown: 1, // Cooldown in seconds, by default it's 2 seconds | OPTIONAL
         permissions: [], // OPTIONAL

@@ -15,12 +15,12 @@ module.exports = {
     description: 'Withdraw credits from your bank to your wallet',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
       '900',
       'all'
     ],
-    
     async execute(client, message, [amount='']) {
 
         let data;

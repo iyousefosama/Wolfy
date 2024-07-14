@@ -15,6 +15,7 @@ module.exports = {
     description: 'To enable/disable levelRoles cmd',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageMessages", "Administrator"],
     examples: [''],
 

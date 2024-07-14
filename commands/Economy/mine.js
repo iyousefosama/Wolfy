@@ -16,6 +16,7 @@ module.exports = {
     description: 'What you know about mining down in the deep?',
     cooldown: 8, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
 

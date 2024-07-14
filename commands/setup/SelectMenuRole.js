@@ -5,6 +5,7 @@ const {
   ChannelType,
 } = require("discord.js");
 const schema = require("../../schema/GuildSchema");
+const { generateUniqueId } = require("../../util/functions/function")
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -27,6 +28,7 @@ module.exports = {
   description: "Setup the select menu role list!",
   cooldown: 5, //seconds(s)
   guarded: false, //or false
+  requiresDatabase: true,
   permissions: ["ManageRoles"],
   clientPermissions: ["ManageRoles"],
   examples: ["1", "6"],
@@ -86,6 +88,7 @@ module.exports = {
         });
       }
 
+      data.Mod.smroles.id = null
       data.Mod.smroles.value1 = null;
       data.Mod.smroles.value2 = null;
       data.Mod.smroles.value3 = null;
@@ -231,10 +234,12 @@ module.exports = {
 
       data.Mod.smroles["value" + i] = role.id || null;
     }
+    const uid = generateUniqueId();
+    data.Mod.smroles.id = uid;
 
     const row = new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
-        .setCustomId("menu_selectRole")
+        .setCustomId(`menu_selectRole_${uid}`)
         .setPlaceholder("Nothing selected!")
         .addOptions(Arr)
     );

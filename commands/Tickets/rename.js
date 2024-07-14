@@ -15,6 +15,7 @@ module.exports = {
     description: 'Change ticket name',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels"],
     clientPermissions: ["ManageChannels"],
     examples: [

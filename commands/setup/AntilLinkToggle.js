@@ -15,12 +15,12 @@ module.exports = {
     description: 'To enable/disable Anti-Links protection!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["Administrator"],
     clientPermissions: ["ManageMessages"],
     examples: [
     ''
     ],
-
   async execute(client, message, args) {
           
         let data;

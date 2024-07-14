@@ -4,6 +4,7 @@ const schema = require("../../schema/CommandsManager-Schema");
  * @param {import('discord.js').Client} client
  */
 module.exports = async (client) => {
+  if(client.database?.connected) return;
   await new Promise((r) => setTimeout(r, 5000));
 
   try {

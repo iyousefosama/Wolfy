@@ -15,6 +15,7 @@ module.exports = {
     description: 'To allow or disable reports command!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels"],
     examples: [''],
 

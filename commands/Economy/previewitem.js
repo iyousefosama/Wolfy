@@ -15,14 +15,14 @@ module.exports = {
     group: 'Economy',
     description: 'Check what you can buy from the shop.',
     cooldown: 5, //seconds(s)
-    guarded: false, //or false
+    guarded: false,
+    requiresDatabase: true,
     clientPermissions: [ "ManageMessages", "AttachFiles" ],
     permissions: [],
     examples: [
         '6',
         '8'
     ], 
-    
     async execute(client, message, [id]) {
         if (!id){
             return message.channel.send(`\\❌ **${message.author.tag}**, Please specify the item ID!`);

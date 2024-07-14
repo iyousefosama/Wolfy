@@ -8,6 +8,7 @@ const text = require("../string");
  * @param {import("../types/baseCommand")} cmd
  */
 exports.manage = async function (client, message, cmd) {
+  if(client.database?.connected) return;
   if (!message || message.author.bot || message.author === client.user) {
     return;
   }

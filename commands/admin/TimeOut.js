@@ -12,7 +12,7 @@ module.exports = {
   args: true, //or false
   usage: '<user> [time] (Optional: reason)',
   group: 'Moderation',
-  description: 'Bans a member from the server',
+  description: 'Prevents a user from talking or connecting for voice channel for a period of time',
   cooldown: 1, //seconds(s)
   guarded: false, //or false
   permissions: ["Administrator"],
@@ -23,8 +23,6 @@ module.exports = {
   ],
   
   async execute(client, message, [ member = '', ...args]) {
-
-    const owner = await message.guild.fetchOwner()
     let time;
     if(!args[0]) {
       return message.channel.send(`\\❌ | ${message.author}, Please type the time of timeout or \`'remove'\` to remove it!`)
@@ -36,7 +34,7 @@ module.exports = {
     let reason = args.slice(1).join(" ")
 
     if (!member.match(/\d{17,19}/)){
-      return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to ban.`);
+      return message.channel.send(`\\❌ | ${message.author}, Please type the id or mention the user to timeout.`);
     };
 
     if(!ms(args[0]) && args[0].toLowerCase() != 'remove') {

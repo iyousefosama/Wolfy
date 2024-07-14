@@ -16,6 +16,7 @@ module.exports = {
     description: 'Setup the ticket category bot will create tickets channels from users there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels"],
     clientPermissions: ["ManageChannels"],
     examples: [

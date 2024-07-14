@@ -15,6 +15,7 @@ module.exports = {
     description: 'Deposit credits from your wallet to safeguard',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
       '500',

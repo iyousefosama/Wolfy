@@ -11,7 +11,7 @@
  */
 
 /**
- * @typedef {"ADMIN"|"ANIME"|"AUTOMOD"|"ECONOMY"|"FUN"|"IMAGE"|"INFORMATION"|"INVITE"|"MODERATION"|"NONE"|"DEVELOPER"|"SOCIAL"|"ECONOMY|"PUBLIC"|"TICKET"|"UTILITY"|"MUSIC"} CommandCategory
+ * @typedef  {"Admin"|"Anime"|"AutoMod"|"Economy"|"Fun"|"IMAGE"|"Information"|"Invite"|"Moderation"|"NONE"|"Owner"|"Social"|"PUBLIC"|"Ticket"|"Utility"|"Music"|"Bot"} CommandCategory
  */
 
 /**
@@ -43,6 +43,7 @@
  * @property {string} description - A short description of the command
  * @property {string} usage - A short description of the command
  * @property {number} cooldown - The command cooldown in seconds
+ * @property {Boolean} requiresDatabase - Whether the command requires a database connection to execute
  * @property {CommandCategory} group - The category this command belongs to
  * @property {string} [about] - The command about a developer maked 
  * @property {import('discord.js').PermissionResolvable[]} [clientPermissions] - Permissions required by the client to use the command.
@@ -67,6 +68,7 @@ module.exports = {
     usage: "",
     cooldown: 0,
     isPremium: false,
+    requiresDatabase: false,
     group: "NONE",
     clientPermissions: [],
     permissions: [],

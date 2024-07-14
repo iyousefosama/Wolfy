@@ -22,7 +22,6 @@ module.exports = {
   ],
   
   async execute(client, message, [ member = '', ...args]) {
-
       const owner = await message.guild.fetchOwner()
 
       let reason = args.slice(0).join(" ")

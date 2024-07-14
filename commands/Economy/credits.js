@@ -16,14 +16,13 @@ module.exports = {
     description: 'To check your credits balance in wallet',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
         '@WOLF',
         ''
       ],
-      
-    async execute(client, message, [user = '']) {
-
+     execute: async (client, message, [user = '']) => {
       if (message.guild){
         const id = (user.match(/\d{17,19}/)||[])[0] || message.author.id;
   

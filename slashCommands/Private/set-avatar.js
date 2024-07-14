@@ -10,7 +10,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: false,
     cooldown: 0,
-    group: "NONE",
+    group: "Owner",
     clientPermissions: [],
     permissions: [],
     ownerOnly: true,

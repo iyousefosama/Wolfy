@@ -23,16 +23,10 @@ module.exports = {
   group: "Economy",
   description: "Refresh/Show current quests and the current progress.",
   cooldown: 5, //seconds(s)
-  guarded: false, //or false
+  guarded: false,
+  requiresDatabase: true,
   permissions: [],
   examples: [""],
-  /**
-   *
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").Message} message
-   * @param {String[]} args
-   *
-   */
   async execute(client, message, args) {
     let data;
     try {

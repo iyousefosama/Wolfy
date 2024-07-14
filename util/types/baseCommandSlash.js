@@ -5,7 +5,7 @@
  */
 
 /**
- * @typedef {"ADMIN"|"ANIME"|"AUTOMOD"|"ECONOMY"|"FUN"|"IMAGE"|"INFORMATION"|"INVITE"|"MODERATION"|"NONE"|"OWNER"|"SOCIAL"|"PUBLIC"|"TICKET"|"UTILITY"|"MUSIC"} CommandCategory
+ *  @typedef  {"Admin"|"Anime"|"AutoMod"|"Economy"|"Fun"|"IMAGE"|"Information"|"Invite"|"Moderation"|"NONE"|"Owner"|"Social"|"PUBLIC"|"Ticket"|"Utility"|"Music"|"Bot"} CommandCategory
  */
 
 /**

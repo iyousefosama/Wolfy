@@ -17,6 +17,7 @@ module.exports = {
     description: 'Open new ticket in the server',
     cooldown: 10, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     clientPermissions: ["ManageChannels"],
     examples: [''],

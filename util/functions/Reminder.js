@@ -92,6 +92,10 @@ module.exports = async (client) => {
       return d.getTime();
     }
 
+    if(!data) {
+      return;
+    }
+    
     let memberUserIds = data.map((obj) => obj.userId);
 
     let members = [];

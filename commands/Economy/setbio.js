@@ -15,9 +15,9 @@ module.exports = {
     description: 'Sets your profile card bio.',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [], 
-
   async execute(client, message, args) {
 
         let data;

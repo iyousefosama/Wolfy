@@ -15,10 +15,10 @@ module.exports = {
   group: 'Economy',
   description: 'Shows your profile card!',
   cooldown: 2, //seconds(s)
-  guarded: false, //or false
+  guarded: false,
+  requiresDatabase: true,
   permissions: [],
   examples: [''],
-
   async execute(client, message, [member = '']) {
 
     member = member.match(/\d{17,18}/)?.[0] || message.member.id;

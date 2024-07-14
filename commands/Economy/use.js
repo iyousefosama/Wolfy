@@ -15,12 +15,12 @@ module.exports = {
     description: 'Equips an item from your inventory.',
     cooldown: 2, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
         '6',
         '8'
     ], 
-    
     async execute(client, message, [id]) {
         let data;
         try{

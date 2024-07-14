@@ -8,6 +8,7 @@ module.exports = {
   data: {
     name: "help",
     description: "Replies with commands helplist!",
+    group: "Bot",
     integration_types: [0, 1],
     contexts: [0, 1, 2],
     permissions: [],

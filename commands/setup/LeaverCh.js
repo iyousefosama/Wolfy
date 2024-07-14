@@ -16,6 +16,7 @@ module.exports = {
     description: 'Setup the leave channel bot will send message when user leave there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels", "Administrator"],
     examples: [
       '877130715337220136'

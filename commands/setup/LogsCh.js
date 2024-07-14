@@ -16,6 +16,7 @@ module.exports = {
     description: 'Setup the logs channel bot will send logs there!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageChannels", "ViewChannel", "Administrator"],
     examples: [
       '877130715337220136'

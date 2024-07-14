@@ -15,10 +15,10 @@ module.exports = {
     group: 'Economy',
     description: 'Sets your profile card birthday.',
     cooldown: 30, //seconds(s)
-    guarded: false, //or false
+    guarded: false,
+    requiresDatabase: true,
     permissions: [],
     examples: ['09-26'], 
-    
     async execute(client, message, [date]) {
 
         let data;

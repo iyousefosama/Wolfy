@@ -15,6 +15,7 @@ module.exports = {
     description: 'Take your fishingpole and start fishing',
     cooldown: 13, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [''],
 

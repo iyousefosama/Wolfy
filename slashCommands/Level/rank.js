@@ -18,7 +18,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: true,
     cooldown: 0,
-    group: "NONE",
+    group: "PUBLIC",
     clientPermissions: [
       "EmbedLinks",
       "AttachFiles"

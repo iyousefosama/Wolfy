@@ -16,12 +16,12 @@ module.exports = {
     description: 'Send a tip for your friend!',
     cooldown: 30, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     examples: [
     '@WOLF',
     '724580315481243668'
     ], 
-    
     async execute(client, message, [user='']) {
 
         let tipper;

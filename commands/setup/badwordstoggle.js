@@ -15,9 +15,9 @@ module.exports = {
     description: 'To enable/disable badwords filter!',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: ["ManageMessages", "Administrator"],
     examples: [''],
-
   async execute(client, message, args) {
           
         let data;

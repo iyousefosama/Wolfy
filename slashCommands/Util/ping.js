@@ -11,6 +11,7 @@ module.exports = {
   data: {
     name: "ping",
     description: "Replies with bot ping!",
+    group: "Utility",
     integration_types: [0, 1],
     contexts: [0, 1, 2],
     options: [

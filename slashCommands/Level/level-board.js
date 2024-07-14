@@ -14,6 +14,7 @@ module.exports = {
   data: {
     name: "level-board",
     description: "Shows leaderboard for most leveled users",
+    group: "PUBLIC",
     clientPermissions: [
       "EmbedLinks",
       "ReadMessageHistory",

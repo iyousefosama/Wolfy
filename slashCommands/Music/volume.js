@@ -13,7 +13,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: true,
     cooldown: 0,
-    group: "NONE",
+    group: "Music",
     clientPermissions: [
       "EmbedLinks",
       "ReadMessageHistory",

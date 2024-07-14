@@ -20,6 +20,7 @@ module.exports = {
     description: 'Open the economy market!',
     cooldown: 15, //seconds(s)
     guarded: false, //or false
+    requiresDatabase: true,
     permissions: [],
     clientPermissions: ["UseExternalEmojis", "AddReactions", "EmbedLinks"],
     examples: [''], 

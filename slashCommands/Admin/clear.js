@@ -1,5 +1,3 @@
-const discord = require("discord.js");
-const { SlashCommandBuilder, EmbedBuilder } = require("@discordjs/builders");
 const moment = require("moment");
 
 /**
@@ -11,11 +9,10 @@ module.exports = {
     description: "Clear/Delete messages with the quantity you specify (from 2 to 100)",
     dmOnly: false,
     guildOnly: true,
-    cooldown: 0,
-    group: "ADMIN",
+    cooldown: 3,
+    group: "Moderation",
     clientPermissions: ["ManageMessages"],
     permissions: [
-      "Administrator",
       "ManageMessages"
     ],
     options: [

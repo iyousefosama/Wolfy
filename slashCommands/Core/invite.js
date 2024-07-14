@@ -12,7 +12,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: false,
     cooldown: 0,
-    group: "NONE",
+    group: "Bot",
     clientPermissions: [
         "EmbedLinks",
         "ReadMessageHistory"

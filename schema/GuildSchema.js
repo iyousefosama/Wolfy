@@ -22,6 +22,7 @@ const guildSchema = new mongoose.Schema({
       type: { type: String, default: 'default' }
     },
     smroles: {
+      id: { type: String, default: null },
       isEnabled: { type: Boolean, default: false },
       value1: { type: String, default: null },
       value2: { type: String, default: null },
