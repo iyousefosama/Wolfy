@@ -28,7 +28,7 @@ module.exports = {
     
         if (!channel || channel.type !== ChannelType.GuildText){
           return message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`);
-        } else if (!channel.permissionsFor(message.guild.members.me).has('MANAGE_CHANNELS')){
+        } else if (!channel.permissionsFor(message.guild.members.me).has('ManageChannels')){
           return message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to manage channel at ${channel} and try again.`);
         };
         var err = new discord.EmbedBuilder()
