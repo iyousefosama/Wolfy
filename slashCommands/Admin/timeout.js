@@ -1,5 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
-const ms = require('ms')
+const ms = require('ms');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -7,15 +6,13 @@ const ms = require('ms')
 module.exports = {
     data: {
         name: "timeout",
-        description: "Prevents a user from talking or connecting for voice channel for a period of time",
+        description: "Prevents a user from talking or connecting to a voice channel for a period of time",
         dmOnly: false,
         guildOnly: true,
         cooldown: 3,
         group: "Moderation",
         clientPermissions: ["ModerateMembers"],
-        permissions: [
-            "ModerateMembers"
-        ],
+        permissions: ["ModerateMembers"],
         options: [
             {
                 type: 6, // USER
@@ -26,62 +23,59 @@ module.exports = {
             {
                 type: 3, // STRING
                 name: 'time',
-                description: 'The time of timeout (ex: 5h), or type "0" to remove timeout',
+                description: 'The duration of the timeout (e.g., 5h), or type "0" to remove timeout',
                 required: true
             },
             {
                 type: 3, // STRING
                 name: 'reason',
-                description: 'The reason of the timeout',
+                description: 'The reason for the timeout',
                 required: false
-            },
+            }
         ]
     },
     async execute(client, interaction) {
         const { guild, options } = interaction;
-        /**
-         * @type {import("discord.js").User}
-         */
+
         const user = options.getUser("target");
-        /**
-         * @type {string}
-         */
         const time = options.getString("time");
-        /**
-         * @type {string}
-         */
-        const reason = options.getString("reason");
+        const reason = options.getString("reason") || 'Unspecified';
 
-        const timeout_time = time == "0" ? null : ms(time);
+        let timeoutDuration = ms(time);
 
-        if(!timeout_time) {
-            return interaction.reply({ content: `\\❌ Please add a valid time for the timeout!`, ephermal: true })
+        if (timeoutDuration === undefined) {
+            return interaction.reply({ content: `\\❌ Please provide a valid time for the timeout!`, ephemeral: true });
         }
 
-        if (!user.id.match(/\d{17,19}/)){
-            return interaction.reply({ content: `\\❌ Please choose valid member to timeout!`, ephermal: true });
-          };
-      
-          const member = await interaction.guild.members
-          .fetch(user.id.match(/\d{17,19}/)[0])
-          .catch(() => null);
-    
-        if (!member){
-          return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephermal: true});
-        } else if (member.id === interaction.user.id){
-          return interaction.reply({ content: `\\❌ You cannot timeout yourself!`, ephermal: true });
-        } else if (member.id === client.user.id){
-          return interaction.reply({ content: `\\❌ You cannot timeout me!`, ephermal: true });
-        } else if (member.id === interaction.guild.ownerId){
-          return interaction.reply({ content: `\\❌ You cannot timeout a server owner!`, ephermal: true });
-        } else if (client.owners.includes(member.id)){
-          return interaction.reply({ content: `\\❌ You cannot timeout my developer through me!`, ephermal: true });
-        } else if (interaction.member.roles.highest.position < member.roles.highest.position){
-          return interaction.reply({ content: `\\❌ You cannot timeout that user! He/She has a higher role than yours`, ephermal: true });
+        if (timeoutDuration === 0) {
+            timeoutDuration = null;
         }
 
-        return member.timeout(timeout_time, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason || 'Unspecified'}`)
-        .then(() => interaction.reply({ content: `\\✔️ Successfully ${!timeout_time.isNull() ? "timeout" : "removed timeout for"} the user **${member.user.username}**!`}))
-        .catch(() => interaction.reply({ content: `\\❌ Unable to timeout **${member.user.username}**!`, ephermal: true}));
-    },
+        if (!user) {
+            return interaction.reply({ content: `\\❌ Please choose a valid member to timeout!`, ephemeral: true });
+        }
+
+        const member = await guild.members.fetch(user.id).catch(() => null);
+
+        if (!member) {
+            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
+        } else if (member.id === interaction.user.id) {
+            return interaction.reply({ content: `\\❌ You cannot timeout yourself!`, ephemeral: true });
+        } else if (member.id === client.user.id) {
+            return interaction.reply({ content: `\\❌ You cannot timeout me!`, ephemeral: true });
+        } else if (member.id === guild.ownerId) {
+            return interaction.reply({ content: `\\❌ You cannot timeout the server owner!`, ephemeral: true });
+        } else if (client.owners && client.owners.includes(member.id)) {
+            return interaction.reply({ content: `\\❌ You cannot timeout my developer through me!`, ephemeral: true });
+        } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
+            return interaction.reply({ content: `\\❌ You cannot timeout this user! They have a higher or equal role to yours.`, ephemeral: true });
+        }
+
+        try {
+            await member.timeout(timeoutDuration, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
+            interaction.reply({ content: `\\✔️ Successfully ${timeoutDuration ? "timed out" : "removed timeout for"} the user **${member.user.username}**!` });
+        } catch (err) {
+            interaction.reply({ content: `\\❌ Unable to timeout **${member.user.username}**! [\`${err.name}\`]`, ephemeral: true });
+        }
+    }
 };
