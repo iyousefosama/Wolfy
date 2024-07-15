@@ -1,5 +1,4 @@
-const discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: {
@@ -13,61 +12,43 @@ module.exports = {
         permissions: [],
         options: [
             {
-                type: 5, // BOOLEAN
-                name: 'rock',
-                description: 'Select the rock option',
-                required: false
-            },
-            {
-                type: 5, // BOOLEAN
-                name: 'paper',
-                description: 'Select the paper option',
-                required: false
-            },
-            {
-                type: 5, // BOOLEAN
-                name: 'scissors',
-                description: 'Select the scissors option',
-                required: false
+                type: 3, // STRING
+                name: 'choice',
+                description: 'Select rock, paper, or scissors',
+                required: true,
+                choices: [
+                    { name: 'rock', value: 'rock' },
+                    { name: 'paper', value: 'paper' },
+                    { name: 'scissors', value: 'scissors' }
+                ]
             }
         ]
     },
-	async execute(client, interaction) {
-        const rock = interaction.options.getBoolean('rock');
-        const paper = interaction.options.getBoolean('paper');
-        const scissors = interaction.options.getBoolean('scissors');
-
+    async execute(client, interaction) {
+        const userChoice = interaction.options.getString('choice');
         const options = [
-            "rock 🪨",
-            "paper <:paper:814667582116331530>",
-            "scissors :scissors: "
-        ]
-        const words = [
-            "And soo?",
-            "are you crazy?",
-            "You are dumb right?",
-            "You are definitely kidding me",
-            "I am a bot so i can't talk to say all the words inside of me to you!",
-            "Bruh, you need to set it to true okay? easy right?",
-            "Error 404, Someone help meee"
-        ]
-        const option = options[Math.floor(Math.random() * options.length)]
-        const soo = words[Math.floor(Math.random() * words.length)]
-        if (rock) {
-            interaction.reply({ content: `> My choice was ${option}!`})
-        } else if (rock == false) {
-            interaction.reply({ content: `${soo}\``})
-        } else if (paper) {
-            interaction.reply({ content: `> My choice was ${option}!`})
-        } else if (paper == false) {
-            interaction.reply({ content: `${soo}\``})
-        } else if (scissors) {
-            interaction.reply({ content: `> My choice was ${option}!`})
-        } else if (scissors == false) {
-            interaction.reply({ content: `${soo}\``})
+            { name: 'rock', emoji: '🪨' },
+            { name: 'paper', emoji: '📄' },
+            { name: 'scissors', emoji: '✂️' }
+        ];
+
+        const userOption = options.find(option => option.name === userChoice);
+
+        if (!userOption) {
+            return interaction.reply({ content: `You must select a valid option! \`i.e.\` **${options.map(option => option.name).join(', ')}.**`, ephemeral: true });
         }
-        else {
-            await interaction.reply({ content: '\\❌ You didn\'t choose the \`option\`!'});
+
+        const botOption = options[Math.floor(Math.random() * options.length)];
+
+        let result;
+        if (userChoice === 'rock') {
+            result = botOption.name === 'rock' ? 'It\'s a draw!' : botOption.name === 'paper' ? 'You lose!' : 'You win!';
+        } else if (userChoice === 'paper') {
+            result = botOption.name === 'rock' ? 'You win!' : botOption.name === 'paper' ? 'It\'s a draw!' : 'You lose!';
+        } else if (userChoice === 'scissors') {
+            result = botOption.name === 'rock' ? 'You lose!' : botOption.name === 'paper' ? 'You win!' : 'It\'s a draw!';
         }
-	},
+
+        interaction.reply({ content: `Your choice was \`${userOption.name} ${userOption.emoji}\`, my choice was \`${botOption.name} ${botOption.emoji}\`. **${result}**` });
+    },
 };

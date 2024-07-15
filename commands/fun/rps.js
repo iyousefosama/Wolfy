@@ -21,27 +21,33 @@ module.exports = {
     ],
 
     async execute(client, message, args) {
-        const options = ['rock', 'paper', 'scissors'];
-        const userOption = args.join(' ').toLowerCase();
+        const options = [
+            { name: 'rock', emoji: '🪨' },
+            { name: 'paper', emoji: '📄' },
+            { name: 'scissors', emoji: '✂️' }
+        ];
+        const userChoice = args.join(' ').toLowerCase();
 
-        if (!options.includes(userOption)) {
-            return message.channel.send(`You must send a valid option! \`i.e\`**${options.join(', ')}.**`);
+        const userOption = options.find(option => option.name === userChoice);
+
+        if (!userOption) {
+            return interaction.reply({ content: `You must select a valid option! \`i.e.\` **${options.map(option => option.name).join(', ')}.**`, ephemeral: true });
         }
 
         message.channel.send({ content: `${message.author}, I choose...` }).then(msg => {
             setTimeout(() => {
-            const botOption = options[Math.floor(Math.random() * options.length)];
+                const botOption = options[Math.floor(Math.random() * options.length)];
 
-            let result;
-            if (userOption === 'rock') {
-                result = botOption === 'rock' ? 'It\'s a draw!' : botOption === 'paper' ? 'You lose!' : 'You win!';
-            } else if (userOption === 'paper') {
-                result = botOption === 'rock' ? 'You win!' : botOption === 'paper' ? 'It\'s a draw!' : 'You lose!';
-            } else if (userOption === 'scissors') {
-                result = botOption === 'rock' ? 'You lose!' : botOption === 'paper' ? 'You win!' : 'It\'s a draw!';
-            }
+                let result;
+                if (userChoice === 'rock') {
+                    result = botOption.name === 'rock' ? 'It\'s a draw!' : botOption.name === 'paper' ? 'You lose!' : 'You win!';
+                } else if (userChoice === 'paper') {
+                    result = botOption.name === 'rock' ? 'You win!' : botOption.name === 'paper' ? 'It\'s a draw!' : 'You lose!';
+                } else if (userChoice === 'scissors') {
+                    result = botOption === 'rock' ? 'You lose!' : botOption.name === 'paper' ? 'You win!' : 'It\'s a draw!';
+                }
 
-            msg.edit({ content: `Your choice was \`${userOption}\`, my choice was \`${botOption}\`. **${result}**` });
+                msg.edit({ content: `Your choice was \`${userOption.name} ${userOption.emoji}\`, my choice was \`${botOption.name} ${botOption.emoji}\`. **${result}**` });
             }, 1000)
         });
 
