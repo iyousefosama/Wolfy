@@ -39,7 +39,7 @@ module.exports = {
          */
         const nickname = options.getString("nickname");
 
-        const id = (user.id.match(/\d{17,19}/) || [])[0] || interaction.user.id;
+        const id = (user?.id.match(/\d{17,19}/) || [])[0] || interaction.user.id;
         const member = await interaction.guild.members.fetch(id)
             .catch(() => interaction.member);
 
@@ -59,7 +59,7 @@ module.exports = {
             return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephermal: true });
         } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
             return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephermal: true });
-        }
+        };
 
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
             .then(() => interaction.reply({ content: `\\✔️ Successfully changed **${member.user.username}** nickname to \`${nickname}\`!` }))
