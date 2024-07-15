@@ -42,7 +42,7 @@ module.exports = {
         const reason = options.getString("reason");
 
         if (!user.id.match(/\d{17,19}/)){
-            return interaction.reply({ content: `\\❌ Please choose valid member to kick!`, ephermal: true });
+            return interaction.reply({ content: `\\❌ Please choose valid member to kick!`, ephemeral: true });
           };
       
           const member = await interaction.guild.members
@@ -50,19 +50,19 @@ module.exports = {
           .catch(() => null);
     
         if (!member){
-          return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephermal: true});
+          return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true});
         } else if (member.id === interaction.user.id){
-          return interaction.reply({ content: `\\❌ You cannot kick yourself!`, ephermal: true });
+          return interaction.reply({ content: `\\❌ You cannot kick yourself!`, ephemeral: true });
         } else if (member.id === client.user.id){
-          return interaction.reply({ content: `\\❌ You cannot kick me!`, ephermal: true });
+          return interaction.reply({ content: `\\❌ You cannot kick me!`, ephemeral: true });
         } else if (member.id === interaction.guild.ownerId){
-          return interaction.reply({ content: `\\❌ You cannot kick a server owner!`, ephermal: true });
+          return interaction.reply({ content: `\\❌ You cannot kick a server owner!`, ephemeral: true });
         } else if (client.owners.includes(member.id)){
-          return interaction.reply({ content: `\\❌ You can't kick my developer through me!`, ephermal: true });
+          return interaction.reply({ content: `\\❌ You can't kick my developer through me!`, ephemeral: true });
         } else if (interaction.member.roles.highest.position < member.roles.highest.position){
-          return interaction.reply({ content: `\\❌ You can't kick that user! He/She has a higher role than yours`, ephermal: true });
+          return interaction.reply({ content: `\\❌ You can't kick that user! He/She has a higher role than yours`, ephemeral: true });
         } else if (!member.kickable){
-          return interaction.reply({ content: `\\❌ I couldn't kick that user!`, ephermal: true })
+          return interaction.reply({ content: `\\❌ I couldn't kick that user!`, ephemeral: true })
         };
         const kick = new EmbedBuilder()
         .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({dynamic: true, size: 2048}) })

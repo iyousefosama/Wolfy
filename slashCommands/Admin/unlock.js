@@ -50,7 +50,7 @@ module.exports = {
         }, `WOLFY unlock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
         .then(() => {
             // Success message and notification in the channel
-            channel.send({ embeds: [SuccessEmbed(`${reason || ""}`).setTitle("🔓 Channel Unlocked")] });
+            channel.send({ embeds: [SuccessEmbed(`${reason || ""}`).setTitle("🔓 Channel Unlocked")] }).catch(() => null);
             interaction.reply({ embeds: [InfoEmbed(`✅ Unlocked channel ${channel}`)] });
         })
         .catch((err) => {

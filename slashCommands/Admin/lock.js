@@ -37,14 +37,14 @@ module.exports = {
         const reason = options.getString("message");
         
         if (!channel) {
-            return interaction.reply({ content: `\\❌ Please provide a valid channel ID.`, ephermal: true });
+            return interaction.reply({ content: `\\❌ Please provide a valid channel ID.`, ephemeral: true });
         } else if (!channel.permissionsFor(interaction.guild.members.me).has('ManageChannels')) {
-            return interaction.reply({ content: `\\❌ I need permission to manage channels in ${channel}.`, ephermal: true });
+            return interaction.reply({ content: `\\❌ I need permission to manage channels in ${channel}.`, ephemeral: true });
         }
         
         // Check if channel is already locked
         if (!channel.permissionsFor(guild.roles.everyone).has('SendMessages')) {
-            return interaction.reply({ embeds: [ErrorEmbed(`\\❌ The channel ${channel} is already locked.`)], ephermal: true });
+            return interaction.reply({ embeds: [ErrorEmbed(`\\❌ The channel ${channel} is already locked.`)], ephemeral: true });
         }
         
         // Proceed to lock the channel
@@ -53,7 +53,7 @@ module.exports = {
         }, `WOLFY lock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
         .then(() => {
             // Success message and notification in the channel
-            channel.send({ embeds: [ErrorEmbed(`${reason || ""}`).setTitle("🔒 Channel Locked")] });
+            channel.send({ embeds: [ErrorEmbed(`${reason || ""}`).setTitle("🔒 Channel Locked")] }).catch(() => null);
             interaction.reply({ embeds: [InfoEmbed(`✅ Locked channel ${channel}`)] });
         })
         .catch((err) => {

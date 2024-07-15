@@ -40,12 +40,12 @@ module.exports = {
         const reason = options.getString("reason");
 
         if (!user.match(/\d{17,19}/)) {
-            return interaction.reply({ content: `\\❌ Please choose valid member to unban!`, ephermal: true });
+            return interaction.reply({ content: `\\❌ Please choose valid member to unban!`, ephemeral: true });
         };
 
         return interaction.guild.members.unban(user, { reason: `Wolfy Unban: ${interaction.user.username}: ${reason || 'None'}`})
         .then(user => interaction.reply({ content: `<a:Correct:812104211386728498> Successfully unbanned **${user.tag}**!`}))
-        .catch(() => interaction.reply({ content: `\\❌ Unable to unban user with ID ${user}.`, ephermal: true }));
+        .catch(() => interaction.reply({ content: `\\❌ Unable to unban user with ID ${user}.`, ephemeral: true }));
 
     },
 };

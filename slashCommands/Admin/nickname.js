@@ -50,15 +50,15 @@ module.exports = {
         }
 
         if (!member) {
-            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephermal: true });
+            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
         } else if (member.id === client.user.id) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephermal: true });
+            return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephemeral: true });
         } else if (member.id === interaction.guild.ownerId) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for owner!`, ephermal: true });
+            return interaction.reply({ content: `\\❌ You cannot change nickname for owner!`, ephemeral: true });
         } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephermal: true });
+            return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephemeral: true });
         } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-            return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephermal: true });
+            return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephemeral: true });
         };
 
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)

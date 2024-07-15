@@ -64,9 +64,9 @@ module.exports = {
       interaction.isAnySelectMenu()
     ) {
       if (interaction?.customId?.startsWith("collect")) return;
-
-      const [part1, part2, part3, ...rest] = interaction.customId.split("_");
-      const componentId = part3 ? `${part1}_${part2}_${part3}` : `${part1}_${part2}`;
+      
+      const [part1, part2, ...rest] = interaction.customId.split("_");
+      const componentId = `${part1}_${part2}`;
 
       const component =
         client.ComponentsAction.get(componentId) ||
@@ -75,7 +75,8 @@ module.exports = {
 
       if (!component) return;
 
-      await component.action(client, interaction, [part1, part2, part3, ...rest]);
+      await component.action(client, interaction, [part1, part2, ...rest]);
+
     }
     // * Slash commands Handler
     if (interaction.isChatInputCommand()) {

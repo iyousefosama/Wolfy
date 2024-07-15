@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js')
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
 
@@ -143,33 +143,55 @@ module.exports = {
                     userId: user.id,
                 });
 
-                if (!warnedResult || warnedResult.warnings.length === 0)
-                    return interaction.reply({ content: '\\❌ | That user don\'t have any warns for now!', ephemeral: true });
-
-                let string = '';
-                const embed = new EmbedBuilder()
-                    .setAuthor({ name: `${interaction.user.username}\'s Warn list!`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setColor('#2F3136')
-                    .setDescription(string)
-                    .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setTimestamp()
-
-                const getWarnedUser = interaction.guild.members.cache.find(
-                    (user) => user.id === warnedResult.userId,
-                );
-                for (const warning of warnedResult.warnings) {
-                    const { authorId, timestamp, warnId, reason } = warning;
-                    const getModeratorUser = interaction.guild.members.cache.find(
-                        (user) => user.id === authorId,
-                    );
-                    string += embed
-                        .addField(
-                            `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`,
-                            `• *Warn Reason:* ${reason}\n• *Warned At:* <t:${timestamp}>`,
-                        )
+                if (!warnedResult || warnedResult.warnings.length === 0) {
+                    return interaction.reply({ content: '\\❌ That user doesn\'t have any warns for now!', ephemeral: true });
                 }
 
-                interaction.reply({ embeds: [embed] });
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: `${interaction.user.username}'s Warn List`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setColor('#2F3136')
+                    .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setTimestamp();
+
+                for (const warning of warnedResult.warnings) {
+                    const { authorId, timestamp, warnId, reason } = warning;
+
+                    const getModeratorUser = interaction.guild.members.cache.find(
+                        user => user.id === authorId
+                    );
+
+                    if (getModeratorUser) {
+                        embed.addFields({
+                            name: `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`,
+                            value: `• **Warn Reason:** ${reason}\n• **Warned At:** <t:${timestamp}>`
+                        });
+                    } else {
+                        embed.addFields({
+                            name: `Unknown Moderator (\`${warnId}\`)`,
+                            value: `• **Warn Reason:** ${reason}\n• **Warned At:** <t:${timestamp}>`
+                        });
+                    }
+                }
+
+                const options = warnedResult.warnings.map((warning) => {
+                    const { warnId, reason } = warning;
+                    return {
+                        label: `Warn ${warnId}`,
+                        value: warnId,
+                        description: reason,
+                    };
+                });
+
+
+                const selectMenu = new ActionRowBuilder().addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId(`select_warnRemove_${user.id}`)
+                        .setPlaceholder('Select a warning to remove')
+                        .addOptions(options)
+                );
+
+                interaction.reply({ embeds: [embed], components: [selectMenu], ephemeral: true });
+
                 break;
 
             case 'remove':
