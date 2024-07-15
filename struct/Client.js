@@ -1,6 +1,6 @@
 'use strict';
 
-const { Client, Collection, EmbedBuilder, version } = require('discord.js');
+const { Client, Collection, version } = require('discord.js');
 const { performance } = require('perf_hooks');
 const ComponentsLoader = require("../Handler/ComponentsActionLoader");
 const SlashCommandLoader = require("../Handler/SlashHandler");
@@ -10,9 +10,7 @@ const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { Player } = require("discord-player")
 const { registerPlayerEvents } = require('../events/MusicEvents');
-const consoleUtil = require("../util/console")
-const { commandLog, debugLog } = require("../util/functions/client")
-
+const { commandLog, debugLog } = require("../util/functions/client");
 /**
  * Optimized hub for interacting with the discord API
  * @extends {Client}
@@ -98,11 +96,8 @@ module.exports = class WolfyClient extends Client {
       prefix: settings.prefix || 'w!',
       features: [],
       owners: [],
-      loadSlashsGlobal: undefined,
-      player: {
-        ytdlOptions: {
-        },
-      },
+      slashCommands: settings.slashCommands,
+      player: settings.player,
       channels: { debug: null, votes: null, uploads: null, logs: null, chatbot: null },
       websites: settings.websites
     };
@@ -133,16 +128,6 @@ module.exports = class WolfyClient extends Client {
  */
     if (typeof settings.channels?.chatbot === 'string') {
       this.config.channels.chatbot = settings.channels.chatbot;
-    } else {
-      // Do nothing...
-    };
-
-    /**
-    * 
-    * @type {?Boolean}
-    */
-    if (typeof settings.loadSlashsGlobal === 'boolean') {
-      this.config.loadSlashsGlobal = settings.loadSlashsGlobal;
     } else {
       // Do nothing...
     };

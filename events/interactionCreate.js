@@ -7,6 +7,7 @@ const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
 const getLocalCommands = require('../util/helpers/getLocalCommands');
+const localCommands = getLocalCommands("/slashCommands");
 
 const BEV = require("../util/types/baseEvents");
 
@@ -35,23 +36,28 @@ module.exports = {
         } else {
           // Do nothing..
         }
-        /*         if (
-          !interaction.channel
-            .permissionsFor(interaction.guild.members.me)
-            .has(PermissionsBitField.Flags.ReadMessageHistory)
-        ) {
-          return interaction.reply({
-            content:
-              '"Missing Access", the bot is missing the `READ_MESSAGE_HISTORY` permission please enable it!',
-          });
-        } else {
-          // Do nothing..
-        } */
       }
     } catch (err) {
       console.log(err);
     }
-    // Check if interaction is a button, select menu or modal submit
+    // * AutoComplete Handler
+    if (interaction.isAutocomplete()) {
+      const cmd = localCommands.find(
+        (cmd) => cmd.data.name === interaction.commandName
+      );
+
+      if (!cmd)
+        return interaction
+          .reply({ content: "An error has occurred", ephemeral: true })
+          .catch(() => { });
+
+      try {
+        await cmd.autocompleteExecute(client, interaction);
+      } catch (error) {
+        consoleUtil.error(error, "autoCompleteRun");
+      }
+    }
+    // * Check if interaction is a button, select menu or modal submit and handles it
     if (
       interaction.isButton() ||
       interaction.isModalSubmit() ||
@@ -59,24 +65,20 @@ module.exports = {
     ) {
       if (interaction?.customId?.startsWith("collect")) return;
 
-      let customId = interaction?.customId;
+      const [part1, part2, part3, ...rest] = interaction.customId.split("_");
+      const componentId = part3 ? `${part1}_${part2}_${part3}` : `${part1}_${part2}`;
 
-      const parts = customId?.split("_");
-
-      // Check if interaction is a button
       const component =
-        client.ComponentsAction.get(`${parts[0]}_${parts[1]}`) ||
-        client.ComponentsAction.get(`${parts[0]}_${parts[1]}_${parts[2]}`) ||
-        client.ComponentsAction.get(parts[0]) ||
-        client.ComponentsAction.get(customId);
+        client.ComponentsAction.get(componentId) ||
+        client.ComponentsAction.get(part1) ||
+        client.ComponentsAction.get(interaction.customId);
 
       if (!component) return;
 
-      await component.action(client, interaction, parts);
+      await component.action(client, interaction, [part1, part2, part3, ...rest]);
     }
+    // * Slash commands Handler
     if (interaction.isChatInputCommand()) {
-      const localCommands = getLocalCommands("/slashCommands");
-
       /**
        * @type {import("../util/types/baseCommandSlash")}
        */

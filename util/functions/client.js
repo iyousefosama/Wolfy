@@ -98,7 +98,7 @@ const sendWebhook = async (client, embed) => {
   (client.channels.cache.get(client.config.channels.debug))
 
   if (!channel){
-    return Promise.resolve(console.error(error));
+    return Promise.resolve(console.error("[sendWebhook fn] error: channel not found"));
   } else {
     // do nothing
   };

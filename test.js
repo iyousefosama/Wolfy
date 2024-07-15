@@ -2,9 +2,10 @@
 
 const options = {
     paths: [
-      'admin', 'bot', 'developer',
-      'Economy', 'fun', 'information',
-      'LeveledRoles', 'Search', 'setup','Utilities'
+      'admin', 'client', 'Private',
+      'Economy', 'fun', 'Information',
+      'LeveledRoles', 'Search', 'setup','Utilities',
+      'Tickets', 'Music'
     ]
   };
   

@@ -1,5 +1,8 @@
-/node_modules
-/.env
+.vscode
 /commands/Test
+
+node_modules
 package-lock.json
+logs
 config.js
+.env

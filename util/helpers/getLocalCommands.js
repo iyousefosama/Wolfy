@@ -1,9 +1,10 @@
 const path = require('path');
 const getAllFiles = require('./getAllFiles');
+const { Dir } = require('fs');
 
 /**
  * 
- * @param {string} directory 
+ * @param {Dir} directory 
  * @param {Array} exceptions 
  * @returns {Array}
  */

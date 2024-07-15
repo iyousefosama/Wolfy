@@ -1,3 +1,9 @@
+/**
+ * 
+ * @param {import('discord.js').ApplicationCommand} existingCommand 
+ * @param {import('discord.js').ApplicationCommand} localCommand 
+ * @returns {boolean}
+ */
 module.exports = (existingCommand, localCommand) => {
   const areChoicesDifferent = (existingChoices, localChoices) => {
     for (const localChoice of localChoices) {
