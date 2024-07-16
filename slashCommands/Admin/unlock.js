@@ -35,7 +35,7 @@ module.exports = {
         
         if (!channel) {
             return interaction.reply({ content: `\\❌ Please provide a valid channel ID.`, ephemeral: true });
-        } else if (!channel.permissionsFor(interaction.guild.members.me).has('ManageChannels')) {
+        } else if (!channel.permissionsFor(guild.members.me).has('ManageChannels')) {
             return interaction.reply({ content: `\\❌ I need permission to manage channels in ${channel}.`, ephemeral: true });
         }
         

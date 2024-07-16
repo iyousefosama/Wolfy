@@ -59,9 +59,9 @@ module.exports = {
         });
 
         messages.push(
-          `Messages Cleared on ![](${interaction.guild.iconURL({
+          `Messages Cleared on ![](${guild.iconURL({
             size: 32,
-          })}) **${interaction.guild.name}** - **#${interaction.channel.name
+          })}) **${guild.name}** - **#${interaction.channel.name
           }** --\r\n\r\n`
         );
         messages = messages.reverse().join("");
@@ -69,7 +69,7 @@ module.exports = {
         const res = debug
           ? await debug
             .send({
-              content: `\`\`\`BULKDELETE FILE - ServerID: ${interaction.guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.user.id}\`\`\``,
+              content: `\`\`\`BULKDELETE FILE - ServerID: ${guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.user.id}\`\`\``,
               files: [
                 {
                   attachment: Buffer.from(messages),

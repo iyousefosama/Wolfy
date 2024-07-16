@@ -22,6 +22,7 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
     group: "Economy",
+    requiresDatabase: true,
     clientPermissions: [],
     permissions: [],
     options: [

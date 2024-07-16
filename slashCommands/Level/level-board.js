@@ -15,12 +15,8 @@ module.exports = {
     name: "level-board",
     description: "Shows leaderboard for most leveled users",
     group: "PUBLIC",
-    clientPermissions: [
-      "EmbedLinks",
-      "ReadMessageHistory",
-      "Connect",
-      "Speak",
-    ],
+    requiresDatabase: true,
+    clientPermissions: [],
     guildOnly: true,
   },
   async execute(client, interaction) {

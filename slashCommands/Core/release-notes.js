@@ -20,6 +20,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: false,
     cooldown: 0,
+    requiresDatabase: true,
     group: "Bot",
     clientPermissions: [],
     permissions: [],

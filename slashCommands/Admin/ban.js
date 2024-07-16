@@ -32,20 +32,14 @@ module.exports = {
     },
     async execute(client, interaction) {
         const { guild, options } = interaction;
-        /**
-         * @type {import("discord.js").User}
-         */
         const user = options.getUser("target");
-        /**
-         * @type {string}
-         */
         const reason = options.getString("reason");
 
         if (!user.id.match(/\d{17,19}/)){
             return interaction.reply({ content: `\\❌ Please choose valid member to ban!`, ephemeral: true });
           };
       
-          const member = await interaction.guild.members
+          const member = await guild.members
           .fetch(user.id.match(/\d{17,19}/)[0])
           .catch(() => null);
     
@@ -55,7 +49,7 @@ module.exports = {
           return interaction.reply({ content: `\\❌ You cannot ban yourself!`, ephemeral: true });
         } else if (member.id === client.user.id){
           return interaction.reply({ content: `\\❌ You cannot ban me!`, ephemeral: true });
-        } else if (member.id === interaction.guild.ownerId){
+        } else if (member.id === guild.ownerId){
           return interaction.reply({ content: `\\❌ You cannot ban a server owner!`, ephemeral: true });
         } else if (client.owners.includes(member.id)){
           return interaction.reply({ content: `\\❌ You can't ban my developer through me!`, ephemeral: true });
@@ -72,7 +66,7 @@ module.exports = {
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048})})
         .setTimestamp()
     
-        return interaction.guild.members.ban(member, { reason:  `Wolfy BAN: ${interaction.user.username}: ${reason || 'Unspecified'}` })
+        return guild.members.ban(member, { reason:  `Wolfy BAN: ${interaction.user.username}: ${reason || 'Unspecified'}` })
         .then(() => interaction.reply({ embeds: [ban]}))
         .catch(() => interaction.reply({ content: `\\❌ Unable to ban **${member.user.username}**!`, ephermal: true }));
     },

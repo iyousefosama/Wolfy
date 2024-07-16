@@ -109,6 +109,16 @@ module.exports = {
           return interaction.reply({ embeds: [ErrorEmbed("This command can only be used by **developers**!")], ephemeral: true });
         }
 
+        if (command.data.requiresDatabase) {
+          if (!client.database?.connected) {
+            return interaction.reply({
+              embeds: [
+                ErrorEmbed(["💢 **Cannot connect to Database**", "This command requires a database connection."].join(" - "))
+              ]
+            });
+          };
+        };
+
 
         //+ permissions: [""],
         if (command.data.permissions && command.data.permissions.length > 0) {

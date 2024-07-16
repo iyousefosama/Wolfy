@@ -13,6 +13,7 @@ module.exports = {
         guildOnly: true,
         cooldown: 3,
         group: 'Moderation',
+        requiresDatabase: true,
         clientPermissions: [],
         permissions: [
             "Administrator"
@@ -73,14 +74,9 @@ module.exports = {
     },
     async execute(client, interaction) {
         const subCommandName = interaction.options._subcommand;
-        const add = interaction.options.getSubcommand('add');
-        const remove = interaction.options.getSubcommand('remove');
-        const list = interaction.options.getSubcommand('list');
         let reason = interaction.options.getString('reason');
         let warnid = interaction.options.getString('warnid');
         let user = interaction.options.getUser('target');
-        const owner = await interaction.guild.fetchOwner()
-
 
         switch (subCommandName) {
             case 'add':

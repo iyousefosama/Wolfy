@@ -5,7 +5,7 @@
  */
 
 /**
- *  @typedef  {"Admin"|"Anime"|"AutoMod"|"Economy"|"Fun"|"IMAGE"|"Information"|"Invite"|"Moderation"|"NONE"|"Owner"|"Social"|"PUBLIC"|"Ticket"|"Utility"|"Music"|"Bot"} CommandCategory
+ *  @typedef  {"Admin"|"Anime"|"AutoMod"|"Economy"|"Fun"|"IMAGE"|"Information"|"Invite"|"Moderation"|"NONE"|"Owner"|"Social"|"PUBLIC"|"Ticket"|"Utility"|"Music"|"Bot"|"Setup"} CommandCategory
  */
 
 /**
@@ -16,6 +16,7 @@
  * @property {boolean} deleted - Whether the command is deleted
  * @property {string} description - A short description of the command
  * @property {number} cooldown - The command cooldown in seconds
+ * @property {Boolean} requiresDatabase - Whether the command requires a database connection to execute
  * @property {CommandCategory} group - The category this command belongs to
  * @property {import('discord.js').PermissionResolvable[]} [clientPermissions] - Permissions required by the client to use the command.
  * @property {import('discord.js').PermissionResolvable[]} [permissions] - Permissions required by the user to use the command
@@ -39,6 +40,7 @@ module.exports = {
         dmOnly: false,
         guildOnly: false,
         cooldown: 0,
+        requiresDatabase: false,
         deleted: false,
         group: "NONE",
         clientPermissions: [],

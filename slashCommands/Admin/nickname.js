@@ -30,17 +30,11 @@ module.exports = {
     },
     async execute(client, interaction) {
         const { guild, options } = interaction;
-        /**
-         * @type {import("discord.js").User}
-         */
         const user = options.getUser("target");
-        /**
-         * @type {string}
-         */
         const nickname = options.getString("nickname");
 
         const id = (user?.id.match(/\d{17,19}/) || [])[0] || interaction.user.id;
-        const member = await interaction.guild.members.fetch(id)
+        const member = await guild.members.fetch(id)
             .catch(() => interaction.member);
 
         if (!nickname) {
@@ -53,7 +47,7 @@ module.exports = {
             return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
         } else if (member.id === client.user.id) {
             return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephemeral: true });
-        } else if (member.id === interaction.guild.ownerId) {
+        } else if (member.id === guild.ownerId) {
             return interaction.reply({ content: `\\❌ You cannot change nickname for owner!`, ephemeral: true });
         } else if (client.owners.includes(member.id)) {
             return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephemeral: true });

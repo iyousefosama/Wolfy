@@ -19,8 +19,8 @@ module.exports = {
     guildOnly: true,
     cooldown: 0,
     group: "PUBLIC",
+    requiresDatabase: true,
     clientPermissions: [
-      "EmbedLinks",
       "AttachFiles"
     ],
     permissions: [],

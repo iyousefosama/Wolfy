@@ -14,6 +14,7 @@ module.exports = {
     dmOnly: false,
     guildOnly: false,
     cooldown: 0,
+    requiresDatabase: true,
     group: "Economy",
     clientPermissions: [],
     permissions: [],

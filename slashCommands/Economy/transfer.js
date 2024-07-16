@@ -13,6 +13,7 @@ module.exports = {
     guildOnly: true,
     cooldown: 0,
     group: "Economy",
+    requiresDatabase: true,
     clientPermissions: [],
     permissions: [],
     options: [

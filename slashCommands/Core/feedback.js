@@ -12,6 +12,7 @@ module.exports = {
         description: "Give a feedback about bot or to report bug",
         group: "Bot",
         permissions: [],
+        requiresDatabase: true,
         clientPermissions: [
             "SendMessages"
         ],
@@ -44,8 +45,8 @@ module.exports = {
                 })
             }
         } catch (err) {
-            console.log(err)
-            interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            throw new Error(err);
         }
 
         if (feedback.length > 1000) {

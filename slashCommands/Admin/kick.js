@@ -32,20 +32,14 @@ module.exports = {
     },
     async execute(client, interaction) {
         const { guild, options } = interaction;
-        /**
-         * @type {import("discord.js").User}
-         */
         const user = options.getUser("target");
-        /**
-         * @type {string}
-         */
         const reason = options.getString("reason");
 
         if (!user.id.match(/\d{17,19}/)){
             return interaction.reply({ content: `\\❌ Please choose valid member to kick!`, ephemeral: true });
           };
       
-          const member = await interaction.guild.members
+          const member = await guild.members
           .fetch(user.id.match(/\d{17,19}/)[0])
           .catch(() => null);
     
@@ -55,7 +49,7 @@ module.exports = {
           return interaction.reply({ content: `\\❌ You cannot kick yourself!`, ephemeral: true });
         } else if (member.id === client.user.id){
           return interaction.reply({ content: `\\❌ You cannot kick me!`, ephemeral: true });
-        } else if (member.id === interaction.guild.ownerId){
+        } else if (member.id === guild.ownerId){
           return interaction.reply({ content: `\\❌ You cannot kick a server owner!`, ephemeral: true });
         } else if (client.owners.includes(member.id)){
           return interaction.reply({ content: `\\❌ You can't kick my developer through me!`, ephemeral: true });
