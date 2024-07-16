@@ -88,16 +88,21 @@ const debugLog = async (client, error) => {
     })
     .setColor("#2F3136");
 
-    client.logs.push(error);
+  client.logs.push(error);
 
   sendWebhook(client, logEm);
 }
 
+/**
+ * 
+ * @param {import('../../struct/Client')} client 
+ * @param {import('discord.js').EmbedBuilder} embed 
+ * @returns 
+ */
 const sendWebhook = async (client, embed) => {
-  const channel =
-  (client.channels.cache.get(client.config.channels.debug))
+  const channel = client.channels.cache.get(client.config.channels.debug)
 
-  if (!channel){
+  if (!channel) {
     return Promise.resolve(console.error("[sendWebhook fn] error: channel not found"));
   } else {
     // do nothing
@@ -107,7 +112,8 @@ const sendWebhook = async (client, embed) => {
   const webhooks = await channel?.fetchWebhooks();
   Embedlogs.push(embed);
   setTimeout(async function () {
-    let webhook = webhooks.filter((w) => w.token).first();
+    let webhook = await webhooks.filter((w) => w.token).first();
+    
     if (!webhook) {
       webhook = await channel.createWebhook({
         name: botname,

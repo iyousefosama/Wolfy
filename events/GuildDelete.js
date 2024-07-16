@@ -56,8 +56,8 @@ module.exports = {
       (await client.channels.cache.get(client.config.channels.debug)) ||
       (await client.channels.cache.get("877130715337220136"));
     setTimeout(async function () {
-      const webhooks = await Debug.fetchWebhooks();
-      let webhook = webhooks.filter((w) => w.token).first();
+      const webhooks = await Debug?.fetchWebhooks();
+      let webhook = await webhooks.filter((w) => w.token).first();
 
       if (!webhook) {
         webhook = await Debug.createWebhook({
