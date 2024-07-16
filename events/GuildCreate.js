@@ -51,25 +51,34 @@ module.exports = {
         text: owner.displayName + `(${owner.id})` || "Unknown owner",
         iconURL: owner.displayAvatarURL({ dynamic: true }),
       });
-    const Debug =
-      (await client.channels.cache.get(client.config.channels.debug)) ||
-      (await client.channels.cache.get("877130715337220136"));
-    setTimeout(async function () {
-      const webhooks = await Debug?.fetchWebhooks();
-      let webhook = await webhooks.filter((w) => w.token).first();
+    const debugChannelID = client.config.channels.debug || "877130715337220136";
+    const Debug = await client.channels.cache.get(debugChannelID);
 
-      if (!webhook) {
-        webhook = await Debug.createWebhook({
-          name: botname,
-          avatar: botIcon,
-        });
-      } else if (webhooks.size <= 10) {
-        Debug.send("Can't create a new webhook for wolfy!");
-        // Do nothing...
-      }
-      webhook.send({ content: msg, embeds: [join] }).catch(() => {});
-    }, 10000);
+    if (Debug) {
+      setTimeout(async function () {
+        try {
+          const webhooks = await Debug.fetchWebhooks();
+          let webhook = webhooks.find((w) => w.token);
 
+          if (!webhook) {
+            if (webhooks.size > 10) {
+              await Debug.send("Can't create a new webhook for wolfy!");
+              return;
+            }
+            webhook = await Debug.createWebhook({
+              name: botname,
+              avatar: botIcon,
+            });
+          }
+
+          await webhook.send({ content: msg, embeds: [join] });
+        } catch (error) {
+          throw new Error("Error sending webhook message:", error);
+        }
+      }, 10000);
+    } else {
+      console.error("Debug channel not found.");
+    }
     return;
   },
 };

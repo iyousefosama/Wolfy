@@ -22,6 +22,11 @@ module.exports = {
                 type: 1, // SUB_COMMAND
                 name: 'logs',
                 description: 'Enable/Disable logs event listener',
+            },
+            {
+                type: 1, // SUB_COMMAND
+                name: 'suggestions',
+                description: 'Enable/Disable suggestions in that server',
             }
         ]
     },
@@ -63,6 +68,39 @@ module.exports = {
                         })
                     }).catch(() => interaction.editReply({ content: `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`, ephemeral: true }));
             }
+            break;
+            case 'suggestions': {
+                let data;
+                try {
+                    data = await schema.findOne({
+                        GuildID: guild.id
+                    })
+                    if (!data.Mod.Suggestion?.channel) {
+                        return interaction.editReply({ content: `\\❌ You didn't set logs channel yet`, ephemeral: true });
+                    }
+                } catch (err) {
+                    await interaction.editReply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+                    throw new Error(err);
+                }
+
+                data.Mod.Suggestion.isEnabled = !data.Mod.Suggestion.isEnabled;
+
+                await data.save()
+                    .then(() => {
+                        const state = ['Disabled', 'Enabled'][Number(data.Mod.Suggestion.isEnabled)];
+                        data.Mod.Suggestion.isEnabled = data.Mod.Suggestion.isEnabled;
+
+                        interaction.editReply({
+                            embeds: [SuccessEmbed([
+                                '<a:Correct:812104211386728498>\u2000|\u2000',
+                                `Suggestions Feature has been Successfully **${state}**!\n\n`,
+                                `To **${!data.Mod.Suggestion.isEnabled ? 're-enable' : 'disable'}** this`,
+                                `feature, use the \`/toggle suggestions\` command.`
+                            ].join(' '))]
+                        })
+                    }).catch(() => interaction.editReply({ content: `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`, ephemeral: true }));
+            }
+            break;
         }
     }
 };

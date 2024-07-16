@@ -118,7 +118,6 @@ module.exports = {
             .addFields(
                 { name: `${client.config.prefix}suggestion`, value: `> \`Send your suggestion for the server\`` },
                 { name: `${client.config.prefix}remind`, value: `> \`The bot will reminde you for anything\`` },
-                { name: `${client.config.prefix}report`, value: `> \`To report someone in the server\`` },
                 { name: `${client.config.prefix}bin`, value: `> \`To upload a code to sourcebin\`` },
                 { name: `${client.config.prefix}ticket`, value: `> \`Open new ticket in the server\`` },
                 { name: `${client.config.prefix}rename`, value: `> \`Change ticket name\`` },
@@ -187,7 +186,6 @@ module.exports = {
             .setThumbnail(client.user.displayAvatarURL())
             .addFields(
                 { name: `${client.config.prefix}setLogsch`, value: `> \`Setup the logs channel bot will send logs there!\`` },
-                { name: `${client.config.prefix}setReportch`, value: `> \`Setup the reports channel bot will send reports from users there!\`` },
                 { name: `${client.config.prefix}setSuggch`, value: `> \`Setup the suggestion channel bot will send suggestions from users there!\`` },
                 { name: `${client.config.prefix}setwelcomech`, value: `> \`Setup the welcome channel bot will send message when user join there!\`` },
                 { name: `${client.config.prefix}setleaverch`, value: `> \`Setup the leaver channel bot will send message when user join there!\`` },

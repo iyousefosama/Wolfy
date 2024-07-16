@@ -1,6 +1,6 @@
 {
   "name": "wolfy-bot",
-  "version": "2.4.2",
+  "version": "2.4.4",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -49,5 +49,10 @@
     "uuid": "^8.3.2",
     "weather-js": "^2.0.0",
     "youtube-ext": "^1.1.25"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0"
   }
 }

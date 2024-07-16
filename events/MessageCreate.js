@@ -9,6 +9,7 @@ const WordW = require("../util/functions/BadWordsFilter");
 const AntiLinksProtection = require("../util/functions/AntiLinks");
 const cmdManager = require("../util/functions/Manager");
 const Chatbot = require("../util/functions/ChatBot");
+const block = require("../schema/blockcmd");
 
 const BEV = require("../util/types/baseEvents");
 
@@ -150,6 +151,18 @@ module.exports = {
           });
         } else {
           // Do nothing..
+        }
+
+        // Check if command blocked in the guild
+        const blockdata = await block.findOne({
+          Guild: message.guild.id,
+          Command: cmd.name,
+        })
+
+        if (blockdata) {
+          return message.channel.send({
+            embeds: [ErrorEmbed(`💢 \`${cmd.name}\` command is blocked in this server!`)]
+          })
         }
       }
 

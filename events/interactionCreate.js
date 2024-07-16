@@ -8,6 +8,7 @@ const { parsePermissions } = require("../util/class/utils");
 const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
 const getLocalCommands = require('../util/helpers/getLocalCommands');
 const localCommands = getLocalCommands("/slashCommands");
+const block = require('../schema/blockcmd');
 
 const BEV = require("../util/types/baseEvents");
 
@@ -64,7 +65,7 @@ module.exports = {
       interaction.isAnySelectMenu()
     ) {
       if (interaction?.customId?.startsWith("collect")) return;
-      
+
       const [part1, part2, ...rest] = interaction.customId.split("_");
       const componentId = `${part1}_${part2}`;
 
@@ -100,6 +101,20 @@ module.exports = {
 
       try {
 
+        if (interaction.guild) {
+          // Check if command blocked in the guild
+          const blockdata = await block.findOne({
+            Guild: interaction.guild.id,
+            Command: command.data.name,
+          })
+
+          if (blockdata) {
+            return interaction.reply({
+              embeds: [ErrorEmbed(`💢 \`${command.data.name}\` command is blocked in this server!`)],
+              ephemeral: true
+            })
+          }
+        }
         if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
           return interaction.reply({ embeds: [ErrorEmbed("I can't execute that command **inside DMs**!")], ephemeral: true });
         }

@@ -7,8 +7,8 @@ const { ChannelType } = require('discord.js')
  */
 module.exports = {
     data: {
-        name: "logs-channel",
-        description: "Sets the logs channel for the current server",
+        name: "suggestion-channel",
+        description: "Sets the suggestion channel for the current server",
         dmOnly: false,
         guildOnly: true,
         cooldown: 0,
@@ -49,11 +49,15 @@ module.exports = {
                 })
             }
         } catch (err) {
-            console.log(err)
-            return interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            throw new Error(err);
         }
 
-        data.Mod.Logs.channel = channel.id
+        if (data.Mod.Suggestion.channel !== null && channel.id == data.Mod.Suggestion.channel) {
+            return interaction.reply({ content: `\\❌ Suggestions channel is already set to ${channel}!`, ephemeral: true });
+        }
+
+        data.Mod.Suggestion.channel = channel.id
         await data.save()
             .then(() => {
                 interaction.reply({
@@ -61,9 +65,9 @@ module.exports = {
                         .setColor('DarkGreen')
                         .setDescription([
                             '<a:Correct:812104211386728498>\u2000|\u2000',
-                            `Successfully set the Logs channel to ${channel}!\n\n`,
-                            !data.Mod.Logs.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`/toggle logs\`\n` :
-                                `To disable this feature, use the \`/toggle logs\` command.`
+                            `Successfully set the Suggestions channel to ${channel}!\n\n`,
+                            !data.Mod.Suggestion.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`/toggle suggestions\`\n` :
+                                `To disable this feature, use the \`/toggle suggestions\` command.`
                         ].join(''))]
                 })
             })
