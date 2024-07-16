@@ -4,11 +4,11 @@ const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 
 const verificationLevels = {
-    NONE: '<a:Error:836169051310260265> None',
-    LOW: 'Low',
-    MEDIUM: 'Medium',
-    HIGH: 'High',
-    VERY_HIGH: 'Very High'
+    1: '<a:Error:836169051310260265> None',
+    2: 'Low',
+    3: 'Medium',
+    4: 'High',
+    5: 'Very High'
 }
 
 
@@ -78,6 +78,7 @@ module.exports = {
 
         const owner = await guild.fetchOwner()
 
+        console.log(guild.verificationLevel)
         // creating embed1
         const pages = new Page(
             new EmbedBuilder()
@@ -95,7 +96,7 @@ module.exports = {
             <:Owner:841321887882805289> **Owner:** ${owner}
             🌐 **Region:** ${regions[guild.region] || 'Auto'}
             <a:pp891:853493740579717131> **Boost Tier:** ${guild.premiumTier || 'None'}
-            <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[guild.verificationLevel]}
+            <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[guild.verificationLevel] || "None"}
             <a:server_boosting:809994218759782411> **Boost Level:** ${guild.premiumSubscriptionCount || '0'}
             📆 **Created At:** ${moment(guild.createdTimestamp).format('LT')} ${moment(guild.createdTimestamp).format('LL')} ${moment(guild.createdTimestamp).fromNow()}
             \u200b
@@ -114,7 +115,7 @@ module.exports = {
        <:pp697:853494953560375337> **Emoji Count:** ${emojis.size}
        <:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}
        <a:pp224:853495450111967253> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}
-       <a:pp754:768867196302524426> **Member Count:** ${guild.memberCount}
+       <a:pp754:768867196302524426> **Member Count:** ${memberCount}
        <:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}
        🤖 **Bots:** ${members.filter(member => member.user.bot).size}
        <:online:809995753921576960> **Online:** ${members.filter(member => member.presence?.status == 'online').size}

@@ -4,11 +4,11 @@ const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 
 const verificationLevels = {
-  NONE: '<a:Error:836169051310260265> None',
-  LOW: 'Low',
-  MEDIUM: 'Medium',
-  HIGH: 'High',
-  VERY_HIGH: 'Very High'
+  1: '<a:Error:836169051310260265> None',
+  2: 'Low',
+  3: 'Medium',
+  4: 'High',
+  5: 'Very High'
 }
 
 
@@ -99,7 +99,7 @@ module.exports = {
         <:Owner:841321887882805289> **Owner:** <@${message.guild.ownerId}>
         🌐 **Region:** ${regions[message.guild.region] || 'Auto'}
         <a:pp891:853493740579717131> **Boost Tier:** ${message.guild.premiumTier || 'None'}
-        <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[message.guild.verificationLevel]}
+        <a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[message.guild.verificationLevel] || "None"}
         <a:server_boosting:809994218759782411> **Boost Level:** ${message.guild.premiumSubscriptionCount || '0'}
         📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}
         \u200b
