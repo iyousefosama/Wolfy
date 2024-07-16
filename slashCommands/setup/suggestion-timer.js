@@ -59,9 +59,7 @@ module.exports = {
         await data.save()
             .then(() => {
                 interaction.reply({
-                    embeds: [SuccessEmbed([
-                        `Successfully set the suggestion time to ${time}!`
-                    ])]
+                    embeds: [SuccessEmbed(`Successfully set the suggestion time to ${time}!`)]
                 })
             })
     }

@@ -83,7 +83,7 @@ module.exports = {
         
             return suggestion.edit({ embeds:
               [new EmbedBuilder(suggestion.embeds[0])
-              .setColor(action.toLowerCase() === 'accept' ? 'DARK_GREEN' : 'RED')
+              .setColor(action.toLowerCase() === 'accept' ? 'DarkGreen' : 'Red')
               .addFields({ name: 'Reason', value: reason.join(' ')})]
             }).then(()=> message.react('888264104026992670'))
             .catch(()=> message.reply(`\\❌ **${message.member.displayName}**, Suggestion can\'t be edited.`));
