@@ -204,7 +204,7 @@ module.exports = {
                     quest.name +
                     ` (${dataquest.current}/${dataquest.progress})`,
                   value: [
-                    `**Rewards:** <a:ShinyMoney:877975108038324224${quest.reward}\` credits`,
+                    `**Rewards:** <a:ShinyMoney:877975108038324224> \`${quest.reward}\` credits`,
                   ].join("\n"),
                 };
               })
