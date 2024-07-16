@@ -14,7 +14,7 @@ module.exports = {
     args: true, //or false
     usage: '<issue>',
     group: 'bot',
-    description: 'To give a feedback about bot or to report bug',
+    description: 'Give a feedback about bot or to report bug',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     permissions: [],
@@ -53,10 +53,10 @@ module.exports = {
       return message.channel.send(`<a:Wrong:812104211361693696> | ${message.author}, Please make your report brief and short! (MAX 1000 characters!)`).then(()=>  message.react("💢"));
     };
 
-    const owner = await client.users.fetch('724580315481243668').catch(() => null);
+    const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
     if (!owner){
-      return message.channel.send(`Couldn't contact \`${author}\`!`);
+      return message.channel.send(`Couldn't contact \`owner\`!`);
     };
 
     if (TimeOutData.feedback > now){
@@ -95,7 +95,7 @@ module.exports = {
         ].join('\n')
       })
     owner.send({ embeds: [embed] }).then(() => message.react('758141943833690202')).catch(() => message.channel.send('<:Verify:841711383191879690> Feedback Sent!'))
-    .catch(err => message.channel.send(`WOLF#1045 is currently not accepting any Feedbacks right now via DMs.`));
+    .catch(err => message.channel.send(`${owner.username} is currently not accepting any Feedbacks right now via DMs.`));
     }
   }
 };

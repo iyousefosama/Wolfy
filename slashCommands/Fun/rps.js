@@ -7,7 +7,7 @@ module.exports = {
         dmOnly: false,
         guildOnly: true,
         cooldown: 0,
-        group: "Utility",
+        group: "Fun",
         clientPermissions: ["SendMessages"],
         permissions: [],
         options: [

@@ -13,7 +13,7 @@ module.exports = {
         dmOnly: false,
         guildOnly: false,
         cooldown: 0,
-        group: "Utility",
+        group: "Fun",
         clientPermissions: [
             "EmbedLinks",
             "AttachFiles"

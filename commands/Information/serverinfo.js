@@ -4,95 +4,95 @@ const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 
 const verificationLevels = {
-    NONE: '<a:Error:836169051310260265> None',
-    LOW: 'Low',
-    MEDIUM: 'Medium',
-    HIGH: 'High',
-    VERY_HIGH: 'Very High'
+  NONE: '<a:Error:836169051310260265> None',
+  LOW: 'Low',
+  MEDIUM: 'Medium',
+  HIGH: 'High',
+  VERY_HIGH: 'Very High'
 }
 
 
 // setting all the regions so it looks nice
 const regions = {
-    brazil: '🇧:regional_indicator_r: Brazil',
-    europe: '🏰 Europe',
-    hongkong: 'Hong Kong',
-    india: 'India',
-    japan: '🇯:regional_indicator_p: Japan',
-    russia: '🇷:regional_indicator_u: Russia',
-    singapore: 'Singapore',
-    southafrica: 'South Africa',
-    sydeny: 'Sydeny',
-    'us-central': 'US Central',
-    'us-east': 'US East',
-    'us-west': 'US West',
-    'us-south': 'US South'
+  brazil: '🇧:regional_indicator_r: Brazil',
+  europe: '🏰 Europe',
+  hongkong: 'Hong Kong',
+  india: 'India',
+  japan: '🇯:regional_indicator_p: Japan',
+  russia: '🇷:regional_indicator_u: Russia',
+  singapore: 'Singapore',
+  southafrica: 'South Africa',
+  sydeny: 'Sydeny',
+  'us-central': 'US Central',
+  'us-east': 'US East',
+  'us-west': 'US West',
+  'us-south': 'US South'
 }
 
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
-    name: "server",
-    aliases: ["serverinfo", "server-stats", "si"],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: false, //or false
-    usage: '',
-    group: 'Informations',
-    description: 'Shows informations about a server',
-    cooldown: 10, //seconds(s)
-    guarded: false, //or false
-    permissions: [],
-    clientPermissions: ["EmbedLinks", "UseExternalEmojis", "AttachFiles"],
-    examples: [''],
+  name: "server",
+  aliases: ["serverinfo", "server-stats", "si"],
+  dmOnly: false, //or false
+  guildOnly: true, //or false
+  args: false, //or false
+  usage: '',
+  group: 'Informations',
+  description: 'Shows stats about the current server',
+  cooldown: 10, //seconds(s)
+  guarded: false, //or false
+  permissions: [],
+  clientPermissions: ["EmbedLinks", "UseExternalEmojis", "AttachFiles"],
+  examples: [''],
 
   async execute(client, message, args) {
     const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString()).slice(0, -1)
 
     // getting all the members of the server
     const members = message.guild.members.cache;
-    
+
     // getting all the channels of the server
     const channels = message.guild.channels.cache;
-    
+
     // getting all the emojis of the server
     const emojis = message.guild.emojis.cache
 
-    
+
     let rolesdisplay;
 
     // if the lenght is lower then 20, display all roles
-    if(roles.length < 20) {
-        rolesdisplay = roles.join(' ')
+    if (roles.length < 20) {
+      rolesdisplay = roles.join(' ')
     } else {
-    
-        //if the lenght is more then 20, display only 20
-        rolesdisplay = roles.slice(20).join(' ')
+
+      //if the lenght is more then 20, display only 20
+      rolesdisplay = roles.slice(20).join(' ')
     }
 
     // if i typed guild it make ref to message.guild
     const { guild } = message
-    
+
     // tyeping name, region, memberCount, owner isntead of guild.name
     const { name, region, memberCount } = guild
-    
+
     // getting the server's pfp
     const icon = guild.iconURL()
 
     const owner = await guild.fetchOwner()
-    
+
     // creating embed1
     const pages = new Page(
-        new EmbedBuilder() 			 
+      new EmbedBuilder()
         .setTitle(`${name} server info (page 1/2)`)
-        
+
         .setURL(message.guild.iconURL())
-    
-        .setThumbnail(message.guild.iconURL({dynamic: true, extension:'png', size: 512}))
-    
+
+        .setThumbnail(message.guild.iconURL({ dynamic: true, extension: 'png', size: 512 }))
+
         .setTimestamp()
-        
+
         .setDescription(`**General**
         🇳 **Name:** ${name}
         <:pp198:853494893439352842> **ID:** ${message.guild.id}
@@ -104,16 +104,16 @@ module.exports = {
         📆 **Created At:** ${moment(message.guild.createdTimestamp).format('LT')} ${moment(message.guild.createdTimestamp).format('LL')} ${moment(message.guild.createdTimestamp).fromNow()}
         \u200b
         `),
-        new EmbedBuilder() 	
-	.setTitle(`${name} server info (page 2/2)`)
-    
-   .setURL(message.guild.iconURL())
+      new EmbedBuilder()
+        .setTitle(`${name} server info (page 2/2)`)
 
-   .setThumbnail(message.guild.iconURL({dynamic: true, extension:'png', size: 512}))
+        .setURL(message.guild.iconURL())
 
-   .setTimestamp()
+        .setThumbnail(message.guild.iconURL({ dynamic: true, extension: 'png', size: 512 }))
 
-   .setDescription(`**Stats**
+        .setTimestamp()
+
+        .setDescription(`**Stats**
    <:pp444:853496229677629490> **Role Count:** ${roles.length}
    <:pp697:853494953560375337> **Emoji Count:** ${emojis.size}
    <:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}
@@ -131,30 +131,30 @@ module.exports = {
    `)
     );
     const button = new ButtonBuilder()
-    .setLabel(`Prev`)
-    .setCustomId("51984198419841941")
-    .setStyle('Primary')
-    .setEmoji("890490643548352572");
+      .setLabel(`Prev`)
+      .setCustomId("51984198419841941")
+      .setStyle('Primary')
+      .setEmoji("890490643548352572");
     const button2 = new ButtonBuilder()
-    .setLabel(`Next`)
-    .setCustomId("51984198419841942")
-    .setStyle('Primary')
-    .setEmoji("890490558492061736")
+      .setLabel(`Next`)
+      .setCustomId("51984198419841942")
+      .setStyle('Primary')
+      .setEmoji("890490558492061736")
     const row = new discord.ActionRowBuilder()
-    .addComponents(button, button2)
-    const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
+      .addComponents(button, button2)
+    const msg = await message.channel.send({ content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex + 1}/${pages.size}\``, embeds: [pages.currentPage], components: [row] })
     const filter = i => i.user.id === message.author.id;
 
-    const collector = msg.createMessageComponentCollector({ filter, fetch: true  })
+    const collector = msg.createMessageComponentCollector({ filter, fetch: true })
 
-    let timeout = setTimeout(()=> collector.stop(), 180000)
+    let timeout = setTimeout(() => collector.stop(), 180000)
 
     collector.on('collect', async interactionCreate => {
       interactionCreate.deferUpdate()
       if (interactionCreate.customId === '51984198419841941') {
-        msg.edit({ embeds: [pages.previous()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
-      } else if(interactionCreate.customId === '51984198419841942') {
-        msg.edit({ embeds: [pages.next()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex+1}/${pages.size}\`` })
+        msg.edit({ embeds: [pages.previous()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex + 1}/${pages.size}\`` })
+      } else if (interactionCreate.customId === '51984198419841942') {
+        msg.edit({ embeds: [pages.next()], content: `<:pp332:853495194863534081> **Page:** \`${pages.currentIndex + 1}/${pages.size}\`` })
       }
 
       timeout.refresh()
@@ -164,8 +164,8 @@ module.exports = {
       button.setDisabled(true)
       button2.setDisabled(true)
       const newrow = new ActionRowBuilder()
-      .addComponents(button, button2);
-      msg.edit({embeds: [pages.currentPage], components: [newrow]}).catch(() => null);
-  });
-    }
+        .addComponents(button, button2);
+      msg.edit({ embeds: [pages.currentPage], components: [newrow] }).catch(() => null);
+    });
+  }
 }

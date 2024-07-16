@@ -10,10 +10,7 @@ module.exports = {
         guildOnly: false,
         cooldown: 0,
         group: "Bot",
-        clientPermissions: [
-            "EmbedLinks",
-            "UseExternalEmojis"
-        ],
+        clientPermissions: [],
         permissions: [],
         options: [
             {

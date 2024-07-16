@@ -43,12 +43,9 @@ module.exports = {
           size: 512,
         }),
       })
-      .setTitle(`${client.user.username} Bot's stats`) // make the title for the cmd
+      .setTitle(`${client.user.username} Bot's stats`)
       .setURL(client.config.websites["website"])
-      .setThumbnail(client.user.displayAvatarURL()) // it will put the bot avatar (pfp) in the embed
-      .setImage(
-        `https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif`
-      )
+      .setThumbnail(client.user.displayAvatarURL())
       .setDescription(
         `**General**
         <:Bot:841711382739157043> **Username:** ${client.user.username}

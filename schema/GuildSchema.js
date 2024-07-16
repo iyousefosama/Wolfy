@@ -14,11 +14,13 @@ const guildSchema = new mongoose.Schema({
     Suggestion: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
+      timeout: { type: Number, default: 6 },
       type: { type: String, default: 'default' }
     },
     Reports: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
+      timeout: { type: Number, default: 6 },
       type: { type: String, default: 'default' }
     },
     smroles: {
