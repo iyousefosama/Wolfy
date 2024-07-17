@@ -7,8 +7,8 @@ const string = require(`${process.cwd()}/util/string`);
 const { AuditLogEvent, ChannelType } = require('discord.js')
 
 const requiredPermissions = [
-  discord.PermissionsBitField.Flags.ViewAuditLog,
-  discord.PermissionsBitField.Flags.SendMessages,
+  "ViewAuditLog",
+  "SendMessages",
   "ViewChannel",
   "ReadMessageHistory",
   "EmbedLinks",

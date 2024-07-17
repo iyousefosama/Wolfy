@@ -6,8 +6,8 @@ let logs = [];
 const { AuditLogEvent, ChannelType } = require("discord.js");
 
 const requiredPermissions = [
-  discord.PermissionsBitField.Flags.ViewAuditLog,
-  discord.PermissionsBitField.Flags.SendMessages,
+  "ViewAuditLog",
+  "SendMessages",
   "ViewChannel",
   "ReadMessageHistory",
   "EmbedLinks",
@@ -19,35 +19,24 @@ const BEV = require("../util/types/baseEvents");
 module.exports = {
   name: "roleUpdate",
   async execute(client, oldRole, newRole) {
-    if (!oldRole) {
-      return;
-    } else {
-      // Do nothing..
-    }
+    if (!oldRole) return;
 
     let data;
     try {
-      data = await schema.findOne({
-        GuildID: oldRole.guild.id,
-      });
-      if (!data) return;
+      data = await schema.findOne({ GuildID: oldRole.guild.id });
+      if (!data || !data.Mod?.Logs?.isEnabled) return;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      return;
     }
-    let Channel = client.channels.cache.get(data.Mod.Logs.channel);
-    if (!Channel || !data.Mod.Logs.channel) {
-      return;
-    } else if (Channel.type !== ChannelType.GuildText) {
-      return;
-    } else if (!data.Mod.Logs.isEnabled) {
-      return;
-    } else if (
-      !Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)
-    ) {
-      return;
-    } else {
-      // Do nothing..
-    }
+
+    const logChannelId = data.Mod.Logs.channel;
+    const logChannel = client.channels.cache.get(logChannelId);
+
+    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
+
+    const permissions = logChannel.permissionsFor(client.user);
+    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await oldRole.guild.fetchAuditLogs({
       limit: 1,
@@ -132,10 +121,8 @@ module.exports = {
         })
         .setTitle("<a:Mod:853496185443319809> Role permissions Updated!")
         .setDescription(
-          `<a:Right:860969895779893248> **Role:** ${newRole.name} (\`${
-            oldRole.id
-          }\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${
-            executor.tag
+          `<a:Right:860969895779893248> **Role:** ${newRole.name} (\`${oldRole.id
+          }\`)\n<:Rules:853495279339569182> **ExecutorTag:** ${executor.tag
           }\n\n**Old Permissions** | **New Permissions** \n\`\`\`\n${Object.keys(
             Osp
           )
@@ -161,34 +148,8 @@ module.exports = {
       // Do nothing..
     }
 
-    const botname = client.user.username;
-    const webhooks = await Channel.fetchWebhooks();
-    logs.push(RoleUpdated);
-    setTimeout(async function () {
-      let webhook = webhooks.filter((w) => w.token).first();
-      if (!webhook) {
-        webhook = await Channel.createWebhook({
-          name: botname,
-          avatar: client.user.displayAvatarURL({
-            extension: "png",
-            dynamic: true,
-            size: 128,
-          }),
-        })(botname, {
-          avatar: client.user.displayAvatarURL({
-            extension: "png",
-            dynamic: true,
-            size: 128,
-          }),
-        });
-      } else if (webhooks.size <= 10) {
-        // Do no thing...
-      }
-      while (logs.length > 0) {
-        webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
-        logs = logs.slice(10); // Remove the sent embeds from the logs
-      }
-    }, 10000);
+
+    sendLogsToWebhook(client, logChannel, RoleUpdated);
     // add more functions on ready  event callback function...
 
     return;

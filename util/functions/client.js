@@ -1,5 +1,50 @@
 const { EmbedBuilder } = require("discord.js")
 let Embedlogs = [];
+const logs = new Map();
+const sending = new Map(); // Keeps track of which guilds are currently sending logs
+
+/**
+ * Sends logs to a Discord webhook
+ * @param {import("../../struct/Client")} client the client instance
+ * @param {import("discord.js").Channel} channel the channel to send the webhook to
+ * @param {EmbedBuilder} embed the embed to log
+ */
+const sendLogsToWebhook = async (client, channel, embed) => {
+  const guildId = channel.guild.id;
+
+  if (!logs.has(guildId)) {
+    logs.set(guildId, []);
+  }
+
+  logs.get(guildId).push(embed);
+
+  if (sending.has(guildId)) {
+    return; // If logs are already being sent for this guild, don't start another timeout
+  }
+
+  sending.set(guildId, true);
+
+  setTimeout(async () => {
+    const botname = client.user.username;
+    const webhooks = await channel.fetchWebhooks();
+    let webhook = webhooks.find((w) => w.token);
+
+    if (!webhook) {
+      webhook = await channel.createWebhook({
+        name: botname,
+        avatar: client.user.displayAvatarURL({ extension: "png", dynamic: true, size: 128 }),
+      });
+    }
+
+    while (logs.get(guildId).length > 0) {
+      const embedsToSend = logs.get(guildId).slice(0, 10);
+      await webhook.send({ embeds: embedsToSend }).catch(console.error);
+      logs.set(guildId, logs.get(guildId).slice(10)); // Remove the sent embeds from the logs
+    }
+
+    sending.delete(guildId); // Finished sending logs for this guild
+  }, 40000); // 40 seconds delay
+};
 
 /**
  * Logging function that logs the interactions users do with Wolfy client
@@ -113,7 +158,7 @@ const sendWebhook = async (client, embed) => {
   Embedlogs.push(embed);
   setTimeout(async function () {
     let webhook = await webhooks.filter((w) => w.token).first();
-    
+
     if (!webhook) {
       webhook = await channel.createWebhook({
         name: botname,
@@ -141,5 +186,6 @@ const sendWebhook = async (client, embed) => {
 
 module.exports = {
   commandLog,
-  debugLog
+  debugLog,
+  sendLogsToWebhook
 }

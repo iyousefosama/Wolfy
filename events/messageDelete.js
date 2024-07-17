@@ -1,15 +1,6 @@
-const discord = require("discord.js");
 const schema = require("../schema/GuildSchema");
-let logs = [];
-const { AuditLogEvent, ChannelType } = require("discord.js");
-
-const requiredPermissions = [
-  discord.PermissionsBitField.Flags.ViewAuditLog,
-  discord.PermissionsBitField.Flags.SendMessages,
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
+const { AuditLogEvent, ChannelType, EmbedBuilder } = require("discord.js");
+const { sendLogsToWebhook } = require("../util/functions/client");
 
 const BEV = require("../util/types/baseEvents");
 
@@ -17,91 +8,61 @@ const BEV = require("../util/types/baseEvents");
 module.exports = {
   name: "messageDelete",
   async execute(client, message) {
-    if (
-      message.channel.type === ChannelType.DM ||
-      message.author == client ||
-      !message.author ||
-      message.embeds[0]
-    )
+    if (message.channel.type === ChannelType.DM || !message.author || message.author.bot || message.embeds.length > 0) {
       return;
-
-    const file = message.attachments.first()?.url;
+    }
 
     let data;
     try {
-      data = await schema.findOne({
-        GuildID: message.guild.id,
-      });
-      if (!data) return;
+      data = await schema.findOne({ GuildID: message.guild.id });
+      if (!data || !data.Mod?.Logs || !data.Mod.Logs.isEnabled) {
+        return;
+      }
     } catch (err) {
-      console.log(err);
-    }
-
-    if (!data?.Mod?.Logs) {
+      console.error(err);
       return;
     }
 
-    let Channel = client.channels.cache.get(data.Mod.Logs.channel);
-    if (!Channel || !data.Mod.Logs.channel) {
+    const logChannelId = data.Mod.Logs.channel;
+    const logChannel = client.channels.cache.get(logChannelId);
+
+    if (!logChannel || logChannel.type !== ChannelType.GuildText) {
       return;
-    } else if (Channel.type !== ChannelType.GuildText) {
+    }
+
+    const permissions = logChannel.permissionsFor(client.user);
+    if (!permissions.has([
+      "ViewAuditLog",
+      "SendMessages",
+      "ViewChannel",
+    ])) {
       return;
-    } else if (!data.Mod.Logs.isEnabled) {
-      return;
-    } else if (
-      !Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)
-    ) {
-      return;
-    } else {
-      // Do nothing..
     }
 
     const fetchedLogs = await message.guild.fetchAuditLogs({
       limit: 1,
       type: AuditLogEvent.MessageDelete,
     });
+    const messageLog = fetchedLogs.entries.first();
+    const executor = messageLog?.executor?.id === message.author.id ? message.author : messageLog?.executor || message.author;
 
-    const messagelog = fetchedLogs.entries.first();
-
-    let executor;
-
-    if (messagelog) {
-      const { target } = messagelog;
-
-      executor = messagelog.executor;
-
-      if (messagelog.available && target.id != message.author.id) {
-        return;
-      } else {
-        //Do nothing..
-      }
-    } else {
-      executor = message.author;
-      //Do nothing..
-    }
-
-    
     const timestamp = Math.floor(Date.now() / 1000);
-    const Msg = message.toString().substr(0, 500);
-    const DeletedLog = new discord.EmbedBuilder()
+    const messageContent = message.content.substr(0, 500) || "❌ Unknown message";
+    const file = message.attachments.first()?.url;
+
+    const deletedLogEmbed = new EmbedBuilder()
       .setAuthor({
         name: message.author.username,
         iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }),
       })
-      .setTitle(`<a:Down:853495989796470815> Deleted Message`)
-      .setDescription(
-        `<a:iNFO:853495450111967253>  **Member**: ${message.author.tag}(\`${
-          message.author.id
-        }\`)\n${
-          executor.id != message.author.id
-            ? `**Moderator**: ${executor.tag}(\`${executor.id}\`)\n`
-            : ""
-        }<:pp198:853494893439352842> **In**: ${
-          message.channel
-        }\n• **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847> **Content**: \`\`\`\n${
-          Msg || "❌ Unkown message"
-        }\n\`\`\``
-      )
+      .setTitle("<a:Down:853495989796470815> Deleted Message")
+      .setDescription(`
+        <a:iNFO:853495450111967253>  **Member**: ${message.author.tag}(${message.author.id})\n
+        ${executor.id != message.author.id ? `**Moderator**: ${executor.tag}(${executor.id})\n` : ""}
+        <:pp198:853494893439352842> **In**: ${message.channel}\n
+        • **At**: <t:${timestamp}>\n\n<a:Right:877975111846731847>
+        **Content**: \`\`\`\n${Msg || "❌ Unkown message"}\`\`\`\n
+      `)
       .setImage(file)
       .setColor("Red")
       .setFooter({
@@ -110,37 +71,7 @@ module.exports = {
       })
       .setTimestamp()
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
-    const botname = client.user.username;
-    const webhooks = await Channel.fetchWebhooks();
-    logs.push(DeletedLog);
-    setTimeout(async function () {
-      let webhook = webhooks.filter((w) => w.token).first();
-      if (!webhook) {
-        webhook = await Channel.createWebhook({
-          name: botname,
-          avatar: client.user.displayAvatarURL({
-            extension: "png",
-            dynamic: true,
-            size: 128,
-          }),
-        })(botname, {
-          avatar: client.user.displayAvatarURL({
-            extension: "png",
-            dynamic: true,
-            size: 128,
-          }),
-        });
-      } else if (webhooks.size <= 10) {
-        // Do no thing...
-      }
-      while (logs.length > 0) {
-        webhook.send({ embeds: logs.slice(0, 10) }).catch(() => {});
-        logs = logs.slice(10); // Remove the sent embeds from the logs
-      }
-    }, 10000);
 
-    // add more functions on ready  event callback function...
-
-    return;
+    await sendLogsToWebhook(client, logChannel, deletedLogEmbed);
   },
 };

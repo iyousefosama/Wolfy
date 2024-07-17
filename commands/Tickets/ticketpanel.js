@@ -197,7 +197,7 @@ module.exports = {
     } else if (
       !channel
         .permissionsFor(message.guild.members.me)
-        .has(discord.PermissionsBitField.Flags.SendMessages)
+        .has("SendMessages")
     ) {
       return message.channel.send({
         content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`,
