@@ -17,7 +17,7 @@ const BEV = require("../util/types/baseEvents");
 module.exports = {
   name: "guildMemberUpdate",
   async execute(client, oldMember, newMember) {
-    if (!oldGuild) return;
+    if (!oldMember) return;
 
     let data;
     try {
