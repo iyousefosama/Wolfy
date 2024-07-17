@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const schema = require("../schema/GuildSchema");
 const { ChannelType } = require("discord.js");
+const { sendLogsToWebhook } = require("../util/functions/client");
 
 const BEV = require("../util/types/baseEvents");
 

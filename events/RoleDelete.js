@@ -1,7 +1,7 @@
 const discord = require("discord.js");
 const schema = require("../schema/GuildSchema");
-let logs = [];
 const { AuditLogEvent, ChannelType } = require("discord.js");
+const { sendLogsToWebhook } = require("../util/functions/client");
 
 const requiredPermissions = [
   "ViewAuditLog",

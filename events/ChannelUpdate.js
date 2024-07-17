@@ -1,8 +1,8 @@
 const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
 const schema = require('../schema/GuildSchema')
-let logs = [];
 const { AuditLogEvent, ChannelType } = require('discord.js')
+const { sendLogsToWebhook } = require("../util/functions/client");
 //const { Permissions } = require('discord.js');
 
 const requiredPermissions = [

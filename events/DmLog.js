@@ -1,6 +1,6 @@
 const discord = require('discord.js')
 const { ChannelType } = require('discord.js')
-let logs = []
+const { sendLogsToWebhook } = require("../util/functions/client");
 
 const BEV = require("../util/types/baseEvents");
 

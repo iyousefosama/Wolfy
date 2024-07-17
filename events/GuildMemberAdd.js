@@ -2,8 +2,8 @@ const discord = require('discord.js')
 const moment = require("moment");
 const schema = require('../schema/GuildSchema')
 const MuteSchema = require('.././schema/Mute-Schema')
-let logs = [];
-const { AuditLogEvent, ChannelType } = require('discord.js')
+const { ChannelType } = require('discord.js')
+const { sendLogsToWebhook } = require("../util/functions/client");
 
 const requiredPermissions = [
   "ViewAuditLog",
@@ -22,9 +22,11 @@ module.exports = {
     if (!member) return;
 
     let data;
+    let mutedata;
     try {
       data = await schema.findOne({ GuildID: member.guild.id });
       if (!data || !data.Mod?.Logs?.isEnabled) return;
+      mutedata = await MuteSchema.findOne({ guildId: member.guild.id, userId: member.id })
     } catch (err) {
       console.error(err);
       return;
