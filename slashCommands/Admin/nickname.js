@@ -37,23 +37,25 @@ module.exports = {
         const member = await guild.members.fetch(id)
             .catch(() => interaction.member);
 
+        if (!member) {
+            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
+        } else if (member.id === client.user.id) {
+            return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephemeral: true });
+        } else if (member.id === guild.ownerId) {
+            return interaction.reply({ content: `\\❌ You cannot change nickname of the owner!`, ephemeral: true });
+        } else if (client.owners.includes(member.id)) {
+            return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephemeral: true });
+        } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
+            return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephemeral: true });
+        };
+
         if (!nickname) {
             return member.setNickname(null, `Wolfy Nickname: ${interaction.user.username}`)
                 .then(() => interaction.reply(`\\✔️ Successfully reseted the nickname for **${member.user.username}**!`))
                 .catch(() => interaction.reply(`\\❌ Unable to change the nickname for **${member.user.username}**!`));
         }
 
-        if (!member) {
-            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
-        } else if (member.id === client.user.id) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephemeral: true });
-        } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for owner!`, ephemeral: true });
-        } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephemeral: true });
-        } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-            return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephemeral: true });
-        };
+
 
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
             .then(() => interaction.reply({ content: `\\✔️ Successfully changed **${member.user.username}** nickname to \`${nickname}\`!` }))
