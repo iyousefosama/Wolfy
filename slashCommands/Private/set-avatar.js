@@ -31,11 +31,11 @@ module.exports = {
             return await client.user
                 .setAvatar(attachment.url)
                 .then(() =>
-                    interaction.reply(`\\✅ New avatar **set**!`).catch(() => null)
+                    interaction.editReply(`\\✅ New avatar **set**!`).catch(() => null)
                 )
                 .catch((err) => {
                     console.log(err);
-                    return interaction.reply(
+                    return interaction.editReply(
                         `❌ Failed to set new avatar! [\`${err.name}\`]`
                     );
                 });
