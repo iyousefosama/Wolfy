@@ -69,7 +69,7 @@ module.exports = {
     }
 
 
-    sendLogsToWebhook(client, Channel, RemoveEmbed);
+    sendLogsToWebhook(client, logChannel, RemoveEmbed);
 
     // add more functions on ready  event callback function...
 
