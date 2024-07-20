@@ -6,80 +6,28 @@ const {
     PermissionsBitField,
     ChannelType,
 } = require("discord.js");
-const schema = require("../../schema/GuildSchema");
+const schema = require("../../schema/Panel-schema");
 const TicketSchema = require("../../schema/Ticket-Schema");
-const cooldowns = new Collection();
-const CoolDownCurrent = {};
 
 /**
  * @type {import("../../util/types/baseComponent")}
  */
 module.exports = {
-    // Component configuration
     name: "btn_ticket",
     enabled: true,
-    // Action to perform when the button is clicked
     async action(client, interaction, parts) {
-        //+ cooldown 1, //seconds(s)
-        if (!cooldowns.has("btn")) {
-            cooldowns.set("btn", new discord.Collection());
-        }
-
-        const now = Date.now();
-        const timestamps = cooldowns.get("btn");
-        const cooldownAmount = (4 || 2) * 1000;
-
-        if (timestamps.has(interaction.user.id)) {
-            const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-
-            if (now < expirationTime) {
-                if (CoolDownCurrent[interaction.user.id]) {
-                    return;
-                }
-                const timeLeft = (expirationTime - now) / 1000;
-                CoolDownCurrent[interaction.user.id] = true;
-                return await interaction
-                    .reply({
-                        content: ` **${interaction.user.username
-                            }**, please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`,
-                        ephemeral: true,
-                        fetchReply: true,
-                    })
-                    .then(() => {
-                        setTimeout(() => {
-                            delete CoolDownCurrent[interaction.user.id];
-                        }, 3000);
-                    });
-            }
-        }
-        timestamps.set(interaction.user.id, now);
-        setTimeout(
-            () => timestamps.delete(interaction.user.id),
-            cooldownAmount,
-            delete CoolDownCurrent[interaction.user.id]
-        );
-
         await interaction.deferUpdate();
+
         let data;
-        let TicketData;
         try {
             data = await schema.findOne({
-                GuildID: interaction.guild.id,
-            });
-            TicketData = await TicketSchema.findOne({
-                guildId: interaction.guild.id,
-                UserId: interaction.user.id,
+                Guild: interaction.guild.id,
+                Category: parts[2]
             });
             if (!data) {
-                data = await schema.create({
-                    GuildID: interaction.guild.id,
-                });
-            }
-            if (!TicketData) {
-                TicketData = await TicketSchema.create({
-                    guildId: interaction.guild.id,
-                    UserId: interaction.user.id,
-                });
+                return interaction.followUp({
+                    content: `\\❌ **${interaction.member}**, I can't find this category in my database!`,
+                })
             }
         } catch (err) {
             console.log(err);
@@ -89,18 +37,15 @@ module.exports = {
         }
 
         // getting in the ticket category
-        const categoryID = interaction.guild.channels.cache.get(
-            data.Mod.Tickets.channel
-        );
-        let Channel = client.channels.cache.get(TicketData.ChannelId);
+        const category = interaction.guild.channels.cache.get(data.Category);
 
         // if there is no ticket category return
-        if (!categoryID) {
+        if (!category) {
             return interaction.followUp({
-                content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`,
+                content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`/panel create\` cmd`,
                 ephemeral: true,
             });
-        } else if (!data.Mod.Tickets.isEnabled) {
+        } else if (!data.Enabled) {
             return interaction.followUp({
                 content: `\\❌ **${interaction.member.displayName}**, The **tickets** command is disabled in this server!`,
                 ephemeral: true,
@@ -109,29 +54,44 @@ module.exports = {
             // Do nothing..
         }
 
+        let TicketData;
+        try {
+            TicketData = await TicketSchema.findOne({
+                guildId: interaction.guild.id,
+                UserId: interaction.user.id,
+                Category: category.id
+            });
+            if (!TicketData) {
+                TicketData = await TicketSchema.create({
+                    guildId: interaction.guild.id,
+                    UserId: interaction.user.id,
+                    Category: category.id
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            interaction.channel.send({
+                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+            });
+        }
+
         var userName = interaction.user.username;
 
         var userDiscriminator = interaction.user.discriminator;
 
-        let TicketAvailable = false;
-        interaction.guild.channels.cache.forEach((channel) => {
-            if (Channel && channel.id == Channel.id) {
-                TicketAvailable = true;
-                return;
-            }
-        });
-
-        if (TicketAvailable)
+        // Check if category has already ticket from that user
+        if (category.children.cache.has(TicketData.ChannelId)) {
             return interaction.followUp({
-                content: "<:error:888264104081522698> **|** You already have a ticket!",
+                content: "<:error:888264104081522698> | You already have a ticket in that panel!",
                 ephemeral: true,
             });
+        }
 
         interaction.guild.channels
             .create({
                 name: userName.toLowerCase() + "-" + userDiscriminator,
                 type: ChannelType.GuildText,
-                parent: categoryID,
+                parent: category,
                 permissionOverwrites: [
                     {
                         id: interaction.guild.id,

@@ -63,7 +63,7 @@ module.exports = {
 
           return {
             avatar:
-              guildMember?.user?.displayAvatarURL({ dynamic: true }) ||
+              guildMember.user?.displayAvatarURL({ extension: "jpg", dynamic: true }).replace(".gif", ".jpg") ||
               "https://github.com/twlite.png",
             username: username || "Unknown",
             displayName: displayName || "Unknown",

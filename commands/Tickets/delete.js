@@ -1,7 +1,7 @@
-const discord = require('discord.js');
-const schema = require('../../schema/GuildSchema')
-const TicketSchema = require('../../schema/Ticket-Schema')
+const { EmbedBuilder } = require('discord.js');
+const TicketSchema = require('../../schema/Ticket-Schema');
 const sourcebin = require('sourcebin_js');
+const { ErrorEmbed } = require("../../util/modules/embeds")
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -9,113 +9,89 @@ const sourcebin = require('sourcebin_js');
 module.exports = {
     name: "delete",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: false, //or false
+    dmOnly: false,
+    guildOnly: true,
+    args: false,
     usage: '',
     group: 'Tickets',
     description: 'Delete your ticket in the server',
-    cooldown: 2, //seconds(s)
-    guarded: false, //or false
+    cooldown: 2,
+    guarded: false,
     requiresDatabase: true,
     permissions: ["ManageChannels"],
     clientPermissions: ["ManageChannels"],
-    examples: [''],
+    examples: [],
 
-  async execute(client, message, args) {
-
-        let data;
+    async execute(client, message, args) {
         let TicketData;
-        try{
-            data = await schema.findOne({
-                GuildID: message.guild.id
-            })
+        try {
             TicketData = await TicketSchema.findOne({
                 guildId: message.guild.id,
-                UserId: message.author.id
-            })
-            if(!data) {
-            data = await schema.create({
-                GuildID: message.guild.id
-            })
-            }
-            if(!TicketData) {
-                TicketData = await TicketSchema.create({
-                    guildId: message.guild.id,
-                    UserId: message.author.id
-                })
-                }
-        } catch(err) {
+                ChannelId: message.channel.id,
+                Category: message.channel.parentId
+            });
+        } catch (err) {
             console.log(err)
-            message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+            message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}` })
         }
 
-// getting in the ticket category
-const categoryID = message.guild.channels.cache.get(data.Mod.Tickets.channel)
+        if (!TicketData) {
+            return message.channel.send({ content: `\\❌ **${message.author.username}**, this is not a valid ticket channel!` });
+        }
 
-// if there is no ticket category return
-if(!categoryID) {
-return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`})
-} else if(!data.Mod.Tickets.isEnabled) {
-    return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **tickets** command is disabled in this server!`})
-} else {
-// Do nothing..
-}
+        const category = message.guild.channels.cache.get(data.Category);
+        if (!category) {
+            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, can't find the tickets channel. Contact mod or use \`w!setticketch\`` });
+        }
+        if (message.channel.parentId !== category.id) {
+            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, use this cmd only in the ticket channel!` });
+        }
 
-    // if the channel is a ticket then...
-    if(message.channel.parent == categoryID){
-    
-        // deletes the ticket / channel
-        const close = new discord.EmbedBuilder()
-        .setColor(`Red`)
-        .setDescription('<a:pp681:774089750373597185> Ticket will be deleted in 5 seconds')
-        message.channel.send({ embeds: [close]})
-        .then(async () => {
-            setTimeout(async () => {
-                let response;
-                const Ticket = message.guild.channels.cache.get(TicketData.ChannelId)
-                return await message.channel.messages.fetch().then(async (messages) => {
-                  const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
-        
-                    response = await sourcebin.create([
-                      {
+        await message.channel.send({ embeds: [ErrorEmbed('<a:pp681:774089750373597185> Ticket will be deleted in 5 seconds')] });
+
+        setTimeout(async () => {
+            try {
+                const messages = await message.channel.messages.fetch();
+                const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString('en-US')} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join('\n');
+
+                const response = await sourcebin.create([
+                    {
                         name: ' ',
                         content: output,
                         languageId: 'text',
-                      },
-                    ], {
-                      title: `Chat transcript for ${message.channel.name}`,
-                      description: ' ',
-                    });
-                })
-                .then(async () => {
-                  await message.channel.delete()
-                  const TicketUser = client.users.cache.get(TicketData.UserId)
+                    },
+                ], {
+                    title: `Chat transcript for ${message.channel.name}`,
+                    description: ' ',
+                });
 
-                  const Closedembed = new discord.EmbedBuilder()
-                  .setAuthor({ name: message.guild.name, iconURL: message.guild.iconURL({ dynamic: true })})
-                  .setTitle("Ticket Closed.")
-                  .setDescription(`<:Tag:836168214525509653> ${Ticket.name} Ticket at ${message.guild.name} Just closed!`)
-                  .addFields(
-                    { name: "Ticket transcript", value: `[View](${response?.url}) for channel`, inline: true },
-                    { name: "Opened by", value: `${TicketUser.tag}`, inline: true },
-                    { name: "Closed by", value: `${message.author.tag}`, inline: true},
-                    { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true}
-                  )
-                  .setTimestamp()
-                  .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true })})
-                  .setColor('#2F3136');
-                  await TicketUser.send({ embeds: [Closedembed] });
-                }).catch((err) => {
-                    console.log(err)
-                    return message.channel.send('An error occurred, please try again!');
-                })
-            }, 5000);
-        })
-
-    // if its not a ticket channel return
-    } else {
-        return message.channel.send({ content: `\\❌ **${message.member.displayName}**, You can use this cmd only in the ticket!`})
-    }
+                const TicketUser = await message.guild.members.fetch(TicketData.UserId);
+                const channel = message.channel;
+                await TicketSchema.findOneAndDelete({ guildId: message.guild.id, ChannelId: channel.id, Category: message.channel.parentId });
+                try {
+                    await channel.delete();
+                    await TicketUser.send({
+                        embeds: [new EmbedBuilder()
+                            .setAuthor({ name: message.guild.name, iconURL: message.guild.iconURL({ dynamic: true }) })
+                            .setTitle("Ticket Closed.")
+                            .setDescription(`<:Tag:836168214525509653> ${channel.name} Ticket at ${message.guild.name} has been closed!`)
+                            .addFields(
+                                { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
+                                { name: "Opened by", value: `${TicketUser.user.tag}`, inline: true },
+                                { name: "Closed by", value: `${message.author.tag}`, inline: true },
+                                { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true }
+                            )
+                            .setTimestamp()
+                            .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+                            .setColor('#2F3136')]
+                    })
+                } catch {
+                    return null;
+                }
+            } catch (err) {
+                console.error(err);
+                message.channel.send(`\\❌ [\`${err.name}\`]: An error occurred, please try again!`);
+            }
+        }, 5000);
     }
 }

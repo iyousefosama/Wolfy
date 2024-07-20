@@ -68,6 +68,10 @@ const settings = {
 
     owners: ['724580315481243668'],
 
+    ticket: {
+        max_panels: 6,
+      },
+
     // websites affiliated with the bot, can be accessed through
     // Client#config#websites
     websites: {

@@ -8,16 +8,14 @@ const text = require("../string");
  * @param {import("../types/baseCommand")} cmd
  */
 exports.manage = async function (client, message, cmd) {
-  if(client.database?.connected) return;
-  if (!message || message.author.bot || message.author === client.user) {
-    return;
-  }
+  if (!client.database?.connected) return;
+  if (!message || message.author.bot || message.author.id === client.user.id) return;
 
   const now = Math.floor(Date.now() / 1000);
-  const DeleteDuration = Math.floor(1.814e9 / 1000); // 4 Weeks
-  const DateToDel = Math.floor(now + DeleteDuration);
-  const UsedCommandsWarnsResetduration = 57600; // 16 hours
-  const GlobalWarnsResetResetduration = 86400; // 24 hours
+  const deleteDuration = 1.814e9 / 1000; // 4 Weeks in seconds
+  const dateToDel = now + deleteDuration;
+  const usedCommandsWarnsResetDuration = 57600; // 16 hours in seconds
+  const globalWarnsResetDuration = 86400; // 24 hours in seconds
 
   const cmdObj = {
     authorTag: message.author.tag,
@@ -48,34 +46,39 @@ exports.manage = async function (client, message, cmd) {
     // Check if the timer has expired or not set
     if (cmdData.timerStart === 0 || now >= cmdData.timerEnd) {
       cmdData.timerStart = now;
-      cmdData.timerEnd = DateToDel;
+      cmdData.timerEnd = dateToDel;
 
       await cmdData.save();
       setTimeout(async () => {
         await schema.deleteOne({ userID: message.author.id });
-      }, DeleteDuration * 1000);
+      }, deleteDuration * 1000);
     }
 
-    if (
-      cmdData.timeoutReset > now &&
-      cmdData.UsedCommandsWarn !== 25 &&
-      cmdData.GlobalWarns !== 3
-    ) {
-      cmdData.UsedCommandsWarn += 1;
-      cmdData.UsedCommandsWarnsReset = now + UsedCommandsWarnsResetduration;
-    } else if (cmdData.UsedCommandsWarnsReset < now) {
+    if (cmdData.UsedCommandsWarnsReset < now) {
+      // Reset used commands warnings if reset time has passed
       cmdData.UsedCommandsWarn = 0;
-    } else if (cmdData.UsedCommandsWarn === 25 && cmdData.GlobalWarns !== 3) {
+    }
+
+    if (cmdData.GlobalWarnsReset < now) {
+      // Reset global warnings if reset time has passed
+      cmdData.GlobalWarns = 0;
+    }
+
+    if (cmdData.GlobalWarns >= 3) {
+      // If global warnings have reached the limit, blacklist the user
+      cmdData.Status.SilentBlacklist.current = true;
+      cmdData.Status.SilentBlacklist.reason = "Wolfy: SelfBot, spamming commands!";
+    } else if (cmdData.UsedCommandsWarn >= 25) {
+      // If used commands warnings have reached the limit, increment global warnings
       cmdData.GlobalWarns += 1;
       cmdData.UsedCommandsWarn = 0;
-      cmdData.GlobalWarnsReset = now + GlobalWarnsResetResetduration;
-    } else if (cmdData.GlobalWarnsReset < now) {
-      cmdData.GlobalWarns = 0;
-    } else if (cmdData.GlobalWarns === 3) {
-      cmdData.Status.SilentBlacklist.current = true;
-      cmdData.Status.SilentBlacklist.reason =
-        "Wolfy: SelfBot, spamming commands!";
+      cmdData.GlobalWarnsReset = now + globalWarnsResetDuration;
+    } else if (cmdData.timeoutReset > now) {
+      // If the user is within the timeout period, increment used commands warnings
+      cmdData.UsedCommandsWarn += 1;
+      cmdData.UsedCommandsWarnsReset = now + usedCommandsWarnsResetDuration;
     }
+
 
     await cmdData.save();
 
@@ -92,6 +95,7 @@ exports.manage = async function (client, message, cmd) {
       ? cmdData.UsedCommandsInv[cmd.name].length + 1
       : 1;
     const firstLvl = Math.floor(Math.random() * 20) + 50;
+
     if (cmdCount >= firstLvl) {
       let data;
       try {
@@ -104,30 +108,21 @@ exports.manage = async function (client, message, cmd) {
       }
 
       const user = client.users.cache.get(message.author.id);
-      user
-        ?.send({
-          content: `:wave: ​Hello **${message.author.tag}**, We have discovered that you used the \`${cmd.name}\` command for **${firstLvl}** times!\n\n• We want to know your rating and if you have any suggestion for us that will be very helpful for us! \❤️ \n• Send your feedback with \`w${client.prefix}feedback\`​ command! 🤝 \n **Thanks** for using \🤖 Wolfy!`,
-        })
+      user?.send({
+        content: `:wave: ​Hello **${message.author.tag}**, We have discovered that you used the \`${cmd.name}\` command for **${firstLvl}** times!\n\n• We want to know your rating and if you have any suggestion for us that will be very helpful for us! \❤️ \n• Send your feedback with \`w${client.prefix}feedback\`​ command! 🤝 \n **Thanks** for using \🤖 Wolfy!`,
+      })
         .then(async () => {
           data.credits += Math.floor(firstLvl * 5);
-          await data
-            .save()
-            .then(() =>
-              user?.send(
-                `<a:Money:836169035191418951> **${
-                  message.author.tag
-                }**, You successfully collected \`${text.commatize(
-                  Math.floor(firstLvl * 5)
-                )}\` as a reward for this!`
-              )
-            )
-            .catch((err) =>
-              user?.send(
-                `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
-              )
-            );
+          await data.save();
+          user?.send(
+            `<a:Money:836169035191418951> **${message.author.tag}**, You successfully collected \`${text.commatize(Math.floor(firstLvl * 5))}\` as a reward for this!`
+          );
         })
-        .catch(() => null);
+        .catch((err) => {
+          user?.send(
+            `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
+          );
+        });
     }
   } catch (err) {
     console.error(err);

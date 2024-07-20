@@ -90,7 +90,7 @@ module.exports = {
     var status = member.presence?.status;
     const requiredXP = Userdata.System.required;
     const rank = new RankCardBuilder()
-      .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
+      .setAvatar(user.displayAvatarURL({ extension: "jpg", size: 256 }).replace(".gif", ".jpg"))
       .setBackground(ecodata.profile?.background || "") // https://i.imgur.com/299Kt1F.png
       .setCurrentXP(Userdata.System.xp)
       .setLevel(Userdata.System.level)

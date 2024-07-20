@@ -1,5 +1,6 @@
 'use strict';
 
+require("module-alias/register");
 const { Client, Collection, version } = require('discord.js');
 const { performance } = require('perf_hooks');
 const ComponentsLoader = require("../Handler/ComponentsActionLoader");
@@ -11,6 +12,7 @@ const processEvents = require(`../util/processEvents`);
 const { Player } = require("discord-player")
 const { registerPlayerEvents } = require('../events/MusicEvents');
 const { commandLog, debugLog } = require("../util/functions/client");
+
 /**
  * Optimized hub for interacting with the discord API
  * @extends {Client}
@@ -90,12 +92,13 @@ module.exports = class WolfyClient extends Client {
 
     /**
      * Pre-defined bot conifigurations.
-     * @type {ClientConfig}
+     * @type {import("../config")}
      */
     this.config = {
       prefix: settings.prefix || 'w!',
       features: [],
       owners: [],
+      ticket: settings.ticket,
       slashCommands: settings.slashCommands,
       player: settings.player,
       channels: { debug: null, votes: null, uploads: null, logs: null, chatbot: null },
@@ -118,6 +121,16 @@ module.exports = class WolfyClient extends Client {
      */
     if (typeof settings.channels?.votes === 'string') {
       this.config.channels.votes = settings.channels.votes;
+    } else {
+      // Do nothing...
+    };
+
+    /**
+     * Channel ID used by the bot to send uploads messages
+     * @type {?Snowflake}
+     */
+    if (typeof settings.channels?.uploads === 'string') {
+      this.config.channels.uploads = settings.channels.uploads;
     } else {
       // Do nothing...
     };
@@ -278,6 +291,14 @@ module.exports = class WolfyClient extends Client {
       });
     };
   };
+
+  /**
+   * 
+   * @param {String} args
+   */
+  debug(args) {
+    processEvents("handledDebug", args, this)
+  }
 
   /**
   * Executes a function once and then loops it

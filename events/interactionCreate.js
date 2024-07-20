@@ -85,8 +85,9 @@ module.exports = {
        * @type {import("../util/types/baseCommandSlash")}
        */
       const command = localCommands.find(
-        (cmd) => cmd.data.name === interaction.commandName
+        (cmd) => cmd.data ? cmd.data.name === interaction.commandName : cmd.name === interaction.commandName
       );
+      
       /*       const command = client.slashCommands.get(interaction.commandName); */
 
       if (!command) {

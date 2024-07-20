@@ -52,6 +52,31 @@ function uncaughtException([ error, ...args ], client){
 };
 
 /**
+ * Handle uncaughtException
+ * @param {Error} error The error object
+ * @param {*} args other arguments passed through the event
+ * @returns {Promise<Message|undefined>}
+ */
+function handledDebug([ error, ...args ], client){
+  const channel = client.channels.cache.get(client.config.channels.debug);
+  const timezone = 2;
+  const offset = 60000 * (new Date().getTimezoneOffset() - (-timezone * 60));
+  const time = parseDate(new Date(Date.now() + offset).toLocaleString('EG',{ timezone: 'Africa/Egypt'}).split(/:|\s|\//));
+
+  if (!channel){
+    return Promise.resolve(console.log(error));
+  } else {
+    // do nothing
+  };
+
+  consoleUtil.error(`${error.name} caught!\nat ${time}`)
+  return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
+    error.stack.split('\n').splice(0,5)
+    .join('\n').split(process.cwd()).join('MAIN_PROCESS')
+  }\n.....\n\`\`\``);
+};
+
+/**
  * parse Date
  * @param {Error} error The error object
  * @param {*} args other arguments passed through the event
@@ -65,7 +90,7 @@ function uncaughtException([ error, ...args ], client){
 };
 
 // registered functions to use
-const registers = { unhandledRejection, uncaughtException };
+const registers = { unhandledRejection, uncaughtException, handledDebug };
 
 module.exports = function processEvents(event, args, client){
   if (registers[event]){

@@ -238,7 +238,7 @@ module.exports = {
                             message.channel.send(`\\❌ **${message.member.displayName}**, please provide a valid channel ID.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})
-                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
+                          } else if (!Embedchannel.permissionsFor(message.guild.members.me).has('SendMessages')){
                             message.channel.send(`\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`)
                             TurnButtonsOn()
                             return msg.edit({ embeds: [embed], components: [row, row2]})

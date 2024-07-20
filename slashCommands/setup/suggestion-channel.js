@@ -23,6 +23,7 @@ module.exports = {
                 type: 7, // CHANNEL
                 name: 'channel',
                 description: 'Logs channel',
+                channelTypes: [ChannelType.GuildText],
                 required: true
             },
         ]

@@ -36,7 +36,6 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           }
 
-
           function getPermissionName(permission) {
             for (const perm of Object.keys(PermissionsBitField.Flags)) {
               if (PermissionsBitField.Flags[perm] === permission) {

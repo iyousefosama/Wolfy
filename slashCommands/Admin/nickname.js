@@ -55,8 +55,6 @@ module.exports = {
                 .catch(() => interaction.reply(`\\❌ Unable to change the nickname for **${member.user.username}**!`));
         }
 
-
-
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
             .then(() => interaction.reply({ content: `\\✔️ Successfully changed **${member.user.username}** nickname to \`${nickname}\`!` }))
             .catch(() => interaction.reply(`\\❌ Unable to change the nickname for **${member.user.username}**!`));

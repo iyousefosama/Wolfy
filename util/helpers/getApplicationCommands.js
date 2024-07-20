@@ -10,6 +10,7 @@ module.exports = async (client, guildId) => {
     if (guildId && typeof guildId == "string") {
       const guild = await client.guilds.fetch(guildId);
       applicationCommands = guild.commands;
+      client.application.commands.set([]);
     } else {
       applicationCommands = await client.application.commands;
     }

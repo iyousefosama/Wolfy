@@ -209,10 +209,6 @@ module.exports = {
         value: `Delete your ticket in the server`,
       },
       {
-        name: `${client.config.prefix}ticketpanel`,
-        value: `Setup the ticket panel in the server`,
-      },
-      {
         name: `${client.config.prefix}calc`,
         value: `Calculates an equation by wolfy`,
       }

@@ -29,7 +29,7 @@ module.exports = {
       
           if (!channel || channel.type !== ChannelType.GuildText){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, please provide a valid channel ID.`});
-          } else if (!channel.permissionsFor(message.guild.members.me).has('SEND_MESSAGES')){
+          } else if (!channel.permissionsFor(message.guild.members.me).has('SendMessages')){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to send messages on ${channel} and try again.`});
           } else if (!channel.permissionsFor(message.guild.members.me).has("EmbedLinks")){
             return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I need you to give me permission to embed links on ${channel} and try again.`});

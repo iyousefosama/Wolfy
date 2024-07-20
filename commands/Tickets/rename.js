@@ -1,68 +1,56 @@
-const discord = require('discord.js');
-const schema = require('../../schema/GuildSchema')
-
+const { EmbedBuilder } = require('discord.js');
+const TicketSchema = require('../../schema/Ticket-Schema');
+const { SuccessEmbed, ErrorEmbed } = require("../../util/modules/embeds")
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
     name: "rename",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: true, //or false
+    dmOnly: false,
+    guildOnly: true,
+    args: true,
     usage: '<Name>',
     group: 'Tickets',
     description: 'Change ticket name',
-    cooldown: 2, //seconds(s)
-    guarded: false, //or false
+    cooldown: 2,
+    guarded: false,
     requiresDatabase: true,
     permissions: ["ManageChannels"],
     clientPermissions: ["ManageChannels"],
     examples: [
         'Test-ticket'
-      ],
+    ],
 
-  async execute(client, message, args) {
-    let name = args.slice(0).join(" ")
+    async execute(client, message, args) {
+        const name = args.join(" ");
 
-        let data;
-        try{
-            data = await schema.findOne({
-                GuildID: message.guild.id
-            })
-            if(!data) {
-            data = await schema.create({
-                GuildID: message.guild.id
-            })
+        try {
+            const TicketData = await TicketSchema.findOne({
+                guildId: message.guild.id,
+                ChannelId: message.channel.id,
+                Category: message.channel.parentId
+            });
+
+            if (!TicketData) {
+                return message.channel.send({ content: `\\❌ **${message.author.username}**, this is not a valid ticket channel!` });
             }
-        } catch(err) {
-            console.log(err)
-            message.channel.send({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`})
+
+            const category = message.guild.channels.cache.get(data.Category);
+            if (!category) {
+                return message.channel.send({ content: `\\❌ **${message.member.displayName}**, can't find the tickets channel. Contact mod or use \`w!setticketch\`` });
+            }
+            if (message.channel.parentId !== category.id) {
+                return message.channel.send({ content: `\\❌ **${message.member.displayName}**, use this cmd only in the ticket channel!` });
+            }
+
+            return message.channel.setName(name)
+            .then(() => message.channel.send({ embeds: [SuccessEmbed('<a:pp399:768864799625838604> Ticket name changed')] }))
+            .catch(() => message.channel.send({ embeds: [ErrorEmbed('💢 Unable to change channel name.')] }))
+            
+        } catch (err) {
+            console.error(err);
+            message.channel.send({ content: `\`❌ [${err.name}]:\` There was an error trying while renaming the ticket.` });
         }
-
-    // getting in the ticket category
-    const categoryID = message.guild.channels.cache.get(data.Mod.Tickets.channel)
-
-    // if there is no ticket category return
-    if(!categoryID) {
-    return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the tickets channel please contact mod or use \`w!setticketch\` cmd`})
-    } else if(!data.Mod.Tickets.isEnabled) {
-    return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **tickets** command is disabled in this server!`})
-    } else {
-    // Do nothing..
     }
-
-    // if the channel is a ticket then...
-    if(message.channel.parent == categoryID){
-        const rename = new discord.EmbedBuilder()
-        .setColor(`GREEN`)
-        .setDescription('<a:pp399:768864799625838604> Ticket name changed')
-        message.channel.send({ embeds: [rename] })
-        .then(channel => {
-            message.channel.setName(name).catch(() => null)
-        })
-    } else {
-        return message.channel.send({ content: `\\❌ **${message.member.displayName}**, You can use this cmd only in the ticket!`})
-    }
-}
-}
+};

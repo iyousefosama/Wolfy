@@ -30,7 +30,7 @@ exports.badword = async function (client, message) {
       console.log(err)
     }
   }
-  const owner = await message.guild.fetchOwner()
+
   if (message.author.id === message.guild.ownerId) {
     return;
   } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {

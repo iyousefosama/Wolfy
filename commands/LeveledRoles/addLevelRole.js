@@ -37,7 +37,7 @@ module.exports = {
             message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
 
-        const Role_To_Add = message.mentions.roles.first()
+        const Role_To_Add = message.mentions.roles.first() || message.guild.roles.cache.get(args[0]) || message.guild.roles.cache.find(r => r.name === args[0]);
         if(!Role_To_Add) return message.channel.send(`\\❌ **${message.member.displayName}**, Please provide the role mention or id!`)
 
         const Level_To_Reach = args[1]

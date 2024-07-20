@@ -48,7 +48,7 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.member.displayName}**, Maximum infraction point can't be less than(1) and more than(10)`)
             }
 
-            data.Infraction.Options.MaxkickP = num;
+            data.Infraction.Options?.MaxkickP = num;
             await data.save()
             .then(() => {
                 message.channel.send(`\\✔️ ${message.member.displayName}, Successfully set the maximum number of \`kick\` infraction point(s) to **${num}**!`)
