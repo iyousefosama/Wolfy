@@ -122,7 +122,6 @@ module.exports = {
                 { name: `${client.config.prefix}ticket`, value: `> \`Open new ticket in the server\`` },
                 { name: `${client.config.prefix}rename`, value: `> \`Change ticket name\`` },
                 { name: `${client.config.prefix}delete`, value: `> \`Delete your ticket in the server\`` },
-                { name: `${client.config.prefix}ticketpanel`, value: `> \`Setup the ticket panel in the server\`` },
                 { name: `${client.config.prefix}calc`, value: `> \`Calculates an equation by wolfy\`` }
             )
             .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
@@ -307,7 +306,7 @@ module.exports = {
                 "all": { embeds: [allCmds], ephemeral: true }
             };
 
-            if(!responses[EmbedName.toLowerCase()]) return message.reply({ content: "\\❗ Invalid embed name!", ephemeral: true });
+            if (!responses[EmbedName.toLowerCase()]) return message.reply({ content: "\\❗ Invalid embed name!", ephemeral: true });
 
             return message.reply(responses[EmbedName.toLowerCase()]);
         } else {
@@ -315,7 +314,8 @@ module.exports = {
             const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
 
             collector.on('collect', async interaction => {
-
+                const { customId, member, user } = interaction;
+                
                 // Define responses based on customId
                 const responses = {
                     "1": { embeds: [info], ephemeral: true },
