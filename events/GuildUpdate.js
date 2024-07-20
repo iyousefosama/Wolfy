@@ -21,7 +21,7 @@ module.exports = {
 
     let data;
     try {
-      data = await schema.findOne({ GuildID: oldGuild.guild.id });
+      data = await schema.findOne({ GuildID: oldGuild.id });
       if (!data || !data.Mod?.Logs?.isEnabled) return;
     } catch (err) {
       console.error(err);
