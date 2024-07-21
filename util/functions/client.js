@@ -75,25 +75,26 @@ const commandLog = async (client, e, isSlash = false, message) => {
     .setThumbnail(guild != "DM" ? guild.iconURL({ dynamic: true }) : user.displayAvatarURL({ dynamic: true }))
     .addFields(
       {
-        name: "User",
-        value: `**${user.username}**(\`${user.id}\`)`,
-        inline: true,
-      },
-      {
-        name: "Server",
-        value: `**${guild}**${guildId ? `(\`${guildId}\`)` : ""}`,
-        inline: true,
-      },
-      {
         name: "Action Type",
         value: `**${isSlash ? "Slash Command" : "Message"}**`,
-        inline: false,
+        inline: true,
       },
       {
         name: "Action name",
         value: cmdName || "Unknown",
+        inline: true,
+      },
+      {
+        name: "User",
+        value: `**${user.username}**(\`${user.id}\`)`,
         inline: false,
-      }
+      },
+      {
+        name: "Server",
+        value: `**${guild}**${guildId ? `(\`${guildId}\`)` : ""}`,
+        inline: false,
+      },
+
     )
     .setTimestamp()
     .setFooter({

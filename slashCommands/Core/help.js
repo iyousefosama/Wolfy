@@ -1,6 +1,6 @@
 const discord = require("discord.js");
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
-
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
+const text = require('../../util/string')
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
@@ -12,11 +12,54 @@ module.exports = {
     integration_types: [0, 1],
     contexts: [0, 1, 2],
     permissions: [],
-    clientPermissions: [
-      "ReadMessageHistory",
+    options: [
+      {
+        type: ApplicationCommandOptionType.String,
+        name: "type",
+        description: "The type of list to display",
+        choices: [
+          { name: "all", value: "all" },
+        ]
+      }
     ],
+    clientPermissions: [],
   },
   async execute(client, interaction) {
+    const { options, guild, user } = interaction;
+    const type = options.getString('type');
+
+    if (type && type == "all") {
+      const fields = [];
+      const groups = [];
+
+      for (let cmd of client.commands) {
+        cmd = cmd[1]
+        if (cmd.group) {
+          groups.push(cmd.group);
+        }
+      };
+
+      var uniqueArr = [...new Set(groups)]
+
+      for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified' && g.toLowerCase() !== "developer")) {
+        fields.push({
+          name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
+          value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
+        });
+      };
+      const allCmds = new discord.EmbedBuilder()
+        .setColor('738ADB')
+        .setTitle('<:Tag:836168214525509653> Wolfy\'s full commands list!')
+        .addFields(fields.sort((A, B) => B.value.length - A.value.length))
+        .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true }) })
+        .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+        .setDescription([
+          `<:star:888264104026992670> You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
+        ].join('\n'))
+
+      return await interaction.reply({ embeds: [allCmds], ephemeral: false });
+    }
+
     // Define button data in an array
     const buttonData = [
       { label: 'Info', customId: '1', style: 'Primary', emoji: '776670895371714570' },
@@ -75,9 +118,10 @@ module.exports = {
     };
 
     // Function to create command list embeds
-    function createCommandListEmbed(title, fields) {
+    function createCommandListEmbed(title, fields, desc) {
       const embed = new EmbedBuilder()
         .setColor(commonEmbedSettings.color)
+        .setDescription(desc ?? null)
         .setURL(commonEmbedSettings.url)
         .setAuthor(commonEmbedSettings.author)
         .setThumbnail(commonEmbedSettings.thumbnail.url)
@@ -139,7 +183,7 @@ module.exports = {
         value: `${client.config.prefix}help eco`,
         inline: true,
       }
-    ]);
+    ], [`<a:Right:877975111846731847> Type \`/feedback\` to report a bug`, `for a full list of commands use: \`/help type: all\``].join("\n"));
 
     const info = createCommandListEmbed(`<a:BackPag:776670895371714570> Informations Commands`, [
       {

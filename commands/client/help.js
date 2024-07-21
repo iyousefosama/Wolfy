@@ -67,7 +67,7 @@ module.exports = {
             .setURL(client.config.websites["website"])
             .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
             .setThumbnail(client.user.displayAvatarURL())
-            .setDescription(`<a:Right:877975111846731847> Type \`${client.config.prefix}feedback\` to report a bug`)
+            .setDescription([`<a:Right:877975111846731847> Type \`${client.config.prefix}feedback\` to report a bug`, `for a full list of commands use: \`${client.config.prefix}help all\``].join("\n"))
             .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
             .setTimestamp()
             .addFields(
@@ -277,7 +277,7 @@ module.exports = {
 
             var uniqueArr = [...new Set(groups)]
 
-            for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified')) {
+            for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified' && g.toLowerCase() !== "developer")) {
                 fields.push({
                     name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
                     value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
@@ -315,7 +315,7 @@ module.exports = {
 
             collector.on('collect', async interaction => {
                 const { customId, member, user } = interaction;
-                
+
                 // Define responses based on customId
                 const responses = {
                     "1": { embeds: [info], ephemeral: true },
