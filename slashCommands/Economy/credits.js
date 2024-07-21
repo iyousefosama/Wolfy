@@ -18,13 +18,13 @@ module.exports = {
     clientPermissions: [],
     permissions: [],
     options: [
-        {
-            type: 6, // USER
-            name: 'user',
-            description: 'User to show the credits for!'
-        }
+      {
+        type: 6, // USER
+        name: 'user',
+        description: 'User to show the credits for!'
+      }
     ]
-},
+  },
   async execute(client, interaction) {
     const target = interaction.options.getUser("user");
 
@@ -52,10 +52,14 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
       interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
     let credits = data.credits;
     let bank = data.Bank.balance.credits;
@@ -71,14 +75,12 @@ module.exports = {
       .setDescription(
         `<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(
           credits
-        )}\`!\n${
-          data.Bank.balance.credits !== null
-            ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
-            : `\\❌ **${user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
-        }\n\n━━━━━━━━━━━━━━\n${
-          dailyUsed
-            ? "<:Success:888264105851490355> Daily reward is **claimed**!"
-            : `\\⚠️ Daily reward is **avaliable**!`
+        )}\`!\n${data.Bank.balance.credits !== null
+          ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
+          : `\\❌ **${user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
+        }\n\n━━━━━━━━━━━━━━\n${dailyUsed
+          ? "<:Success:888264105851490355> Daily reward is **claimed**!"
+          : `\\⚠️ Daily reward is **avaliable**!`
         }`
       )
       .setFooter({

@@ -32,10 +32,14 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
       interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
     const now = Date.now();
     const duration = Math.floor(86400000);

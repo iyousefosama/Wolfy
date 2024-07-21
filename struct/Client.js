@@ -11,7 +11,7 @@ const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { Player } = require("discord-player")
 const { registerPlayerEvents } = require('../events/MusicEvents');
-const { commandLog, debugLog } = require("../util/functions/client");
+const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 
 /**
  * Optimized hub for interacting with the discord API
@@ -187,6 +187,21 @@ module.exports = class WolfyClient extends Client {
       };
     });
   };
+
+  /**
+   * @param {Error} error
+   * @param {string} eventType
+   * @param {import('discord.js').Interaction} interaction
+   * @param {import('discord.js').Message} message
+   */
+  logDetailedError({
+    error,
+    eventType,
+    interaction = null,
+    message = null,
+  }) {
+    logDetailedError({ client: this, error: error, eventType: eventType, interaction: interaction, message: message });
+  }
 
   /**
  * Load all loadComponent from the specified directory

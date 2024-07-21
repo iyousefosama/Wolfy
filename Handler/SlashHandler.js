@@ -1,5 +1,5 @@
 const { Dir } = require('fs');
-const consoleUtil = require(`../util/console`);
+const consoleUtil = require('../util/console');
 const areCommandsDifferent = require('../util/helpers/areCommandsDifferent');
 const getApplicationCommands = require('../util/helpers/getApplicationCommands');
 const getLocalCommands = require('../util/helpers/getLocalCommands');
@@ -17,7 +17,7 @@ module.exports = async (client, directory) => {
     const isGlobal = !client.config.slashCommands?.loadGlobal;
     const devGuild = isGlobal && devGuildId ? client.guilds.cache.get(devGuildId) : null;
     const guildId = devGuild?.id ?? null;
-    
+
     console.log(`(/) Loading all slash commands ${guildId ? `to dev guild: ${devGuild.name}` : "globally."}`);
     const applicationCommands = await getApplicationCommands(client, guildId);
 
@@ -29,43 +29,43 @@ module.exports = async (client, directory) => {
         (cmd) => cmd.name === name
       );
 
-      if (existingCommand) {
-        if (deleted) {
-          await applicationCommands.delete(existingCommand.id);
-          console.log(`🗑 Deleted command "${name}".`);
-          continue;
-        }
+      try {
+        if (existingCommand) {
+          if (deleted) {
+            await applicationCommands.delete(existingCommand.id);
+            console.log(`🗑 Deleted command "${name}".`);
+            continue;
+          }
 
-        if (areCommandsDifferent(existingCommand, commandData)) {
-          await applicationCommands.edit(existingCommand.id, {
-            description,
-            options,
-          });
+          if (areCommandsDifferent(existingCommand, commandData)) {
+            await applicationCommands.edit(existingCommand.id, {
+              description,
+              options,
+            });
 
-          console.log(`🔁 Edited command "${name}".`);
-        }
-      } else {
-        if (deleted) {
-          console.log(
-            `⏩ Skipping registering command "${name}" as it's set to delete.`
-          );
-          continue;
-        }
+            console.log(`🔁 Edited command "${name}".`);
+          }
+        } else {
+          if (deleted) {
+            console.log(
+              `⏩ Skipping registering command "${name}" as it's set to delete.`
+            );
+            continue;
+          }
 
-        try {
           await applicationCommands.create({
             name,
             description,
             options,
           });
 
-          console.log(`✅ Registered command "${name}."`);
-        } catch (error) {
-          consoleUtil.error(`❌ There was an error while creating [${name}] command: ${error}`);
+          console.log(`✔ Registered command "${name}."`);
         }
+      } catch (cmdError) {
+        consoleUtil.error(`❌ Error processing command "${name}": ${cmdError}`);
       }
     }
   } catch (error) {
-    consoleUtil.error(`❌ There was an error while registering slash commands: ${error}`);
+    consoleUtil.error(`❌ Error while registering slash commands: ${error}`);
   }
 };

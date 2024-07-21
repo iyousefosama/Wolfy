@@ -78,10 +78,14 @@ module.exports = {
 
       await interaction.editReply({ embeds: [embed] });
     } catch (err) {
-      console.error(err);
       await interaction.editReply({
         content: `\`❌ [DATABASE_ERR]:\` Unable to retrieve data from the database. Please try again later!`,
       });
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
   },
 };

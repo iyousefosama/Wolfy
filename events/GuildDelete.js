@@ -1,6 +1,5 @@
 const discord = require("discord.js");
 const text = require("../util/string");
-
 const BEV = require("../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"guildDelete">} */
@@ -9,8 +8,6 @@ module.exports = {
   async execute(client, guild) {
     if (!guild || !guild.available) {
       return;
-    } else {
-      // do nothing..
     }
 
     const members = text.commatize(
@@ -29,7 +26,10 @@ module.exports = {
       size: 512,
     });
     const guilds = client.guilds.cache.size;
-    const owner = await guild.fetchOwner();
+    const owner = await guild.fetchOwner().catch(err => {
+      console.error("Error fetching guild owner:", err);
+      return { displayName: "Unknown", displayAvatarURL: () => "", id: "Unknown" };
+    });
     const msg = `<:sad:887894229785903114> I have **left** a \`server\`!`;
 
     const left = new discord.EmbedBuilder()
@@ -53,7 +53,7 @@ module.exports = {
       });
 
     const debugChannelID = client.config.channels.debug || "877130715337220136";
-    const Debug = await client.channels.cache.get(debugChannelID);
+    const Debug = client.channels.cache.get(debugChannelID);
 
     if (Debug) {
       setTimeout(async function () {
@@ -74,13 +74,11 @@ module.exports = {
 
           await webhook.send({ content: msg, embeds: [left] });
         } catch (error) {
-          throw new Error("Error sending webhook message:", error);
+          console.error("Error sending webhook message:", error);
         }
       }, 10000);
     } else {
       console.error("Debug channel not found.");
     }
-
-    return;
   },
 };

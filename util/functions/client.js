@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js")
+const consoleUtil = require("../../util/console")
 let Embedlogs = [];
 const logs = new Map();
 const sending = new Map(); // Keeps track of which guilds are currently sending logs
@@ -184,8 +185,78 @@ const sendWebhook = async (client, embed) => {
   }, 40000);
 }
 
+/**
+ * logDetailedError function to log detailed errors made by the user.
+ * @param {Object} options - The options object for logDetailedError.
+ * @param {import('../../struct/Client')} options.client - The client object.
+ * @param {Error} options.error - The error object.
+ * @param {string} options.eventType - The type of event.
+ * @param {import('discord.js').Interaction} [options.interaction] - The interaction object.
+ * @param {import('discord.js').Message} [options.message] - The message object.
+ * @returns {Promise<void>} - A Promise that resolves once the error is logged.
+ */
+async function logDetailedError({
+  client,
+  error,
+  eventType,
+  interaction = null,
+  message = null,
+}) {
+  const channel = client.channels.cache.get(client.config.channels.debug);
+  const timezone = 2;
+  const offset = 60000 * (new Date().getTimezoneOffset() - (-timezone * 60));
+  const time = parseDate(new Date(Date.now() + offset).toLocaleString('EG', { timezone: 'Africa/Egypt' }).split(/:|\s|\//));
+
+  if (!channel) {
+    console.log(`Debug channel not found. Logging error to console: ${error}`);
+    return;
+  }
+
+  // Extract guild and user based on interaction or message
+  const guild = interaction ? interaction.guild : message ? message.guild : null;
+  const user = interaction ? interaction.user : message ? message.author : null;
+
+  // Command name based on interaction or message
+  const cmdName = interaction ? interaction.commandName : message ? message.content.slice(client.config.prefix.length).trim() : 'Unknown Command';
+
+  consoleUtil.error(`${error.name} caught!\nat ${time}`);
+  client.logs.push(`${error.name} caught!\nat ${time}`);
+
+  // Dynamically construct error details based on interaction or message presence
+  const details = [
+    `**Event Type:** ${eventType}`,
+    cmdName ? `**Command:** ${cmdName}` : null,
+    guild ? `**Guild:** ${guild.name} (\`${guild.id}\`)` : 'DM',
+    user ? `**User:** ${user.tag} (\`${user.id}\`)` : 'Unknown User',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const stackTrace = error.stack.split('\n')
+    .slice(0, 5)
+    .map(line => line.replace(process.cwd(), 'MAIN_PROCESS'))
+    .join('\n');
+
+  const logMessage = `\\🛠 ${error.name} caught!\n\`${time}\`\n${details}\n\`\`\`xl\n${stackTrace}\n.....\n\`\`\``;
+
+  return channel.send(logMessage);
+}
+
+/**
+ * Parse date
+ * @param {Array} dateArray The date array
+ * @returns {string} The formatted date
+ */
+function parseDate([m, d, y, h, min, s, a]) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  return `${weeks[new Date(parseInt(y), m - 1, d).getDay()]} ${months[m - 1]} ${d} ${parseInt(y)} ${h == 0 ? 12 : h > 12 ? h - 12 : h}:${min}:${s} ${a ? a : h < 12 ? 'AM' : 'PM'} JST`;
+}
+
 module.exports = {
   commandLog,
   debugLog,
-  sendLogsToWebhook
+  sendLogsToWebhook,
+  logDetailedError
 }

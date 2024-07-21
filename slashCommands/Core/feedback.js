@@ -46,7 +46,11 @@ module.exports = {
             }
         } catch (err) {
             await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
-            throw new Error(err);
+            client.logDetailedError({
+                error: err,
+                eventType: "DATABASE_ERR",
+                interaction: interaction
+            })
         }
 
         if (feedback.length > 1000) {

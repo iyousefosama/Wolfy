@@ -70,7 +70,7 @@ const settings = {
 
     ticket: {
         max_panels: 6,
-      },
+    },
 
     // websites affiliated with the bot, can be accessed through
     // Client#config#websites

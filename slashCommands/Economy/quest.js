@@ -26,19 +26,19 @@ module.exports = {
     clientPermissions: [],
     permissions: [],
     options: [
-        {
-            type: 3, // STRING
-            name: 'action',
-            description: 'Action you want to perform on the command',
-            choices: [
-                {
-                    name: 'claim',
-                    value: 'claim_daily_reward'
-                }
-            ]
-        }
+      {
+        type: 3, // STRING
+        name: 'action',
+        description: 'Action you want to perform on the command',
+        choices: [
+          {
+            name: 'claim',
+            value: 'claim_daily_reward'
+          }
+        ]
+      }
     ]
-},
+  },
   async execute(client, interaction) {
     const option = interaction.options.getString("action");
 
@@ -53,10 +53,14 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
       interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
 
     const now = Date.now();
@@ -140,8 +144,7 @@ module.exports = {
             )
             .setDescription(
               [
-                `<a:ShinyMoney:877975108038324224> **${
-                  interaction.user.tag
+                `<a:ShinyMoney:877975108038324224> **${interaction.user.tag
                 }**, You received **${Math.floor(
                   moneyget
                 )}** from daily quests reward!`,
@@ -178,10 +181,8 @@ module.exports = {
             `Your daily quests will be refreshed in \`${moment
               .duration(data.progress.TimeReset - now, "milliseconds")
               /*.format("h [hrs], m [min], and s [sec]")*/
-              .format("hh:mm:ss")}\`\nYou completed ${
-              data.progress.completed
-            } out of 4 from your daily quests.\nOnce you complete all the quests type \`${
-              client.prefix
+              .format("hh:mm:ss")}\`\nYou completed ${data.progress.completed
+            } out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix
             }quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`
           )
           .setThumbnail("attachment://treasure.png")

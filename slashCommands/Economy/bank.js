@@ -19,7 +19,7 @@ module.exports = {
     clientPermissions: [],
     permissions: [],
     options: []
-},
+  },
   async execute(client, interaction) {
     let data;
     try {
@@ -32,10 +32,14 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
       interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
     let credits = data.Bank.balance.credits;
     let moneyadd = Math.floor(credits * 1.05) + 150;
@@ -63,8 +67,7 @@ module.exports = {
         })
         .setColor("Grey")
         .setDescription(
-          `🏦 **${
-            interaction.user.username
+          `🏦 **${interaction.user.username
           }**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(
             credits
           )}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment
@@ -107,8 +110,7 @@ module.exports = {
             })
             .setColor("DarkGreen")
             .setDescription(
-              `🏦 **${
-                interaction.user.username
+              `🏦 **${interaction.user.username
               }**, Your new balance is <a:ShinyMoney:877975108038324224> **${text.commatize(
                 moneyadd
               )}** credits in your bank account!\n\n⚠️ Check your bank again after \`${moment

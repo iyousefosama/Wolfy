@@ -93,10 +93,14 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.log(err);
       interaction.reply(
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
+      return client.logDetailedError({
+        error: err,
+        eventType: "DATABASE_ERR",
+        interaction: interaction
+      })
     }
 
     if (Math.ceil(amount * 1.1) > data.credits) {
