@@ -1,14 +1,12 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const {
   EmbedBuilder,
   ActionRowBuilder,
-  Events,
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
 } = require("discord.js");
 const notes = require("../../schema/releasenotes-Schema");
-const { version, author } = require("../../package.json");
+const { ErrorEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -21,56 +19,30 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
     requiresDatabase: true,
+    ownerOnly: true,
     group: "Bot",
     clientPermissions: [],
     permissions: [],
     options: [
-        {
-            type: 1, // SUB_COMMAND
-            name: 'publish',
-            description: '🛠 Developers only, Publish new release notes'
-        },
-        {
-            type: 1, // SUB_COMMAND
-            name: 'view',
-            description: 'View the most recent release notes'
-        }
+      {
+        type: 1, // SUB_COMMAND
+        name: 'publish',
+        description: '🛠 Developers only, Publish new release notes'
+      },
+      {
+        type: 1, // SUB_COMMAND
+        name: 'view',
+        description: 'View the most recent release notes'
+      }
     ]
-},
+  },
   async execute(client, interaction) {
     const { options } = interaction;
     const sub = options.getSubcommand();
     var data = await notes.find();
 
-    async function sendMessage(message) {
-      const embed = new EmbedBuilder()
-        .setColor(`Blurple`)
-        .setDescription(message);
-
-      await interaction.reply({ embeds: [embed], ephemeral: true });
-    }
-
-    async function updateNotes(update, version) {
-      await notes.create({
-        Updates: update,
-        Date: Date.now(),
-        Developer: interaction.user.username,
-        Version: version,
-      });
-
-      await sendMessage("✔ Release notes updated!");
-    }
-
     switch (sub) {
       case "publish":
-        if (!client.owners.includes(interaction.user.id)) {
-          return interaction.reply({
-            content:
-              "<a:pp802:768864899543466006> This command is limited for developers only!",
-            ephemeral: true,
-          });
-        }
-
         // Create the modal
         const modal = new ModalBuilder()
           .setCustomId("modal_notes")
@@ -100,13 +72,13 @@ module.exports = {
         break;
       case "view":
         if (data.length == 0) {
-          await sendMessage("⚠ No release notes found!");
+          await interaction.reply({ embeds: [ErrorEmbed("⚠ No release notes found!")] });
         } else {
           await data.forEach(async (value) => {
             const embed = new EmbedBuilder()
               .setColor(`#c19a6b`)
               .setAuthor({
-                name: "Test",
+                name: client.user.username,
                 iconURL: client.user.displayAvatarURL({ dynamic: true }),
               })
               .setDescription(
@@ -122,6 +94,7 @@ module.exports = {
                 iconURL: interaction.guild?.iconURL({ dynamic: true }) ? interaction.guild.iconURL({ dynamic: true }) : client.user.displayAvatarURL({ dynamic: true }),
               })
               .setTimestamp();
+
             return await interaction.reply({
               embeds: [embed],
               ephemeral: true,

@@ -1,6 +1,7 @@
 const notes = require("../../schema/releasenotes-Schema");
 const { version, author } = require("../../package.json");
 const { EmbedBuilder } = require("discord.js");
+const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -13,24 +14,33 @@ module.exports = {
     async action(client, interaction, parts) {
         const update = interaction.fields.getTextInputValue("notesInput");
 
-        // Delete previous notes
-        await notes.deleteMany();
+        try {
+            // Delete previous notes
+            await notes.deleteMany();
 
-        // Create a new note
-        await notes.create({
-            Updates: update,
-            Date: Date.now(),
-            Developer: interaction.user.username,
-            Version: version, // Consider revising how version is determined
-        });
+            // Create a new note
+            await notes.create({
+                Updates: update,
+                Date: Date.now(),
+                Developer: interaction.user.username,
+                Version: version, // Consider revising how version is determined
+            });
 
-        // Fetch the updated notes data AFTER the new note has been created
-        const updatedNotesData = await notes.find();
+            // Fetch the updated notes data AFTER the new note has been created
+            updatedNotesData = await notes.find();
+        } catch (error) {
+            client.logDetailedError({
+                interaction: interaction,
+                error: error,
+                eventType: "DATABASE_ERR"
+            });
+            return await interaction.reply({ embeds: [ErrorEmbed(`❌ [DATABASE_ERR]:\` The database responded with error: ${error.name}`)], ephemeral: true });
+        }
 
         // Assuming you've corrected how you handle the version, no need for extra logic here
         const changeLogs =
-            await client.channels.cache.get(client.config.channels.changelogs) ||
-            await client.channels.cache.get("887589978127863808");
+            await client.channels.cache.get(client.config.channels.changelogs)
+        if (!changeLogs) return interaction.reply({ embeds: [ErrorEmbed(`❌ Couldn't find changelogs channel, but updated documents!`)] });
 
         for (let value of updatedNotesData) {
             const embed = new EmbedBuilder()
@@ -52,7 +62,7 @@ module.exports = {
         };
 
         await interaction.reply({
-            content: "👌 Your submission was received successfully!",
+            embeds: [SuccessEmbed("👌 Your submission was received successfully!")],
             ephemeral: true,
         });
     },

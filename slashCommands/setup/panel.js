@@ -122,7 +122,7 @@ module.exports = {
          * @type {import("mongoose").Number}
          */
         let panelCount = await schema.find({ Guild: guild.id }).countDocuments();
-        const maxPanels = client.config.ticket.max_panels ?? 5;
+        const maxPanels = client.config.ticket?.max_panels ?? 5;
 
         if (panelCount >= maxPanels) {
           return interaction.reply({ embeds: [ErrorEmbed(`\\❌ You can only have \`${maxPanels}\` ticket panels in the server!`)], ephemeral: true });
