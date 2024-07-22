@@ -160,9 +160,9 @@ module.exports = {
       case "edit":
         const Enabled = options.getBoolean("Enabled");
 
-        let editData = schema.findOne({ Guild: guild.id, Category: category.id })
+        let toEdit = schema.findOne({ Guild: guild.id, Category: category.id })
 
-        if (!editData) {
+        if (!toEdit) {
           return interaction.reply({
             embeds: [ErrorEmbed(`\\❌ \`${category}\` is not a valid panel category!`)]
           })
@@ -192,7 +192,7 @@ module.exports = {
           let admin = guild.members.cache.get(panel.Admin);
           return {
             name: `${category} (${panel.Category})`,
-            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: ${panel.createdAt}`, `Admin: ${admin}`].join("\n"),
+            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime()/1000)}>`, `Admin: ${admin}`].join("\n"),
           };
         })
 
