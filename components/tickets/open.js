@@ -26,14 +26,20 @@ module.exports = {
             });
             if (!data) {
                 return interaction.followUp({
-                    content: `\\❌ **${interaction.member}**, I can't find this category in my database!`,
+                    content: `\\❌ I can't find this category in my database!`,
+                    ephemeral: true,
                 })
             }
         } catch (err) {
-            console.log(err);
-            interaction.channel.send({
+            interaction.followUp({
                 content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                ephemeral: true,
             });
+            return client.logDetailedError({
+                error: err,
+                eventType: "btn_ticket",
+                interaction: interaction
+            })
         }
 
         // getting in the ticket category
@@ -42,12 +48,12 @@ module.exports = {
         // if there is no ticket category return
         if (!category) {
             return interaction.followUp({
-                content: `\\❌ **${interaction.member.displayName}**, I can't find the tickets channel please contact mod or use \`/panel create\` cmd`,
+                content: `\\❌ **tickets-category** not found, please contact mod or use \`/panel create\` command.`,
                 ephemeral: true,
             });
         } else if (!data.Enabled) {
             return interaction.followUp({
-                content: `\\❌ **${interaction.member.displayName}**, The **tickets** command is disabled in this server!`,
+                content: "\\❌ This Ticket panel is **disabled** in the server!",
                 ephemeral: true,
             });
         } else {

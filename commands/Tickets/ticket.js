@@ -43,9 +43,9 @@ module.exports = {
 
         // if there is no ticket category return
         if (!category) {
-            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, I can't find the tickets channel please contact mod or use \`/panel create\` cmd` })
+            return message.reply({ content: "\\❌ **tickets-category** not found, please contact mod or use \`/panel create\` command." })
         } else if (!data.Enabled) {
-            return message.channel.send({ content: `\\❌ **${message.member.displayName}**, The **tickets** command is disabled in this server!` })
+            return message.reply({ content: "\\❌ This Ticket panel is **disabled** in the server!" })
         } else {
             // Do nothing..
         }

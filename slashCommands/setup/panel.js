@@ -158,28 +158,41 @@ module.exports = {
         interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Ticket panel is deleted with category ${category}!`)], ephemeral: true });
         break;
       case "edit":
-        const Enabled = options.getBoolean("Enabled");
+        const Enabled = options.getBoolean("enabled");
 
-        let toEdit = schema.findOne({ Guild: guild.id, Category: category.id })
+        // Await the findOne operation to get the actual document
+        let toEdit = await schema.findOne({ Guild: guild.id, Category: category.id }).exec();
 
         if (!toEdit) {
           return interaction.reply({
-            embeds: [ErrorEmbed(`\\❌ \`${category}\` is not a valid panel category!`)]
-          })
+            embeds: [ErrorEmbed(`\\❌ ${category} is not a valid panel category!`)]
+          });
         }
 
         const EnabledText = Enabled ? "Enabled" : "Disabled";
 
         if (Enabled === toEdit.Enabled) {
-          interaction.reply({
+          return interaction.reply({
             embeds: [ErrorEmbed(`\\❌ This panel status is already \`${EnabledText}\``)]
-          })
+          });
         }
 
-        await schema.findOneAndUpdate({ Guild: guild.id, Category: category.id }, { Enabled: Enabled })
-          .then(() => interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Ticket panel status has set to: \`${EnabledText}\``)] }))
-          .catch(() => interaction.reply({ embeds: [ErrorEmbed(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)], ephemeral: true }))
-        break;
+        try {
+          await schema.findOneAndUpdate(
+            { Guild: guild.id, Category: category.id },
+            { Enabled: Enabled }
+          );
+
+          return interaction.reply({
+            embeds: [SuccessEmbed(`\\✔️ Ticket panel status has been set to: \`${EnabledText}\``)]
+          });
+        } catch (err) {
+          return interaction.reply({
+            embeds: [ErrorEmbed(`\\❌ [DATABASE_ERR]: The database responded with error: ${err.name}`)],
+            ephemeral: true
+          });
+        }
+
       case "list":
         const panels = await schema.find({ Guild: guild.id });
 
@@ -192,7 +205,7 @@ module.exports = {
           let admin = guild.members.cache.get(panel.Admin);
           return {
             name: `${category} (${panel.Category})`,
-            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime()/1000)}>`, `Admin: ${admin}`].join("\n"),
+            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`, `Admin: ${admin}`].join("\n"),
           };
         })
 
