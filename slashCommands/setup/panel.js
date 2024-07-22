@@ -139,6 +139,8 @@ module.exports = {
             sendPanelEmbed(client, interaction);
           }
 
+          panelCount = await schema.find({ Guild: guild.id }).countDocuments();
+
           interaction.reply({ embeds: [SuccessEmbed(`\\✔️ A new ticket panel is set to ${category}!\nYour server currently has \`${panelCount}\` ticket panels.`)], ephemeral: true });
         } catch (err) {
           console.error("Error creating panel:", err);
@@ -158,9 +160,9 @@ module.exports = {
       case "edit":
         const Enabled = options.getBoolean("Enabled");
 
-        data = schema.findOne({ Guild: guild.id, Category: category.id })
+        let editData = schema.findOne({ Guild: guild.id, Category: category.id })
 
-        if (!data) {
+        if (!editData) {
           return interaction.reply({
             embeds: [ErrorEmbed(`\\❌ \`${category}\` is not a valid panel category!`)]
           })
