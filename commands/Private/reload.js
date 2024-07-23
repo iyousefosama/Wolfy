@@ -19,7 +19,7 @@ module.exports = {
         try {
             // Clear all existing commands
             client.commands.clear();
-            client.components.clear(); // Assuming you have a collection for components
+            client.components.clear();
 
             // Remove all event listeners
             client.removeAllListeners();

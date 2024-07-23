@@ -31,6 +31,7 @@ module.exports = {
   
   async execute(client, message, [user = ""]) {
     const id = (user.match(/\d{17,19}/) || [])[0] || message.author.id;
+    message.channel.sendTyping();
 
     if (message.guild) {
       member = await message.guild.members
@@ -58,11 +59,12 @@ module.exports = {
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
-    message.channel.sendTyping();
+
     if (!data.Mod.Level.isEnabled)
       return message.channel.send({
-        content: `\\❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+        content: `\\❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
       });
+
     try {
       ecodata = await ecoschema.findOne({
         userID: user.id,
@@ -87,6 +89,7 @@ module.exports = {
         `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
       );
     }
+    
     var status = member.presence?.status;
     const requiredXP = Userdata.System.required;
     const rank = new RankCardBuilder()

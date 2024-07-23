@@ -1,4 +1,3 @@
-const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
 const https = require('https');
 

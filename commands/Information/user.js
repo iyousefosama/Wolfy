@@ -7,7 +7,7 @@ const axios = require("axios")
  */
 module.exports = {
     name: "user",
-    aliases: [],
+    aliases: ["whois"],
     dmOnly: false, //or false
     guildOnly: true, //or false
     args: false, //or false

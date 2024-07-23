@@ -1,7 +1,6 @@
-const discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const moment = require('moment');
-const { author } = require('../../package.json');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -54,26 +53,28 @@ module.exports = {
         }
 
         if (feedback.length > 1000) {
-            return interaction.reply({ content: `<a:Wrong:812104211361693696> Please make your report brief and short! (MAX 1000 characters!)`, ephemeral: true})
+            return interaction.reply({ content: `<a:Wrong:812104211361693696> Please make your report brief and short! (MAX 1000 characters!)`, ephemeral: true })
         };
 
         const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
         if (!owner) {
-            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, ephemeral: true});
+            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, ephemeral: true });
         };
 
         if (TimeOutData.feedback > now) {
-            const embed = new discord.EmbedBuilder()
-                .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
-                .setDescription(`\\❌ **${interaction.user.username}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
-                .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                .setColor('Red')
-            interaction.reply({ embeds: [embed], ephemeral: true })
+            return interaction.reply({
+                embeds: [new EmbedBuilder()
+                    .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
+                    .setDescription(`\\❌ **${interaction.user.username}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setColor('Red')], ephemeral: true
+            })
         } else {
             TimeOutData.feedback = Math.floor(Date.now() + duration);
+            
             await TimeOutData.save()
-            const embed = new discord.EmbedBuilder()
+            const embed = new EmbedBuilder()
                 .setColor('Orange')
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ extension: 'png', dynamic: true }) })
                 .setTitle('Re: Feedback/Report')
@@ -98,8 +99,8 @@ module.exports = {
                         '```'
                     ].join('\n')
                 })
-            owner.send({ embeds: [embed] }).then(() => interaction.reply({content: '<:Verify:841711383191879690> Feedback Sent!', ephemeral: true}))
-                .catch(err => interaction.reply({ content: `**${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, ephemeral: true}));
+            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: '<:Verify:841711383191879690> Feedback Sent!', ephemeral: true }))
+                .catch(() => interaction.reply({ content: `💢 **${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, ephemeral: true }));
         }
     },
 };

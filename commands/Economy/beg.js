@@ -12,7 +12,7 @@ module.exports = {
     args: false, //or false
     usage: '',
     group: 'Economy',
-    description: 'Want to earn money some more? Why don\'t you try begging, maybe someone will give you.',
+    description: 'Why don\'t you try begging, maybe someone will give you money.',
     cooldown: 5, //seconds(s)
     guarded: false, //or false
     requiresDatabase: true,
@@ -42,7 +42,7 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.tag}**, You have already been given some *coins* earlier! Please try again later.`);
           };
 
-        let ppl = ['WOLF', 'me', 'Mr.Beast', 'Tony Stark', 'Mr. joe', 'Anonymous', 'Rick', 'Morty', 'Steve', 'Drako', 'Elon Musk']
+        let ppl = ['WOLF', 'me', 'Mr.Beast', 'Tony Stark', 'Mr. joe', 'Anonymous', 'Rick', 'Morty', 'Steve', 'Drako', 'Elon Musk', 'Newton']
         let givers = Math.floor(Math.random() * ppl.length)
         let moneyget = Math.floor(Math.random() * 125) + 25;
         if(quest?.current < quest?.progress) {

@@ -37,7 +37,6 @@ module.exports = {
             .setDescription(dm)
             .setFooter({ text: `\©️${new Date().getFullYear()} WOLFY`, iconURL: client.user.displayAvatarURL({ dyanmic: true }) })
             .setTimestamp()
-            .setImage(`https://cdn.discordapp.com/attachments/830926767728492565/874777015058858044/unnamed_2.png`)
         return await user.send({ embeds: [dmembed] }).then(() => {
             const done = new discord.EmbedBuilder()
                 .setColor(`Green`)

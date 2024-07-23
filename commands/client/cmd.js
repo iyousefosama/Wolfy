@@ -36,15 +36,6 @@ module.exports = {
             return message.channel.send(`\\❌ **${message.author.username}**, I couldn't find the query **${query}** in the commands list!`);
           }
 
-          function getPermissionName(permission) {
-            for (const perm of Object.keys(PermissionsBitField.Flags)) {
-              if (PermissionsBitField.Flags[perm] === permission) {
-                return perm;
-              }
-            }
-            return 'UnknownPermission';
-          }
-          
           const embed = new discord.EmbedBuilder()
           .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true}) })
           .setColor('738ADB')
@@ -54,7 +45,7 @@ module.exports = {
           { name: 'Usage', value: `\`${client.prefix}${cmd.name} ${cmd.usage}\``, inline: true },
           { name: 'ALIASES', value: `${text.joinArray(cmd.aliases) || 'None'}`, inline: true },
           { name: 'COOLDOWN', value: `\`${cmd.cooldown} (seconds)\``, inline: true },
-          { name: 'Permissions', value: `${text.joinArray(cmd.permissions.map(x => getPermissionName(x))) || 'None'}`, inline: true },
+          { name: 'Permissions', value: `${text.joinArray(cmd.permissions) || 'None'}`, inline: true },
           { name: 'Examples', value: `${cmd.examples.map(x=>`\`${client.prefix}${cmd.name} ${x}\n\``).join(' ') || 'None'}`}
           )
           .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })

@@ -1,5 +1,3 @@
-const fs = require("fs");
-const discord = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 
 /**
@@ -48,56 +46,56 @@ module.exports = {
 
     if (!data.Mod.Level.isEnabled) {
       return message.channel.send({
-        content: `❌ **${message.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+        content: `❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
       });
     }
 
-    const list_Of_Level_Roles = data.Mod.Level.Roles.map(
+    const rolesList = data.Mod.Level.Roles.map(
       (roles) => roles.RoleName
     );
-    const list_Of_Levels_To_Reach = data.Mod.Level.Roles.map(
+    const levelsList = data.Mod.Level.Roles.map(
       (roles) => roles.Level
     );
-    const list_Of_IDs = data.Mod.Level.Roles.map((roles) => roles.RoleId);
+    const idList = data.Mod.Level.Roles.map((roles) => roles.RoleId);
 
-    if (list_Of_Level_Roles.length === 0) {
+    if (rolesList.length === 0) {
       return message.channel.send({
         content: `❌ **${message.member.displayName}**, There are no leveled roles in this server!`,
       });
     }
 
-    const successEmbed = new discord.EmbedBuilder()
-      .setAuthor({
-        name: message.author.username,
-        iconURL: message.author.displayAvatarURL({ dynamic: true }),
-      })
-      .setFooter({
-        text: message.guild.name,
-        iconURL: message.guild.iconURL({ dynamic: true }),
-      })
-      .setDescription(
-        `<a:Bagopen:877975110806540379> \`${message.guild.name}\` Leveled Roles List!\n\n`
-      )
-      .addFields(
-        {
-          name: "<a:iNFO:853495450111967253> Name",
-          value: list_Of_Level_Roles.join("\n"),
-          inline: true,
-        },
-        {
-          name: "<a:Right:877975111846731847> Level To Reach",
-          value: list_Of_Levels_To_Reach.join("\n"),
-          inline: true,
-        },
-        {
-          name: "<:pp198:853494893439352842> ID",
-          value: list_Of_IDs.join("\n"),
-          inline: true,
-        }
-      )
-      .setColor("DarkGreen")
-      .setTimestamp();
+    /*     const successEmbed = new discord.EmbedBuilder()
+          .setAuthor({
+            name: message.author.username,
+            iconURL: message.author.displayAvatarURL({ dynamic: true }),
+          })
+          .setFooter({
+            text: message.guild.name,
+            iconURL: message.guild.iconURL({ dynamic: true }),
+          })
+          .setDescription(
+            `<a:Bagopen:877975110806540379> \`${message.guild.name}\` Leveled Roles List!\n\n`
+          )
+          .addFields(
+            {
+              name: "<a:iNFO:853495450111967253> Name",
+              value: rolesList.join("\n"),
+              inline: true,
+            },
+            {
+              name: "<a:Right:877975111846731847> Level To Reach",
+              value: levelsList.join("\n"),
+              inline: true,
+            },
+            {
+              name: "<:pp198:853494893439352842> ID",
+              value: idList.join("\n"),
+              inline: true,
+            }
+          )
+          .setColor("DarkGreen")
+          .setTimestamp(); */
 
-    return message.channel.send({ embeds: [successEmbed] });
+    return message.reply({ content: `\`\`\`Role | Level | Role id\n${rolesList.join("\n")} | ${levelsList.join("\n")} | ${idList.join("\n")}\`\`\`` });
   },
 };

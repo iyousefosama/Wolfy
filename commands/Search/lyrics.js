@@ -1,7 +1,6 @@
 const discord = require('discord.js')
 const fetch = require('node-fetch');
-const { EmbedBuilder, GuildEmoji } = require('discord.js');
-const text = require('../../util/string');
+const { EmbedBuilder } = require('discord.js');
 const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
 

@@ -1,4 +1,3 @@
-const discord = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 const UserSchema = require("../../schema/LevelingSystem-Schema");
 const { Font, LeaderboardBuilder } = require("canvacord");
