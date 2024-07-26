@@ -43,13 +43,11 @@ module.exports = {
         iconURL: invite.inviter.displayAvatarURL({ dynamic: true, size: 2048 }),
       })
       .setTitle("<a:Up:853495989796470815> Invite Created")
-      .setDescription(`
-        **Inviter**: ${invite.inviter.tag} (${invite.inviter.id})\n
-        **Channel**: ${invite.channel.name}\n
-        **Code**: ${invite.code}\n
-        **Expires**: ${invite.expiresAt ? `<t:${Math.floor(invite.expiresAt / 1000)}:R>` : "Never"}\n
-        **Uses**: ${invite.uses}/${invite.maxUses}
-      `)
+      .setDescription([`**Inviter**: ${invite.inviter.tag} (${invite.inviter.id})`,
+      `**Channel**: ${invite.channel.name}`,
+      `**Code**: ${invite.code}`,
+       `**Uses**: ${invite.uses}/${invite.maxUses}`
+      ].join("\n"))
       .setColor("Green")
       .setFooter({
         text: invite.guild.name,

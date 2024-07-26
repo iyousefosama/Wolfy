@@ -18,84 +18,50 @@ module.exports = {
   clientPermissions: ["UseExternalEmojis"],
   examples: [],
   /**
-   *
-   * @param {import("discord.js").Client} client
-   * @param {import("discord.js").Message} message
-   * @param {String[]} args
-   *
+   * 
+   * @param {import("discord.js").Client} client 
+   * @param {import("discord.js").Message} message 
+   * @param {String[]} args 
+   * 
    */
   async execute(client, message, args) {
     message.channel.sendTyping();
 
-    let data;
-
     try {
-      data = await schema.findOne({ GuildID: message.guild.id });
+      const data = await schema.findOne({ GuildID: message.guild.id });
 
       if (!data) {
-        return message.channel.send(
-          `❌ ${message.author}, There are no Level Roles yet!`
-        );
+        return message.channel.send(`❌ ${message.author}, There are no Level Roles yet!`);
       }
+
+      if (!data.Mod.Level.isEnabled) {
+        return message.channel.send({
+          content: `❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+        });
+      }
+
+      const rolesList = data.Mod.Level.Roles.map(role => role.RoleName);
+      const levelsList = data.Mod.Level.Roles.map(role => role.Level);
+      const idList = data.Mod.Level.Roles.map(role => role.RoleId);
+
+      if (rolesList.length === 0) {
+        return message.channel.send({
+          content: `❌ **${message.member.displayName}**, There are no leveled roles in this server!`,
+        });
+      }
+
+      const tableHeaders = `| Role                | Level | Role ID                |\n|---------------------|-------|------------------------|\n`;
+      const tableRows = rolesList.map((role, index) => {
+        return `| ${role.padEnd(19)} | ${String(levelsList[index]).padEnd(5)} | ${idList[index].padEnd(22)} |`;
+      }).join("\n");
+
+      return message.reply({
+        content: `\`\`\`${tableHeaders}${tableRows}\`\`\``
+      });
+
     } catch (err) {
       console.error(err);
-      message.channel.send(
-        `❌ [DATABASE_ERR]: The database responded with error: ${err.name}`
-      );
+      return message.channel.send(`❌ [DATABASE_ERR]: The database responded with error: ${err.name}`);
     }
-
-    if (!data.Mod.Level.isEnabled) {
-      return message.channel.send({
-        content: `❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
-      });
-    }
-
-    const rolesList = data.Mod.Level.Roles.map(
-      (roles) => roles.RoleName
-    );
-    const levelsList = data.Mod.Level.Roles.map(
-      (roles) => roles.Level
-    );
-    const idList = data.Mod.Level.Roles.map((roles) => roles.RoleId);
-
-    if (rolesList.length === 0) {
-      return message.channel.send({
-        content: `❌ **${message.member.displayName}**, There are no leveled roles in this server!`,
-      });
-    }
-
-    /*     const successEmbed = new discord.EmbedBuilder()
-          .setAuthor({
-            name: message.author.username,
-            iconURL: message.author.displayAvatarURL({ dynamic: true }),
-          })
-          .setFooter({
-            text: message.guild.name,
-            iconURL: message.guild.iconURL({ dynamic: true }),
-          })
-          .setDescription(
-            `<a:Bagopen:877975110806540379> \`${message.guild.name}\` Leveled Roles List!\n\n`
-          )
-          .addFields(
-            {
-              name: "<a:iNFO:853495450111967253> Name",
-              value: rolesList.join("\n"),
-              inline: true,
-            },
-            {
-              name: "<a:Right:877975111846731847> Level To Reach",
-              value: levelsList.join("\n"),
-              inline: true,
-            },
-            {
-              name: "<:pp198:853494893439352842> ID",
-              value: idList.join("\n"),
-              inline: true,
-            }
-          )
-          .setColor("DarkGreen")
-          .setTimestamp(); */
-
-    return message.reply({ content: `\`\`\`Role | Level | Role id\n${rolesList.join("\n")} | ${levelsList.join("\n")} | ${idList.join("\n")}\`\`\`` });
   },
 };

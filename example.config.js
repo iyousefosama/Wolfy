@@ -18,7 +18,7 @@ const settings = {
         },
         partials: [Partials.Message, Partials.Channel, Partials.Reaction],
         // Intents flags
-        intents: ["MessageContent", "GuildMembers"/* , "GuildPresences" */, "Guilds", "GuildMessages", "DirectMessages", "GuildMessageReactions", "GuildVoiceStates"],
+        intents: ["MessageContent", "GuildMembers"/* , "GuildPresences" */, "Guilds", "GuildMessages", "GuildBans", "GuildInvites", "GuildMessageReactions", "GuildModeration", "GuildWebhooks", "DirectMessages", "GuildMessageReactions", "GuildVoiceStates"],
         // Disable Mentions except Users
         allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
     },

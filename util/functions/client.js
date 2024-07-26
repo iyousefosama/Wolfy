@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require("discord.js")
-const consoleUtil = require("../../util/console")
+const { EmbedBuilder } = require("discord.js");
+const consoleUtil = require("../../util/console");
 let Embedlogs = [];
 const logs = new Map();
 const sending = new Map(); // Keeps track of which guilds are currently sending logs
@@ -17,7 +17,11 @@ const sendLogsToWebhook = async (client, channel, embed) => {
     logs.set(guildId, []);
   }
 
-  logs.get(guildId).push(embed);
+  if (embed && Object.keys(embed.data).length > 0) {
+    logs.get(guildId).push(embed);
+  } else {
+    console.error("Invalid embed provided");
+  }
 
   if (sending.has(guildId)) {
     return; // If logs are already being sent for this guild, don't start another timeout
@@ -38,14 +42,20 @@ const sendLogsToWebhook = async (client, channel, embed) => {
     }
 
     while (logs.get(guildId).length > 0) {
-      const embedsToSend = logs.get(guildId).slice(0, 10);
-      await webhook.send({ embeds: embedsToSend }).catch(console.error);
+      const embedsToSend = logs.get(guildId).slice(0, 10).filter(embed => Object.keys(embed.data).length > 0);
+      
+      if (embedsToSend.length > 0) {
+        await webhook.send({ embeds: embedsToSend }).catch(console.error);
+      }
+      
       logs.set(guildId, logs.get(guildId).slice(10)); // Remove the sent embeds from the logs
     }
 
     sending.delete(guildId); // Finished sending logs for this guild
   }, 40000); // 40 seconds delay
 };
+
+module.exports = { sendLogsToWebhook };
 
 /**
  * Logging function that logs the interactions users do with Wolfy client

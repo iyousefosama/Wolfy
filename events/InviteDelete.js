@@ -35,14 +35,9 @@ module.exports = {
       return;
     }
 
-    const timestamp = Math.floor(Date.now() / 1000);
-
     const inviteDeleteEmbed = new EmbedBuilder()
       .setTitle("<a:Down:853495989796470815> Invite Deleted")
-      .setDescription(`
-        **Channel**: ${invite.channel.name}\n
-        **Code**: ${invite.code}\n
-      `)
+      .setDescription([`**Channel**: ${invite.channel.name}`, `**Code**: ${invite.code}`].join("\n"))
       .setColor("Red")
       .setFooter({
         text: invite.guild.name,
