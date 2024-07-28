@@ -89,7 +89,11 @@ module.exports = {
                     return null;
                 }
             } catch (err) {
-                console.error(err);
+                client.logDetailedError({
+                    error: err,
+                    eventType: "Ticket-Delete",
+                    message: message
+                })
                 message.channel.send(`\\❌ [\`${err.name}\`]: An error occurred, please try again!`);
             }
         }, 5000);

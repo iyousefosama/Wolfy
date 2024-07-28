@@ -39,19 +39,19 @@ module.exports = {
 
     const inviteCreateEmbed = new EmbedBuilder()
       .setAuthor({
-        name: invite.inviter.username,
-        iconURL: invite.inviter.displayAvatarURL({ dynamic: true, size: 2048 }),
+        name: invite.inviter?.username,
+        iconURL: invite.inviter?.displayAvatarURL({ dynamic: true, size: 2048 }),
       })
       .setTitle("<a:Up:853495989796470815> Invite Created")
-      .setDescription([`**Inviter**: ${invite.inviter.tag} (${invite.inviter.id})`,
-      `**Channel**: ${invite.channel.name}`,
+      .setDescription([`**Inviter**: ${invite.inviter?.tag} (${invite.inviter?.id})`,
+      `**Channel**: ${invite.channel?.name}`,
       `**Code**: ${invite.code}`,
        `**Uses**: ${invite.uses}/${invite.maxUses}`
       ].join("\n"))
       .setColor("Green")
       .setFooter({
-        text: invite.guild.name,
-        iconURL: invite.guild.iconURL({ dynamic: true }),
+        text: invite.guild?.name,
+        iconURL: invite.guild?.iconURL({ dynamic: true }),
       })
       .setTimestamp()
       .setThumbnail(invite.inviter.displayAvatarURL({ dynamic: true }));

@@ -36,7 +36,7 @@ module.exports = {
                 return message.channel.send({ content: `\\❌ **${message.author.username}**, this is not a valid ticket channel!` });
             }
 
-            const category = message.guild.channels.cache.get(data.Category);
+            const category = message.guild.channels.cache.get(TicketData.Category);
             if (!category) {
                 return message.channel.send({ content: `\\❌ **${message.member.displayName}**, can't find the tickets channel. Contact mod or use \`w!setticketch\`` });
             }
