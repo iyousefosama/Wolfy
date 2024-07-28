@@ -36,44 +36,46 @@ module.exports = {
     },
     async execute(client, interaction) {
         const { guild, options } = interaction;
-
         const user = options.getUser("target");
         const time = options.getString("time");
         const reason = options.getString("reason") || 'Unspecified';
-
-        let timeoutDuration = ms(time);
-
-        if (timeoutDuration === undefined) {
-            return interaction.reply({ content: `\\❌ Please provide a valid time for the timeout!`, ephemeral: true });
-        }
-
-        if (timeoutDuration === 0) {
-            timeoutDuration = null;
-        }
-
-        if (!user) {
-            return interaction.reply({ content: `\\❌ Please choose a valid member to timeout!`, ephemeral: true });
-        }
 
         const member = await guild.members.fetch(user.id).catch(() => null);
 
         if (!member) {
             return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
-        } else if (member.id === interaction.user.id) {
-            return interaction.reply({ content: `\\❌ You cannot timeout yourself!`, ephemeral: true });
-        } else if (member.id === client.user.id) {
-            return interaction.reply({ content: `\\❌ You cannot timeout me!`, ephemeral: true });
-        } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: `\\❌ You cannot timeout the server owner!`, ephemeral: true });
-        } else if (client.owners && client.owners.includes(member.id)) {
-            return interaction.reply({ content: `\\❌ You cannot timeout my developer through me!`, ephemeral: true });
-        } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-            return interaction.reply({ content: `\\❌ You cannot timeout this user! They have a higher or equal role to yours.`, ephemeral: true });
+        }
+
+        const isSelf = member.id === interaction.user.id;
+        const isBot = member.id === client.user.id;
+        const isOwner = member.id === guild.ownerId;
+        const isDeveloper = client.owners && client.owners.includes(member.id);
+        const hasHigherRole = interaction.member.roles.highest.position <= member.roles.highest.position;
+
+        if (isSelf) return interaction.reply({ content: `\\❌ You cannot timeout yourself!`, ephemeral: true });
+        if (isBot) return interaction.reply({ content: `\\❌ You cannot timeout me!`, ephemeral: true });
+        if (isOwner) return interaction.reply({ content: `\\❌ You cannot timeout the server owner!`, ephemeral: true });
+        if (isDeveloper) return interaction.reply({ content: `\\❌ You cannot timeout my developer through me!`, ephemeral: true });
+        if (hasHigherRole) return interaction.reply({ content: `\\❌ You cannot timeout this user! They have a higher or equal role to yours.`, ephemeral: true });
+
+        let timeoutDuration = ms(time);
+
+        if (timeoutDuration === undefined && time !== "0") {
+            return interaction.reply({ content: `\\❌ Please provide a valid time for the timeout!`, ephemeral: true });
+        }
+
+        if (time === "0") {
+            timeoutDuration = null;
         }
 
         try {
-            await member.timeout(timeoutDuration, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
-            interaction.reply({ content: `\\✔️ Successfully ${timeoutDuration ? "timed out" : "removed timeout for"} the user **${member.user.username}**!` });
+            if (timeoutDuration !== null) {
+                await member.timeout(timeoutDuration, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
+                interaction.reply({ content: `\\✔️ Successfully timed out the user **${member.user.username}** for ${ms(timeoutDuration, { long: true })}.` });
+            } else {
+                await member.timeout(null, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
+                interaction.reply({ content: `\\✔️ Successfully removed timeout for the user **${member.user.username}**.` });
+            }
         } catch (err) {
             interaction.reply({ content: `\\❌ Unable to timeout **${member.user.username}**! [\`${err.name}\`]`, ephemeral: true });
         }
