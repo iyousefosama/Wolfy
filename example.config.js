@@ -38,15 +38,11 @@ const settings = {
         enable: true,
         uri: process.env.MONGO_URI,
         config: {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-            useFindAndModify: false,
-            autoIndex: false,
-            poolSize: 5,
-            connectTimeoutMS: 10000,
-            family: 4
+          autoIndex: false,
+          connectTimeoutMS: 10000,
+          family: 4
         }
-    },
+      },
 
     player: {
         ytdlOptions: {
