@@ -1,5 +1,4 @@
 const discord = require("discord.js")
-const fetch = require("node-fetch");
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -23,6 +22,7 @@ module.exports = {
     ],
 
     async execute(client, message, args) {
+        const fetch = (await import("node-fetch")).default;
         let text = args.slice(0).join(" ");
 
         if (!text) {

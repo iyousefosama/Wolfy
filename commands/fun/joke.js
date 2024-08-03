@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -19,6 +18,7 @@ module.exports = {
   clientPermissions: ["UseExternalEmojis", "ReadMessageHistory"],
   examples: [''],
   async execute(client, message, args) {
+    const fetch = (await import("node-fetch")).default;
     const data = await fetch('https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist')
       .then(res => res.json())
       .catch(() => null);

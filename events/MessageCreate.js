@@ -8,7 +8,6 @@ const leveling = require("../util/functions/LevelTrigger");
 const WordW = require("../util/functions/BadWordsFilter");
 const AntiLinksProtection = require("../util/functions/AntiLinks");
 const cmdManager = require("../util/functions/Manager");
-const Chatbot = require("../util/functions/ChatBot");
 const block = require("../schema/blockcmd");
 
 const BEV = require("../util/types/baseEvents");
@@ -46,8 +45,6 @@ module.exports = {
           );
         }
       }
-      // Start ChatBot function at ../util/functions/ChatBot bath
-      Chatbot.chat(client, message);
 
       const serverprefix = data?.prefix || "Not Set";
 

@@ -5,7 +5,6 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
 } = require("discord.js");
-const fetch = require("node-fetch");
 const tc = require("../../util/functions/TimeConvert");
 const cfl = require("../../util/functions/CapitalizedChar");
 const schema = require("../../schema/TimeOut-Schema");
@@ -45,6 +44,8 @@ module.exports = {
     ]
   },
   async execute(client, interaction) {
+    const fetch = (await import("node-fetch")).default;
+
     try {
       async function LoadButtons(MAX_BTNS, arr) {
         const MAX_BUTTONS_PER_ROW = 5;

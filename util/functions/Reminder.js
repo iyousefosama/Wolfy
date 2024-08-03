@@ -1,13 +1,14 @@
 const discord = require("discord.js");
 const schema = require("../../schema/TimeOut-Schema");
 const momentTz = require("moment-timezone");
-const fetch = require("node-fetch");
 
 /**
  * @param {import('discord.js').Client} client
  */
 module.exports = async (client) => {
   await new Promise((r) => setTimeout(r, 10000));
+  const fetch = (await import("node-fetch")).default;
+
   const checkReminders = async () => {
     if (!client.database.connected) return;
     let data;
@@ -30,7 +31,7 @@ module.exports = async (client) => {
       };
 
       try {
-        const response = await fetch(url, options).catch(() => {});
+        const response = await fetch(url, options).catch(() => { });
         const json = await response?.json().catch((err) => {
           return;
         });
@@ -92,10 +93,10 @@ module.exports = async (client) => {
       return d.getTime();
     }
 
-    if(!data) {
+    if (!data) {
       return;
     }
-    
+
     let memberUserIds = data.map((obj) => obj.userId);
 
     let members = [];

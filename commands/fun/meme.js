@@ -1,9 +1,8 @@
 const discord = require('discord.js');
-const got = require('got')
 
 /**
  * @type {import("../../util/types/baseCommand")}
- */
+*/
 module.exports = {
   name: "meme",
   aliases: [],
@@ -21,6 +20,7 @@ module.exports = {
 
   async execute(client, message, args) {
     message.channel.sendTyping()
+    const got = (await import('got')).default;
 
     const memeEmbed = new discord.EmbedBuilder() // creating an embed
     got('https://www.reddit.com/r/meme/random/.json').then(response => { // getting the lin that have the memes

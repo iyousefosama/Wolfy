@@ -1,6 +1,4 @@
-const discord = require('discord.js')
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const ms = require('parse-ms');
+const discord = require('discord.js');
 
 module.exports = {
     data: {
@@ -21,13 +19,16 @@ module.exports = {
             }
         ]
     },
-	async execute(client, interaction) {
-		const hide = interaction.options.getBoolean('hide');
+    async execute(client, interaction) {
+        const hide = interaction.options.getBoolean('hide');
+
+        // Dynamic import of 'parse-ms'
+        const ms = (await import('parse-ms')).default;
 
         let time = ms(client.uptime);
         var uptime = new discord.EmbedBuilder()
-        .setColor(`DarkGreen`)
-        .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
-        var msg = interaction.reply({ embeds: [uptime], ephemeral: hide})
-	},
+            .setColor(`DarkGreen`)
+            .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`);
+        var msg = interaction.reply({ embeds: [uptime], ephemeral: hide });
+    },
 };

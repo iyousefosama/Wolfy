@@ -9,8 +9,6 @@ const commandLoader = require("../Handler/CommandHandler");
 const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
-const { Player } = require("discord-player")
-const { registerPlayerEvents } = require('../events/MusicEvents');
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 
 /**
@@ -72,12 +70,6 @@ module.exports = class WolfyClient extends Client {
     } else {
       // Do nothing..
     };
-
-    /**
- * A dedicated music system for Wolfy.
- * @type {MusicPlayer}
- */
-    this.player = new Player(this, settings.player.ytdlOptions)
 
     /**
      * Counter for messages received and sent by the bot
@@ -170,7 +162,6 @@ module.exports = class WolfyClient extends Client {
     // Execute these internal functions once the bot is ready!!
     this.once('ready', () => {
       this.bootTime = Math.round(performance.now());
-      registerPlayerEvents(this.player);
 
       this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");

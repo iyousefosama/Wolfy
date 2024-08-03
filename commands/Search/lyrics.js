@@ -1,5 +1,4 @@
 const discord = require('discord.js')
-const fetch = require('node-fetch');
 const { EmbedBuilder } = require('discord.js');
 const Page = require('../../util/Paginate');
 const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
@@ -23,6 +22,7 @@ module.exports = {
     examples: ['Venom'],
 
   async execute(client, message, args) {
+    const fetch = (await import("node-fetch")).default;
     const query = args.join(' ');
 
     if(!query) {

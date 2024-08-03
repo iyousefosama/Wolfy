@@ -50,7 +50,7 @@ module.exports = class Mongoose{
   init(){
 
     this.db.connect(this.connector, this.settings).catch((error) => {
-      consoleUtil.error(error.name, 'db');
+      consoleUtil.error(error, 'db');
     });
 
     this.db.Promise = global.Promise;

@@ -1,6 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
 const { inspect } = require('util');
-const fetch = require('node-fetch');
 const text = require('../../util/string');
 
 /**
@@ -21,7 +20,7 @@ module.exports = {
 
   async execute(client, message, args) {
     try {
-
+      const fetch = (await import("node-fetch")).default;
       const code = args.join(' ');
       let evaled = eval(code);
       let raw = evaled;

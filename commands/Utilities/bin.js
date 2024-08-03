@@ -1,7 +1,6 @@
 const discord = require("discord.js");
 const sb = require("sourcebin");
 const { ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const fetch = require("node-fetch");
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -32,6 +31,7 @@ module.exports = {
    */
   async execute(client, message, args) {
     let content;
+    const fetch = (await import("node-fetch")).default;
     message.channel.sendTyping();
 
     // Get the file's URL

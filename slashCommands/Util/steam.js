@@ -1,7 +1,5 @@
 const discord = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const snekfetch = require('snekfetch');
-const fetch = require('node-fetch');
 const { decode } = require('he');
 const html2md = require('html2markdown');
 const text = require('../../util/string');
