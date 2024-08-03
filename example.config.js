@@ -44,14 +44,6 @@ const settings = {
         }
       },
 
-    player: {
-        ytdlOptions: {
-            quality: "highestaudio",
-            highWaterMark: 1 << 25,
-            dlChunkSize: 0
-        }
-    },
-
     // * enable/disable loading slash commands as global slash commands, or loading them for the developing guild.
     // ? Make sure loadGlobal set to true on main client
     slashCommands: {
