@@ -1,11 +1,10 @@
 const {
-  EmbedBuilder,
   PermissionsBitField,
   ChannelType,
 } = require("discord.js");
 const consoleUtil = require("../util/console")
 const { parsePermissions } = require("../util/class/utils");
-const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds")
+const { ErrorEmbed } = require("../util/modules/embeds")
 const getLocalCommands = require('../util/helpers/getLocalCommands');
 const localCommands = getLocalCommands("/slashCommands");
 const block = require('../schema/blockcmd');

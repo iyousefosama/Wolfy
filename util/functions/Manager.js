@@ -7,7 +7,7 @@ const text = require("../string");
  * @param {import('discord.js').Message} message
  * @param {import("../types/baseCommand")} cmd
  */
-exports.manage = async function (client, message, cmd) {
+const manager = async (client, message, cmd) => {
   if (!client.database?.connected) return;
   if (!message || message.author.bot || message.author.id === client.user.id) return;
 
@@ -128,3 +128,5 @@ exports.manage = async function (client, message, cmd) {
     console.error(err);
   }
 };
+
+module.exports = manager;

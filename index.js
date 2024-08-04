@@ -5,8 +5,8 @@ const config = require(`${process.cwd()}/config`);
 // create a new Discord client
 const client = new Client(config);
 
-client.loadEvents("/events");
 client.loadCommands("/commands");
+client.loadEvents("/events");
 client.database?.init();
 
 client.listentoProcessEvents([

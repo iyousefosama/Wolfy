@@ -8,7 +8,7 @@ const { PermissionsBitField } = require('discord.js')
  * @param {import('discord.js').Client} client
  * @param {import('discord.js').Message} message
  */
-exports.badword = async function (client, message) {
+const badWordChecker = async (client, message) => {
 
   if (!message) {
     return;
@@ -99,3 +99,5 @@ exports.badword = async function (client, message) {
     })
   }
 };
+
+module.exports = badWordChecker;

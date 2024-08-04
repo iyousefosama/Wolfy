@@ -5,7 +5,7 @@ const UserSchema = require("../../schema/LevelingSystem-Schema");
 /**
  * @param {import('discord.js').Message} message
  */
-exports.Level = async function (message) {
+const levelTrigger = async (message) => {
     if (!message || message.author.bot) return;
 
     try {
@@ -67,3 +67,5 @@ exports.Level = async function (message) {
         );
     }
 };
+
+module.exports = levelTrigger;

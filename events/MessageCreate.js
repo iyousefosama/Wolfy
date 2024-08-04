@@ -2,13 +2,10 @@ const { Collection, PermissionsBitField, ChannelType, EmbedBuilder } = require("
 const { parsePermissions } = require("../util/class/utils");
 const userSchema = require("../schema/user-schema");
 const schema = require("../schema/GuildSchema");
-const consoleUtil = require("../util/console");
-const { ErrorEmbed, InfoEmbed, SuccessEmbed } = require("../util/modules/embeds");
-const leveling = require("../util/functions/LevelTrigger");
-const WordW = require("../util/functions/BadWordsFilter");
-const AntiLinksProtection = require("../util/functions/AntiLinks");
-const cmdManager = require("../util/functions/Manager");
 const block = require("../schema/blockcmd");
+const consoleUtil = require("../util/console");
+const { ErrorEmbed } = require("../util/modules/embeds");
+const { commandsManager, level, wordFilter, linkProtection} = require('../util/functions/moderationUtils');
 
 const BEV = require("../util/types/baseEvents");
 
@@ -21,18 +18,16 @@ module.exports = {
       return;
     }
 
-    const attachment = message.attachments?.first();
-
     let data;
     let prefix;
     if (message.guild) {
       if (client.database?.connected) {
         // Start Leveling up function at ../util/functions/LevelTrigger bath
-        leveling.Level(message);
+        level(message);
         // Start Warning for badwords function at ../util/functions/BadWordsFilter bath
-        WordW.badword(client, message);
+        wordFilter(client, message);
         // Start anti-links protection function at ../util/functions/AntiLinks bath
-        AntiLinksProtection.checkMsg(client, message);
+        linkProtection(client, message);
 
         try {
           data = await schema.findOne({
@@ -280,7 +275,7 @@ module.exports = {
       try {
         cmd.execute(client, message, args, { executed: true }).then(() => {
           // Start CmdManager function at ../util/functions/Manager bath
-          cmdManager.manage(client, message, cmd);
+          commandsManager(client, message, cmd);
           client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
             ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
             : "DMS"
