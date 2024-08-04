@@ -19,14 +19,14 @@ module.exports = {
       dynamic: true,
       size: 128,
     });
-    const guildName = guild.name;
-    const guildIcon = guild.iconURL({
+    const guildName = guild?.name;
+    const guildIcon = guild?.iconURL({
       dynamic: true,
       extension: "png",
       size: 512,
     });
     const guilds = client.guilds.cache.size;
-    const owner = await guild.fetchOwner().catch(err => {
+    const owner = await guild?.fetchOwner().catch(err => {
       console.error("Error fetching guild owner:", err);
       return { displayName: "Unknown", displayAvatarURL: () => "", id: "Unknown" };
     });

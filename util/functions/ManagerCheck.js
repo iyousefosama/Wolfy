@@ -1,11 +1,10 @@
 const schema = require("../../schema/CommandsManager-Schema");
 
 /**
- * @param {import('discord.js').Client} client
+ * @param {import('../../struct/Client')} client
  */
 module.exports = async (client) => {
-  if(client.database?.connected) return;
-  await new Promise((r) => setTimeout(r, 5000));
+  if (client.database?.connected) return;
 
   try {
     const ClientUsers = await schema.find({});
@@ -27,7 +26,7 @@ module.exports = async (client) => {
         }, remainingTime * 1000);
       }
     }
-  } catch (err) {
-    console.error("Error handling user data on ready event:", err);
+  } catch (error) {
+    client.logDetailedError({ error, eventType: "Manager check" });
   }
 };
