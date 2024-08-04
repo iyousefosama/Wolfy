@@ -5,99 +5,98 @@ const warnSchema = require('../../schema/Warning-Schema')
 const { PermissionsBitField } = require('discord.js')
 
 /**
- * @param {import('discord.js').Client} client
+ * @param {import('../../struct/Client')} client
  * @param {import('discord.js').Message} message
  */
 const badWordChecker = async (client, message) => {
-
-  if (!message) {
-    return;
-  }
-
-  if (!message.guild || message.author.bot) return;
-  if (message.author == client.user) return;
-  if (message.author.bot) {
-    return;
-  };
-  let data;
-  if (message.guild) {
-    try {
-      data = await schema.findOne({
-        GuildID: message.guild.id
-      })
-      if (!data) return;
-    } catch (err) {
-      console.log(err)
+    if (!message) {
+      return;
     }
-  }
 
-  if (message.author.id === message.guild.ownerId) {
-    return;
-  } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
-    return;
-  } else if (!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) {
-    return;
-  } else if (!data.Mod.BadWordsFilter.isEnabled || data.Mod.BadWordsFilter.isEnabled == false) {
-    return;
-  } else {
-    // Do nothing..
-  };
+    if (!message.guild || message.author.bot) return;
+    if (message.author == client.user) return;
+    if (message.author.bot) {
+      return;
+    };
+    let data;
+    if (message.guild) {
+      try {
+        data = await schema.findOne({
+          GuildID: message.guild.id
+        })
+        if (!data) return;
+      } catch (err) {
+        console.log(err)
+      }
+    }
 
-  if (data.Mod.BadWordsFilter.BDW.some(word => message.content.toLowerCase().includes(word))) {
-    message.delete().then(msg => {
-      setTimeout(async () => {
-        let reason = `Automoderator: This word is banned, watch your language.`
-        const warnObj = {
-          authorId: client.user.id,
-          timestamp: Math.floor(Date.now() / 1000),
-          warnId: uuid.v4(),
-          reason: reason,
-        };
+    if (message.author.id === message.guild.ownerId) {
+      return;
+    } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
+      return;
+    } else if (!data || data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) {
+      return;
+    } else if (!data.Mod.BadWordsFilter.isEnabled || data.Mod.BadWordsFilter.isEnabled == false) {
+      return;
+    } else {
+      // Do nothing..
+    };
 
-        const warnAddData = await warnSchema.findOneAndUpdate(
-          {
-            guildId: message.guild.id,
-            userId: message.author.id,
-          },
-          {
-            guildId: message.guild.id,
-            userId: message.author.id,
-            $push: {
-              warnings: warnObj,
+    if (data.Mod.BadWordsFilter.BDW.some(word => message.content.toLowerCase().includes(word))) {
+      message.delete().then(msg => {
+        setTimeout(async () => {
+          let reason = `Automoderator: This word is banned, watch your language.`
+          const warnObj = {
+            authorId: client.user.id,
+            timestamp: Math.floor(Date.now() / 1000),
+            warnId: uuid.v4(),
+            reason: reason,
+          };
+
+          const warnAddData = await warnSchema.findOneAndUpdate(
+            {
+              guildId: message.guild.id,
+              userId: message.author.id,
             },
-          },
-          {
-            upsert: true,
-          },
-        );
-        const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
-        const warnGrammar = warnCount === 1 ? '' : 's';
-        if (warnCount >= 20) {
-          return msg.channel.send({ content: `\\⚠️ **${message.author.username}**, This word is banned, watch your language.` })
-        }
+            {
+              guildId: message.guild.id,
+              userId: message.author.id,
+              $push: {
+                warnings: warnObj,
+              },
+            },
+            {
+              upsert: true,
+            },
+          );
+          const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
+          const warnGrammar = warnCount === 1 ? '' : 's';
+          if (warnCount >= 20) {
+            return msg.channel.send({ content: `\\⚠️ **${message.author.username}**, This word is banned, watch your language.` })
+          }
 
-        const warnEmbed = new EmbedBuilder()
-          .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          .setColor('#e6a54a')
-          .setTitle(`⚠️ Warned **${message.author.username}**`)
-          .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-          .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-        message.channel.send({ embeds: [warnEmbed] })
-        const dmembed = new EmbedBuilder()
-          .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          .setColor('#e6a54a')
-          .setTitle(`⚠️ Warned **${message.author.username}**`)
-          .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-          .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-        try {
-          await user.send({ embeds: [dmembed] })
-        } catch (error) {
-          return;
-        }
-        msg.channel.send({ embeds: [warnEmbed] }).catch(() => null)
-      }, 1000)
-    })
-  }
+          const warnEmbed = new EmbedBuilder()
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
+            .setColor('#e6a54a')
+            .setTitle(`⚠️ Warned **${message.author.username}**`)
+            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
+            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+          message.channel.send({ embeds: [warnEmbed] })
+          const dmembed = new EmbedBuilder()
+            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
+            .setColor('#e6a54a')
+            .setTitle(`⚠️ Warned **${message.author.username}**`)
+            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
+            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+          try {
+            await user.send({ embeds: [dmembed] })
+          } catch (error) {
+            return;
+          }
+          msg.channel.send({ embeds: [warnEmbed] }).catch(() => null)
+        }, 1000)
+      })
+    }
 };
 
 module.exports = badWordChecker;

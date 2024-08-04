@@ -17,11 +17,11 @@ module.exports = {
   */
   async execute(client) {
     await new Promise(r => setTimeout(r, 3500))
-    consoleUtil.Success(`${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)\n\n`);
+    consoleUtil.Success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     client.expressServer();
-    ManagerCheck(client);
-    Reminder(client);
-    checkQuests(client);
+    setInterval(() => Reminder(client), 1000 * 60 * 1);
+    setInterval(() => ManagerCheck(client), 1000 * 60 * 5);
+    setInterval(() => checkQuests(client), 1000 * 60 * 2);
 
     /*======================================================
        Sends a notification to a log channel (if available)
@@ -54,7 +54,6 @@ module.exports = {
 
       client.user.setPresence({ activities: [{ name: status[rstatus], type: ActivityType.Playing }], status: 'online' });
     }; setInterval(randomStatus, 10000)
-    console.log(`🤖 ${client.user.username} is Online!`)
 
     if (!client.config.channels.debug) {
       return;
