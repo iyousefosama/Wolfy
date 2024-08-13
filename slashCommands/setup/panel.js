@@ -158,6 +158,7 @@ module.exports = {
         interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Ticket panel is deleted with category ${category}!`)], ephemeral: true });
         break;
       case "edit":
+        //Todo: support team role
         const Enabled = options.getBoolean("enabled");
 
         // Await the findOne operation to get the actual document

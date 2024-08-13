@@ -2,7 +2,9 @@ const Client = require(`${process.cwd()}/struct/Client`);
 
 const config = require(`${process.cwd()}/config`);
 
-// create a new Discord client
+/** Wolfy discord client instance
+ * @type {import('./struct/Client')}
+ */
 const client = new Client(config);
 
 client.loadCommands("/commands");

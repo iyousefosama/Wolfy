@@ -12,19 +12,16 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
     group: "Utility",
-    clientPermissions: [
-      "EmbedLinks",
-      "ReadMessageHistory"
-    ],
+    clientPermissions: ["EmbedLinks", "ReadMessageHistory"],
     permissions: [],
     options: [
       {
         type: 3, // STRING
-        name: 'query',
-        description: 'Enter a player name',
-        required: true
-      }
-    ]
+        name: "query",
+        description: "Enter a player name",
+        required: true,
+      },
+    ],
   },
   async execute(client, interaction) {
     const query = interaction.options.getString("query").toLowerCase();
@@ -46,8 +43,7 @@ module.exports = {
         );
         if (error.response.status === 404) {
           return interaction.reply({
-            content:
-              "<a:pp681:774089750373597185> **|** The specified user was not found!",
+            content: "<a:pp681:774089750373597185> **|** The specified user was not found!",
           });
         } else {
           return interaction.reply({
@@ -57,8 +53,7 @@ module.exports = {
       } else if (error.request) {
         console.error("No response received from the server");
         return interaction.reply({
-          content:
-            "No response received from the server. Please try again later.",
+          content: "No response received from the server. Please try again later.",
         });
       } else {
         console.error("Error setting up the request:", error.message);
@@ -70,22 +65,38 @@ module.exports = {
 
     if (!user) {
       return interaction.reply({
-        content:
-          "<a:pp681:774089750373597185> **|** The specified user was not found!",
+        content: "<a:pp681:774089750373597185> **|** The specified user was not found!",
       });
     }
 
-    let nameHistory;
-    /*
+    /**
+     * Fetch Hypixel player data and add it to the embed.
+     * 
+     * @param {string} uuid 
+     * @param {discord.EmbedBuilder} embed 
+     */
+    async function fetchHypixelPlayer(uuid, embed) {
       try {
-
-      } catch (err) {
-        await interaction.reply({
-          content: `\\❌ An unexpected error occurred, while retrieving name history!`,
+        let response = await axios.get("https://api.hypixel.net/player", {
+          headers: {
+            "API-Key": "e7d575db-cacc-4158-b3af-e5484410d61c"
+          },
+          params: { uuid }
         });
-        throw new Error(err);
+
+        if (response.data.success) {
+          let player = response.data.player;
+          embed.addFields(
+            { name: "Hypixel Rank:", value: player.rank ? player.rank : "Member", inline: true },
+            { name: "Hypixel Last Login:", value: `<t:${Math.round(player.lastLogin / 1000)}:R>`, inline: true }
+          );
+        } else {
+          console.error("Failed to fetch player data:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching player data:", error);
       }
-      */
+    }
 
     // Build the embed
     const embed = new discord.EmbedBuilder()
@@ -94,38 +105,25 @@ module.exports = {
         iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
       })
       .addFields(
-        { name: "Name:", value: `${user.name}`, inline: true },
-        {
-          name: "Name History:",
-          value: nameHistory?.join("\n") || "No name history found!",
-          inline: false,
-        },
+        { name: "Name:", value: user.name, inline: true },
         { name: "UUID:", value: `\`${user.id}\`` },
-        {
-          name: "Created At:",
-          value: new Date(response.created).toLocaleString(),
-          inline: true,
-        },
-        {
-          name: "Download:",
-          value: `[Download](https://minotar.net/download/${user.name})`,
-          inline: true,
-        },
-        {
-          name: "NameMC:",
-          value: `[Click Here](https://mine.ly/${user.name}.1)`,
-          inline: true,
-        }
+        { name: "Download:", value: `[Download](https://minotar.net/download/${user.name})`, inline: true },
+        { name: "NameMC:", value: `[Click Here](https://mine.ly/${user.name}.1)`, inline: true }
       )
       .setImage(`https://minotar.net/armor/body/${user.name}/100.png`)
       .setColor("#2c2f33")
       .setThumbnail(`https://minotar.net/helm/${user.name}/100.png`)
       .setTimestamp()
       .setFooter({
-        text: user.name + `'s mcuser | \©️${new Date().getFullYear()} Wolfy`,
+        text: `${user.name}'s mcuser | ©${new Date().getFullYear()} Wolfy`,
         iconURL: interaction.guild.iconURL({ dynamic: true }),
       });
 
-    return await interaction.reply({ embeds: [embed] });
+    if (user.legacy) embed.addFields({ name: "Legacy:", value: "Yes", inline: true });
+    if (user.demo) embed.addFields({ name: "Demo:", value: "Yes", inline: true });
+
+    await fetchHypixelPlayer(user.id, embed);
+
+    return interaction.reply({ embeds: [embed] });
   },
 };

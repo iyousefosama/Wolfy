@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const minecraftPlayer = require("minecraft-player");
+const axios = require("axios");
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -76,18 +76,6 @@ module.exports = {
           "<a:pp681:774089750373597185> **|** The specified user was not found!",
       });
     }
-
-    let nameHistory;
-    /*
-      try {
-
-      } catch (err) {
-        await message.reply({
-          content: `\\❌ An unexpected error occurred, while retrieving name history!`,
-        });
-        throw new Error(err);
-      }
-      */
 
     // Build the embed
     const embed = new discord.EmbedBuilder()

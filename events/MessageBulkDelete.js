@@ -19,7 +19,7 @@ module.exports = {
         return;
       }
     } catch (err) {
-      console.error(err);
+      console.error(`Error fetching guild data for ${guild.id}:`, err);
       return;
     }
 
@@ -32,7 +32,6 @@ module.exports = {
 
     const permissions = logChannel.permissionsFor(client.user);
     if (!permissions.has([
-      "ViewAuditLog",
       "SendMessages",
       "ViewChannel",
     ])) {
@@ -40,7 +39,10 @@ module.exports = {
     }
 
     const timestamp = Math.floor(Date.now() / 1000);
-    const messageContents = messageArray.slice(0, 5).map(msg => `${msg.author.tag}: ${msg.content}`).join("\n") || "❌ Unknown messages";
+    const messageContents = messageArray.slice(0, 5).map(msg => {
+      const content = msg.content || "❌ No content (e.g., embed or attachment)";
+      return `${msg.author.tag}: ${content}`;
+    }).join("\n") || "❌ Unknown messages";
 
     const bulkDeleteEmbed = new EmbedBuilder()
       .setTitle("<a:Down:853495989796470815> Bulk Message Delete")
@@ -57,6 +59,10 @@ module.exports = {
       })
       .setTimestamp();
 
-    await sendLogsToWebhook(client, logChannel, bulkDeleteEmbed);
+    try {
+      await sendLogsToWebhook(client, logChannel, bulkDeleteEmbed);
+    } catch (err) {
+      console.error(`Error sending bulk delete log to webhook in guild ${guild.id}:`, err);
+    }
   },
 };

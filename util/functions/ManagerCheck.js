@@ -15,16 +15,12 @@ module.exports = async (client) => {
         continue;
       }
 
-      if (now >= userData.timerEnd) {
-        // timerDuration has expired, deletes the data
+      // timerDuration has not expired, set the remaining time
+      const remainingTime = userData.timerEnd - now;
+
+      setTimeout(async () => {
         await schema.deleteOne({ userID: userData.userID });
-      } else {
-        // timerDuration has not expired, set the remaining time
-        const remainingTime = userData.timerEnd - now;
-        setTimeout(async () => {
-          await schema.deleteOne({ userID: userData.userID });
-        }, remainingTime * 1000);
-      }
+      }, remainingTime * 1000);
     }
   } catch (error) {
     client.logDetailedError({ error, eventType: "Manager check" });

@@ -20,8 +20,8 @@ module.exports = {
     consoleUtil.Success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     client.expressServer();
     setInterval(() => Reminder(client), 1000 * 60 * 1);
-    setInterval(() => ManagerCheck(client), 1000 * 60 * 5);
     setInterval(() => checkQuests(client), 1000 * 60 * 2);
+    ManagerCheck(client)
 
     /*======================================================
        Sends a notification to a log channel (if available)
