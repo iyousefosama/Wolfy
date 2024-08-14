@@ -10,7 +10,9 @@ module.exports = (client) => {
 
     app.use(express.json());
     
-    app.use(cors());
+    app.use(cors({
+        origin: client.config.websites.website
+    }));
     
     app.get('/', (req, res) => {
         res.send('Hello World!')
