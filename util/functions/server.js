@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const cors = require("cors");
 
 /**
  * @param {import('../../struct/Client')} client
@@ -8,6 +9,12 @@ module.exports = (client) => {
     const port = process.env.PORT || 4000;
 
     app.use(express.json());
+    
+    app.use(cors({
+        origin: 'https://wolfy-navy.vercel.app',
+        methods: ['GET', 'POST'],
+        credentials: true,
+    }));
     
     app.get('/', (req, res) => {
         res.send('Hello World!')
