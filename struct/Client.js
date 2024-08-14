@@ -10,6 +10,7 @@ const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
+const server = require("../util/functions/server")
 
 /**
  * Optimized hub for interacting with the discord API
@@ -244,15 +245,7 @@ module.exports = class WolfyClient extends Client {
   };
 
   expressServer() {
-    const express = require('express')
-    const app = express()
-    const port = process.env.PORT || 4000;
-
-    app.get('/', (req, res) => {
-      res.send('Hello World!')
-    })
-
-    app.listen(port)
+    server(this)
   }
 
   /**
