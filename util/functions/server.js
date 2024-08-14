@@ -11,7 +11,9 @@ module.exports = (client) => {
     app.use(express.json());
     
     app.use(cors({
-        origin: client.config.websites.website
+        origin: 'https://wolfy-navy.vercel.app',
+        methods: ['GET', 'POST'],
+        credentials: true,
     }));
     
     app.get('/', (req, res) => {
