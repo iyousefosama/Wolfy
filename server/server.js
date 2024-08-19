@@ -49,7 +49,7 @@ module.exports = (client) => {
         cookie: {
             secure: true, // true if using HTTPS
             httpOnly: true,
-            sameSite: "lax", // Allows cross-site cookie usage
+            sameSite: "none", // Allows cross-site cookie usage
         },
     }));
 
