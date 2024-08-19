@@ -47,6 +47,7 @@ module.exports = (client) => {
             ttl: 14 * 24 * 60 * 60
         }),
         cookie: {
+            secure: true, // true if using HTTPS
             sameSite: 'none', // Allows cross-site cookie usage
         },
     }));
