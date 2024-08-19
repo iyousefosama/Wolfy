@@ -48,7 +48,8 @@ module.exports = (client) => {
         }),
         cookie: {
             secure: true, // true if using HTTPS
-            sameSite: 'none', // Allows cross-site cookie usage
+            httpOnly: true,
+            sameSite: "lax", // Allows cross-site cookie usage
         },
     }));
 
