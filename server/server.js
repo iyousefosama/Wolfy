@@ -45,7 +45,12 @@ module.exports = (client) => {
             mongoUrl: process.env.MONGO_URI,
             collectionName: 'sessions',
             ttl: 14 * 24 * 60 * 60
-        })
+        }),
+        cookie: {
+            secure: true, // true if using HTTPS
+            httpOnly: true,
+            sameSite: 'none', // Allows cross-site cookie usage
+        },
     }));
 
     app.use(passport.initialize());
