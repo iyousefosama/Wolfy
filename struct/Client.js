@@ -10,7 +10,7 @@ const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
-const server = require("../util/functions/server")
+const server = require("../server/server")
 
 /**
  * Optimized hub for interacting with the discord API

@@ -23,7 +23,7 @@ module.exports = {
       return;
     }
 
-    const logChannelId = data.Mod.Logs.channel;
+    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.messageDelete.channel : data.Mod.Logs.channel;
     const logChannel = client.channels.cache.get(logChannelId);
 
     if (!logChannel || logChannel.type !== ChannelType.GuildText) {

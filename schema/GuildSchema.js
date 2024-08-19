@@ -41,7 +41,58 @@ const guildSchema = new mongoose.Schema({
     Logs: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
-      type: { type: String, default: 'default' }
+      type: { type: String, default: 'default' },
+      separated: {
+        messageDelete: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null }
+        },
+        messageUpdate: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        memberJoin: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        memberLeave: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        channelCreate: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        channelDelete: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        channelUpdate: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        RoleCreate: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        RoleDelete: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+        RoleUpdate: {
+          isEnabled: { type: Boolean, default: false },
+          channel: { type: String, default: null },
+          type: { type: String, default: 'default' }
+        },
+      },
     },
     Level: {
       Roles: { type: Array, default: [] },
@@ -71,14 +122,14 @@ const guildSchema = new mongoose.Schema({
     welcome: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
-      message: { type: String, default: null },
+      message: { type: String, default: '{user} has joined {guildName} server!' },
       embed: { type: Object, default: false },
       type: { type: String, default: 'default' }
     },
     leaving: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
-      message: { type: String, default: null },
+      message: { type: String, default: '{user} has just leaved {guildName} server!' },
       embed: { type: Object, default: null },
       type: { type: String, default: 'default' }
     }

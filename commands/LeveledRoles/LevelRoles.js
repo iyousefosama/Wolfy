@@ -40,9 +40,13 @@ module.exports = {
         });
       }
 
-      const rolesList = data.Mod.Level.Roles.map(role => role.RoleName);
+      const roleIds = data.Mod.Level.Roles.map(role => role.RoleId);
+
+      // Fetch the roles from the guild using their IDs
+      const roles = await Promise.all(roleIds.map(id => message.guild.roles.fetch(id)));
+      const rolesList = roles.map(role => role ? role.name : 'Unknown Role');
       const levelsList = data.Mod.Level.Roles.map(role => role.Level);
-      const idList = data.Mod.Level.Roles.map(role => role.RoleId);
+      const idList = roleIds;
 
       if (rolesList.length === 0) {
         return message.channel.send({

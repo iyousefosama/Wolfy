@@ -1,5 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Collection } = require("discord.js");
-const TicketSchema = require("../../schema/Ticket-Schema");
+const ticketSchema = require("../../schema/Ticket-Schema");
+
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -10,9 +11,9 @@ module.exports = {
     async action(client, interaction, parts) {
         await interaction.deferUpdate();
 
-        let TicketData;
+        let ticket;
         try {
-            TicketData = await TicketSchema.findOne({
+            ticket = await ticketSchema.findOne({
                 guildId: interaction.guild.id,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
@@ -25,22 +26,22 @@ module.exports = {
             });
         }
 
-        if (!TicketData) {
+        if (!ticket) {
             return interaction.followUp({
                 content: `\\❌ I can't find this guild \`data\` in the database!`,
                 ephemeral: true,
             });
         }
 
-        if (TicketData.IsClosed) {
+        if (ticket.IsClosed) {
             return interaction.followUp({
                 content: `\\❌ This ticket is already closed!`,
                 ephemeral: true,
             });
         }
 
-        const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId);
-        await Channel.permissionOverwrites.edit(TicketData.UserId, {
+        const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);
+        await Channel.permissionOverwrites.edit(ticket.UserId, {
             SendMessages: false,
             ViewChannel: false,
         });
@@ -73,9 +74,9 @@ module.exports = {
             .setColor("#2F3136")
             .setDescription("```Ticket panel control system```");
 
-        TicketData.IsClosed = true;
+        ticket.IsClosed = true;
         try {
-            await TicketData.save();
+            await ticket.save();
             interaction.channel.send({ embeds: [ClosedEmbed], components: [row] });
         } catch (err) {
             console.error(err);

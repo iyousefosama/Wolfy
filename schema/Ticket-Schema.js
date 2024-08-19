@@ -7,6 +7,8 @@ const TicketSchema = mongoose.Schema({
     Category: { type: String, default: null },
     UserId: { type: String, default: null },
     IsClosed: { type: Boolean, default: false },
+    IsClaimed: { type: Boolean, default: false },
+    claimedBy: { type: String, default: null },
     OpenTimeStamp: { type: Number, default: 0 },
 })
 

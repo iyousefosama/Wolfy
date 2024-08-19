@@ -1,4 +1,4 @@
-const discord = require("discord.js")
+const discord = require("discord.js");
 const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 const { capitalize } = require("../../util/functions/function");
 
@@ -35,16 +35,22 @@ module.exports = {
   async execute(client, interaction) {
     const { guild, options } = interaction;
     const name = options.getString("name");
-    let color = capitalize(options.getString("color"));
+    let color = options.getString("color");
 
-    if (guild.roles.cache.size >= 250) {
-      return interaction.reply({ embeds: [ErrorEmbed(`\\❌ You can only have 250 roles in your server.`)], ephemeral: true });
-    }
-
+    // Capitalize only if color is not null/undefined
     if (color) {
+      color = capitalize(color);
+
+      // Validate color
       if (!discord.Colors[color]) {
         color = discord.Colors.Default;
       }
+    } else {
+      color = discord.Colors.Default; // Set a default color if none provided
+    }
+
+    if (guild.roles.cache.size >= 250) {
+      return interaction.reply({ embeds: [ErrorEmbed(`\\❌ You can only have 250 roles in your server.`)], ephemeral: true });
     }
 
     await guild.roles.create({

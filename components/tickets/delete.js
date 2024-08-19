@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
-const { ErrorEmbed } = require("../../util/modules/embeds")
-const TicketSchema = require("../../schema/Ticket-Schema");
+const { ErrorEmbed } = require("../../util/modules/embeds");
+const ticketSchema = require("../../schema/Ticket-Schema");
+const panelSchema = require("../../schema/Panel-schema");
 const sourcebin = require('sourcebin_js');
 
 /**
@@ -13,16 +14,21 @@ module.exports = {
         await interaction.deferUpdate();
 
         try {
-            const TicketData = await TicketSchema.findOne({
+            const ticket = await ticketSchema.findOne({
                 guildId: interaction.guild.id,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
+            const panel = await panelSchema.findOne({
+                Guild: interaction.guild.id,
+                Category: interaction.channel.parentId
+            });
 
-            if (!TicketData)
-                return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the data base!`);
+            if (!ticket) {
+                return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the database!`);
+            }
 
-            if (!TicketData.IsClosed) {
+            if (!ticket.IsClosed) {
                 return interaction.followUp({ content: `\\❌ Ticket is not closed!`, ephemeral: true });
             }
 
@@ -44,28 +50,33 @@ module.exports = {
                         description: " ",
                     });
 
-                    const channel = interaction.channel;
+                    const TicketUser = await interaction.guild.members.fetch(ticket.UserId);
 
-                    await TicketSchema.findOneAndDelete({ guildId: interaction.guild.id, ChannelId: channel.id, Category: interaction.channel.parentId });
-                    await interaction.channel.delete();
+                    const fields = [
+                        { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
+                        { name: "Opened by", value: `${TicketUser.user.tag}`, inline: true },
+                        { name: "Closed by", value: `${interaction.user.tag}`, inline: true },
+                        { name: "Opened At", value: `<t:${ticket.OpenTimeStamp}>`, inline: true }
+                    ];
 
-                    const TicketUser = await interaction.guild.members.fetch(TicketData.UserId);
+                    if (ticket.claimedBy) {
+                        fields.push({ name: "Claimed by", value: `${ticket.claimedBy}`, inline: true });
+                    }
 
                     const closedEmbed = new EmbedBuilder()
                         .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                         .setTitle("Ticket Closed.")
-                        .setDescription(`<:Tag:836168214525509653> Ticket ${channel.name} at ${interaction.guild.name} has been closed!`)
-                        .addFields(
-                            { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
-                            { name: "Opened by", value: `${TicketUser.user.tag}`, inline: true },
-                            { name: "Closed by", value: `${interaction.user.tag}`, inline: true },
-                            { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true }
-                        )
+                        .setDescription(`<:Tag:836168214525509653> Ticket ${interaction.channel.name} at ${interaction.guild.name} has been closed!`)
+                        .addFields(fields)
                         .setTimestamp()
                         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
                         .setColor("#2F3136");
 
                     await TicketUser.send({ embeds: [closedEmbed] }).catch(() => null);
+                    panel.logs && (await client.channels.fetch(panel.logs).catch(() => null))?.send({ embeds: [closedEmbed] }).catch(() => null);
+
+                    await ticketSchema.findOneAndDelete({ guildId: interaction.guild.id, ChannelId: interaction.channel.id, Category: interaction.channel.parentId });
+                    await interaction.channel.delete();
                 } catch (err) {
                     console.error(err);
                     interaction.followUp(`\\❌ [\`${err.name}\`]: An error occurred, please try again!`);

@@ -46,7 +46,6 @@ module.exports = {
         if (data.Mod.Level.Roles.length && data.Mod.Level.Roles?.filter(x => x.Level == Math.floor(level))[0]) return message.channel.send({ content: `\\❌ **${message.member.displayName}**, there is already a leveled role with the same level!` })
 
         const RoleObj = {
-            RoleName: role.name,
             RoleId: role.id,
             Level: parseInt(level)
         }

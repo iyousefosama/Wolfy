@@ -1,10 +1,7 @@
 [
   {
     "name": "ban",
-    "aliases": [
-      "Ban",
-      "BAN"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -27,9 +24,7 @@
   {
     "name": "clear",
     "aliases": [
-      "delete",
-      "Clear",
-      "CLEAR"
+      "delete"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -53,8 +48,7 @@
   {
     "name": "dm",
     "aliases": [
-      "Dm",
-      "DM"
+      "send"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -73,12 +67,8 @@
     ]
   },
   {
-    "name": "EmbedSetup",
-    "aliases": [
-      "embedsetup",
-      "Embedsetup",
-      "EMBEDSETUP"
-    ],
+    "name": "embedsetup",
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -92,7 +82,7 @@
       "EmbedLinks"
     ],
     "examples": [
-      "w!EmbedSetup"
+      "w!embedsetup"
     ],
     "permissions": [
       "ManageMessages"
@@ -101,8 +91,7 @@
   {
     "name": "hackban",
     "aliases": [
-      "HackBan",
-      "HACKBAN"
+      "hack-ban"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -124,10 +113,7 @@
   },
   {
     "name": "kick",
-    "aliases": [
-      "Kick",
-      "KICK"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -149,10 +135,7 @@
   },
   {
     "name": "lock",
-    "aliases": [
-      "Lock",
-      "LOCK"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -174,10 +157,7 @@
   },
   {
     "name": "mute",
-    "aliases": [
-      "Mute",
-      "MUTE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -201,8 +181,6 @@
   {
     "name": "nick",
     "aliases": [
-      "Nick",
-      "NICK",
       "nickname"
     ],
     "dmOnly": false,
@@ -226,10 +204,7 @@
   },
   {
     "name": "nuke",
-    "aliases": [
-      "Nuke",
-      "NUKE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -252,9 +227,7 @@
   },
   {
     "name": "purge",
-    "aliases": [
-      "Purge"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -276,9 +249,7 @@
   {
     "name": "removewarn",
     "aliases": [
-      "RemoveWarn",
-      "removeWarn",
-      "REMOVEWARN"
+      "remove-warn"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -298,10 +269,7 @@
   },
   {
     "name": "respond",
-    "aliases": [
-      "Respond",
-      "RESPOND"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -321,8 +289,7 @@
   {
     "name": "say",
     "aliases": [
-      "Say",
-      "SAY"
+      "echo"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -345,8 +312,6 @@
   {
     "name": "embed",
     "aliases": [
-      "Sayembed",
-      "SAYEMBED",
       "sayembed"
     ],
     "dmOnly": false,
@@ -370,10 +335,7 @@
   },
   {
     "name": "slowmode",
-    "aliases": [
-      "Slowmode",
-      "SLOWMODE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -395,8 +357,7 @@
   {
     "name": "softban",
     "aliases": [
-      "SoftBan",
-      "SOFTBAN"
+      "soft-ban"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -420,15 +381,14 @@
   {
     "name": "timeout",
     "aliases": [
-      "TimeOut",
-      "TIMEOUT"
+      "time-out"
     ],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
     "usage": "<user> [time] (Optional: reason)",
     "group": "Moderation",
-    "description": "Bans a member from the server",
+    "description": "Prevents a user from talking or connecting for voice channel for a period of time",
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
@@ -444,10 +404,7 @@
   },
   {
     "name": "unban",
-    "aliases": [
-      "Unban",
-      "UNBAN"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -469,10 +426,7 @@
   },
   {
     "name": "unlock",
-    "aliases": [
-      "Unlock",
-      "UNLOCK"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -494,10 +448,7 @@
   },
   {
     "name": "unmute",
-    "aliases": [
-      "Unmute",
-      "UNMUTE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -519,11 +470,7 @@
   },
   {
     "name": "voicekick",
-    "aliases": [
-      "VoiceKick",
-      "Voicekick",
-      "VOICEKICK"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -542,10 +489,7 @@
   },
   {
     "name": "warn",
-    "aliases": [
-      "Warn",
-      "WARN"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -564,11 +508,7 @@
   {
     "name": "warnings",
     "aliases": [
-      "Warnings",
-      "WARNINGS",
-      "Warns",
-      "warns",
-      "WARNS"
+      "warns"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -588,8 +528,6 @@
   {
     "name": "command",
     "aliases": [
-      "Command",
-      "COMMAND",
       "cmd",
       "commandhelp",
       "helpcommand"
@@ -608,20 +546,16 @@
   {
     "name": "feedback",
     "aliases": [
-      "Feedback",
-      "FEEDBACK",
       "issue",
       "reportbug",
-      "ReportBug",
-      "REPORTBUG",
-      "reportbug"
+      "problem"
     ],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
     "usage": "<issue>",
     "group": "bot",
-    "description": "To give a feedback about bot or to report bug",
+    "description": "Give a feedback about bot or to report bug",
     "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
@@ -636,8 +570,7 @@
   {
     "name": "help",
     "aliases": [
-      "Help",
-      "HELP"
+      "helpme"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -645,7 +578,7 @@
     "usage": "",
     "group": "bot",
     "description": "Display main bot helplist embed.",
-    "cooldown": 10,
+    "cooldown": 5,
     "guarded": false,
     "clientPermissions": [
       "UseExternalEmojis",
@@ -664,7 +597,6 @@
       "invitebot",
       "vote",
       "support",
-      "LINKS",
       "invite"
     ],
     "dmOnly": false,
@@ -673,7 +605,7 @@
     "usage": "",
     "group": "bot",
     "description": "Shows all bot special link vote/invite ..",
-    "cooldown": 10,
+    "cooldown": 2,
     "guarded": false,
     "clientPermissions": [
       "EmbedLinks",
@@ -687,10 +619,7 @@
   },
   {
     "name": "ping",
-    "aliases": [
-      "PING",
-      "Ping"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -699,9 +628,7 @@
     "description": "Shows the bot ping",
     "cooldown": 5,
     "guarded": false,
-    "clientPermissions": [
-      "UseExternalEmojis"
-    ],
+    "clientPermissions": [],
     "examples": [
       "w!ping"
     ],
@@ -736,10 +663,7 @@
   },
   {
     "name": "uptime",
-    "aliases": [
-      "Uptime",
-      "UPTIME"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -758,10 +682,7 @@
   },
   {
     "name": "bank",
-    "aliases": [
-      "Bank",
-      "BANK"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -770,6 +691,7 @@
     "description": "To check your credits balance in bank",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!bank"
     ],
@@ -777,18 +699,16 @@
   },
   {
     "name": "beg",
-    "aliases": [
-      "Beg",
-      "BEG"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
     "usage": "",
     "group": "Economy",
-    "description": "Want to earn money some more? Why don't you try begging, maybe someone will give you.",
+    "description": "Why don't you try begging, maybe someone will give you money.",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!beg"
     ],
@@ -796,10 +716,7 @@
   },
   {
     "name": "buy",
-    "aliases": [
-      "Buy",
-      "BUY"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -808,6 +725,7 @@
     "description": "To buy items from the market.",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!buy 1",
       "w!buy 6"
@@ -816,10 +734,7 @@
   },
   {
     "name": "cookie",
-    "aliases": [
-      "Cookie",
-      "COKKIE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -828,6 +743,7 @@
     "description": "To send cookie for a friend as a gift",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!cookie @WOLF"
     ],
@@ -836,8 +752,6 @@
   {
     "name": "credits",
     "aliases": [
-      "Credits",
-      "CREDITS",
       "bal",
       "credit"
     ],
@@ -849,6 +763,7 @@
     "description": "To check your credits balance in wallet",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!credits @WOLF",
       "w!credits"
@@ -857,10 +772,7 @@
   },
   {
     "name": "daily",
-    "aliases": [
-      "Daily",
-      "DAILY"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -869,6 +781,7 @@
     "description": "To get your daily reward",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!daily"
     ],
@@ -876,10 +789,7 @@
   },
   {
     "name": "deposit",
-    "aliases": [
-      "Deposit",
-      "DEPOSIT"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -888,6 +798,7 @@
     "description": "Deposit credits from your wallet to safeguard",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!deposit 500",
       "w!deposit all"
@@ -896,10 +807,7 @@
   },
   {
     "name": "fish",
-    "aliases": [
-      "Fish",
-      "FISH"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -908,6 +816,7 @@
     "description": "Take your fishingpole and start fishing",
     "cooldown": 13,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!fish"
     ],
@@ -916,10 +825,7 @@
   {
     "name": "inv",
     "aliases": [
-      "Inv",
-      "inventory",
-      "Inventory",
-      "INVENTORY"
+      "inventory"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -929,6 +835,7 @@
     "description": "Show your inventory items!",
     "cooldown": 15,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!inv"
     ],
@@ -937,10 +844,7 @@
   {
     "name": "leaderboard",
     "aliases": [
-      "Lb",
-      "LB",
-      "lb",
-      "LEADERBOARD"
+      "lb"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -950,14 +854,13 @@
     "description": "Get a list for the 10 richest users that using wolfy",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [],
     "permissions": []
   },
   {
     "name": "market",
     "aliases": [
-      "Market",
-      "MARKET",
       "shop"
     ],
     "dmOnly": false,
@@ -968,6 +871,7 @@
     "description": "Open the economy market!",
     "cooldown": 15,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "UseExternalEmojis",
       "AddReactions",
@@ -980,10 +884,7 @@
   },
   {
     "name": "mine",
-    "aliases": [
-      "Mine",
-      "MINE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -992,6 +893,7 @@
     "description": "What you know about mining down in the deep?",
     "cooldown": 8,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!mine"
     ],
@@ -999,9 +901,7 @@
   },
   {
     "name": "previewitem",
-    "aliases": [
-      "Previewitem"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -1010,6 +910,7 @@
     "description": "Check what you can buy from the shop.",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageMessages",
       "AttachFiles"
@@ -1022,10 +923,7 @@
   },
   {
     "name": "profile",
-    "aliases": [
-      "Profile",
-      "PROFILE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1034,6 +932,7 @@
     "description": "Shows your profile card!",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!profile"
     ],
@@ -1042,8 +941,6 @@
   {
     "name": "quests",
     "aliases": [
-      "Quests",
-      "QUESTS",
       "quest"
     ],
     "dmOnly": false,
@@ -1054,6 +951,7 @@
     "description": "Refresh/Show current quests and the current progress.",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!quests"
     ],
@@ -1061,10 +959,7 @@
   },
   {
     "name": "register",
-    "aliases": [
-      "Register",
-      "REGISTER"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -1073,6 +968,7 @@
     "description": "To register a bank account",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!register"
     ],
@@ -1080,10 +976,7 @@
   },
   {
     "name": "sell",
-    "aliases": [
-      "Sell",
-      "SELL"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -1092,6 +985,7 @@
     "description": "Sell item from your inventory and get some credits!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!sell coal 13",
       "w!sell diamond 2"
@@ -1100,10 +994,7 @@
   },
   {
     "name": "setbio",
-    "aliases": [
-      "SetBio",
-      "SETBIO"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -1112,15 +1003,13 @@
     "description": "Sets your profile card bio.",
     "cooldown": 30,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [],
     "permissions": []
   },
   {
     "name": "setbirthday",
-    "aliases": [
-      "SetBirthday",
-      "SETBIRTHDAY"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -1129,6 +1018,7 @@
     "description": "Sets your profile card birthday.",
     "cooldown": 30,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!setbirthday 09-26"
     ],
@@ -1136,10 +1026,7 @@
   },
   {
     "name": "tip",
-    "aliases": [
-      "Tip",
-      "TIP"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1148,6 +1035,7 @@
     "description": "Send a tip for your friend!",
     "cooldown": 30,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!tip @WOLF",
       "w!tip 724580315481243668"
@@ -1156,10 +1044,7 @@
   },
   {
     "name": "transfer",
-    "aliases": [
-      "Transfer",
-      "TRANSFER"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1168,6 +1053,7 @@
     "description": "Transfer credits from your wallet to your friends!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!transfer @WOLF 550"
     ],
@@ -1176,8 +1062,6 @@
   {
     "name": "use",
     "aliases": [
-      "Use",
-      "USE",
       "equip"
     ],
     "dmOnly": false,
@@ -1188,6 +1072,7 @@
     "description": "Equips an item from your inventory.",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!use 6",
       "w!use 8"
@@ -1196,10 +1081,7 @@
   },
   {
     "name": "withdraw",
-    "aliases": [
-      "Withdraw",
-      "WITHDRAW"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -1208,6 +1090,7 @@
     "description": "Withdraw credits from your bank to your wallet",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!withdraw 900",
       "w!withdraw all"
@@ -1216,10 +1099,7 @@
   },
   {
     "name": "8ball",
-    "aliases": [
-      "8Ball",
-      "8BALL"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1240,10 +1120,7 @@
   },
   {
     "name": "clyde",
-    "aliases": [
-      "Clyde",
-      "CLYDE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1267,12 +1144,7 @@
   {
     "name": "fast",
     "aliases": [
-      "Fast",
-      "FastTyper",
-      "FASTTYPER",
-      "FAST",
-      "FastTyper",
-      "fastTyper"
+      "fasttyper"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1293,10 +1165,7 @@
   },
   {
     "name": "guess",
-    "aliases": [
-      "Guess",
-      "GUESS"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1309,17 +1178,12 @@
       "UseExternalEmojis",
       "ReadMessageHistory"
     ],
-    "examples": [
-      "w!guess"
-    ],
+    "examples": [],
     "permissions": []
   },
   {
     "name": "joke",
-    "aliases": [
-      "Joke",
-      "JOKE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1339,10 +1203,7 @@
   },
   {
     "name": "meme",
-    "aliases": [
-      "Meme",
-      "MEME"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1362,9 +1223,7 @@
   },
   {
     "name": "reverse",
-    "aliases": [
-      "Reverse"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1381,10 +1240,7 @@
   },
   {
     "name": "roll",
-    "aliases": [
-      "Roll",
-      "ROLL"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -1406,10 +1262,7 @@
   },
   {
     "name": "rps",
-    "aliases": [
-      "RPS",
-      "Rps"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1419,8 +1272,7 @@
     "cooldown": 1,
     "guarded": false,
     "clientPermissions": [
-      "UseExternalEmojis",
-      "ReadMessageHistory"
+      "SendMessages"
     ],
     "examples": [
       "w!rps rock",
@@ -1431,10 +1283,7 @@
   },
   {
     "name": "tweet",
-    "aliases": [
-      "Tweet",
-      "TWEET"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1455,37 +1304,8 @@
     "permissions": []
   },
   {
-    "name": "waterdrop",
-    "aliases": [
-      "WaterDrop",
-      "Waterdrop",
-      "WATERDROP"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Fun",
-    "description": "Start playing waterdrop game",
-    "cooldown": 15,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis",
-      "AttachFiles",
-      "ReadMessageHistory"
-    ],
-    "examples": [
-      "w!waterdrop"
-    ],
-    "permissions": []
-  },
-  {
     "name": "avatar",
-    "aliases": [
-      "Avatar",
-      "AVATAR"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -1507,10 +1327,7 @@
   },
   {
     "name": "mcuser",
-    "aliases": [
-      "Mcuser",
-      "MCUSER"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -1531,9 +1348,9 @@
   {
     "name": "serveravatar",
     "aliases": [
-      "Serveravatar",
-      "SERVERAVATAR",
-      "savatar"
+      "savatar",
+      "avatar-server",
+      "server-avatar"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1555,17 +1372,16 @@
   {
     "name": "server",
     "aliases": [
-      "Server",
-      "SERVER",
-      "Serverinfo",
-      "serverinfo"
+      "serverinfo",
+      "server-stats",
+      "si"
     ],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "Informations",
-    "description": "Shows informations about a server",
+    "description": "Shows stats about the current server",
     "cooldown": 10,
     "guarded": false,
     "clientPermissions": [
@@ -1580,9 +1396,7 @@
   },
   {
     "name": "translate",
-    "aliases": [
-      "Translate"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -1600,8 +1414,7 @@
   {
     "name": "user",
     "aliases": [
-      "User",
-      "USER"
+      "whois"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1625,9 +1438,7 @@
   {
     "name": "addrole",
     "aliases": [
-      "Addrole",
-      "ADDROLE",
-      "addlevelroole",
+      "addlevelrole",
       "add-role"
     ],
     "dmOnly": false,
@@ -1649,9 +1460,7 @@
   {
     "name": "clearxp",
     "aliases": [
-      "Clearxp",
-      "ClearXp",
-      "CLEARXP"
+      "clear-xp"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1672,9 +1481,8 @@
   {
     "name": "editrole",
     "aliases": [
-      "Editrole",
-      "EDITROLE",
-      "editlevelrole"
+      "editlevelrole",
+      "edit-role"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1733,11 +1541,7 @@
   {
     "name": "rank",
     "aliases": [
-      "level",
-      "Level",
-      "LEVEL",
-      "RANK",
-      "Rank"
+      "level"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1761,8 +1565,7 @@
   {
     "name": "removerole",
     "aliases": [
-      "Removerole",
-      "REMOVEROLE"
+      "remove-role"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -1781,245 +1584,9 @@
     ]
   },
   {
-    "name": "NowPlaying",
-    "aliases": [
-      "np",
-      "Np",
-      "NP"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Music",
-    "description": "Displays informations about the currently playing track!",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!NowPlaying"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "pause",
-    "aliases": [
-      "Pause",
-      "PAUSE"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Music",
-    "description": "Pause the current playing track",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!pause"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "play",
-    "aliases": [
-      "Play",
-      "PLAY",
-      "p"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<Song>",
-    "group": "Music",
-    "description": "Plays tracks on discord voice channel from other platforms",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!play Story Nights",
-      "w!play https://youtube.com/.."
-    ],
-    "permissions": []
-  },
-  {
-    "name": "queue",
-    "aliases": [
-      "Queue",
-      "QUEUE"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "(Optional: Page number)",
-    "group": "Music",
-    "description": "Displays the current track queue",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!queue",
-      "w!queue 3"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "resume",
-    "aliases": [
-      "Resume",
-      "RESUME"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Music",
-    "description": "Shows informations about covid in any country",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!resume Story Nights",
-      "w!resume https://youtube.com/.."
-    ],
-    "permissions": []
-  },
-  {
-    "name": "seek",
-    "aliases": [
-      "Seek",
-      "SEEK"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<time>",
-    "group": "Music",
-    "description": "Seek to the given time",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!seek 1m"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "skip",
-    "aliases": [
-      "Skip",
-      "SKIP"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Music",
-    "description": "Skips the current track",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!skip"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "skipto",
-    "aliases": [
-      "SkipTo",
-      "SKIPTO"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<tracknumber>",
-    "group": "Music",
-    "description": "Skips the current track to a certain track",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!skipto 6"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "stop",
-    "aliases": [
-      "Stop",
-      "STOP"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Music",
-    "description": "Stops the current track and clears the queue",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!stop"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "volume",
-    "aliases": [
-      "Volume",
-      "VOLUME"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<quantity>",
-    "group": "Music",
-    "description": "Set the volume for the current queue",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "Connect",
-      "Speak"
-    ],
-    "examples": [
-      "w!volume 70"
-    ],
-    "permissions": []
-  },
-  {
     "name": "addcredits",
     "aliases": [
-      "Addcredits",
-      "ADDCREDITS"
+      "credits-add"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -2037,10 +1604,7 @@
   },
   {
     "name": "blacklist",
-    "aliases": [
-      "Blacklist",
-      "BLACKLIST"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -2054,8 +1618,6 @@
   {
     "name": "devmsg",
     "aliases": [
-      "Devmsg",
-      "DEVMSG",
       "msg"
     ],
     "dmOnly": false,
@@ -2063,7 +1625,7 @@
     "args": true,
     "usage": "<user> <message>",
     "group": "developer",
-    "cooldown": 5,
+    "cooldown": 2,
     "guarded": false,
     "ownerOnly": true,
     "clientPermissions": [
@@ -2074,10 +1636,7 @@
   },
   {
     "name": "eval",
-    "aliases": [
-      "Eval",
-      "EVAL"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -2090,10 +1649,7 @@
   },
   {
     "name": "fleave",
-    "aliases": [
-      "Fleave",
-      "FLEAVE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -2111,7 +1667,6 @@
   {
     "name": "guilds",
     "aliases": [
-      "Guilds",
       "servers"
     ],
     "dmOnly": false,
@@ -2125,10 +1680,9 @@
     "permissions": []
   },
   {
-    "name": "shutdown",
+    "name": "reload",
     "aliases": [
-      "Shutdown",
-      "SHUTDOWN"
+      "refresh"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -2141,11 +1695,21 @@
     "permissions": []
   },
   {
+    "name": "shutdown",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 10,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
     "name": "status",
-    "aliases": [
-      "Status",
-      "STATUS"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -2158,10 +1722,7 @@
   },
   {
     "name": "uid",
-    "aliases": [
-      "UID",
-      "Uid"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": false,
@@ -2174,10 +1735,7 @@
   },
   {
     "name": "whitelist",
-    "aliases": [
-      "Whitelist",
-      "WHITELIST"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -2189,31 +1747,8 @@
     "permissions": []
   },
   {
-    "name": "covid",
-    "aliases": [
-      "Covid",
-      "COVID"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<countrie>",
-    "group": "Search",
-    "description": "Shows informations about covid in any country",
-    "cooldown": 3,
-    "guarded": false,
-    "examples": [
-      "w!covid Canada",
-      "w!covid all"
-    ],
-    "permissions": []
-  },
-  {
     "name": "lyrics",
-    "aliases": [
-      "Lyrics",
-      "LYRICS"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -2234,10 +1769,7 @@
   },
   {
     "name": "steam",
-    "aliases": [
-      "Steam",
-      "STEAM"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": false,
     "args": true,
@@ -2259,10 +1791,8 @@
   {
     "name": "weather",
     "aliases": [
-      "WeatherStatus",
-      "WEATHERSTATUS",
-      "Weatherstatus",
-      "weatherstatus"
+      "weatherstatus",
+      "weather-status"
     ],
     "dmOnly": false,
     "guildOnly": false,
@@ -2278,36 +1808,8 @@
     "permissions": []
   },
   {
-    "name": "wikipedia",
-    "aliases": [
-      "wiki",
-      "WIKI",
-      "Wiki"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<query>",
-    "group": "Search",
-    "description": "To search for anything in wikipedia",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis"
-    ],
-    "examples": [
-      "w!wikipedia Iphone 6",
-      "w!wikipedia discord"
-    ],
-    "permissions": []
-  },
-  {
     "name": "antilinktoggle",
     "aliases": [
-      "AntiLinkToggle",
-      "ANTILINKTOGGLE",
-      "Antilinktoggle",
       "anti-link-toggle"
     ],
     "dmOnly": false,
@@ -2318,6 +1820,7 @@
     "description": "To enable/disable Anti-Links protection!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageMessages"
     ],
@@ -2330,11 +1833,7 @@
   },
   {
     "name": "badwords",
-    "aliases": [
-      "BadWords",
-      "BADWORDS",
-      "Badwords"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -2343,6 +1842,7 @@
     "description": "Add/remove/show blacklisted words for the current guild.",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageMessages"
     ],
@@ -2355,19 +1855,16 @@
   },
   {
     "name": "badwordstoggle",
-    "aliases": [
-      "BadWordsToggle",
-      "Badwordstoggle",
-      "BADWORDSTOGGLE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "setup",
     "description": "To enable/disable badwords filter!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!badwordstoggle"
     ],
@@ -2378,10 +1875,7 @@
   },
   {
     "name": "infraction",
-    "aliases": [
-      "infraction",
-      "INFRACTION"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -2390,24 +1884,21 @@
     "description": "To enable/disable/Edit infraction point protection system!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageMessages"
     ],
-    "examples": [
-      "w!infraction"
-    ],
+    "examples": [],
     "permissions": [
       "Administrator"
     ]
   },
   {
-    "name": "setLeaverch",
+    "name": "setleaverch",
     "aliases": [
-      "SetLeaverCh",
-      "SETLEAVERCH",
       "setleaverchannel",
-      "setleaverch",
-      "setleavech"
+      "setleavech",
+      "setleave"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -2417,8 +1908,9 @@
     "description": "Setup the leave channel bot will send message when user leave there!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
-      "w!setLeaverch 877130715337220136"
+      "w!setleaverch 877130715337220136"
     ],
     "permissions": [
       "ManageChannels",
@@ -2428,9 +1920,6 @@
   {
     "name": "leavertoggle",
     "aliases": [
-      "Leavertoggle",
-      "LeaverToggle",
-      "LEAVERTOGGLE",
       "leavetoggle"
     ],
     "dmOnly": false,
@@ -2439,8 +1928,9 @@
     "usage": "",
     "group": "setup",
     "description": "To allow or disable leaver channel!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!leavertoggle"
     ],
@@ -2451,20 +1941,16 @@
   },
   {
     "name": "leveltoggle",
-    "aliases": [
-      "Leveltoggle",
-      "LevelToggle",
-      "LEVELTOGGLE",
-      "leveltoggle"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "setup",
     "description": "To enable/disable levelRoles cmd",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!leveltoggle"
     ],
@@ -2474,13 +1960,10 @@
     ]
   },
   {
-    "name": "setLogsch",
+    "name": "setlogsch",
     "aliases": [
-      "SetLogsCh",
-      "SETLOGSCH",
       "setlogschannel",
-      "setlogsch",
-      "setlogschannel"
+      "setlog"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -2490,8 +1973,9 @@
     "description": "Setup the logs channel bot will send logs there!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
-      "w!setLogsch 877130715337220136"
+      "w!setlogsch 877130715337220136"
     ],
     "permissions": [
       "ManageChannels",
@@ -2501,19 +1985,16 @@
   },
   {
     "name": "logstoggle",
-    "aliases": [
-      "Logstoggle",
-      "LogsToggle",
-      "LOGSTOGGLE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "setup",
     "description": "To allow or disable logs channel!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!logstoggle"
     ],
@@ -2523,53 +2004,7 @@
     ]
   },
   {
-    "name": "setreportch",
-    "aliases": [
-      "SetReportCh",
-      "SETREPORTCH",
-      "setReportch",
-      "setreportchannel"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<channelID>",
-    "group": "setup",
-    "description": "Setup the reports channel bot will send reports from users there!",
-    "cooldown": 5,
-    "guarded": false,
-    "examples": [
-      "w!setreportch 877130715337220136"
-    ],
-    "permissions": [
-      "ManageChannels",
-      "Administrator"
-    ]
-  },
-  {
-    "name": "reportstoggle",
-    "aliases": [
-      "Reportstoggle",
-      "ReportsToggle",
-      "REPORTSTOGGLE"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To allow or disable reports command!",
-    "cooldown": 30,
-    "guarded": false,
-    "examples": [
-      "w!reportstoggle"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
-    "name": "smRole",
+    "name": "smrole",
     "aliases": [
       "SelectMenuRole",
       "smrole",
@@ -2584,14 +2019,15 @@
     "usage": "(Roles count)",
     "group": "setup",
     "description": "Setup the select menu role list!",
-    "cooldown": 10,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageRoles"
     ],
     "examples": [
-      "w!smRole 1",
-      "w!smRole 6"
+      "w!smrole 1",
+      "w!smrole 6"
     ],
     "permissions": [
       "ManageRoles"
@@ -2599,6 +2035,9 @@
   },
   {
     "name": "setleavermsg",
+    "aliases": [
+      "setleavemsg"
+    ],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -2607,6 +2046,7 @@
     "description": "Set the leaver msg or embed",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!setleavermsg msg {tag} has just leaved {guildName} server!",
       "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
@@ -2618,8 +2058,6 @@
   {
     "name": "setprefix",
     "aliases": [
-      "SetPrefix",
-      "SETPREFIX",
       "prefix"
     ],
     "dmOnly": false,
@@ -2630,6 +2068,7 @@
     "description": "Set the bot prefix to another one!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!setprefix !",
       "w!setprefix l!"
@@ -2640,6 +2079,7 @@
   },
   {
     "name": "setwelcomemsg",
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -2648,6 +2088,7 @@
     "description": "Set the welcome msg or embed",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!setwelcomemsg msg {tag} has joined {guildName} server!",
       "w!setwelcomemsg embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
@@ -2658,19 +2099,16 @@
   },
   {
     "name": "smroletoggle",
-    "aliases": [
-      "Smroletoggle",
-      "SMROLETOGGLE",
-      "Selectmenuroletoggle"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
     "usage": "",
     "group": "setup",
     "description": "To enable/disable Select menu roles!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!smroletoggle"
     ],
@@ -2680,13 +2118,11 @@
     ]
   },
   {
-    "name": "setSuggch",
+    "name": "setsuggch",
     "aliases": [
-      "SetSuggCh",
-      "SETSUGGCH",
       "setsuggestionchannel",
-      "setsuggch",
-      "setsuggestionsch"
+      "setsuggestionsch",
+      "setsuggestch"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -2696,8 +2132,9 @@
     "description": "Setup the suggestion channel bot will send suggestions from users there!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
-      "w!setSuggch 877130715337220136"
+      "w!setsuggch 877130715337220136"
     ],
     "permissions": [
       "ManageChannels"
@@ -2706,9 +2143,6 @@
   {
     "name": "suggestionstoggle",
     "aliases": [
-      "Suggestionstoggle",
-      "SuggestionsToggle",
-      "SUGGESTIONSTOGGLE",
       "suggtoggle"
     ],
     "dmOnly": false,
@@ -2717,8 +2151,9 @@
     "usage": "",
     "group": "setup",
     "description": "To allow or disable suggestion command!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!suggestionstoggle"
     ],
@@ -2728,13 +2163,10 @@
     ]
   },
   {
-    "name": "setTicketch",
+    "name": "setticketch",
     "aliases": [
-      "SetTicketCh",
-      "SETTICKETCH",
       "setticketchannel",
-      "setticketch",
-      "setticketchannel"
+      "setticketschannel"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -2744,11 +2176,12 @@
     "description": "Setup the ticket category bot will create tickets channels from users there!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageChannels"
     ],
     "examples": [
-      "w!setTicketch 877130715337220136"
+      "w!setticketch 877130715337220136"
     ],
     "permissions": [
       "ManageChannels"
@@ -2757,9 +2190,7 @@
   {
     "name": "ticketstoggle",
     "aliases": [
-      "Ticketstoggle",
-      "TicketsToggle",
-      "TICKETSTOGGLE"
+      "tickettoggle"
     ],
     "dmOnly": false,
     "guildOnly": true,
@@ -2767,8 +2198,9 @@
     "usage": "",
     "group": "setup",
     "description": "To allow or disable ticket feature!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!ticketstoggle"
     ],
@@ -2778,12 +2210,9 @@
     ]
   },
   {
-    "name": "setWelcomech",
+    "name": "setwelcomech",
     "aliases": [
-      "SetWelcomeCh",
-      "SETWELCOMECH",
       "setwelcomechannel",
-      "setwelcomech",
       "setwelsch"
     ],
     "dmOnly": false,
@@ -2794,8 +2223,9 @@
     "description": "Setup the welcome channel bot will send message when user join there!",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
-      "w!setWelcomech 877130715337220136"
+      "w!setwelcomech 877130715337220136"
     ],
     "permissions": [
       "ManageChannels",
@@ -2805,9 +2235,6 @@
   {
     "name": "welcometoggle",
     "aliases": [
-      "Welcometoggle",
-      "WelcomeToggle",
-      "WELCOMETOGGLE",
       "welctoggle"
     ],
     "dmOnly": false,
@@ -2816,8 +2243,9 @@
     "usage": "",
     "group": "setup",
     "description": "To allow or disable welcome channel!",
-    "cooldown": 30,
+    "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "examples": [
       "w!welcometoggle"
     ],
@@ -2880,10 +2308,7 @@
   },
   {
     "name": "delete",
-    "aliases": [
-      "Delete",
-      "DELETE"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
@@ -2892,22 +2317,18 @@
     "description": "Delete your ticket in the server",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageChannels"
     ],
-    "examples": [
-      "w!delete"
-    ],
+    "examples": [],
     "permissions": [
       "ManageChannels"
     ]
   },
   {
     "name": "rename",
-    "aliases": [
-      "Rename",
-      "RENAME"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -2916,6 +2337,7 @@
     "description": "Change ticket name",
     "cooldown": 2,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageChannels"
     ],
@@ -2928,50 +2350,27 @@
   },
   {
     "name": "ticket",
-    "aliases": [
-      "Ticket"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
-    "args": false,
-    "usage": "",
+    "args": true,
+    "usage": "<categoryPanel-id>",
     "group": "Tickets",
     "description": "Open new ticket in the server",
     "cooldown": 10,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
       "ManageChannels"
     ],
     "examples": [
-      "w!ticket"
+      "w!ticket 1263598857980477582"
     ],
     "permissions": []
   },
   {
-    "name": "ticketpanel",
-    "aliases": [
-      "TicketPanel"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "(Optional: Embed description)",
-    "group": "Tickets",
-    "description": "Setup the ticket panel in the server",
-    "cooldown": 8,
-    "guarded": false,
-    "examples": [
-      "w!ticketpanel"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
     "name": "bin",
     "aliases": [
-      "Sourcebin",
-      "SOURCEBIN",
       "sourcebin"
     ],
     "dmOnly": false,
@@ -2993,9 +2392,7 @@
   },
   {
     "name": "calc",
-    "aliases": [
-      "Calc"
-    ],
+    "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": true,
@@ -3012,8 +2409,6 @@
     "name": "remind",
     "aliases": [
       "remindme",
-      "Remind",
-      "Remindme",
       "reminder"
     ],
     "dmOnly": false,
@@ -3021,7 +2416,7 @@
     "args": true,
     "usage": "<time> <reason>",
     "group": "Utilities",
-    "description": "The bot will reminde you for anything",
+    "description": "The bot will reminde you for anything after a period of time.",
     "cooldown": 5,
     "guarded": false,
     "examples": [
@@ -3033,32 +2428,8 @@
     ]
   },
   {
-    "name": "report",
-    "aliases": [
-      "Report",
-      "REPORT"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user> <reason>",
-    "group": "Utilities",
-    "description": "To report someone in the server",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "ViewChannel",
-      "UseExternalEmojis"
-    ],
-    "examples": [
-      "w!report @WOLF bad boy"
-    ],
-    "permissions": []
-  },
-  {
     "name": "suggestion",
     "aliases": [
-      "Suggestion",
       "sugg"
     ],
     "dmOnly": false,
@@ -3069,8 +2440,8 @@
     "description": "Send your suggestion for the server",
     "cooldown": 5,
     "guarded": false,
+    "requiresDatabase": true,
     "clientPermissions": [
-      "EmbedLinks",
       "AddReactions"
     ],
     "examples": [

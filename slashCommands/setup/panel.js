@@ -36,7 +36,26 @@ module.exports = {
             description: "A channel to send the ticket panel embed to",
             channelTypes: [ChannelType.GuildText],
             required: false
-          }
+          },
+          {
+            type: ApplicationCommandOptionType.String,
+            name: "message",
+            description: "Set a custom message to be sent when the user open a ticket",
+            required: false
+          },
+          {
+            type: ApplicationCommandOptionType.Role,
+            name: "role",
+            description: "Set a modrole than can access the opened ticket in the panel",
+            required: false
+          },
+          {
+            type: ApplicationCommandOptionType.Channel,
+            name: "logs",
+            description: "A channel to send the tickets logs to",
+            channelTypes: [ChannelType.GuildText],
+            required: false
+          },
         ]
       },
       {
@@ -69,8 +88,27 @@ module.exports = {
             type: ApplicationCommandOptionType.Boolean,
             name: "enabled",
             description: "Allow/disallow members from using this panel",
-            required: true
-          }
+            required: false
+          },
+          {
+            type: ApplicationCommandOptionType.String,
+            name: "message",
+            description: "Set a custom message to be sent when the user open a ticket",
+            required: false
+          },
+          {
+            type: ApplicationCommandOptionType.Role,
+            name: "role",
+            description: "Set a modrole than can access the opened ticket in the panel",
+            required: false
+          },
+          {
+            type: ApplicationCommandOptionType.Channel,
+            name: "logs",
+            description: "A channel to send the tickets logs to",
+            channelTypes: [ChannelType.GuildText],
+            required: false
+          },
         ]
       },
       {
@@ -109,6 +147,10 @@ module.exports = {
     const subCommand = options.getSubcommand();
     const category = options.getChannel("category");
     const channel = options.getChannel("channel");
+    const enabled = options.getBoolean("enabled");
+    const message = options.getString("message");
+    const role = options.getRole("role");
+    const logs = options.getChannel("logs");
 
     switch (subCommand) {
       case "create":
@@ -133,6 +175,10 @@ module.exports = {
             Guild: guild.id,
             Category: category.id,
             Admin: interaction.user.id,
+            Enabled: enabled ?? true,
+            Message: message ?? null,
+            ModRole: role?.id ?? null,
+            logs: logs?.id ?? null,
           });
 
           if (channel) {
@@ -158,42 +204,66 @@ module.exports = {
         interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Ticket panel is deleted with category ${category}!`)], ephemeral: true });
         break;
       case "edit":
-        //Todo: support team role
-        const Enabled = options.getBoolean("enabled");
-
-        // Await the findOne operation to get the actual document
-        let toEdit = await schema.findOne({ Guild: guild.id, Category: category.id }).exec();
+        // Fetch the panel from the database
+        let toEdit = await schema.findOne({ Guild: guild.id, Category: category.id });
 
         if (!toEdit) {
           return interaction.reply({
-            embeds: [ErrorEmbed(`\\❌ ${category} is not a valid panel category!`)]
+            embeds: [ErrorEmbed(`\\❌ ${category} is not a valid panel category!`)],
+            ephemeral: true
           });
         }
 
-        const EnabledText = Enabled ? "Enabled" : "Disabled";
+        // Prepare an object to hold the updates
+        const updateFields = {};
 
-        if (Enabled === toEdit.Enabled) {
+        if (enabled !== null && enabled !== toEdit.Enabled) {
+          updateFields.Enabled = enabled;
+        }
+
+        if (message && message !== toEdit.Message) {
+          updateFields.Message = message;
+        }
+
+        if (role && role.id !== toEdit.Role) {
+          updateFields.ModRole = role.id;
+        }
+
+        if (logs && logs.id !== toEdit.logs) {
+          updateFields.logs = logs.id;
+        }
+
+        if (Object.keys(updateFields).length === 0) {
           return interaction.reply({
-            embeds: [ErrorEmbed(`\\❌ This panel status is already \`${EnabledText}\``)]
+            embeds: [ErrorEmbed(`\\❌ No changes detected. Please provide new values for the fields you want to update.`)],
+            ephemeral: true
           });
         }
 
         try {
+          // Update only the provided fields in the database
           await schema.findOneAndUpdate(
             { Guild: guild.id, Category: category.id },
-            { Enabled: Enabled }
+            updateFields
           );
 
+          let successMessage = `\\✔️ Ticket panel updated successfully:\n`;
+          if (enabled !== null) successMessage += `- Enabled: \`${enabled ? "Yes" : "No"}\`\n`;
+          if (message) successMessage += `- Message: \`${message}\`\n`;
+          if (role) successMessage += `- Role: ${role}`;
+          if (logs) successMessage += `- Logs: ${logs}`;
+
           return interaction.reply({
-            embeds: [SuccessEmbed(`\\✔️ Ticket panel status has been set to: \`${EnabledText}\``)]
+            embeds: [SuccessEmbed(successMessage)],
+            ephemeral: true
           });
         } catch (err) {
+          console.error("Error updating panel:", err);
           return interaction.reply({
             embeds: [ErrorEmbed(`\\❌ [DATABASE_ERR]: The database responded with error: ${err.name}`)],
             ephemeral: true
           });
         }
-
       case "list":
         const panels = await schema.find({ Guild: guild.id });
 
@@ -204,9 +274,11 @@ module.exports = {
         const embedFields = panels.map((panel) => {
           let category = guild.channels.cache.get(panel.Category);
           let admin = guild.members.cache.get(panel.Admin);
+          let modRole = guild.roles.cache.get(panel.ModRole) || "None";
+          let logs = guild.channels.cache.get(panel.logs) || "None";
           return {
             name: `${category} (${panel.Category})`,
-            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`, `Admin: ${admin}`].join("\n"),
+            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`, `Admin: ${admin}`, `Custom message: \n${panel.Message}\n`, `Mod Role: ${modRole}`, `Logs: ${logs}`].join("\n"),
           };
         })
 
