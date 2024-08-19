@@ -20,7 +20,7 @@ module.exports = (client) => {
     app.use(express.json());
 
     app.use(cors({
-        origin: "*",
+        origin: process.env.FRONTEND_URL,
         methods: ['GET', 'POST', 'PATCH'],
         credentials: true,
     }));
@@ -46,11 +46,6 @@ module.exports = (client) => {
             collectionName: 'sessions',
             ttl: 14 * 24 * 60 * 60
         }),
-        cookie: {
-            secure: true, // true if using HTTPS
-            httpOnly: true,
-            sameSite: "none", // Allows cross-site cookie usage
-        },
     }));
 
     app.use(passport.initialize());
