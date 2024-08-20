@@ -74,6 +74,11 @@ module.exports = {
       },
       {
         type: ApplicationCommandOptionType.Subcommand,
+        name: "remove-deleted",
+        description: "Removes deleted categories panels from the database",
+      },
+      {
+        type: ApplicationCommandOptionType.Subcommand,
         name: "edit",
         description: "Edit ticket panels status",
         options: [
@@ -203,6 +208,24 @@ module.exports = {
 
         interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Ticket panel is deleted with category ${category}!`)], ephemeral: true });
         break;
+      case "remove-deleted":
+        let deletedCount = 0;
+        let panelsToCheck = await schema.find({ Guild: guild.id });
+        for (const panel of panelsToCheck) {
+          let category = guild.channels.cache.get(panel.Category);
+
+          if (!category) {
+            await schema.findOneAndDelete({ Guild: guild.id, Category: panel.Category });
+            deletedCount++;
+          }
+        }
+
+        if (deletedCount === 0) {
+          return interaction.reply({ embeds: [ErrorEmbed(`\\❌ No deleted categories panels were found!`)], ephemeral: true });
+        }
+
+        interaction.reply({ embeds: [SuccessEmbed(`\\✔️ Removed ${deletedCount} panel(s) that were deleted!`)], ephemeral: true });
+        break;
       case "edit":
         // Fetch the panel from the database
         let toEdit = await schema.findOne({ Guild: guild.id, Category: category.id });
@@ -267,12 +290,26 @@ module.exports = {
       case "list":
         const panels = await schema.find({ Guild: guild.id });
 
-        if (!panels) {
-          return interaction.reply({ embeds: [ErrorEmbed(`\\❌ There are no ticket panels in the server!`)], ephemeral: true });
+        if (!panels || panels.length === 0) {
+          return interaction.reply({
+            embeds: [ErrorEmbed(`\\❌ There are no ticket panels in the server!`)],
+            ephemeral: true,
+          });
         }
 
-        const embedFields = panels.map((panel) => {
+        const embedFields = [];
+
+        let deleted = 0
+        for (const panel of panels) {
           let category = guild.channels.cache.get(panel.Category);
+
+          if (!category) {
+            // If the category is not found, remove the panel from the database
+            await schema.deleteOne({ _id: panel._id });
+            deleted++;
+            continue;
+          }
+
           let admin = guild.members.cache.get(panel.Admin);
           let modRole = guild.roles.cache.get(panel.ModRole);
           let logs = guild.channels.cache.get(panel.logs);
@@ -283,14 +320,15 @@ module.exports = {
             `Admin: ${admin}`,
           ];
 
-          if(modRole) Values.push(`Mod Role: ${modRole}`);
-          if(logs) Values.push(`Logs: ${logs}`);
-          if(panel.Message) Values.push(`Custom message: \n${panel.Message}`);
-          return {
+          if (modRole) Values.push(`Mod Role: ${modRole}`);
+          if (logs) Values.push(`Logs: ${logs}`);
+          if (panel.Message) Values.push(`Custom message: \n${panel.Message}`);
+
+          embedFields.push({
             name: `${category} (${panel.Category})`,
             value: Values.join("\n"),
-          };
-        })
+          });
+        }
 
         const embed = new EmbedBuilder()
           .setAuthor({
@@ -298,11 +336,11 @@ module.exports = {
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(
-            `There are \`${panels.length}\` ticket panels in the server!`
+            `There are \`${embedFields.length}\` ticket panels in the server!`
           )
           .setFields(embedFields)
           .setFooter({
-            text: `Ticket Panel | \©️${new Date().getFullYear()} Wolfy`,
+            text: [`Ticket Panel | \©️${new Date().getFullYear()} Wolfy`, deleted > 0 ? `Deleted ${deleted} unregistered panel(s)` : ""].join("\n"),
             iconURL: client.user.avatarURL({ dynamic: true }),
           })
           .setTimestamp();
