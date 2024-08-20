@@ -53,9 +53,9 @@ module.exports = (client) => {
     }
 
     if (app.get('env') === 'production') {
-        app.set('trust proxy', 1)
-        sessionOptions.cookie.secure = 'auto'
-        sessionOptions.cookie.sameSite = 'none'
+        app.set('trust proxy', 1);
+        sessionOptions.cookie.secure = true;
+        sessionOptions.cookie.sameSite = 'none';
     }
 
     // Session setup
@@ -81,16 +81,6 @@ module.exports = (client) => {
         callbackURL: process.env.DISCORD_REDIRECT_URI,
         scope: ['identify', 'email', 'guilds'],
     }, (accessToken, refreshToken, profile, done) => {
-        /*         const { id } = profile;
-                const existingUser = await User.findOneAndUpdate({ discordId: id }, { accessToken, refreshToken }, { upsert: true, new: true });
-        
-                if (existingUser) {
-                    return done(null, existingUser);
-                };
-        
-                const newUser = new User({ discordId: id, accessToken, refreshToken });
-                const savedUser = await newUser.save();
-                return done(null, savedUser); */
         return done(null, profile);
     }));
 
