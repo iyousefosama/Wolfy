@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const actionsRoutes = require("./routes/actionsRoutes");
 const { rateLimit } = require('express-rate-limit');
+const User = require('../schema/User');
 
 /**
  * @param {import('../struct/Client')} client
@@ -18,7 +19,7 @@ module.exports = (client) => {
     const port = process.env.PORT || 4000;
 
     app.use(express.json());
-    app.use(express.urlencoded())
+    app.use(express.urlencoded({ extended: true }))
 
     app.use(cors({
         origin: process.env.FRONTEND_URL,
@@ -37,11 +38,12 @@ module.exports = (client) => {
         res.send('Hello World!')
     });
 
+    app.set('trust proxy', 1)
     // Session setup
     app.use(session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
             collectionName: 'sessions',
@@ -74,6 +76,16 @@ module.exports = (client) => {
         callbackURL: process.env.DISCORD_REDIRECT_URI,
         scope: ['identify', 'email', 'guilds'],
     }, (accessToken, refreshToken, profile, done) => {
+/*         const { id } = profile;
+        const existingUser = await User.findOneAndUpdate({ discordId: id }, { accessToken, refreshToken }, { upsert: true, new: true });
+
+        if (existingUser) {
+            return done(null, existingUser);
+        };
+
+        const newUser = new User({ discordId: id, accessToken, refreshToken });
+        const savedUser = await newUser.save();
+        return done(null, savedUser); */
         return done(null, profile);
     }));
 
