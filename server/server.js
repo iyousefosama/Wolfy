@@ -18,6 +18,7 @@ module.exports = (client) => {
     const port = process.env.PORT || 4000;
 
     app.use(express.json());
+    app.use(express.urlencoded())
 
     app.use(cors({
         origin: process.env.FRONTEND_URL,
@@ -47,12 +48,10 @@ module.exports = (client) => {
             ttl: 14 * 24 * 60 * 60,
         }),
         cookie: {
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            sameSite: 'None',
+            maxAge: 14 * 24 * 60 * 60 * 1000,
         },
     }));
-    
+
 
     app.use(passport.initialize());
     app.use(passport.session());
