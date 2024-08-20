@@ -44,9 +44,15 @@ module.exports = (client) => {
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
             collectionName: 'sessions',
-            ttl: 14 * 24 * 60 * 60
+            ttl: 14 * 24 * 60 * 60,
         }),
+        cookie: {
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: true,
+            sameSite: 'None',
+        },
     }));
+    
 
     app.use(passport.initialize());
     app.use(passport.session());
