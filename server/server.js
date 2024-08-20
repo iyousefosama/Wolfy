@@ -49,6 +49,7 @@ module.exports = (client) => {
         }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
+            httpOnly: false
         },
     }
 
