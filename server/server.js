@@ -42,13 +42,15 @@ module.exports = (client) => {
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
-/*         store: MongoStore.create({
+        store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
             collectionName: 'sessions',
             ttl: 14 * 24 * 60 * 60,
-        }), */
+        }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
+            secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
+            sameSite: 'none', // Required for cross-site cookie usage
         },
     }));
 
