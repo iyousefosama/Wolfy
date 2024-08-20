@@ -49,8 +49,8 @@ module.exports = (client) => {
         }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            secure: process.env.NODE_ENV === 'production', // Ensure cookie is secure in production
-            sameSite: 'none', // Required for cross-site cookie usage
+/*             secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none', */
         },
     }));
 
