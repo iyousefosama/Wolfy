@@ -29,10 +29,10 @@ module.exports = {
             }
 
             if (!ticket.IsClosed) {
-                return interaction.followUp({ content: `\\❌ Ticket is not closed!`, ephemeral: true });
+                return interaction.followUp({ embeds: [ErrorEmbed('Ticket should be closed before it can be deleted')], ephemeral: true });
             }
 
-            await interaction.channel.send({ embeds: [ErrorEmbed('<a:pp681:774089750373597185> Ticket will be deleted in `5 seconds`!')] });
+            await interaction.channel.send({ embeds: [ErrorEmbed('Ticket will be deleted in `5 seconds`!').setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })] });
 
             setTimeout(async () => {
                 try {

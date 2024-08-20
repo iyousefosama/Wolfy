@@ -1,6 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Collection } = require("discord.js");
 const ticketSchema = require("../../schema/Ticket-Schema");
-
+const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -35,7 +35,7 @@ module.exports = {
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                content: `\\❌ This ticket is already closed!`,
+                embeds: [ErrorEmbed("Ticket is already closed!")],
                 ephemeral: true,
             });
         }
@@ -66,18 +66,18 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(button, button2, button3);
 
-        const ClosedEmbed = new EmbedBuilder()
-            .setAuthor({
-                name: `Closed by ${interaction.user.tag}`,
-                iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setColor("#2F3136")
-            .setDescription("```Ticket panel control system```");
-
         ticket.IsClosed = true;
         try {
             await ticket.save();
-            interaction.channel.send({ embeds: [ClosedEmbed], components: [row] });
+            interaction.channel.send({
+                embeds: [new EmbedBuilder()
+                    .setAuthor({
+                        name: `Closed by ${interaction.user.tag}`,
+                        iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+                    })
+                    .setColor("#2F3136")
+                    .setDescription("```Ticket panel control system```")], components: [row]
+            });
         } catch (err) {
             console.error(err);
             interaction.followUp({

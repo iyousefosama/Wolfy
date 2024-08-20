@@ -1,7 +1,7 @@
 const { PermissionsBitField } = require("discord.js");
 const ticketSchema = require("../../schema/Ticket-Schema");
 const panelSchema = require("../../schema/Panel-schema")
-const { InfoEmbed } = require("../../util/modules/embeds");
+const { InfoEmbed, ErrorEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -41,12 +41,12 @@ module.exports = {
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                content: `\\❌ This ticket is closed!`,
+                embeds: [ErrorEmbed("Ticket can't be claimed because it's closed!")],
                 ephemeral: true,
             });
         } else if (ticket.IsClaimed) {
             return interaction.followUp({
-                content: `\\❌ This ticket is already claimed!`,
+                embeds: [ErrorEmbed("Ticket is already claimed!")],
                 ephemeral: true,
             })
         }
@@ -56,21 +56,21 @@ module.exports = {
 
         if (!Channel) {
             return interaction.followUp({
-                content: `\\❌ I can't find the channel associated with this ticket!`,
+                embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
                 ephemeral: true,
             });
         }
 
         if (!modsRole) {
             return interaction.followUp({
-                content: `\\❌ I can't find the setted \`Mods-Role\` in the server!`,
+                embeds: [ErrorEmbed("The panel \`mods-role\` is not set!")],
                 ephemeral: true,
             });
         }
 
         if (!interaction.member.roles.cache.has(modsRole.id)) {
             return interaction.followUp({
-                content: `\\❌ You need to have ${modsRole} in order to claim this ticket!`,
+                embeds: [ErrorEmbed(`You need to have ${modsRole} in order to claim this ticket!`)],
                 ephemeral: true,
             });
         }

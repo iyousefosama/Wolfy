@@ -1,6 +1,7 @@
-const { EmbedBuilder, Collection } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const sourcebin = require("sourcebin_js");
 const TicketSchema = require("../../schema/Ticket-Schema");
+const { InfoEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -82,7 +83,7 @@ module.exports = {
 
             await interaction.user.send({ embeds: [embed] });
             return interaction.followUp({
-                content: `${interaction.user}, successfully sent you the \`transcript\` in the DMs!`,
+                embeds: [InfoEmbed("Sent transcript to your DM!")],
                 ephemeral: true,
             });
         } catch (err) {

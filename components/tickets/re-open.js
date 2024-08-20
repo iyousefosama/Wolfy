@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const TicketSchema = require("../../schema/Ticket-Schema");
+const { ErrorEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -23,12 +24,10 @@ module.exports = {
             });
         }
         if (!TicketData.IsClosed) {
-            return interaction.followUp({ content: `\\❌ Ticket is not closed!`, ephemeral: true });
+            return interaction.followUp({ embeds: [ErrorEmbed("Ticket is already open!")], ephemeral: true });
         }
         if (!TicketData)
-            return interaction.channel.send(
-                `\\❌ I can't find this ticket \`data\` in the data base!`
-            );
+            return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the data base!`);
         const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId);
 
         Channel.permissionOverwrites.edit(TicketData.UserId, {
@@ -36,23 +35,24 @@ module.exports = {
             ViewChannel: true,
         });
 
-        const embed = new discord.EmbedBuilder()
-            .setAuthor({
-                name: interaction.user.tag,
-                iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setDescription(
-                `<:Verify:841711383191879690> Successfully re-opened the ticket by \`${interaction.user.tag}\`!`
-            )
-            .setFooter({
-                text: client.user.username,
-                iconURL: client.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setColor("Green");
         TicketData.IsClosed = false;
         await TicketData.save()
             .then(() => {
-                interaction.channel.send({ embeds: [embed] });
+                interaction.channel.send({
+                    embeds: [new discord.EmbedBuilder()
+                        .setAuthor({
+                            name: interaction.user.tag,
+                            iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
+                        })
+                        .setDescription(
+                            `<:Verify:841711383191879690> Successfully re-opened the ticket by \`${interaction.user.tag}\`!`
+                        )
+                        .setFooter({
+                            text: client.user.username,
+                            iconURL: client.user.displayAvatarURL({ dynamic: true }),
+                        })
+                        .setColor("Green")]
+                });
             })
             .catch(() => {
                 interaction.channel.send({

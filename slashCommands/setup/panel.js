@@ -274,11 +274,21 @@ module.exports = {
         const embedFields = panels.map((panel) => {
           let category = guild.channels.cache.get(panel.Category);
           let admin = guild.members.cache.get(panel.Admin);
-          let modRole = guild.roles.cache.get(panel.ModRole) || "None";
-          let logs = guild.channels.cache.get(panel.logs) || "None";
+          let modRole = guild.roles.cache.get(panel.ModRole);
+          let logs = guild.channels.cache.get(panel.logs);
+
+          const Values = [
+            `Enabled: ${panel.Enabled ? "Yes" : "No"}`,
+            `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`,
+            `Admin: ${admin}`,
+          ];
+
+          if(modRole) Values.push(`Mod Role: ${modRole}`);
+          if(logs) Values.push(`Logs: ${logs}`);
+          if(panel.Message) Values.push(`Custom message: \n${panel.Message}`);
           return {
             name: `${category} (${panel.Category})`,
-            value: [`Enabled: ${panel.Enabled ? "Yes" : "No"}`, `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`, `Admin: ${admin}`, `Custom message: \n${panel.Message}\n`, `Mod Role: ${modRole}`, `Logs: ${logs}`].join("\n"),
+            value: Values.join("\n"),
           };
         })
 

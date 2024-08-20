@@ -7,6 +7,7 @@ const {
 } = require("discord.js");
 const schema = require("../../schema/Panel-schema");
 const TicketSchema = require("../../schema/Ticket-Schema");
+const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -45,12 +46,12 @@ module.exports = {
 
         if (!category) {
             return interaction.followUp({
-                content: `\\❌ **tickets-category** not found, please contact mod or use \`/panel create\` command.`,
+                embeds: [ErrorEmbed("Category not found!")],
                 ephemeral: true,
             });
         } else if (!data.Enabled) {
             return interaction.followUp({
-                content: "\\❌ This Ticket panel is **disabled** in the server!",
+                embeds: [ErrorEmbed("This category is not enabled!")],
                 ephemeral: true,
             });
         }
@@ -78,7 +79,7 @@ module.exports = {
 
         if (category.children.cache.has(TicketData.ChannelId)) {
             return interaction.followUp({
-                content: "<:error:888264104081522698> | You already have a ticket in that panel!",
+                embeds: [ErrorEmbed("Ticket is already open in this category!")],
                 ephemeral: true,
             });
         }
@@ -126,54 +127,54 @@ module.exports = {
             parent: category,
             permissionOverwrites,
         })
-        .then(async (channel) => {
-            interaction.followUp({
-                content: `<:Verify:841711383191879690> Successfully created ${channel} ticket!`,
-                ephemeral: true,
+            .then(async (channel) => {
+                interaction.followUp({
+                    embeds: [SuccessEmbed(`<:Checkmark:1267279269638180935> Ticket created in ${channel}`)],
+                    ephemeral: true,
+                });
+
+                const close = new ButtonBuilder()
+                    .setLabel(`Close`)
+                    .setCustomId("btn_close")
+                    .setStyle("Secondary")
+                    .setEmoji("🔒");
+
+                const claim = new ButtonBuilder()
+                    .setLabel(`Claim`)
+                    .setCustomId("btn_claim")
+                    .setStyle("Success");
+
+                const row = new ActionRowBuilder().addComponents(close, claim);
+
+                const ticketEmbed = new discord.EmbedBuilder()
+                    .setAuthor({
+                        name: `Welcome in your ticket ${interaction.user.tag}`,
+                        iconURL: interaction.user.displayAvatarURL({
+                            dynamic: true,
+                            size: 2048,
+                        }),
+                    })
+                    .setDescription(data.Message ? data.Message.replace(/{user}/g, `${interaction.user}`) : [
+                        `<:tag:813830683772059748> Send here your message or question!\n`,
+                        `> <:Humans:853495153280155668> User: ${interaction.user}`,
+                        `> <:pp198:853494893439352842> UserID: \`${interaction.user.id}\``,
+                    ].join("\n"))
+                    .setTimestamp();
+
+                channel.send({
+                    content: `${interaction.user} ${modsRole ? `(${modsRole})` : ""}`,
+                    embeds: [ticketEmbed],
+                    components: [row],
+                });
+
+                TicketData.ChannelId = channel.id;
+                TicketData.IsClosed = false;
+                TicketData.OpenTimeStamp = Math.floor(Date.now() / 1000);
+                await TicketData.save().catch((err) =>
+                    channel.send(
+                        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`
+                    )
+                );
             });
-
-            const close = new ButtonBuilder()
-                .setLabel(`Close`)
-                .setCustomId("btn_close")
-                .setStyle("Secondary")
-                .setEmoji("🔒");
-
-            const claim = new ButtonBuilder()
-                .setLabel(`Claim`)
-                .setCustomId("btn_claim")
-                .setStyle("Success");
-
-            const row = new ActionRowBuilder().addComponents(close, claim);
-
-            const ticketEmbed = new discord.EmbedBuilder()
-                .setAuthor({
-                    name: `Welcome in your ticket ${interaction.user.tag}`,
-                    iconURL: interaction.user.displayAvatarURL({
-                        dynamic: true,
-                        size: 2048,
-                    }),
-                })
-                .setDescription(data.Message ? data.Message.replace(/{user}/g, `${interaction.user}`) : [
-                    `<:tag:813830683772059748> Send here your message or question!\n`,
-                    `> <:Humans:853495153280155668> User: ${interaction.user}`,
-                    `> <:pp198:853494893439352842> UserID: \`${interaction.user.id}\``,
-                ].join("\n"))
-                .setTimestamp();
-
-            channel.send({
-                content: `${interaction.user} ${modsRole ? `(${modsRole})` : ""}`,
-                embeds: [ticketEmbed],
-                components: [row],
-            });
-
-            TicketData.ChannelId = channel.id;
-            TicketData.IsClosed = false;
-            TicketData.OpenTimeStamp = Math.floor(Date.now() / 1000);
-            await TicketData.save().catch((err) =>
-                channel.send(
-                    `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`
-                )
-            );
-        });
     },
 };
