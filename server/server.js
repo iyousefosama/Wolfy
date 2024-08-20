@@ -38,9 +38,7 @@ module.exports = (client) => {
         res.send('Hello World!')
     });
 
-    app.set('trust proxy', 1)
-    // Session setup
-    app.use(session({
+    const sessionOptions = {
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
@@ -51,10 +49,17 @@ module.exports = (client) => {
         }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
         },
-    }));
+    }
+
+    if (app.get('env') === 'production') {
+        app.set('trust proxy', 1)
+        sessionOptions.cookie.secure = 'auto'
+        sessionOptions.cookie.sameSite = 'none'
+    }
+
+    // Session setup
+    app.use(session(sessionOptions));
 
 
     app.use(passport.initialize());
@@ -76,16 +81,16 @@ module.exports = (client) => {
         callbackURL: process.env.DISCORD_REDIRECT_URI,
         scope: ['identify', 'email', 'guilds'],
     }, (accessToken, refreshToken, profile, done) => {
-/*         const { id } = profile;
-        const existingUser = await User.findOneAndUpdate({ discordId: id }, { accessToken, refreshToken }, { upsert: true, new: true });
-
-        if (existingUser) {
-            return done(null, existingUser);
-        };
-
-        const newUser = new User({ discordId: id, accessToken, refreshToken });
-        const savedUser = await newUser.save();
-        return done(null, savedUser); */
+        /*         const { id } = profile;
+                const existingUser = await User.findOneAndUpdate({ discordId: id }, { accessToken, refreshToken }, { upsert: true, new: true });
+        
+                if (existingUser) {
+                    return done(null, existingUser);
+                };
+        
+                const newUser = new User({ discordId: id, accessToken, refreshToken });
+                const savedUser = await newUser.save();
+                return done(null, savedUser); */
         return done(null, profile);
     }));
 
