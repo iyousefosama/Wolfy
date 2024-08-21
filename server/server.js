@@ -10,7 +10,6 @@ const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const actionsRoutes = require("./routes/actionsRoutes");
 const { rateLimit } = require('express-rate-limit');
-const User = require('../schema/User');
 
 /**
  * @param {import('../struct/Client')} client
@@ -49,15 +48,14 @@ module.exports = (client) => {
         }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
-            httpOnly: false,
         },
     }
 
-    if (app.get('env') === 'production') {
-/*         app.set('trust proxy', 1);
+/*     if (app.get('env') === 'production') {
+        app.set('trust proxy', 1);
         sessionOptions.cookie.secure = true;
-        sessionOptions.cookie.sameSite = 'none'; */
-    }
+        sessionOptions.cookie.sameSite = 'none';
+    } */
 
     // Session setup
     app.use(session(sessionOptions));
