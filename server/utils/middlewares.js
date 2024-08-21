@@ -26,7 +26,7 @@ const haveGuildPermissions = async (req, res, next) => {
         const valid = commonGuilds.some(guild => guild.id === id);
 
         if (!valid) {
-            return res.status(401).json({ msg: 'Invalid guild' });
+            return res.status(403).json({ msg: 'Invalid guild' });
         }
 
         next();

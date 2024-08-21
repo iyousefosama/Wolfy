@@ -30,12 +30,12 @@ const getGuild = async (id, client) => {
     if (client) {
         return client.guilds.cache.get(id);
     }
-    const botGuildsResponse = await axios.get(`https://discord.com/api/v10/guilds/${id}`, {
+    const response = await axios.get(`https://discord.com/api/v10/guilds/${id}`, {
         headers: {
             Authorization: `Bot ${process.env.TOKEN}`,
         },
     });
-    const botGuilds = botGuildsResponse.data;
+    const botGuilds = response.data;
 
     return botGuilds;
 };
@@ -65,12 +65,12 @@ const getGuildMembers = async (id, client) => {
     if (client) {
         return client.guilds.cache.get(id).members.cache;
     }
-    const botGuildsResponse = await axios.get(`https://discord.com/api/v10/guilds/${id}/members`, {
+    const response = await axios.get(`https://discord.com/api/v10/guilds/${id}/members`, {
         headers: {
             Authorization: `Bot ${process.env.TOKEN}`,
         },
     });
-    const botGuilds = botGuildsResponse.data;
+    const botGuilds = response.data;
 
     return botGuilds;
 };

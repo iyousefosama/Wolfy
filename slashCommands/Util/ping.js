@@ -1,8 +1,4 @@
 const discord = require("discord.js");
-const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-} = require("@discordjs/builders");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -41,6 +37,7 @@ module.exports = {
         */
   },
   async execute(client, interaction) {
+    //
     await interaction.deferReply().catch(() => {});
     const hide = interaction.options.getBoolean("hide");
 

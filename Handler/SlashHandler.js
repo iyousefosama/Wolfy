@@ -23,7 +23,7 @@ module.exports = async (client, directory) => {
 
     for (const localCommand of localCommands) {
       const commandData = localCommand.data ?? localCommand;
-      const { name, description, options, deleted } = commandData;
+      const { name, description, integration_types, contexts, options, deleted } = commandData;
 
       const existingCommand = await applicationCommands.cache.find(
         (cmd) => cmd.name === name
@@ -41,6 +41,8 @@ module.exports = async (client, directory) => {
             await applicationCommands.edit(existingCommand.id, {
               description,
               options,
+              integration_types,
+              contexts
             });
 
             console.log(`🔁 Edited command "${name}".`);
@@ -57,6 +59,8 @@ module.exports = async (client, directory) => {
             name,
             description,
             options,
+            integration_types,
+            contexts
           });
 
           console.log(`✔ Registered command "${name}."`);
