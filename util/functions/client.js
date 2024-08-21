@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const consoleUtil = require("../../util/console");
-let Embedlogs = [];
+const Embedlogs = [];
 const logs = new Map();
 const sending = new Map(); // Keeps track of which guilds are currently sending logs
 
@@ -12,22 +12,31 @@ const sending = new Map(); // Keeps track of which guilds are currently sending 
  */
 const sendLogsToWebhook = async (client, channel, embed) => {
   const guildId = channel.guild.id;
+  const channelId = channel.id;
 
   if (!logs.has(guildId)) {
-    logs.set(guildId, []);
+    logs.set(guildId, new Map());
+  }
+  
+  if (!logs.get(guildId).has(channelId)) {
+    logs.get(guildId).set(channelId, []);
   }
 
   if (embed && Object.keys(embed.data).length > 0) {
-    logs.get(guildId).push(embed);
+    logs.get(guildId).get(channelId).push(embed);
   } else {
     console.error("Invalid embed provided");
   }
 
-  if (sending.has(guildId)) {
-    return; // If logs are already being sent for this guild, don't start another timeout
+  if (sending.has(guildId) && sending.get(guildId).has(channelId)) {
+    return; // If logs are already being sent for this channel, don't start another timeout
   }
 
-  sending.set(guildId, true);
+  if (!sending.has(guildId)) {
+    sending.set(guildId, new Map());
+  }
+  
+  sending.get(guildId).set(channelId, true);
 
   setTimeout(async () => {
     const botname = client.user.username;
@@ -41,17 +50,22 @@ const sendLogsToWebhook = async (client, channel, embed) => {
       });
     }
 
-    while (logs.get(guildId).length > 0) {
-      const embedsToSend = logs.get(guildId).slice(0, 10).filter(embed => Object.keys(embed.data).length > 0);
-      
+    while (logs.get(guildId).get(channelId).length > 0) {
+      const embedsToSend = logs.get(guildId).get(channelId).slice(0, 10).filter(embed => Object.keys(embed.data).length > 0);
+
       if (embedsToSend.length > 0) {
         await webhook.send({ embeds: embedsToSend }).catch(console.error);
       }
       
-      logs.set(guildId, logs.get(guildId).slice(10)); // Remove the sent embeds from the logs
+      logs.get(guildId).set(channelId, logs.get(guildId).get(channelId).slice(10)); // Remove the sent embeds from the logs
     }
 
-    sending.delete(guildId); // Finished sending logs for this guild
+    sending.get(guildId).delete(channelId); // Finished sending logs for this channel
+    
+    // Clean up sending map if empty
+    if (sending.get(guildId).size === 0) {
+      sending.delete(guildId);
+    }
   }, 40000); // 40 seconds delay
 };
 

@@ -52,9 +52,12 @@ module.exports = (client) => {
     }
 
     if (app.get('env') === 'production') {
-        app.set('trust proxy', 1);
-        sessionOptions.cookie.secure = true;
-        sessionOptions.cookie.sameSite = 'none';
+        /**
+         * TODO: Using JWT or buying custom domain for both front and back end because browsers wont support cross origin cookies
+         */
+        app.set('trust proxy', 1); // Should be set so cookie is set
+        sessionOptions.cookie.secure = true; // Doesn't send cookie over http
+        sessionOptions.cookie.sameSite = 'none'; // Needs secure to work
     }
 
     // Session setup
