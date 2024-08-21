@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const consoleUtil = require("../../util/console");
-const Embedlogs = [];
+let Embedlogs = [];
 const logs = new Map();
 const sending = new Map(); // Keeps track of which guilds are currently sending logs
 
