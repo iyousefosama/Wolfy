@@ -40,7 +40,7 @@ module.exports = (client) => {
     const sessionOptions = {
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
             collectionName: 'sessions',
@@ -52,7 +52,7 @@ module.exports = (client) => {
     }
 
     if (app.get('env') === 'production') {
-       /*  app.set('trust proxy', 1); */
+        app.set('trust proxy', 1);
         sessionOptions.cookie.secure = true;
         sessionOptions.cookie.sameSite = 'none';
     }
