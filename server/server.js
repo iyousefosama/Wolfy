@@ -52,7 +52,7 @@ module.exports = (client) => {
     }
 
     if (app.get('env') === 'production') {
-        app.set('trust proxy', true);
+        app.set('trust proxy', 2);
         sessionOptions.cookie.secure = true;
         sessionOptions.cookie.sameSite = 'none';
     }
