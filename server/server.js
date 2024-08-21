@@ -22,7 +22,7 @@ module.exports = (client) => {
     app.use(express.urlencoded({ extended: true }))
 
     app.use(cors({
-        origin: process.env.FRONTEND_URL,
+        origin: "*",
         methods: ['GET', 'POST', 'PATCH'],
         credentials: true,
     }));
@@ -49,6 +49,7 @@ module.exports = (client) => {
         }),
         cookie: {
             maxAge: 14 * 24 * 60 * 60 * 1000,
+            httpOnly: false,
         },
     }
 
