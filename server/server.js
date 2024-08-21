@@ -51,11 +51,11 @@ module.exports = (client) => {
         },
     }
 
-/*     if (app.get('env') === 'production') {
-        app.set('trust proxy', 1);
+    if (app.get('env') === 'production') {
+/*         app.set('trust proxy', 1); */
         sessionOptions.cookie.secure = true;
         sessionOptions.cookie.sameSite = 'none';
-    } */
+    }
 
     // Session setup
     app.use(session(sessionOptions));
