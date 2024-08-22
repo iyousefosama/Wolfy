@@ -34,6 +34,9 @@ const getGuild = async (id, client) => {
         headers: {
             Authorization: `Bot ${process.env.TOKEN}`,
         },
+        params: {
+            with_counts: true
+        }
     });
     const botGuilds = response.data;
 
@@ -69,6 +72,9 @@ const getGuildMembers = async (id, client) => {
         headers: {
             Authorization: `Bot ${process.env.TOKEN}`,
         },
+        params: {
+            limit: 1000,
+        }
     });
     const botGuilds = response.data;
 
@@ -108,6 +114,9 @@ const getGuildInfo = async (id, client) => {
             headers: {
                 Authorization: `Bot ${process.env.TOKEN}`,
             },
+            params: {
+                with_counts: true
+            }
         });
 
         guild = guildResponse.data;
@@ -122,6 +131,9 @@ const getGuildInfo = async (id, client) => {
             headers: {
                 Authorization: `Bot ${process.env.TOKEN}`,
             },
+            params: {
+                limit: 1000,
+            }
         });
 
         // Combine guild data with channels and members

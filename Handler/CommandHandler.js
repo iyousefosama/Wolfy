@@ -45,7 +45,7 @@ module.exports = async (client, directory) => {
             continue;
           }
           client.commands.set(cmdName, command);
-          consoleUtil.Success(`'${cmdName}' from '${file}'`, "Loaded command:");
+          //consoleUtil.Success(`'${cmdName}' from '${file}'`, "Loaded command:");
           success++;
         } catch (error) {
           consoleUtil.error(`Error loading command '${file}': ${error}`);
