@@ -60,7 +60,8 @@ module.exports = {
                     ];
 
                     if (ticket.claimedBy) {
-                        fields.push({ name: "Claimed by", value: `${ticket.claimedBy}`, inline: true });
+                        const mod = await interaction.guild.members.fetch(ticket.claimedBy);
+                        fields.push({ name: "Claimed by", value: `${mod.user.username}`, inline: true });
                     }
 
                     const closedEmbed = new EmbedBuilder()

@@ -11,8 +11,9 @@ module.exports = {
     async action(client, interaction, parts) {
         await interaction.deferUpdate();
 
+        let ticket;
         try {
-            TicketData = await TicketSchema.findOne({
+            ticket = await TicketSchema.findOne({
                 guildId: interaction.guild.id,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
@@ -23,20 +24,20 @@ module.exports = {
                 content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
             });
         }
-        if (!TicketData.IsClosed) {
+        if (!ticket.IsClosed) {
             return interaction.followUp({ embeds: [ErrorEmbed("Ticket is already open!")], ephemeral: true });
         }
-        if (!TicketData)
+        if (!ticket)
             return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the data base!`);
-        const Channel = interaction.guild.channels.cache.get(TicketData.ChannelId);
+        const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);
 
-        Channel.permissionOverwrites.edit(TicketData.UserId, {
+        Channel.permissionOverwrites.edit(ticket.UserId, {
             SendMessages: true,
             ViewChannel: true,
         });
 
-        TicketData.IsClosed = false;
-        await TicketData.save()
+        ticket.IsClosed = false;
+        await ticket.save()
             .then(() => {
                 interaction.channel.send({
                     embeds: [new discord.EmbedBuilder()

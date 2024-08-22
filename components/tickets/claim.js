@@ -98,7 +98,11 @@ module.exports = {
                 {
                     id: interaction.user.id,
                     allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
-                }
+                },
+                {
+                    id: ticket.UserId,
+                    allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+                },
             ]);
 
             ticket.IsClaimed = true;

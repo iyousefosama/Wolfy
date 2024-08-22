@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Collection } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, PermissionsBitField } = require("discord.js");
 const ticketSchema = require("../../schema/Ticket-Schema");
 const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 
@@ -41,6 +41,20 @@ module.exports = {
         }
 
         const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);
+/*         const modsRole = interaction.guild.roles.cache.get(panel.ModRole);
+
+        if (!interaction.member.roles.includes(modsRole.id) && !interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
+            return interaction.followUp({ embeds: [ErrorEmbed("Only mods and admins can close tickets!")] })
+        }; */
+
+        if (!Channel) {
+            return interaction.followUp({
+                embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
+                ephemeral: true,
+            });
+        }
+
+
         await Channel.permissionOverwrites.edit(ticket.UserId, {
             SendMessages: false,
             ViewChannel: false,
