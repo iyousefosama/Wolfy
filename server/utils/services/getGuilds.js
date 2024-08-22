@@ -75,4 +75,63 @@ const getGuildMembers = async (id, client) => {
     return botGuilds;
 };
 
-module.exports = { getUserGuilds, getBotGuilds, getGuild, getGuildChannels, getGuildMembers }
+/**
+ * Fetches a guild by ID and includes its channels and members.
+ * 
+ * @param {string} id - The guild ID.
+ * @param {object} client - The Discord client object (optional).
+ * @returns {Promise<object>} The guild data including channels and members.
+ */
+const getGuildInfo = async (id, client) => {
+    let guild;
+
+    if (client) {
+        // Fetch guild from client's cache
+        guild = client.guilds.cache.get(id);
+
+        if (!guild) {
+            throw new Error(`Guild with ID ${id} not found in client's cache.`);
+        }
+
+        // Fetch channels and members from client's cache
+        const channels = guild.channels.cache.filter(c => c.guildId === id);
+        const members = guild.members.cache;
+
+        return {
+            ...guild,
+            channels,
+            members,
+        };
+    } else {
+        // Fetch guild, channels, and members from Discord API
+        const guildResponse = await axios.get(`https://discord.com/api/v10/guilds/${id}`, {
+            headers: {
+                Authorization: `Bot ${process.env.TOKEN}`,
+            },
+        });
+
+        guild = guildResponse.data;
+
+        const channelsResponse = await axios.get(`https://discord.com/api/v10/guilds/${id}/channels`, {
+            headers: {
+                Authorization: `Bot ${process.env.TOKEN}`,
+            },
+        });
+
+        const membersResponse = await axios.get(`https://discord.com/api/v10/guilds/${id}/members`, {
+            headers: {
+                Authorization: `Bot ${process.env.TOKEN}`,
+            },
+        });
+
+        // Combine guild data with channels and members
+        return {
+            ...guild,
+            channels: channelsResponse.data,
+            members: membersResponse.data,
+        };
+    }
+};
+
+
+module.exports = { getUserGuilds, getBotGuilds, getGuild, getGuildInfo, getGuildChannels, getGuildMembers }

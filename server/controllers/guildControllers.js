@@ -1,6 +1,5 @@
-const { getGuild } = require("../utils/services/getGuilds");
+const { getGuild, getGuildChannels, getGuildMembers, getGuildInfo } = require("../utils/services/getGuilds");
 const schema = require('../../schema/GuildSchema');
-const { getGuildChannels, getGuildMembers} = require('../utils/services/getGuilds')
 
 /**
  * Get a specific guild discord data with the id
@@ -21,6 +20,21 @@ const getGuildController = async (req, res) => {
         res.status(500).json({ msg: 'Failed to fetch a guild' });
     }
 };
+
+const getGuildInfoController = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const guild = await getGuildInfo(id);
+
+        res.json(guild);
+    } catch (error) {
+        if (error.response?.status === 429) {
+            return res.status(429).json({ msg: 'Rate limit exceeded. Please try again later.' });
+        }
+        console.error(error);
+        res.status(500).json({ msg: 'Failed to fetch a guild' });
+    }
+}
 
 /**
  * Get a specific guild discord data with the id
@@ -118,4 +132,4 @@ const patchGuildData = async (req, res) => {
     }
 };
 
-module.exports = { getGuildController, getGuildData, patchGuildData, getGuildChannelsController, getGuildMembersController };
+module.exports = { getGuildController, getGuildInfoController, getGuildData, patchGuildData, getGuildChannelsController, getGuildMembersController };

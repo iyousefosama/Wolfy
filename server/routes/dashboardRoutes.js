@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { isAuthenticated, haveGuildPermissions } = require("../utils/middlewares");
 const fetchGuilds = require('../controllers/fetchGuilds');
-const { getGuildController, getGuildChannelsController, getGuildMembersController, getGuildData, patchGuildData } = require('../controllers/guildControllers');
+const { getGuildController, getGuildChannelsController, getGuildMembersController, getGuildInfoController, getGuildData, patchGuildData } = require('../controllers/guildControllers');
 
 // Route to get user info (use this to send user data to the frontend)
 router.get('/user', isAuthenticated, (req, res) => {
@@ -16,6 +16,8 @@ router.get('/user', isAuthenticated, (req, res) => {
 router.get('/guilds', isAuthenticated, fetchGuilds)
 
 router.get('/guild/:id', isAuthenticated, haveGuildPermissions, getGuildController);
+
+router.get('/guild-info/:id', isAuthenticated, haveGuildPermissions, getGuildInfoController)
 
 router.get('/guild/:id/channels', isAuthenticated, haveGuildPermissions, getGuildChannelsController);
 
