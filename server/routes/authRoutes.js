@@ -24,18 +24,17 @@ router.get(
 router.get("/set-cookie", (req, res) => {
   let cookies = req.cookies;
 
-  const cookiesHeader = Object.entries(cookies).map(([key, value]) => {
-    res.cookie(key, value, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7,
-      sameSite: "strict",
-      path: "/",
-    });
+  res.cookie("connect.sid", cookies["connect.sid"], {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 60 * 60 * 24 * 7,
+    sameSite: "strict",
+    path: "/",
   });
 
-  res.setHeader("Set-Cookie", cookiesHeader);
-  res.send("test");
+
+  // res.setHeader("Set-Cookie", cookiesHeader);
+  res.send({message:"done set cookie"});
 });
 
 router.get("/logout", (req, res) => {
