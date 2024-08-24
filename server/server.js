@@ -10,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const actionsRoutes = require("./routes/actionsRoutes");
 const { rateLimit } = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 
 /**
  * @param {import('../struct/Client')} client
@@ -19,6 +20,7 @@ module.exports = (client) => {
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }))
+    app.use(cookieParser());
 
     app.use(cors({
         origin: process.env.FRONTEND_URL,
@@ -34,7 +36,7 @@ module.exports = (client) => {
     }));
 
     app.get('/', (req, res) => {
-        res.send('Hello World!')
+        res.send('Hello World!');
     });
 
     const sessionOptions = {
