@@ -18,12 +18,14 @@ const cookieParser = require('cookie-parser');
 module.exports = (client) => {
     const port = process.env.PORT || 4000;
 
+    const app = express()
+
     app.use(cors({
         origin: process.env.FRONTEND_URL,
         methods: ['GET', 'POST', 'PATCH'],
         credentials: true,
     }));
-    
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser());
@@ -142,4 +144,7 @@ module.exports = (client) => {
     app.use("/actions", attachClient, actionsRoutes);
 
     app.listen(port, () => console.log("Server is running on port " + port))
+
+
+    module.exports = app;
 }

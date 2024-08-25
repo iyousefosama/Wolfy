@@ -24,17 +24,11 @@ router.get(
 router.get("/set-cookie", (req, res) => {
   let cookies = req.cookies;
 
-  res.cookie("connect.sid", cookies["connect.sid"], {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7,
-    sameSite: "strict",
-    path: "/",
-  });
-
+  if (!cookies["connect.sid"])
+    return res.status(404).send({ message: "no data here" });
 
   // res.setHeader("Set-Cookie", cookiesHeader);
-  res.send({message:"done set cookie"});
+  res.send({ key: "connect.sid", value: cookies["connect.sid"] });
 });
 
 router.get("/logout", (req, res) => {

@@ -31,6 +31,7 @@
     "html2markdown": "^1.1.0",
     "humanize-duration": "^3.32.0",
     "jsdom": "^24.1.1",
+    "jsonwebtoken": "^9.0.2",
     "math-expression-evaluator": "^2.0.5",
     "minecraft-player": "^1.0.1",
     "module-alias": "^2.2.3",
