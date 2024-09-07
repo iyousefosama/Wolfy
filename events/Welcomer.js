@@ -59,8 +59,7 @@ module.exports = {
           member.user.displayAvatarURL({ extension: "png", dynamic: true })
         )
         .setDescription(
-          `Hello ${member}, welcome to **${
-            member.guild.name
+          `Hello ${member}, welcome to **${member.guild.name
           }**!\n\nYou are our **${string.ordinalize(
             member.guild.memberCount
           )}** member!`
@@ -86,15 +85,16 @@ module.exports = {
 
     //if message was embed
     if (type === "embed") {
-      const message = await modifier.modify(data.greeter.welcome.embed, member);
+      const description = await modifier.modify(data.greeter.welcome.embed.description || "{user} has joined {guildName} server!", member);
+      const image = data.greeter.welcome.embed.image.url || null;
+      const color = data.greeter.welcome.embed.color || null;
+
       const embed = new discord.EmbedBuilder()
-        .setColor("DarkGreen")
+        .setColor(color)
         .setTitle(`${member.user.tag} has joined the server!`)
-        .setURL("https://Wolfy.yoyojoe.repl.co")
-        .setThumbnail(
-          member.user.displayAvatarURL({ extension: "png", dynamic: true })
-        )
-        .setDescription(message)
+        .setThumbnail(member.user.displayAvatarURL({ extension: "png", dynamic: true }))
+        .setDescription(description)
+        .setImage(image)
         .setFooter({ text: `${member.user.username} (${member.user.id})` })
         .setTimestamp();
       return client.channels.cache.get(data.greeter.welcome.channel).send({
