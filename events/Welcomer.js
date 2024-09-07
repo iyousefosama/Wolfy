@@ -5,6 +5,7 @@ const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
 const { GreetingsCard, Font } = require("canvacord");
 Font.loadDefault();
+const { capitalize } = require("../util/functions/function");
 
 const { ChannelType } = require("discord.js");
 const requiredPermissions = [
@@ -30,8 +31,8 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+    
     let Channel = client.channels.cache.get(data.greeter.welcome.channel);
-    let msg;
     if (!Channel || !data.greeter.welcome.channel) {
       return;
     } else if (Channel.type !== ChannelType.GuildText) {
@@ -86,7 +87,22 @@ module.exports = {
     //if message was embed
     if (type === "embed") {
       const description = await modifier.modify(data.greeter.welcome.embed.description || "{user} has joined {guildName} server!", member);
-      const image = data.greeter.welcome.embed.image.url || null;
+
+      function isValidURL(string) {
+        try {
+          new URL(string);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+      
+      let image = await modifier.modify(data.greeter.welcome.embed.image.url || "", member);
+
+      if (!isValidURL(image)) {
+        image = null;
+      }
+
       const color = data.greeter.welcome.embed.color || null;
 
       const embed = new discord.EmbedBuilder()

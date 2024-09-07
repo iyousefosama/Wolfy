@@ -34,6 +34,11 @@ const haveGuildPermissions = async (req, res, next) => {
         if (error.response?.status === 429) {
             return res.status(429).json({ msg: 'Rate limit exceeded. Please try again later.' });
         }
+        // TODO: If session is expired it throws an error
+        if(error.response?.status === 401) {
+            res.status(401).json({ msg: 'Unauthorized' });
+            return res.redirect(process.env.BACKEND_URL + '/auth/login');
+        }
         console.error(error);
         res.status(500).json({ msg: 'Failed to fetch guilds' });
     }
