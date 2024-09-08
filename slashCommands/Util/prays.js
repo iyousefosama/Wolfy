@@ -116,7 +116,8 @@ module.exports = {
  */
 function getCurrentTime(timezone) {
   try {
-    const now = momentTz().tz(timezone, true);
+    momentTz.tz.setDefault(timezone);
+    const now = momentTz().tz(timezone, false);
     return now;
   } catch (error) {
     console.error("Error getting current time:", error);
