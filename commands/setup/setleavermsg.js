@@ -61,7 +61,7 @@ module.exports = {
       } else if(stats === 'embed') {
         if(!text) return message.channel.send(`\\❌ | **${message.author.tag}**, You didn't add the leaver **Embed Description**!`)
               data.greeter.leaving.type = 'embed';
-              data.greeter.leaving.embed = `${text}`;
+              data.greeter.leaving.embed.description = `${text}`;
               await data.save()
               const embedmsg = new EmbedBuilder()
               .setColor('Green')

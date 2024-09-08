@@ -123,11 +123,17 @@ const guildSchema = new mongoose.Schema({
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
       message: { type: String, default: '{user} has joined {guildName} server!' },
-      embed: { 
+      embed: {
         image: {
           url: {
             type: String,
             default: null
+          }
+        },
+        thumbnail: {
+          url: {
+            type: String,
+            default: '{avatarDynamic}'
           }
         },
         color: { type: String, default: null },
@@ -149,7 +155,32 @@ const guildSchema = new mongoose.Schema({
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
       message: { type: String, default: '{user} has just leaved {guildName} server!' },
-      embed: { type: Object, default: null },
+      embed: {
+        image: {
+          url: {
+            type: String,
+            default: null
+          }
+        },
+        thumbnail: {
+          url: {
+            type: String,
+            default: '{avatarDynamic}'
+          }
+        },
+        color: { type: String, default: null },
+        title: { type: String, default: null },
+        description: { type: String, default: '{user} has just leaved {guildName} server!' },
+        footer: {
+          text: { type: String, default: null },
+          icon_url: { type: String, default: null },
+        },
+        author: {
+          name: { type: String, default: null },
+          url: { type: String, default: null },
+          icon_url: { type: String, default: null },
+        }
+      },
       type: { type: String, default: 'default' }
     }
   },

@@ -1,10 +1,7 @@
-const discord = require('discord.js')
-const { EmbedBuilder} = require('discord.js')
-const moment = require("moment");
-const schema = require('../schema/GuildSchema')
+const { EmbedBuilder, ChannelType } = require('discord.js');
+const schema = require('../schema/GuildSchema');
 const modifier = require(`${process.cwd()}/util/modifier`);
-const string = require(`${process.cwd()}/util/string`);
-const { AuditLogEvent, ChannelType } = require('discord.js')
+const BEV = require("../util/types/baseEvents");
 
 const requiredPermissions = [
   "ViewAuditLog",
@@ -14,69 +11,74 @@ const requiredPermissions = [
   "EmbedLinks",
 ];
 
-const BEV = require("../util/types/baseEvents");
-
 /** @type {BEV.BaseEvent<"guildMemberRemove">} */
 module.exports = {
-    name: 'guildMemberRemove',
-    async execute(client, member) {
+  name: 'guildMemberRemove',
+  async execute(client, member) {
+    try {
+      const data = await schema.findOne({ GuildID: member.guild.id });
+      if (!data || !data.greeter.leaving.isEnabled) return;
 
-        let data;
-        try{
-            data = await schema.findOne({
-                GuildID: member.guild.id
-            })
-            if(!data) return;
-        } catch(err) {
-            console.log(err)
-        }
-        let Channel = client.channels.cache.get(data.greeter.leaving.channel)
-        let msg;
-        if (!Channel || !data.greeter.leaving.channel){
-          return;
-        } else if (Channel.type !== ChannelType.GuildText) {
-          return;
-        } else if (!data.greeter.leaving.isEnabled){
-          return;
-        } else if(!Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)) {
-          return;
-        } else {
-          // Do nothing..
-        };
+      const leave = data.greeter.leaving;
+      const Channel = client.channels.cache.get(leave.channel);
 
-        const leave = data.greeter.leaving;
-        const type = leave.type === 'msg' && !leave.message ? 'default' : leave.type;
-      
-        if (type === 'default'){
-            let embed = new EmbedBuilder()
+      if (!Channel || Channel.type !== ChannelType.GuildText) return;
+      if (!Channel.permissionsFor(Channel.guild.members.me).has(requiredPermissions)) return;
+
+      const type = leave.type === 'msg' && !leave.message ? 'default' : leave.type;
+
+      switch (type) {
+        case 'default': {
+          const embed = new EmbedBuilder()
             .setColor('Red')
             .setTitle(`👋 ${member.user.tag} has left our server!`)
-            .setURL('https://Wolfy.yoyojoe.repl.co')
-            .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
-            .setDescription(`**GoodBye ${member}**, sorry to see you go!\n\n<a:pp833:853495989796470815> We are back to \`${member.guild.memberCount}\` members!`)
+            .setThumbnail(member.user.displayAvatarURL({ extension: 'png', dynamic: true }))
+            .setDescription(`**Goodbye ${member}**, sorry to see you go!\n\n<a:pp833:853495989796470815> We are back to \`${member.guild.memberCount}\` members!`)
             .setFooter({ text: `${member.user.username} (${member.user.id})` })
-            .setTimestamp()
-            return client.channels.cache.get(data.greeter.leaving.channel).send({ embeds: [embed] });
-        };
-      
-        //if message was text, send the text
-         if (type === 'msg'){
-          const message = await modifier.modify(data.greeter.leaving.message, member);
-          return client.channels.cache.get(data.greeter.leaving.channel).send(message);
-       };
-      
-        //if message was embed
-        if (type === 'embed'){
-          const message = await modifier.modify(data.greeter.leaving.embed, member);
-          const embed = new discord.EmbedBuilder()
-          .setColor('DarkGreen')
-          .setTitle(`${member.user.tag} has joined the server!`)
-          .setURL('https://Wolfy.yoyojoe.repl.co')
-          .setThumbnail(member.user.displayAvatarURL({extension:'png', dynamic: true}))
-          .setDescription(message)
-          .setFooter({ text: `${member.user.username} (${member.user.id})` })
-          .setTimestamp()
-          return client.channels.cache.get(data.greeter.leaving.channel).send({ embeds: [embed]});
-       };
+            .setTimestamp();
+          return Channel.send({ embeds: [embed] });
+        }
+        case 'msg': {
+          const message = await modifier.modify(leave.message, member);
+          return Channel.send(message);
+        }
+        case 'embed': {
+          const title = await modifier.modify(data.leaving.embed.title || null, member);
+          const description = await modifier.modify(data.leaving.embed.description || "{user} has left {guildName} server!", member);
+          const imageUrl = await modifier.modify(data.leaving.image?.url || "", member);
+          const isValidImage = isValidURL(imageUrl) ? imageUrl : null;
+          const thumbnailUrl = await modifier.modify(data.leaving.thumbnail?.url || "", member);
+          const isValidThumbnail = isValidURL(thumbnailUrl) ? thumbnailUrl : null;
+
+          const embed = new EmbedBuilder()
+            .setColor(data.leaving.color || null)
+            .setTitle(title)
+            .setThumbnail(isValidThumbnail)
+            .setImage(isValidImage)
+            .setDescription(description)
+            .setFooter({ text: `${member.user.username} (${member.user.id})` })
+            .setTimestamp();
+          return Channel.send({ embeds: [embed] });
+        }
+        default:
+          break;
+      }
+    } catch (err) {
+      console.error(err);
     }
+  },
+};
+
+/**
+ * Checks if a string is a valid URL.
+ * @param {string} string - The string to check.
+ * @returns {boolean} - True if the string is a valid URL, otherwise false.
+ */
+function isValidURL(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch {
+    return false;
+  }
 }
