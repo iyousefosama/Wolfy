@@ -24,11 +24,13 @@ module.exports = {
                 content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
             });
         }
+        if (!ticket) {
+            return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the database!`);
+        }
+
         if (!ticket.IsClosed) {
             return interaction.followUp({ embeds: [ErrorEmbed("Ticket is already open!")], ephemeral: true });
         }
-        if (!ticket)
-            return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the data base!`);
         const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);
 
         Channel.permissionOverwrites.edit(ticket.UserId, {
