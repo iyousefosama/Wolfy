@@ -50,7 +50,7 @@ module.exports = {
                         description: " ",
                     });
 
-                    const TicketUser = await interaction.guild.members.fetch(ticket.UserId);
+                    const TicketUser = await interaction.guild.members.fetch(ticket.UserId).catch(() => null);
 
                     const fields = [
                         { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
@@ -60,7 +60,7 @@ module.exports = {
                     ];
 
                     if (ticket.claimedBy) {
-                        const mod = await interaction.guild.members.fetch(ticket.claimedBy);
+                        const mod = await interaction.guild.members.fetch(ticket.claimedBy).catch(() => null);
                         fields.push({ name: "Claimed by", value: `${mod.user.username}`, inline: true });
                     }
 
