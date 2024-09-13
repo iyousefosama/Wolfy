@@ -48,14 +48,20 @@ class ComponentsListener {
                 }
 
                 if (interaction.isAnySelectMenu()) {
-                    const component = client.ComponentsAction.get(interaction.customId);
-
+                    const [part1, part2, ...rest] = interaction.customId.split("_");
+                    const componentId = `${part1}_${part2}`;
+              
+                    const component =
+                      client.ComponentsAction.get(componentId) ||
+                      client.ComponentsAction.get(part1) ||
+                      client.ComponentsAction.get(interaction.customId);
+              
                     if (!component) return;
 
                     if (!(await checkUserPermissions(component))) return;
 
                     try {
-                        component.action(client, interaction);
+                        component.action(client, interaction, [part1, part2, ...rest]);
                     } catch (err) {
                         error(err);
                     }
