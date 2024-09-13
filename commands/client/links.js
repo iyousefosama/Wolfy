@@ -1,5 +1,6 @@
 const discord = require('discord.js')
-const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, AttachmentBuilder } = require('discord.js');
+const file = new AttachmentBuilder("./assets/Images/background.gif")
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -24,7 +25,7 @@ module.exports = {
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL() })
         .setTimestamp()
         .setThumbnail(client.user.displayAvatarURL())
-        .setImage(`https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif`)
+        .setImage("attachment://background.gif")
         .setTitle(`${client.user.username} Links`)
         .setDescription(`<a:Cookie:853495749370839050> **Hey, ${message.author.username}** that's all my special links!\n\n\`\`\`You can support our bot with voting it on top.gg\`\`\``)
         .setURL(client.config.websites["website"])
@@ -51,6 +52,6 @@ module.exports = {
         const row = new ActionRowBuilder()
         .addComponents(button, button2, button3, button4);
         message.channel.sendTyping()
-        message.channel.send({ embeds: [embed], components: [row] })
+        message.channel.send({ embeds: [embed], components: [row], files: [file] })
     }
 }

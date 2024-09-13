@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const consoleUtil = require("../util/console");
+const { warn, error, success, info } = require("../util/console");
+const baseCommand = require("../util/types/baseCommand");
 
 /**
  * 
@@ -8,13 +9,13 @@ const consoleUtil = require("../util/console");
  * @param {string} directory directory containing the event files
  */
 module.exports = async (client, directory) => {
-  consoleUtil.warn("message commands...", "Loading:");
+  info("loading message commands...");
   try {
     // Clear all existing commands
     client.commands.clear();
 
     if(!directory) {
-      throw new Error('No directory provided!');
+      throw new Error('No message commands directory provided!');
     }
     const commandFolders = fs.readdirSync(path.join(__dirname, "..", directory));
     let success = 0;
@@ -32,35 +33,36 @@ module.exports = async (client, directory) => {
           
           // Clear the cached module
           delete require.cache[require.resolve(filePath)];
+
           /**
-           * @type {import("../util/types/baseCommand")}
+           * @type {baseCommand}
            */
           const command = require(filePath);
           // ? Note: All client commands are set and recieved from user in lowercase!
           const cmdName = command.name.toLowerCase();
           
           if (!cmdName) {
-            consoleUtil.error(`Command file '${file}' is missing a 'name' property.`);
+            error(`Command file '${file}' is missing a 'name' property.`);
             failed++;
             continue;
           }
           client.commands.set(cmdName, command);
-          //consoleUtil.Success(`'${cmdName}' from '${file}'`, "Loaded command:");
+          //consoleUtil.success(`'${cmdName}' from '${file}'`, "Loaded command:");
           success++;
         } catch (error) {
-          consoleUtil.error(`Error loading command '${file}': ${error}`);
+          error(`Error loading command '${file}': ${error}`);
           failed++;
         }
       }
 
       if (commandFiles.length === 0) {
-        consoleUtil.error(`No command files found in folder '${folder}'`);
+        error(`No command files found in folder '${folder}'`);
       } else {
-        consoleUtil.Success(`Loaded ${success} commands from '${folder}' folder!`, "# CMD FOLDER LOADED:");
-        failed > 0 ? consoleUtil.error(`Failed to load ${failed} commands from '${folder}' folder!`) : "";
+        info(`Loaded ${success} message commands from '${folder}' folder!`);
+        failed > 0 ? error(`Failed to load ${failed} commands from '${folder}' folder!`) : "";
       }
     }
   } catch (error) {
-    consoleUtil.error(`An error occurred while loading commands: ${error}`);
+    error(`An error occurred while loading commands: ${error}`);
   }
 };

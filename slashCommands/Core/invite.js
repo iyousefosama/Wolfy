@@ -1,6 +1,5 @@
-const discord = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const file = new AttachmentBuilder("./assets/Images/background.gif")
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -31,9 +30,7 @@ module.exports = {
         `<a:Cookie:853495749370839050> **Hey, ${interaction.user.username}**, here are some special links for you!\n\nYou can support our bot by voting for it on top.gg.`
       )
       .setThumbnail(client.user.displayAvatarURL())
-      .setImage(
-        "https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif"
-      )
+      .setImage("attachment://background.gif")
       .setURL(client.config.websites["website"])
       .setTimestamp()
       .setFooter({
@@ -72,6 +69,6 @@ module.exports = {
       websiteButton
     );
 
-    interaction.reply({ embeds: [embed], components: [row] });
+    interaction.reply({ embeds: [embed], components: [row], files: [file] });
   },
 };

@@ -1,8 +1,8 @@
-const schema = require("../schema/GuildSchema");
+const schema = require("../../schema/GuildSchema");
 const { ChannelType, EmbedBuilder } = require("discord.js");
-const { sendLogsToWebhook } = require("../util/functions/client");
+const { sendLogsToWebhook } = require("../../util/functions/client");
 
-const BEV = require("../util/types/baseEvents");
+const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"inviteCreate">} */
 module.exports = {

@@ -1,32 +1,56 @@
+require('colors');
+const fs = require('fs');
 
 /**
- * Logs on console with color green
- * @param {string} message The message to log on console
- * @param {string} title The string to apply the color to
- * @returns {undefined}
+ * @param {string[]} message 
  */
- function Success(message, title = 'Success!'){
-    return console.log('\x1b[32m', title, '\x1b[0m', message);
-  };
-  
-  /**
-   * Logs on console with color yellow
-   * @param {string} message The message to log on console
-   * @param {string} title The string to apply the color to
-   * @returns {undefined}
-   */
-  function warn(message, title = 'WARN!'){
-    return console.log('\x1b[33m', title, '\x1b[0m', message);
-  };
-  
-  /**
-   * Logs on console with color red
-   * @param {string} message The message to log on console
-   * @param {string} title The name of the error
-   * @returns {undefined}
-   */
-  function error(message, title = ''){
-    return console.log(title ,'\x1b[31mERR!\x1b[0m', message);
-  };
-  
-  module.exports = { Success, warn, error }
+const info = (...message) => {
+    const time = new Date().toLocaleTimeString();
+    let fileContent = fs.readFileSync('./terminal.log', 'utf-8');
+
+    console.info(`[${time}]`.gray, '[Info]'.blue, message.join(' '));
+    fileContent += [`[${time}]`.gray, '[Info]'.blue, message.join(' ')].join(' ') + '\n';
+
+    fs.writeFileSync('./terminal.log', fileContent, 'utf-8');
+}
+
+/**
+ * @param {string[]} message 
+ */
+const success = (...message) => {
+    const time = new Date().toLocaleTimeString();
+    let fileContent = fs.readFileSync('./terminal.log', 'utf-8');
+
+    console.info(`[${time}]`.gray, '[OK]'.green, message.join(' '));
+    fileContent += [`[${time}]`.gray, '[OK]'.green, message.join(' ')].join(' ') + '\n';
+
+    fs.writeFileSync('./terminal.log', fileContent, 'utf-8');
+}
+
+/**
+ * @param {string[]} message 
+ */
+const error = (...message) => {
+    const time = new Date().toLocaleTimeString();
+    let fileContent = fs.readFileSync('./terminal.log', 'utf-8');
+
+    console.error(`[${time}]`.gray, '[Error]'.red, message.join(' '));
+    fileContent += [`[${time}]`.gray, '[Error]'.red, message.join(' ')].join(' ') + '\n';
+
+    fs.writeFileSync('./terminal.log', fileContent, 'utf-8');
+}
+
+/**
+ * @param {string[]} message 
+ */
+const warn = (...message) => {
+    const time = new Date().toLocaleTimeString();
+    let fileContent = fs.readFileSync('./terminal.log', 'utf-8');
+
+    console.warn(`[${time}]`.gray, '[Warning]'.yellow, message.join(' '));
+    fileContent += [`[${time}]`.gray, '[Warning]'.yellow, message.join(' ')].join(' ') + '\n';
+
+    fs.writeFileSync('./terminal.log', fileContent, 'utf-8');
+}
+
+module.exports = { info, success, error, warn }

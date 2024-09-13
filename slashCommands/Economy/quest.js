@@ -1,9 +1,6 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
 const moment = require("moment");
-const format = require("moment-duration-format");
-
 const { AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const file = new AttachmentBuilder("./assets/Images/treasure.png");
 const quests = require("../../assets/json/quests.json");

@@ -1,5 +1,4 @@
 const Client = require(`${process.cwd()}/struct/Client`);
-
 const config = require(`${process.cwd()}/config`);
 
 /** Wolfy discord client instance

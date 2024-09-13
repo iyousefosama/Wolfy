@@ -1,5 +1,4 @@
-const { Dir } = require('fs');
-const consoleUtil = require('../util/console');
+const { error, success, info } = require('../util/console');
 const areCommandsDifferent = require('../util/helpers/areCommandsDifferent');
 const getApplicationCommands = require('../util/helpers/getApplicationCommands');
 const getLocalCommands = require('../util/helpers/getLocalCommands');
@@ -7,10 +6,11 @@ const getLocalCommands = require('../util/helpers/getLocalCommands');
 /**
  * 
  * @param {import("../struct/Client")} client 
- * @param {Dir} directory directory containing the event files
+ * @param {string} directory directory containing the slash command files
  */
 module.exports = async (client, directory) => {
   try {
+    // Load all local slash commands
     const localCommands = getLocalCommands(directory);
 
     const devGuildId = client.config.slashCommands?.devGuild;
@@ -25,6 +25,15 @@ module.exports = async (client, directory) => {
       const commandData = localCommand.data ?? localCommand;
       const { name, description, integration_types, contexts, options, deleted } = commandData;
 
+      // Clear the cached module of each slash command
+      if (localCommand.filePath) {
+        try {
+          delete require.cache[require.resolve(localCommand.filePath)];
+        } catch (cacheError) {
+         error(`❌ Error clearing cache for command "${name}": ${cacheError}`);
+        }
+      }
+
       const existingCommand = await applicationCommands.cache.find(
         (cmd) => cmd.name === name
       );
@@ -33,7 +42,7 @@ module.exports = async (client, directory) => {
         if (existingCommand) {
           if (deleted) {
             await applicationCommands.delete(existingCommand.id);
-            console.log(`🗑 Deleted command "${name}".`);
+            info(`🗑 Deleted command "${name}".`);
             continue;
           }
 
@@ -42,16 +51,14 @@ module.exports = async (client, directory) => {
               description,
               options,
               integration_types,
-              contexts
+              contexts,
             });
 
-            console.log(`🔁 Edited command "${name}".`);
+            info(`🔁 Edited command "${name}".`);
           }
         } else {
           if (deleted) {
-            console.log(
-              `⏩ Skipping registering command "${name}" as it's set to delete.`
-            );
+            info(`⏩ Skipping registering command "${name}" as it's set to delete.`);
             continue;
           }
 
@@ -60,16 +67,16 @@ module.exports = async (client, directory) => {
             description,
             options,
             integration_types,
-            contexts
+            contexts,
           });
 
-          console.log(`✔ Registered command "${name}."`);
+          info(`✔ Registered command "${name}."`);
         }
       } catch (cmdError) {
-        consoleUtil.error(`❌ Error processing command "${name}": ${cmdError}`);
+        error(`❌ Error processing command "${name}": ${cmdError}`);
       }
     }
   } catch (error) {
-    consoleUtil.error(`❌ Error while registering slash commands: ${error}`);
+    error(`❌ Error while registering slash commands: ${error}`);
   }
 };

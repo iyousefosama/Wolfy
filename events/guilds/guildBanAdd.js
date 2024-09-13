@@ -1,8 +1,8 @@
 const { AuditLogEvent, ChannelType, EmbedBuilder } = require('discord.js');
-const schema = require('../schema/GuildSchema');
-const { sendLogsToWebhook } = require('../util/functions/client');
+const schema = require('../../schema/GuildSchema');
+const { sendLogsToWebhook } = require('../../util/functions/client');
 
-const BEV = require("../util/types/baseEvents");
+const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"guildBanAdd">} */
 module.exports = {

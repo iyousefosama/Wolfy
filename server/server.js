@@ -3,7 +3,6 @@ const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const app = express();
 const cors = require("cors");
 const commands = require('../assets/json/commands-database.json');
 const authRoutes = require("./routes/authRoutes");
@@ -11,6 +10,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const actionsRoutes = require("./routes/actionsRoutes");
 const { rateLimit } = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
+const { info, success, error } = require('../util/console');
 
 /**
  * @param {import('../struct/Client')} client
@@ -143,7 +143,7 @@ module.exports = (client) => {
 
     app.use("/actions", attachClient, actionsRoutes);
 
-    app.listen(port, () => console.log("Server is running on port " + port))
+    app.listen(port, () => success("🔆 Express server is running on port " + port))
 
 
     module.exports = app;

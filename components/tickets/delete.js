@@ -12,7 +12,6 @@ module.exports = {
     enabled: true,
     async action(client, interaction, parts) {
         await interaction.deferUpdate();
-
         try {
             const ticket = await ticketSchema.findOne({
                 guildId: interaction.guild.id,
@@ -36,7 +35,8 @@ module.exports = {
 
             setTimeout(async () => {
                 try {
-                    const messages = await interaction.channel.messages.fetch();
+                    if(!interaction.channel) return;
+                    const messages = await interaction.channel?.messages.fetch();
                     const output = messages.reverse().map(m => `${new Date(m.createdAt).toLocaleString("en-US")} - ${m.author.tag}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`).join("\n");
 
                     const response = await sourcebin.create([

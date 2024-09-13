@@ -50,12 +50,12 @@ module.exports = class Mongoose{
   init(){
 
     this.db.connect(this.connector, this.settings).catch((error) => {
-      consoleUtil.error(error, 'db');
+      consoleUtil.error(error, 'dbError');
     });
 
     this.db.Promise = global.Promise;
 
-    this.db.connection.on('connected', () => consoleUtil.Success('Connected to MongoDB!'));
+    this.db.connection.on('connected', () => consoleUtil.success('🍃 connected to MongoDB'));
 
     return this.db;
   };

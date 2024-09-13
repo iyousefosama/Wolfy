@@ -11,6 +11,8 @@ const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 const server = require("../server/server")
+const ComponentsListener = require("../Handler/ComponentsListener");
+const fs = require("fs");
 
 /**
  * Optimized hub for interacting with the discord API
@@ -26,6 +28,7 @@ module.exports = class WolfyClient extends Client {
 
     // Initialize bot, log on terminal when instantiated.
     console.log(`Initializing the client. Please wait...`);
+    fs.writeFileSync('./terminal.log', '', 'utf-8');
 
     /**
  * @type  {Collection<string, import("../util/types/baseComponent")>}
@@ -34,6 +37,7 @@ module.exports = class WolfyClient extends Client {
     this.ComponentsAction = new Collection();
     this.cooldowns = new Collection();
     this.components = new Collection();
+    new ComponentsListener(this);
 
     /**
      * The default prefix this bot instance will be using.
@@ -240,7 +244,7 @@ module.exports = class WolfyClient extends Client {
       }*/
       this.ComponentsAction.set(Component.name, Component);
     } else {
-      this.logger.debug(`Skipping Component ${Component.name}. Disabled!`);
+      this.debug(`Skipping Component ${Component.name}. Disabled!`);
     }
   };
 

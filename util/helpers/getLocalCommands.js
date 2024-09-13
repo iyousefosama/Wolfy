@@ -22,6 +22,9 @@ module.exports = (directory, exceptions = []) => {
     for (const commandFile of commandFiles) {
       const commandObject = require(commandFile);
 
+      // Attach the file path to each command object
+      commandObject.filePath = commandFile;
+
       if (exceptions.includes(commandObject.name)) {
         continue;
       }

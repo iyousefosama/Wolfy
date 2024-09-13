@@ -1,5 +1,3 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */

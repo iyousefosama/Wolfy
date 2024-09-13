@@ -38,11 +38,11 @@ const settings = {
         enable: true,
         uri: process.env.MONGO_URI,
         config: {
-          autoIndex: false,
-          connectTimeoutMS: 10000,
-          family: 4
+            autoIndex: false,
+            connectTimeoutMS: 10000,
+            family: 4
         }
-      },
+    },
 
     // * enable/disable loading slash commands as global slash commands, or loading them for the developing guild.
     // ? Make sure loadGlobal set to true on main client
@@ -67,6 +67,15 @@ const settings = {
         "invite": "https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands",
         "support": "https://discord.gg/qYjus2rujb",
         "top.gg": "https://top.gg/bot/821655420410003497",
+    },
+    messages: { // Messages configuration for application commands and message commands handler.
+        NOT_BOT_OWNER: 'You do not have the permission to run this command because you\'re not the owner of me!',
+        NOT_BOT_DEVELOPER: 'You do not have the permission to run this command because you\'re not a developer of me!',
+        NOT_GUILD_OWNER: 'You do not have the permission to run this command because you\re not the guild owner!',
+        CHANNEL_NOT_NSFW: 'You cannot run this command in a non-NSFW channel!',
+        MISSING_PERMISSIONS: 'You do not have the permission to run this command, missing permissions.',
+        COMPONENT_NOT_PUBLIC: 'You are not the author of this button!',
+        GUILD_COOLDOWN: 'You are currently in cooldown, you have the ability to re-use this command again in \`%cooldown%s\`.'
     }
 };
 

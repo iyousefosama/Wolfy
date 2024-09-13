@@ -7,6 +7,7 @@ const {
 } = require("discord.js");
 const schema = require("../../schema/Panel-schema")
 const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds")
+const Page = require('../../util/Paginate');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -310,24 +311,129 @@ module.exports = {
             continue;
           }
 
-          let admin = guild.members.cache.get(panel.Admin);
-          let modRole = guild.roles.cache.get(panel.ModRole);
-          let logs = guild.channels.cache.get(panel.logs);
+          embedFields
+            .push(
+              {
+                name: `${category} (${panel.Category})`,
+                value: "\n",
+                inline: false
+              },
+              {
+                name: "Enabled:",
+                value: panel.Enabled ? "Yes" : "No",
+                inline: true
+              },
+              {
+                name: "Time Created:",
+                value: `<t:${Math.floor(panel.createdAt.getTime() / 1000)}:R>`,
+                inline: true
+              },
+              {
+                name: "Admin:",
+                value: panel.Admin,
+                inline: true
+              },
+              {
+                name: "Mod Role:",
+                value: panel.ModRole ? panel.ModRole : "None",
+                inline: true
+              },
+              {
+                name: "Logs:",
+                value: panel.logs ? panel.logs : "None",
+                inline: true
+              },
+              {
+                name: "Custom message:",
+                value: panel.Message ? panel.Message : "Not set.",
+                inline: false
+              },
+              {
+                name: '\u200B',
+                value: '\u200B'
+              },
+            );
+        }
 
-          const Values = [
-            `Enabled: ${panel.Enabled ? "Yes" : "No"}`,
-            `Time Created: <t:${Math.floor(panel.createdAt.getTime() / 1000)}>`,
-            `Admin: ${admin}`,
-          ];
+        if (embedFields.length > 25) {
+          // Split fields into groups of 25
+          const embeds = [];
+          for (let i = 0; i < embedFields.length; i += 25) {
+            const embed = new EmbedBuilder()
+              .setAuthor({
+                name: `${guild.name} Panels list`,
+                iconURL: guild.iconURL({ dynamic: true }),
+              })
+              .setDescription(
+                `There are \`${panels.length}\` ticket panels in the server!`
+              )
+              .setFields(embedFields.slice(i, i + 25))
+              .setFooter({
+                text: [
+                  `Ticket Panel | \©️${new Date().getFullYear()} Wolfy`,
+                  deleted > 0 ? `Deleted ${deleted} unregistered panel(s)` : "",
+                ].join("\n"),
+                iconURL: client.user.avatarURL({ dynamic: true }),
+              })
+              .setTimestamp();
 
-          if (modRole) Values.push(`Mod Role: ${modRole}`);
-          if (logs) Values.push(`Logs: ${logs}`);
-          if (panel.Message) Values.push(`Custom message: \n${panel.Message}`);
+            embeds.push(embed);
+          }
 
-          embedFields.push({
-            name: `${category} (${panel.Category})`,
-            value: Values.join("\n"),
+
+          const createRow = () => {
+            const button = new ButtonBuilder()
+              .setCustomId("prevPage")
+              .setStyle('Primary')
+              .setEmoji("890490643548352572");
+
+            const buttonmid = new ButtonBuilder()
+              .setLabel(`${pages.currentIndex + 1}/${pages.size}`)
+              .setCustomId("currentPage")
+              .setStyle('Secondary')
+              .setDisabled(true);
+
+            const button2 = new ButtonBuilder()
+              .setCustomId("nextPage")
+              .setStyle('Primary')
+              .setEmoji("890490558492061736");
+
+            return new ActionRowBuilder().addComponents(button, buttonmid, button2);
+          };
+
+          const pages = new Page(embeds);
+
+
+          const msg = await interaction.reply({
+            embeds: [pages.currentPage],
+            components: [createRow()],
+            fetchReply: true
           });
+
+          const filter = i => i.user.id === interaction.user.id;
+          const collector = msg.createMessageComponentCollector({ filter, time: 180000 });
+
+          collector.on('collect', async interactionCreate => {
+            await interactionCreate.deferUpdate();
+            if (interactionCreate.customId === 'prevPage') {
+              msg.edit({
+                embeds: [pages.previous()],
+                components: [createRow()]
+              });
+            } else if (interactionCreate.customId === 'nextPage') {
+              msg.edit({
+                embeds: [pages.next()],
+                components: [createRow()]
+              });
+            }
+          });
+
+          collector.on('end', async () => {
+            const disabledRow = createRow().components.forEach(button => button.setDisabled(true));
+            msg.edit({ embeds: [pages.currentPage], components: [disabledRow] }).catch(() => null);
+          });
+
+          return;
         }
 
         const embed = new EmbedBuilder()
@@ -336,7 +442,7 @@ module.exports = {
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(
-            `There are \`${embedFields.length}\` ticket panels in the server!`
+            `There are \`${panels.length}\` ticket panels in the server!`
           )
           .setFields(embedFields)
           .setFooter({

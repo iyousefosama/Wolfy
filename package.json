@@ -17,6 +17,7 @@
     "canvacord": "^6.0.2",
     "canvas": "^2.11.2",
     "chalk": "^5.3.0",
+    "colors": "^1.4.0",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
