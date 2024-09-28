@@ -76,7 +76,7 @@ module.exports = async (client, directory) => {
         error(`❌ Error processing command "${name}": ${cmdError}`);
       }
     }
-  } catch (error) {
-    error(`❌ Error while registering slash commands: ${error}`);
+  } catch (err) {
+    error(`❌ Error while registering slash commands: ${err}`);
   }
 };

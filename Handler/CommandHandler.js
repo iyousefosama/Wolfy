@@ -49,8 +49,8 @@ module.exports = async (client, directory) => {
           client.commands.set(cmdName, command);
           //consoleUtil.success(`'${cmdName}' from '${file}'`, "Loaded command:");
           success++;
-        } catch (error) {
-          error(`Error loading command '${file}': ${error}`);
+        } catch (err) {
+          error(`Error loading command '${file}': ${err}`);
           failed++;
         }
       }
@@ -62,7 +62,7 @@ module.exports = async (client, directory) => {
         failed > 0 ? error(`Failed to load ${failed} commands from '${folder}' folder!`) : "";
       }
     }
-  } catch (error) {
-    error(`An error occurred while loading commands: ${error}`);
+  } catch (err) {
+    error(`An error occurred while loading commands: ${err}`);
   }
 };

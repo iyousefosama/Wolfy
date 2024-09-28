@@ -41,7 +41,6 @@ const checkMsg = async (client, message) => {
     message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
   }
 
-  const owner = await message.guild.fetchOwner()
   if (message.author.id === message.guild.ownerId) {
     return;
   } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
@@ -60,7 +59,7 @@ const checkMsg = async (client, message) => {
           // Start the Infraction for links at ../util/functions/Infraction bath
           InfFunction.Infraction(client, message)
         } else {
-          return message.channel.send({ content: `${message.author}, Links and discord invites are not allowed in this server!` })
+          return message.channel?.send({ content: `${message.author}, Links and discord invites are not allowed in this server!` })
         }
       }, 100)
     })

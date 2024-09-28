@@ -65,9 +65,9 @@ module.exports = async (client, directory) => {
 
                 successCount++;
                 // consoleUtil.success(`${file}`, 'Loaded event:');
-            } catch (error) {
+            } catch (err) {
                 failureCount++;
-                error(`Failed to load event ${path.basename(file)}: ${error.stack || error}`);
+                error(`Failed to load event ${path.basename(file)}: ${err.stack || err}`);
             }
         }
 
@@ -75,7 +75,7 @@ module.exports = async (client, directory) => {
         if (failureCount > 0) {
             error(`Failed to load ${failureCount} events from the '${directory}' directory.`);
         }
-    } catch (error) {
-        error(`An error occurred while loading events: ${error.stack || error}`);
+    } catch (err) {
+        error(`An error occurred while loading events: ${err.stack || err}`);
     }
 };
