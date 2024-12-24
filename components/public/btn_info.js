@@ -1,5 +1,5 @@
 // Import necessary classes from discord.js
-const { ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -21,7 +21,6 @@ module.exports = {
         text: `Requested By: ${interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL(),
       });
-
     // Reply to the interaction with the embed message
     interaction.reply({
       embeds: [embed],

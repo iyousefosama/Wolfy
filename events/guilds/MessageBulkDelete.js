@@ -41,7 +41,7 @@ module.exports = {
     const timestamp = Math.floor(Date.now() / 1000);
     const messageContents = messageArray.slice(0, 5).map(msg => {
       const content = msg.content || "❌ No content (e.g., embed or attachment)";
-      return `${msg.author.tag}: ${content}`;
+      return `${msg.author.username}: ${content}`;
     }).join("\n") || "❌ Unknown messages";
 
     const bulkDeleteEmbed = new EmbedBuilder()

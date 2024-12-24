@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, PermissionsBitField } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const ticketSchema = require("../../schema/Ticket-Schema");
 const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
 
