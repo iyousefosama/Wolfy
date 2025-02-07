@@ -95,27 +95,34 @@ async function sendMessage(channel, messageTemplate, member) {
  * @param {Object} embedData - The embed settings from the database.
  * @param {GuildMember} member - The member that joined.
  */
-async function sendCustomEmbed(channel, embedData, member) {
-  const title = embedData.title ? await modifier.modify(embedData.title, member) : null;
-  const description = await modifier.modify(embedData.description || "{user} has joined {guildName} server!", member);
-  const imageUrl = imageUrl ? await modifier.modify(embedData.image?.url, member) : null;
-  const isValidImage = isValidURL(imageUrl) ? imageUrl : null;
-  const thumbnailUrl = thumbnailUrl ? await modifier.modify(embedData.thumbnail?.url || "", member) : null;
-  const isValidThumbnail = isValidURL(thumbnailUrl) ? thumbnailUrl : null;
+function sendCustomEmbed(channel, embedData, member) {
+  const processField = async (value, fallback = null) => 
+    value ? await modifier.modify(value, member) : fallback;
 
-  const embed = new EmbedBuilder()
-    .setColor(embedData.color || null)
-    .setTitle(title)
-    .setThumbnail(isValidThumbnail)
-    .setDescription(description)
-    .setImage(isValidImage)
-    .setFooter({ text: `${member.user.username} (${member.user.id})` })
-    .setTimestamp();
+  const titlePromise = processField(embedData.title);
+  const descriptionPromise = processField(
+    embedData.description, 
+    "{user} has joined {guildName} server!"
+  );
+  const imagePromise = processField(embedData.image?.url);
+  const thumbnailPromise = processField(embedData.thumbnail?.url, "");
 
-  await channel.send({
-    content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
-    embeds: [embed],
-  });
+  return Promise.all([titlePromise, descriptionPromise, imagePromise, thumbnailPromise])
+    .then(([title, description, imageUrl, thumbnailUrl]) => {
+      const embed = new EmbedBuilder()
+        .setColor(embedData.color || null)
+        .setTitle(title)
+        .setDescription(description)
+        .setImage(isValidURL(imageUrl) ? imageUrl : null)
+        .setThumbnail(isValidURL(thumbnailUrl) ? thumbnailUrl : null)
+        .setFooter({ text: `${member.user.username} (${member.user.id})` })
+        .setTimestamp();
+
+      return channel.send({
+        content: `> Hey, welcome ${member} :Up: `,
+        embeds: [embed],
+      });
+    });
 }
 
 /**
