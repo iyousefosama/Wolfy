@@ -96,11 +96,11 @@ async function sendMessage(channel, messageTemplate, member) {
  * @param {GuildMember} member - The member that joined.
  */
 async function sendCustomEmbed(channel, embedData, member) {
-  const title = await modifier.modify(embedData.title || null, member);
+  const title = embedData.title ? await modifier.modify(embedData.title, member) : null;
   const description = await modifier.modify(embedData.description || "{user} has joined {guildName} server!", member);
-  const imageUrl = await modifier.modify(embedData.image?.url || "", member);
+  const imageUrl = imageUrl ? await modifier.modify(embedData.image?.url, member) : null;
   const isValidImage = isValidURL(imageUrl) ? imageUrl : null;
-  const thumbnailUrl = await modifier.modify(embedData.thumbnail?.url || "", member);
+  const thumbnailUrl = thumbnailUrl ? await modifier.modify(embedData.thumbnail?.url || "", member) : null;
   const isValidThumbnail = isValidURL(thumbnailUrl) ? thumbnailUrl : null;
 
   const embed = new EmbedBuilder()
