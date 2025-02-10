@@ -38,36 +38,26 @@ module.exports = {
         iconURL: interaction.user.displayAvatarURL(),
       });
 
-    const supportButton = new ButtonBuilder()
-      .setStyle("Link")
-      .setLabel("Support Server")
-      .setEmoji("853495153280155668")
-      .setURL(client.config.websites["support"]);
 
-    const inviteButton = new ButtonBuilder()
-      .setStyle("Link")
-      .setLabel("Add Bot")
-      .setEmoji("841711382739157043")
-      .setURL(client.config.websites["invite"]);
+    // Define button data in an array
+    const buttonData = [
+      { label: 'Support', Url: client.config.websites["support"], style: 'Link', emoji: '853495153280155668' },
+      { label: 'Add wolfy', Url: client.config.websites["invite"], style: 'Link', emoji: '841711382739157043' },
+      { label: 'Top.gg', Url: client.config.websites["top.gg"], style: 'Link', emoji: '853496052899381258' },
+      { label: 'DASHBOARD', Url: client.config.websites["website"], style: 'Link', emoji: '853495912775942154' },
+    ];
 
-    const voteButton = new ButtonBuilder()
-      .setStyle("Link")
-      .setLabel("Vote Here")
-      .setEmoji("853496052899381258")
-      .setURL(client.config.websites["top.gg"]);
+    // Create an array to store all button builders
+    const buttons = buttonData.map(data => (
+        new ButtonBuilder()
+            .setLabel(data.label)
+            .setURL(data.Url)
+            .setStyle(data.style)
+            .setEmoji(data.emoji)
+    ));
 
-    const websiteButton = new ButtonBuilder()
-      .setStyle("Link")
-      .setLabel("Bot Website")
-      .setEmoji("853495912775942154")
-      .setURL(client.config.websites["website"]);
 
-    const row = new ActionRowBuilder().addComponents(
-      supportButton,
-      inviteButton,
-      voteButton,
-      websiteButton
-    );
+    const row = new ActionRowBuilder().addComponents(buttons);
 
     interaction.reply({ embeds: [embed], components: [row], files: [file] });
   },

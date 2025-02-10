@@ -20,6 +20,8 @@ module.exports = {
     clientPermissions: ["EmbedLinks", "UseExternalEmojis", "AttachFiles"],
     examples: [''],
   async execute(client, message, args) {
+        message.channel.sendTyping()
+
         const embed = new discord.EmbedBuilder()
         .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
         .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL() })
@@ -29,29 +31,28 @@ module.exports = {
         .setTitle(`${client.user.username} Links`)
         .setDescription(`<a:Cookie:853495749370839050> **Hey, ${message.author.username}** that's all my special links!\n\n\`\`\`You can support our bot with voting it on top.gg\`\`\``)
         .setURL(client.config.websites["website"])
-        let button = new ButtonBuilder()
-        .setStyle(`Link`)
-        .setEmoji('853495153280155668')
-        .setURL(client.config.websites["support"]) 
-        .setLabel('Support server'); 
-        let button2 = new ButtonBuilder()
-        .setStyle(`Link`)
-        .setEmoji('841711382739157043')
-        .setURL(client.config.websites["invite"]) 
-        .setLabel('Add bot!'); 
-        let button3 = new ButtonBuilder()
-        .setStyle(`Link`)
-        .setEmoji('853496052899381258')
-        .setURL(client.config.websites["top.gg"]) 
-        .setLabel('Vote here!'); 
-        let button4 = new ButtonBuilder()
-        .setStyle(`Link`)
-        .setEmoji('853495912775942154')
-        .setURL(client.config.websites["website"]) 
-        .setLabel('Bot Website!');
+
+
+      // Define button data in an array
+      const buttonData = [
+          { label: 'Support', Url: client.config.websites["support"], style: 'Link', emoji: '853495153280155668' },
+          { label: 'Add wolfy', Url: client.config.websites["invite"], style: 'Link', emoji: '841711382739157043' },
+          { label: 'Top.gg', Url: client.config.websites["top.gg"], style: 'Link', emoji: '853496052899381258' },
+          { label: 'DASHBOARD', Url: client.config.websites["website"], style: 'Link', emoji: '853495912775942154' },
+      ];
+
+      // Create an array to store all button builders
+      const buttons = buttonData.map(data => (
+          new ButtonBuilder()
+              .setLabel(data.label)
+              .setURL(data.Url)
+              .setStyle(data.style)
+              .setEmoji(data.emoji)
+      ));
+
+
         const row = new ActionRowBuilder()
-        .addComponents(button, button2, button3, button4);
-        message.channel.sendTyping()
+        .addComponents(buttons);
         message.channel.send({ embeds: [embed], components: [row], files: [file] })
     }
 }

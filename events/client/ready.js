@@ -5,6 +5,7 @@ const { version } = require('../../package.json');
 const ManagerCheck = require("../../util/functions/ManagerCheck")
 const Reminder = require("../../util/functions/Reminder")
 const checkQuests = require("../../util/functions/checkQuests")
+const { CheckDeletedCategories } = require("../../util/helpers/removeDelCategories")
 
 const BEV = require("../../util/types/baseEvents");
 
@@ -19,8 +20,13 @@ module.exports = {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     client.expressServer();
-    setInterval(() => Reminder(client), 1000 * 60 * 1);
-    setInterval(() => checkQuests(client), 1000 * 60 * 2);
+    setInterval(() => Reminder(client), 1000 * 60 * 1); // 1 min.
+    setInterval(() => checkQuests(client), 1000 * 60 * 2); // 2 min.
+    setInterval(async () => {
+      client.guilds.cache.forEach(async (guild) => {
+          await CheckDeletedCategories(guild);
+      });
+  }, 1000 * 60 * 2); // 2 min.
     ManagerCheck(client)
 
     /*======================================================
