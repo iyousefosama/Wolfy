@@ -26,7 +26,8 @@ module.exports = {
                 channelTypes: [ChannelType.GuildText],
                 required: true
             },
-        ]
+        ],
+        deleted: true,
     },
     async execute(client, interaction) {
 

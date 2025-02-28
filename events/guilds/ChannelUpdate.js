@@ -1,42 +1,13 @@
-const discord = require('discord.js')
 const { EmbedBuilder } = require('discord.js')
-const schema = require('../../schema/GuildSchema')
-const { AuditLogEvent, ChannelType } = require('discord.js')
-const { sendLogsToWebhook } = require("../../util/functions/client");
+const { AuditLogEvent } = require('discord.js')
+const { logEvent } = require("../../util/logHandler");
 //const { Permissions } = require('discord.js');
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"channelUpdate">} */
 module.exports = {
   name: 'channelUpdate',
   async execute(client, oldChannel, newChannel) {
     if (!oldChannel) return;
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: oldChannel.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.channelUpdate.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await oldChannel.guild.fetchAuditLogs({
       limit: 1,
@@ -45,11 +16,7 @@ module.exports = {
     // Since there's only 1 audit log entry in this collection, grab the first one
     const channelLog = fetchedLogs.entries.first();
 
-    if (!channelLog) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!channelLog) return;
 
     const { executor, target, id, name } = channelLog;
     const types = {
@@ -63,11 +30,7 @@ module.exports = {
       13: "Stage Voice",
       15: "Guild Forum"
     }
-    if (!channelLog.available && target.id != oldChannel.id) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!channelLog.available && target.id != oldChannel.id) return;
 
     /*
     let oldPermissions = Object.values(oldChannel.permissionOverwrites);
@@ -117,9 +80,6 @@ module.exports = {
         oldChannel.type !== newChannel.type ? `<:Tag:836168214525509653> **Old Type:** \`\`\`${types[oldChannel.type]}\`\`\`\n<:Tag:836168214525509653> **New Type:** \`\`\`${types[newChannel.type]}\`\`\`` : ''
       ].join(''));
 
-    sendLogsToWebhook(client, logChannel, ChannelUpdate);
-    // add more functions on ready  event callback function...
-
-    return;
-  }
+      logEvent(client, oldChannel.guild, "channelUpdate", ChannelUpdate);
+    }
 }

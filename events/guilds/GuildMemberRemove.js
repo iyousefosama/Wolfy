@@ -1,41 +1,13 @@
 const discord = require('discord.js')
 const moment = require("moment");
-const schema = require('../../schema/GuildSchema')
-const { AuditLogEvent, ChannelType } = require('discord.js')
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const { AuditLogEvent } = require('discord.js')
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"guildMemberAdd">} */
 module.exports = {
   name: 'guildMemberRemove',
   async execute(client, member) {
     if (!member) return;
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: member.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.memberLeave.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await member.guild.fetchAuditLogs({
       limit: 1,
@@ -44,9 +16,6 @@ module.exports = {
     // Since we only have 1 audit log entry in this collection, we can simply grab the first one
     const kickLog = fetchedLogs.entries.first();
 
-    const timestamp = Math.floor(Date.now() / 1000)
-
-    let target;
     let RemoveEmbed;
 
     if (kickLog && kickLog?.createdAt > member.joinedAt && kickLog?.target.id == member.id) {
@@ -68,11 +37,6 @@ module.exports = {
         .setTimestamp()
     }
 
-
-    sendLogsToWebhook(client, logChannel, RemoveEmbed);
-
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, member.guild, "guildMemberRemove", RemoveEmbed)
   }
 }

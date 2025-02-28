@@ -1,5 +1,4 @@
 const { Collection, PermissionsBitField, ChannelType, EmbedBuilder } = require("discord.js");
-const { parsePermissions } = require("../../util/class/utils");
 const userSchema = require("../../schema/user-schema");
 const schema = require("../../schema/GuildSchema");
 const block = require("../../schema/blockcmd");
@@ -45,11 +44,10 @@ module.exports = {
       const serverprefix = data?.prefix || "Not Set";
 
       if (message.content === "prefix") {
-        return message.channel.send(
-          `**${message.author}**, My prefix is \`${client.prefix}\`, The custom prefix is \`${serverprefix}\`.`
-        );
-      } else {
-        // Do nothing..
+        return message.reply(await client.language.getString(message.guild.id, "PREFIX", {
+          PREFIX: client.prefix,
+          SERVERPREFIX: serverprefix,
+        }));
       }
     }
     if (message.channel?.type === ChannelType.DM) {
@@ -60,9 +58,7 @@ module.exports = {
       prefix = client.prefix;
     } else if (data && data.prefix) {
       prefix = data.prefix;
-    } else {
-      // Do nothing..
-    }
+    };
 
     if (!prefix || !message.content.startsWith(prefix)) {
       return { executed: false, reason: "PREFIX" };

@@ -1,7 +1,6 @@
 const discord = require("discord.js");
-const schema = require("../../schema/GuildSchema");
 const { ChannelType } = require("discord.js");
-const { sendLogsToWebhook } = require("../../util/functions/client");
+const { logEvent } = require("../../util/logHandler");
 
 const BEV = require("../../util/types/baseEvents");
 
@@ -9,36 +8,7 @@ const BEV = require("../../util/types/baseEvents");
 module.exports = {
   name: "messageUpdate",
   async execute(client, oldMessage, newMessage) {
-    if (oldMessage.channel.type === ChannelType.DM || !oldMessage.author || oldMessage.author.bot || oldMessage.embeds.length > 0) {
-      return;
-    }
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: oldMessage.guild.id });
-      if (!data || !data.Mod?.Logs || !data.Mod.Logs.isEnabled) {
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.messageUpdate.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) {
-      return;
-    }
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has([
-      "ViewAuditLog",
-      "SendMessages",
-      "ViewChannel",
-    ])) {
-      return;
-    }
+    if (oldMessage.channel.type === ChannelType.DM || !oldMessage.author || oldMessage.author.bot || oldMessage.embeds.length > 0) return;
 
     const file = newMessage.attachments.first()?.url;
     const timestamp = Math.floor(Date.now() / 1000);
@@ -69,12 +39,6 @@ module.exports = {
       .setTimestamp()
       .setImage(file)
       .setThumbnail(oldMessage.author.displayAvatarURL({ dynamic: true }));
-
-
-    sendLogsToWebhook(client, logChannel, EditedLog);
-
-    // add more functions on ready  event callback function...
-
-    return;
+      logEvent(client, oldMessage.guild, "messageUpdate", EditedLog)
   },
 };

@@ -2,7 +2,7 @@ const schema = require("../../schema/Panel-schema");
 
 /**
  *
- * @param guild string
+ * @param guild {import("discord.js").Guild}
  * @returns {Promise<*>}
  */
 const CheckDeletedCategories = async (guild) => {
@@ -23,5 +23,6 @@ const CheckDeletedCategories = async (guild) => {
 
     return deletedCount;
 };
+
 
 module.exports = { CheckDeletedCategories };

@@ -20,11 +20,6 @@ module.exports = {
         options: [
             {
                 type: 1, // SUB_COMMAND
-                name: 'logs',
-                description: 'Enable/Disable logs event listener',
-            },
-            {
-                type: 1, // SUB_COMMAND
                 name: 'suggestions',
                 description: 'Enable/Disable suggestions in that server',
             }

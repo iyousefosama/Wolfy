@@ -1,43 +1,12 @@
-const schema = require("../../schema/GuildSchema");
 const { AuditLogEvent, ChannelType, EmbedBuilder } = require("discord.js");
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const BEV = require("../../util/types/baseEvents");
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"messageDelete">} */
 module.exports = {
   name: "messageDelete",
   async execute(client, message) {
-    if (message.channel.type === ChannelType.DM || !message.author || message.author.bot || message.embeds.length > 0) {
-      return;
-    }
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: message.guild.id });
-      if (!data || !data.Mod?.Logs || !data.Mod.Logs.isEnabled) {
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.messageDelete.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) {
-      return;
-    }
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has([
-      "ViewAuditLog",
-      "SendMessages",
-      "ViewChannel",
-    ])) {
-      return;
-    }
+    console.log(message.content)
+    if (message.channel.type === ChannelType.DM || !message.author || message.author.bot || message.embeds.length > 0) return;
 
     const fetchedLogs = await message.guild.fetchAuditLogs({
       limit: 1,
@@ -72,6 +41,6 @@ module.exports = {
       .setTimestamp()
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }));
 
-    await sendLogsToWebhook(client, logChannel, deletedLogEmbed);
+    logEvent(client, message.guild, "messageDelete", deletedLogEmbed)
   },
 };

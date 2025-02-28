@@ -12,6 +12,7 @@ const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 const server = require("../server/server")
 const ComponentsListener = require("../Handler/ComponentsListener");
+const LanguageManager = require("../util/language/LanguageManager");
 const fs = require("fs");
 
 /**
@@ -37,6 +38,7 @@ module.exports = class WolfyClient extends Client {
     this.ComponentsAction = new Collection();
     this.cooldowns = new Collection();
     this.components = new Collection();
+    this.language = new LanguageManager();
     new ComponentsListener(this);
 
     /**

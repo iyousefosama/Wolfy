@@ -1,40 +1,12 @@
 const discord = require('discord.js')
-const schema = require('../../schema/GuildSchema')
-const { AuditLogEvent, ChannelType } = require('discord.js')
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const { AuditLogEvent } = require('discord.js')
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"guildBanRemove">} */
 module.exports = {
   name: 'guildBanRemove',
   async execute(client, member) {
     if (!member) return;
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: member.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await member.guild.fetchAuditLogs({
       limit: 1,
@@ -43,21 +15,13 @@ module.exports = {
 
     const unbanLog = fetchedLogs.entries.first();
 
-    if (!unbanLog) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!unbanLog) return;
 
     const { executor, target } = unbanLog;
 
     const timestamp = Math.floor(Date.now() / 1000)
 
-    if (!unbanLog.available && target.id != member.user.id) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!unbanLog.available && target.id != member.user.id) return;
 
     const Unban = new discord.EmbedBuilder()
       .setAuthor({ name: target.username, iconURL: target.displayAvatarURL({ dynamic: true, size: 2048 }) })
@@ -67,9 +31,6 @@ module.exports = {
       .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({ dynamic: true }) })
       .setTimestamp()
 
-    sendLogsToWebhook(client, logChannel, Unban);
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, member.guild, "guildBanRemove", Unban);
   }
 }

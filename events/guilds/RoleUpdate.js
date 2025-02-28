@@ -1,40 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
-const schema = require("../../schema/GuildSchema");
-const { AuditLogEvent, ChannelType } = require("discord.js");
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const { AuditLogEvent } = require("discord.js");
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"roleUpdate">} */
 module.exports = {
   name: "roleUpdate",
   async execute(client, oldRole, newRole) {
     if (!oldRole) return;
-
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: oldRole.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.RoleUpdate.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await oldRole.guild.fetchAuditLogs({
       limit: 1,
@@ -43,19 +15,11 @@ module.exports = {
     // Since there's only 1 audit log entry in this collection, grab the first one
     const rolelog = fetchedLogs.entries.first();
 
-    if (!rolelog) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!rolelog) return;
 
-    const { executor, target, id, name, color } = rolelog;
+    const { executor, target } = rolelog;
 
-    if (!rolelog || (!rolelog.available && target.id != oldRole.id)) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!rolelog || (!rolelog.available && target.id != oldRole.id)) return;
 
     let RoleUpdated;
     if (oldRole.name !== newRole.name) {
@@ -143,13 +107,9 @@ module.exports = {
         })
         .setTimestamp();
     } else {
-      // Do nothing..
+      return;
     }
 
-
-    sendLogsToWebhook(client, logChannel, RoleUpdated);
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, newRole.guild, "roleUpdate", RoleUpdated)
   },
 };

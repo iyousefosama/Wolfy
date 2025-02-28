@@ -1,17 +1,7 @@
 const discord = require('discord.js')
-const schema = require('../../schema/GuildSchema')
-const { AuditLogEvent, ChannelType } = require('discord.js')
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const panelSchema = require("../../schema/Panel-schema");
+const { AuditLogEvent } = require('discord.js')
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"channelDelete">} */
 module.exports = {
@@ -19,22 +9,10 @@ module.exports = {
   async execute(client, channel) {
     if (!channel) return;
 
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: channel.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
+    // Check if it was category & with panel data and delete it
+    if(channel.type === 4) {
+      return panelSchema.findOneAndDelete({ Category: categoryId });
     }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.channelDelete.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
 
     const fetchedLogs = await channel.guild.fetchAuditLogs({
       limit: 1,
@@ -43,13 +21,9 @@ module.exports = {
     // Since there's only 1 audit log entry in this collection, grab the first one
     const channelLog = fetchedLogs.entries.first();
 
-    if (!channelLog) {
-      return;
-    } else {
-      //Do nothing..
-    }
+    if (!channelLog) return;
 
-    const { executor, target, type, id, name } = channelLog;
+    const { executor, target } = channelLog;
     const types = {
       0: "Text Channel",
       2: "Voice Channel",
@@ -61,11 +35,8 @@ module.exports = {
       13: "Stage Voice",
       15: "Guild Forum"
     }
-    if (!channelLog.available && target.id != channel.id) {
-      return;
-    } else {
-      //Do nothing..
-    }
+
+    if (!channelLog.available && target.id !== channel.id) return;
 
     const ChannelDeleted = new discord.EmbedBuilder()
       .setAuthor({ name: executor.username, iconURL: executor.displayAvatarURL({ dynamic: true, size: 2048 }) })
@@ -75,9 +46,6 @@ module.exports = {
       .setFooter({ text: channel.guild.name, iconURL: channel.guild.iconURL({ dynamic: true }) })
       .setTimestamp()
 
-    sendLogsToWebhook(client, logChannel, ChannelDeleted);
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, channel.guild, "channelDelete", ChannelDeleted)
   }
 }

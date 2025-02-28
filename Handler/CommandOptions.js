@@ -194,7 +194,7 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
             client.CoolDownCurrent[message.author.id] = true;
             message.channel
                 .send({
-                    content: ` **${message.author.username
+                    content: `**${message.author.username
                         }**, please cool down! (**${timeLeft.toFixed(
                             0
                         )}** second(s) left)`,

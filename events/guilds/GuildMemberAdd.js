@@ -1,19 +1,7 @@
 const discord = require('discord.js')
 const moment = require("moment");
-const schema = require('../../schema/GuildSchema')
 const MuteSchema = require('../../schema/Mute-Schema')
-const { ChannelType } = require('discord.js')
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"guildMemberAdd">} */
 module.exports = {
@@ -21,24 +9,7 @@ module.exports = {
   async execute(client, member) {
     if (!member) return;
 
-    let data;
-    let mutedata;
-    try {
-      data = await schema.findOne({ GuildID: member.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-      mutedata = await MuteSchema.findOne({ guildId: member.guild.id, userId: member.id })
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.type === "separated" ? data.Mod.Logs.separated.memberJoin.channel : data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
+    const mutedata = await MuteSchema.findOne({ guildId: member.guild.id, userId: member.id }).catch(() => null);
 
     if (mutedata?.Muted == true) {
       let mutedRole = member.guild.roles?.cache.find(roles => roles.name === "Muted")
@@ -53,9 +24,6 @@ module.exports = {
       .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL({ dynamic: true }) })
       .setTimestamp()
 
-    sendLogsToWebhook(client, logChannel, Add);
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, member.guild, "guildMemberAdd", Add);
   }
 }

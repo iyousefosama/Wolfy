@@ -1,42 +1,9 @@
-const schema = require("../../schema/GuildSchema");
-const { ChannelType, EmbedBuilder } = require("discord.js");
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const BEV = require("../../util/types/baseEvents");
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"inviteCreate">} */
 module.exports = {
   name: "inviteCreate",
   async execute(client, invite) {
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: invite.guild.id });
-      if (!data || !data.Mod?.Logs || !data.Mod.Logs.isEnabled) {
-        return;
-      }
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) {
-      return;
-    }
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has([
-      "ViewAuditLog",
-      "SendMessages",
-      "ViewChannel",
-    ])) {
-      return;
-    }
-
-    const timestamp = Math.floor(Date.now() / 1000);
-
     const inviteCreateEmbed = new EmbedBuilder()
       .setAuthor({
         name: invite.inviter?.username,
@@ -56,6 +23,6 @@ module.exports = {
       .setTimestamp()
       .setThumbnail(invite.inviter.displayAvatarURL({ dynamic: true }));
 
-    await sendLogsToWebhook(client, logChannel, inviteCreateEmbed);
+    logEvent(client, invite.guild, "inviteCreate", inviteCreateEmbed);
   },
 };

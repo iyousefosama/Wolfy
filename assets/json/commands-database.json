@@ -1,5 +1,1156 @@
 [
   {
+    "name": "daily",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To get your daily reward",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!daily"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "deposit",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Deposit credits from your wallet to safeguard",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!deposit 500",
+      "w!deposit all"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "leaderboard",
+    "aliases": [
+      "lb"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Get a list for the 10 richest users that using wolfy",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "quests",
+    "aliases": [
+      "quest"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Refresh/Show current quests and the current progress.",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!quests"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "bank",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To check your credits balance in bank",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!bank"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "beg",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Why don't you try begging, maybe someone will give you money.",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!beg"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "buy",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "[item id]",
+    "group": "Economy",
+    "description": "To buy items from the market.",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!buy 1",
+      "w!buy 6"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "cookie",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "Economy",
+    "description": "To send cookie for a friend as a gift",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!cookie @WOLF"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "credits",
+    "aliases": [
+      "bal",
+      "credit"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<user>",
+    "group": "Economy",
+    "description": "To check your credits balance in wallet",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!credits @WOLF",
+      "w!credits"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "fish",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Take your fishingpole and start fishing",
+    "cooldown": 13,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!fish"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "inv",
+    "aliases": [
+      "inventory"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Show your inventory items!",
+    "cooldown": 15,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!inv"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "market",
+    "aliases": [
+      "shop"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Open the economy market!",
+    "cooldown": 15,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "UseExternalEmojis",
+      "AddReactions",
+      "EmbedLinks"
+    ],
+    "examples": [
+      "w!market"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "mine",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "What you know about mining down in the deep?",
+    "cooldown": 8,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!mine"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "previewitem",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "[item ID]",
+    "group": "Economy",
+    "description": "Check what you can buy from the shop.",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "ManageMessages",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!previewitem 6",
+      "w!previewitem 8"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "profile",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "Shows your profile card!",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!profile"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "register",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "Economy",
+    "description": "To register a bank account",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!register"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "sell",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "[item] <amount>",
+    "group": "Economy",
+    "description": "Sell item from your inventory and get some credits!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!sell coal 13",
+      "w!sell diamond 2"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "setbio",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<bio>",
+    "group": "Economy",
+    "description": "Sets your profile card bio.",
+    "cooldown": 30,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "setbirthday",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<date>",
+    "group": "Economy",
+    "description": "Sets your profile card birthday.",
+    "cooldown": 30,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!setbirthday 09-26"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "tip",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "[user]",
+    "group": "Economy",
+    "description": "Send a tip for your friend!",
+    "cooldown": 30,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!tip @WOLF",
+      "w!tip 724580315481243668"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "transfer",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<user> <amount>",
+    "group": "Economy",
+    "description": "Transfer credits from your wallet to your friends!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!transfer @WOLF 550"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "use",
+    "aliases": [
+      "equip"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "[item id]",
+    "group": "Economy",
+    "description": "Equips an item from your inventory.",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!use 6",
+      "w!use 8"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "withdraw",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<amount>",
+    "group": "Economy",
+    "description": "Withdraw credits from your bank to your wallet",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!withdraw 900",
+      "w!withdraw all"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "mcuser",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<player>",
+    "group": "Informations",
+    "description": "Get a minecraft player info/skin",
+    "cooldown": 2,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!mcuser Notch"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "avatar",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<user>",
+    "group": "Informations",
+    "description": "Get a user's avatar.",
+    "cooldown": 1,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!avatar @WOLF",
+      "w!avatar 724580315481243668",
+      "w!avatar"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "serveravatar",
+    "aliases": [
+      "savatar",
+      "avatar-server",
+      "server-avatar"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Informations",
+    "description": "Get a server's avatar.",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!serveravatar"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "server",
+    "aliases": [
+      "serverinfo",
+      "server-stats",
+      "si"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Informations",
+    "description": "Shows stats about the current server",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!server"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "translate",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<language code> <Sentence to translate>",
+    "group": "Informations",
+    "description": "Translate from to any language you want!",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [],
+    "examples": [
+      "w!translate ar Hello, my old friend."
+    ],
+    "permissions": []
+  },
+  {
+    "name": "user",
+    "aliases": [
+      "whois"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<user>",
+    "group": "Informations",
+    "description": "Shows informations about a user",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!user @WOLF",
+      "w!user"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "levelboard",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "Shows leaderboard for most leveled users",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "UseExternalEmojis"
+    ],
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "levelroles",
+    "aliases": [
+      "roles",
+      "leveledroles",
+      "level-roles"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "Show all level roles in the guild",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "UseExternalEmojis"
+    ],
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "addrole",
+    "aliases": [
+      "addlevelrole",
+      "add-role"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<role> <number>",
+    "group": "LeveledRoles",
+    "description": "Add a level role as a prize for users when they be active",
+    "cooldown": 1,
+    "guarded": false,
+    "examples": [
+      "w!addrole @ActiveMember 5"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
+    ]
+  },
+  {
+    "name": "clearxp",
+    "aliases": [
+      "clear-xp"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "LeveledRoles",
+    "description": "Clear the xp for a user in the server",
+    "cooldown": 3,
+    "guarded": false,
+    "examples": [
+      "w!clearxp @WOLF",
+      "w!clearxp 724580315481243668"
+    ],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "editrole",
+    "aliases": [
+      "editlevelrole",
+      "edit-role"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<roleID> <number>",
+    "group": "LeveledRoles",
+    "description": "Edit the guild level role to another one",
+    "cooldown": 1,
+    "guarded": false,
+    "examples": [
+      "w!editrole 804860582066520104 9"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
+    ]
+  },
+  {
+    "name": "rank",
+    "aliases": [
+      "level"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "LeveledRoles",
+    "description": "Show your level & rank and your current and next xp",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "UseExternalEmojis",
+      "AttachFiles"
+    ],
+    "examples": [
+      "w!rank @WOLF",
+      "w!rank"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "removerole",
+    "aliases": [
+      "remove-role"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<id>",
+    "group": "LeveledRoles",
+    "description": "Remove a level role from the list",
+    "cooldown": 2,
+    "guarded": false,
+    "examples": [
+      "w!removerole 804860582066520104"
+    ],
+    "permissions": [
+      "Administrator",
+      "ManageRoles"
+    ]
+  },
+  {
+    "name": "devmsg",
+    "aliases": [
+      "msg"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user> <message>",
+    "group": "developer",
+    "cooldown": 2,
+    "guarded": false,
+    "ownerOnly": true,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "addcredits",
+    "aliases": [
+      "credits-add"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "clientPermissions": [
+      "UseExternalEmojis",
+      "ViewChannel"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "blacklist",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "eval",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<code>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "fleave",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<guildID>",
+    "group": "developer",
+    "cooldown": 15,
+    "guarded": false,
+    "ownerOnly": true,
+    "clientPermissions": [
+      "EmbedLinks",
+      "AttachFiles"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "guilds",
+    "aliases": [
+      "servers"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "reload",
+    "aliases": [
+      "refresh"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "shutdown",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "",
+    "group": "developer",
+    "cooldown": 10,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "status",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "uid",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": false,
+    "usage": "<type>",
+    "group": "developer",
+    "cooldown": 1,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "whitelist",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user>",
+    "group": "developer",
+    "cooldown": 5,
+    "guarded": false,
+    "ownerOnly": true,
+    "permissions": []
+  },
+  {
+    "name": "lyrics",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<lyrics title>",
+    "group": "Search",
+    "description": "The bot will show you the lyrics for the music you are searching for!",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "UseExternalEmojis",
+      "AddReactions",
+      "EmbedLinks"
+    ],
+    "examples": [
+      "w!lyrics Venom"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "steam",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<query>",
+    "group": "Search",
+    "description": "To search for any game information in steam",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "UseExternalEmojis"
+    ],
+    "examples": [
+      "w!steam Among us",
+      "w!steam Portal 2"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "weather",
+    "aliases": [
+      "weatherstatus",
+      "weather-status"
+    ],
+    "dmOnly": false,
+    "guildOnly": false,
+    "args": true,
+    "usage": "<city>",
+    "group": "Search",
+    "description": "Shows the weather status in any country",
+    "cooldown": 5,
+    "guarded": false,
+    "examples": [
+      "w!weather Cairo, egypt"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "infraction",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable/Edit infraction point protection system!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "ManageMessages"
+    ],
+    "examples": [],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "delete",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Tickets",
+    "description": "Delete your ticket in the server",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [],
+    "permissions": [
+      "ManageChannels"
+    ]
+  },
+  {
+    "name": "rename",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<Name>",
+    "group": "Tickets",
+    "description": "Change ticket name",
+    "cooldown": 2,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!rename Test-ticket"
+    ],
+    "permissions": [
+      "ManageChannels"
+    ]
+  },
+  {
+    "name": "ticket",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<categoryPanel-id>",
+    "group": "Tickets",
+    "description": "Open new ticket in the server",
+    "cooldown": 10,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!ticket 1263598857980477582"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "remind",
+    "aliases": [
+      "remindme",
+      "reminder"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<time> <reason>",
+    "group": "Utilities",
+    "description": "The bot will reminde you for anything after a period of time.",
+    "cooldown": 5,
+    "guarded": false,
+    "examples": [
+      "w!remind 5m To start my new project!",
+      "w!remind 30s To skip this ad"
+    ],
+    "permissions": [
+      "UseExternalEmojis"
+    ]
+  },
+  {
+    "name": "bin",
+    "aliases": [
+      "sourcebin"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<code(or File with the message)>",
+    "group": "Utilities",
+    "description": "To upload a code to sourcebin",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "UseExternalEmojis"
+    ],
+    "examples": [
+      "w!bin message.channel.send('Hello, world!')"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "calc",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<equation>",
+    "group": "Utilities",
+    "description": "Calculates an equation by wolfy",
+    "cooldown": 3,
+    "guarded": false,
+    "clientPermissions": [],
+    "examples": [],
+    "permissions": []
+  },
+  {
+    "name": "suggestion",
+    "aliases": [
+      "sugg"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<suggestion>",
+    "group": "Utilities",
+    "description": "Send your suggestion for the server",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "clientPermissions": [
+      "AddReactions"
+    ],
+    "examples": [
+      "w!suggestion Add voice channels!"
+    ],
+    "permissions": []
+  },
+  {
+    "name": "embedsetup",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Moderation",
+    "description": "Display the setup embed message!",
+    "cooldown": 30,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageMessages",
+      "EmbedLinks"
+    ],
+    "examples": [
+      "w!embedsetup"
+    ],
+    "permissions": [
+      "ManageMessages"
+    ]
+  },
+  {
+    "name": "slowmode",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<time>",
+    "group": "Moderation",
+    "description": "Adding slowmotion chat to a channel",
+    "cooldown": 5,
+    "guarded": false,
+    "clientPermissions": [
+      "ManageChannels"
+    ],
+    "examples": [
+      "w!slowmode 5s"
+    ],
+    "permissions": [
+      "ManageChannels"
+    ]
+  },
+  {
+    "name": "timeout",
+    "aliases": [
+      "time-out"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": true,
+    "usage": "<user> [time] (Optional: reason)",
+    "group": "Moderation",
+    "description": "Prevents a user from talking or connecting for voice channel for a period of time",
+    "cooldown": 1,
+    "guarded": false,
+    "clientPermissions": [
+      "Administrator"
+    ],
+    "examples": [
+      "w!timeout @BADGUY 5h Toxic member",
+      "w!timeout 742682490216644619 5h"
+    ],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
     "name": "ban",
     "aliases": [],
     "dmOnly": false,
@@ -64,28 +1215,6 @@
     ],
     "permissions": [
       "Administrator"
-    ]
-  },
-  {
-    "name": "embedsetup",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Moderation",
-    "description": "Display the setup embed message!",
-    "cooldown": 30,
-    "guarded": false,
-    "clientPermissions": [
-      "ManageMessages",
-      "EmbedLinks"
-    ],
-    "examples": [
-      "w!embedsetup"
-    ],
-    "permissions": [
-      "ManageMessages"
     ]
   },
   {
@@ -334,27 +1463,6 @@
     ]
   },
   {
-    "name": "slowmode",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<time>",
-    "group": "Moderation",
-    "description": "Adding slowmotion chat to a channel",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "ManageChannels"
-    ],
-    "examples": [
-      "w!slowmode 5s"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
     "name": "softban",
     "aliases": [
       "soft-ban"
@@ -376,30 +1484,6 @@
     ],
     "permissions": [
       "BanMembers"
-    ]
-  },
-  {
-    "name": "timeout",
-    "aliases": [
-      "time-out"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user> [time] (Optional: reason)",
-    "group": "Moderation",
-    "description": "Prevents a user from talking or connecting for voice channel for a period of time",
-    "cooldown": 1,
-    "guarded": false,
-    "clientPermissions": [
-      "Administrator"
-    ],
-    "examples": [
-      "w!timeout @BADGUY 5h Toxic member",
-      "w!timeout 742682490216644619 5h"
-    ],
-    "permissions": [
-      "Administrator"
     ]
   },
   {
@@ -681,423 +1765,6 @@
     "permissions": []
   },
   {
-    "name": "bank",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "To check your credits balance in bank",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!bank"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "beg",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Why don't you try begging, maybe someone will give you money.",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!beg"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "buy",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "[item id]",
-    "group": "Economy",
-    "description": "To buy items from the market.",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!buy 1",
-      "w!buy 6"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "cookie",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user>",
-    "group": "Economy",
-    "description": "To send cookie for a friend as a gift",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!cookie @WOLF"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "credits",
-    "aliases": [
-      "bal",
-      "credit"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "<user>",
-    "group": "Economy",
-    "description": "To check your credits balance in wallet",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!credits @WOLF",
-      "w!credits"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "daily",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "To get your daily reward",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!daily"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "deposit",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Deposit credits from your wallet to safeguard",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!deposit 500",
-      "w!deposit all"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "fish",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Take your fishingpole and start fishing",
-    "cooldown": 13,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!fish"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "inv",
-    "aliases": [
-      "inventory"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Show your inventory items!",
-    "cooldown": 15,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!inv"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "leaderboard",
-    "aliases": [
-      "lb"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Get a list for the 10 richest users that using wolfy",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "market",
-    "aliases": [
-      "shop"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Open the economy market!",
-    "cooldown": 15,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "UseExternalEmojis",
-      "AddReactions",
-      "EmbedLinks"
-    ],
-    "examples": [
-      "w!market"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "mine",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "What you know about mining down in the deep?",
-    "cooldown": 8,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!mine"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "previewitem",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "[item ID]",
-    "group": "Economy",
-    "description": "Check what you can buy from the shop.",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageMessages",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!previewitem 6",
-      "w!previewitem 8"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "profile",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Shows your profile card!",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!profile"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "quests",
-    "aliases": [
-      "quest"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "Refresh/Show current quests and the current progress.",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!quests"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "register",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "Economy",
-    "description": "To register a bank account",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!register"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "sell",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "[item] <amount>",
-    "group": "Economy",
-    "description": "Sell item from your inventory and get some credits!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!sell coal 13",
-      "w!sell diamond 2"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "setbio",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<bio>",
-    "group": "Economy",
-    "description": "Sets your profile card bio.",
-    "cooldown": 30,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "setbirthday",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<date>",
-    "group": "Economy",
-    "description": "Sets your profile card birthday.",
-    "cooldown": 30,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!setbirthday 09-26"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "tip",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "[user]",
-    "group": "Economy",
-    "description": "Send a tip for your friend!",
-    "cooldown": 30,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!tip @WOLF",
-      "w!tip 724580315481243668"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "transfer",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<user> <amount>",
-    "group": "Economy",
-    "description": "Transfer credits from your wallet to your friends!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!transfer @WOLF 550"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "use",
-    "aliases": [
-      "equip"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "[item id]",
-    "group": "Economy",
-    "description": "Equips an item from your inventory.",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!use 6",
-      "w!use 8"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "withdraw",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "<amount>",
-    "group": "Economy",
-    "description": "Withdraw credits from your bank to your wallet",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!withdraw 900",
-      "w!withdraw all"
-    ],
-    "permissions": []
-  },
-  {
     "name": "8ball",
     "aliases": [],
     "dmOnly": false,
@@ -1142,6 +1809,24 @@
     "permissions": []
   },
   {
+    "name": "guess",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "Fun",
+    "description": "Start playing new guess the number game.",
+    "cooldown": 10,
+    "guarded": false,
+    "clientPermissions": [
+      "UseExternalEmojis",
+      "ReadMessageHistory"
+    ],
+    "examples": [],
+    "permissions": []
+  },
+  {
     "name": "fast",
     "aliases": [
       "fasttyper"
@@ -1161,24 +1846,6 @@
     "examples": [
       "w!fast"
     ],
-    "permissions": []
-  },
-  {
-    "name": "guess",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Fun",
-    "description": "Start playing new guess the number game.",
-    "cooldown": 10,
-    "guarded": false,
-    "clientPermissions": [
-      "UseExternalEmojis",
-      "ReadMessageHistory"
-    ],
-    "examples": [],
     "permissions": []
   },
   {
@@ -1304,510 +1971,6 @@
     "permissions": []
   },
   {
-    "name": "avatar",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "<user>",
-    "group": "Informations",
-    "description": "Get a user's avatar.",
-    "cooldown": 1,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!avatar @WOLF",
-      "w!avatar 724580315481243668",
-      "w!avatar"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "mcuser",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<player>",
-    "group": "Informations",
-    "description": "Get a minecraft player info/skin",
-    "cooldown": 2,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!mcuser Notch"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "serveravatar",
-    "aliases": [
-      "savatar",
-      "avatar-server",
-      "server-avatar"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Informations",
-    "description": "Get a server's avatar.",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!serveravatar"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "server",
-    "aliases": [
-      "serverinfo",
-      "server-stats",
-      "si"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "Informations",
-    "description": "Shows stats about the current server",
-    "cooldown": 10,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!server"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "translate",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<language code> <Sentence to translate>",
-    "group": "Informations",
-    "description": "Translate from to any language you want!",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [],
-    "examples": [
-      "w!translate ar Hello, my old friend."
-    ],
-    "permissions": []
-  },
-  {
-    "name": "user",
-    "aliases": [
-      "whois"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<user>",
-    "group": "Informations",
-    "description": "Shows informations about a user",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!user @WOLF",
-      "w!user"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "addrole",
-    "aliases": [
-      "addlevelrole",
-      "add-role"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<role> <number>",
-    "group": "LeveledRoles",
-    "description": "Add a level role as a prize for users when they be active",
-    "cooldown": 1,
-    "guarded": false,
-    "examples": [
-      "w!addrole @ActiveMember 5"
-    ],
-    "permissions": [
-      "Administrator",
-      "ManageRoles"
-    ]
-  },
-  {
-    "name": "clearxp",
-    "aliases": [
-      "clear-xp"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user>",
-    "group": "LeveledRoles",
-    "description": "Clear the xp for a user in the server",
-    "cooldown": 3,
-    "guarded": false,
-    "examples": [
-      "w!clearxp @WOLF",
-      "w!clearxp 724580315481243668"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "editrole",
-    "aliases": [
-      "editlevelrole",
-      "edit-role"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<roleID> <number>",
-    "group": "LeveledRoles",
-    "description": "Edit the guild level role to another one",
-    "cooldown": 1,
-    "guarded": false,
-    "examples": [
-      "w!editrole 804860582066520104 9"
-    ],
-    "permissions": [
-      "Administrator",
-      "ManageRoles"
-    ]
-  },
-  {
-    "name": "levelboard",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "LeveledRoles",
-    "description": "Shows leaderboard for most leveled users",
-    "cooldown": 10,
-    "guarded": false,
-    "clientPermissions": [
-      "UseExternalEmojis"
-    ],
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "levelroles",
-    "aliases": [
-      "roles",
-      "leveledroles",
-      "level-roles"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "LeveledRoles",
-    "description": "Show all level roles in the guild",
-    "cooldown": 10,
-    "guarded": false,
-    "clientPermissions": [
-      "UseExternalEmojis"
-    ],
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "rank",
-    "aliases": [
-      "level"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "LeveledRoles",
-    "description": "Show your level & rank and your current and next xp",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis",
-      "AttachFiles"
-    ],
-    "examples": [
-      "w!rank @WOLF",
-      "w!rank"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "removerole",
-    "aliases": [
-      "remove-role"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<id>",
-    "group": "LeveledRoles",
-    "description": "Remove a level role from the list",
-    "cooldown": 2,
-    "guarded": false,
-    "examples": [
-      "w!removerole 804860582066520104"
-    ],
-    "permissions": [
-      "Administrator",
-      "ManageRoles"
-    ]
-  },
-  {
-    "name": "addcredits",
-    "aliases": [
-      "credits-add"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "clientPermissions": [
-      "UseExternalEmojis",
-      "ViewChannel"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "blacklist",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "devmsg",
-    "aliases": [
-      "msg"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<user> <message>",
-    "group": "developer",
-    "cooldown": 2,
-    "guarded": false,
-    "ownerOnly": true,
-    "clientPermissions": [
-      "EmbedLinks",
-      "AttachFiles"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "eval",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<code>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "fleave",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<guildID>",
-    "group": "developer",
-    "cooldown": 15,
-    "guarded": false,
-    "ownerOnly": true,
-    "clientPermissions": [
-      "EmbedLinks",
-      "AttachFiles"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "guilds",
-    "aliases": [
-      "servers"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "reload",
-    "aliases": [
-      "refresh"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "developer",
-    "cooldown": 10,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "shutdown",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "",
-    "group": "developer",
-    "cooldown": 10,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "status",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<type>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "uid",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": false,
-    "usage": "<type>",
-    "group": "developer",
-    "cooldown": 1,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "whitelist",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<user>",
-    "group": "developer",
-    "cooldown": 5,
-    "guarded": false,
-    "ownerOnly": true,
-    "permissions": []
-  },
-  {
-    "name": "lyrics",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<lyrics title>",
-    "group": "Search",
-    "description": "The bot will show you the lyrics for the music you are searching for!",
-    "cooldown": 5,
-    "guarded": false,
-    "clientPermissions": [
-      "UseExternalEmojis",
-      "AddReactions",
-      "EmbedLinks"
-    ],
-    "examples": [
-      "w!lyrics Venom"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "steam",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<query>",
-    "group": "Search",
-    "description": "To search for any game information in steam",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis"
-    ],
-    "examples": [
-      "w!steam Among us",
-      "w!steam Portal 2"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "weather",
-    "aliases": [
-      "weatherstatus",
-      "weather-status"
-    ],
-    "dmOnly": false,
-    "guildOnly": false,
-    "args": true,
-    "usage": "<city>",
-    "group": "Search",
-    "description": "Shows the weather status in any country",
-    "cooldown": 5,
-    "guarded": false,
-    "examples": [
-      "w!weather Cairo, egypt"
-    ],
-    "permissions": []
-  },
-  {
     "name": "antilinktoggle",
     "aliases": [
       "anti-link-toggle"
@@ -1827,68 +1990,6 @@
     "examples": [
       "w!antilinktoggle"
     ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "badwords",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "(<add> | <remove>) <word>",
-    "group": "setup",
-    "description": "Add/remove/show blacklisted words for the current guild.",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageMessages"
-    ],
-    "examples": [
-      "w!badwords bad"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "badwordstoggle",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable badwords filter!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!badwordstoggle"
-    ],
-    "permissions": [
-      "ManageMessages",
-      "Administrator"
-    ]
-  },
-  {
-    "name": "infraction",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable/Edit infraction point protection system!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageMessages"
-    ],
-    "examples": [],
     "permissions": [
       "Administrator"
     ]
@@ -1984,26 +2085,6 @@
     ]
   },
   {
-    "name": "logstoggle",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To allow or disable logs channel!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!logstoggle"
-    ],
-    "permissions": [
-      "ManageChannels",
-      "Administrator"
-    ]
-  },
-  {
     "name": "smrole",
     "aliases": [
       "SelectMenuRole",
@@ -2031,90 +2112,6 @@
     ],
     "permissions": [
       "ManageRoles"
-    ]
-  },
-  {
-    "name": "setleavermsg",
-    "aliases": [
-      "setleavemsg"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<msg/embed> <text>",
-    "group": "setup",
-    "description": "Set the leaver msg or embed",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!setleavermsg msg {tag} has just leaved {guildName} server!",
-      "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "setprefix",
-    "aliases": [
-      "prefix"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<prefix>",
-    "group": "setup",
-    "description": "Set the bot prefix to another one!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!setprefix !",
-      "w!setprefix l!"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "setwelcomemsg",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<msg/embed> <text>",
-    "group": "setup",
-    "description": "Set the welcome msg or embed",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!setwelcomemsg msg {tag} has joined {guildName} server!",
-      "w!setwelcomemsg embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "smroletoggle",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable Select menu roles!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!smroletoggle"
-    ],
-    "permissions": [
-      "ManageRoles",
-      "Administrator"
     ]
   },
   {
@@ -2255,198 +2252,149 @@
     ]
   },
   {
-    "name": "lds",
-    "aliases": [
-      "Test"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "GROUP",
-    "description": "Desc..",
-    "cooldown": 2,
-    "guarded": false,
-    "clientpermissions": [],
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "startg",
-    "aliases": [
-      "STARTG"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "[Winners Number] [Time] [Prize]",
-    "group": "Unspecified",
-    "description": "Desc..",
-    "cooldown": 2,
-    "guarded": false,
-    "clientpermissions": [],
-    "examples": [],
-    "permissions": [
-      "8192"
-    ]
-  },
-  {
-    "name": "test",
-    "aliases": [
-      "Test"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "NONE",
-    "description": "Developer test tool!",
-    "cooldown": 1,
-    "guarded": false,
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "delete",
+    "name": "badwords",
     "aliases": [],
     "dmOnly": false,
     "guildOnly": true,
     "args": false,
-    "usage": "",
-    "group": "Tickets",
-    "description": "Delete your ticket in the server",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageChannels"
-    ],
-    "examples": [],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
-    "name": "rename",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<Name>",
-    "group": "Tickets",
-    "description": "Change ticket name",
-    "cooldown": 2,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageChannels"
-    ],
-    "examples": [
-      "w!rename Test-ticket"
-    ],
-    "permissions": [
-      "ManageChannels"
-    ]
-  },
-  {
-    "name": "ticket",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<categoryPanel-id>",
-    "group": "Tickets",
-    "description": "Open new ticket in the server",
-    "cooldown": 10,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageChannels"
-    ],
-    "examples": [
-      "w!ticket 1263598857980477582"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "bin",
-    "aliases": [
-      "sourcebin"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "<code(or File with the message)>",
-    "group": "Utilities",
-    "description": "To upload a code to sourcebin",
-    "cooldown": 10,
-    "guarded": false,
-    "clientPermissions": [
-      "EmbedLinks",
-      "UseExternalEmojis"
-    ],
-    "examples": [
-      "w!bin message.channel.send('Hello, world!')"
-    ],
-    "permissions": []
-  },
-  {
-    "name": "calc",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<equation>",
-    "group": "Utilities",
-    "description": "Calculates an equation by wolfy",
-    "cooldown": 3,
-    "guarded": false,
-    "clientPermissions": [],
-    "examples": [],
-    "permissions": []
-  },
-  {
-    "name": "remind",
-    "aliases": [
-      "remindme",
-      "reminder"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<time> <reason>",
-    "group": "Utilities",
-    "description": "The bot will reminde you for anything after a period of time.",
-    "cooldown": 5,
-    "guarded": false,
-    "examples": [
-      "w!remind 5m To start my new project!",
-      "w!remind 30s To skip this ad"
-    ],
-    "permissions": [
-      "UseExternalEmojis"
-    ]
-  },
-  {
-    "name": "suggestion",
-    "aliases": [
-      "sugg"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": true,
-    "usage": "<suggestion>",
-    "group": "Utilities",
-    "description": "Send your suggestion for the server",
+    "usage": "(<add> | <remove>) <word>",
+    "group": "setup",
+    "description": "Add/remove/show blacklisted words for the current guild.",
     "cooldown": 5,
     "guarded": false,
     "requiresDatabase": true,
     "clientPermissions": [
-      "AddReactions"
+      "ManageMessages"
     ],
     "examples": [
-      "w!suggestion Add voice channels!"
+      "w!badwords bad"
     ],
-    "permissions": []
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "badwordstoggle",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable badwords filter!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!badwordstoggle"
+    ],
+    "permissions": [
+      "ManageMessages",
+      "Administrator"
+    ]
+  },
+  {
+    "name": "logstoggle",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To allow or disable logs channel!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!logstoggle"
+    ],
+    "permissions": [
+      "ManageChannels",
+      "Administrator"
+    ]
+  },
+  {
+    "name": "setleavermsg",
+    "aliases": [
+      "setleavemsg"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<msg/embed> <text>",
+    "group": "setup",
+    "description": "Set the leaver msg or embed",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!setleavermsg msg {tag} has just leaved {guildName} server!",
+      "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "setprefix",
+    "aliases": [
+      "prefix"
+    ],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<prefix>",
+    "group": "setup",
+    "description": "Set the bot prefix to another one!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!setprefix !",
+      "w!setprefix l!"
+    ],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "setwelcomemsg",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "<msg/embed> <text>",
+    "group": "setup",
+    "description": "Set the welcome msg or embed",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!setwelcomemsg msg {tag} has joined {guildName} server!",
+      "w!setwelcomemsg embed Member joined, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"
+    ],
+    "permissions": [
+      "Administrator"
+    ]
+  },
+  {
+    "name": "smroletoggle",
+    "aliases": [],
+    "dmOnly": false,
+    "guildOnly": true,
+    "args": false,
+    "usage": "",
+    "group": "setup",
+    "description": "To enable/disable Select menu roles!",
+    "cooldown": 5,
+    "guarded": false,
+    "requiresDatabase": true,
+    "examples": [
+      "w!smroletoggle"
+    ],
+    "permissions": [
+      "ManageRoles",
+      "Administrator"
+    ]
   }
 ]

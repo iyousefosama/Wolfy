@@ -1,17 +1,5 @@
 const discord = require("discord.js");
-const schema = require("../../schema/GuildSchema");
-const { AuditLogEvent, ChannelType } = require("discord.js");
-const { sendLogsToWebhook } = require("../../util/functions/client");
-
-const requiredPermissions = [
-  "ViewAuditLog",
-  "SendMessages",
-  "ViewChannel",
-  "ReadMessageHistory",
-  "EmbedLinks",
-];
-
-const BEV = require("../../util/types/baseEvents");
+const { logEvent } = require("../../util/logHandler");
 
 /** @type {BEV.BaseEvent<"voiceStateUpdate">} */
 module.exports = {
@@ -19,24 +7,6 @@ module.exports = {
   async execute(client, oldState, newState) {
     if (!oldState) return;
 
-    let data;
-    try {
-      data = await schema.findOne({ GuildID: oldState.guild.id });
-      if (!data || !data.Mod?.Logs?.isEnabled) return;
-    } catch (err) {
-      console.error(err);
-      return;
-    }
-
-    const logChannelId = data.Mod.Logs.channel;
-    const logChannel = client.channels.cache.get(logChannelId);
-
-    if (!logChannel || logChannel.type !== ChannelType.GuildText) return;
-
-    const permissions = logChannel.permissionsFor(client.user);
-    if (!permissions.has(requiredPermissions)) return;
-
-    const timestamp = Math.floor(Date.now() / 1000);
     let VoiceUpdate;
     // JOINED
     if (
@@ -127,9 +97,6 @@ module.exports = {
         .setTimestamp();
     }
 
-    sendLogsToWebhook(client, logChannel, VoiceUpdate);
-    // add more functions on ready  event callback function...
-
-    return;
+    logEvent(client, oldState.guild, "voiceStateUpdate", VoiceUpdate);
   },
 };
