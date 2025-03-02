@@ -23,23 +23,6 @@ module.exports = {
   async execute(client, message, args) {
 
     let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(x => x.user.username === args.slice(0).join(" ") || x.user.username === args[0])
-    if(!user){ 
-        let em = new discord.EmbedBuilder()
-        .setTitle('Error :')
-        .setColor('Red')
-        .setDescription(`
-        **Usage:**
-       ${prefix}dm (user) (message)
-      
-        **Ex :**
-        ${prefix}dm ${message.author} 
-        ${prefix}dm ${message.author} test
-       
-        `)
-        .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
-  
-          return message.channel.send({ embeds: [em] })
-}
 
     let dm = args.slice(1).join(" ")
     if(!dm) return message.reply({ content: "I can't dm an \`empty message\`!"}).then(()=>  message.react("💢")).catch(() => null)

@@ -44,7 +44,7 @@ module.exports = {
       const serverprefix = data?.prefix || "Not Set";
 
       if (message.content === "prefix") {
-        return message.reply(await client.language.getString(message.guild.id, "PREFIX", {
+        return message.reply(client.language.getString(message.guild.id, "PREFIX", {
           PREFIX: client.prefix,
           SERVERPREFIX: serverprefix,
         }));

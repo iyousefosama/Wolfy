@@ -5,8 +5,8 @@ const { version } = require('../../package.json');
 const ManagerCheck = require("../../util/functions/ManagerCheck")
 const Reminder = require("../../util/functions/Reminder")
 const checkQuests = require("../../util/functions/checkQuests")
+const LanguageManager = require("../../util/language/LanguageManager");
 const { CheckDeletedCategories } = require("../../util/helpers/removeDelCategories")
-
 const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"ready">} */
@@ -14,9 +14,9 @@ module.exports = {
   name: 'ready',
   once: true,
   /**
-  * @param {import('../../struct/Client')} client
+   * @param {import('../../struct/Client')} client
   */
-  async execute(client) {
+ async execute(client) {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     client.expressServer();
@@ -28,6 +28,7 @@ module.exports = {
       });
   }, 1000 * 60 * 2); // 2 min.
     ManagerCheck(client)
+    await LanguageManager.loadGuildLanguages();
 
     /*======================================================
        Sends a notification to a log channel (if available)

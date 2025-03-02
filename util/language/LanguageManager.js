@@ -4,8 +4,17 @@ const Guild = require('../../schema/language');
 
 class LanguageManager {
     constructor() {
+        // Singleton pattern: Ensure only one instance is created
+        if (LanguageManager.instance) {
+            return LanguageManager.instance;
+        }
+
         this.languages = new Map();
+        this.languageCache = new Map(); // Guild ID -> Language Code
         this.loadLanguages();
+
+        // Save the instance
+        LanguageManager.instance = this;
     }
 
     loadLanguages() {
@@ -21,13 +30,24 @@ class LanguageManager {
         }
     }
 
-    async getLanguage(guildId) {
-        const guild = await Guild.findOne({ guildId });
-        return guild ? guild.language : 'en'; // Default to English if not set
+    async loadGuildLanguages() {
+        try {
+            const guilds = await Guild.find();
+
+            guilds.forEach(guild => {
+                this.languageCache.set(guild.guildId, guild.language);
+            });
+        } catch (error) {
+            console.error('Error loading guild languages:', error);
+        }
     }
 
-    async getString(guildId, key, placeholders = {}) {
-        const langCode = await this.getLanguage(guildId);
+    getLanguage(guildId) {
+        return this.languageCache.get(guildId) || 'en'; // Default to English if not set
+    }
+
+    getString(guildId, key, placeholders = {}) {
+        const langCode = this.getLanguage(guildId);
         const langData = this.languages.get(langCode);
 
         if (!langData || !langData[key]) {
@@ -45,4 +65,10 @@ class LanguageManager {
     }
 }
 
-module.exports = LanguageManager;
+// Create a single instance of LanguageManager
+const languageManager = new LanguageManager();
+
+// Freeze the instance to prevent modifications
+Object.freeze(languageManager);
+
+module.exports = languageManager;

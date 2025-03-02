@@ -38,7 +38,7 @@ module.exports = class WolfyClient extends Client {
     this.ComponentsAction = new Collection();
     this.cooldowns = new Collection();
     this.components = new Collection();
-    this.language = new LanguageManager();
+    this.language = LanguageManager;
     new ComponentsListener(this);
 
     /**

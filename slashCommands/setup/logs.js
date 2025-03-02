@@ -204,7 +204,7 @@ async function setSeparatedLogs(client, interaction, options) {
     const data = await schema.findOneAndUpdate({ GuildID: guild.id }, { $set: logData }, { upsert: true });
 
     // Send success message
-    await interaction.reply({ embeds: [SuccessEmbed(["✔️ Separated logs have been updated successfully!", data.Mod.Logs.type != "separated" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null])].filter(line => line !== null).join("\n"), ephemeral: true });
+    await interaction.reply({ embeds: [SuccessEmbed(["✔️ Separated logs have been updated successfully!", data.Mod.Logs.type != "separated" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null].filter(line => line !== null).join("\n"))], ephemeral: true });
 }
 async function setAllLogs(client, interaction, options) {
     const { guild } = interaction;

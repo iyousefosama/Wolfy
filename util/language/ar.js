@@ -1,6 +1,6 @@
 module.exports= {
-    // Basic
+    // Errors & problems
     ERROR: "💢 حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.",
-    // Info
+    // Permissions & Limits
     PREFIX: `البريفكس الحالي هو \`%PREFIX%\`, البريفيكس المخصص \`%SERVERPREFIX%\`.`,
 }

@@ -1,4 +1,5 @@
 const { logEvent } = require("../../util/logHandler");
+const { EmbedBuilder } = require("discord.js");
 
 /** @type {BEV.BaseEvent<"inviteCreate">} */
 module.exports = {
