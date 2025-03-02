@@ -204,7 +204,7 @@ async function setSeparatedLogs(client, interaction, options) {
     const data = await schema.findOneAndUpdate({ GuildID: guild.id }, { $set: logData }, { upsert: true });
 
     // Send success message
-    await interaction.reply({ embeds: [SuccessEmbed(["✔️ Separated logs have been updated successfully!", data.Mod.Logs.type != "separated" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null])], ephemeral: true });
+    await interaction.reply({ embeds: [SuccessEmbed(["✔️ Separated logs have been updated successfully!", data.Mod.Logs.type != "separated" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null])].filter(line => line !== null).join("\n"), ephemeral: true });
 }
 async function setAllLogs(client, interaction, options) {
     const { guild } = interaction;
@@ -216,7 +216,18 @@ async function setAllLogs(client, interaction, options) {
     };
 
     const data = await schema.findOneAndUpdate({ GuildID: guild.id }, { $set: logData }, { upsert: true });
-    await interaction.reply({ embeds: [SuccessEmbed(["✔️ All logs have been set to the specified channel!", !data.Mod.Logs.isEnabled ? "\\⚠️ Logs channel is disabled! To enable, execute \`/logs edit all-status [true]\`" : null, data.Mod.Logs.type != "all" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [all]\`` : null].join("\n"))], ephemeral: true });
+    await interaction.reply({
+        embeds: [SuccessEmbed(
+            [
+                "✔️ All logs have been set to the specified channel!",
+                !data.Mod.Logs.isEnabled ? "⚠️ Logs channel is disabled! To enable, execute `/logs edit all-status [true]`" : null,
+                data.Mod.Logs.type != "all" ? `⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [all]\`` : null
+            ]
+            .filter(line => line !== null) // Filter out null values
+            .join("\n") // Join the remaining lines into a single string
+        )],
+        ephemeral: true
+    });
 }
 async function editLogs(client, interaction, options) {
     const { guild } = interaction;
