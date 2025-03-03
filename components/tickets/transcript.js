@@ -81,10 +81,20 @@ module.exports = {
                 })
                 .setColor("738ADB");
 
-            await interaction.user.send({ embeds: [embed] }).catch(() => {return interaction.followUp({ embeds: [ErrorEmbed("💢 I couldn't send the transcript to your **DM**!")], ephemeral: true })}).then(() => interaction.followUp({
-                embeds: [InfoEmbed("Sent transcript to your DM!")],
-                ephemeral: true,
-            }));
+                await interaction.user.send({ embeds: [embed] })
+                .then(() => {
+                    return interaction.followUp({
+                        embeds: [InfoEmbed("Sent transcript to your DM!")],
+                        ephemeral: true,
+                    });
+                })
+                .catch(() => {
+                    return interaction.followUp({
+                        embeds: [ErrorEmbed("💢 I couldn't send the transcript to your **DM**!")],
+                        ephemeral: true,
+                    });
+                });
+            
         } catch (err) {
             console.error(err);
             return interaction.followUp({
