@@ -3,8 +3,25 @@ const {
     ChannelType,
     ApplicationCommandOptionType
 } = require("discord.js");
-const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
+const { ErrorEmbed, SuccessEmbed, InfoEmbed } = require("../../util/modules/embeds");
 const schema = require('../../schema/GuildSchema');
+const { logTypes } = require('../../util/constants/logs');
+
+// Dynamically generate slash options for the subcommand
+const generateSlashOptions = () => {
+    const options = [];
+    for (const [key, logType] of Object.entries(logTypes)) {
+        const formattedKey = logType.key.toLowerCase(); // Ensure consistent naming
+        options.push({
+            type: ApplicationCommandOptionType.Channel,
+            name: formattedKey, // Use the formatted key
+            description: logType.description,
+            channelTypes: [ChannelType.GuildText],
+            required: false
+        });
+    }
+    return options;
+};
 
 module.exports = {
     data: {
@@ -17,78 +34,7 @@ module.exports = {
                 type: ApplicationCommandOptionType.Subcommand,
                 name: "set-separated",
                 description: "Set's the separated logs for the server",
-                options: [
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "message-delete",
-                        description: "A channel to send message delete logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "message-update",
-                        description: "A channel to send message update logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "member-join",
-                        description: "A channel to send member join logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "member-leave",
-                        description: "A channel to send member leave logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "channel-create",
-                        description: "A channel to send channel create logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "channel-delete",
-                        description: "A channel to send channel delete logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "channel-update",
-                        description: "A channel to send channel update logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "role-create",
-                        description: "A channel to send role create logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "role-delete",
-                        description: "A channel to send role delete logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                    {
-                        type: ApplicationCommandOptionType.Channel,
-                        name: "role-update",
-                        description: "A channel to send role update logs to",
-                        channelTypes: [ChannelType.GuildText],
-                        required: false
-                    },
-                ]
+                options: generateSlashOptions()
             },
             {
                 type: ApplicationCommandOptionType.Subcommand,
@@ -172,39 +118,44 @@ module.exports = {
 async function setSeparatedLogs(client, interaction, options) {
     const { guild } = interaction;
 
-    // Define all possible log types and their corresponding option names
-    const logTypes = {
-        "Mod.Logs.separated.messageDelete.channel": "message-delete",
-        "Mod.Logs.separated.messageUpdate.channel": "message-update",
-        "Mod.Logs.separated.memberJoin.channel": "member-join",
-        "Mod.Logs.separated.memberLeave.channel": "member-leave",
-        "Mod.Logs.separated.channelCreate.channel": "channel-create",
-        "Mod.Logs.separated.channelDelete.channel": "channel-delete",
-        "Mod.Logs.separated.channelUpdate.channel": "channel-update",
-        "Mod.Logs.separated.RoleCreate.channel": "role-create",
-        "Mod.Logs.separated.RoleDelete.channel": "role-delete",
-        "Mod.Logs.separated.RoleUpdate.channel": "role-update",
-    };
+    // Fetch existing log data
+    const existingData = await schema.findOne({ GuildID: guild.id });
+    const separatedLogs = existingData?.Mod?.Logs?.separated || {}; // Preserve existing logs
 
     // Construct the update object dynamically
-    const logData = {};
-    for (const [key, optionName] of Object.entries(logTypes)) {
-        const channel = options.getChannel(optionName);
+    const logData = { Mod: { Logs: { separated: { ...separatedLogs } } } }; // Spread existing logs
+    const editedMsg = [];
+
+    for (const [key, logType] of Object.entries(logTypes)) {
+        const formattedKey = logType.key.toLowerCase(); // Ensure consistent naming
+        const channel = options.getChannel(formattedKey); // Fetch the channel using the formatted key
+
         if (channel) {
-            logData[key] = channel.id; // Only add to the update object if a channel is provided
+            logData.Mod.Logs.separated[key] = { channel: channel.id, isEnabled: true }; // Merge new data
+            editedMsg.push(`- ${logType.name} set to <#${channel.id}>`);
         }
     }
 
-    // If no valid channels were provided, return an error
-    if (Object.keys(logData).length === 0) {
+    // If no valid channels were provided and existing logs are empty, return an error
+    if (Object.keys(logData.Mod.Logs.separated).length === 0) {
         return interaction.reply({ embeds: [ErrorEmbed("❌ No valid channels were provided to update.")], ephemeral: true });
     }
 
-    // Update the database with only the provided values
-    const data = await schema.findOneAndUpdate({ GuildID: guild.id }, { $set: logData }, { upsert: true });
+    // Update the database with merged values
+    const data = await schema.findOneAndUpdate(
+        { GuildID: guild.id },
+        { $set: logData },
+        { upsert: true, new: true }
+    );
 
     // Send success message
-    await interaction.reply({ embeds: [SuccessEmbed(["✔️ Separated logs have been updated successfully!", data.Mod.Logs.type != "separated" ? `\\⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null].filter(line => line !== null).join("\n"))], ephemeral: true });
+    await interaction.reply({
+        embeds: [SuccessEmbed([
+            "✔️ Separated logs have been updated successfully!",
+            data.Mod.Logs.type !== "separated" ? `⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\`` : null
+        ].filter(line => line !== null).join("\n")), InfoEmbed(editedMsg.join("\n"))],
+        ephemeral: true
+    });
 }
 async function setAllLogs(client, interaction, options) {
     const { guild } = interaction;
@@ -229,7 +180,7 @@ async function setAllLogs(client, interaction, options) {
         ephemeral: true
     });
 }
-async function editLogs(client, interaction, options) {
+async function editLogs(client, interaction, options) { // TODO: Make another edit logic where you list separated and all-logs and user can turn them off/on by button
     const { guild } = interaction;
     const logsType = options.getString("logs-type");
     const allStatus = options.getBoolean("global-all-status");
@@ -311,20 +262,6 @@ async function listLogs(client, interaction) {
 
     const logs = logData.Mod.Logs;
 
-    // Define all log types and their display names
-    const logTypes = [
-        { key: "messageDelete", name: "Message Delete Logs" },
-        { key: "messageUpdate", name: "Message Update Logs" },
-        { key: "memberJoin", name: "Member Join Logs" },
-        { key: "memberLeave", name: "Member Leave Logs" },
-        { key: "channelCreate", name: "Channel Create Logs" },
-        { key: "channelDelete", name: "Channel Delete Logs" },
-        { key: "channelUpdate", name: "Channel Update Logs" },
-        { key: "RoleCreate", name: "Role Create Logs" },
-        { key: "RoleDelete", name: "Role Delete Logs" },
-        { key: "RoleUpdate", name: "Role Update Logs" },
-    ];
-
     // Create the base embed
     const embed = new EmbedBuilder()
         .setTitle("Logs Configuration")
@@ -337,11 +274,11 @@ async function listLogs(client, interaction) {
         );
 
     // Dynamically add fields for each log type
-    logTypes.forEach(({ key, name }) => {
+    for (const [key, logType] of Object.entries(logTypes)) {
         const log = logs.separated?.[key];
         const value = log?.channel ? `<#${log.channel}> (\`${log.isEnabled ? "Enabled" : "Disabled"}\`)` : "Not set";
-        embed.addFields({ name, value, inline: true });
-    });
+        embed.addFields({ name: logType.name, value, inline: true });
+    }
 
     // Add a timestamp
     embed.setTimestamp();

@@ -17,7 +17,7 @@ module.exports = {
     if (message.author.bot) {
       return;
     }
-
+    
     let data;
     let prefix;
     if (message.guild) {

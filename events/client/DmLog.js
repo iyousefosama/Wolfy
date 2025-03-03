@@ -28,7 +28,18 @@ module.exports = {
         .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
 
       const Debug = await client.channels.cache.get(client.config.channels.debug) || await client.channels.cache.get("877130715337220136");
-      sendLogsToWebhook(client, Debug, dmEmbed);
+      const botname = client.user.username;
+      setTimeout(async function () {
+        const webhooks = await Debug?.fetchWebhooks()
+        let webhook = webhooks?.filter((w) =>/*w.type === "Incoming" &&*/ w.token).first();
+        if (!webhook) {
+          webhook = await Debug?.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension: 'png', dynamic: true, size: 128 }) })
+        } else if (webhooks.size <= 10) {
+          // Do no thing...
+        }
+        webhook?.send({ content: message, embeds: [dmEmbed] })
+          .catch(() => { });
+      }, 5000);
       // add more functions on ready  event callback function...
 
       return;

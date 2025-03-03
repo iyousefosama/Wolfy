@@ -34,18 +34,35 @@ module.exports.mediaFormat = {
 };
 
 module.exports.langflags = [
+  { lang: 'English', flag: '🇺🇸' },
+  { lang: 'Arabic', flag: '🇸🇦' },
   { lang: 'Hungarian', flag: '🇭🇺' },
   { lang: 'Japanese', flag: '🇯🇵' },
   { lang: 'French' , flag: '🇫🇷' },
   { lang: 'Russian' , flag:'🇷🇺' },
   { lang: 'German', flag: '🇩🇪' },
-  { lang: 'English', flag: '🇺🇸' },
   { lang: 'Italian', flag: '🇮🇹' },
   { lang: 'Spanish', flag: '🇪🇸' },
   { lang: 'Korean', flag: '🇰🇷' },
   { lang: 'Chinese', flag: '🇨🇳' },
   { lang: 'Brazilian', flag: '🇧🇷' }
 ];
+
+module.exports.regions = {
+  brazil: '🇧🇷 Brazil',
+  europe: '🏰 Europe',
+  hongkong: '🇭🇰 Hong Kong',
+  india: '🇮🇳 India',
+  japan: '🇯🇵 Japan',
+  russia: '🇷🇺 Russia',
+  singapore: '🇸🇬 Singapore',
+  southafrica: '🇿🇦 South Africa',
+  sydeny: '🇦🇺 Sydney',
+  'us-central': '🇺🇸 US Central',
+  'us-east': '🇺🇸 US East',
+  'us-west': '🇺🇸 US West',
+  'us-south': '🇺🇸 US South'
+};
 
 module.exports.months = [
   'January',
@@ -99,11 +116,11 @@ module.exports.regex = {
 };
 
 module.exports.verificationlvl = {
-  NONE: "None",
-  LOW: "Low",
-  MEDIUM: "Medium",
-  HIGH: "(╯°□°）╯︵ ┻━┻",
-  VERY_HIGH: "┻━┻彡 ヽ(ಠ益ಠ)ノ彡┻━┻",
+  1: "None",
+  2: "Low",
+  3: "Medium",
+  4: "(╯°□°）╯︵ ┻━┻",
+  5: "┻━┻彡 ヽ(ಠ益ಠ)ノ彡┻━┻",
 }
 
 module.exports.malGenres = {

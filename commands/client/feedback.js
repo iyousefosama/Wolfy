@@ -62,7 +62,7 @@ module.exports = {
       return message.channel.send({
         embeds: [new EmbedBuilder()
           .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
-          .setDescription(`\\❌ **${message.author.tag}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+          .setDescription(`You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
           .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
           .setColor('Red')]
       })

@@ -1,30 +1,7 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
 const moment = require('moment');
 const Page = require('../../util/Paginate');
-
-const verificationLevels = {
-  1: '<a:Error:836169051310260265> None',
-  2: 'Low',
-  3: 'Medium',
-  4: 'High',
-  5: 'Very High'
-};
-
-const regions = {
-  brazil: '🇧🇷 Brazil',
-  europe: '🏰 Europe',
-  hongkong: '🇭🇰 Hong Kong',
-  india: '🇮🇳 India',
-  japan: '🇯🇵 Japan',
-  russia: '🇷🇺 Russia',
-  singapore: '🇸🇬 Singapore',
-  southafrica: '🇿🇦 South Africa',
-  sydeny: '🇦🇺 Sydney',
-  'us-central': '🇺🇸 US Central',
-  'us-east': '🇺🇸 US East',
-  'us-west': '🇺🇸 US West',
-  'us-south': '🇺🇸 US South'
-};
+const { regions, verificationlvl } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -66,7 +43,7 @@ module.exports = {
         `<:Owner:841321887882805289> **Owner:** ${owner}`,
         `🌐 **Region:** ${regions[region] || 'Auto'}`,
         `<a:pp891:853493740579717131> **Boost Tier:** ${guild.premiumTier || 'None'}`,
-        `<a:pp989:853496185443319809> **Verification Level:** ${verificationLevels[guild.verificationLevel] || "None"}`,
+        `<a:pp989:853496185443319809> **Verification Level:** ${verificationlvl[guild.verificationLevel] || "None"}`,
         `<a:server_boosting:809994218759782411> **Boost Level:** ${guild.premiumSubscriptionCount || '0'}`,
         `📆 **Created At:** ${moment(guild.createdTimestamp).format('LT')} ${moment(guild.createdTimestamp).format('LL')} ${moment(guild.createdTimestamp).fromNow()}\u200b`].join('\n')),
       new EmbedBuilder()

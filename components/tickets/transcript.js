@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const sourcebin = require("sourcebin_js");
 const TicketSchema = require("../../schema/Ticket-Schema");
-const { InfoEmbed } = require("../../util/modules/embeds");
+const { InfoEmbed, ErrorEmbed } = require("../../util/modules/embeds");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -28,7 +28,7 @@ module.exports = {
 
         if (!TicketData || !TicketData.IsClosed) {
             return interaction.followUp({
-                content: `\\❌ ${interaction.user}, This ticket is not closed!`,
+                embeds: [ErrorEmbed("This ticket is not closed!")],
                 ephemeral: true,
             });
         }
@@ -81,7 +81,7 @@ module.exports = {
                 })
                 .setColor("738ADB");
 
-            await interaction.user.send({ embeds: [embed] });
+            await interaction.user.send({ embeds: [embed] }).catch(() => interaction.followUp({ embeds: [ErrorEmbed("\\❌ I couldn't send the transcript to your DM!")], ephemeral: true }));
             return interaction.followUp({
                 embeds: [InfoEmbed("Sent transcript to your DM!")],
                 ephemeral: true,

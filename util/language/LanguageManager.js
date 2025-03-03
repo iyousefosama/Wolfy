@@ -49,20 +49,33 @@ class LanguageManager {
     getString(guildId, key, placeholders = {}) {
         const langCode = this.getLanguage(guildId);
         const langData = this.languages.get(langCode);
-
+    
         if (!langData || !langData[key]) {
             throw new Error(`Language key "${key}" not found for language "${langCode}"`);
         }
-
+    
         let string = langData[key];
-
-        // Replace placeholders in the string
-        for (const [placeholder, value] of Object.entries(placeholders)) {
-            string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
+    
+        // Check if the language file has a special mapping for placeholders
+        if (langData.PLACEHOLDER_MAPS) {
+            for (const [placeholder, value] of Object.entries(placeholders)) {
+                // Check if the placeholder exists inside PLACEHOLDER_MAPS
+                if (langData.PLACEHOLDER_MAPS[placeholder]?.[value]) {
+                    string = string.replace(new RegExp(`%${placeholder}%`, 'g'), langData.PLACEHOLDER_MAPS[placeholder][value]);
+                } else {
+                    string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
+                }
+            }
+        } else {
+            // Normal replacement if PLACEHOLDER_MAPS is not defined
+            for (const [placeholder, value] of Object.entries(placeholders)) {
+                string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
+            }
         }
-
+    
         return string;
     }
+    
 }
 
 // Create a single instance of LanguageManager
