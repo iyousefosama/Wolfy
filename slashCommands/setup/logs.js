@@ -183,11 +183,10 @@ async function setAllLogs(client, interaction, options) {
         ephemeral: true
     });
 }
-async function editLogs(client, interaction, options) { // TODO: Make another edit logic where you list separated and all-logs and user can turn them off/on by button
+async function editLogs(client, interaction, options) {
     const { guild } = interaction;
     const logsType = options.getString("logs-type");
-    const allStatus = options.getBoolean("global-all-status");
-    const separatedStatusChannel = options.getChannel("log-channel-status");
+    const allStatus = options.getBoolean("global-status");
 
     // Fetch current log settings from the database
     const logData = await schema.findOne({ GuildID: guild.id });
@@ -195,51 +194,22 @@ async function editLogs(client, interaction, options) { // TODO: Make another ed
         return interaction.reply({ embeds: [ErrorEmbed("❌ No logs configuration found for this server.")], ephemeral: true });
     }
 
-    const logs = logData.Mod.Logs;
-
     let updateFields = {};
-    let successMessage = "";
+    let successMessage = [];
 
     // Handle logs type change
     if (logsType) {
         updateFields["Mod.Logs.type"] = logsType;
-        successMessage += `✔️ Logs type has been set to **${logsType}**. `;
+        successMessage.push(`✔️ Logs type has been set to **${logsType}**. `);
     }
 
     // Handle global logs status toggle
-    if (allStatus !== null) {
+    if (allStatus) {
         updateFields["Mod.Logs.isEnabled"] = allStatus;
-        successMessage += `✔️ Global logs have been **${allStatus ? "enabled" : "disabled"}**. `;
+        successMessage.push(`✔️ Global logs have been **${allStatus ? "enabled" : "disabled"}**. `);
     }
 
-    // Handle separated logs status toggle
-    if (separatedStatusChannel) {
-        // Find all log types associated with the selected channel
-        const logTypesToUpdate = Object.entries(logs.separated)
-            .filter(([_, value]) => value.channel === separatedStatusChannel.id)
-            .map(([key]) => key);
-
-        // If no log types are associated with the channel, return an error
-        if (logTypesToUpdate.length === 0) {
-            return interaction.reply({ embeds: [ErrorEmbed("❌ The selected channel is not assigned to any log type. Please assign it first.")], ephemeral: true });
-        }
-
-        // Determine the new status for all associated log types
-        const currentStatuses = logTypesToUpdate.map((logType) => logs.separated[logType].isEnabled);
-        const allEnabled = currentStatuses.every((status) => status === true);
-        const allDisabled = currentStatuses.every((status) => status === false);
-
-        // If some are enabled and some are disabled, enable all of them
-        const newStatus = !allEnabled;
-
-        // Toggle the status of all associated log types
-        logTypesToUpdate.forEach((logType) => {
-            updateFields[`Mod.Logs.separated.${logType}.isEnabled`] = newStatus;
-            updateFields[`Mod.Logs.separated.${logType}.channel`] = separatedStatusChannel.id;
-        });
-
-        successMessage += `✔️ All logs events for <#${separatedStatusChannel.id}> have been **${newStatus ? "enabled" : "disabled"}**. `;
-    }
+    console.log(updateFields);
 
     // If no updates were made, return an error
     if (Object.keys(updateFields).length === 0) {
@@ -251,7 +221,7 @@ async function editLogs(client, interaction, options) { // TODO: Make another ed
 
     // Send success message
     await interaction.reply({
-        embeds: [SuccessEmbed(successMessage)],
+        embeds: [SuccessEmbed(successMessage.join("\n"))],
         ephemeral: true
     });
 }

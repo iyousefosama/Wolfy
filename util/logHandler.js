@@ -24,7 +24,7 @@ async function logEvent(client, guild, logType, embed) {
   let data;
   try {
     data = await schema.findOne({ GuildID: guild.id });
-    if (!data || !data.Mod?.Logs?.isEnabled) return;
+    if (!data) return;
   } catch (err) {
     console.error(err);
     return;
