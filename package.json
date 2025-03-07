@@ -6,6 +6,7 @@
     "start": "node index.js",
     "build": "node build.js",
     "dev": "nodemon index.js",
+    "generate:types": "node util/scripts/generateLanguageKeys.js",
     "test": "node test.js"
   },
   "author": "Yousef osama(WOLF)",

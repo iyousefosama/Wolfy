@@ -118,11 +118,7 @@ const manager = async (client, message, cmd) => {
             `<a:Money:836169035191418951> **${message.author.tag}**, You successfully collected \`${text.commatize(Math.floor(firstLvl * 5))}\` as a reward for this!`
           );
         })
-        .catch((err) => {
-          user?.send(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
-          );
-        });
+        .catch(() => {});
     }
   } catch (err) {
     console.error(err);

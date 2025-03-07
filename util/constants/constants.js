@@ -48,6 +48,11 @@ module.exports.langflags = [
   { lang: 'Brazilian', flag: '🇧🇷' }
 ];
 
+module.exports.wolfyLanguages = [
+  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "ar", name: "العربية", flag: "🇸🇦" },
+]
+
 module.exports.regions = {
   brazil: '🇧🇷 Brazil',
   europe: '🏰 Europe',

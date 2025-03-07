@@ -1,4 +1,4 @@
-const { Collection, PermissionsBitField, ChannelType, EmbedBuilder } = require("discord.js");
+const { PermissionsBitField, ChannelType } = require("discord.js");
 const userSchema = require("../../schema/user-schema");
 const schema = require("../../schema/GuildSchema");
 const block = require("../../schema/blockcmd");
@@ -35,19 +35,14 @@ module.exports = {
           });
         } catch (err) {
           console.log(err);
-          message.channel.send(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-          );
+          message.channel.send(client.language.getString("ERR_DB", message.guild?.id, { error: err.name }));
         }
       }
 
       const serverprefix = data?.prefix || "Not Set";
 
       if (message.content === "prefix") {
-        return message.reply(client.language.getString(message.guild.id, "PREFIX", {
-          PREFIX: client.prefix,
-          SERVERPREFIX: serverprefix,
-        }));
+        return message.reply(client.language.getString("PREFIX", message.guild.id, { PREFIX: client.prefix, SERVERPREFIX: serverprefix}));
       }
     }
     if (message.channel?.type === ChannelType.DM) {
@@ -76,7 +71,7 @@ module.exports = {
     if (!cmd)
       return (
         message.channel.send({
-          content: `\\❌ | ${message.author}, There is no command with name or alias \`${commandName}\`!`,
+          content: client.language.getString("CMD_404", message.guild?.id, { commandName: commandName }),
         }),
         { executed: false, reason: "NOT_FOUND" }
       );
@@ -87,9 +82,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      message.channel.send(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      message.channel.send(client.language.getString("ERR_DB", message.guild?.id, { error: err.name }));
     }
     try {
       // Permissions: To check for default permissions in the guild
@@ -128,13 +121,11 @@ module.exports = {
         });
       } catch (error) {
         consoleUtil.error(error, "message-execute");
-        message.reply("An error occurred while running this command");
+        message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
       }
     } catch (err) {
-      message.reply(
-        `<a:Settings:841321893750505533> There was an error in the console.\n\`Please report this with a screenshot to developers\``
-      );
       console.log(err);
+      message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
     }
   },
 };

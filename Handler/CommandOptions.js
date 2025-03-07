@@ -19,6 +19,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
         client.cooldowns.set(command.name, new Collection());
     }
 
+    const cmdName = command.data.name;
     const userId = interaction.user.id;
     const now = Date.now();
     const timestamps = client.cooldowns.get(command.name);
@@ -39,7 +40,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
                 // Notify the user about the remaining cooldown time
                 client.CoolDownCurrent[userId] = true;
                 interaction.reply({
-                    embeds: [InfoEmbed(`Please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`)],
+                    embeds: [InfoEmbed(client.language.getString("CMD_COOLDOWN", interaction.guild?.id, { time_left: timeLeft.toFixed(0) }))],
                     ephemeral: true,
                 });
                 return false;
@@ -57,26 +58,26 @@ const handleApplicationCommand = async (interaction, command, client) => {
     if (interaction.guild) {
         // Check if command blocked in the guild
         const blockdata = await block.findOne({
-            Guild: interaction.guild.id,
+            Guild: interaction.guild?.id,
             Command: command.data.name,
         })
 
         if (blockdata) {
             interaction.reply({
-                embeds: [ErrorEmbed(`💢 \`${command.data.name}\` command is blocked in this server!`)],
+                embeds: [ErrorEmbed(client.language.getString("CMD_BLOCKED", interaction.guild?.id, { commandName: cmdName }))],
                 ephemeral: true
             })
             return false;
         }
     }
     if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
-        interaction.reply({ embeds: [ErrorEmbed("I can't execute that command **inside DMs**!")], ephemeral: true });
+        interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_NOT_DMS"))], ephemeral: true });
         return false;
     }
 
 
     if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
-        interaction.reply({ embeds: [ErrorEmbed("This command can only be used by **developers**!")], ephemeral: true });
+        interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_DEV_ONLY", interaction.guild?.id, { commandName: cmdName }))], ephemeral: true });
         return false;
     }
 
@@ -84,7 +85,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
         if (!client.database?.connected) {
             interaction.reply({
                 embeds: [
-                    ErrorEmbed(["💢 **Cannot connect to Database**", "This command requires a database connection."].join(" - "))
+                    ErrorEmbed([client.language.getString("DB_NOCONNECT", interaction.guild?.id), client.language.getString("DB_REQUIRED", interaction.guild?.id)].join(" - "))
                 ]
             });
             return false;
@@ -96,7 +97,8 @@ const handleApplicationCommand = async (interaction, command, client) => {
     if (command.data.permissions && command.data.permissions.length > 0) {
         if (interaction.guild) {
             if (!interaction.member.permissions.has(command.data.permissions)) {
-                interaction.reply({ embeds: [ErrorEmbed(`You don\'t have ${parsePermissions(command.data.permissions)} to use **${command.data.name}** command.`)], ephemeral: true });
+                const parsedPermissions = parsePermissions(command.data.permissions);
+                interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", interaction.guild?.id, { commandName: cmdName, permissions: parsedPermissions }))], ephemeral: true });
                 return false;
             }
         }
@@ -109,7 +111,8 @@ const handleApplicationCommand = async (interaction, command, client) => {
                 interaction.guild.members.me
             );
             if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
-                interaction.reply({ embeds: [ErrorEmbed(`The client is missing \`${parsePermissions(client.clientPermissions)}\` permission(s)!`)], ephemeral: true });
+                const parsedPermissions = parsePermissions(client.clientPermissions);
+                interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", interaction.guild?.id, { clientPermissions: parsedPermissions }))], ephemeral: true });
                 return false;
             }
         }
@@ -126,16 +129,18 @@ const handleApplicationCommand = async (interaction, command, client) => {
  * @returns {boolean}
  */
 const handleMessageCommandcommand = async (message, command, args, client) => {
+    const cmdName = command.name;
+
     if (message.guild) {
         // Check if command blocked in the guild
         const blockdata = await block.findOne({
-            Guild: message.guild.id,
-            Command: command.name,
+            Guild: message.guild?.id,
+            Command: cmdName,
         })
 
         if (blockdata) {
             message.channel.send({
-                embeds: [ErrorEmbed(`💢 \`${command.name}\` command is blocked in this server!`)]
+                embeds: [ErrorEmbed(client.language.getString("CMD_BLOCKED", message.guild?.id, { commandName: cmdName}))]
             })
             return false;
         }
@@ -143,11 +148,11 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
 
     //+ args: true/false,
     if (command.args && !args.length) {
-        let desc = `You didn't provide any arguments`;
+        let desc = client.language.getString("CMD_NOARGS", message.guild?.id);
 
         //+ usage: '<> <>',
         if (command.usage) {
-            desc += `, The proper usage would be:\n\`${client.prefix}${command.name} ${command.usage}\``;
+            desc += `, ${client.language.getString("CMD_USAGE", message.guild?.id, { prefix: client.prefix, commandName: cmdName, commandUsage: command.usage})}`;
         }
         if (command.examples && command.examples.length !== 0) {
             desc += `\n\nExamples:\n${command.examples
@@ -166,7 +171,7 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
         if (!client.database?.connected) {
             message.channel.send({
                 embeds: [
-                    ErrorEmbed(["💢 **Cannot connect to Database**", "This command requires a database connection."].join(" - "))
+                    ErrorEmbed([client.language.getString("DB_NOCONNECT", message.guild?.id), client.language.getString("DB_REQUIRED", message.guild?.id)].join(" - "))
                 ]
             });
             return false;
@@ -194,11 +199,7 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
             client.CoolDownCurrent[message.author.id] = true;
             message.channel
                 .send({
-                    content: `**${message.author.username
-                        }**, please cool down! (**${timeLeft.toFixed(
-                            0
-                        )}** second(s) left)`,
-                })
+                    content: client.language.getString("CMD_COOLDOWN", message.guild?.id, { time_left: timeLeft.toFixed(0) })})
                 .then((msg) => {
                     setTimeout(() => {
                         delete client.CoolDownCurrent[message.author.id];
@@ -220,7 +221,8 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
         if (message.guild && !client.owners.includes(message.author.id)) {
             const authorPerms = message.channel.permissionsFor(message.member);
             if (!authorPerms || !authorPerms.has(command.permissions)) {
-                message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> You don't have ${parsePermissions(command.permissions)} to use ${command.name} command.`)] });
+                const parsedPermissions = parsePermissions(command.permissions);
+                message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", message.guild?.id, { commandName: cmdName, permissions: parsedPermissions}))] });
                 return false;
             }
         }
@@ -233,7 +235,8 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
                 message.guild.members.me
             );
             if (!clientPerms || !clientPerms.has(command.clientPermissions)) {
-                message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> The bot is missing ${parsePermissions(command.clientPermissions)}`)] });
+                const parsedPermissions = parsePermissions(command.clientPermissions);
+                message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", message.guild?.id, { permissions: parsedPermissions }))] });
                 return false;
             }
         }
@@ -241,24 +244,24 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
 
     //+ guildOnly: true/false,
     if (command.guildOnly && message.channel.type === ChannelType.DM) {
-        message.reply({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> I can\'t execute that command inside DMs!`)] });
+        message.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_NOT_DMS"))] });
         return false;
     }
 
     //+ dmOnly: true/false,
     if (command.dmOnly && message.channel.type === ChannelType.GuildText) {
-        message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> I can\'t execute that command inside the server!`)] });
+        message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_NOT_GUILD", message.guild?.id))] });
         return false;
     }
 
     if (command.guarded) {
-        message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> \`${command.name}\` is guarded!`)] });
+        message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_GUARDED", message.guild?.id, { commandName: cmdName}))] });
         return false;
     }
 
     if (command.ownerOnly) {
         if (!client.owners.includes(message.author.id)) {
-            message.channel.send({ embeds: [ErrorEmbed(`<a:pp802:768864899543466006> **${message.author.username}**, the command \`${command.name}\` is limited for developers only!`)] });
+            message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_DEV_ONLY", message.guild?.id, { commandName: cmdName }))] });
             return false;
         }
     }

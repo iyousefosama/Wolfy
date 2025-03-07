@@ -8,6 +8,7 @@ const guildSchema = new mongoose.Schema({
 
   prefix: { type: String, default: null },
   blacklisted: { type: Boolean, default: false },
+  language: { type: String, default: 'en' },
 
   Mod: {
     commands: { type: Array, default: [] },

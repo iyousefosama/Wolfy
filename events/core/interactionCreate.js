@@ -51,7 +51,7 @@ module.exports = {
 
     if (!command) {
       return interaction
-        .reply({ embeds: [ErrorEmbed(`💢 An error has occurred, please try again later.`)], ephemeral: true })
+        .reply({ embeds: [ErrorEmbed(client.language.getString("ERROR", interaction.guild?.id))], ephemeral: true })
         .catch(() => { });
     } else if (interaction.user.bot) {
       return;
@@ -66,11 +66,11 @@ module.exports = {
       consoleUtil.error(error);
       interaction.isRepliable
         ? await interaction.reply({
-          content: "There was an error while viewing command options!",
+          content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
           ephemeral: true,
         })
         : interaction.editReply({
-          content: "There was an error while viewing command options!",
+          content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
         });
     }
     try {
@@ -86,11 +86,11 @@ module.exports = {
 
       interaction.isRepliable
         ? await interaction.reply({
-          content: "There was an error while executing this command!",
+          content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
           ephemeral: true,
         })
         : interaction.editReply({
-          content: "There was an error while executing this command!",
+          content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
         });
     }
   },

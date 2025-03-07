@@ -16,17 +16,18 @@ module.exports = {
     CMD_BLOCKED: "💢 \`%commandName%\` command is blocked in this server!",
     SLASH_OPTIONS: "💢 There was an error while viewing command options!",
     CMD_NOARGS: "You didn't provide any arguments",
-    NO_DMS: "💢 I can\'t execute that command inside DMs!",
-    NO_GUILD: "💢 I can\'t execute that command inside the server!",
+    CMD_NOT_DMS: "💢 I can\'t execute that command inside DMs!",
+    CMD_NOT_GUILD: "💢 I can\'t execute that command inside the server!",
     NOT_VALID: "💢 Please provide a valid %target%!",
     NOT_THEPLACE: "💢 This command can only be executed in %place%!",
     DATA_404: "💢 %data% can not be found!",
     CANNOT_EDIT: "💢 I can't edit this %element%!",
     NOT_VALID_TIME_INSEC: "💢 Please provide a valid time in seconds!",
     NOT_VALID_MESSAGE: "Please make your message brief and short! (MAX %number% characters!)",
+    LANGUAGE_404: "💢 The language you selected is not available!",
     
     // * PERMISSIONS & LIMITATIONS
-    CMD_COOLDOWN: "Please cool down! (**%time_left%** second(s) left)",
+    CMD_COOLDOWN: "⏳ Please cool down! (**%time_left%** second(s) left)",
     CMD_PERMISSIONS: "💢 You don't have \`%permissions%\` to use **%commandName%** command.",
     CMD_BOT_PERMISSIONS: "💢 The bot is missing \`%clientPermissions%\` permission(s)!",
     CMD_DEV_ONLY: "The command \`%commandName%\` is limited for developers only!",
@@ -37,7 +38,8 @@ module.exports = {
     ROLE_CREATED: "\`%role.name%\` role has been successfully created!",
     CONFIRMATION_MESSAGE: "Are you sure you want to **%action%** %target%? (yes/no)",
     CANCEL_ACTION: "The **%action%** has been cancelled!",
-    USER_DATA_DELETD: "Successfully deleted the %user% %data%!", 
+    USER_DATA_DELETD: "Successfully deleted the %user% %data%!",
+    LANGUAGE_SET: "Successfully set %client% language to **%language%**!",
 
     // * MODERATION COMMANDS
     NO_ID: "\\❌ | %messageAuthor%, Please type the id or mention the user to **%action%**.",
