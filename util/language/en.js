@@ -75,6 +75,8 @@ module.exports = {
     LOADING: "Loading Poob Beep...",
     NO_RESULT: "No results found for \`%query%\`",
     NO_INFO: "No information found for \`%query%\`",
+    PING: "The Ping of the bot is \`%ping%ms\`!\n\`🤖\` API Latency is \`%ws_ping%ms\`!",
+    PONG: "Pong!",
 
     // * CLIENT CORE COMMANDS
     NO_CMD_QUERY: "Please provide a valid command to get information about!",

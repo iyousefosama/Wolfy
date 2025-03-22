@@ -11,7 +11,7 @@ module.exports = {
 
     // Check if it was category & with panel data and delete it
     if(channel.type === 4) {
-      return panelSchema.findOneAndDelete({ Category: categoryId });
+      return panelSchema.findOneAndDelete({ Category: channel.id });
     }
 
     const fetchedLogs = await channel.guild.fetchAuditLogs({

@@ -42,27 +42,18 @@ module.exports = {
     await interaction.deferReply().catch(() => {});
     const hide = interaction.options.getBoolean("hide");
 
-    var loading = new discord.EmbedBuilder()
-      .setColor("Gold")
-      .setDescription(
-        `<a:Loading_Color:759734580122484757> Finding bot ping...`
-      );
     interaction
-      .editReply({ embeds: [loading], ephemeral: hide })
+      .editReply({ content: client.language.getString("LOADING", interaction.guild.id), ephemeral: hide })
       .then((inter) => {
         // sends this once you send the cmd
         const ping = inter.createdTimestamp - interaction.createdTimestamp; // calculation the time between when u send the message and when the bot reply
         let Pong = new discord.EmbedBuilder()
           .setColor("Yellow")
-          .setDescription(`Pong!`);
+          .setDescription(client.language.getString("PONG", interaction.guild.id));
         interaction.editReply({ embeds: [Pong] });
         let Ping = new discord.EmbedBuilder()
           .setColor("DarkGreen")
-          .setDescription(
-            `<a:pp224:853495450111967253> The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${Math.round(
-              client.ws.ping
-            )}ms\`!`
-          );
+          .setDescription(client.language.getString("PING", interaction.guild.id, { ping: ping, ws_ping: Math.round(client.ws.ping) }));
         interaction.editReply({ embeds: [Ping] });
       })
       .catch(() => null);

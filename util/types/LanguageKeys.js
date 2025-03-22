@@ -22,7 +22,7 @@
  * @property {string} NOT_VALID_TIME_INSEC - 💢 Please provide a valid time in seconds!
  * @property {string} NOT_VALID_MESSAGE - Please make your message brief and short! (MAX %number% characters!)
  * @property {string} LANGUAGE_404 - 💢 The language you selected is not available!
- * @property {string} CMD_COOLDOWN - Please cool down! (%time_left% second(s) left)
+ * @property {string} CMD_COOLDOWN - ⏳ Please cool down! (%time_left% second(s) left)
  * @property {string} CMD_PERMISSIONS - 💢 You don't have `%permissions%` to use %commandName% command.
  * @property {string} CMD_BOT_PERMISSIONS - 💢 The bot is missing `%clientPermissions%` permission(s)!
  * @property {string} CMD_DEV_ONLY - The command `%commandName%` is limited for developers only!
@@ -64,6 +64,8 @@
  * @property {string} LOADING - Loading Poob Beep...
  * @property {string} NO_RESULT - No results found for `%query%`
  * @property {string} NO_INFO - No information found for `%query%`
+ * @property {string} PING - The Ping of the bot is `%ping%ms`! `🤖` API Latency is `%ws_ping%ms`!
+ * @property {string} PONG - Pong!
  * @property {string} NO_CMD_QUERY - Please provide a valid command to get information about!
  * @property {string} CMD_USAGEE - Usage
  * @property {string} CMD_ALIASES - Aliases
@@ -122,6 +124,7 @@
  * @property {{ prefix: string, commandName: string, commandUsage: string }} CMD_USAGE
  * @property {{ query: string }} NO_RESULT
  * @property {{ query: string }} NO_INFO
+ * @property {{ ping: string, ws_ping: string }} PING
  */
 
 module.exports = {};

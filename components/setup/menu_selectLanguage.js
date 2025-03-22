@@ -25,7 +25,7 @@ module.exports = {
         ).catch((err) => {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
-            return interaction.reply({ embeds: [ErrorEmbed(`An error occurred while setting the language!`)], ephemeral: true });
+            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild.id))], ephemeral: true });
         });
     },
 };
