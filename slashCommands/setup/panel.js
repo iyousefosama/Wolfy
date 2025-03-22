@@ -18,6 +18,8 @@ module.exports = {
     description: "Manage tickets panel in the server",
     group: "Ticket",
     requiresDatabase: true,
+    dmOnly: false,
+    guildOnly: true,
     options: [
       {
         type: ApplicationCommandOptionType.Subcommand,

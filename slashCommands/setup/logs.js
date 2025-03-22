@@ -31,6 +31,8 @@ module.exports = {
         description: "Manage Logs in the server",
         group: "Setup",
         requiresDatabase: true,
+        dmOnly: false,
+        guildOnly: true,
         options: [
             {
                 type: ApplicationCommandOptionType.Subcommand,

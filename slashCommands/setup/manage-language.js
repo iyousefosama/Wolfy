@@ -10,7 +10,7 @@ module.exports = {
         description: "Send a list of available languages",
         dmOnly: false,
         guildOnly: true,
-        cooldown: 0,
+        cooldown: 5,
         group: "Setup",
         requiresDatabase: true,
         clientPermissions: [],

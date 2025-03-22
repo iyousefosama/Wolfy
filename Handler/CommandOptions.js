@@ -155,7 +155,7 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
             desc += `, ${client.language.getString("CMD_USAGE", message.guild?.id, { prefix: client.prefix, commandName: cmdName, commandUsage: command.usage})}`;
         }
         if (command.examples && command.examples.length !== 0) {
-            desc += `\n\nExamples:\n${command.examples
+            desc += `\n\n${client.language.getString("CMD_EXAMPLES", message.guild?.id)}:\n${command.examples
                 .map((x) => `\`${client.prefix}${command.name} ${x}\n\``)
                 .join(" ")}`;
         }
