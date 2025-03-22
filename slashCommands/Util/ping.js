@@ -43,19 +43,23 @@ module.exports = {
     const hide = interaction.options.getBoolean("hide");
 
     interaction
-      .editReply({ content: client.language.getString("LOADING", interaction.guild.id), ephemeral: hide })
-      .then((inter) => {
-        // sends this once you send the cmd
-        const ping = inter.createdTimestamp - interaction.createdTimestamp; // calculation the time between when u send the message and when the bot reply
-        let Pong = new discord.EmbedBuilder()
-          .setColor("Yellow")
-          .setDescription(client.language.getString("PONG", interaction.guild.id));
-        interaction.editReply({ embeds: [Pong] });
-        let Ping = new discord.EmbedBuilder()
-          .setColor("DarkGreen")
-          .setDescription(client.language.getString("PING", interaction.guild.id, { ping: ping, ws_ping: Math.round(client.ws.ping) }));
-        interaction.editReply({ embeds: [Ping] });
-      })
-      .catch(() => null);
+    .editReply({ content: client.language.getString("LOADING", interaction.guild.id), ephemeral: hide })
+    .then((inter) => {
+      const ping = inter.createdTimestamp - interaction.createdTimestamp;
+      
+      let Pong = new discord.EmbedBuilder()
+        .setColor("Yellow")
+        .setDescription(client.language.getString("PONG", interaction.guild.id));
+  
+      interaction.editReply({ content: null, embeds: [Pong] }); // Clears the text and sets Pong embed
+  
+      let Ping = new discord.EmbedBuilder()
+        .setColor("DarkGreen")
+        .setDescription(client.language.getString("PING", interaction.guild.id, { ping, ws_ping: Math.round(client.ws.ping) }));
+  
+      interaction.editReply({ content: null, embeds: [Ping] }); // Clears previous embed and sets Ping embed
+    })
+    .catch(() => null);
+  
   },
 };
