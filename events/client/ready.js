@@ -2,8 +2,8 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 const { EmbedBuilder, ActivityType, Client } = require('discord.js')
 const { version } = require('../../package.json');
-const ManagerCheck = require("../../util/functions/ManagerCheck")
-const Reminder = require("../../util/functions/Reminder")
+const ManagerCheck = require("../../util/functions/ManagerCheck");
+const { initReminders } = require("../../util/functions/reminder");
 const checkQuests = require("../../util/functions/checkQuests")
 const LanguageManager = require("../../util/language/LanguageManager");
 const { CheckDeletedCategories } = require("../../util/helpers/removeDelCategories")
@@ -20,7 +20,7 @@ module.exports = {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     client.expressServer();
-    setInterval(() => Reminder(client), 1000 * 60 * 1); // 1 min.
+    initReminders(client);
     setInterval(() => checkQuests(client), 1000 * 60 * 2); // 2 min.
     setInterval(async () => {
       client.guilds.cache.forEach(async (guild) => {
