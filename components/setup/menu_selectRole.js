@@ -20,18 +20,21 @@ module.exports = {
             } catch (err) {
                 console.log(err);
                 interaction.reply({
-                    content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                    content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
                 });
             }
         }
         if (!data)
             return interaction.reply(
-                `\\❌ I can't find this guild \`data\` in the data base!`
+                client.language.getString("SERVER_DATA_404", interaction.guild.id, { data: "data" })
             );
         const member = interaction.member;
 
         if(data.Mod.smroles.id !== parts[2]) {
-            return interaction.reply({ content: "💢 This select menu is outdated!", ephemeral: true })
+            return interaction.reply({ 
+                content: client.language.getString("SELECT_MENU_OUTDATED", interaction.guild.id, { default: "💢 This select menu is outdated!" }), 
+                ephemeral: true 
+            })
         }
 
         // Get all the roles at once
@@ -50,7 +53,7 @@ module.exports = {
         const selectedRole = roles.find((role) => role?.id === choice);
         if (!selectedRole) {
             return interaction.reply({
-                content: `\\❌ I can't find this role in the guild!`,
+                content: client.language.getString("DATA_404", interaction.guild.id, { data: "role" }),
                 ephemeral: true,
             });
         }
@@ -60,14 +63,22 @@ module.exports = {
                 .remove(selectedRole)
                 .then(() => {
                     interaction.reply({
-                        content: `<a:pp833:853495989796470815> Successfully removed ${selectedRole} from you!`,
+                        content: client.language.getString("ROLE_REMOVED_SUCCESS", interaction.guild.id, { 
+                            role: selectedRole.toString(),
+                            default: `<a:pp833:853495989796470815> Successfully removed ${selectedRole} from you!`
+                        }),
                         ephemeral: true,
                     });
                 })
                 .catch(
                     async (err) =>
                         await interaction.reply({
-                            content: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
+                            content: client.language.getString("ROLE_REMOVE_ERROR", interaction.guild.id, { 
+                                role: selectedRole.toString(),
+                                user: member.user.tag,
+                                error: err.message,
+                                default: `\\❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`
+                            }),
                             ephemeral: true
                         })
                 );
@@ -76,14 +87,22 @@ module.exports = {
                 .add(selectedRole)
                 .then(() => {
                     interaction.reply({
-                        content: `<a:pp330:853495519455215627> Successfully added ${selectedRole} for you!`,
+                        content: client.language.getString("ROLE_ADDED_SUCCESS", interaction.guild.id, {
+                            role: selectedRole.toString(),
+                            default: `<a:pp330:853495519455215627> Successfully added ${selectedRole} for you!`
+                        }),
                         ephemeral: true,
                     });
                 })
                 .catch(
                     async (err) =>
                         await interaction.reply({
-                            content: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
+                            content: client.language.getString("ROLE_ADD_ERROR", interaction.guild.id, {
+                                role: selectedRole.toString(),
+                                user: member.user.tag,
+                                error: err.message,
+                                default: `\\❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`
+                            }),
                             ephemeral: true
                         })
                 );

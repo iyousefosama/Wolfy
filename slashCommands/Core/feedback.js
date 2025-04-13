@@ -44,7 +44,7 @@ module.exports = {
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }), ephemeral: true })
             client.logDetailedError({
                 error: err,
                 eventType: "DATABASE_ERR",
@@ -53,20 +53,23 @@ module.exports = {
         }
 
         if (feedback.length > 1000) {
-            return interaction.reply({ content: `<a:Wrong:812104211361693696> Please make your report brief and short! (MAX 1000 characters!)`, ephemeral: true })
+            return interaction.reply({ content: client.language.getString("FEEDBACK_TOO_LONG", interaction.guild.id), ephemeral: true })
         };
 
         const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
         if (!owner) {
-            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("FEEDBACK_OWNER_UNAVAILABLE", interaction.guild.id), ephemeral: true });
         };
 
         if (TimeOutData.feedback > now) {
             return interaction.reply({
                 embeds: [new EmbedBuilder()
-                    .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
-                    .setDescription(`\\❌ **${interaction.user.username}**, You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+                    .setTitle(client.language.getString("FEEDBACK_ALREADY_SENT", interaction.guild.id))
+                    .setDescription(client.language.getString("FEEDBACK_COOLDOWN_MESSAGE", interaction.guild.id, { 
+                        username: interaction.user.username, 
+                        time: moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')
+                    }))
                     .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('Red')], ephemeral: true
             })
@@ -99,8 +102,8 @@ module.exports = {
                         '```'
                     ].join('\n')
                 })
-            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: '<:Verify:841711383191879690> Feedback Sent!', ephemeral: true }))
-                .catch(() => interaction.reply({ content: `💢 **${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, ephemeral: true }));
+            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: client.language.getString("FEEDBACK_SENT", interaction.guild.id), ephemeral: true }))
+                .catch(() => interaction.reply({ content: client.language.getString("FEEDBACK_DMS_CLOSED", interaction.guild.id, { username: owner.username }), ephemeral: true }));
         }
     },
 };

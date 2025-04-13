@@ -26,13 +26,13 @@ module.exports = {
             });
             if (!data) {
                 return interaction.followUp({
-                    content: `\\❌ I can't find this category in my database!`,
+                    content: client.language.getString("DATA_404", interaction.guild.id, { data: "category" }),
                     ephemeral: true,
                 });
             }
         } catch (err) {
             interaction.followUp({
-                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
                 ephemeral: true,
             });
             return client.logDetailedError({
@@ -46,12 +46,12 @@ module.exports = {
 
         if (!category) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("Category not found!")],
+                embeds: [ErrorEmbed(client.language.getString("DATA_404", interaction.guild.id, { data: "Category" }))],
                 ephemeral: true,
             });
         } else if (!data.Enabled) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("This category is not enabled!")],
+                embeds: [ErrorEmbed(client.language.getString("CMD_BLOCKED", interaction.guild.id, { commandName: "ticket" }))],
                 ephemeral: true,
             });
         }
@@ -73,13 +73,13 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return interaction.channel.send({
-                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
             });
         }
 
         if (category.children.cache.has(TicketData.ChannelId)) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("Ticket is already open in this category!")],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guild.id))],
                 ephemeral: true,
             });
         }
@@ -129,18 +129,18 @@ module.exports = {
         })
             .then(async (channel) => {
                 interaction.followUp({
-                    embeds: [SuccessEmbed(`<:Checkmark:1267279269638180935> Ticket created in ${channel}`)],
+                    embeds: [SuccessEmbed(client.language.getString("TICKET_OPEN_SUCCESS", interaction.guild.id))],
                     ephemeral: true,
                 });
 
                 const close = new ButtonBuilder()
-                    .setLabel(`Close`)
+                    .setLabel(client.language.getString("TICKET_BUTTON_CLOSE", interaction.guild.id, { default: "Close" }))
                     .setCustomId("btn_close")
                     .setStyle("Secondary")
                     .setEmoji("🔒");
 
                 const claim = new ButtonBuilder()
-                    .setLabel(`Claim`)
+                    .setLabel(client.language.getString("TICKET_BUTTON_CLAIM", interaction.guild.id))
                     .setCustomId("btn_claim")
                     .setStyle("Success");
 
@@ -148,16 +148,19 @@ module.exports = {
 
                 const ticketEmbed = new discord.EmbedBuilder()
                     .setAuthor({
-                        name: `Welcome in your ticket ${interaction.user.tag}`,
+                        name: client.language.getString("TICKET_WELCOME_TITLE", interaction.guild.id, { 
+                            user: interaction.user.tag,
+                            default: `Welcome in your ticket ${interaction.user.tag}`
+                        }),
                         iconURL: interaction.user.displayAvatarURL({
                             dynamic: true,
                             size: 2048,
                         }),
                     })
                     .setDescription(data.Message ? data.Message.replace(/{user}/g, `${interaction.user}`) : [
-                        `<:tag:813830683772059748> Send here your message or question!\n`,
-                        `> <:Humans:853495153280155668> User: ${interaction.user}`,
-                        `> <:pp198:853494893439352842> UserID: \`${interaction.user.id}\``,
+                        `<:tag:813830683772059748> ${client.language.getString("TICKET_WELCOME_DESCRIPTION", interaction.guild.id, { default: "Send here your message or question!" })}\n`,
+                        `> <:Humans:853495153280155668> ${client.language.getString("TICKET_WELCOME_USER", interaction.guild.id, { default: "User" })}: ${interaction.user}`,
+                        `> <:pp198:853494893439352842> ${client.language.getString("TICKET_WELCOME_USERID", interaction.guild.id, { default: "UserID" })}: \`${interaction.user.id}\``,
                     ].join("\n"))
                     .setTimestamp();
 
@@ -172,7 +175,7 @@ module.exports = {
                 TicketData.OpenTimeStamp = Math.floor(Date.now() / 1000);
                 await TicketData.save().catch((err) =>
                     channel.send(
-                        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}!`
+                        client.language.getString("ERR_DB", interaction.guild.id, { error: err.name })
                     )
                 );
             });

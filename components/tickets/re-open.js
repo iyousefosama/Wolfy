@@ -21,15 +21,19 @@ module.exports = {
         } catch (err) {
             console.log(err);
             interaction.followUp({
-                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                ephemeral: true
             });
         }
         if (!ticket) {
-            return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the database!`);
+            return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id));
         }
 
         if (!ticket.IsClosed) {
-            return interaction.followUp({ embeds: [ErrorEmbed("Ticket is already open!")], ephemeral: true });
+            return interaction.followUp({ 
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guild.id))], 
+                ephemeral: true 
+            });
         }
         const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);
 
@@ -48,7 +52,9 @@ module.exports = {
                             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
                         })
                         .setDescription(
-                            `<:Verify:841711383191879690> Successfully re-opened the ticket by \`${interaction.user.tag}\`!`
+                            client.language.getString("TICKET_REOPENED_BY", interaction.guild.id, {
+                                user: interaction.user.tag
+                            })
                         )
                         .setFooter({
                             text: client.user.username,
@@ -59,7 +65,7 @@ module.exports = {
             })
             .catch(() => {
                 interaction.channel.send({
-                    content: `\`❌ [ERR]:\` Something is wrong, please try again later!`,
+                    content: client.language.getString("ERROR", interaction.guild.id),
                 });
             });
     },

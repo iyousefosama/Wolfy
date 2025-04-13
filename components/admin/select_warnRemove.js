@@ -16,7 +16,9 @@ module.exports = {
         // Validate the UUID
         if (!uuid.validate(selectedWarnId)) {
             return interaction.reply({
-                content: '\\❌ Please provide a valid warn id.',
+                content: client.language.getString("WARN_ID_INVALID", interaction.guild.id, {
+                    default: '\\❌ Please provide a valid warn id.'
+                }),
                 ephemeral: true,
             });
         }
@@ -30,7 +32,9 @@ module.exports = {
         // Check if the user has any warnings
         if (!warnedUserResult) {
             return interaction.reply({
-                content: '\\❌ No warnings found for this user.',
+                content: client.language.getString("WARN_USER_NO_WARNINGS", interaction.guild.id, {
+                    default: '\\❌ No warnings found for this user.'
+                }),
                 ephemeral: true,
             });
         }
@@ -40,7 +44,9 @@ module.exports = {
 
         if (!warningExists) {
             return interaction.reply({
-                content: '\\❌ The specified warn ID does not exist.',
+                content: client.language.getString("WARN_ID_NOT_FOUND", interaction.guild.id, {
+                    default: '\\❌ The specified warn ID does not exist.'
+                }),
                 ephemeral: true,
             });
         }
@@ -64,7 +70,9 @@ module.exports = {
 
         if (!getRemovedWarnedUser) {
             return interaction.reply({
-                content: '\\❌ Warned user not found in the guild.',
+                content: client.language.getString("USER_NOT_FOUND", interaction.guild.id, {
+                    default: '\\❌ Warned user not found in the guild.'
+                }),
                 ephemeral: true,
             });
         }
@@ -73,6 +81,14 @@ module.exports = {
         const warnedRemoveCount = warnedRemoveData.warnings.length;
         const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
-        interaction.reply({ content: `<a:pp989:853496185443319809> | Successfully deleted **${getRemovedWarnedUser.user.tag}** warning, they now have **${warnedRemoveCount}** warning${warnedRemoveGrammar}!`, ephemeral: true });
+        interaction.reply({ 
+            content: client.language.getString("WARN_REMOVE_SUCCESS", interaction.guild.id, {
+                user: getRemovedWarnedUser.user.tag,
+                count: warnedRemoveCount,
+                s: warnedRemoveGrammar,
+                default: `<a:pp989:853496185443319809> | Successfully deleted **${getRemovedWarnedUser.user.tag}** warning, they now have **${warnedRemoveCount}** warning${warnedRemoveGrammar}!`
+            }), 
+            ephemeral: true 
+        });
     },
 };

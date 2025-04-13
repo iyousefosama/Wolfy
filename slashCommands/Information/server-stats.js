@@ -31,40 +31,56 @@ module.exports = {
     const { name, region, memberCount } = guild;
     const icon = guild.iconURL({ dynamic: true });
     const owner = await guild.fetchOwner();
+    
+    const formatRegion = regions[region] || 'Auto';
+    const formatVerificationLevel = verificationlvl[guild.verificationLevel] || "None";
+    const formatBoostTier = guild.premiumTier || 'None';
+    const formatBoostLevel = guild.premiumSubscriptionCount || '0';
+    const createdTime = moment(guild.createdTimestamp).format('LT');
+    const createdDate = moment(guild.createdTimestamp).format('LL');
+    const createdRelative = moment(guild.createdTimestamp).fromNow();
 
     const pages = new Page(
       new EmbedBuilder()
         .setURL(icon)
         .setThumbnail(icon)
         .setTimestamp()
-        .setDescription([`**${name} General stats**\n`,
-        `🇳 **Name:** ${name}`,
-        `<:pp198:853494893439352842> **ID:** ${guild.id}`,
-        `<:Owner:841321887882805289> **Owner:** ${owner}`,
-        `🌐 **Region:** ${regions[region] || 'Auto'}`,
-        `<a:pp891:853493740579717131> **Boost Tier:** ${guild.premiumTier || 'None'}`,
-        `<a:pp989:853496185443319809> **Verification Level:** ${verificationlvl[guild.verificationLevel] || "None"}`,
-        `<a:server_boosting:809994218759782411> **Boost Level:** ${guild.premiumSubscriptionCount || '0'}`,
-        `📆 **Created At:** ${moment(guild.createdTimestamp).format('LT')} ${moment(guild.createdTimestamp).format('LL')} ${moment(guild.createdTimestamp).fromNow()}\u200b`].join('\n')),
+        .setDescription([
+          client.language.getString("SERVER_STATS_GENERAL", guild.id, { name }),
+          client.language.getString("SERVER_STATS_NAME", guild.id, { name }),
+          client.language.getString("SERVER_STATS_ID", guild.id, { id: guild.id }),
+          client.language.getString("SERVER_STATS_OWNER", guild.id, { owner }),
+          client.language.getString("SERVER_STATS_REGION", guild.id, { region: formatRegion }),
+          client.language.getString("SERVER_STATS_BOOST_TIER", guild.id, { tier: formatBoostTier }),
+          client.language.getString("SERVER_STATS_VERIFICATION", guild.id, { level: formatVerificationLevel }),
+          client.language.getString("SERVER_STATS_BOOST_LEVEL", guild.id, { level: formatBoostLevel }),
+          client.language.getString("SERVER_STATS_CREATED_AT", guild.id, { 
+            time: createdTime, 
+            date: createdDate, 
+            relative: createdRelative 
+          })
+        ].join('\n')),
       new EmbedBuilder()
         .setURL(icon)
         .setThumbnail(icon)
         .setTimestamp()
-        .setDescription([`**${name} stats**\n`,
-        `<:pp444:853496229677629490> **Role Count:** ${roles.length}`,
-        `<:pp697:853494953560375337> **Emoji Count:** ${emojis.size}`,
-        `<:pp941:782762042171719731> **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`,
-        `<a:pp224:853495450111967253> **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`,
-        `<a:pp754:768867196302524426> **Member Count:** ${memberCount}`,
-        `<:pp833:853495153280155668> **Humans:** ${members.filter(member => !member.user.bot).size}`,
-        `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`,
-        `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildText).size}`,
-        `**Voice Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildVoice).size}\u200b`].join('\n'))
+        .setDescription([
+          client.language.getString("SERVER_STATS_DETAILS", guild.id, { name }),
+          client.language.getString("SERVER_STATS_ROLE_COUNT", guild.id, { count: roles.length }),
+          client.language.getString("SERVER_STATS_EMOJI_COUNT", guild.id, { count: emojis.size }),
+          client.language.getString("SERVER_STATS_NORMAL_EMOJI", guild.id, { count: emojis.filter(emoji => !emoji.animated).size }),
+          client.language.getString("SERVER_STATS_ANIMATED_EMOJI", guild.id, { count: emojis.filter(emoji => emoji.animated).size }),
+          client.language.getString("SERVER_STATS_MEMBER_COUNT", guild.id, { count: memberCount }),
+          client.language.getString("SERVER_STATS_HUMANS", guild.id, { count: members.filter(member => !member.user.bot).size }),
+          client.language.getString("SERVER_STATS_BOTS", guild.id, { count: members.filter(member => member.user.bot).size }),
+          client.language.getString("SERVER_STATS_TEXT_CHANNELS", guild.id, { count: channels.filter(channel => channel.type === ChannelType.GuildText).size }),
+          client.language.getString("SERVER_STATS_VOICE_CHANNELS", guild.id, { count: channels.filter(channel => channel.type === ChannelType.GuildVoice).size })
+        ].join('\n'))
     );
 
     const createRow = () => {
       const button = new ButtonBuilder()
-        .setLabel('Prev')
+        .setLabel(client.language.getString("SERVER_STATS_BUTTON_PREV", guild.id))
         .setCustomId("prevPage")
         .setStyle('Primary')
         .setEmoji("890490643548352572");
@@ -76,7 +92,7 @@ module.exports = {
         .setDisabled(true);
 
       const button2 = new ButtonBuilder()
-        .setLabel('Next')
+        .setLabel(client.language.getString("SERVER_STATS_BUTTON_NEXT", guild.id))
         .setCustomId("nextPage")
         .setStyle('Primary')
         .setEmoji("890490558492061736");

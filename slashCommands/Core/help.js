@@ -1,66 +1,43 @@
 const discord = require("discord.js");
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const text = require('../../util/string')
-/**
- * @type {import("../../util/types/baseCommandSlash")}
- */
+const text = require('../../util/string');
+
 module.exports = {
   data: {
     name: "help",
-    description: "Replies with commands helplist!",
+    description: "Shows all available commands",
+    dmOnly: false,
+    guildOnly: false,
+    cooldown: 0,
     group: "Bot",
-    integration_types: [0, 1],
-    contexts: [0, 1, 2],
+    clientPermissions: ["EmbedLinks"],
     permissions: [],
     options: [
       {
-        type: ApplicationCommandOptionType.String,
-        name: "type",
-        description: "The type of list to display",
+        type: 3, // STRING
+        name: 'type',
+        description: 'Type of commands to show',
+        required: false,
         choices: [
-          { name: "all", value: "all" },
+          { name: 'all', value: 'all' },
+          { name: 'info', value: 'info' },
+          { name: 'search', value: 'search' },
+          { name: 'util', value: 'util' },
+          { name: 'mod', value: 'mod' },
+          { name: 'fun', value: 'fun' },
+          { name: 'setup', value: 'setup' },
+          { name: 'bot', value: 'bot' },
+          { name: 'level', value: 'level' },
+          { name: 'eco', value: 'eco' }
         ]
       }
-    ],
-    clientPermissions: [],
+    ]
   },
   async execute(client, interaction) {
     const { options, guild, user } = interaction;
     const type = options.getString('type');
 
-    if (type && type == "all") {
-      const fields = [];
-      const groups = [];
-
-      for (let cmd of client.commands) {
-        cmd = cmd[1]
-        if (cmd.group) {
-          groups.push(cmd.group);
-        }
-      };
-
-      var uniqueArr = [...new Set(groups)]
-
-      for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified' && g.toLowerCase() !== "developer")) {
-        fields.push({
-          name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
-          value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
-        });
-      };
-      const allCmds = new discord.EmbedBuilder()
-        .setColor('738ADB')
-        .setTitle('<:Tag:836168214525509653> Wolfy\'s full commands list!')
-        .addFields(fields.sort((A, B) => B.value.length - A.value.length))
-        .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true }) })
-        .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
-        .setDescription([
-          `<:star:888264104026992670> You can get the full detail of each command by typing \`${client.prefix}cmd <command name>\``
-        ].join('\n'))
-
-      return await interaction.reply({ embeds: [allCmds], ephemeral: false });
-    }
-
-    // Define button data in an array
+    // Define button data
     const buttonData = [
       { label: 'Info', customId: '1', style: 'Primary', emoji: '776670895371714570' },
       { label: 'Search', customId: '2', style: 'Primary', emoji: '845681277922967572' },
@@ -73,7 +50,7 @@ module.exports = {
       { label: 'Economy', customId: '9', style: 'Primary', emoji: '877975108038324224' },
     ];
 
-    // Create an array to store all button builders
+    // Create buttons
     const buttons = buttonData.map(data => (
       new ButtonBuilder()
         .setLabel(data.label)
@@ -82,24 +59,21 @@ module.exports = {
         .setEmoji(data.emoji)
     ));
 
-
-    // Create rows of action components
+    // Create action rows
     const rows = [
-      new ActionRowBuilder().addComponents(...buttons.slice(0, 5)), // First row with first 5 buttons
-      new ActionRowBuilder().addComponents(...buttons.slice(5)),    // Second row with remaining buttons
+      new ActionRowBuilder().addComponents(...buttons.slice(0, 5)),
+      new ActionRowBuilder().addComponents(...buttons.slice(5)),
     ];
 
-
-    // Add a link button as the last component in the second row
+    // Add invite button
     const linkButton = new ButtonBuilder()
       .setStyle('Link')
       .setEmoji('853495912775942154')
-      .setURL(`https://discord.com/api/oauth2/authorize?client_id=821655420410003497&permissions=8&scope=bot%20applications.commands`)
+      .setURL(client.config.websites["invite"])
       .setLabel('Add me');
-
     rows[1].addComponents(linkButton);
 
-    // Common settings for all embeds
+    // Common embed settings
     const commonEmbedSettings = {
       color: "738ADB",
       url: client.config.websites["website"],
@@ -136,475 +110,533 @@ module.exports = {
       return embed;
     }
 
+    // Create all embeds
+    const help = createCommandListEmbed(
+      client.language.getString("HELP_TITLE", interaction.guild.id, { username: interaction.user.username }), 
+      [
+        {
+          name: client.language.getString("HELP_INFO_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help info`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_SEARCH_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help search`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_UTILITY_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help Util`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_MOD_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help mod`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_FUN_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help fun`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_SETUP_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help setup`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_BOT_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help bot`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_LEVEL_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help level`,
+          inline: true,
+        },
+        {
+          name: client.language.getString("HELP_ECONOMY_TITLE", interaction.guild.id),
+          value: `${client.config.prefix}help eco`,
+          inline: true,
+        }
+      ], 
+      [
+        client.language.getString("HELP_FEEDBACK_TIP", interaction.guild.id),
+        client.language.getString("HELP_FULL_LIST_TIP", interaction.guild.id)
+      ].join("\n")
+    );
 
-    const help = createCommandListEmbed(`Hi ${interaction.user.username}, how can i help you?`, [
-      {
-        name: "<a:BackPag:776670895371714570> informations helplist",
-        value: `${client.config.prefix}help info`,
-        inline: true,
-      },
-      {
-        name: "<a:Search:845681277922967572> Search helplist",
-        value: `${client.config.prefix}help search`,
-        inline: true,
-      },
-      {
-        name: "<a:pp350:836168684379701279> Utilities helplist",
-        value: `${client.config.prefix}help Util`,
-        inline: true,
-      },
-      {
-        name: "<a:pp989:853496185443319809> Moderator helplist",
-        value: `${client.config.prefix}help mod`,
-        inline: true,
-      },
-      {
-        name: "<a:pp434:836168673755660290> Fun helplist",
-        value: `${client.config.prefix}help fun`,
-        inline: true,
-      },
-      {
-        name: "<:MOD:836168687891382312> Setup Commands",
-        value: `${client.config.prefix}help setup`,
-        inline: true,
-      },
-      {
-        name: "<a:pp90:853496126153031710> Bot helplist",
-        value: `${client.config.prefix}help bot`,
-        inline: true,
-      },
-      {
-        name: "<a:Up:853495519455215627> Levels helplist",
-        value: `${client.config.prefix}help level`,
-        inline: true,
-      },
-      {
-        name: "<a:ShinyMoney:877975108038324224> Economy helplist",
-        value: `${client.config.prefix}help eco`,
-        inline: true,
-      }
-    ], [`<a:Right:877975111846731847> Type \`/feedback\` to report a bug`, `for a full list of commands use: \`/help type: all\``].join("\n"));
-
-    const info = createCommandListEmbed(`<a:BackPag:776670895371714570> Informations Commands`, [
+    const info = createCommandListEmbed(client.language.getString("HELP_INFO_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}server`,
-        value: `Shows informations about a server`,
+        value: client.language.getString("CMD_SERVER_STATS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}user`,
-        value: `Shows informations about a user`,
+        value: client.language.getString("CMD_WHOIS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}mcuser`,
-        value: `To get Mincraft user informations`,
+        value: client.language.getString("CMD_MCUSER_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}avatar`,
-        value: `Get a user's avatar.`,
+        value: client.language.getString("CMD_AVATAR_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}savatar`,
-        value: `Get a server's avatar.`,
+        value: client.language.getString("CMD_AVATAR_DESC", interaction.guild.id),
       }
     ]);
 
-    const search = createCommandListEmbed("<a:Search:845681277922967572> Search Commands", [
+    const search = createCommandListEmbed(client.language.getString("HELP_SEARCH_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}steam`,
-        value: `To search for any game information in steam`,
+        value: client.language.getString("CMD_STEAM_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}weather`,
-        value: `Shows the weather status in any country`,
+        value: client.language.getString("CMD_WEATHER_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}lyrics`,
-        value: `The bot will show you the lyrics for the music you are searching for!`,
+        value: client.language.getString("CMD_LYRICS_DESC", interaction.guild.id),
       }
     ]);
 
-    const Utl = createCommandListEmbed("<a:pp350:836168684379701279> Utilities Commands", [
+    const Utl = createCommandListEmbed(client.language.getString("HELP_UTILITY_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}suggestion`,
-        value: `Send your suggestion for the server`,
+        value: client.language.getString("CMD_SUGGESTION_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}remind`,
-        value: `The bot will reminde you for anything`,
+        value: client.language.getString("CMD_REMINDME_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}report`,
-        value: `To report someone in the server`,
+        value: client.language.getString("CMD_REPORT_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}bin`,
-        value: `To upload a code to sourcebin`,
+        value: client.language.getString("CMD_BIN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}ticket`,
-        value: `Open new ticket in the server`,
+        value: client.language.getString("CMD_TICKET_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}rename`,
-        value: `Change ticket name`,
+        value: client.language.getString("CMD_RENAME_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}delete`,
-        value: `Delete your ticket in the server`,
+        value: client.language.getString("CMD_DELETE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}calc`,
-        value: `Calculates an equation by wolfy`,
+        value: client.language.getString("CMD_CALC_DESC", interaction.guild.id),
       }
     ]);
-    const moderator = createCommandListEmbed("<a:pp989:853496185443319809> Moderator Commands", [
+
+    const moderator = createCommandListEmbed(client.language.getString("HELP_MOD_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}ban`,
-        value: `Bans a member from the server`,
+        value: client.language.getString("CMD_BAN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}hackban`,
-        value: `Bans a member not in the server`,
+        value: client.language.getString("CMD_HACKBAN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}softban`,
-        value: `Kicks a user and deletes all their messages in the past 7 days`,
+        value: client.language.getString("CMD_SOFTBAN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}unban`,
-        value: `unBans a member from the server`,
+        value: client.language.getString("CMD_UNBAN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}kick`,
-        value: `Kick a member from the server`,
+        value: client.language.getString("CMD_KICK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}dm`,
-        value: `Dms someone in the server with message`,
+        value: client.language.getString("CMD_DM_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}warn`,
-        value: `Warn a user in the server!`,
+        value: client.language.getString("CMD_WARN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}warnings`,
-        value: `Display the mentioned user warns list and ids`,
+        value: client.language.getString("CMD_WARNINGS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}removewarn`,
-        value: `Remove a user warn from the warns list by the id`,
+        value: client.language.getString("CMD_REMOVE_WARN_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}say`,
-        value: `The bot will repeat what you say`,
+        value: client.language.getString("CMD_SAY_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}embed`,
-        value: `The bot will repeat what you say with embed`,
+        value: client.language.getString("CMD_EMBED_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}embedsetup`,
-        value: `Display the setup embed message!`,
+        value: client.language.getString("CMD_EMBED_SETUP_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}respond`,
-        value: `Respond to a user suggestion in the server.`,
+        value: client.language.getString("CMD_RESPOND_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}nick`,
-        value: `Changes the nickname of a member`,
+        value: client.language.getString("CMD_NICKNAME_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}slowmo`,
-        value: `Adding slowmotion chat to a channel`,
+        value: client.language.getString("CMD_SLOWMO_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}nuke`,
-        value: `Nuke any channel (this will delete all the channel and create newone!)`,
+        value: client.language.getString("CMD_NUKE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}mute/unmute`,
-        value: `Mute/Unmute someone from texting!`,
+        value: client.language.getString("CMD_MUTE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}timeout`,
-        value: `Timeout the user for temporarily time to not chat or react or connect to voice channels!`,
+        value: client.language.getString("CMD_TIMEOUT_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}lock`,
-        value: `Lock the permissions for @everyone from talking in the channel`,
+        value: client.language.getString("CMD_LOCK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}unlock`,
-        value: `Unlock the permissions for @everyone from talking in the channel`,
+        value: client.language.getString("CMD_UNLOCK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}voicekick`,
-        value: `Kick all users that are connected to the current channel`,
+        value: client.language.getString("CMD_VOICE_KICK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}clear`,
-        value: `Clear/Delete message with quantity you want (from 2 to 100)`,
+        value: client.language.getString("CMD_CLEAR_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}purge`,
-        value: `Clear messages of the user with quantity you want (from 2 to 100)`,
+        value: client.language.getString("CMD_PURGE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}infraction`,
-        value: `To enable/disable/Edit infraction point protection system!`,
+        value: client.language.getString("CMD_INFRACTION_DESC", interaction.guild.id),
       }
     ]);
-    const Fun = createCommandListEmbed("<a:pp434:836168673755660290> **Fun Commands**", [
+
+    const Fun = createCommandListEmbed(client.language.getString("HELP_FUN_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}8ball`,
-        value: `Ask the 8ball anything and it will answer`,
+        value: client.language.getString("CMD_8BALL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}clyde`,
-        value: `Send your message as clyed text message`,
+        value: client.language.getString("CMD_CLYDE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}fast`,
-        value: `Start playing fast typer game`,
+        value: client.language.getString("CMD_FAST_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}meme`,
-        value: `Gives random memes`,
+        value: client.language.getString("CMD_MEME_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}rps`,
-        value: `Playing rock/paper/scissors vs the bot`,
+        value: client.language.getString("CMD_RPS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}tweet`,
-        value: `Send your message as tweet message`,
+        value: client.language.getString("CMD_TWEET_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}guess`,
-        value: `Start playing new guess the number game.`,
+        value: client.language.getString("CMD_GUESS_DESC", interaction.guild.id),
       }
     ]);
-    const setup = createCommandListEmbed("<:MOD:836168687891382312> **Setup Commands**", [
+
+    const setup = createCommandListEmbed(client.language.getString("HELP_SETUP_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}setLogsch`,
-        value: `Setup the logs channel bot will send logs there!`,
+        value: client.language.getString("CMD_LOGS_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setReportch`,
-        value: `Setup the reports channel bot will send reports from users there!`,
+        value: client.language.getString("CMD_REPORT_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setSuggch`,
-        value: `Setup the suggestion channel bot will send suggestions from users there!`,
+        value: client.language.getString("CMD_SUGGESTION_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setwelcomech`,
-        value: `Setup the welcome channel bot will send message when user join there!`,
+        value: client.language.getString("CMD_WELCOME_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setleaverch`,
-        value: `Setup the leaver channel bot will send message when user join there!`,
+        value: client.language.getString("CMD_LEAVER_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setTicketch`,
-        value: `Setup the ticket category bot will create tickets channels from users there!`,
+        value: client.language.getString("CMD_TICKET_CHANNEL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setwelcomemsg`,
-        value: `To set the welcome (msg/embed)`,
+        value: client.language.getString("CMD_WELCOME_MSG_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setleavermsg`,
-        value: `To set the leaver (msg/embed)`,
+        value: client.language.getString("CMD_LEAVER_MSG_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}smRole`,
-        value: `Setup the select menu role list!`,
+        value: client.language.getString("CMD_SELECT_MENU_ROLE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}badwords`,
-        value: `Add/remove/show blacklisted words for the current guild.`,
+        value: client.language.getString("CMD_BAD_WORDS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}[cmd]toggle`,
-        value: `To toggle a cmd <off/on> from setup cmds!`,
+        value: client.language.getString("CMD_TOGGLE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}antilinktoggle`,
-        value: `To enable/disable Anti-Links protection!`,
+        value: client.language.getString("CMD_ANTILINK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setprefix`,
-        value: `To set the bot setprefix to another one!`,
+        value: client.language.getString("CMD_SET_PREFIX_DESC", interaction.guild.id),
       }
     ]);
-    const bot = createCommandListEmbed("<:Bot:841711382739157043> **Bot Commands**", [
+
+    const bot = createCommandListEmbed(client.language.getString("HELP_BOT_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}stats`,
-        value: `Show bot stats and informations`,
+        value: client.language.getString("CMD_STATS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}links`,
-        value: `Shows all bot special link vote/invite ..`,
+        value: client.language.getString("CMD_LINKS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}feedback`,
-        value: `To give a feedback about bot or to report bug`,
+        value: client.language.getString("CMD_FEEDBACK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}help`,
-        value: `Display main bot helplist embed.`,
+        value: client.language.getString("CMD_HELP_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}ping`,
-        value: `Shows the bot ping`,
+        value: client.language.getString("CMD_PING_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}uptime`,
-        value: `Show the bot uptime`,
+        value: client.language.getString("CMD_UPTIME_DESC", interaction.guild.id),
       }
     ]);
-    const level = createCommandListEmbed("<a:Up:853495519455215627> **LeveledRoles Commands**", [
+
+    const level = createCommandListEmbed(client.language.getString("HELP_LEVEL_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}leveltoggle`,
-        value: `To enable/disable levelRoles cmd`,
+        value: client.language.getString("CMD_LEVEL_TOGGLE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}rank`,
-        value: `Show your level & rank and your current and next xp`,
+        value: client.language.getString("CMD_RANK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}level-roles`,
-        value: `To show you all level roles in the guild`,
+        value: client.language.getString("CMD_LEVEL_ROLES_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}add-role`,
-        value: `Add a level role as a prize for users when they be active`,
+        value: client.language.getString("CMD_ADD_ROLE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}edit-level-role`,
-        value: `Edit the guild level role to another one`,
+        value: client.language.getString("CMD_EDIT_LEVEL_ROLE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}clearxp`,
-        value: `Clear the xp for a user in the server`,
+        value: client.language.getString("CMD_CLEAR_XP_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}remove-role`,
-        value: `Remove a level role from the list`,
+        value: client.language.getString("CMD_REMOVE_ROLE_DESC", interaction.guild.id),
       }
     ]);
-    const Eco = createCommandListEmbed("<a:ShinyMoney:877975108038324224> **Economy Commands**", [
+
+    const Eco = createCommandListEmbed(client.language.getString("HELP_ECONOMY_TITLE", interaction.guild.id), [
       {
         name: `${client.config.prefix}profile`,
-        value: `Shows your profile card!`,
+        value: client.language.getString("CMD_PROFILE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setbio`,
-        value: `Sets your profile card bio.`,
+        value: client.language.getString("CMD_SETBIO_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}setbirthday`,
-        value: `Sets your profile card birthday.`,
+        value: client.language.getString("CMD_SETBIRTHDAY_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}quest`,
-        value: `Refresh/Show current quests and the current progress.`,
+        value: client.language.getString("CMD_QUEST_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}credits`,
-        value: `To check your credits balance in wallet`,
+        value: client.language.getString("CMD_CREDITS_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}tip`,
-        value: `Send a tip for your friend!`,
+        value: client.language.getString("CMD_TIP_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}cookie`,
-        value: `To send cookie for a friend as a gift`,
+        value: client.language.getString("CMD_COOKIE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}beg`,
-        value: `Want to earn money some more? Why don\'t you try begging, maybe someone will give you.`,
+        value: client.language.getString("CMD_BEG_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}daily`,
-        value: `To get your daily reward`,
+        value: client.language.getString("CMD_DAILY_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}fish`,
-        value: `Take your fishingpole and start fishing`,
+        value: client.language.getString("CMD_FISH_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}mine`,
-        value: `What you know about mining down in the deep?`,
+        value: client.language.getString("CMD_MINE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}register`,
-        value: `To register a bank account`,
+        value: client.language.getString("CMD_REGISTER_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}bank`,
-        value: `To check your credits balance in wallet`,
+        value: client.language.getString("CMD_BANK_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}deposit`,
-        value: `Deposit credits from your wallet to safeguard`,
+        value: client.language.getString("CMD_DEPOSIT_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}withdraw`,
-        value: `Withdraw credits from your bank to your wallet`,
+        value: client.language.getString("CMD_WITHDRAW_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}inv`,
-        value: `Show your inventory items! (currently support mining only)`,
+        value: client.language.getString("CMD_INVENTORY_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}sell`,
-        value: `Sell item from your inventory and get some credits!`,
+        value: client.language.getString("CMD_SELL_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}market`,
-        value: `Open the economy market!`,
+        value: client.language.getString("CMD_MARKET_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}buy`,
-        value: `To buy items from the market`,
+        value: client.language.getString("CMD_BUY_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}use`,
-        value: `Equips an item from your inventory.`,
+        value: client.language.getString("CMD_USE_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}previewitem`,
-        value: `Check what you can buy from the shop.`,
+        value: client.language.getString("CMD_PREVIEW_ITEM_DESC", interaction.guild.id),
       },
       {
         name: `${client.config.prefix}leaderboard`,
-        value: `Get a list for the 10 richest users that using wolfy`,
+        value: client.language.getString("CMD_LEADERBOARD_DESC", interaction.guild.id),
       }
     ]);
 
-    const msg = await interaction.reply({
-      embeds: [help],
+    // Handle "all" command type
+    if (type && type == "all") {
+      const fields = [];
+      const groups = [];
+
+      for (let cmd of client.commands) {
+        cmd = cmd[1]
+        if (cmd.group) {
+          groups.push(cmd.group);
+        }
+      };
+
+      var uniqueArr = [...new Set(groups)]
+
+      for (let group of uniqueArr.filter(g => g.toLowerCase() !== 'unspecified' && g.toLowerCase() !== "developer")) {
+        fields.push({
+          name: group.charAt(0).toUpperCase() + group.slice(1).toLowerCase(), inline: true,
+          value: text.joinArray(client.commands.filter(x => x.group == group).map(x => `\`${x.name}\``))
+        });
+      };
+      const allCmds = new discord.EmbedBuilder()
+        .setColor('738ADB')
+        .setTitle(client.language.getString("HELP_ALL_COMMANDS_TITLE", interaction.guild.id))
+        .addFields(fields.sort((A, B) => B.value.length - A.value.length))
+        .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true }) })
+        .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+        .setDescription([
+          client.language.getString("HELP_ALL_COMMANDS_TIP", interaction.guild.id, { prefix: client.prefix })
+        ].join('\n'))
+
+      return await interaction.reply({ embeds: [allCmds], ephemeral: false });
+    }
+
+    // Handle specific command types
+    if (type) {
+      const responses = {
+        "info": { embeds: [info], ephemeral: true },
+        "search": { embeds: [search], ephemeral: true },
+        "util": { embeds: [Utl], ephemeral: true },
+        "mod": { embeds: [moderator], ephemeral: true },
+        "fun": { embeds: [Fun], ephemeral: true },
+        "setup": { embeds: [setup], ephemeral: true },
+        "bot": { embeds: [bot], ephemeral: true },
+        "level": { embeds: [level], ephemeral: true },
+        "eco": { embeds: [Eco], ephemeral: true }
+      };
+
+      return await interaction.reply(responses[type]);
+    }
+
+    // Default help with buttons
+    const msg = await interaction.reply({ 
+      embeds: [help], 
       components: rows,
+      fetchReply: true 
     });
 
-    const collector = msg.createMessageComponentCollector({
-      time: 1800000,
-      fetch: true,
+    // Create button collector
+    const collector = msg.createMessageComponentCollector({ 
+      time: 1800000, // 30 minutes
+      filter: i => i.user.id === interaction.user.id
     });
 
-    collector.on("collect", async (interaction) => {
-      const { customId, member, user } = interaction;
-
-      // Ensure interaction is from the correct member
-      if (member.id !== user.id) {
-        return interaction.deferUpdate();
-      }
-
-      // Define responses based on customId
+    collector.on('collect', async i => {
       const responses = {
         "1": { embeds: [info], ephemeral: true },
         "2": { embeds: [search], ephemeral: true },
@@ -617,27 +649,21 @@ module.exports = {
         "9": { embeds: [Eco], ephemeral: true },
       };
 
-      // Respond based on customId
-      if (responses[customId]) {
-        interaction.reply(responses[customId]);
+      if (responses[i.customId]) {
+        await i.deferUpdate();
+        await i.editReply(responses[i.customId]);
       }
     });
 
-    collector.on("end", (message) => {
-      // Disable all buttons
+    collector.on("end", () => {
       buttons.forEach(button => button.setDisabled(true));
-
-      // Create new rows with disabled buttons
-      const newrow = new ActionRowBuilder().addComponents(
-        ...buttons.slice(0, 5)
-      );
-      const newrow2 = new ActionRowBuilder().addComponents(
-        ...buttons.slice(5),
-      );
-
-      interaction
-        .editReply({ embeds: [help], components: [newrow, newrow2] })
-        .catch(() => null);
+      const newrow = new ActionRowBuilder().addComponents(...buttons.slice(0, 5));
+      const newrow2 = new ActionRowBuilder().addComponents(...buttons.slice(5));
+      
+      msg.edit({ 
+        embeds: [help], 
+        components: [newrow, newrow2] 
+      }).catch(() => null);
     });
   },
 };

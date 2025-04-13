@@ -30,21 +30,21 @@ module.exports = {
 
     if (!time || !ms(time)) {
       return message.channel.send({
-        embeds: [ErrorEmbed(`Error! You must provide a valid duration! \`${client.prefix}remind [time] [reason]\``)]
+        embeds: [ErrorEmbed(`You must provide a valid duration! \`${client.prefix}remind [time] [reason]\``)]
       });
     };
 
 
     if (!reason) {
       return message.channel.send({
-        embeds: [ErrorEmbed(`Error! Please state your reminder reason! \`${client.prefix}remind [time] [reason]\``)]
+        embeds: [ErrorEmbed(`Please state your reminder reason! \`${client.prefix}remind [time] [reason]\``)]
       });
     }
 
     const reminderTime = Date.now() + ms(time);
     if (isNaN(reminderTime)) {
       return message.channel.send({
-        embeds: [ErrorEmbed(`Error! Invalid time duration provided!`)]
+        embeds: [ErrorEmbed(`Invalid time duration provided!`)]
       });
     }
 

@@ -72,7 +72,7 @@ module.exports = {
         break;
       case "view":
         if (data.length == 0) {
-          await interaction.reply({ embeds: [ErrorEmbed("⚠ No release notes found!")] });
+          await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("RELEASE_NOTES_NONE", interaction.guild.id))] });
         } else {
           await data.forEach(async (value) => {
             const embed = new EmbedBuilder()
@@ -83,10 +83,13 @@ module.exports = {
               })
               .setDescription(
                 [
-                  `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`,
+                  client.language.getString("RELEASE_NOTES_TITLE", interaction.guild.id, { 
+                    username: client.user.username, 
+                    version: value.Version 
+                  }),
                   value.Title ? `${value.Title}` : ``,
-                  `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``,
-                  `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`,
+                  client.language.getString("RELEASE_NOTES_UPDATES", interaction.guild.id, { updates: value.Updates }),
+                  client.language.getString("RELEASE_NOTES_DATE", interaction.guild.id, { timestamp: Math.floor(value.Date / 1000) }),
                 ].join("\n\n")
               )
               .setFooter({

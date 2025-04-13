@@ -17,14 +17,17 @@ module.exports = {
 
         // Check if a game is already running in the guild
         if (currentGames[guild.id]) {
-            return interaction.reply({ content: `\\❌ There is a game already running in this guild!`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("CMD_GUESS_ALREADY_RUNNING", guild.id),
+                ephemeral: true 
+            });
         }
 
         const participants = [];
         const number = Math.floor(Math.random() * 499) + 1;
 
         await interaction.reply({
-            embeds: [InfoEmbed("<a:Right:877975111846731847> Guess the number game has started!\n\nHint:\n\`\`\`diff\n+ Try to guess the number that is between (1-500)\n- You have 30 seconds to find it!\n\`\`\`")]
+            embeds: [InfoEmbed(client.language.getString("CMD_GUESS_STARTED", guild.id))]
         });
 
         const filter = m => !m.author.bot;
@@ -47,9 +50,19 @@ module.exports = {
             }
 
             if (parsedNumber === number) {
+                const participantNames = participants.map(p => 
+                    guild.members.cache.get(p)?.user.username || 'Unknown'
+                ).join(", ");
+                
                 await interaction.followUp({
                     embeds: [SuccessEmbed(
-                        `<a:Fire:841321886365122660> **${msg.author.toString()}** WON the Game!\n\n<:star:888264104026992670> Game Stats:\n\`\`\`\n• Winner: ${msg.author.username}\n• Number: ${number}\n• Participants Count: ${participants.length}\n• Participants: ${participants.map(p => message.guild.members.cache.get(p)?.user.username || 'Unknown').join(", ")}\n\`\`\``
+                        client.language.getString("CMD_GUESS_WINNER", guild.id, {
+                            user: msg.author.toString(),
+                            username: msg.author.username,
+                            number: number,
+                            count: participants.length,
+                            participants: participantNames
+                        })
                     )]
                 });
                 return collector.stop(msg.author.username);
@@ -60,9 +73,9 @@ module.exports = {
             }
 
             if (parsedNumber < number) {
-                msg.reply(`<a:Nnno:853494186002481182> The number (\`${parsedNumber}\`) is Smaller than my number, try again!`);
+                msg.reply(client.language.getString("CMD_GUESS_SMALLER", guild.id, { number: parsedNumber }));
             } else if (parsedNumber > number) {
-                msg.reply(`<a:Nnno:853494186002481182> The number (\`${parsedNumber}\`) is Bigger than my number, try again!`);
+                msg.reply(client.language.getString("CMD_GUESS_BIGGER", guild.id, { number: parsedNumber }));
             }
         });
 
@@ -70,7 +83,7 @@ module.exports = {
             delete currentGames[guild.id];
             if (reason === "time") {
                 return interaction.followUp({
-                    embeds: [ErrorEmbed(`<:error:888264104081522698> You lose!\nThe number was: (\`${number}\`)`)]
+                    embeds: [ErrorEmbed(client.language.getString("CMD_GUESS_TIMEOUT", guild.id, { number: number }))]
                 });
             }
         });

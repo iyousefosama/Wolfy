@@ -1,18 +1,11 @@
 const schema = require('../../schema/reminder-Schema');
-const { EmbedBuilder } = require("discord.js");
+const { NotifyEmbed } = require("../modules/embeds");
 
 // Configuration
 const CONFIG = {
     GRACE_PERIOD: 300000,    // 5 minutes for late reminders
     CLEANUP_INTERVAL: 3600000 // 1 hour cleanup interval
 };
-
-// Embed template
-const reminderEmbed = (reason) => new EmbedBuilder()
-    .setTitle('⏰ Reminder!')
-    .setDescription(`You asked me to remind you about:\n**${reason}**`)
-    .setColor('Yellow')
-    .setTimestamp();
 
 // Send reminder and clean up
 const sendReminder = async (client, reminder) => {
@@ -23,10 +16,12 @@ const sendReminder = async (client, reminder) => {
             return;
         }
 
-        await user.send({ embeds: [reminderEmbed(reminder.reason)] })
-            .catch(() => console.log(`[Reminder] Failed to DM user ${reminder.userId}`));
+        await user.send({ 
+            embeds: [NotifyEmbed('⏰ Reminder!', `You asked me to remind you about:\n**${reminder.reason}**`)] 
+        }).catch(() => console.log(`[Reminder] Failed to DM user ${reminder.userId}`));
         
-        await schema.deleteOne({ _id: reminder._id });
+        // Mark as inactive instead of deleting
+        await schema.findByIdAndUpdate(reminder._id, { active: false });
     } catch (error) {
         console.error('[Reminder] Error sending reminder:', error);
     }
@@ -37,7 +32,7 @@ const setReminder = async (client, reminder) => {
     const delay = reminder.time - Date.now();
     
     if (delay <= 0 || isNaN(delay)) {
-        await schema.deleteOne({ _id: reminder._id });
+        await schema.findByIdAndUpdate(reminder._id, { active: false });
         return;
     }
 
@@ -49,6 +44,7 @@ const initReminders = async (client) => {
     try {
         const now = Date.now();
         const reminders = await schema.find({
+            active: true,
             $or: [
                 { time: { $gt: now } }, // Future reminders
                 { 
@@ -80,11 +76,13 @@ const initReminders = async (client) => {
 const startCleanupInterval = (client) => {
     setInterval(async () => {
         try {
-            const result = await schema.deleteMany({
-                time: { $lt: Date.now() - CONFIG.GRACE_PERIOD }
-            });
-            if (result.deletedCount > 0) {
-                console.log(`[Reminder] Cleaned up ${result.deletedCount} old reminders`);
+            const result = await schema.updateMany({
+                time: { $lt: Date.now() - CONFIG.GRACE_PERIOD },
+                active: true
+            }, { active: false });
+            
+            if (result.modifiedCount > 0) {
+                console.log(`[Reminder] Marked ${result.modifiedCount} old reminders as inactive`);
             }
         } catch (error) {
             console.error('[Reminder] Cleanup error:', error);
@@ -93,8 +91,8 @@ const startCleanupInterval = (client) => {
 };
 
 module.exports = {
+    sendReminder,
     setReminder,
     initReminders,
-    reminderEmbed,
     startCleanupInterval
 };

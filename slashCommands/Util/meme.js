@@ -13,6 +13,7 @@ module.exports = {
             "ReadMessageHistory"
         ],
         permissions: [],
+        deleted: true,
         options: [
             {
                 type: 5, // BOOLEAN
@@ -42,18 +43,25 @@ module.exports = {
             const memeUpvotes = memeData.ups; // Getting how many likes on the meme
             const memeDownvotes = memeData.downs; // Getting how many dislikes on the meme
             const memeNumComments = memeData.num_comments; // Getting how many comments on the meme
+            const subreddit = memeData.subreddit || 'meme';
 
             memeEmbed
                 .setTitle(memeTitle) // The title will be the meme title
                 .setURL(memeURL) // Setting the URL of the meme in the embed
                 .setImage(memeImage) // Setting the image in the embed
                 .setColor('#87ceeb') // Setting a random embed color
-                .setFooter({ text: `👍 ${memeUpvotes} | 👎 ${memeDownvotes} | 💬 ${memeNumComments}` });
+                .setDescription(client.language.getString("MEME_TITLE", interaction.guild.id, { subreddit }))
+                .setFooter({ 
+                    text: `${client.language.getString("MEME_UPVOTES", interaction.guild.id, { upvotes: memeUpvotes })} | ${client.language.getString("MEME_COMMENTS", interaction.guild.id, { comments: memeNumComments })}`
+                });
 
             interaction.reply({ embeds: [memeEmbed], ephemeral: hide }); // Sending the embed
         } catch (error) {
             console.error('Error fetching meme:', error);
-            interaction.reply({ content: 'There was an error fetching a meme. Please try again later.', ephemeral: true });
+            interaction.reply({ 
+                content: client.language.getString("MEME_ERROR", interaction.guild.id, { user: interaction.user }),
+                ephemeral: true 
+            });
         }
     },
 };

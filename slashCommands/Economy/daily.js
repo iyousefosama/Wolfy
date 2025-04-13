@@ -32,9 +32,9 @@ module.exports = {
         });
       }
     } catch (err) {
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      interaction.reply({
+        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+      });
       return client.logDetailedError({
         error: err,
         eventType: "DATABASE_ERR",
@@ -46,12 +46,13 @@ module.exports = {
 
     if (data.timer.daily.timeout > now) {
       const embed = new discord.EmbedBuilder()
-        .setTitle(`<a:ShinyCoin:853495846984876063> daily already Claimed!`)
+        .setTitle(client.language.getString("ECONOMY_DAILY_ALREADY_TITLE", interaction.guild?.id))
         .setDescription(
-          `\\❌ **${interaction.user.tag
-          }**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in \`${moment
-            .duration(data.timer.daily.timeout - now, "milliseconds")
-            .format("H [hours,] m [minutes, and] s [seconds]")}\``
+          client.language.getString("ECONOMY_DAILY_ALREADY_DESC", interaction.guild?.id, {
+            username: interaction.user.tag,
+            time: moment.duration(data.timer.daily.timeout - now, "milliseconds")
+              .format("H [hours,] m [minutes, and] s [seconds]")
+          })
         )
         .setFooter({
           text: interaction.user.username,
@@ -113,7 +114,9 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`,
+          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
+            reward: quest.reward 
+          }),
         });
       }
       data.timer.daily.timeout = Date.now() + duration;
@@ -122,21 +125,26 @@ module.exports = {
         .save()
         .then(() => {
           const embed = new discord.EmbedBuilder()
-            .setTitle(`<a:ShinyCoin:853495846984876063> Claimed daily!`)
+            .setTitle(client.language.getString("ECONOMY_DAILY_CLAIMED_TITLE", interaction.guild?.id))
             .setDescription(
-              [
-                `<a:ShinyMoney:877975108038324224> **${interaction.user.tag
-                }**, You received **${Math.floor(amount)}** from daily reward!`,
-                itemreward
-                  ? `\n\\✔️  You received: **${item.name} - ${item.description}** from daily rewards.`
+              client.language.getString("ECONOMY_DAILY_CLAIMED_DESC", interaction.guild?.id, {
+                username: interaction.user.tag,
+                amount: Math.floor(amount),
+                item_reward: itemreward 
+                  ? client.language.getString("ECONOMY_DAILY_ITEM_REWARD", interaction.guild?.id, {
+                      item_name: item.name,
+                      item_desc: item.description
+                    })
                   : "",
-                streakreset
-                  ? `\n⚠️ **Streak Lost**: You haven't got your succeeding daily reward.`
-                  : `\n<:fire:939372984274157689> Current Daily Streak (\`x${data.streak.current}\`)`,
-              ].join("")
+                streak_status: streakreset
+                  ? client.language.getString("ECONOMY_DAILY_STREAK_LOST", interaction.guild?.id)
+                  : client.language.getString("ECONOMY_DAILY_STREAK_CURRENT", interaction.guild?.id, {
+                      streak: data.streak.current
+                    })
+              })
             )
             .setFooter({
-              text: `You can claim your daily after 24h.`,
+              text: client.language.getString("ECONOMY_DAILY_FOOTER", interaction.guild?.id),
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 size: 2048,
@@ -146,9 +154,11 @@ module.exports = {
           interaction.reply({ embeds: [embed] });
         })
         .catch((err) =>
-          interaction.reply(
-            `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err.message}`
-          )
+          interaction.reply({
+            content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, { 
+              error: err.message 
+            })
+          })
         );
     }
   },

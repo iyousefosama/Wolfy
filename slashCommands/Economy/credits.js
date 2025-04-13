@@ -52,9 +52,9 @@ module.exports = {
         });
       }
     } catch (err) {
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      interaction.reply({
+        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+      });
       return client.logDetailedError({
         error: err,
         eventType: "DATABASE_ERR",
@@ -68,20 +68,25 @@ module.exports = {
       data.timer.daily.timeout - Date.now() > 0;
     const bal = new discord.EmbedBuilder()
       .setAuthor({
-        name: `${user.username}'s wallet`,
+        name: client.language.getString("ECONOMY_WALLET_TITLE", interaction.guild?.id, { username: user.username }),
         iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }),
       })
       .setColor("Grey")
       .setDescription(
-        `<a:ShinyMoney:877975108038324224> Credits balance is \`${text.commatize(
-          credits
-        )}\`!\n${data.Bank.balance.credits !== null
-          ? `🏦 Bank balance is \`${text.commatize(bank)}\`!`
-          : `\\❌ **${user.tag}**, Don't have a *bank* yet! To create one, type \`${prefix}register\`.`
-        }\n\n━━━━━━━━━━━━━━\n${dailyUsed
-          ? "<:Success:888264105851490355> Daily reward is **claimed**!"
-          : `\\⚠️ Daily reward is **avaliable**!`
-        }`
+        client.language.getString("ECONOMY_WALLET_DESCRIPTION", interaction.guild?.id, {
+          credits: text.commatize(credits),
+          bank_balance: data.Bank.balance.credits !== null
+            ? client.language.getString("ECONOMY_BANK_BALANCE", interaction.guild?.id, { 
+                balance: text.commatize(bank) 
+              })
+            : client.language.getString("ECONOMY_NO_BANK", interaction.guild?.id, { 
+                username: user.tag, 
+                prefix: client.prefix 
+              }),
+          daily_status: dailyUsed
+            ? client.language.getString("ECONOMY_DAILY_CLAIMED", interaction.guild?.id)
+            : client.language.getString("ECONOMY_DAILY_AVAILABLE", interaction.guild?.id)
+        })
       )
       .setFooter({
         text: interaction.user.tag,

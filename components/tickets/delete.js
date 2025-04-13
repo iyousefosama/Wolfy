@@ -24,14 +24,25 @@ module.exports = {
             });
 
             if (!ticket) {
-                return interaction.channel.send(`\\❌ I can't find this ticket \`data\` in the database!`);
+                return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id));
             }
 
             if (!ticket.IsClosed) {
-                return interaction.followUp({ embeds: [ErrorEmbed('Ticket should be closed before it can be deleted')], ephemeral: true });
+                return interaction.followUp({ 
+                    embeds: [ErrorEmbed(client.language.getString("TICKET_DELETE_NOT_CLOSED", interaction.guild.id, { default: 'Ticket should be closed before it can be deleted' }))], 
+                    ephemeral: true 
+                });
             }
 
-            await interaction.channel.send({ embeds: [ErrorEmbed('Ticket will be deleted in `5 seconds`!').setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })] });
+            await interaction.channel.send({ 
+                embeds: [
+                    ErrorEmbed(client.language.getString("TICKET_DELETE_COUNTDOWN", interaction.guild.id, { default: 'Ticket will be deleted in `5 seconds`!' }))
+                    .setAuthor({ 
+                        name: interaction.user.username, 
+                        iconURL: interaction.user.displayAvatarURL({ dynamic: true }) 
+                    })
+                ] 
+            });
 
             setTimeout(async () => {
                 try {
@@ -46,28 +57,55 @@ module.exports = {
                             languageId: "text",
                         },
                     ], {
-                        title: `Chat transcript for ${interaction.channel.name}`,
+                        title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guild.id, { 
+                            channel: interaction.channel.name,
+                            default: `Chat transcript for ${interaction.channel.name}`
+                        }),
                         description: " ",
                     });
 
                     const TicketUser = await interaction.guild.members.fetch(ticket.UserId).catch(() => null);
 
                     const fields = [
-                        { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
-                        { name: "Opened by", value: `${TicketUser.user.tag}`, inline: true },
-                        { name: "Closed by", value: `${interaction.user.tag}`, inline: true },
-                        { name: "Opened At", value: `<t:${ticket.OpenTimeStamp}>`, inline: true }
+                        { 
+                            name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guild.id, { default: "Ticket transcript" }), 
+                            value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guild.id, { default: "View" })}](${response.url})`, 
+                            inline: true 
+                        },
+                        { 
+                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guild.id, { default: "Opened by" }), 
+                            value: `${TicketUser.user.tag}`, 
+                            inline: true 
+                        },
+                        { 
+                            name: client.language.getString("TICKET_TRANSCRIPT_CLOSED_BY", interaction.guild.id, { default: "Closed by" }), 
+                            value: `${interaction.user.tag}`, 
+                            inline: true 
+                        },
+                        { 
+                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guild.id, { default: "Opened At" }), 
+                            value: `<t:${ticket.OpenTimeStamp}>`, 
+                            inline: true 
+                        }
                     ];
 
                     if (ticket.claimedBy) {
                         const mod = await interaction.guild.members.fetch(ticket.claimedBy).catch(() => null);
-                        fields.push({ name: "Claimed by", value: `${mod.user.username}`, inline: true });
+                        fields.push({ 
+                            name: client.language.getString("TICKET_TRANSCRIPT_CLAIMED_BY", interaction.guild.id, { default: "Claimed by" }), 
+                            value: `${mod.user.username}`, 
+                            inline: true 
+                        });
                     }
 
                     const closedEmbed = new EmbedBuilder()
                         .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
-                        .setTitle("Ticket Closed.")
-                        .setDescription(`<:Tag:836168214525509653> Ticket ${interaction.channel.name} at ${interaction.guild.name} has been closed!`)
+                        .setTitle(client.language.getString("TICKET_TRANSCRIPT_EMBED_TITLE", interaction.guild.id, { default: "Ticket Closed." }))
+                        .setDescription(client.language.getString("TICKET_TRANSCRIPT_EMBED_DESC", interaction.guild.id, { 
+                            channel: interaction.channel.name, 
+                            guild: interaction.guild.name,
+                            default: `<:Tag:836168214525509653> Ticket ${interaction.channel.name} at ${interaction.guild.name} has been closed!`
+                        }))
                         .addFields(fields)
                         .setTimestamp()
                         .setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
@@ -80,12 +118,14 @@ module.exports = {
                     await interaction.channel.delete();
                 } catch (err) {
                     console.error(err);
-                    interaction.followUp(`\\❌ [\`${err.name}\`]: An error occurred, please try again!`);
+                    interaction.followUp(client.language.getString("ERROR_EXEC", interaction.guild.id));
                 }
             }, 5000);
         } catch (err) {
             console.error(err);
-            interaction.followUp({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}` });
+            interaction.followUp({ 
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }) 
+            });
         }
     },
 };

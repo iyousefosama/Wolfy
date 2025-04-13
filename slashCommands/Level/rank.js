@@ -59,14 +59,19 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+      return interaction.reply(
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
       );
     }
+    
     if (!data.Mod.Level.isEnabled)
       return interaction.reply({
-        content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${prefix}leveltoggle\` command.`,
+        content: client.language.getString("LEVEL_DISABLED", interaction.guild.id, { 
+          displayName: interaction.member.displayName,
+          prefix: client.prefix
+        }),
       });
+      
     let ecodata;
     let Userdata;
     try {
@@ -83,14 +88,16 @@ module.exports = {
         });
         if (!Userdata || Userdata == null || Userdata == undefined) {
           return interaction.channel.send({
-            content: `\\❌ **${interaction.member.displayName}**, This member didn't get xp yet!`,
+            content: client.language.getString("LEVEL_NO_XP", interaction.guild.id, { 
+              displayName: interaction.member.displayName 
+            }),
           });
         }
       }
     } catch (err) {
       console.log(err);
       return interaction.channel.send(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
       );
     }
     var status = member.presence?.status;

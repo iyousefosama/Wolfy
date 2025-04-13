@@ -33,7 +33,7 @@ module.exports = {
 
     if (!quantity || quantity < 2 || quantity > 100) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)`,
+        content: client.language.getString("CLEAR_QUANTITY", interaction.guild.id),
         ephemeral: true
       });
     }
@@ -89,7 +89,7 @@ module.exports = {
 
         return await interaction.channel
           .send({
-            content: `<a:Mod:853496185443319809> | ${interaction.user}, Successfully deleted \`${count}\` messages from this channel!`,
+            content: client.language.getString("CLEAR_SUCCESS", guild.id, { count: count }),
           })
           .then((msg) => {
             setTimeout(() => {

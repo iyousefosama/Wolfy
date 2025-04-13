@@ -50,14 +50,15 @@ module.exports = {
         });
       }
     } catch (err) {
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      interaction.reply({
+        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        ephemeral: true
+      });
       return client.logDetailedError({
         error: err,
         eventType: "DATABASE_ERR",
         interaction: interaction
-      })
+      });
     }
 
     const now = Date.now();
@@ -85,9 +86,11 @@ module.exports = {
       );
       data.progress.TimeReset = Math.floor(now + duration);
       await data.save();
-      return interaction.reply(
-        `\\✔️ **${interaction.user.tag}**, Successfully refreshed the quests`
-      );
+      return interaction.reply({
+        content: client.language.getString("ECONOMY_QUEST_REFRESHED", interaction.guild?.id, { 
+          username: interaction.user.tag 
+        })
+      });
     }
 
     if (option && option == "claim_daily_reward") {
@@ -98,24 +101,30 @@ module.exports = {
             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
           })
           .setDescription(
-            [
-              `<:error:888264104081522698> You didn't complete your quests yet!\n`,
-              data.progress.completed
-                ? `:warning: Currently you completed ${data.progress.completed} out of 4 from your daily quests.`
-                : "",
-            ].join("")
+            client.language.getString("ECONOMY_QUEST_NOT_COMPLETED", interaction.guild?.id, {
+              completed: data.progress.completed,
+              completed_message: data.progress.completed
+                ? client.language.getString("ECONOMY_QUEST_PARTIAL_COMPLETE", interaction.guild?.id, {
+                    completed: data.progress.completed
+                  })
+                : ""
+            })
           )
           .setFooter({
-            text:
-              interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`,
+            text: client.language.getString("FOOTER_COPYRIGHT", interaction.guild?.id, {
+              user_tag: interaction.user.tag,
+              year: new Date().getFullYear()
+            }),
             iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setTimestamp();
         return interaction.reply({ embeds: [NotNow] });
       } else if (data.progress.claimed) {
-        return interaction.reply(
-          `\\❌ **${interaction.user.tag}**, You already claimed your reward today!`
-        );
+        return interaction.reply({
+          content: client.language.getString("ECONOMY_QUEST_ALREADY_CLAIMED", interaction.guild?.id, { 
+            username: interaction.user.tag 
+          })
+        });
       }
       let moneyget = Math.floor(500);
       const rewardables = market.filter((x) => ![5, 20].includes(x.id));
@@ -136,22 +145,21 @@ module.exports = {
         .save()
         .then(() => {
           const embed = new discord.EmbedBuilder()
-            .setTitle(
-              `<a:ShinyCoin:853495846984876063> Claimed your daily quests reward!`
-            )
+            .setTitle(client.language.getString("ECONOMY_QUEST_CLAIM_TITLE", interaction.guild?.id))
             .setDescription(
-              [
-                `<a:ShinyMoney:877975108038324224> **${interaction.user.tag
-                }**, You received **${Math.floor(
-                  moneyget
-                )}** from daily quests reward!`,
-                itemreward
-                  ? `\n\\✔️  You received: **${item.name} - ${item.description}**.`
-                  : "",
-              ].join("")
+              client.language.getString("ECONOMY_QUEST_CLAIM_DESC", interaction.guild?.id, {
+                username: interaction.user.tag,
+                amount: Math.floor(moneyget),
+                item_reward: itemreward
+                  ? client.language.getString("ECONOMY_QUEST_ITEM_REWARD", interaction.guild?.id, {
+                      item_name: item.name,
+                      item_desc: item.description
+                    })
+                  : ""
+              })
             )
             .setFooter({
-              text: `You can claim your daily request every day after completing your requests`,
+              text: client.language.getString("ECONOMY_QUEST_CLAIM_FOOTER", interaction.guild?.id),
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 size: 2048,
@@ -161,9 +169,12 @@ module.exports = {
           return interaction.reply({ embeds: [embed] });
         })
         .catch((err) =>
-          interaction.reply(
-            `\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later! ${err}`
-          )
+          interaction.reply({
+            content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, { 
+              error: err.message 
+            }),
+            ephemeral: true
+          })
         );
     }
     const QuestEmbed = new Pages(
@@ -173,19 +184,20 @@ module.exports = {
             name: interaction.user.username,
             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
           })
-          .setTitle("Daily Quests")
+          .setTitle(client.language.getString("ECONOMY_QUEST_TITLE", interaction.guild?.id))
           .setDescription(
-            `Your daily quests will be refreshed in \`${moment
-              .duration(data.progress.TimeReset - now, "milliseconds")
-              /*.format("h [hrs], m [min], and s [sec]")*/
-              .format("hh:mm:ss")}\`\nYou completed ${data.progress.completed
-            } out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix
-            }quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`
+            client.language.getString("ECONOMY_QUEST_DESCRIPTION", interaction.guild?.id, {
+              refresh_time: moment.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss"),
+              completed: data.progress.completed,
+              prefix: client.prefix
+            })
           )
           .setThumbnail("attachment://treasure.png")
           .setFooter({
-            text:
-              interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`,
+            text: client.language.getString("FOOTER_COPYRIGHT", interaction.guild?.id, {
+              user_tag: interaction.user.tag,
+              year: new Date().getFullYear()
+            }),
             iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .addFields(
@@ -199,11 +211,14 @@ module.exports = {
                 return {
                   inline: false,
                   name:
-                    quest.name +
-                    ` (${dataquest.current}/${dataquest.progress})`,
-                  value: [
-                    `**Rewards:** <a:ShinyMoney:877975108038324224> \`${quest.reward}\` credits`,
-                  ].join("\n"),
+                    client.language.getString("ECONOMY_QUEST_NAME_FORMAT", interaction.guild?.id, {
+                      quest_name: quest.name,
+                      current: dataquest.current,
+                      total: dataquest.progress
+                    }),
+                  value: client.language.getString("ECONOMY_QUEST_REWARDS", interaction.guild?.id, {
+                    amount: quest.reward
+                  }),
                 };
               })
           );

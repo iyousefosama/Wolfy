@@ -38,25 +38,25 @@ module.exports = {
             .catch(() => interaction.member);
 
         if (!member) {
-            return interaction.reply({ content: `\\❌ User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guild.id), ephemeral: true });
         } else if (member.id === client.user.id) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for me!`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
         } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname of the owner!`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
         } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: `\\❌ You cannot change nickname for my developer through me!`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
         } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-            return interaction.reply({ content: `\\❌ You can't change nickname for that user! He/She has a higher role than yours`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
         };
 
         if (!nickname) {
             return member.setNickname(null, `Wolfy Nickname: ${interaction.user.username}`)
-                .then(() => interaction.reply(`\\✔️ Successfully reseted the nickname for **${member.user.username}**!`))
-                .catch(() => interaction.reply(`\\❌ Unable to change the nickname for **${member.user.username}**!`));
+                .then(() => interaction.reply(client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "NICKNAME", target: member.user.username })))
+                .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "NICKNAME" })));
         }
 
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
-            .then(() => interaction.reply({ content: `\\✔️ Successfully changed **${member.user.username}** nickname to \`${nickname}\`!` }))
-            .catch(() => interaction.reply(`\\❌ Unable to change the nickname for **${member.user.username}**!`));
+            .then(() => interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "NICKNAME", target: member.user.username }) }))
+            .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "NICKNAME" })));
     },
 };

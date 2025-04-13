@@ -29,7 +29,10 @@ module.exports = {
       });
       if (!data || !data.Mod.Level.isEnabled) {
         return await interaction.editReply({
-          content: `\\❌ **${interaction.member.displayName}**, The **levels** command is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+          content: client.language.getString("LEVEL_DISABLED", interaction.guild.id, { 
+            displayName: interaction.member.displayName,
+            prefix: client.prefix
+          }),
         });
       }
 
@@ -66,9 +69,9 @@ module.exports = {
 
       const lb = new LeaderboardBuilder()
         .setHeader({
-          title: interaction.guild.name,
+          title: client.language.getString("LEADERBOARD_TITLE", interaction.guild.id, { guildName: interaction.guild.name }),
           image: interaction.guild.iconURL({ dynamic: true, extension: "png" }) || "", // Valid guild icon URL or empty string
-          subtitle: `${interaction.guild.memberCount} members`,
+          subtitle: client.language.getString("LEADERBOARD_SUBTITLE", interaction.guild.id, { memberCount: interaction.guild.memberCount }),
         })
         .setBackgroundColor("#808080")
         .adjustCanvas()
@@ -90,7 +93,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       return await interaction.editReply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
       );
     }
   },

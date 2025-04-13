@@ -27,7 +27,12 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [
+              { name: "block message", value: 1 }, 
+              { name: "send alert", value: 2 }, 
+              { name: "Timeout", value: 3 }, 
+              { name: "prevents a member from using text, voice, or other interactions", value: 4 }
+            ]
           },
           {
             type: 7, // CHANNEL
@@ -45,7 +50,12 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "Send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [
+              { name: "block message", value: 1 }, 
+              { name: "Send alert", value: 2 }, 
+              { name: "Timeout", value: 3 }, 
+              { name: "prevents a member from using text, voice, or other interactions", value: 4 }
+            ]
           },
           {
             type: 7, // CHANNEL
@@ -69,7 +79,12 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [
+              { name: "block message", value: 1 }, 
+              { name: "send alert", value: 2 }, 
+              { name: "Timeout", value: 3 }, 
+              { name: "prevents a member from using text, voice, or other interactions", value: 4 }
+            ]
           },
           {
             type: 7, // CHANNEL
@@ -93,7 +108,12 @@ module.exports = {
             type: 4, // INTEGER
             name: 'action',
             description: 'Action you want to perform when the keyword is detected',
-            choices: [{ name: "block message", value: 1 }, { name: "send alert", value: 2 }, { name: "Timeout", value: 3 }, { name: "prevents a member from using text, voice, or other interactions", value: 4 }]
+            choices: [
+              { name: "block message", value: 1 }, 
+              { name: "send alert", value: 2 }, 
+              { name: "Timeout", value: 3 }, 
+              { name: "prevents a member from using text, voice, or other interactions", value: 4 }
+            ]
           },
           {
             type: 7, // CHANNEL
@@ -139,7 +159,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: `⚠️ This message was blocked by ${client.user.username}, as it contains profanity, sexual content, or slurs!`,
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guild.id, { bot: client.user.username }),
               },
             },
           ],
@@ -151,22 +171,26 @@ module.exports = {
             .edit(existingFlaggedRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         } else {
           guild.autoModerationRules
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         }
         break;
@@ -189,7 +213,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: `⚠️ Spamming messages is not allowed in this server!`,
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_SPAM", interaction.guild.id),
               },
             },
           ],
@@ -201,34 +225,38 @@ module.exports = {
             .edit(existingSpamMsgRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         } else {
           guild.autoModerationRules
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         }
         break;
       case "mention-limit":
         // Fetch existing rules
-        const existingMentionLimitRule = Rules.find(
+        const existingMentionRule = Rules.find(
           (rule) => rule.triggerType === 5
         );
 
         // Rule data to create or update
         ruleData = {
-          name: `mentions spam prevention by ${client.user.username}`,
+          name: `Mention spam protection by ${client.user.username}`,
           creatorId: interaction.user.id,
           enabled: true,
           eventType: 1,
@@ -241,52 +269,57 @@ module.exports = {
               type: action,
               metadata: {
                 channel: channel,
-                duration: 10,
-                customMessage: `⚠️ Mentions spam is not allowed in this server!`,
+                durationSeconds: 10,
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_MENTIONS", interaction.guild.id),
               },
             },
           ],
-        };
+        }
 
         // If a rule exists, update it; otherwise, create a new one
-        if (existingMentionLimitRule) {
+        if (existingMentionRule) {
           guild.autoModerationRules
-            .edit(existingMentionLimitRule.id, ruleData)
+            .edit(existingMentionRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\``
+                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         } else {
           guild.autoModerationRules
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
+                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
-              return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
             });
         }
         break;
       case "keywords":
         // Fetch existing rules
-        const existingKeywordFilterRules = Rules.filter(
+        const existingKeywordRule = Rules.find(
           (rule) => rule.triggerType === 1
         );
 
+        // Rule data to create or update
         ruleData = {
-          name: `Blocked keywords protection by ${client.user.username}`,
+          name: `Keywords protection by ${client.user.username}`,
           creatorId: interaction.user.id,
           enabled: true,
           eventType: 1,
           triggerType: 1,
           triggerMetadata: {
-            keywordFilter: keyword.split(", "),
+            keywordFilter: keyword.split(",").map((word) => word.trim()),
           },
           actions: [
             {
@@ -294,81 +327,40 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: `⚠️ This message was blocked by \`${client.user.username}\`, as it contains blocked keywords!`,
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guild.id, { bot: client.user.username }),
               },
             },
           ],
         }
 
-        // Check if the number of existing rules with triggerType 1 exceeds the limit
-        if (existingKeywordFilterRules.size >= 6) {
-          const options = existingKeywordFilterRules.map(rule => ({
-            label: rule.name,
-            value: rule.id
-          }));
-
-          const selectMenu = new StringSelectMenuBuilder()
-            .setCustomId("collect_menu_selectRule")
-            .setPlaceholder('Select a rule to edit')
-            .addOptions(options);
-
-          const row = new ActionRowBuilder().addComponents(selectMenu);
-
-          const response = await interaction.editReply({
-            content: `\\❌ You cannot create more than 6 keyword filter rules! Please select an existing rule to edit:`,
-            components: [row]
-          });
-          // Set up a collector to listen for user selection
-          const collector = response.createMessageComponentCollector({
-            componentType: ComponentType.StringSelect,
-            time: 60000, // 60 seconds timeout
-          });
-
-          // Listen for user selection
-          collector.on('collect', async (selectInteraction) => {
-            if (selectInteraction.user.id !== interaction.user.id) return; // Ensure only the original user can interact
-
-            const selectedRuleId = selectInteraction.values[0];
-
-            guild.autoModerationRules
-              .edit(selectedRuleId, ruleData)
-              .then(async (result) => {
-                await interaction.editReply({
-                  content: `\\✔️ Successfully updated the auto-moderation rule for \`${guild.name}\` with id: \`${selectedRuleId}\``,
-                  components: []
-                });
-              })
-              .catch(async (err) => {
-                return await interaction.editReply(`❌ There was an error while updating the auto-moderation rule: ${err.message}`);
-              });
-
-            collector.stop(); // Stop listening for further interactions
-          });
-
-          // Handle collector timeout
-          collector.on('end', (collected, reason) => {
-            if (reason === 'time') {
-              interaction.editReply({
-                content: 'Interaction timed out. Please try again.',
-                components: [],
-              });
-            }
-          });
-
-          return;
+        // If a rule exists, update it; otherwise, create a new one
+        if (existingKeywordRule) {
+          guild.autoModerationRules
+            .edit(existingKeywordRule.id, ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
+            });
+        } else {
+          guild.autoModerationRules
+            .create(ruleData)
+            .then(async (result) => {
+              await interaction.editReply(
+                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+              );
+            })
+            .catch(async (err) => {
+              return await interaction.editReply(
+                client.language.getString("ERROR_EXEC", interaction.guild.id)
+              );
+            });
         }
-
-        // Create the new rule
-        guild.autoModerationRules
-          .create(ruleData)
-          .then(async (result) => {
-            await interaction.editReply(
-              `\\✔️ Successfully created the new auto-moderation rule for \`${guild.name}\``
-            );
-          })
-          .catch(async (err) => {
-            return await interaction.editReply(`❌ There was an error while creating the new auto-moderation rule: ${err.message}`);
-          });
         break;
     }
   },

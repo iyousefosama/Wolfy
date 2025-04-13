@@ -15,17 +15,34 @@ module.exports = {
         const language = wolfyLanguages.find((lang) => lang.code === choice);
 
         if (!language) {
-            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("LANGUAGE_404", interaction.guild.id))], ephemeral: true });
+            return interaction.reply({ 
+                embeds: [ErrorEmbed(client.language.getString("LANGUAGE_404", interaction.guild.id))], 
+                ephemeral: true 
+            });
         };
 
-        await schema.findOneAndUpdate({ GuildID: interaction.guild.id }, { Language: choice }, { upsert: true }).then(() => {
+        await schema.findOneAndUpdate(
+            { GuildID: interaction.guild.id }, 
+            { Language: choice }, 
+            { upsert: true }
+        )
+        .then(() => {
             client.language.languageCache.set(interaction.guild.id, choice);
-            return interaction.reply({ embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guild.id, {client: client.user.username, language: `${language.flag} ${language.name}`}))], ephemeral: true });
-        }
-        ).catch((err) => {
+            return interaction.reply({ 
+                embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guild.id, {
+                    client: client.user.username, 
+                    language: `${language.flag} ${language.name}`
+                }))], 
+                ephemeral: true 
+            });
+        })
+        .catch((err) => {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
-            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild.id))], ephemeral: true });
+            return interaction.reply({ 
+                embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild.id))], 
+                ephemeral: true 
+            });
         });
     },
 };

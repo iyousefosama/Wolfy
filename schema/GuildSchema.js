@@ -37,7 +37,7 @@ const guildSchema = new mongoose.Schema({
     Tickets: {
       isEnabled: { type: Boolean, default: false },
       channel: { type: String, default: null },
-      type: { type: String, default: 'default' }
+      type: { type: String, default: 'global' }
     },
     Logs: {
       isEnabled: { type: Boolean, default: false },

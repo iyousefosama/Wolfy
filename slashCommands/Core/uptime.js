@@ -28,7 +28,12 @@ module.exports = {
         let time = ms(client.uptime);
         var uptime = new discord.EmbedBuilder()
             .setColor(`DarkGreen`)
-            .setDescription(`<a:pp399:768864799625838604> **I have been online for \`${time.days}\` days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`);
+            .setDescription(client.language.getString("UPTIME", interaction.guild.id, {
+                days: time.days,
+                hours: time.hours,
+                minutes: time.minutes,
+                seconds: time.seconds
+            }));
         var msg = interaction.reply({ embeds: [uptime], ephemeral: hide });
     },
 };

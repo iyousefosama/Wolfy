@@ -37,28 +37,28 @@ module.exports = {
         const reason = options.getString("message");
         
         if (!channel) {
-            return interaction.reply({ content: `\\❌ Please provide a valid channel ID.`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("NOT_VALIDID", interaction.guildId, { group: "CHANNEL" }), ephemeral: true });
         } else if (!channel.permissionsFor(guild.members.me).has('ManageChannels')) {
-            return interaction.reply({ content: `\\❌ I need permission to manage channels in ${channel}.`, ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MANAGE", interaction.guildId, { group: "CHANNEL"}), ephemeral: true });
         }
         
         // Check if channel is already locked
         if (!channel.permissionsFor(guild.roles.everyone).has('SendMessages')) {
-            return interaction.reply({ embeds: [ErrorEmbed(`\\❌ The channel ${channel} is already locked.`)], ephemeral: true });
+            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("LOCKED_UNLOCKED_ALREADY", interaction.guildId, { action_done: "LOCK" }))], ephemeral: true });
         }
         
         // Proceed to lock the channel
         return channel.permissionOverwrites.edit(guild.roles.everyone, {
             SendMessages: false
-        }, `WOLFY lock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
+        }, `Wolfy lock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
         .then(() => {
             // Success message and notification in the channel
-            channel.send({ embeds: [ErrorEmbed(`${reason || ""}`).setTitle("🔒 Channel Locked")] }).catch(() => null);
-            interaction.reply({ embeds: [InfoEmbed(`✅ Locked channel ${channel}`)] });
+            channel.send({ embeds: [ErrorEmbed(`${reason || ""}`).setTitle(client.language.getString("CMD_LOCK_MESSAGE_TITLE", interaction.guildId))] }).catch(() => null);
+            interaction.reply({ embeds: [InfoEmbed(client.language.getString("CMD_LOCK_SUCCESS", interaction.guildID))] });
         })
         .catch((err) => {
             // Error handling if permission overwrite edit fails
-            interaction.reply({ embeds: [ErrorEmbed(`💢 [\`${err.name}\`] The channel could not be locked.`)] });
+            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_LOCK_ERROR_EXECUTE", interaction.guild.id, { error: err.name }))] });
         });
         
     },

@@ -34,13 +34,22 @@ module.exports = {
                 error: error,
                 eventType: "DATABASE_ERR"
             });
-            return await interaction.reply({ embeds: [ErrorEmbed(`❌ [DATABASE_ERR]:\` The database responded with error: ${error.name}`)], ephemeral: true });
+            return await interaction.reply({ 
+                embeds: [ErrorEmbed(client.language.getString("ERR_DB", interaction.guild.id, { error: error.name }))], 
+                ephemeral: true 
+            });
         }
 
         // Assuming you've corrected how you handle the version, no need for extra logic here
-        const changeLogs =
-            await client.channels.cache.get(client.config.channels.changelogs)
-        if (!changeLogs) return interaction.reply({ embeds: [ErrorEmbed(`❌ Couldn't find changelogs channel, but updated documents!`)] });
+        const changeLogs = await client.channels.cache.get(client.config.channels.changelogs);
+        if (!changeLogs) {
+            return interaction.reply({ 
+                embeds: [ErrorEmbed(client.language.getString("CHANGELOGS_CHANNEL_NOT_FOUND", interaction.guild.id, { 
+                    default: "❌ Couldn't find changelogs channel, but updated documents!" 
+                }))],
+                ephemeral: true
+            });
+        }
 
         for (let value of updatedNotesData) {
             const embed = new EmbedBuilder()
@@ -51,10 +60,20 @@ module.exports = {
                 })
                 .setDescription(
                     [
-                        `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`,
+                        client.language.getString("RELEASE_NOTES_TITLE", interaction.guild.id, {
+                            username: client.user.username,
+                            version: value.Version,
+                            default: `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`
+                        }),
                         value.Title ? `${value.Title}` : ``,
-                        `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``,
-                        `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`,
+                        client.language.getString("RELEASE_NOTES_UPDATES", interaction.guild.id, {
+                            updates: value.Updates,
+                            default: `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``
+                        }),
+                        client.language.getString("RELEASE_NOTES_DATE", interaction.guild.id, {
+                            timestamp: Math.floor(value.Date / 1000),
+                            default: `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`
+                        }),
                     ].join("\n\n")
                 )
                 .setTimestamp();
@@ -62,7 +81,9 @@ module.exports = {
         };
 
         await interaction.reply({
-            embeds: [SuccessEmbed("👌 Your submission was received successfully!")],
+            embeds: [SuccessEmbed(client.language.getString("MODAL_NOTES_SUCCESS", interaction.guild.id, { 
+                default: "👌 Your submission was received successfully!" 
+            }))],
             ephemeral: true,
         });
     },

@@ -40,43 +40,43 @@ module.exports = {
         }
 
         const activity = member.presence?.activities;
-        activityNames = activity?.map(activity => activity?.name).join(", ") || "None";
+        activityNames = activity?.map(activity => activity?.name).join(", ") || client.language.getString("WHOIS_ACTIVITY_NONE", interaction.guild.id);
 
         status = member.presence?.status;
         if (!status || status === 'offline') {
-            status = '<:offline:809995754021978112> Offline';
+            status = client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guild.id);
         } else if (status === 'dnd') {
-            status = "<:8608_do_not_disturb:809995753577644073> Do Not Disturb";
+            status = client.language.getString("WHOIS_STATUS_DND", interaction.guild.id);
         } else if (status === 'online') {
-            status = "<:online:809995753921576960> Online";
+            status = client.language.getString("WHOIS_STATUS_ONLINE", interaction.guild.id);
         } else if (status === 'idle') {
-            status = "<:Idle:809995753656549377> Idle";
+            status = client.language.getString("WHOIS_STATUS_IDLE", interaction.guild.id);
         }
 
         const flags = {
-            DiscordEmployee: '<:discord_Staff:911761250759893012> Discord Employee',
-            DiscordPartner: '<:discord_partner:911760719266086942> Discord Partner',
-            HypeSquadEvents: '<:HypeSquad_Event:911760719345762355> HypeSquad Events',
-            HypeSquadOnlineHouse1: '<:HypeSquad_Bravery:911760719106703371> HypeSquad Bravery',
-            HypeSquadOnlineHouse2: '<:HypeSquad_Brilliance:911760719417065523> HypeSquad Brilliance',
-            HypeSquadOnlineHouse3: '<:HypeSquad_Balance:911760719429632020> HypeSquad Balance',
-            BugHunterLevel1: '<:Bug_Hunter:911761250843762718> Bug Hunter (Level 1)',
-            BugHunterLevel2: '<:Bug_Hunter_level2:911760719429660683> Bug Hunter (Level 2)',
-            HouseBravery: '<:HypeSquad_Bravery:911760719106703371> House of Bravery',
-            HouseBrilliance: '<:HypeSquad_Brilliance:911760719417065523> House of Brilliance',
-            HouseBalance: '<:HypeSquad_Balance:911760719429632020> House of Balance',
-            EarlySupporter: '<:early_supporter:911760718880194645> Early Supporter',
-            TeamPseudoUser: 'Team User',
-            System: '<:discord:887894225323192321> System',
-            VerifiedBot: '<:Verified:911762191731015740> Verified Bot',
-            VerifiedDeveloper: '<:Verified_Bot_Developer:911760719261859870> Verified Bot Developer',
-            ActiveDeveloper: '<:ActiveDeveloper:1067072669117333515> Active Developer'
+            DiscordEmployee: client.language.getString("USER_FLAG_EMPLOYEE", interaction.guild.id),
+            DiscordPartner: client.language.getString("USER_FLAG_PARTNER", interaction.guild.id),
+            HypeSquadEvents: client.language.getString("USER_FLAG_HYPESQUAD_EVENTS", interaction.guild.id),
+            HypeSquadOnlineHouse1: client.language.getString("USER_FLAG_BRAVERY", interaction.guild.id),
+            HypeSquadOnlineHouse2: client.language.getString("USER_FLAG_BRILLIANCE", interaction.guild.id),
+            HypeSquadOnlineHouse3: client.language.getString("USER_FLAG_BALANCE", interaction.guild.id),
+            BugHunterLevel1: client.language.getString("USER_FLAG_BUG_HUNTER_1", interaction.guild.id),
+            BugHunterLevel2: client.language.getString("USER_FLAG_BUG_HUNTER_2", interaction.guild.id),
+            HouseBravery: client.language.getString("USER_FLAG_BRAVERY", interaction.guild.id),
+            HouseBrilliance: client.language.getString("USER_FLAG_BRILLIANCE", interaction.guild.id),
+            HouseBalance: client.language.getString("USER_FLAG_BALANCE", interaction.guild.id),
+            EarlySupporter: client.language.getString("USER_FLAG_EARLY_SUPPORTER", interaction.guild.id),
+            TeamPseudoUser: client.language.getString("USER_FLAG_TEAM_USER", interaction.guild.id),
+            System: client.language.getString("USER_FLAG_SYSTEM", interaction.guild.id),
+            VerifiedBot: client.language.getString("USER_FLAG_VERIFIED_BOT", interaction.guild.id),
+            VerifiedDeveloper: client.language.getString("USER_FLAG_VERIFIED_DEVELOPER", interaction.guild.id),
+            ActiveDeveloper: client.language.getString("USER_FLAG_ACTIVE_DEVELOPER", interaction.guild.id)
         };
 
         const userFlags = member.user.flags?.toArray();
 
         // Map user flags to their corresponding emoji or text
-        let flagsValue = 'None';
+        let flagsValue = client.language.getString("USER_FLAG_NONE", interaction.guild.id);
         if (userFlags?.length) {
             flagsValue = userFlags.map(flag => {
                 const flagEmoji = flags[flag];
@@ -93,7 +93,7 @@ module.exports = {
             .slice(0, -1);
 
         let displayRoles = roles.length < 20 ? roles.join(' ') : roles.slice(0, 20).join(' ');
-        if (roles.length === 0) displayRoles = "None";
+        if (roles.length === 0) displayRoles = client.language.getString("WHOIS_ROLES_NONE", interaction.guild.id);
 
         const data = await axios.get(`https://discord.com/api/users/${user.id}`, {
             headers: {
@@ -107,30 +107,48 @@ module.exports = {
             url = `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${extension}`;
         }
 
+        const accountCreatedTime = moment.utc(member.user.createdAt).format('LT');
+        const accountCreatedDate = moment.utc(member.user.createdAt).format('LL');
+        const accountCreatedRelative = moment.utc(member.user.createdAt).fromNow();
+        
+        const serverJoinedTime = moment(member.joinedAt).format("LT");
+        const serverJoinedDate = moment(member.joinedAt).format('LL');
+        const serverJoinedRelative = moment(member.joinedAt).fromNow();
+        
+        const avatarUrl = member.user.displayAvatarURL({ dynamic: true, size: 1024 });
+        const year = new Date().getFullYear();
+
         const userEmbed = new discord.EmbedBuilder()
             .setAuthor({
-                name: `User information of ${member.displayName}`,
+                name: client.language.getString("WHOIS_AUTHOR", interaction.guild.id, { displayName: member.displayName }),
                 iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }),
                 url: member.user.displayAvatarURL({ dynamic: true, size: 2048 })
             })
             .addFields(
-                { name: '<a:pp224:853495450111967253> **DisplayName:**', value: member.displayName },
-                { name: '<:pp499:836168214525509653> **Username:**', value: member.user.username },
+                { name: client.language.getString("WHOIS_DISPLAYNAME", interaction.guild.id), value: member.displayName },
+                { name: client.language.getString("WHOIS_USERNAME", interaction.guild.id), value: member.user.username },
                 { name: '\u200B', value: '\u200B' },
-                { name: '<:pp198:853494893439352842> **ID:**', value: member.id, inline: true },
-                { name: '<a:pp472:853494788791861268> **Status:**', value: status, inline: true },
-                { name: '<:pp179:853495316186791977> **Game:**', value: activityNames, inline: true },
-                { name: '📆 **Account Created At:**', value: `${moment.utc(member.user.createdAt).format('LT')} ${moment.utc(member.user.createdAt).format('LL')} ${moment.utc(member.user.createdAt).fromNow()}`, inline: true },
-                { name: '📥 **Joined The Server At:**', value: `${moment(member.joinedAt).format("LT")} ${moment(member.joinedAt).format('LL')} ${moment(member.joinedAt).fromNow()}`, inline: true },
-                { name: `🖼️ **Avatar:**`, value: `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 })})`, inline: false },
-                { name: "<:medal:898358296694628414> Flags", value: flagsValue, inline: false },
-                { name: "Roles", value: displayRoles, inline: false },
-                { name: "Permissions", value: `${interaction.guild && member.permissions?.toArray().includes('Administrator') ? "<:MOD:836168687891382312> Administrator" : member.permissions?.toArray().map(p => `\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ")}`, inline: false }
+                { name: client.language.getString("WHOIS_ID", interaction.guild.id), value: member.id, inline: true },
+                { name: client.language.getString("WHOIS_STATUS", interaction.guild.id), value: status, inline: true },
+                { name: client.language.getString("WHOIS_GAME", interaction.guild.id), value: activityNames, inline: true },
+                { name: client.language.getString("WHOIS_ACCOUNT_CREATED", interaction.guild.id), 
+                  value: `${accountCreatedTime} ${accountCreatedDate} ${accountCreatedRelative}`, inline: true },
+                { name: client.language.getString("WHOIS_JOINED_SERVER", interaction.guild.id), 
+                  value: `${serverJoinedTime} ${serverJoinedDate} ${serverJoinedRelative}`, inline: true },
+                { name: client.language.getString("WHOIS_AVATAR", interaction.guild.id), 
+                  value: `[${client.language.getString("WHOIS_AVATAR_LINK", interaction.guild.id)}](${avatarUrl})`, inline: false },
+                { name: client.language.getString("WHOIS_FLAGS", interaction.guild.id), value: flagsValue, inline: false },
+                { name: client.language.getString("WHOIS_ROLES", interaction.guild.id), value: displayRoles, inline: false },
+                { name: client.language.getString("WHOIS_PERMISSIONS", interaction.guild.id), 
+                  value: `${interaction.guild && member.permissions?.toArray().includes('Administrator') 
+                    ? client.language.getString("WHOIS_ADMINISTRATOR", interaction.guild.id) 
+                    : member.permissions?.toArray().map(p => `\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ")}`, 
+                  inline: false }
             )
             .setImage(url)
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 2048 }))
             .setFooter({
-                text: `User info. | ©️${new Date().getFullYear()} Wolfy`,
+                text: client.language.getString("WHOIS_FOOTER", interaction.guild.id, { year }),
                 iconURL: client.user.avatarURL({ dynamic: true })
             })
             .setTimestamp();

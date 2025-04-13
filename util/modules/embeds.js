@@ -35,7 +35,7 @@ const SuccessEmbed = (text) =>
  * @returns {EmbedBuilder} The created embed with dark orange color.
  */
 const WarningEmbed = (text) =>
-  BaseEmbed({ data: { description: text }, color: Colors.DarkOrange });
+  BaseEmbed({ data: { description: text }, color: Colors.Orange });
 
 /**
  * Creates an informational embed.
@@ -45,10 +45,20 @@ const WarningEmbed = (text) =>
 const InfoEmbed = (text) =>
   BaseEmbed({ data: { description: text }, color: Colors.Blurple });
 
+/**
+ * Creates an informational embed.
+ * @param {string} title - The title text for the embed.
+ * @param {string} text - The description text for the embed.
+ * @returns {EmbedBuilder} The created embed with blurple color.
+ */
+const NotifyEmbed = (title, text) =>
+  BaseEmbed({ data: { title, description: text }, color: Colors.Yellow });
+
 module.exports = {
   BaseEmbed,
   ErrorEmbed,
   SuccessEmbed,
   WarningEmbed,
-  InfoEmbed
+  InfoEmbed,
+  NotifyEmbed
 };

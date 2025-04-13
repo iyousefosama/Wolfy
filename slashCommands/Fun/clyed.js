@@ -9,7 +9,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     data: {
         name: "clyed",
-        description: "Send your message as clyed text message!",
+        description: "Send your message as Clyde text message!",
         dmOnly: false,
         guildOnly: false,
         cooldown: 0,
@@ -31,7 +31,9 @@ module.exports = {
 	async execute(client, interaction) {
         const input = interaction.options.getString('input');
 
-        if(input.length > 100) return interaction.reply({ content: '<a:Wrong:812104211361693696> Sorry you can\`t type more than \`100 letters!\`' })
+        if(input.length > 100) return interaction.reply({ 
+            content: client.language.getString("CMD_CLYDE_INPUT_TOO_LONG", interaction.guild?.id)
+        });
         axios
         .get(`https://nekobot.xyz/api/imagegen?type=clyde&text=${input}`)
         .then((res) => {
@@ -40,7 +42,9 @@ module.exports = {
             interaction.reply({ embeds: [embed] })
         })
         .catch(err => {
-            interaction.reply({ content: '<a:Error:836169051310260265> **|** Incorrect input, please try again!'});
-          })
+            interaction.reply({ 
+                content: client.language.getString("CMD_CLYDE_ERROR", interaction.guild?.id)
+            });
+        })
 	},
 };

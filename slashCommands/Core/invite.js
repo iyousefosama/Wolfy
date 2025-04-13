@@ -25,9 +25,9 @@ module.exports = {
         name: client.user.username,
         iconURL: client.user.displayAvatarURL(),
       })
-      .setTitle(`${client.user.username} Links`)
+      .setTitle(client.language.getString("INVITE_TITLE", interaction.guild.id, { username: client.user.username }))
       .setDescription(
-        `<a:Cookie:853495749370839050> **Hey, ${interaction.user.username}**, here are some special links for you!\n\nYou can support our bot by voting for it on top.gg.`
+        client.language.getString("INVITE_DESCRIPTION", interaction.guild.id, { username: interaction.user.username })
       )
       .setThumbnail(client.user.displayAvatarURL())
       .setImage("attachment://background.gif")
@@ -41,10 +41,30 @@ module.exports = {
 
     // Define button data in an array
     const buttonData = [
-      { label: 'Support', Url: client.config.websites["support"], style: 'Link', emoji: '853495153280155668' },
-      { label: 'Add wolfy', Url: client.config.websites["invite"], style: 'Link', emoji: '841711382739157043' },
-      { label: 'Top.gg', Url: client.config.websites["top.gg"], style: 'Link', emoji: '853496052899381258' },
-      { label: 'DASHBOARD', Url: client.config.websites["website"], style: 'Link', emoji: '853495912775942154' },
+      { 
+        label: client.language.getString("INVITE_BUTTON_SUPPORT", interaction.guild.id), 
+        Url: client.config.websites["support"], 
+        style: 'Link', 
+        emoji: '853495153280155668' 
+      },
+      { 
+        label: client.language.getString("INVITE_BUTTON_ADD", interaction.guild.id), 
+        Url: client.config.websites["invite"], 
+        style: 'Link', 
+        emoji: '841711382739157043' 
+      },
+      { 
+        label: client.language.getString("INVITE_BUTTON_TOPGG", interaction.guild.id), 
+        Url: client.config.websites["top.gg"], 
+        style: 'Link', 
+        emoji: '853496052899381258' 
+      },
+      { 
+        label: client.language.getString("INVITE_BUTTON_DASHBOARD", interaction.guild.id), 
+        Url: client.config.websites["website"], 
+        style: 'Link', 
+        emoji: '853495912775942154' 
+      },
     ];
 
     // Create an array to store all button builders

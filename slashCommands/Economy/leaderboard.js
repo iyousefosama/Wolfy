@@ -31,7 +31,9 @@ module.exports = {
 
       const embed = new discord.EmbedBuilder()
         .setAuthor({
-          name: `${client.user.username}'s Leaderboard`,
+          name: client.language.getString("ECONOMY_LEADERBOARD_AUTHOR", interaction.guild?.id, { 
+            username: client.user.username 
+          }),
           iconURL: client.user.displayAvatarURL({
             dynamic: true,
             format: "png",
@@ -39,7 +41,7 @@ module.exports = {
           }),
         })
         .setColor("738ADB")
-        .setTitle("<a:ShinyMoney:877975108038324224> Credits Leaderboard!")
+        .setTitle(client.language.getString("ECONOMY_LEADERBOARD_TITLE", interaction.guild?.id))
         .setTimestamp();
 
       for (let i = 0; i < members.length; i++) {
@@ -56,7 +58,10 @@ module.exports = {
                 : `*${i + 1}.*`;
 
         embed.addFields({
-          name: `${positionEmoji} ${user.tag}`,
+          name: client.language.getString("ECONOMY_LEADERBOARD_ENTRY", interaction.guild?.id, {
+            position: positionEmoji,
+            username: user.tag
+          }),
           value: `\`${text.commatize(bal)}\``,
           inline: false
         });
@@ -68,7 +73,9 @@ module.exports = {
       );
       if (userPosition !== -1) {
         embed.setFooter({
-          text: `Your position is ${userPosition + 1}!`,
+          text: client.language.getString("ECONOMY_LEADERBOARD_FOOTER", interaction.guild?.id, { 
+            position: userPosition + 1 
+          }),
           iconURL: interaction.user.displayAvatarURL({
             dynamic: true,
             size: 1024,
@@ -79,7 +86,7 @@ module.exports = {
       await interaction.editReply({ embeds: [embed] });
     } catch (err) {
       await interaction.editReply({
-        content: `\`❌ [DATABASE_ERR]:\` Unable to retrieve data from the database. Please try again later!`,
+        content: client.language.getString("ECONOMY_DB_RETRIEVE_ERROR", interaction.guild?.id),
       });
       return client.logDetailedError({
         error: err,

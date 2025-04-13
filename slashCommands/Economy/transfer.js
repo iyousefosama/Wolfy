@@ -48,30 +48,40 @@ module.exports = {
 
     if (!user) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, User could not be found! Please ensure the supplied ID is valid.`,
+        content: client.language.getString("USER_NOT_FOUND", interaction.guild?.id, { user: interaction.user }),
+        ephemeral: true
       });
     }
 
     if (user.id === interaction.user.id) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to yourself!`,
+        content: client.language.getString("ECONOMY_TRANSFER_SELF", interaction.guild?.id, { user: interaction.user }),
+        ephemeral: true
       });
     }
 
     if (user.id === client.user.id) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to me!`,
+        content: client.language.getString("ECONOMY_TRANSFER_BOT", interaction.guild?.id, { user: interaction.user }),
+        ephemeral: true
       });
     }
 
     if (!amount || amount === "Nothing" || isNaN(amount)) {
-      return interaction.reply(
-        `\\❌ **${interaction.user.tag}**, \`${amount}\` is not a valid amount!`
-      );
+      return interaction.reply({
+        content: client.language.getString("ECONOMY_TRANSFER_INVALID_AMOUNT", interaction.guild?.id, { 
+          username: interaction.user.tag, 
+          amount: amount 
+        }),
+        ephemeral: true
+      });
     } else if (amount < 100 || amount > 50000) {
-      return interaction.reply(
-        `\\❌ **${interaction.user.tag}**, only valid amount to transfer is between **100** and **50,000**!`
-      );
+      return interaction.reply({
+        content: client.language.getString("ECONOMY_TRANSFER_AMOUNT_LIMIT", interaction.guild?.id, { 
+          username: interaction.user.tag
+        }),
+        ephemeral: true
+      });
     }
 
     let data;
@@ -93,9 +103,10 @@ module.exports = {
         });
       }
     } catch (err) {
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      interaction.reply({
+        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        ephemeral: true
+      });
       return client.logDetailedError({
         error: err,
         eventType: "DATABASE_ERR",
@@ -104,18 +115,22 @@ module.exports = {
     }
 
     if (Math.ceil(amount * 1.1) > data.credits) {
-      interaction.reply(
-        `\\❌ **${interaction.user.tag}**, Insuffecient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`
-      );
+      interaction.reply({
+        content: client.language.getString("ECONOMY_TRANSFER_INSUFFICIENT", interaction.guild?.id, { 
+          username: interaction.user.tag, 
+          credits: data.credits 
+        }),
+        ephemeral: true
+      });
     } else {
       const amountToAdd = amount / 1.1;
       await interaction.reply({
-        content: `<a:iNFO:853495450111967253> **${interaction.user.tag
-          }**, Are you sure you want to transfer **${text.commatize(
-            amountToAdd
-          )}** to ${user}(10% fee applies)? Your new palance will be **${Math.floor(
-            data.credits - amount * 1.1
-          )}**! \`(y/n)\``,
+        content: client.language.getString("ECONOMY_TRANSFER_CONFIRM", interaction.guild?.id, { 
+          username: interaction.user.tag,
+          amount: text.commatize(amountToAdd),
+          recipient: user,
+          balance: Math.floor(data.credits - amount * 1.1)
+        }),
       });
       const filter = (_message) =>
         interaction.user.id === _message.author.id &&
@@ -131,8 +146,11 @@ module.exports = {
         .catch(() => false);
 
       if (!proceed) {
-        return interaction.reply({
-          content: `<a:Wrong:812104211361693696> | ${interaction.user}, Cancelled the \`transfer\` command!`,
+        return interaction.editReply({
+          content: client.language.getString("ECONOMY_TRANSFER_CANCELLED", interaction.guild?.id, { 
+            user: interaction.user 
+          }),
+          ephemeral: true
         });
       }
 
@@ -140,24 +158,28 @@ module.exports = {
       FriendData.credits += Math.floor(amountToAdd);
       user
         .send({
-          content: `\`\`\`${interaction.user.tag} transfered ${text.commatize(
-            amountToAdd
-          )} to you\n${reason ? `Said:\n${reason}\`\`\`` : "```"}`,
+          content: client.language.getString("ECONOMY_TRANSFER_DM", interaction.guild?.id, { 
+            sender: interaction.user.tag,
+            amount: text.commatize(amountToAdd),
+            reason: reason ? reason : ""
+          }),
         })
         .catch(() => null);
       return Promise.all([data.save(), FriendData.save()])
         .then(() =>
-          interaction.reply(
-            `<a:Money:836169035191418951> **${interaction.user.tag
-            }**, Successfully transferred \`${text.commatize(
-              Math.floor(amount)
-            )}\` to **${user}**!`
-          )
+          interaction.editReply({
+            content: client.language.getString("ECONOMY_TRANSFER_SUCCESS", interaction.guild?.id, { 
+              username: interaction.user.tag,
+              amount: text.commatize(Math.floor(amount)),
+              recipient: user
+            })
+          })
         )
         .catch((err) =>
-          interaction.reply(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
-          )
+          interaction.editReply({
+            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            ephemeral: true
+          })
         );
     }
   },

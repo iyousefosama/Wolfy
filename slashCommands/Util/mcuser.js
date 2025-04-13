@@ -43,86 +43,66 @@ module.exports = {
         );
         if (error.response.status === 404) {
           return interaction.reply({
-            content: "<a:pp681:774089750373597185> **|** The specified user was not found!",
+            content: client.language.getString("MCUSER_NOT_FOUND", interaction.guild.id, { user: interaction.user }),
           });
         } else {
           return interaction.reply({
-            content: `Error: ${error.response.statusText}`,
+            content: client.language.getString("MCUSER_ERROR", interaction.guild.id, { user: interaction.user }),
           });
         }
       } else if (error.request) {
         console.error("No response received from the server");
         return interaction.reply({
-          content: "No response received from the server. Please try again later.",
+          content: client.language.getString("MCUSER_ERROR", interaction.guild.id, { user: interaction.user }),
         });
       } else {
         console.error("Error setting up the request:", error.message);
         return interaction.reply({
-          content: "An unexpected error occurred. Please try again later.",
+          content: client.language.getString("MCUSER_ERROR", interaction.guild.id, { user: interaction.user }),
         });
       }
     }
 
     if (!user) {
       return interaction.reply({
-        content: "<a:pp681:774089750373597185> **|** The specified user was not found!",
+        content: client.language.getString("MCUSER_NOT_FOUND", interaction.guild.id, { user: interaction.user }),
       });
     }
 
-    /**
-     * Fetch Hypixel player data and add it to the embed.
-     * 
-     * @param {string} uuid 
-     * @param {discord.EmbedBuilder} embed 
-     */
-    async function fetchHypixelPlayer(uuid, embed) {
-      try {
-        let response = await axios.get("https://api.hypixel.net/player", {
-          headers: {
-            "API-Key": "e7d575db-cacc-4158-b3af-e5484410d61c"
-          },
-          params: { uuid }
-        });
-
-        if (response.data.success) {
-          let player = response.data.player;
-          embed.addFields(
-            { name: "Hypixel Rank:", value: player.rank ? player.rank : "Member", inline: true },
-            { name: "Hypixel Last Login:", value: `<t:${Math.round(player.lastLogin / 1000)}:R>`, inline: true }
-          );
-        } else {
-          console.error("Failed to fetch player data:", response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching player data:", error);
-      }
-    }
-
+    const year = new Date().getFullYear();
+    
     // Build the embed
     const embed = new discord.EmbedBuilder()
       .setAuthor({
         name: interaction.user.tag,
         iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
       })
+      .setTitle(client.language.getString("MCUSER_TITLE", interaction.guild.id, { username: user.name }))
       .addFields(
-        { name: "Name:", value: user.name, inline: true },
-        { name: "UUID:", value: `\`${user.id}\`` },
-        { name: "Download:", value: `[Download](https://minotar.net/download/${user.name})`, inline: true },
-        { name: "NameMC:", value: `[Click Here](https://mine.ly/${user.name}.1)`, inline: true }
+        { name: client.language.getString("MCUSER_USERNAME", interaction.guild.id), value: user.name, inline: true },
+        { name: client.language.getString("MCUSER_UUID", interaction.guild.id), value: `\`${user.id}\`` },
+        { 
+          name: client.language.getString("MCUSER_SKIN", interaction.guild.id), 
+          value: `[${client.language.getString("MCUSER_DOWNLOAD_SKIN", interaction.guild.id)}](https://minotar.net/download/${user.name})`, 
+          inline: true 
+        },
+        { 
+          name: "NameMC:", 
+          value: `[${client.language.getString("MCUSER_NAMEMC", interaction.guild.id)}](https://mine.ly/${user.name}.1)`, 
+          inline: true 
+        }
       )
       .setImage(`https://minotar.net/armor/body/${user.name}/100.png`)
       .setColor("#2c2f33")
       .setThumbnail(`https://minotar.net/helm/${user.name}/100.png`)
       .setTimestamp()
       .setFooter({
-        text: `${user.name}'s mcuser | ©${new Date().getFullYear()} Wolfy`,
+        text: client.language.getString("MCUSER_FOOTER", interaction.guild.id, { year }),
         iconURL: interaction.guild.iconURL({ dynamic: true }),
       });
 
     if (user.legacy) embed.addFields({ name: "Legacy:", value: "Yes", inline: true });
     if (user.demo) embed.addFields({ name: "Demo:", value: "Yes", inline: true });
-
-    await fetchHypixelPlayer(user.id, embed);
 
     return interaction.reply({ embeds: [embed] });
   },

@@ -17,6 +17,10 @@ const reminderSchema = new mongoose.Schema({
     channelId: {
         type: String,
         required: false
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 }, { 
     timestamps: true 

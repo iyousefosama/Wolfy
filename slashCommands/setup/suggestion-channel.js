@@ -22,21 +22,30 @@ module.exports = {
             {
                 type: 7, // CHANNEL
                 name: 'channel',
-                description: 'Logs channel',
+                description: 'Suggestion channel',
                 channelTypes: [ChannelType.GuildText],
                 required: true
             },
         ]
     },
     async execute(client, interaction) {
-
         const { options, guild } = interaction;
         const channel = options.getChannel('channel');
 
         if (!channel || channel.type !== ChannelType.GuildText) {
-            return interaction.reply({ content: `\\❌ Please provide a valid channel ID.`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_INVALID", interaction.guild?.id, {
+                    username: interaction.user.username
+                }), 
+                ephemeral: true 
+            });
         } else if (!channel.permissionsFor(guild.members.me).has('SendMessages')) {
-            return interaction.reply({ content: `\\❌ I need you to give me permission to send messages on ${channel} and try again.`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_NO_PERMS", interaction.guild?.id, {
+                    channel: channel
+                }), 
+                ephemeral: true 
+            });
         };
 
         let data;
@@ -50,12 +59,22 @@ module.exports = {
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ 
+                content: client.language.getString("ERR_DB", interaction.guild?.id, {
+                    error: err.name
+                }), 
+                ephemeral: true 
+            });
             throw new Error(err);
         }
 
         if (data.Mod.Suggestion.channel !== null && channel.id == data.Mod.Suggestion.channel) {
-            return interaction.reply({ content: `\\❌ Suggestions channel is already set to ${channel}!`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_ALREADY_SET", interaction.guild?.id, {
+                    channel: channel
+                }), 
+                ephemeral: true 
+            });
         }
 
         data.Mod.Suggestion.channel = channel.id
@@ -66,9 +85,13 @@ module.exports = {
                         .setColor('DarkGreen')
                         .setDescription([
                             '<a:Correct:812104211386728498>\u2000|\u2000',
-                            `Successfully set the Suggestions channel to ${channel}!\n\n`,
-                            !data.Mod.Suggestion.isEnabled ? `\\⚠️ Logs channel is disabled! To enable, type \`/toggle suggestions\`\n` :
-                                `To disable this feature, use the \`/toggle suggestions\` command.`
+                            client.language.getString("SETUP_SUGGESTION_CHANNEL_SUCCESS", interaction.guild?.id, {
+                                username: interaction.user.username,
+                                channel: channel
+                            }) + '\n\n',
+                            !data.Mod.Suggestion.isEnabled ? 
+                                client.language.getString("SETUP_SUGGESTION_CHANNEL_DISABLED", interaction.guild?.id) :
+                                client.language.getString("SETUP_SUGGESTION_CHANNEL_DISABLE_TIP", interaction.guild?.id)
                         ].join(''))]
                 })
             })

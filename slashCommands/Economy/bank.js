@@ -32,9 +32,9 @@ module.exports = {
         });
       }
     } catch (err) {
-      interaction.reply(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
+      interaction.reply({
+        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+      });
       return client.logDetailedError({
         error: err,
         eventType: "DATABASE_ERR",
@@ -49,9 +49,12 @@ module.exports = {
       data.Bank.balance.credits === null ||
       data.Bank.info.Enabled == false
     ) {
-      return interaction.reply(
-        `\\❌ **${interaction.user.tag}**, You don't have a *bank* yet! To create one, type \`${client.prefix}register\`.`
-      );
+      return interaction.reply({
+        content: client.language.getString("ECONOMY_NO_BANK_ACCOUNT", interaction.guild?.id, { 
+          username: interaction.user.tag, 
+          prefix: client.prefix 
+        })
+      });
     }
 
     const now = Date.now();
@@ -67,15 +70,11 @@ module.exports = {
         })
         .setColor("Grey")
         .setDescription(
-          `🏦 **${interaction.user.username
-          }**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(
-            credits
-          )}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment
-            .duration(data.timer.banktime.timeout - now, "milliseconds")
-            /*.format(
-              "H [hours,] m [minutes, and] s [seconds]"
-            )*/
-            .humanize()}\` to get your reward! **(5% + 150)**`
+          client.language.getString("ECONOMY_BANK_STATUS", interaction.guild?.id, {
+            username: interaction.user.username,
+            credits: text.commatize(credits),
+            time: moment.duration(data.timer.banktime.timeout - now, "milliseconds").humanize()
+          })
         )
         .setTimestamp();
       interaction.reply({ embeds: [embed] });
@@ -85,14 +84,16 @@ module.exports = {
       return data
         .save()
         .then(() => {
-          interaction.reply(
-            `\\❌ **${interaction.user.tag}**, Your bank is overflowed please withdraw some money from your bank.`
-          );
+          interaction.reply({
+            content: client.language.getString("ECONOMY_BANK_OVERFLOW", interaction.guild?.id, { 
+              username: interaction.user.tag 
+            })
+          });
         })
         .catch((err) =>
-          interaction.reply(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
-          )
+          interaction.reply({
+            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          })
         );
     } else {
       data.timer.banktime.timeout = Date.now() + duration;
@@ -110,22 +111,20 @@ module.exports = {
             })
             .setColor("DarkGreen")
             .setDescription(
-              `🏦 **${interaction.user.username
-              }**, Your new balance is <a:ShinyMoney:877975108038324224> **${text.commatize(
-                moneyadd
-              )}** credits in your bank account!\n\n⚠️ Check your bank again after \`${moment
-                .duration(data.timer.banktime.timeout - now, "milliseconds")
-                .format(
-                  "H [hours,] m [minutes, and] s [seconds]"
-                )}\` to get your next reward! **(5% + 150)**`
+              client.language.getString("ECONOMY_BANK_NEW_BALANCE", interaction.guild?.id, {
+                username: interaction.user.username,
+                credits: text.commatize(moneyadd),
+                time: moment.duration(data.timer.banktime.timeout - now, "milliseconds")
+                  .format("H [hours,] m [minutes, and] s [seconds]")
+              })
             )
             .setTimestamp();
           interaction.reply({ embeds: [checkembed] });
         })
         .catch((err) =>
-          interaction.reply(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: \`${err.name}\``
-          )
+          interaction.reply({
+            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          })
         );
     }
   },

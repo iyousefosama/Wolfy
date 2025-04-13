@@ -1,54 +1,91 @@
-const { EmbedBuilder } = require('discord.js');
+const discord = require("discord.js");
+const { SuccessEmbed } = require("../../util/modules/embeds");
 
+/**
+ * @type {import("../../util/types/baseCommandSlash")}
+ */
 module.exports = {
     data: {
         name: "rps",
-        description: "Play rock, paper, scissors game with the bot!",
+        description: "Play rock paper scissors!",
+        guildOnly: false,
         dmOnly: false,
-        guildOnly: true,
-        cooldown: 0,
+        cooldown: 3,
         group: "Fun",
-        clientPermissions: ["SendMessages"],
-        permissions: [],
         options: [
             {
-                type: 3, // STRING
-                name: 'choice',
-                description: 'Select rock, paper, or scissors',
+                type: 3, // String
+                name: "choice",
+                description: "Your choice (rock, paper, scissors)",
                 required: true,
                 choices: [
-                    { name: 'rock', value: 'rock' },
-                    { name: 'paper', value: 'paper' },
-                    { name: 'scissors', value: 'scissors' }
+                    {
+                        name: "Rock",
+                        value: "rock"
+                    },
+                    {
+                        name: "Paper",
+                        value: "paper"
+                    },
+                    {
+                        name: "Scissors",
+                        value: "scissors"
+                    }
                 ]
             }
         ]
     },
     async execute(client, interaction) {
-        const userChoice = interaction.options.getString('choice');
-        const options = [
-            { name: 'rock', emoji: '🪨' },
-            { name: 'paper', emoji: '📄' },
-            { name: 'scissors', emoji: '✂️' }
-        ];
-
-        const userOption = options.find(option => option.name === userChoice);
-
-        if (!userOption) {
-            return interaction.reply({ content: `You must select a valid option! \`i.e.\` **${options.map(option => option.name).join(', ')}.**`, ephemeral: true });
-        }
-
-        const botOption = options[Math.floor(Math.random() * options.length)];
-
+        const guildId = interaction.guildId;
+        const userChoice = interaction.options.getString("choice");
+        const choices = ["rock", "paper", "scissors"];
+        const botChoice = choices[Math.floor(Math.random() * choices.length)];
+        
+        // Emoji mapping for choices
+        const emojis = {
+            rock: "🪨",
+            paper: "📄",
+            scissors: "✂️"
+        };
+        
+        // Determine the result
         let result;
-        if (userChoice === 'rock') {
-            result = botOption.name === 'rock' ? 'It\'s a draw!' : botOption.name === 'paper' ? 'You lose!' : 'You win!';
-        } else if (userChoice === 'paper') {
-            result = botOption.name === 'rock' ? 'You win!' : botOption.name === 'paper' ? 'It\'s a draw!' : 'You lose!';
-        } else if (userChoice === 'scissors') {
-            result = botOption.name === 'rock' ? 'You lose!' : botOption.name === 'paper' ? 'You win!' : 'It\'s a draw!';
+        if (userChoice === botChoice) {
+            result = client.language.getString("RPS_TIE", guildId);
+        } else if (
+            (userChoice === "rock" && botChoice === "scissors") ||
+            (userChoice === "paper" && botChoice === "rock") ||
+            (userChoice === "scissors" && botChoice === "paper")
+        ) {
+            result = client.language.getString("RPS_WIN", guildId);
+        } else {
+            result = client.language.getString("RPS_LOSE", guildId);
         }
+        
+        // Create and send embed
+        const embed = new discord.EmbedBuilder()
+            .setColor(client.config.color)
+            .setTitle(client.language.getString("RPS_TITLE", guildId))
+            .addFields(
+                { 
+                    name: client.language.getString("RPS_YOUR_CHOICE", guildId), 
+                    value: `${emojis[userChoice]} ${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}`, 
+                    inline: true 
+                },
+                { 
+                    name: client.language.getString("RPS_BOT_CHOICE", guildId), 
+                    value: `${emojis[botChoice]} ${botChoice.charAt(0).toUpperCase() + botChoice.slice(1)}`, 
+                    inline: true 
+                },
+                { 
+                    name: client.language.getString("RPS_RESULT", guildId), 
+                    value: result, 
+                    inline: false 
+                }
+            )
+            .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+            .setTimestamp();
 
-        interaction.reply({ content: `Your choice was \`${userOption.name} ${userOption.emoji}\`, my choice was \`${botOption.name} ${botOption.emoji}\`. **${result}**` });
-    },
+        return interaction.reply({ embeds: [embed] });
+    }
 };

@@ -80,17 +80,16 @@ module.exports = {
 
         switch (subCommandName) {
             case 'add':
-
                 if (user.id === interaction.guild.ownerId) {
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn a server owner!`, ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "WARN" }), ephemeral: true });
                 };
 
                 if (user.id === interaction.user.id) {
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn yourself!`, ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "WARN" }), ephemeral: true });
                 };
 
                 if (user.id === client.user.id) {
-                    return interaction.reply({ content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot warn me!`, ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "WARN" }), ephemeral: true });
                 };
 
                 const warnObj = {
@@ -119,12 +118,12 @@ module.exports = {
                 const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
                 const warnGrammar = warnCount === 1 ? '' : 's';
 
-                interaction.reply({ content: `\\✔️ Successfully warned **${user.tag}**, They now have \`${warnCount}\` warning${warnGrammar}` });
+                interaction.reply({ content: client.language.getString("MODERATED_SUCCESSFULLY", interaction.guild.id, { action_done: "WARN", target: user.tag }) });
                 const dmembed = new EmbedBuilder()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#e6a54a')
-                    .setTitle(`⚠️ Warned **${interaction.user.username}**`)
-                    .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${interaction.user.tag}`)
+                    .setTitle(client.language.getString("CMD_WARN_DM_TITLE", interaction.guild.id, { user: interaction.user.username }))
+                    .setDescription(client.language.getString("CMD_WARN_DM_DESCRIPTION", interaction.guild.id, { reason: reason, count: warnCount, grammar: warnGrammar, moderator: interaction.user.tag }))
                     .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                 try {
                     await user.send({ embeds: [dmembed] })
@@ -140,11 +139,11 @@ module.exports = {
                 });
 
                 if (!warnedResult || warnedResult.warnings.length === 0) {
-                    return interaction.reply({ content: '\\❌ That user doesn\'t have any warns for now!', ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("USER_DATA_404", interaction.guild.id, { user: user.tag, data: "warnings" }), ephemeral: true });
                 }
 
                 const embed = new EmbedBuilder()
-                    .setAuthor({ name: `${interaction.user.username}'s Warn List`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setAuthor({ name: client.language.getString("CMD_WARN_LIST_TITLE", interaction.guild.id, { user: interaction.user.username }), iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#2F3136')
                     .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setTimestamp();
@@ -158,13 +157,13 @@ module.exports = {
 
                     if (getModeratorUser) {
                         embed.addFields({
-                            name: `Moderator: ${getModeratorUser.user.tag} (\`${warnId}\`)`,
-                            value: `• **Warn Reason:** ${reason}\n• **Warned At:** <t:${timestamp}>`
+                            name: client.language.getString("CMD_WARN_LIST_MODERATOR", interaction.guild.id, { moderator: getModeratorUser.user.tag, id: warnId }),
+                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guild.id, { reason: reason, timestamp: timestamp })
                         });
                     } else {
                         embed.addFields({
-                            name: `Unknown Moderator (\`${warnId}\`)`,
-                            value: `• **Warn Reason:** ${reason}\n• **Warned At:** <t:${timestamp}>`
+                            name: client.language.getString("CMD_WARN_LIST_UNKNOWN", interaction.guild.id, { id: warnId }),
+                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guild.id, { reason: reason, timestamp: timestamp })
                         });
                     }
                 }
@@ -172,17 +171,16 @@ module.exports = {
                 const options = warnedResult.warnings.map((warning) => {
                     const { warnId, reason } = warning;
                     return {
-                        label: `Warn ${warnId}`,
+                        label: client.language.getString("CMD_WARN_LIST_OPTION", interaction.guild.id, { id: warnId }),
                         value: warnId,
                         description: reason,
                     };
                 });
 
-
                 const selectMenu = new ActionRowBuilder().addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId(`select_warnRemove_${user.id}`)
-                        .setPlaceholder('Select a warning to remove')
+                        .setPlaceholder(client.language.getString("CMD_WARN_LIST_PLACEHOLDER", interaction.guild.id))
                         .addOptions(options)
                 );
 
@@ -214,11 +212,11 @@ module.exports = {
                     const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
                     interaction.reply({
-                        content: `<a:pp989:853496185443319809> | Successfully deleted **${getRemovedWarnedUser.user.tag}** warning, they now have **${warnedRemoveCount}** warning${warnedRemoveGrammar}!`,
+                        content: client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "WARN_REMOVED", target: getRemovedWarnedUser.user.tag }),
                     });
                 } else {
                     interaction.reply({
-                        content: '\\❌ | please provide a valid warn id.',
+                        content: client.language.getString("NOT_VALID", interaction.guild.id, { target: "warn ID" }),
                         ephemeral: true,
                     });
                 }

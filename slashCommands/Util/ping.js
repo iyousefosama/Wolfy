@@ -38,28 +38,24 @@ module.exports = {
         */
   },
   async execute(client, interaction) {
-    //
-    await interaction.deferReply().catch(() => {});
     const hide = interaction.options.getBoolean("hide");
+    
+    // Defer reply to calculate ping accurately
+    await interaction.deferReply({ ephemeral: hide }).catch(() => {});
+    
+    // Calculate ping
+    const ping = Date.now() - interaction.createdTimestamp;
+    const ws_ping = Math.round(client.ws.ping);
+    
+    // Create single embed with ping information
+    const pingEmbed = new discord.EmbedBuilder()
+      .setColor("Green")
+      .setDescription(client.language.getString("PING", interaction.guild.id, { 
+        ping, 
+        ws_ping 
+      }));
 
-    interaction
-    .editReply({ content: client.language.getString("LOADING", interaction.guild.id), ephemeral: hide })
-    .then((inter) => {
-      const ping = inter.createdTimestamp - interaction.createdTimestamp;
-      
-      let Pong = new discord.EmbedBuilder()
-        .setColor("Yellow")
-        .setDescription(client.language.getString("PONG", interaction.guild.id));
-  
-      interaction.editReply({ content: null, embeds: [Pong] }); // Clears the text and sets Pong embed
-  
-      let Ping = new discord.EmbedBuilder()
-        .setColor("DarkGreen")
-        .setDescription(client.language.getString("PING", interaction.guild.id, { ping, ws_ping: Math.round(client.ws.ping) }));
-  
-      interaction.editReply({ content: null, embeds: [Ping] }); // Clears previous embed and sets Ping embed
-    })
-    .catch(() => null);
-  
+    // Send a single response
+    return interaction.editReply({ embeds: [pingEmbed] }).catch(() => null);
   },
 };

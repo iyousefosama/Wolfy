@@ -21,21 +21,21 @@ module.exports = {
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
                 ephemeral: true,
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
-                content: `\\❌ I can't find this guild \`data\` in the database!`,
+                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id),
                 ephemeral: true,
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("Ticket is already closed!")],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLOSED", interaction.guild.id))],
                 ephemeral: true,
             });
         }
@@ -49,7 +49,7 @@ module.exports = {
 
         if (!Channel) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guild.id))],
                 ephemeral: true,
             });
         }
@@ -61,19 +61,19 @@ module.exports = {
         });
 
         const button = new ButtonBuilder()
-            .setLabel("Transcript")
+            .setLabel(client.language.getString("TICKET_BUTTON_TRANSCRIPT", interaction.guild.id))
             .setCustomId("btn_transcript")
             .setStyle("Secondary")
             .setEmoji("853495194863534081");
 
         const button2 = new ButtonBuilder()
-            .setLabel("Re-Open")
+            .setLabel(client.language.getString("TICKET_BUTTON_REOPEN", interaction.guild.id))
             .setCustomId("btn_reopen")
             .setStyle("Primary")
             .setEmoji("🔓");
 
         const button3 = new ButtonBuilder()
-            .setLabel("Delete")
+            .setLabel(client.language.getString("TICKET_BUTTON_DELETE", interaction.guild.id))
             .setCustomId("btn_delete")
             .setStyle("Danger")
             .setEmoji("853496185443319809");
@@ -86,16 +86,19 @@ module.exports = {
             interaction.channel.send({
                 embeds: [new EmbedBuilder()
                     .setAuthor({
-                        name: `Closed by ${interaction.user.tag}`,
+                        name: client.language.getString("TICKET_CLOSED_BY", interaction.guild.id, {
+                            user: interaction.user.tag
+                        }),
                         iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
                     })
                     .setColor("#2F3136")
-                    .setDescription("```Ticket panel control system```")], components: [row]
+                    .setDescription(client.language.getString("TICKET_CONTROL_DESCRIPTION", interaction.guild.id))],
+                components: [row]
             });
         } catch (err) {
             console.error(err);
             interaction.followUp({
-                content: `\`❌ [${err.name}]:\` Something went wrong, please try again later!`,
+                content: client.language.getString("ERROR", interaction.guild.id),
                 ephemeral: true,
             });
         }

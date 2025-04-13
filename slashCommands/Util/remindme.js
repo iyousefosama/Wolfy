@@ -1,7 +1,8 @@
 const discord = require('discord.js');
-const ms = require('ms')
-const schema = require('../../schema/TimeOut-Schema')
-const { ErrorEmbed, SuccessEmbed } = require('../../util/modules/embeds')
+const ms = require('ms');
+const reminderSchema = require('../../schema/reminder-Schema');
+const { setReminder } = require('../../util/functions/reminder');
+const { ErrorEmbed, SuccessEmbed, InfoEmbed } = require('../../util/modules/embeds');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -36,32 +37,28 @@ module.exports = {
     const reason = options.getString("reminder");
     const time = options.getString("time");
 
-    let data;
-    try {
-      data = await schema.findOne({ userId: interaction.user.id });
-      if (!data) {
-        data = await schema.create({ userId: interaction.user.id });
-      }
-    } catch (err) {
-      console.log(err);
-      return message.channel.send({
-        content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      });
-    }
-
     // Cancel reminder if time is "0"
     if (time === "0") {
-      data.Reminder.current = false;
-      data.Reminder.time = 0;
-      data.Reminder.reason = null;
       try {
-        await data.save();
-        return interaction.reply({
-          embeds: [SuccessEmbed(`<:Success:888264105851490355> Successfully canceled the last reminder!`)]
+        const result = await reminderSchema.deleteOne({ 
+          userId: interaction.user.id,
+          active: true
         });
+
+        if (result.deletedCount > 0) {
+          return interaction.reply({
+            embeds: [SuccessEmbed(client.language.getString("SUCCESS_REMIND_CANCELED", interaction.guild?.id))]
+          });
+        } else {
+          return interaction.reply({
+            content: client.language.getString("ERROR_REMIND_NO_ACTIVE", interaction.guild?.id),
+            ephemeral: true
+          });
+        }
       } catch (err) {
+        console.error('Error canceling reminder:', err);
         return interaction.reply({
-          embeds: [ErrorEmbed(`\\❌ Something went wrong! [\`${err.name}\`]`)],
+          embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild?.id, { error: err.name }))],
           ephemeral: true
         });
       }
@@ -70,47 +67,74 @@ module.exports = {
     // Input checking
     if (!time || !ms(time)) {
       return interaction.reply({
-        embeds: [ErrorEmbed(`\\❌ You must state a duration for your reminder! \`/remindme [time] [reason]\``)],
+        embeds: [ErrorEmbed(client.language.getString("REMIND_INVALID_TIME", interaction.guild?.id))],
+        ephemeral: true
+      });
+    }
+
+    // Check if reminder time is too long (more than 7 days)
+    if (ms(time) > 7 * 24 * 60 * 60 * 1000) {
+      return interaction.reply({
+        embeds: [ErrorEmbed(client.language.getString("REMIND_TOO_LONG", interaction.guild?.id))],
+        ephemeral: true
+      });
+    }
+
+    // Check if reminder time is too short (less than 1 minute)
+    if (ms(time) < 60 * 1000) {
+      return interaction.reply({
+        embeds: [ErrorEmbed(client.language.getString("REMIND_TOO_SHORT", interaction.guild?.id))],
         ephemeral: true
       });
     }
 
     if (!reason) {
       return interaction.reply({
-        embeds: [ErrorEmbed(`\\❌ Please state your reminder reason! \`/remindme [time] [reason]\``)],
+        embeds: [ErrorEmbed(client.language.getString("ERROR_REMIND_NO_REASON", interaction.guild?.id))],
         ephemeral: true
       });
     }
 
-    if (data.Reminder.current) {
+    // Check for existing active reminder
+    const existingReminder = await reminderSchema.findOne({ 
+      userId: interaction.user.id,
+      active: true
+    });
+
+    if (existingReminder) {
       return interaction.reply({
-        content: `\\❌ It looks like you already have an active reminder! Cancel it by \`/remindme time: 0\``,
+        content: client.language.getString("ERROR_REMIND_ALREADY_ACTIVE", interaction.guild?.id),
         ephemeral: true
       });
     }
 
     // Set reminder
-    data.Reminder.current = true;
-    data.Reminder.time = Math.floor(Date.now() + ms(time));
-    data.Reminder.reason = reason;
+    const reminderTime = Math.floor(Date.now() + ms(time));
     try {
-      await data.save();
+      // Create new reminder document
+      const newReminder = await reminderSchema.create({
+        userId: interaction.user.id,
+        time: reminderTime,
+        reason: reason,
+        active: true
+      });
+      
+      // Setup the reminder with the utility function
+      setReminder(client, newReminder);
+      
+      // Format time for display
+      const formattedTime = time;
+      
       interaction.reply({
-        embeds: [new discord.EmbedBuilder()
-          .setAuthor({ name: '| Reminder Set!', iconURL: interaction.user.displayAvatarURL() })
-          .setDescription(`Successfully set \`${interaction.user.username}'s\` reminder!`)
-          .addFields(
-            { name: '❯ Remind You In:', value: time },
-            { name: '❯ Remind Reason:', value: reason }
-          )
-          .setColor('Green')
-          .setTimestamp()
-          .setFooter({ text: 'Successfully set the reminder!', iconURL: client.user.displayAvatarURL() })
-        ]
+        embeds: [InfoEmbed(client.language.getString("REMIND_SET", interaction.guild?.id, { 
+          message: reason, 
+          time: formattedTime 
+        }))]
       });
     } catch (err) {
+      console.error('Error setting reminder:', err);
       return interaction.reply({
-        embeds: [ErrorEmbed(`\\❌ **${message.author.tag}**, Something went wrong! [\`${err.name}\`]`)],
+        embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild?.id, { error: err.name }))],
         ephemeral: true
       });
     }

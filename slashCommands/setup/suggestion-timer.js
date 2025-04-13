@@ -28,12 +28,16 @@ module.exports = {
         ]
     },
     async execute(client, interaction) {
-
         const { options, guild } = interaction;
-        const time = options.getString("time")
+        const time = options.getString("time");
 
         if (!time || !ms(time)) {
-            return interaction.reply({ content: `\\❌ Please provide a valid time.`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("SETUP_SUGGESTION_TIMER_INVALID", interaction.guild?.id, {
+                    username: interaction.user.username
+                }), 
+                ephemeral: true 
+            });
         }
 
         let data;
@@ -47,19 +51,32 @@ module.exports = {
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ 
+                content: client.language.getString("ERR_DB", interaction.guild?.id, {
+                    error: err.name
+                }), 
+                ephemeral: true 
+            });
             throw new Error(err);
         }
 
         if (!data.Mod.Suggestion.isEnabled) {
-            return interaction.reply({ content: `\\❌ Suggestions are not enabled! To enable, type \`/toggle suggestions\`\n`, ephemeral: true });
+            return interaction.reply({ 
+                content: client.language.getString("SETUP_SUGGESTION_TIMER_DISABLED", interaction.guild?.id), 
+                ephemeral: true 
+            });
         }
 
         data.Mod.Suggestion.time = ms(time)
         await data.save()
             .then(() => {
                 interaction.reply({
-                    embeds: [SuccessEmbed(`Successfully set the suggestion time to ${time}!`)]
+                    embeds: [SuccessEmbed(
+                        client.language.getString("SETUP_SUGGESTION_TIMER_SUCCESS", interaction.guild?.id, {
+                            username: interaction.user.username,
+                            time: time
+                        })
+                    )]
                 })
             })
     }

@@ -44,8 +44,7 @@ module.exports = {
 
       if (response.data.code !== 200) {
         return interaction.reply({
-          content:
-            "<:error:888264104081522698> Please enter a valid country and city in the options!",
+          content: client.language.getString("PRAYS_INVALID", interaction.guild.id, { user: interaction.user }),
           ephemeral: true,
         });
       }
@@ -63,6 +62,9 @@ module.exports = {
 
       // Get the current time according to the API's timezone
       const currentTime = getCurrentTime(timezone).unix();
+      const capitalizedCountry = cfl.capitalizeFirstLetter(country);
+      const capitalizedCity = cfl.capitalizeFirstLetter(city);
+      const year = new Date().getFullYear();
 
       // Create the embed with the prayer times and the current time
       const embed = new discord.EmbedBuilder()
@@ -70,39 +72,79 @@ module.exports = {
           name: interaction.user.username,
           iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
         })
-        .setDescription(
-          `<:Tag:836168214525509653> Praying times for country \`${cfl.capitalizeFirstLetter(
-            country
-          )}\` in city \`${cfl.capitalizeFirstLetter(city)}\`!`
-        )
+        .setTitle(client.language.getString("PRAYS_TITLE", interaction.guild.id, { 
+          city: capitalizedCity, 
+          country: capitalizedCountry 
+        }))
         .addFields(
           {
-            name: "<:star:888264104026992670> Date",
+            name: client.language.getString("PRAY_DATE", interaction.guild.id, { default: "<:star:888264104026992670> Date" }),
             value: `<t:${currentTime}>`,
             inline: false,
           },
           { name: " ‍ ", value: ` ‍ `, inline: false }
-        )
-        .addFields(
-          ...filteredTimings.map(([name, time]) => ({
-            name: name,
-            value: `\`\`\`${tc.tConvert(time)}\`\`\``,
-            inline: true,
-          }))
-        )
-        .setFooter({
-          text: `Based on: ${
-            response.data.data.meta.method.name || "Unknown"
-          }\nTimes may vary!`,
-          iconURL: client.user.displayAvatarURL({ dynamic: true }),
-        })
-        .setTimestamp();
+        );
+      
+      // Add prayer times fields
+      if (timings.Fajr) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_FAJR", interaction.guild.id, { default: "Fajr" }),
+          value: tc.tConvert(timings.Fajr),
+          inline: true,
+        });
+      }
+      
+      if (timings.Sunrise) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_SUNRISE", interaction.guild.id, { default: "Sunrise" }),
+          value: tc.tConvert(timings.Sunrise),
+          inline: true,
+        });
+      }
+      
+      if (timings.Dhuhr) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_DHUHR", interaction.guild.id, { default: "Dhuhr" }),
+          value: tc.tConvert(timings.Dhuhr),
+          inline: true,
+        });
+      }
+      
+      if (timings.Asr) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_ASR", interaction.guild.id, { default: "Asr" }),
+          value: tc.tConvert(timings.Asr),
+          inline: true,
+        });
+      }
+      
+      if (timings.Maghrib) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_MAGHRIB", interaction.guild.id, { default: "Maghrib" }),
+          value: tc.tConvert(timings.Maghrib),
+          inline: true,
+        });
+      }
+      
+      if (timings.Isha) {
+        embed.addFields({
+          name: client.language.getString("PRAY_NAME_ISHA", interaction.guild.id, { default: "Isha" }),
+          value: tc.tConvert(timings.Isha),
+          inline: true,
+        });
+      }
+      
+      embed.setFooter({
+        text: client.language.getString("PRAYS_FOOTER", interaction.guild.id, { year }),
+        iconURL: client.user.displayAvatarURL({ dynamic: true }),
+      })
+      .setTimestamp();
 
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
       console.error("Error in execute function:", error);
       interaction.reply({
-        content: "An error occurred. Please try again later.",
+        content: client.language.getString("PRAYS_ERROR", interaction.guild.id, { user: interaction.user }),
         ephemeral: true,
       });
     }

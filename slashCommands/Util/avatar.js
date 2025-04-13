@@ -55,17 +55,25 @@ module.exports = {
 
     if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
       if (interaction.channel.type != ChannelType.GuildText) {
-        return interaction.reply({ content: `\\❌ | ${interaction.user}, This option can only be used in text channels!`, ephemeral: true })
+        return interaction.reply({ 
+          content: client.language.getString("AVATAR_SERVER_DM_ERROR", interaction.guild.id, { user: interaction.user }), 
+          ephemeral: true 
+        })
       }
+      
+      const guildName = interaction.guild.name;
+      const year = new Date().getFullYear();
+      
       let avatarserver = new EmbedBuilder()
         .setColor("#ed7947")
-        .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-        .setDescription(`[**${interaction.guild.name}** avatar link](${interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 })})`)
+        .setAuthor({ name: guildName, iconURL: interaction.guild.iconURL() })
+        .setDescription(`[**${client.language.getString("AVATAR_SERVER_TITLE", interaction.guild.id, { guildName })}**](${interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 })})`)
         .setURL(interaction.guild.iconURL())
         .setImage(interaction.guild.iconURL({ dynamic: true, extension: 'png', size: 1024 }))
-        .setURL(interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 }))
-        .setImage(interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 }))
-        .setFooter({ text: interaction.user.tag + ` | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.user.avatarURL({ dynamic: true }) })
+        .setFooter({ 
+          text: client.language.getString("AVATAR_SERVER_FOOTER", interaction.guild.id, { user: interaction.user.tag, year }), 
+          iconURL: interaction.user.avatarURL({ dynamic: true }) 
+        })
         .setTimestamp()
       interaction.reply({ embeds: [avatarserver] })
     } else if (interaction.options.getSubcommand() === 'user') {
@@ -79,21 +87,30 @@ module.exports = {
             avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
           }
 
-          if (!avatar) return interaction.reply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!` })
+          if (!avatar) return interaction.reply({ 
+            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guild.id, { user: interaction.user })
+          })
 
+          const year = new Date().getFullYear();
+          
           const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setColor(color)
-            .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guild.id, { username: user.tag })}**](${avatar})`)
             .setURL(avatar)
             .setImage(avatar)
-            .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
+            .setFooter({ 
+              text: client.language.getString("AVATAR_FOOTER", interaction.guild.id, { username: user.username, year }), 
+              iconURL: interaction.guild.iconURL({ dynamic: true }) 
+            })
             .setTimestamp()
           interaction.reply({ embeds: [embed] })
         })
         .on('error', (error) => {
           console.error(error);
-          return interaction.reply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!` })
+          return interaction.reply({ 
+            content: client.language.getString("AVATAR_ERROR", interaction.guild.id, { user: interaction.user })
+          })
         })
         .end()
     } else {
@@ -107,21 +124,30 @@ module.exports = {
             avatar = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'jpg' || 'png' });
           }
 
-          if (!avatar) return interaction.reply({ content: `\\❌ | ${interaction.user}, I can't find an avatar for this user!` })
+          if (!avatar) return interaction.reply({ 
+            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guild.id, { user: interaction.user })
+          })
 
+          const year = new Date().getFullYear();
+          
           const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setColor(color)
-            .setDescription(`[**${user.tag}** avatar link](${avatar})`)
+            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guild.id, { username: user.tag })}**](${avatar})`)
             .setURL(avatar)
             .setImage(avatar)
-            .setFooter({ text: user.username + `\'s avatar | \©️${new Date().getFullYear()} Wolfy`, iconURL: interaction.guild.iconURL({ dynamic: true }) })
+            .setFooter({ 
+              text: client.language.getString("AVATAR_FOOTER", interaction.guild.id, { username: user.username, year }), 
+              iconURL: interaction.guild.iconURL({ dynamic: true }) 
+            })
             .setTimestamp()
           interaction.reply({ embeds: [embed] })
         })
         .on('error', (error) => {
           console.error(error);
-          return interaction.reply({ content: `\\❌ | ${interaction.user}, Something went wrong, please try again later!` })
+          return interaction.reply({ 
+            content: client.language.getString("AVATAR_ERROR", interaction.guild.id, { user: interaction.user })
+          })
         })
         .end()
     }

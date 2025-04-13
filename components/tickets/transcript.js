@@ -22,13 +22,13 @@ module.exports = {
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
             });
         }
 
         if (!TicketData || !TicketData.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed("This ticket is not closed!")],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_NOT_CLOSED", interaction.guild.id, { default: "This ticket is not closed!" }))],
                 ephemeral: true,
             });
         }
@@ -49,13 +49,16 @@ module.exports = {
                         languageId: "text",
                     },
                 ], {
-                    title: `Chat transcript for ${interaction.channel.name}`,
+                    title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guild.id, { 
+                        channel: interaction.channel.name,
+                        default: `Chat transcript for ${interaction.channel.name}`
+                    }),
                     description: " ",
                 });
             } catch (e) {
                 console.error(e);
                 return interaction.followUp({
-                    content: "An error occurred, please try again!",
+                    content: client.language.getString("ERROR", interaction.guild.id),
                     ephemeral: true,
                 });
             }
@@ -67,12 +70,28 @@ module.exports = {
                     name: interaction.guild.name,
                     iconURL: interaction.guild.iconURL({ dynamic: true }),
                 })
-                .setTitle("Ticket Logs.")
-                .setDescription(`<:Tag:836168214525509653> ${interaction.channel.name} Ticket at ${interaction.guild.name}!`)
+                .setTitle(client.language.getString("TICKET_TRANSCRIPT_LOGS_TITLE", interaction.guild.id, { default: "Ticket Logs." }))
+                .setDescription(client.language.getString("TICKET_TRANSCRIPT_LOGS_DESC", interaction.guild.id, {
+                    channel: interaction.channel.name,
+                    guild: interaction.guild.name,
+                    default: `<:Tag:836168214525509653> ${interaction.channel.name} Ticket at ${interaction.guild.name}!`
+                }))
                 .addFields(
-                    { name: "Ticket transcript", value: `[View](${response.url})`, inline: true },
-                    { name: "Opened by", value: `${TicketUser.tag}`, inline: true },
-                    { name: "Opened At", value: `<t:${TicketData.OpenTimeStamp}>`, inline: true }
+                    { 
+                        name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guild.id, { default: "Ticket transcript" }), 
+                        value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guild.id, { default: "View" })}](${response.url})`, 
+                        inline: true 
+                    },
+                    { 
+                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guild.id, { default: "Opened by" }), 
+                        value: `${TicketUser.tag}`, 
+                        inline: true 
+                    },
+                    { 
+                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guild.id, { default: "Opened At" }), 
+                        value: `<t:${TicketData.OpenTimeStamp}>`, 
+                        inline: true 
+                    }
                 )
                 .setTimestamp()
                 .setFooter({
@@ -84,13 +103,13 @@ module.exports = {
                 await interaction.user.send({ embeds: [embed] })
                 .then(() => {
                     return interaction.followUp({
-                        embeds: [InfoEmbed("Sent transcript to your DM!")],
+                        embeds: [InfoEmbed(client.language.getString("TICKET_TRANSCRIPT_SENT", interaction.guild.id, { default: "Sent transcript to your DM!" }))],
                         ephemeral: true,
                     });
                 })
                 .catch(() => {
                     return interaction.followUp({
-                        embeds: [ErrorEmbed("💢 I couldn't send the transcript to your **DM**!")],
+                        embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_DM_FAILED", interaction.guild.id, { default: "💢 I couldn't send the transcript to your **DM**!" }))],
                         ephemeral: true,
                     });
                 });
@@ -98,7 +117,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: "An error occurred while fetching the messages, please try again!",
+                content: client.language.getString("ERROR_EXEC", interaction.guild.id),
                 ephemeral: true,
             });
         }
