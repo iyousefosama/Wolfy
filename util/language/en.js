@@ -27,7 +27,8 @@ module.exports = {
     NOT_VALID_MESSAGE: "Please make your message brief and short! (MAX %number% characters!)",
     LANGUAGE_404: "💢 The language you selected is not available!",
     CANNOT_MANAGE: "💢 I don't have the permissions to manage this **%group%**!",
-    
+    INTERACTION_TIMEOUT: "💢 Interaction timed out. Please try again.",
+
     // * PERMISSIONS & LIMITATIONS
     CMD_COOLDOWN: "⏳ Please cool down! (**%time_left%** second(s) left)",
     CMD_PERMISSIONS: "💢 You don't have \`%permissions%\` to use **%commandName%** command.",
@@ -45,6 +46,11 @@ module.exports = {
     CREATION_SUCCESS: "✅ Successfully created \`%element%\` %group%!",
     DELETION_SUCCESS: "🗑️ Successfully deleted \`%element%\` %group%!",
     UPDATE_SUCCESS: "🔃 Successfully updated \`%element%\` %group%!",
+    // Buttons
+    BUTTON_YES: "Yes",
+    BUTTON_NO: "No",
+    BUTTON_CANCEL: "Cancel",
+    BUTTON_CONFIRM: "Confirm",
     
     // * MODERATION COMMANDS
     NO_ID: "\\❌ | Please type the id or mention the user to **%action%**.",
@@ -63,7 +69,7 @@ module.exports = {
     MODERATED_ALREADY: "\\❌ | User is already **%action_done%**!",
     NOT_VALIDID: "💢 Please provide a valid **%group% ID**!",
     CLEAR_QUANTITY: "💢 | Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)",
-    CLEAR_SUCCESS: "Successfully deleted \`%count%\` messages from this channel!",
+    CLEAR_SUCCESS: "<a:Fix:1267280059517894737> Successfully deleted \`%count%\` messages from this channel!",
     LOCK_UNLOCK_SUCCESS: "%action_done% \`everyone\` from texting in %channel%!",
     LOCKED_UNLOCKED_ALREADY: "\\❌ | The channel is already **%action_done%**!",
     NO_DM_MSG: "💢 I cannot DM an **empty message**!",
@@ -114,7 +120,6 @@ module.exports = {
     FEEDBACK_SENT: "<:Verify:841711383191879690> Feedback Sent!",
     FEEDBACK_DMS_CLOSED: "💢 **%username%** is currently not accepting any Feedbacks right now via DMs.",
     
-    // Help Command
     // Help Command
     HELP_TITLE: "Hi %username%, how can I help you?",
     HELP_FEEDBACK_TIP: "<a:Right:877975111846731847> Type `/feedback` to report a bug",
@@ -544,7 +549,6 @@ module.exports = {
     SETUP_SUGGESTION_CHANNEL_REMOVED: "\\✔️ **%username%**, Successfully removed suggestion channel!",
     SETUP_SUGGESTION_CHANNEL_NO_PERMS: "\\❌ I need you to give me permission to send messages on %channel% and try again.",
     SETUP_SUGGESTION_CHANNEL_DISABLED: "\\⚠️ Suggestions channel is disabled! To enable, type `/toggle suggestions`",
-    SETUP_SUGGESTION_CHANNEL_DISABLE_TIP: "To disable this feature, use the `/toggle suggestions` command.",
     SETUP_SUGGESTION_CHANNEL_ALREADY_SET: "\\❌ Suggestions channel is already set to %channel%!",
     
     // Suggestion Timer Command
@@ -627,7 +631,7 @@ module.exports = {
     ERROR_REMINDER_TOO_LONG: "Reminder time cannot be longer than 7 days",
     ERROR_REMINDER_TOO_SHORT: "Reminder time must be at least 1 minute",
 
-    // Moderation Commands
+    // * Moderation Commands 2
     CMD_HACKBAN_DESC: "Ban a user by ID without them being in the server",
     CMD_SOFTBAN_DESC: "Ban and immediately unban a user to clear their messages",
     CMD_DM_DESC: "Send a DM to a user",
@@ -639,9 +643,11 @@ module.exports = {
     CMD_RESPOND_DESC: "Set up auto-responses",
     CMD_SLOWMO_DESC: "Set slowmode for a channel",
     CMD_NUKE_DESC: "Clone and delete a channel",
-    CMD_VOICE_KICK_DESC: "Kick a user from a voice channel",
+    CMD_VOICE_KICK_DESC: "Kick all users that are connected to the current channel",
     CMD_PURGE_DESC: "Delete messages from a specific user",
     CMD_INFRACTION_DESC: "View infractions for a user",
+    MOD_DM_SUCCESS: "<a:Notification:811283631380234250> Successfully sent DM to %user%",
+    MOD_DM_ERROR: "<a:Error:836169051310260265> Unable to send DM to %user%! They may have DMs disabled.",
 
     // Fun Commands
     CMD_8BALL_DESC: "Ask the magic 8ball a question",
@@ -980,4 +986,173 @@ module.exports = {
     WARN_USER_NO_WARNINGS: "\\❌ No warnings found for this user.",
     WARN_ID_NOT_FOUND: "\\❌ The specified warn ID does not exist.",
     WARN_REMOVE_SUCCESS: "<a:pp989:853496185443319809> | Successfully deleted **%user%** warning, they now have **%count%** warning%s%!",
+
+    // * Economy Commands
+    // New translations
+    ECONOMY_WITHDRAW_INVALID: "\\❌ **%username%**, [ **%amount%** ] is not a valid amount!",
+    ECONOMY_WITHDRAW_MIN: "\\❌ **%username%**, The amount to be withdrawn must be at least **500**.",
+    ECONOMY_WITHDRAW_INSUFFICIENT: "\\❌ **%username%**, You don't have enough credits in your bank to proceed with this transaction.\n You only have **%balance%** left, **%shortAmount%** less than the amount you want to withdraw (Transaction fee of 5% included)\nTo withdraw all credits instead, please use `/withdraw amount:all`.",
+    ECONOMY_WITHDRAW_SUCCESS: "<:moneytransfer:892745164324474900> **%username%**, You Successfully withdrawn **%amount%** credits from your bank! (+5% fee).",
+    ECONOMY_NO_BANK_ACCOUNT: "\\❌ **%username%**, You don't have a *bank* yet! To create one, use `/register`.",
+    
+    ECONOMY_DEPOSIT_INVALID: "\\❌ **%username%**, [ **%amount%** ] is not a valid amount!",
+    ECONOMY_DEPOSIT_MIN: "\\❌ **%username%**, The amount to be deposited must be at least **500**.",
+    ECONOMY_DEPOSIT_INSUFFICIENT: "\\❌ **%username%**, You don't have enough credits in your wallet to proceed with this transaction.\n You only have **%balance%** left, **%shortAmount%** less than the amount you want to deposit (Transaction fee of 5% included)\nTo deposit all credits instead, please use `/deposit amount:all`.",
+    ECONOMY_DEPOSIT_SUCCESS: "<:moneytransfer:892745164324474900> **%username%**, you Successfully deposited **%amount%** credits to your bank! (+5% fee).",
+    ECONOMY_BANK_OVERFLOW: "\\❌ **%username%**, Your bank is overflowed please withdraw some money from your bank.",
+    ECONOMY_QUEST_REWARD: "\\✔️ You received: <a:ShinyMoney:877975108038324224> **%reward%** from this command quest.",
+    
+    ECONOMY_REGISTER_ALREADY: "\\❌ **%username%**, You already registered a bank account!",
+    ECONOMY_REGISTER_INSUFFICIENT: "\\❌ **%username%**, You don't have **8,000** credits yet to create a bank account!",
+    ECONOMY_REGISTER_SUCCESS: "\\✔️ **%username%**, Successfully created **🏦 Bank account** You received **%amount%** as a gift!\n *Bank cost* <a:ShinyMoney:877975108038324224> `-5,000`",
+    
+    ECONOMY_BEG_COOLDOWN: "\\❌ **%username%**, You have already been given some *coins* earlier! Please try again later.",
+    ECONOMY_BEG_SUCCESS: "<a:Money:836169035191418951> **%username%**, You received **<a:ShinyMoney:877975108038324224> %amount%** from %giver%.",
+    
+    ECONOMY_BUY_INVALID: "\\❌ **%username%**, Could not find this `item ID`!\nThe proper usage for this command would be `/buy item:[item id]`.\nExample: `/buy item:%random_id%`",
+    ECONOMY_BUY_ALREADY: "\\❌ **%username%**, you already have this item in your inventory",
+    ECONOMY_BUY_INSUFFICIENT: "\\❌ **%username%**, You do not have enough credits to proceed with this transaction!\nYou need **%missing%** more for **%item%**",
+    ECONOMY_BUY_SUCCESS: "<a:Bagopen:877975110806540379> **%username%**, Successfully purchased **%item%!** for `%price%`",
+    
+    ECONOMY_COOKIE_SELF: "\\❌ **%username%**, You can't give yourself a cookie!",
+    ECONOMY_COOKIE_MISSING_ITEM_TITLE: "<a:Wrong:812104211361693696> Missing item!",
+    ECONOMY_COOKIE_MISSING_ITEM_DESC: "**%username%**, You can only give `350` cookies for free you should now buy **UltimateCookie Machine**!\nType `/buy item:2` to buy the item.",
+    ECONOMY_COOKIE_GIVEN_TITLE: "<a:Cookie:853495749370839050> Cookie is given!",
+    ECONOMY_COOKIE_GIVEN_DESC: "**%username%**, gave %friend% a cookie!\n<a:ShinyMoney:877975108038324224> %username% got (`+%money%`) credits for being a nice friend!\n\n📥 %received% | 📤 %given%",
+    
+    ECONOMY_INV_TITLE: "%username%'s Inventory",
+    ECONOMY_INV_FOOTER: "%username%'s Inventory | ©️%year% Wolfy   •   Page %current_page% of %total_pages%",
+    ECONOMY_INV_EMPTY: "\\❌ **%username%**, your inventory is empty.",
+    ECONOMY_INV_MINING_TITLE: "<a:BackPag:776670895371714570> %username%'s mining Inventory!",
+    ECONOMY_INV_MINING_FOOTER: "%prefix%sell [item] (amount)",
+    ECONOMY_INV_MINING_BUTTON: "Mining inventory",
+    ECONOMY_INV_ITEM_TYPE: "Type",
+    ECONOMY_INV_ITEM_PRICE: "Selling Price",
+    ECONOMY_INV_ITEM_USE: "Use",
+    
+    // New Economy Translations - Birthday
+    ECONOMY_BIRTHDAY_INVALID_FORMAT: "\\❌ **%username%**, Please add your date in DD-MM format (e.g., 26-09 for September 26)",
+    ECONOMY_BIRTHDAY_UPDATED: "\\✔️ **%username%**, Successfully updated your birthday to `%birthday%`!",
+    ECONOMY_BIRTHDAY_UPDATE_FAILED: "\\❌ **%username%**, Your birthday update failed!",
+    
+    // New Economy Translations - Bio
+    ECONOMY_BIO_LIMIT: "\\❌ **%username%**, Bio text limit! (max 200 characters)",
+    ECONOMY_BIO_UPDATED: "\\✔️ **%username%**, Successfully set your profile bio!",
+    ECONOMY_BIO_UPDATE_FAILED: "\\❌ **%username%**, Your bio update failed!",
+    
+    // New Economy Translations - Use Item
+    ECONOMY_USE_NOT_OWNED: "\\❌ **%username%**, You do not have this item in your inventory!",
+    ECONOMY_USE_UNAVAILABLE: "\\❌ **%username%**, This item can no longer be used!",
+    ECONOMY_USE_UNUSABLE: "\\❌ **%username%**, You can't use this item!",
+    ECONOMY_USE_SUCCESS: "\\✔️ **%username%**, Successfully used **%item_name%!**",
+    
+    // New Economy Translations - Preview Item
+    ECONOMY_PREVIEW_INVALID: "\\❌ **%username%**, Could not find the item with that ID!",
+    ECONOMY_PREVIEW_UNAVAILABLE: "\\❌ **%username%**, There is no preview for this item!",
+    ECONOMY_PREVIEW_DETAILS: "> `Item Name:` **%item_name%**, `Item Type:` **%item_type%**, `Item Price:` **%item_price%**",
+    
+    // New Economy Translations - Fish
+    ECONOMY_FISH_MISSING_ITEM_TITLE: "<a:Wrong:812104211361693696> Missing item!",
+    ECONOMY_FISH_MISSING_ITEM_DESC: "**%username%**, you didn't buy the **FishingPole** item from the shop!\nUse `/market` to show the market.",
+    ECONOMY_FISH_STARTED: "> <a:Loading:841321898302373909> Fishing from the pond...",
+    ECONOMY_FISH_CAUGHT: "🎣 **%username%**, you caught: **%catch%** from the Pool and got <a:ShinyMoney:877975108038324224> **%amount%**!",
+    ECONOMY_FISH_NOTHING: "<:nofish:892685980916678696> **%username%**, you caught: **<:sad1:887894228305342504> Nothing**",
+    
+    // New Economy Translations - Sell
+    ECONOMY_SELL_INVALID_AMOUNT: "\\❌ **%username%**, please provide a valid item amount greater than 0.",
+    ECONOMY_SELL_INSUFFICIENT: "\\❌ **%username%**, You only have **%available%** %item% in your inventory!",
+    ECONOMY_SELL_SUCCESS: "\\✔️ **%username%**, Successfully sold **%item%** for <a:ShinyMoney:877975108038324224> `+%amount%`!",
+    ECONOMY_SELL_UNKNOWN_ITEM_TITLE: "<a:Wrong:812104211361693696> Unknown item!",
+    ECONOMY_SELL_UNKNOWN_ITEM_DESC: "**%username%**, **%item%** this item is not from the items listed in the inventory!",
+    
+    // New Economy Translations - Mine
+    ECONOMY_MINE_MISSING_ITEM_TITLE: "<a:Wrong:812104211361693696> Missing item!",
+    ECONOMY_MINE_MISSING_ITEM_DESC: "**%username%**, you didn't buy a pickaxe to mine yet!\n\nUse `/market` to show the market.",
+    ECONOMY_MINE_STONE_PICKAXE: "<:StonePickaxe:887032165437702277> **%username%**, you mine: `+%amount%` **%item%** you can see this item count and sell it from your inv by `/inv type:mining`!",
+    ECONOMY_MINE_IRON_PICKAXE: "<:e_:887042865715359774> **%username%**, you mine: `+%amount%` **%item%** you can see this item count and sell it from your inv by `/inv type:mining`!",
+    ECONOMY_MINE_DIAMOND_PICKAXE: "<:e_:887059604998078495> **%username%**, you mine: `+%amount%` **%item%** you can see this item count and sell it from your inv by `/inv type:mining`!",
+    ECONOMY_MINE_DEFAULT: "\\❌ **%username%**, you mine: `+%amount%` **%item%** you can see this item count and sell it from your inv by `/inv type:mining`!",
+    
+    // New Economy Translations - Market
+    ECONOMY_MARKET_TITLE: "Wolfy's Market",
+    ECONOMY_MARKET_URL: "https://wolfy.yoyojoe.repl.co/",
+    ECONOMY_MARKET_FOOTER: "Wolfy's Market | ©️%year% Wolfy   •   Page %current_page% of %total_pages%",
+    ECONOMY_MARKET_ITEM_DETAILS: "%description%\nType: *%type%*\nPrice: *%price%*\n%preview_command%\n%purchase_command%",
+    ECONOMY_MARKET_PREVIEW_COMMAND: "Check Preview : `/previewitem id:%item_id%`",
+    ECONOMY_MARKET_PURCHASE_COMMAND: "Purchase: `/buy item:%item_id%`",
+
+    // Economy strings
+    ECONOMY_QUEST_REWARD: "\\💰 You've completed a quest and received **%reward%** Credits as reward!",
+    ECONOMY_DB_SAVE_ERROR: "\\❌ `[DATABASE_ERR]:` Unable to save the document to the database, please try again later!",
+    // ... existing code ...
+    // Economy - Tip Command
+    ECONOMY_TIP_COOLDOWN: "\\❌ **%username%**, You have already used *tip* earlier! Please try again later. `%time%`",
+    ECONOMY_TIP_USER_NOT_FOUND: "\\❌ **%username%**, Could not find this user!",
+    ECONOMY_TIP_SELF: "\\❌ **%username%**, You cannot tip yourself!",
+    ECONOMY_TIP_BOT: "\\❌ **%username%**, You cannot tip a bot!",
+    ECONOMY_TIP_SUCCESS: "\\✔️ **%username%**, Successfully tipped **%target%**.",
+    
+    // Adding missing economy translations from Arabic
+    ECONOMY_DAILY_ALREADY_TITLE: "❌ Daily reward already claimed!",
+    ECONOMY_DAILY_ALREADY_DESC: "**%username%**, You've already claimed your daily reward!\nYou can claim again `%time%`",
+    ECONOMY_DAILY_SUCCESS_TITLE: "💰 Daily reward claimed!",
+    ECONOMY_DAILY_SUCCESS_DESC: "**%username%**, You've claimed your daily reward and received:\n<a:ShinyMoney:877975108038324224> **%amount%** Credits!",
+    ECONOMY_WALLET_TITLE: "💰 Wallet",
+    ECONOMY_BANK_BALANCE: "🏦 Bank",
+    ECONOMY_PROFILE_TITLE: "%username%'s Profile",
+    ECONOMY_PROFILE_BADGES: "Badges",
+    ECONOMY_PROFILE_LEVEL: "Level",
+    ECONOMY_PROFILE_EXP: "EXP",
+    ECONOMY_PROFILE_RANK: "Rank",
+    ECONOMY_PROFILE_BIO: "Bio",
+    ECONOMY_PROFILE_BIRTHDAY: "Birthday",
+    ECONOMY_PROFILE_JOINED: "Joined Server",
+    
+    // Adding the ECONOMY_DAILY_COOLDOWN key that exists in Arabic file
+    ECONOMY_DAILY_COOLDOWN: "\\❌ **%username%**, You have already claimed your daily reward! You can claim again in `%time%`",
+
+    // VoiceKick Command
+    NO_VOICE_CHANNEL: "\\❌ You need to be in a voice channel to use this command!",
+    NO_MEMBERS_IN_VOICE: "\\❌ There are no members in your voice channel to kick!",
+    VOICE_KICK_ALL_SUCCESS: "✅ Successfully kicked all users from the voice channel!",
+    VOICE_KICK_ERROR: "\\❌ An error occurred while attempting to kick from voice channel!",
+    USER_NOT_IN_VOICE: "\\❌ This user is not in a voice channel!",
+    VOICE_KICK_SUCCESS: "✅ Successfully kicked **%target%** from voice channel!",
+    
+    // Softban Command
+    INVALID_ID: "\\❌ Please provide a valid user ID.",
+    SOFTBAN_SUCCESS: "✅ **User Softbanned**\n- %moderate_reason%\n- Moderator: %moderator% (%moderatorId%)\n- At: <t:%timestamp%>",
+    SOFTBAN_ERROR: "\\❌ An error occurred while attempting to softban %user%.",
+    
+    // Respond Command
+    REASON_TOO_LONG: "\\❌ The reason is too long! Maximum %max% characters.",
+    NO_SUGGESTION_CHANNEL: "\\❌ No suggestion channel has been set for this server! Please set one using `/%command%`.",
+    SUGGESTION_CHANNEL_NOT_FOUND: "\\❌ The suggestion channel could not be found! Please reset it using `/%command%`.",
+    SUGGESTION_NOT_FOUND: "\\❌ Could not find a valid suggestion with this message ID.",
+    SUGGESTION_ALREADY_RESPONDED: "\\❌ This suggestion already has a response.",
+    SUGGESTION_NOT_EDITABLE: "\\❌ I don't have permission to edit this suggestion.",
+    SUGGESTION_RESPONDED: "✅ Successfully %action%ed the suggestion!",
+    SUGGESTION_RESPONSE_ERROR: "\\❌ An error occurred while responding to the suggestion.",
+
+    // Mute/Unmute Command
+    NO_MUTED_ROLE: "\\❌ There is no `muted` role in this guild. Please create one first.",
+    ALREADY_MUTED: "\\❌ This user is already muted!",
+    ALREADY_UNMUTED: "\\❌ This user is not muted!",
+    TOO_MANY_ROLES: "\\❌ Your server has too many roles! [250/250]",
+    MISSING_PERMISSIONS: "\\❌ I need %permission% permission to perform this action.",
+    NOT_COMMAND_USER: "\\❌ Only the command executor can use these buttons.",
+    
+    // Purge Command
+    TEXT_CHANNEL_ONLY: "\\❌ This command can only be used in text channels.",
+    PURGE_CHANNEL_CONFIRM: "⚠️ Are you sure you want to purge the channel %channel%?\n\nThis will:\n• Create a new channel with the same settings\n• Delete all messages in the current channel\n• Delete the current channel",
+    PURGE_CHANNEL_COUNTDOWN: "⚠️ Purging channel in 3 seconds... This cannot be undone!",
+    PURGE_CHANNEL_SUCCESS: "✅ Channel successfully purged by %user%!",
+    PURGE_CHANNEL_ERROR: "\\❌ An error occurred while purging the channel. Please try again.",
+    PURGE_ERROR: "\\❌ An error occurred while purging messages for `%user%`.",
+    NO_MESSAGES_TO_DELETE: "\\❌ No messages found from `%user%` that can be deleted.",
+    INVALID_AMOUNT: "\\❌ Please provide a valid amount between %min% and %max%.",
+    
+    // Common Command Responses
+    COMMAND_CANCELLED: "✅ The %command% command has been cancelled.",
+    COMMAND_TIMEOUT: "⏱️ Command timed out. Please try again.",
 }
