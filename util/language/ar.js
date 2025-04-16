@@ -124,7 +124,7 @@ module.exports = {
     
     // أمر المساعدة
     HELP_TITLE: "مرحباً %username%، كيف يمكنني مساعدتك؟",
-    HELP_FEEDBACK_TIP: "<a:Left:1267280024311038025> اكتب `/feedback` للإبلاغ عن خطأ",
+    HELP_FEEDBACK_TIP: "<a:Left:1267280024311038025> اكتب `feedback/` للإبلاغ عن خطأ",
     HELP_FULL_LIST_TIP: "للحصول على قائمة كاملة بالأوامر استخدم: `help [type:all]/`",
     HELP_INFO_TITLE: "<a:BackPag:776670895371714570> أوامر المعلومات",
     HELP_SEARCH_TITLE: "<a:Search:845681277922967572> أوامر البحث",
@@ -1038,12 +1038,12 @@ module.exports = {
     ECONOMY_FISH_MISSING_ITEM_TITLE: "<a:Wrong:812104211361693696> عنصر مفقود!",
     ECONOMY_FISH_MISSING_ITEM_DESC: "**%username%**، لم تشتر عنصر **قصبة الصيد** من المتجر!\nاستخدم `/market` لعرض المتجر.",
     ECONOMY_FISH_STARTED: "> <a:Loading:841321898302373909> جارِ الصيد من البركة...",
-    ECONOMY_FISH_CAUGHT: "🎣: لقد اصطدت من البركة وحصلت على **%amount%** <a:ShinyMoney:877975108038324224> %catch%!",
+    ECONOMY_FISH_CAUGHT: "!**%amount%** <a:ShinyMoney:877975108038324224> %catch% :لقد اصطدت من البركة وحصلت على 🎣",
     ECONOMY_FISH_NOTHING: "<:nofish:892685980916678696> لقد اصطدت: **<:sad1:887894228305342504> لا شيء** **%username%**",
     
     // New Economy Translations - Sell
     ECONOMY_SELL_INVALID_AMOUNT: "❌\\ يرجى تقديم كمية عنصر صالحة أكبر من 0. **%username%**",
-    ECONOMY_SELL_INSUFFICIENT: "❌\\ لديك فقط **%available%** من %item% في مخزونك! **%username%**",
+    ECONOMY_SELL_INSUFFICIENT: "❌\\ !في مخزونك %item% من **%available%** لديك فقط **%username%**",
     ECONOMY_SELL_SUCCESS: "✔️\\ تم بيع **%item%** بنجاح مقابل <a:ShinyMoney:877975108038324224> `+%amount%`! **%username%**",
     ECONOMY_SELL_UNKNOWN_ITEM_TITLE: "<a:Wrong:812104211361693696> عنصر غير معروف!",
     ECONOMY_SELL_UNKNOWN_ITEM_DESC: "**%username%**، **%item%** هذا العنصر ليس من العناصر المدرجة في المخزون!",
