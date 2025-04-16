@@ -54,7 +54,7 @@ const settings = {
     // * Array of owners recognized by the bot. ID here will be given access to
     // owner based commands.
 
-    owners: ['724580315481243668'],
+    owners: ['724580315481243668', '829819269806030879'],
 
     ticket: {
         max_panels: 6,
