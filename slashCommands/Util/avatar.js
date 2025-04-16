@@ -14,6 +14,8 @@ module.exports = {
     guildOnly: true,
     cooldown: 0,
     group: "Utility",
+    integration_types: [0, 1],
+    contexts: [0, 1, 2],
     clientPermissions: [
       "EmbedLinks",
       "AttachFiles"
@@ -56,7 +58,7 @@ module.exports = {
     if (interaction.options.getSubcommand() === 'server' && interaction.guild) {
       if (interaction.channel.type != ChannelType.GuildText) {
         return interaction.reply({ 
-          content: client.language.getString("AVATAR_SERVER_DM_ERROR", interaction.guild.id, { user: interaction.user }), 
+          content: client.language.getString("AVATAR_SERVER_DM_ERROR", interaction.guildId, { user: interaction.user }), 
           ephemeral: true 
         })
       }
@@ -67,11 +69,11 @@ module.exports = {
       let avatarserver = new EmbedBuilder()
         .setColor("#ed7947")
         .setAuthor({ name: guildName, iconURL: interaction.guild.iconURL() })
-        .setDescription(`[**${client.language.getString("AVATAR_SERVER_TITLE", interaction.guild.id, { guildName })}**](${interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 })})`)
+        .setDescription(`[**${client.language.getString("AVATAR_SERVER_TITLE", interaction.guildId, { guildName })}**](${interaction.guild.iconURL({ extension: 'png', dynamic: true, size: 1024 })})`)
         .setURL(interaction.guild.iconURL())
         .setImage(interaction.guild.iconURL({ dynamic: true, extension: 'png', size: 1024 }))
         .setFooter({ 
-          text: client.language.getString("AVATAR_SERVER_FOOTER", interaction.guild.id, { user: interaction.user.tag, year }), 
+          text: client.language.getString("AVATAR_SERVER_FOOTER", interaction.guildId, { user: interaction.user.tag, year }), 
           iconURL: interaction.user.avatarURL({ dynamic: true }) 
         })
         .setTimestamp()
@@ -88,7 +90,7 @@ module.exports = {
           }
 
           if (!avatar) return interaction.reply({ 
-            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guild.id, { user: interaction.user })
+            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guildId, { user: interaction.user })
           })
 
           const year = new Date().getFullYear();
@@ -96,11 +98,11 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setColor(color)
-            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guild.id, { username: user.tag })}**](${avatar})`)
+            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guildId, { username: user.tag })}**](${avatar})`)
             .setURL(avatar)
             .setImage(avatar)
             .setFooter({ 
-              text: client.language.getString("AVATAR_FOOTER", interaction.guild.id, { username: user.username, year }), 
+              text: client.language.getString("AVATAR_FOOTER", interaction.guildId, { username: user.username, year }), 
               iconURL: interaction.guild.iconURL({ dynamic: true }) 
             })
             .setTimestamp()
@@ -109,7 +111,7 @@ module.exports = {
         .on('error', (error) => {
           console.error(error);
           return interaction.reply({ 
-            content: client.language.getString("AVATAR_ERROR", interaction.guild.id, { user: interaction.user })
+            content: client.language.getString("AVATAR_ERROR", interaction.guildId, { user: interaction.user })
           })
         })
         .end()
@@ -125,7 +127,7 @@ module.exports = {
           }
 
           if (!avatar) return interaction.reply({ 
-            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guild.id, { user: interaction.user })
+            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guildId, { user: interaction.user })
           })
 
           const year = new Date().getFullYear();
@@ -133,11 +135,11 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setColor(color)
-            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guild.id, { username: user.tag })}**](${avatar})`)
+            .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guildId, { username: user.tag })}**](${avatar})`)
             .setURL(avatar)
             .setImage(avatar)
             .setFooter({ 
-              text: client.language.getString("AVATAR_FOOTER", interaction.guild.id, { username: user.username, year }), 
+              text: client.language.getString("AVATAR_FOOTER", interaction.guildId, { username: user.username, year }), 
               iconURL: interaction.guild.iconURL({ dynamic: true }) 
             })
             .setTimestamp()
@@ -146,7 +148,7 @@ module.exports = {
         .on('error', (error) => {
           console.error(error);
           return interaction.reply({ 
-            content: client.language.getString("AVATAR_ERROR", interaction.guild.id, { user: interaction.user })
+            content: client.language.getString("AVATAR_ERROR", interaction.guildId, { user: interaction.user })
           })
         })
         .end()

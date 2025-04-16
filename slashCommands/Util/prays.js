@@ -15,6 +15,8 @@ module.exports = {
     guildOnly: false,
     cooldown: 0,
     group: "Utility",
+    integration_types: [0, 1],
+    contexts: [0, 1, 2],
     clientPermissions: [],
     permissions: [],
     options: [
@@ -44,7 +46,7 @@ module.exports = {
 
       if (response.data.code !== 200) {
         return interaction.reply({
-          content: client.language.getString("PRAYS_INVALID", interaction.guild.id, { user: interaction.user }),
+          content: client.language.getString("PRAYS_INVALID", interaction.guildId, { user: interaction.user }),
           ephemeral: true,
         });
       }
@@ -72,13 +74,13 @@ module.exports = {
           name: interaction.user.username,
           iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
         })
-        .setTitle(client.language.getString("PRAYS_TITLE", interaction.guild.id, { 
+        .setTitle(client.language.getString("PRAYS_TITLE", interaction.guildId, { 
           city: capitalizedCity, 
           country: capitalizedCountry 
         }))
         .addFields(
           {
-            name: client.language.getString("PRAY_DATE", interaction.guild.id, { default: "<:star:888264104026992670> Date" }),
+            name: client.language.getString("PRAY_DATE", interaction.guildId, { default: "<:star:888264104026992670> Date" }),
             value: `<t:${currentTime}>`,
             inline: false,
           },
@@ -88,7 +90,7 @@ module.exports = {
       // Add prayer times fields
       if (timings.Fajr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_FAJR", interaction.guild.id, { default: "Fajr" }),
+          name: client.language.getString("PRAY_NAME_FAJR", interaction.guildId, { default: "Fajr" }),
           value: tc.tConvert(timings.Fajr),
           inline: true,
         });
@@ -96,7 +98,7 @@ module.exports = {
       
       if (timings.Sunrise) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_SUNRISE", interaction.guild.id, { default: "Sunrise" }),
+          name: client.language.getString("PRAY_NAME_SUNRISE", interaction.guildId, { default: "Sunrise" }),
           value: tc.tConvert(timings.Sunrise),
           inline: true,
         });
@@ -104,7 +106,7 @@ module.exports = {
       
       if (timings.Dhuhr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_DHUHR", interaction.guild.id, { default: "Dhuhr" }),
+          name: client.language.getString("PRAY_NAME_DHUHR", interaction.guildId, { default: "Dhuhr" }),
           value: tc.tConvert(timings.Dhuhr),
           inline: true,
         });
@@ -112,7 +114,7 @@ module.exports = {
       
       if (timings.Asr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_ASR", interaction.guild.id, { default: "Asr" }),
+          name: client.language.getString("PRAY_NAME_ASR", interaction.guildId, { default: "Asr" }),
           value: tc.tConvert(timings.Asr),
           inline: true,
         });
@@ -120,7 +122,7 @@ module.exports = {
       
       if (timings.Maghrib) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_MAGHRIB", interaction.guild.id, { default: "Maghrib" }),
+          name: client.language.getString("PRAY_NAME_MAGHRIB", interaction.guildId, { default: "Maghrib" }),
           value: tc.tConvert(timings.Maghrib),
           inline: true,
         });
@@ -128,14 +130,14 @@ module.exports = {
       
       if (timings.Isha) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_ISHA", interaction.guild.id, { default: "Isha" }),
+          name: client.language.getString("PRAY_NAME_ISHA", interaction.guildId, { default: "Isha" }),
           value: tc.tConvert(timings.Isha),
           inline: true,
         });
       }
       
       embed.setFooter({
-        text: client.language.getString("PRAYS_FOOTER", interaction.guild.id, { year }),
+        text: client.language.getString("PRAYS_FOOTER", interaction.guildId, { year }),
         iconURL: client.user.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
@@ -144,7 +146,7 @@ module.exports = {
     } catch (error) {
       console.error("Error in execute function:", error);
       interaction.reply({
-        content: client.language.getString("PRAYS_ERROR", interaction.guild.id, { user: interaction.user }),
+        content: client.language.getString("PRAYS_ERROR", interaction.guildId, { user: interaction.user }),
         ephemeral: true,
       });
     }

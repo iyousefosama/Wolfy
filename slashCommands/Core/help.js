@@ -8,8 +8,10 @@ module.exports = {
     description: "Shows all available commands",
     dmOnly: false,
     guildOnly: false,
-    cooldown: 0,
+    cooldown: 5,
     group: "Bot",
+    integration_types: [0, 1],
+    contexts: [0, 1, 2],
     clientPermissions: ["EmbedLinks"],
     permissions: [],
     options: [
@@ -112,464 +114,464 @@ module.exports = {
 
     // Create all embeds
     const help = createCommandListEmbed(
-      client.language.getString("HELP_TITLE", interaction.guild.id, { username: interaction.user.username }), 
+      client.language.getString("HELP_TITLE", interaction.guildId, { username: interaction.user.username }), 
       [
         {
-          name: client.language.getString("HELP_INFO_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_INFO_TITLE", interaction.guildId),
           value: `${client.config.prefix}help info`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_SEARCH_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_SEARCH_TITLE", interaction.guildId),
           value: `${client.config.prefix}help search`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_UTILITY_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_UTILITY_TITLE", interaction.guildId),
           value: `${client.config.prefix}help Util`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_MOD_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_MOD_TITLE", interaction.guildId),
           value: `${client.config.prefix}help mod`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_FUN_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_FUN_TITLE", interaction.guildId),
           value: `${client.config.prefix}help fun`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_SETUP_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_SETUP_TITLE", interaction.guildId),
           value: `${client.config.prefix}help setup`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_BOT_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_BOT_TITLE", interaction.guildId),
           value: `${client.config.prefix}help bot`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_LEVEL_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_LEVEL_TITLE", interaction.guildId),
           value: `${client.config.prefix}help level`,
           inline: true,
         },
         {
-          name: client.language.getString("HELP_ECONOMY_TITLE", interaction.guild.id),
+          name: client.language.getString("HELP_ECONOMY_TITLE", interaction.guildId),
           value: `${client.config.prefix}help eco`,
           inline: true,
         }
       ], 
       [
-        client.language.getString("HELP_FEEDBACK_TIP", interaction.guild.id),
-        client.language.getString("HELP_FULL_LIST_TIP", interaction.guild.id)
+        client.language.getString("HELP_FEEDBACK_TIP", interaction.guildId),
+        client.language.getString("HELP_FULL_LIST_TIP", interaction.guildId)
       ].join("\n")
     );
 
-    const info = createCommandListEmbed(client.language.getString("HELP_INFO_TITLE", interaction.guild.id), [
+    const info = createCommandListEmbed(client.language.getString("HELP_INFO_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}server`,
-        value: client.language.getString("CMD_SERVER_STATS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SERVER_STATS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}user`,
-        value: client.language.getString("CMD_WHOIS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WHOIS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}mcuser`,
-        value: client.language.getString("CMD_MCUSER_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_MCUSER_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}avatar`,
-        value: client.language.getString("CMD_AVATAR_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_AVATAR_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}savatar`,
-        value: client.language.getString("CMD_AVATAR_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_AVATAR_DESC", interaction.guildId),
       }
     ]);
 
-    const search = createCommandListEmbed(client.language.getString("HELP_SEARCH_TITLE", interaction.guild.id), [
+    const search = createCommandListEmbed(client.language.getString("HELP_SEARCH_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}steam`,
-        value: client.language.getString("CMD_STEAM_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_STEAM_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}weather`,
-        value: client.language.getString("CMD_WEATHER_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WEATHER_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}lyrics`,
-        value: client.language.getString("CMD_LYRICS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LYRICS_DESC", interaction.guildId),
       }
     ]);
 
-    const Utl = createCommandListEmbed(client.language.getString("HELP_UTILITY_TITLE", interaction.guild.id), [
+    const Utl = createCommandListEmbed(client.language.getString("HELP_UTILITY_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}suggestion`,
-        value: client.language.getString("CMD_SUGGESTION_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SUGGESTION_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}remind`,
-        value: client.language.getString("CMD_REMINDME_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REMINDME_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}report`,
-        value: client.language.getString("CMD_REPORT_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REPORT_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}bin`,
-        value: client.language.getString("CMD_BIN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BIN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}ticket`,
-        value: client.language.getString("CMD_TICKET_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TICKET_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}rename`,
-        value: client.language.getString("CMD_RENAME_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_RENAME_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}delete`,
-        value: client.language.getString("CMD_DELETE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_DELETE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}calc`,
-        value: client.language.getString("CMD_CALC_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_CALC_DESC", interaction.guildId),
       }
     ]);
 
-    const moderator = createCommandListEmbed(client.language.getString("HELP_MOD_TITLE", interaction.guild.id), [
+    const moderator = createCommandListEmbed(client.language.getString("HELP_MOD_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}ban`,
-        value: client.language.getString("CMD_BAN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BAN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}hackban`,
-        value: client.language.getString("CMD_HACKBAN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_HACKBAN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}softban`,
-        value: client.language.getString("CMD_SOFTBAN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SOFTBAN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}unban`,
-        value: client.language.getString("CMD_UNBAN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_UNBAN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}kick`,
-        value: client.language.getString("CMD_KICK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_KICK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}dm`,
-        value: client.language.getString("CMD_DM_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_DM_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}warn`,
-        value: client.language.getString("CMD_WARN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WARN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}warnings`,
-        value: client.language.getString("CMD_WARNINGS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WARNINGS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}removewarn`,
-        value: client.language.getString("CMD_REMOVE_WARN_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REMOVE_WARN_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}say`,
-        value: client.language.getString("CMD_SAY_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SAY_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}embed`,
-        value: client.language.getString("CMD_EMBED_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_EMBED_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}embedsetup`,
-        value: client.language.getString("CMD_EMBED_SETUP_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_EMBED_SETUP_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}respond`,
-        value: client.language.getString("CMD_RESPOND_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_RESPOND_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}nick`,
-        value: client.language.getString("CMD_NICKNAME_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_NICKNAME_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}slowmo`,
-        value: client.language.getString("CMD_SLOWMO_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SLOWMO_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}nuke`,
-        value: client.language.getString("CMD_NUKE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_NUKE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}mute/unmute`,
-        value: client.language.getString("CMD_MUTE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_MUTE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}timeout`,
-        value: client.language.getString("CMD_TIMEOUT_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TIMEOUT_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}lock`,
-        value: client.language.getString("CMD_LOCK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LOCK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}unlock`,
-        value: client.language.getString("CMD_UNLOCK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_UNLOCK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}voicekick`,
-        value: client.language.getString("CMD_VOICE_KICK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_VOICE_KICK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}clear`,
-        value: client.language.getString("CMD_CLEAR_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_CLEAR_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}purge`,
-        value: client.language.getString("CMD_PURGE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_PURGE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}infraction`,
-        value: client.language.getString("CMD_INFRACTION_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_INFRACTION_DESC", interaction.guildId),
       }
     ]);
 
-    const Fun = createCommandListEmbed(client.language.getString("HELP_FUN_TITLE", interaction.guild.id), [
+    const Fun = createCommandListEmbed(client.language.getString("HELP_FUN_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}8ball`,
-        value: client.language.getString("CMD_8BALL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_8BALL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}clyde`,
-        value: client.language.getString("CMD_CLYDE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_CLYDE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}fast`,
-        value: client.language.getString("CMD_FAST_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_FAST_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}meme`,
-        value: client.language.getString("CMD_MEME_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_MEME_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}rps`,
-        value: client.language.getString("CMD_RPS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_RPS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}tweet`,
-        value: client.language.getString("CMD_TWEET_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TWEET_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}guess`,
-        value: client.language.getString("CMD_GUESS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_GUESS_DESC", interaction.guildId),
       }
     ]);
 
-    const setup = createCommandListEmbed(client.language.getString("HELP_SETUP_TITLE", interaction.guild.id), [
+    const setup = createCommandListEmbed(client.language.getString("HELP_SETUP_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}setLogsch`,
-        value: client.language.getString("CMD_LOGS_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LOGS_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setReportch`,
-        value: client.language.getString("CMD_REPORT_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REPORT_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setSuggch`,
-        value: client.language.getString("CMD_SUGGESTION_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SUGGESTION_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setwelcomech`,
-        value: client.language.getString("CMD_WELCOME_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WELCOME_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setleaverch`,
-        value: client.language.getString("CMD_LEAVER_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LEAVER_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setTicketch`,
-        value: client.language.getString("CMD_TICKET_CHANNEL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TICKET_CHANNEL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setwelcomemsg`,
-        value: client.language.getString("CMD_WELCOME_MSG_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WELCOME_MSG_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setleavermsg`,
-        value: client.language.getString("CMD_LEAVER_MSG_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LEAVER_MSG_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}smRole`,
-        value: client.language.getString("CMD_SELECT_MENU_ROLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SELECT_MENU_ROLE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}badwords`,
-        value: client.language.getString("CMD_BAD_WORDS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BAD_WORDS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}[cmd]toggle`,
-        value: client.language.getString("CMD_TOGGLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TOGGLE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}antilinktoggle`,
-        value: client.language.getString("CMD_ANTILINK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_ANTILINK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setprefix`,
-        value: client.language.getString("CMD_SET_PREFIX_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SET_PREFIX_DESC", interaction.guildId),
       }
     ]);
 
-    const bot = createCommandListEmbed(client.language.getString("HELP_BOT_TITLE", interaction.guild.id), [
+    const bot = createCommandListEmbed(client.language.getString("HELP_BOT_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}stats`,
-        value: client.language.getString("CMD_STATS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_STATS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}links`,
-        value: client.language.getString("CMD_LINKS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LINKS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}feedback`,
-        value: client.language.getString("CMD_FEEDBACK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_FEEDBACK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}help`,
-        value: client.language.getString("CMD_HELP_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_HELP_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}ping`,
-        value: client.language.getString("CMD_PING_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_PING_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}uptime`,
-        value: client.language.getString("CMD_UPTIME_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_UPTIME_DESC", interaction.guildId),
       }
     ]);
 
-    const level = createCommandListEmbed(client.language.getString("HELP_LEVEL_TITLE", interaction.guild.id), [
+    const level = createCommandListEmbed(client.language.getString("HELP_LEVEL_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}leveltoggle`,
-        value: client.language.getString("CMD_LEVEL_TOGGLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LEVEL_TOGGLE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}rank`,
-        value: client.language.getString("CMD_RANK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_RANK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}level-roles`,
-        value: client.language.getString("CMD_LEVEL_ROLES_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LEVEL_ROLES_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}add-role`,
-        value: client.language.getString("CMD_ADD_ROLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_ADD_ROLE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}edit-level-role`,
-        value: client.language.getString("CMD_EDIT_LEVEL_ROLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_EDIT_LEVEL_ROLE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}clearxp`,
-        value: client.language.getString("CMD_CLEAR_XP_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_CLEAR_XP_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}remove-role`,
-        value: client.language.getString("CMD_REMOVE_ROLE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REMOVE_ROLE_DESC", interaction.guildId),
       }
     ]);
 
-    const Eco = createCommandListEmbed(client.language.getString("HELP_ECONOMY_TITLE", interaction.guild.id), [
+    const Eco = createCommandListEmbed(client.language.getString("HELP_ECONOMY_TITLE", interaction.guildId), [
       {
         name: `${client.config.prefix}profile`,
-        value: client.language.getString("CMD_PROFILE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_PROFILE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setbio`,
-        value: client.language.getString("CMD_SETBIO_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SETBIO_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}setbirthday`,
-        value: client.language.getString("CMD_SETBIRTHDAY_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SETBIRTHDAY_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}quest`,
-        value: client.language.getString("CMD_QUEST_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_QUEST_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}credits`,
-        value: client.language.getString("CMD_CREDITS_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_CREDITS_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}tip`,
-        value: client.language.getString("CMD_TIP_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_TIP_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}cookie`,
-        value: client.language.getString("CMD_COOKIE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_COOKIE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}beg`,
-        value: client.language.getString("CMD_BEG_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BEG_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}daily`,
-        value: client.language.getString("CMD_DAILY_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_DAILY_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}fish`,
-        value: client.language.getString("CMD_FISH_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_FISH_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}mine`,
-        value: client.language.getString("CMD_MINE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_MINE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}register`,
-        value: client.language.getString("CMD_REGISTER_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_REGISTER_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}bank`,
-        value: client.language.getString("CMD_BANK_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BANK_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}deposit`,
-        value: client.language.getString("CMD_DEPOSIT_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_DEPOSIT_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}withdraw`,
-        value: client.language.getString("CMD_WITHDRAW_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_WITHDRAW_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}inv`,
-        value: client.language.getString("CMD_INVENTORY_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_INVENTORY_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}sell`,
-        value: client.language.getString("CMD_SELL_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_SELL_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}market`,
-        value: client.language.getString("CMD_MARKET_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_MARKET_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}buy`,
-        value: client.language.getString("CMD_BUY_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_BUY_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}use`,
-        value: client.language.getString("CMD_USE_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_USE_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}previewitem`,
-        value: client.language.getString("CMD_PREVIEW_ITEM_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_PREVIEW_ITEM_DESC", interaction.guildId),
       },
       {
         name: `${client.config.prefix}leaderboard`,
-        value: client.language.getString("CMD_LEADERBOARD_DESC", interaction.guild.id),
+        value: client.language.getString("CMD_LEADERBOARD_DESC", interaction.guildId),
       }
     ]);
 
@@ -595,12 +597,12 @@ module.exports = {
       };
       const allCmds = new discord.EmbedBuilder()
         .setColor('738ADB')
-        .setTitle(client.language.getString("HELP_ALL_COMMANDS_TITLE", interaction.guild.id))
+        .setTitle(client.language.getString("HELP_ALL_COMMANDS_TITLE", interaction.guildId))
         .addFields(fields.sort((A, B) => B.value.length - A.value.length))
         .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true }) })
         .setFooter({ text: `Full Commands List | \©️${new Date().getFullYear()} wolfy`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
         .setDescription([
-          client.language.getString("HELP_ALL_COMMANDS_TIP", interaction.guild.id, { prefix: client.prefix })
+          client.language.getString("HELP_ALL_COMMANDS_TIP", interaction.guildId, { prefix: client.prefix })
         ].join('\n'))
 
       return await interaction.reply({ embeds: [allCmds], ephemeral: false });

@@ -8,7 +8,7 @@ module.exports = {
     name: "ping",
     description: "Replies with bot ping!",
     group: "Utility",
-    cooldown: 5,
+    cooldown: 2,
     integration_types: [0, 1],
     contexts: [0, 1, 2],
     options: [
@@ -50,7 +50,7 @@ module.exports = {
     // Create single embed with ping information
     const pingEmbed = new discord.EmbedBuilder()
       .setColor("Green")
-      .setDescription(client.language.getString("PING", interaction.guild.id, { 
+      .setDescription(client.language.getString("PING", interaction.guild?.id, { 
         ping, 
         ws_ping 
       }));

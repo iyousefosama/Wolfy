@@ -48,7 +48,9 @@ const settings = {
     // ? Make sure loadGlobal set to true on main client
     slashCommands: {
         loadGlobal: true,
-        devGuild: "943861446243139645"
+        devGuild: "943861446243139645",
+        forceUpdate: true,
+        DELETE_ALL: false,
     },
 
     // * Array of owners recognized by the bot. ID here will be given access to

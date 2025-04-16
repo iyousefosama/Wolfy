@@ -10,33 +10,40 @@ const getLocalCommands = require('../util/helpers/getLocalCommands');
  */
 module.exports = async (client, directory) => {
   try {
-    // Load all local slash commands
     const localCommands = getLocalCommands(directory);
+    const { slashCommands } = client.config;
 
-    const devGuildId = client.config.slashCommands?.devGuild;
-    const isGlobal = !client.config.slashCommands?.loadGlobal;
-    const devGuild = isGlobal && devGuildId ? client.guilds.cache.get(devGuildId) : null;
+    const devGuildId = slashCommands?.devGuild;
+    const isGlobal = !!slashCommands?.loadGlobal;
+    const devGuild = !isGlobal && devGuildId ? client.guilds.cache.get(devGuildId) : null;
     const guildId = devGuild?.id ?? null;
 
-    console.log(`(/) Loading all slash commands ${guildId ? `to dev guild: ${devGuild.name}` : "globally."}`);
+    console.log(`(/) Loading slash commands ${guildId ? `to dev guild: ${devGuild.name}` : "globally."}`);
+
     const applicationCommands = await getApplicationCommands(client, guildId);
+
+    // 🗑️ DELETE_ALL: Delete all existing commands before re-registering
+    if (slashCommands.DELETE_ALL) {
+      for (const [cmdId, cmd] of applicationCommands.cache) {
+        await applicationCommands.delete(cmdId);
+        info(`🗑 Deleted old command "${cmd.name}".`);
+      }
+    }
 
     for (const localCommand of localCommands) {
       const commandData = localCommand.data ?? localCommand;
       const { name, description, integration_types, contexts, options, deleted } = commandData;
 
-      // Clear the cached module of each slash command
+      // Clear the cached module
       if (localCommand.filePath) {
         try {
           delete require.cache[require.resolve(localCommand.filePath)];
         } catch (cacheError) {
-         error(`❌ Error clearing cache for command "${name}": ${cacheError}`);
+          error(`❌ Error clearing cache for command "${name}": ${cacheError}`);
         }
       }
 
-      const existingCommand = await applicationCommands.cache.find(
-        (cmd) => cmd.name === name
-      );
+      const existingCommand = await applicationCommands.cache.find(cmd => cmd.name === name);
 
       try {
         if (existingCommand) {
@@ -46,7 +53,10 @@ module.exports = async (client, directory) => {
             continue;
           }
 
-          if (areCommandsDifferent(existingCommand, commandData)) {
+          const shouldForceUpdate = slashCommands.forceUpdate;
+          const isDifferent = areCommandsDifferent(existingCommand, commandData);
+
+          if (shouldForceUpdate || isDifferent) {
             await applicationCommands.edit(existingCommand.id, {
               description,
               options,
@@ -54,7 +64,7 @@ module.exports = async (client, directory) => {
               contexts,
             });
 
-            info(`🔁 Edited command "${name}".`);
+            info(`${shouldForceUpdate ? "🔁 Force-updated" : "🔄 Updated"} command "${name}".`);
           }
         } else {
           if (deleted) {
@@ -70,7 +80,7 @@ module.exports = async (client, directory) => {
             contexts,
           });
 
-          info(`✔ Registered command "${name}."`);
+          info(`✔ Registered command "${name}".`);
         }
       } catch (cmdError) {
         error(`❌ Error processing command "${name}": ${cmdError}`);
