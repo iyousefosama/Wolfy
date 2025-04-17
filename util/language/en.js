@@ -756,7 +756,7 @@ module.exports = {
     AVATAR_SERVER_FOOTER: "%user% | ©️%year% Wolfy",
     
     // MCUser Command
-    MCUSER_NOT_FOUND: "\\❌ | %user%, I couldn't find that Minecraft user!",
+    MCUSER_NOT_FOUND: "\\💢 I couldn't find the user \`%name%\` in Minecraft API!",
     MCUSER_ERROR: "\\❌ | %user%, Something went wrong, please try again later!",
     MCUSER_TITLE: "%username%'s Minecraft Profile",
     MCUSER_UUID: "**UUID:**",

@@ -584,7 +584,7 @@ module.exports = {
     AVATAR_SERVER_FOOTER: "%user% | ©️%year% وولفي",
     
     // أمر ماينكرافت
-    MCUSER_NOT_FOUND: "\\❌ | %user%، لم أتمكن من العثور على مستخدم ماينكرافت هذا!",
+    MCUSER_NOT_FOUND: "\\❌ | لم أتمكن من العثور على مستخدم ماينكرافت هذا!",
     MCUSER_ERROR: "\\❌ | %user%، حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً!",
     MCUSER_TITLE: "ملف %username% في ماينكرافت",
     MCUSER_UUID: "**المعرف الفريد:**",

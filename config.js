@@ -49,7 +49,7 @@ const settings = {
     slashCommands: {
         loadGlobal: true,
         devGuild: "943861446243139645",
-        forceUpdate: true,
+        forceUpdate: false,
         DELETE_ALL: false,
     },
 

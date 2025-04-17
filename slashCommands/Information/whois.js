@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const moment = require("moment");
-const axios = require("axios")
+const axios = require("axios");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -10,7 +10,7 @@ module.exports = {
         name: "whois",
         description: "Get user information",
         dmOnly: false,
-        guildOnly: true,
+        guildOnly: false,
         integration_types: [0, 1],
         contexts: [0, 1, 2],
         cooldown: 0,
@@ -26,33 +26,57 @@ module.exports = {
         ]
     },
     async execute(client, interaction) {
-        let user = interaction.options.getUser('target')?.id;
-        let member;
-        let activityNames;
-        let status;
+        let user = interaction.options.getUser('target') ?? interaction.user;
+        let member = interaction.member;
+        let activityNames = client.language.getString("WHOIS_ACTIVITY_NONE", interaction.guildId);
+        let status = client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guildId);
+        let rolesValue = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
+        let permissionsValue = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
+        let joinedServerInfo = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
 
         if (interaction.guild) {
-            const id = (user?.match(/\d{17,19}/) || [])[0] || interaction.user.id;
+            try {
+                member = await interaction.guild.members.fetch(user.id);
+                const activity = member.presence?.activities;
+                if (activity?.length) {
+                    activityNames = activity.map(a => a?.name).join(", ");
+                }
 
-            member = await interaction.guild.members.fetch(id).catch(() => interaction.member);
-            user = member.user;
-        } else {
-            user = interaction.user;
-            member = interaction.member;
-        }
+                if (member.presence?.status) {
+                    const statuses = {
+                        dnd: client.language.getString("WHOIS_STATUS_DND", interaction.guildId),
+                        online: client.language.getString("WHOIS_STATUS_ONLINE", interaction.guildId),
+                        idle: client.language.getString("WHOIS_STATUS_IDLE", interaction.guildId),
+                        offline: client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guildId)
+                    };
+                    status = statuses[member.presence.status] || statuses.offline;
+                }
 
-        const activity = member.presence?.activities;
-        activityNames = activity?.map(activity => activity?.name).join(", ") || client.language.getString("WHOIS_ACTIVITY_NONE", interaction.guildId);
+                const roles = member.roles.cache
+                    .sort((a, b) => b.position - a.position)
+                    .map(role => role.toString())
+                    .slice(0, -1);
 
-        status = member.presence?.status;
-        if (!status || status === 'offline') {
-            status = client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guildId);
-        } else if (status === 'dnd') {
-            status = client.language.getString("WHOIS_STATUS_DND", interaction.guildId);
-        } else if (status === 'online') {
-            status = client.language.getString("WHOIS_STATUS_ONLINE", interaction.guildId);
-        } else if (status === 'idle') {
-            status = client.language.getString("WHOIS_STATUS_IDLE", interaction.guildId);
+                if (roles.length) {
+                    rolesValue = roles.length < 20 ? roles.join(' ') : roles.slice(0, 20).join(' ');
+                }
+
+                const perms = member.permissions?.toArray();
+                if (perms?.includes("Administrator")) {
+                    permissionsValue = client.language.getString("WHOIS_ADMINISTRATOR", interaction.guildId);
+                } else if (perms?.length) {
+                    permissionsValue = perms.map(p => `\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ");
+                }
+
+                if (member.joinedAt) {
+                    const serverJoinedTime = moment(member.joinedAt).format("LT");
+                    const serverJoinedDate = moment(member.joinedAt).format('LL');
+                    const serverJoinedRelative = moment(member.joinedAt).fromNow();
+                    joinedServerInfo = `${serverJoinedTime} ${serverJoinedDate} ${serverJoinedRelative}`;
+                }
+            } catch (err) {
+                console.warn("Could not fetch member:", err);
+            }
         }
 
         const flags = {
@@ -75,83 +99,65 @@ module.exports = {
             ActiveDeveloper: client.language.getString("USER_FLAG_ACTIVE_DEVELOPER", interaction.guildId)
         };
 
-        const userFlags = member.user.flags?.toArray();
-
-        // Map user flags to their corresponding emoji or text
-        let flagsValue = client.language.getString("USER_FLAG_NONE", interaction.guildId);
-        if (userFlags?.length) {
-            flagsValue = userFlags.map(flag => {
-                const flagEmoji = flags[flag];
-                if (flagEmoji) {
-                    return flagEmoji;
-                } else {
-                    return `${flag}`; // Handle undefined flags
-                }
-            }).join(", ");
-        }
-        const roles = member.roles.cache
-            .sort((a, b) => b.position - a.position)
-            .map(role => role.toString())
-            .slice(0, -1);
-
-        let displayRoles = roles.length < 20 ? roles.join(' ') : roles.slice(0, 20).join(' ');
-        if (roles.length === 0) displayRoles = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
+        const userFlags = user.flags?.toArray();
+        const flagsValue = userFlags?.length
+            ? userFlags.map(flag => flags[flag] ?? flag).join(", ")
+            : client.language.getString("USER_FLAG_NONE", interaction.guildId);
 
         const data = await axios.get(`https://discord.com/api/users/${user.id}`, {
             headers: {
                 Authorization: `Bot ${client.token}`
             }
-        }).then(d => d.data);
+        }).then(d => d.data).catch(() => null);
 
-        let url = null;
-        if (data.banner) {
-            const extension = data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096";
-            url = `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${extension}`;
-        }
+        const bannerUrl = data?.banner
+            ? `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096"}`
+            : null;
 
-        const accountCreatedTime = moment.utc(member.user.createdAt).format('LT');
-        const accountCreatedDate = moment.utc(member.user.createdAt).format('LL');
-        const accountCreatedRelative = moment.utc(member.user.createdAt).fromNow();
-        
-        const serverJoinedTime = moment(member.joinedAt).format("LT");
-        const serverJoinedDate = moment(member.joinedAt).format('LL');
-        const serverJoinedRelative = moment(member.joinedAt).fromNow();
-        
-        const avatarUrl = member.user.displayAvatarURL({ dynamic: true, size: 1024 });
+        const accountCreatedTime = moment.utc(user.createdAt).format('LT');
+        const accountCreatedDate = moment.utc(user.createdAt).format('LL');
+        const accountCreatedRelative = moment.utc(user.createdAt).fromNow();
+
+        const avatarUrl = user.displayAvatarURL({ dynamic: true, size: 1024 });
         const year = new Date().getFullYear();
 
         const userEmbed = new discord.EmbedBuilder()
             .setAuthor({
-                name: client.language.getString("WHOIS_AUTHOR", interaction.guildId, { displayName: member.displayName }),
-                iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }),
-                url: member.user.displayAvatarURL({ dynamic: true, size: 2048 })
+                name: client.language.getString("WHOIS_AUTHOR", interaction.guildId, { displayName: member?.displayName || user.username }),
+                iconURL: avatarUrl,
+                url: avatarUrl
             })
             .addFields(
-                { name: client.language.getString("WHOIS_DISPLAYNAME", interaction.guildId), value: member.displayName },
-                { name: client.language.getString("WHOIS_USERNAME", interaction.guildId), value: member.user.username },
+                { name: client.language.getString("WHOIS_DISPLAYNAME", interaction.guildId), value: member?.displayName || user.username },
+                { name: client.language.getString("WHOIS_USERNAME", interaction.guildId), value: user.username },
                 { name: '\u200B', value: '\u200B' },
-                { name: client.language.getString("WHOIS_ID", interaction.guildId), value: member.id, inline: true },
+                { name: client.language.getString("WHOIS_ID", interaction.guildId), value: user.id, inline: true },
                 { name: client.language.getString("WHOIS_STATUS", interaction.guildId), value: status, inline: true },
                 { name: client.language.getString("WHOIS_GAME", interaction.guildId), value: activityNames, inline: true },
-                { name: client.language.getString("WHOIS_ACCOUNT_CREATED", interaction.guildId), 
-                  value: `${accountCreatedTime} ${accountCreatedDate} ${accountCreatedRelative}`, inline: true },
-                { name: client.language.getString("WHOIS_JOINED_SERVER", interaction.guildId), 
-                  value: `${serverJoinedTime} ${serverJoinedDate} ${serverJoinedRelative}`, inline: true },
-                { name: client.language.getString("WHOIS_AVATAR", interaction.guildId), 
-                  value: `[${client.language.getString("WHOIS_AVATAR_LINK", interaction.guildId)}](${avatarUrl})`, inline: false },
+                {
+                    name: client.language.getString("WHOIS_ACCOUNT_CREATED", interaction.guildId),
+                    value: `${accountCreatedTime} ${accountCreatedDate} ${accountCreatedRelative}`,
+                    inline: true
+                },
+                {
+                    name: client.language.getString("WHOIS_JOINED_SERVER", interaction.guildId),
+                    value: joinedServerInfo,
+                    inline: true
+                },
+                {
+                    name: client.language.getString("WHOIS_AVATAR", interaction.guildId),
+                    value: `[${client.language.getString("WHOIS_AVATAR_LINK", interaction.guildId)}](${avatarUrl})`,
+                    inline: false
+                },
                 { name: client.language.getString("WHOIS_FLAGS", interaction.guildId), value: flagsValue, inline: false },
-                { name: client.language.getString("WHOIS_ROLES", interaction.guildId), value: displayRoles, inline: false },
-                { name: client.language.getString("WHOIS_PERMISSIONS", interaction.guildId), 
-                  value: `${interaction.guild && member.permissions?.toArray().includes('Administrator') 
-                    ? client.language.getString("WHOIS_ADMINISTRATOR", interaction.guildId) 
-                    : member.permissions?.toArray().map(p => `\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ")}`, 
-                  inline: false }
+                { name: client.language.getString("WHOIS_ROLES", interaction.guildId), value: rolesValue, inline: false },
+                { name: client.language.getString("WHOIS_PERMISSIONS", interaction.guildId), value: permissionsValue, inline: false }
             )
-            .setImage(url)
-            .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 2048 }))
+            .setThumbnail(avatarUrl)
+            .setImage(bannerUrl)
             .setFooter({
                 text: client.language.getString("WHOIS_FOOTER", interaction.guildId, { year }),
-                iconURL: client.user.avatarURL({ dynamic: true })
+                iconURL: client.user.displayAvatarURL({ dynamic: true })
             })
             .setTimestamp();
 
