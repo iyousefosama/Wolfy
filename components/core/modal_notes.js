@@ -40,8 +40,19 @@ module.exports = {
             });
         }
 
-        // Assuming you've corrected how you handle the version, no need for extra logic here
-        const changeLogs = await client.channels.cache.get(client.config.channels.changelogs);
+        // Improved channel retrieval logic
+        let changeLogs = client.channels.cache.get(client.config.channels.changelogs);
+        
+        // If channel is not in cache, try to fetch it
+        if (!changeLogs) {
+            try {
+                changeLogs = await client.channels.fetch(client.config.channels.changelogs).catch(() => null);
+            } catch (err) {
+                console.error("Error fetching channel:", err);
+                changeLogs = null;
+            }
+        }
+
         if (!changeLogs) {
             return interaction.reply({ 
                 embeds: [ErrorEmbed(client.language.getString("CHANGELOGS_CHANNEL_NOT_FOUND", interaction.guild.id, { 
@@ -77,7 +88,16 @@ module.exports = {
                     ].join("\n\n")
                 )
                 .setTimestamp();
-            await changeLogs.send({ embeds: [embed] }).catch(() => { });
+            
+            try {
+                await changeLogs.send({ embeds: [embed] });
+            } catch (error) {
+                console.error("Error sending to changelogs channel:", error);
+                return interaction.reply({ 
+                    embeds: [ErrorEmbed(`❌ Found the channel but couldn't send the message. Check permissions.`)],
+                    ephemeral: true
+                });
+            }
         };
 
         await interaction.reply({

@@ -5,7 +5,6 @@ const { logEvent } = require("../../util/logHandler");
 module.exports = {
   name: "messageDelete",
   async execute(client, message) {
-    console.log(message.content)
     if (message.channel.type === ChannelType.DM || !message.author || message.author.bot || message.embeds.length > 0) return;
 
     const fetchedLogs = await message.guild.fetchAuditLogs({
