@@ -40,18 +40,7 @@ module.exports = {
             });
         }
 
-        // Improved channel retrieval logic
-        let changeLogs = client.channels.cache.get(client.config.channels.changelogs);
-        
-        // If channel is not in cache, try to fetch it
-        if (!changeLogs) {
-            try {
-                changeLogs = await client.channels.fetch(client.config.channels.changelogs).catch(() => null);
-            } catch (err) {
-                console.error("Error fetching channel:", err);
-                changeLogs = null;
-            }
-        }
+        const changeLogs = client.channels.cache.get(client.config.channels.changelogs);
 
         if (!changeLogs) {
             return interaction.reply({ 
@@ -102,7 +91,7 @@ module.exports = {
 
         await interaction.reply({
             embeds: [SuccessEmbed(client.language.getString("MODAL_NOTES_SUCCESS", interaction.guild.id, { 
-                default: "👌 Your submission was received successfully!" 
+                default: "🤖 Your submission was received successfully!" 
             }))],
             ephemeral: true,
         });

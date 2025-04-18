@@ -979,7 +979,7 @@ module.exports = {
     
     // Modal Notes Component
     CHANGELOGS_CHANNEL_NOT_FOUND: "❌ Couldn't find changelogs channel, but updated documents!",
-    MODAL_NOTES_SUCCESS: "👌 Your submission was received successfully!",
+    MODAL_NOTES_SUCCESS: "🤖 Your submission was received successfully!",
     
     // Warning Component
     WARN_ID_INVALID: "\\❌ Please provide a valid warn id.",

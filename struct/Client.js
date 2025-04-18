@@ -100,7 +100,7 @@ module.exports = class WolfyClient extends Client {
       ticket: settings.ticket,
       slashCommands: settings.slashCommands,
       player: settings.player,
-      channels: { debug: null, votes: null, uploads: null, logs: null, chatbot: null },
+      channels: { debug: null, votes: null, uploads: null, logs: null, chatbot: null, changelogs: null },
       websites: settings.websites
     };
 
@@ -140,6 +140,16 @@ module.exports = class WolfyClient extends Client {
  */
     if (typeof settings.channels?.chatbot === 'string') {
       this.config.channels.chatbot = settings.channels.chatbot;
+    } else {
+      // Do nothing...
+    };
+
+    /**
+* Channel ID used for the changelogs
+* @type {?Snowflake}
+*/
+    if (typeof settings.channels?.changelogs === 'string') {
+      this.config.channels.changelogs = settings.channels.changelogs;
     } else {
       // Do nothing...
     };
