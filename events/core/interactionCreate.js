@@ -77,7 +77,7 @@ module.exports = {
       //await interaction.deferReply().catch(() => {});
       command.execute(client, interaction).then(() => {
         client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
-          ? `${interaction.guild.name}(${interaction.guild.id}) | #${interaction.channel.name}(${interaction.channel.id})`
+          ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
           : "DMS"
           } used: /${interaction.commandName}`)
       });

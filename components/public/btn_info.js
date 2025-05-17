@@ -12,8 +12,8 @@ module.exports = {
   async action(client, interaction, parts) {
     // Create an embed message
     const embed = new EmbedBuilder()
-      .setTitle(client.language.getString("BTN_INFO_TITLE", interaction.guild.id, { default: "Test buttons show" }))
-      .setDescription(client.language.getString("BTN_INFO_DESCRIPTION", interaction.guild.id, { default: "That's an example for embed message from a button" }))
+      .setTitle(client.language.getString("BTN_INFO_TITLE", interaction.guildId, { default: "Test buttons show" }))
+      .setDescription(client.language.getString("BTN_INFO_DESCRIPTION", interaction.guildId, { default: "That's an example for embed message from a button" }))
       .setColor("DarkVividPink")
       .setTimestamp()
       .setAuthor({ 
@@ -21,7 +21,7 @@ module.exports = {
         iconURL: client.user.displayAvatarURL() 
       })
       .setFooter({
-        text: client.language.getString("BTN_INFO_FOOTER", interaction.guild.id, { 
+        text: client.language.getString("BTN_INFO_FOOTER", interaction.guildId, { 
           username: interaction.user.username,
           default: `Requested By: ${interaction.user.username}`
         }),

@@ -81,15 +81,15 @@ module.exports = {
         switch (subCommandName) {
             case 'add':
                 if (user.id === interaction.guild.ownerId) {
-                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "WARN" }), ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "WARN" }), ephemeral: true });
                 };
 
                 if (user.id === interaction.user.id) {
-                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "WARN" }), ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "WARN" }), ephemeral: true });
                 };
 
                 if (user.id === client.user.id) {
-                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "WARN" }), ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "WARN" }), ephemeral: true });
                 };
 
                 const warnObj = {
@@ -101,11 +101,11 @@ module.exports = {
 
                 const warnAddData = await warnSchema.findOneAndUpdate(
                     {
-                        guildId: interaction.guild.id,
+                        guildId: interaction.guildId,
                         userId: user.id,
                     },
                     {
-                        guildId: interaction.guild.id,
+                        guildId: interaction.guildId,
                         userId: user.id,
                         $push: {
                             warnings: warnObj,
@@ -118,12 +118,12 @@ module.exports = {
                 const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
                 const warnGrammar = warnCount === 1 ? '' : 's';
 
-                interaction.reply({ content: client.language.getString("MODERATED_SUCCESSFULLY", interaction.guild.id, { action_done: "WARN", target: user.tag }) });
+                interaction.reply({ content: client.language.getString("MODERATED_SUCCESSFULLY", interaction.guildId, { action_done: "WARN", target: user.tag }) });
                 const dmembed = new EmbedBuilder()
                     .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#e6a54a')
-                    .setTitle(client.language.getString("CMD_WARN_DM_TITLE", interaction.guild.id, { user: interaction.user.username }))
-                    .setDescription(client.language.getString("CMD_WARN_DM_DESCRIPTION", interaction.guild.id, { reason: reason, count: warnCount, grammar: warnGrammar, moderator: interaction.user.tag }))
+                    .setTitle(client.language.getString("CMD_WARN_DM_TITLE", interaction.guildId, { user: interaction.user.username }))
+                    .setDescription(client.language.getString("CMD_WARN_DM_DESCRIPTION", interaction.guildId, { reason: reason, count: warnCount, grammar: warnGrammar, moderator: interaction.user.tag }))
                     .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                 try {
                     await user.send({ embeds: [dmembed] })
@@ -134,16 +134,16 @@ module.exports = {
 
             case 'list':
                 const warnedResult = await warnSchema.findOne({
-                    guildId: interaction.guild.id,
+                    guildId: interaction.guildId,
                     userId: user.id,
                 });
 
                 if (!warnedResult || warnedResult.warnings.length === 0) {
-                    return interaction.reply({ content: client.language.getString("USER_DATA_404", interaction.guild.id, { user: user.tag, data: "warnings" }), ephemeral: true });
+                    return interaction.reply({ content: client.language.getString("USER_DATA_404", interaction.guildId, { user: user.tag, data: "warnings" }), ephemeral: true });
                 }
 
                 const embed = new EmbedBuilder()
-                    .setAuthor({ name: client.language.getString("CMD_WARN_LIST_TITLE", interaction.guild.id, { user: interaction.user.username }), iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setAuthor({ name: client.language.getString("CMD_WARN_LIST_TITLE", interaction.guildId, { user: interaction.user.username }), iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#2F3136')
                     .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setTimestamp();
@@ -157,13 +157,13 @@ module.exports = {
 
                     if (getModeratorUser) {
                         embed.addFields({
-                            name: client.language.getString("CMD_WARN_LIST_MODERATOR", interaction.guild.id, { moderator: getModeratorUser.user.tag, id: warnId }),
-                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guild.id, { reason: reason, timestamp: timestamp })
+                            name: client.language.getString("CMD_WARN_LIST_MODERATOR", interaction.guildId, { moderator: getModeratorUser.user.tag, id: warnId }),
+                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guildId, { reason: reason, timestamp: timestamp })
                         });
                     } else {
                         embed.addFields({
-                            name: client.language.getString("CMD_WARN_LIST_UNKNOWN", interaction.guild.id, { id: warnId }),
-                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guild.id, { reason: reason, timestamp: timestamp })
+                            name: client.language.getString("CMD_WARN_LIST_UNKNOWN", interaction.guildId, { id: warnId }),
+                            value: client.language.getString("CMD_WARN_LIST_DETAILS", interaction.guildId, { reason: reason, timestamp: timestamp })
                         });
                     }
                 }
@@ -171,7 +171,7 @@ module.exports = {
                 const options = warnedResult.warnings.map((warning) => {
                     const { warnId, reason } = warning;
                     return {
-                        label: client.language.getString("CMD_WARN_LIST_OPTION", interaction.guild.id, { id: warnId }),
+                        label: client.language.getString("CMD_WARN_LIST_OPTION", interaction.guildId, { id: warnId }),
                         value: warnId,
                         description: reason,
                     };
@@ -180,7 +180,7 @@ module.exports = {
                 const selectMenu = new ActionRowBuilder().addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId(`select_warnRemove_${user.id}`)
-                        .setPlaceholder(client.language.getString("CMD_WARN_LIST_PLACEHOLDER", interaction.guild.id))
+                        .setPlaceholder(client.language.getString("CMD_WARN_LIST_PLACEHOLDER", interaction.guildId))
                         .addOptions(options)
                 );
 
@@ -194,7 +194,7 @@ module.exports = {
                 if (validateUUID) {
                     const warnedRemoveData = await warnSchema.findOneAndUpdate(
                         {
-                            guildId: interaction.guild.id,
+                            guildId: interaction.guildId,
                             userId: user.id,
                         },
                         {
@@ -212,11 +212,11 @@ module.exports = {
                     const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
                     interaction.reply({
-                        content: client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "WARN_REMOVED", target: getRemovedWarnedUser.user.tag }),
+                        content: client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "WARN_REMOVED", target: getRemovedWarnedUser.user.tag }),
                     });
                 } else {
                     interaction.reply({
-                        content: client.language.getString("NOT_VALID", interaction.guild.id, { target: "warn ID" }),
+                        content: client.language.getString("NOT_VALID", interaction.guildId, { target: "warn ID" }),
                         ephemeral: true,
                     });
                 }

@@ -34,14 +34,14 @@ module.exports = {
         const reason = options.getString("message");
         
         if (!channel) {
-            return interaction.reply({ content: client.language.getString("NOT_VALIDID", interaction.guild.id, { group: "CHANNEL" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("NOT_VALIDID", interaction.guildId, { group: "CHANNEL" }), ephemeral: true });
         } else if (!channel.permissionsFor(guild.members.me).has('ManageChannels')) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MANAGE", interaction.guild.id, { group: "CHANNEL" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MANAGE", interaction.guildId, { group: "CHANNEL" }), ephemeral: true });
         }
         
         // Check if channel is already unlocked
         if (channel.permissionsFor(guild.roles.everyone).has('SendMessages')) {
-            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("LOCKED_UNLOCKED_ALREADY", interaction.guild.id, { action_done: "UNLOCK" }))], ephemeral: true });
+            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("LOCKED_UNLOCKED_ALREADY", interaction.guildId, { action_done: "UNLOCK" }))], ephemeral: true });
         }
         
         // Proceed to unlock the channel
@@ -50,12 +50,12 @@ module.exports = {
         }, `WOLFY unlock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
         .then(() => {
             // Success message and notification in the channel
-            channel.send({ embeds: [SuccessEmbed(`${reason || ""}`).setTitle(client.language.getString("CMD_UNLOCK_MESSAGE_TITLE", interaction.guild.id))] }).catch(() => null);
-            interaction.reply({ embeds: [InfoEmbed(client.language.getString("CMD_UNLOCK_SUCCESS", interaction.guild.id, { channel: channel }))] });
+            channel.send({ embeds: [SuccessEmbed(`${reason || ""}`).setTitle(client.language.getString("CMD_UNLOCK_MESSAGE_TITLE", interaction.guildId))] }).catch(() => null);
+            interaction.reply({ embeds: [InfoEmbed(client.language.getString("CMD_UNLOCK_SUCCESS", interaction.guildId, { channel: channel }))] });
         })
         .catch((err) => {
             // Error handling if permission overwrite edit fails
-            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_UNLOCK_ERROR_EXECUTE", interaction.guild.id, { error: err.name }))] });
+            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_UNLOCK_ERROR_EXECUTE", interaction.guildId, { error: err.name }))] });
         });
     },
 };

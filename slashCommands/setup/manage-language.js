@@ -31,7 +31,7 @@ module.exports = {
                 .setValue(lang.code)
                 .setEmoji(lang.flag);
                 
-            if (lang.code === client.language.languageCache.get(interaction.guild.id)) {
+            if (lang.code === client.language.languageCache.get(interaction.guildId)) {
                 option.setDefault(true);
             };
             Selectoptions.push(option);

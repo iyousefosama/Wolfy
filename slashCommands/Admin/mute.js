@@ -35,7 +35,7 @@ module.exports = {
     const reason = options.getString("reason") || 'Unspecified';
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     };
 
     const member = await guild.members
@@ -43,29 +43,29 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guild.id), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "MUTE" }), ephemeral: true });
     }
 
     let data;
     try {
       data = await schema.findOne({
-        guildId: interaction.guild.id,
+        guildId: interaction.guildId,
         userId: member.id
       });
       
       if (!data) {
         data = await schema.create({
-          guildId: interaction.guild.id,
+          guildId: interaction.guildId,
           userId: member.id
         });
       }
@@ -76,7 +76,7 @@ module.exports = {
 
     // Check if member is already muted
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted == true) {
-      return interaction.reply({ content: client.language.getString("ALREADY_MUTED", interaction.guild.id), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("ALREADY_MUTED", interaction.guildId), ephemeral: true });
     }
 
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
@@ -101,7 +101,7 @@ module.exports = {
       const Embed = new EmbedBuilder()
         .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
         .setTimestamp()
-        .setDescription(client.language.getString("NO_MUTE_ROLE", interaction.guild.id))
+        .setDescription(client.language.getString("NO_MUTE_ROLE", interaction.guildId))
         .setColor('Red');
       
       const response = await interaction.reply({ embeds: [Embed], components: [row], fetchReply: true });
@@ -111,20 +111,20 @@ module.exports = {
       collector.on('collect', async (buttonInteraction) => {
         // Check if the user who clicked the button is the one who initiated the command
         if (buttonInteraction.user.id !== interaction.user.id) {
-          return buttonInteraction.reply({ content: client.language.getString("NOT_COMMAND_USER", interaction.guild.id), ephemeral: true });
+          return buttonInteraction.reply({ content: client.language.getString("NOT_COMMAND_USER", interaction.guildId), ephemeral: true });
         }
         
         if (buttonInteraction.customId === 'create_mute_role') {
           if (guild.roles.cache.size >= 250) {
             return buttonInteraction.reply({ 
-              content: client.language.getString("TOO_MANY_ROLES", interaction.guild.id), 
+              content: client.language.getString("TOO_MANY_ROLES", interaction.guildId), 
               ephemeral: true 
             });
           }
           
           if (!interaction.channel.permissionsFor(guild.members.me).has('ManageChannels')) {
             return buttonInteraction.reply({ 
-              content: client.language.getString("MISSING_PERMISSIONS", interaction.guild.id, { permission: "ManageChannels" }), 
+              content: client.language.getString("MISSING_PERMISSIONS", interaction.guildId, { permission: "ManageChannels" }), 
               ephemeral: true 
             });
           }
@@ -150,7 +150,7 @@ module.exports = {
             });
             
             await buttonInteraction.reply({ 
-              content: client.language.getString("ROLE_CREATED", interaction.guild.id, { role: mutedRole.name }), 
+              content: client.language.getString("ROLE_CREATED", interaction.guildId, { role: mutedRole.name }), 
               ephemeral: true 
             });
             
@@ -161,7 +161,7 @@ module.exports = {
             
             const muteEmbed = new EmbedBuilder()
               .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-              .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guild.id, { 
+              .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
                 action_done: "muted", 
                 user: member.user.toString(),
                 reason: reason
@@ -173,13 +173,13 @@ module.exports = {
           } catch (error) {
             console.error(error);
             return buttonInteraction.reply({ 
-              content: client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "MUTE" }), 
+              content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "MUTE" }), 
               ephemeral: true 
             });
           }
         } else if (buttonInteraction.customId === 'cancel_mute_cmd') {
           await buttonInteraction.reply({ 
-            content: client.language.getString("COMMAND_CANCELLED", interaction.guild.id, { command: "mute" }), 
+            content: client.language.getString("COMMAND_CANCELLED", interaction.guildId, { command: "mute" }), 
             ephemeral: true 
           });
           
@@ -209,7 +209,7 @@ module.exports = {
         
         const muteEmbed = new EmbedBuilder()
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guild.id, { 
+          .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
             action_done: "muted", 
             user: member.user.toString(),
             reason: reason
@@ -221,7 +221,7 @@ module.exports = {
       } catch (error) {
         console.error(error);
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "MUTE" }), 
+          content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "MUTE" }), 
           ephemeral: true 
         });
       }

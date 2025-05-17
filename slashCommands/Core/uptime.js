@@ -28,7 +28,7 @@ module.exports = {
         let time = ms(client.uptime);
         var uptime = new discord.EmbedBuilder()
             .setColor(`DarkGreen`)
-            .setDescription(client.language.getString("UPTIME", interaction.guild.id, {
+            .setDescription(client.language.getString("UPTIME", interaction.guildId, {
                 days: time.days,
                 hours: time.hours,
                 minutes: time.minutes,

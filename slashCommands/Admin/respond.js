@@ -54,7 +54,7 @@ module.exports = {
     // Check if reason is too long
     if (reason.length > 1024) {
       return interaction.reply({ 
-        content: client.language.getString("REASON_TOO_LONG", interaction.guild.id, { max: 1024 }),
+        content: client.language.getString("REASON_TOO_LONG", interaction.guildId, { max: 1024 }),
         ephemeral: true 
       });
     }
@@ -63,12 +63,12 @@ module.exports = {
     let data;
     try {
       data = await schema.findOne({
-        GuildID: interaction.guild.id
+        GuildID: interaction.guildId
       });
       
       if (!data) {
         return interaction.reply({ 
-          content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guild.id, { command: "setSuggch" }),
+          content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guildId, { command: "setSuggch" }),
           ephemeral: true 
         });
       }
@@ -84,7 +84,7 @@ module.exports = {
     
     if (!channelID) {
       return interaction.reply({ 
-        content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guild.id, { command: "setSuggch" }),
+        content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guildId, { command: "setSuggch" }),
         ephemeral: true 
       });
     }
@@ -93,7 +93,7 @@ module.exports = {
     
     if (!channel) {
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_CHANNEL_NOT_FOUND", interaction.guild.id, { command: "setSuggch" }),
+        content: client.language.getString("SUGGESTION_CHANNEL_NOT_FOUND", interaction.guildId, { command: "setSuggch" }),
         ephemeral: true 
       });
     }
@@ -108,7 +108,7 @@ module.exports = {
           !(suggestion.embeds[0].title || '').endsWith('Suggestion')) {
         
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_NOT_FOUND", interaction.guild.id),
+          content: client.language.getString("SUGGESTION_NOT_FOUND", interaction.guildId),
           ephemeral: true 
         });
       }
@@ -116,7 +116,7 @@ module.exports = {
       // Check if suggestion already has a response
       if (suggestion.embeds[0].fields.length > 1) {
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_ALREADY_RESPONDED", interaction.guild.id),
+          content: client.language.getString("SUGGESTION_ALREADY_RESPONDED", interaction.guildId),
           ephemeral: true 
         });
       }
@@ -124,7 +124,7 @@ module.exports = {
       // Check if the bot can edit the message
       if (!suggestion.editable) {
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_NOT_EDITABLE", interaction.guild.id),
+          content: client.language.getString("SUGGESTION_NOT_EDITABLE", interaction.guildId),
           ephemeral: true 
         });
       }
@@ -157,14 +157,14 @@ module.exports = {
       await suggestion.edit({ embeds: [updatedEmbed] });
       
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_RESPONDED", interaction.guild.id, { action: action }),
+        content: client.language.getString("SUGGESTION_RESPONDED", interaction.guildId, { action: action }),
         ephemeral: true 
       });
       
     } catch (error) {
       console.error(error);
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_RESPONSE_ERROR", interaction.guild.id),
+        content: client.language.getString("SUGGESTION_RESPONSE_ERROR", interaction.guildId),
         ephemeral: true 
       });
     }

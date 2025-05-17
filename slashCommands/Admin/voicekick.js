@@ -30,14 +30,14 @@ module.exports = {
       
       if (!voiceChannel) {
         return interaction.reply({ 
-          content: client.language.getString("NO_VOICE_CHANNEL", interaction.guild.id), 
+          content: client.language.getString("NO_VOICE_CHANNEL", interaction.guildId), 
           ephemeral: true 
         });
       }
       
       if (voiceChannel.members.size <= 1) {
         return interaction.reply({ 
-          content: client.language.getString("NO_MEMBERS_IN_VOICE", interaction.guild.id), 
+          content: client.language.getString("NO_MEMBERS_IN_VOICE", interaction.guildId), 
           ephemeral: true 
         });
       }
@@ -54,10 +54,10 @@ module.exports = {
       
       try {
         await Promise.all(kickPromises);
-        return interaction.reply(client.language.getString("VOICE_KICK_ALL_SUCCESS", interaction.guild.id));
+        return interaction.reply(client.language.getString("VOICE_KICK_ALL_SUCCESS", interaction.guildId));
       } catch (error) {
         return interaction.reply({ 
-          content: client.language.getString("VOICE_KICK_ERROR", interaction.guild.id), 
+          content: client.language.getString("VOICE_KICK_ERROR", interaction.guildId), 
           ephemeral: true 
         });
       }
@@ -66,7 +66,7 @@ module.exports = {
     // Handle specific user kick
     if (!target.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("NO_ID", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("NO_ID", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     }
@@ -77,32 +77,32 @@ module.exports = {
     
     if (!targetMember) {
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_FOUND", interaction.guild.id), 
+        content: client.language.getString("USER_NOT_FOUND", interaction.guildId), 
         ephemeral: true 
       });
     } else if (targetMember.id === interaction.user.id) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     } else if (targetMember.id === client.user.id) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     } else if (targetMember.id === guild.ownerId) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     } else if (client.owners.includes(targetMember.id)) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     } else if (interaction.member.roles.highest.position <= targetMember.roles.highest.position) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "VOICE_KICK" }), 
+        content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "VOICE_KICK" }), 
         ephemeral: true 
       });
     }
@@ -110,7 +110,7 @@ module.exports = {
     // Check if user is in a voice channel
     if (!targetMember.voice.channel) {
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_IN_VOICE", interaction.guild.id), 
+        content: client.language.getString("USER_NOT_IN_VOICE", interaction.guildId), 
         ephemeral: true 
       });
     }
@@ -118,13 +118,13 @@ module.exports = {
     try {
       await targetMember.voice.setChannel(null);
       return interaction.reply(
-        client.language.getString("VOICE_KICK_SUCCESS", interaction.guild.id, { 
+        client.language.getString("VOICE_KICK_SUCCESS", interaction.guildId, { 
           target: targetMember.user.username 
         })
       );
     } catch (error) {
       return interaction.reply({ 
-        content: client.language.getString("VOICE_KICK_ERROR", interaction.guild.id), 
+        content: client.language.getString("VOICE_KICK_ERROR", interaction.guildId), 
         ephemeral: true 
       });
     }

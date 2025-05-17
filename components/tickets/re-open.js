@@ -14,24 +14,24 @@ module.exports = {
         let ticket;
         try {
             ticket = await TicketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
         } catch (err) {
             console.log(err);
             interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
                 ephemeral: true
             });
         }
         if (!ticket) {
-            return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id));
+            return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId));
         }
 
         if (!ticket.IsClosed) {
             return interaction.followUp({ 
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guild.id))], 
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guildId))], 
                 ephemeral: true 
             });
         }
@@ -52,7 +52,7 @@ module.exports = {
                             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
                         })
                         .setDescription(
-                            client.language.getString("TICKET_REOPENED_BY", interaction.guild.id, {
+                            client.language.getString("TICKET_REOPENED_BY", interaction.guildId, {
                                 user: interaction.user.tag
                             })
                         )
@@ -65,7 +65,7 @@ module.exports = {
             })
             .catch(() => {
                 interaction.channel.send({
-                    content: client.language.getString("ERROR", interaction.guild.id),
+                    content: client.language.getString("ERROR", interaction.guildId),
                 });
             });
     },

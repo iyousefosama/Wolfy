@@ -35,7 +35,7 @@ module.exports = {
     
     if (!user.id.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("INVALID_ID", interaction.guild.id),
+        content: client.language.getString("INVALID_ID", interaction.guildId),
         ephemeral: true 
       });
     }
@@ -47,32 +47,32 @@ module.exports = {
       // Check for various conditions
       if (member.id === interaction.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       } else if (member.id === client.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       } else if (member.id === guild.ownerId) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       } else if (client.owners.includes(member.id)) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       } else if (!member.bannable) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "SOFTBAN" }),
+          content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "SOFTBAN" }),
           ephemeral: true 
         });
       }
@@ -97,7 +97,7 @@ module.exports = {
           name: user.tag, 
           iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }) 
         })
-        .setDescription(client.language.getString("SOFTBAN_SUCCESS", interaction.guild.id, { 
+        .setDescription(client.language.getString("SOFTBAN_SUCCESS", interaction.guildId, { 
           moderator: interaction.user.username,
           moderatorId: interaction.user.id,
           reason: reason,
@@ -112,13 +112,13 @@ module.exports = {
       // If deferred, edit reply
       if (interaction.deferred) {
         return interaction.editReply({ 
-          content: client.language.getString("SOFTBAN_ERROR", interaction.guild.id, { user: user.tag }),
+          content: client.language.getString("SOFTBAN_ERROR", interaction.guildId, { user: user.tag }),
           ephemeral: true 
         });
       } else {
         // If not deferred yet
         return interaction.reply({ 
-          content: client.language.getString("SOFTBAN_ERROR", interaction.guild.id, { user: user.tag }),
+          content: client.language.getString("SOFTBAN_ERROR", interaction.guildId, { user: user.tag }),
           ephemeral: true 
         });
       }

@@ -35,16 +35,15 @@ module.exports = {
                 eventType: "DATABASE_ERR"
             });
             return await interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("ERR_DB", interaction.guild.id, { error: error.name }))], 
+                embeds: [ErrorEmbed(client.language.getString("ERR_DB", interaction.guildId, { error: error.name }))], 
                 ephemeral: true 
             });
         }
 
-        const changeLogs = client.channels.cache.get(client.config.channels.changelogs);
-
+        const changeLogs = await client.channels.cache.get(client.config.channels.changelogs);
         if (!changeLogs) {
             return interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("CHANGELOGS_CHANNEL_NOT_FOUND", interaction.guild.id, { 
+                embeds: [ErrorEmbed(client.language.getString("CHANGELOGS_CHANNEL_NOT_FOUND", interaction.guildId, { 
                     default: "❌ Couldn't find changelogs channel, but updated documents!" 
                 }))],
                 ephemeral: true
@@ -60,38 +59,29 @@ module.exports = {
                 })
                 .setDescription(
                     [
-                        client.language.getString("RELEASE_NOTES_TITLE", interaction.guild.id, {
+                        client.language.getString("RELEASE_NOTES_TITLE", interaction.guildId, {
                             username: client.user.username,
                             version: value.Version,
                             default: `<:Discord_Staff:911761250759893012> **${client.user.username}**(\`V: ${value.Version}\`) Changelogs!`
                         }),
                         value.Title ? `${value.Title}` : ``,
-                        client.language.getString("RELEASE_NOTES_UPDATES", interaction.guild.id, {
+                        client.language.getString("RELEASE_NOTES_UPDATES", interaction.guildId, {
                             updates: value.Updates,
                             default: `**Updates:** \n\`\`\`diff\n${value.Updates}\`\`\``
                         }),
-                        client.language.getString("RELEASE_NOTES_DATE", interaction.guild.id, {
+                        client.language.getString("RELEASE_NOTES_DATE", interaction.guildId, {
                             timestamp: Math.floor(value.Date / 1000),
                             default: `**Date:** <t:${Math.floor(value.Date / 1000)}:R>`
                         }),
                     ].join("\n\n")
                 )
                 .setTimestamp();
-            
-            try {
-                await changeLogs.send({ embeds: [embed] });
-            } catch (error) {
-                console.error("Error sending to changelogs channel:", error);
-                return interaction.reply({ 
-                    embeds: [ErrorEmbed(`❌ Found the channel but couldn't send the message. Check permissions.`)],
-                    ephemeral: true
-                });
-            }
+            await changeLogs.send({ embeds: [embed] }).catch(() => { });
         };
 
         await interaction.reply({
-            embeds: [SuccessEmbed(client.language.getString("MODAL_NOTES_SUCCESS", interaction.guild.id, { 
-                default: "🤖 Your submission was received successfully!" 
+            embeds: [SuccessEmbed(client.language.getString("MODAL_NOTES_SUCCESS", interaction.guildId, { 
+                default: "👌 Your submission was received successfully!" 
             }))],
             ephemeral: true,
         });

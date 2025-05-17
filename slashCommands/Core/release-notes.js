@@ -72,7 +72,7 @@ module.exports = {
         break;
       case "view":
         if (data.length == 0) {
-          await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("RELEASE_NOTES_NONE", interaction.guild.id))] });
+          await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("RELEASE_NOTES_NONE", interaction.guildId))] });
         } else {
           await data.forEach(async (value) => {
             const embed = new EmbedBuilder()
@@ -83,13 +83,13 @@ module.exports = {
               })
               .setDescription(
                 [
-                  client.language.getString("RELEASE_NOTES_TITLE", interaction.guild.id, { 
+                  client.language.getString("RELEASE_NOTES_TITLE", interaction.guildId, { 
                     username: client.user.username, 
                     version: value.Version 
                   }),
                   value.Title ? `${value.Title}` : ``,
-                  client.language.getString("RELEASE_NOTES_UPDATES", interaction.guild.id, { updates: value.Updates }),
-                  client.language.getString("RELEASE_NOTES_DATE", interaction.guild.id, { timestamp: Math.floor(value.Date / 1000) }),
+                  client.language.getString("RELEASE_NOTES_UPDATES", interaction.guildId, { updates: value.Updates }),
+                  client.language.getString("RELEASE_NOTES_DATE", interaction.guildId, { timestamp: Math.floor(value.Date / 1000) }),
                 ].join("\n\n")
               )
               .setFooter({

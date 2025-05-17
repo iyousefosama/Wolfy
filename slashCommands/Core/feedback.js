@@ -34,17 +34,17 @@ module.exports = {
         let TimeOutData;
         try {
             TimeOutData = await TimeoutSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 userId: interaction.user.id
             })
             if (!TimeOutData) {
                 TimeOutData = await TimeoutSchema.create({
-                    guildId: interaction.guild.id,
+                    guildId: interaction.guildId,
                     userId: interaction.user.id
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }), ephemeral: true })
+            await interaction.reply({ content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }), ephemeral: true })
             client.logDetailedError({
                 error: err,
                 eventType: "DATABASE_ERR",
@@ -53,20 +53,20 @@ module.exports = {
         }
 
         if (feedback.length > 1000) {
-            return interaction.reply({ content: client.language.getString("FEEDBACK_TOO_LONG", interaction.guild.id), ephemeral: true })
+            return interaction.reply({ content: client.language.getString("FEEDBACK_TOO_LONG", interaction.guildId), ephemeral: true })
         };
 
         const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
         if (!owner) {
-            return interaction.reply({ content: client.language.getString("FEEDBACK_OWNER_UNAVAILABLE", interaction.guild.id), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("FEEDBACK_OWNER_UNAVAILABLE", interaction.guildId), ephemeral: true });
         };
 
         if (TimeOutData.feedback > now) {
             return interaction.reply({
                 embeds: [new EmbedBuilder()
-                    .setTitle(client.language.getString("FEEDBACK_ALREADY_SENT", interaction.guild.id))
-                    .setDescription(client.language.getString("FEEDBACK_COOLDOWN_MESSAGE", interaction.guild.id, { 
+                    .setTitle(client.language.getString("FEEDBACK_ALREADY_SENT", interaction.guildId))
+                    .setDescription(client.language.getString("FEEDBACK_COOLDOWN_MESSAGE", interaction.guildId, { 
                         username: interaction.user.username, 
                         time: moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')
                     }))
@@ -84,7 +84,7 @@ module.exports = {
                 .setDescription([
                     moment(new Date()).format('dddd, do MMMM YYYY'),
                     `${interaction.guild.name}\u2000|\u2000#${interaction.channel.name}`,
-                    `Guild ID: ${interaction.guild.id}\u2000|\u2000Channel ID: ${interaction.channel.id}\u2000|\u2000User ID:${interaction.user.id}`,
+                    `Guild ID: ${interaction.guildId}\u2000|\u2000Channel ID: ${interaction.channel.id}\u2000|\u2000User ID:${interaction.user.id}`,
                     '\n',
                     feedback
                 ].filter(Boolean).join('\n'))
@@ -102,8 +102,8 @@ module.exports = {
                         '```'
                     ].join('\n')
                 })
-            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: client.language.getString("FEEDBACK_SENT", interaction.guild.id), ephemeral: true }))
-                .catch(() => interaction.reply({ content: client.language.getString("FEEDBACK_DMS_CLOSED", interaction.guild.id, { username: owner.username }), ephemeral: true }));
+            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: client.language.getString("FEEDBACK_SENT", interaction.guildId), ephemeral: true }))
+                .catch(() => interaction.reply({ content: client.language.getString("FEEDBACK_DMS_CLOSED", interaction.guildId, { username: owner.username }), ephemeral: true }));
         }
     },
 };

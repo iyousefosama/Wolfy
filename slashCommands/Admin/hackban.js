@@ -35,7 +35,7 @@ module.exports = {
     
     if (!userId.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("INVALID_ID", interaction.guild.id),
+        content: client.language.getString("INVALID_ID", interaction.guildId),
         ephemeral: true 
       });
     }
@@ -49,7 +49,7 @@ module.exports = {
       
       if (member) {
         return interaction.reply({ 
-          content: client.language.getString("USER_IN_SERVER", interaction.guild.id, { command: "ban" }),
+          content: client.language.getString("USER_IN_SERVER", interaction.guildId, { command: "ban" }),
           ephemeral: true 
         });
       }
@@ -57,7 +57,7 @@ module.exports = {
       // Check if user is the owner
       if (user.id === guild.ownerId) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "BAN" }),
+          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "BAN" }),
           ephemeral: true 
         });
       }
@@ -65,7 +65,7 @@ module.exports = {
       // Check if user is the command executor
       if (user.id === interaction.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "BAN" }),
+          content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "BAN" }),
           ephemeral: true 
         });
       }
@@ -73,7 +73,7 @@ module.exports = {
       // Check if user is the bot
       if (user.id === client.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "BAN" }),
+          content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "BAN" }),
           ephemeral: true 
         });
       }
@@ -81,20 +81,20 @@ module.exports = {
       // Check if user is a developer
       if (client.owners.includes(user.id)) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "BAN" }),
+          content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "BAN" }),
           ephemeral: true 
         });
       }
       
       // Create confirmation buttons
       const confirmButton = new ButtonBuilder()
-        .setLabel(client.language.getString("BUTTON_CONFIRM", interaction.guild.id))
+        .setLabel(client.language.getString("BUTTON_CONFIRM", interaction.guildId))
         .setCustomId('confirm_hackban')
         .setStyle('Success')
         .setEmoji('812104211386728498');
       
       const cancelButton = new ButtonBuilder()
-        .setLabel(client.language.getString("BUTTON_CANCEL", interaction.guild.id))
+        .setLabel(client.language.getString("BUTTON_CANCEL", interaction.guildId))
         .setCustomId('cancel_hackban')
         .setStyle('Danger')
         .setEmoji('812104211361693696');
@@ -104,7 +104,7 @@ module.exports = {
       
       const confirmEmbed = new EmbedBuilder()
         .setColor('Red')
-        .setDescription(client.language.getString("CONFIRMATION_MESSAGE", interaction.guild.id, { target: user.tag, action: "HACKBAN" }))
+        .setDescription(client.language.getString("CONFIRMATION_MESSAGE", interaction.guildId, { target: user.tag, action: "HACKBAN" }))
         .setFooter({ 
           text: interaction.user.tag, 
           iconURL: interaction.user.displayAvatarURL({ dynamic: true })
@@ -125,7 +125,7 @@ module.exports = {
         // Ensure the user who clicked is the command user
         if (buttonInteraction.user.id !== interaction.user.id) {
           return buttonInteraction.reply({ 
-            content: client.language.getString("NOT_COMMAND_USER", interaction.guild.id),
+            content: client.language.getString("NOT_COMMAND_USER", interaction.guildId),
             ephemeral: true 
           });
         }
@@ -138,7 +138,7 @@ module.exports = {
             
             const banEmbed = new EmbedBuilder()
               .setColor('Green')
-              .setDescription(client.language.getString("MODERATED_SUCCESSFULLY", interaction.guild.id, { action_done: "HACKBAN", target: user.username }));
+              .setDescription(client.language.getString("MODERATED_SUCCESSFULLY", interaction.guildId, { action_done: "HACKBAN", target: user.username }));
             
             // Update the original message
             await buttonInteraction.update({ 
@@ -155,7 +155,7 @@ module.exports = {
         } else if (buttonInteraction.customId === 'cancel_hackban') {
           const cancelEmbed = new EmbedBuilder()
             .setColor('Red')
-            .setDescription(client.language.getString("CANCELLED_ACTION", interaction.guild.id, { action: "HACKBAN" }));
+            .setDescription(client.language.getString("CANCELLED_ACTION", interaction.guildId, { action: "HACKBAN" }));
           
           await buttonInteraction.update({ 
             embeds: [cancelEmbed], 
@@ -173,7 +173,7 @@ module.exports = {
           
           const timeoutEmbed = new EmbedBuilder()
             .setColor('Red')
-            .setDescription(client.language.getString("INTERACTION_TIMEOUT", interaction.guild.id, { action: "HACKBAN" }));
+            .setDescription(client.language.getString("INTERACTION_TIMEOUT", interaction.guildId, { action: "HACKBAN" }));
           
           await interaction.editReply({ 
             embeds: [timeoutEmbed], 
@@ -185,7 +185,7 @@ module.exports = {
     } catch (error) {
       // If user could not be found
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_FOUND", interaction.guild.id),
+        content: client.language.getString("USER_NOT_FOUND", interaction.guildId),
         ephemeral: true 
       });
     }

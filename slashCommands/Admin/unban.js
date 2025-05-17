@@ -34,7 +34,7 @@ module.exports = {
         const reason = options.getString("reason");
 
         if (!user.match(/\d{17,19}/)) {
-            return interaction.reply({ content: client.language.getString("NO_ID", interaction.guild.id, { action: "UNBAN" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "UNBAN" }), ephemeral: true });
         };
 
         return guild.members.unban(user, { reason: `Wolfy Unban: ${interaction.user.username}: ${reason || 'None'}`})
@@ -42,13 +42,13 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setDescription([
-                    client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "UNBAN", target: interaction.guild.name }),
-                    !reason ? '' : client.language.getString("MODERATE_REASON", interaction.guild.id, { action: "UNBAN", reason: reason || 'Unspecified' })
+                    client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "UNBAN", target: interaction.guild.name }),
+                    !reason ? '' : client.language.getString("MODERATE_REASON", interaction.guildId, { action: "UNBAN", reason: reason || 'Unspecified' })
                 ].join('\n'))
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setTimestamp();
             return interaction.reply({ embeds: [embed] });
         })
-        .catch(() => interaction.reply({ content: client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "UNBAN" }), ephemeral: true }));
+        .catch(() => interaction.reply({ content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "UNBAN" }), ephemeral: true }));
     },
 };

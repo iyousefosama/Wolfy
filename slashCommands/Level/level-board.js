@@ -25,11 +25,11 @@ module.exports = {
     let data;
     try {
       data = await schema.findOne({
-        GuildID: interaction.guild.id,
+        GuildID: interaction.guildId,
       });
       if (!data || !data.Mod.Level.isEnabled) {
         return await interaction.editReply({
-          content: client.language.getString("LEVEL_DISABLED", interaction.guild.id, { 
+          content: client.language.getString("LEVEL_DISABLED", interaction.guildId, { 
             displayName: interaction.member.displayName,
             prefix: client.prefix
           }),
@@ -38,7 +38,7 @@ module.exports = {
 
       // Fetch user data from the database
       const usersData = await UserSchema.find({
-        guildId: interaction.guild.id,
+        guildId: interaction.guildId,
       })
         .sort({ "System.level": -1, "System.xp": -1 })
         .limit(10); // Change the limit as needed
@@ -69,9 +69,9 @@ module.exports = {
 
       const lb = new LeaderboardBuilder()
         .setHeader({
-          title: client.language.getString("LEADERBOARD_TITLE", interaction.guild.id, { guildName: interaction.guild.name }),
+          title: client.language.getString("LEADERBOARD_TITLE", interaction.guildId, { guildName: interaction.guild.name }),
           image: interaction.guild.iconURL({ dynamic: true, extension: "png" }) || "", // Valid guild icon URL or empty string
-          subtitle: client.language.getString("LEADERBOARD_SUBTITLE", interaction.guild.id, { memberCount: interaction.guild.memberCount }),
+          subtitle: client.language.getString("LEADERBOARD_SUBTITLE", interaction.guildId, { memberCount: interaction.guild.memberCount }),
         })
         .setBackgroundColor("#808080")
         .adjustCanvas()
@@ -93,7 +93,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       return await interaction.editReply(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
       );
     }
   },

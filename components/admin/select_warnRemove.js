@@ -16,7 +16,7 @@ module.exports = {
         // Validate the UUID
         if (!uuid.validate(selectedWarnId)) {
             return interaction.reply({
-                content: client.language.getString("WARN_ID_INVALID", interaction.guild.id, {
+                content: client.language.getString("WARN_ID_INVALID", interaction.guildId, {
                     default: '\\❌ Please provide a valid warn id.'
                 }),
                 ephemeral: true,
@@ -25,14 +25,14 @@ module.exports = {
 
         // Find the user's warnings
         const warnedUserResult = await warnSchema.findOne({
-            guildId: interaction.guild.id,
+            guildId: interaction.guildId,
             userId: parts[2],
         });
 
         // Check if the user has any warnings
         if (!warnedUserResult) {
             return interaction.reply({
-                content: client.language.getString("WARN_USER_NO_WARNINGS", interaction.guild.id, {
+                content: client.language.getString("WARN_USER_NO_WARNINGS", interaction.guildId, {
                     default: '\\❌ No warnings found for this user.'
                 }),
                 ephemeral: true,
@@ -44,7 +44,7 @@ module.exports = {
 
         if (!warningExists) {
             return interaction.reply({
-                content: client.language.getString("WARN_ID_NOT_FOUND", interaction.guild.id, {
+                content: client.language.getString("WARN_ID_NOT_FOUND", interaction.guildId, {
                     default: '\\❌ The specified warn ID does not exist.'
                 }),
                 ephemeral: true,
@@ -54,7 +54,7 @@ module.exports = {
         // Remove the warning
         const warnedRemoveData = await warnSchema.findOneAndUpdate(
             {
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 userId: parts[2],
             },
             {
@@ -70,7 +70,7 @@ module.exports = {
 
         if (!getRemovedWarnedUser) {
             return interaction.reply({
-                content: client.language.getString("USER_NOT_FOUND", interaction.guild.id, {
+                content: client.language.getString("USER_NOT_FOUND", interaction.guildId, {
                     default: '\\❌ Warned user not found in the guild.'
                 }),
                 ephemeral: true,
@@ -82,7 +82,7 @@ module.exports = {
         const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
 
         interaction.reply({ 
-            content: client.language.getString("WARN_REMOVE_SUCCESS", interaction.guild.id, {
+            content: client.language.getString("WARN_REMOVE_SUCCESS", interaction.guildId, {
                 user: getRemovedWarnedUser.user.tag,
                 count: warnedRemoveCount,
                 s: warnedRemoveGrammar,

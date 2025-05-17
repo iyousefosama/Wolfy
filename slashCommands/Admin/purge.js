@@ -35,7 +35,7 @@ module.exports = {
     
     if (!user.id.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("INVALID_ID", interaction.guild.id),
+        content: client.language.getString("INVALID_ID", interaction.guildId),
         ephemeral: true 
       });
     }
@@ -46,7 +46,7 @@ module.exports = {
       // Check if trying to purge owner's messages
       if (member.id === guild.ownerId) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "PURGE" }),
+          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "PURGE" }),
           ephemeral: true 
         });
       }
@@ -54,7 +54,7 @@ module.exports = {
       // Validate amount
       if (amount < 2 || amount > 100) {
         return interaction.reply({ 
-          content: client.language.getString("INVALID_AMOUNT", interaction.guild.id, { min: 2, max: 100 }), 
+          content: client.language.getString("INVALID_AMOUNT", interaction.guildId, { min: 2, max: 100 }), 
           ephemeral: true 
         });
       }
@@ -73,7 +73,7 @@ module.exports = {
       
       if (messagesToDelete.length === 0) {
         return interaction.editReply(
-          client.language.getString("NO_MESSAGES_TO_DELETE", interaction.guild.id, { user: user.tag })
+          client.language.getString("NO_MESSAGES_TO_DELETE", interaction.guildId, { user: user.tag })
         );
       }
       
@@ -81,7 +81,7 @@ module.exports = {
       await channel.bulkDelete(messagesToDelete, true);
       
       return interaction.editReply(
-        client.language.getString("PURGE_SUCCESS", interaction.guild.id, { 
+        client.language.getString("PURGE_SUCCESS", interaction.guildId, { 
           amount: messagesToDelete.length, 
           user: user.tag 
         })
@@ -89,7 +89,7 @@ module.exports = {
     } catch (error) {
       console.error(error);
       return interaction.editReply(
-        client.language.getString("PURGE_ERROR", interaction.guild.id, { user: user.tag })
+        client.language.getString("PURGE_ERROR", interaction.guildId, { user: user.tag })
       );
     }
   },

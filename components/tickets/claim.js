@@ -16,37 +16,37 @@ module.exports = {
         let panel;
         try {
             ticket = await ticketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
             panel = await panelSchema.findOne({
-                Guild: interaction.guild.id,
+                Guild: interaction.guildId,
                 Category: interaction.channel.parentId
             })
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
                 ephemeral: true,
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
-                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id),
+                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId),
                 ephemeral: true,
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_CLAIM_CLOSED", interaction.guild.id, { default: "Ticket can't be claimed because it's closed!" }))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_CLAIM_CLOSED", interaction.guildId, { default: "Ticket can't be claimed because it's closed!" }))],
                 ephemeral: true,
             });
         } else if (ticket.IsClaimed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLAIMED", interaction.guild.id, { default: "Ticket is already claimed!" }))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLAIMED", interaction.guildId, { default: "Ticket is already claimed!" }))],
                 ephemeral: true,
             })
         }
@@ -56,28 +56,28 @@ module.exports = {
 
         if (!Channel) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guild.id))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guildId))],
                 ephemeral: true,
             });
         }
 
         if (!modsRole) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_NOT_SET", interaction.guild.id, { default: "The panel \`mods-role\` is not set!" }))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_NOT_SET", interaction.guildId, { default: "The panel \`mods-role\` is not set!" }))],
                 ephemeral: true,
             });
         }
 
         if (!interaction.member.roles.cache.has(modsRole.id)) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_REQUIRED", interaction.guild.id, { role: modsRole.toString(), default: `You need to have ${modsRole} in order to claim this ticket!` }))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_REQUIRED", interaction.guildId, { role: modsRole.toString(), default: `You need to have ${modsRole} in order to claim this ticket!` }))],
                 ephemeral: true,
             });
         }
 
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             return interaction.followUp({
-                content: client.language.getString("BOT_PERMS_REQ", interaction.guild.id, { permissions: "ManageChannels" }),
+                content: client.language.getString("BOT_PERMS_REQ", interaction.guildId, { permissions: "ManageChannels" }),
                 ephemeral: true,
             });
         }
@@ -85,7 +85,7 @@ module.exports = {
         try {
             await Channel.permissionOverwrites.set([
                 {
-                    id: interaction.guild.id,
+                    id: interaction.guildId,
                     deny: [
                         PermissionsBitField.Flags.SendMessages,
                         PermissionsBitField.Flags.ViewChannel,
@@ -109,12 +109,12 @@ module.exports = {
             ticket.claimedBy = interaction.user.id;
             await ticket.save();
             interaction.channel.send({ 
-                embeds: [InfoEmbed(client.language.getString("TICKET_CLAIMED_BY", interaction.guild.id, { user: interaction.user.toString() }))] 
+                embeds: [InfoEmbed(client.language.getString("TICKET_CLAIMED_BY", interaction.guildId, { user: interaction.user.toString() }))] 
             });
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERROR_EXEC", interaction.guild.id),
+                content: client.language.getString("ERROR_EXEC", interaction.guildId),
                 ephemeral: true,
             });
         }

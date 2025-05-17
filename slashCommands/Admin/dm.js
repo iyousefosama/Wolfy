@@ -34,7 +34,7 @@ module.exports = {
     
     if (!message.trim()) {
       return interaction.reply({ 
-        content: client.language.getString("EMPTY_MESSAGE", interaction.guild.id), 
+        content: client.language.getString("EMPTY_MESSAGE", interaction.guildId), 
         ephemeral: true 
       });
     }
@@ -57,13 +57,13 @@ module.exports = {
       
       const successEmbed = new EmbedBuilder()
         .setColor('Green')
-        .setDescription(client.language.getString("MOD_DM_SUCCESS", interaction.guild.id, { user: user.username }));
+        .setDescription(client.language.getString("MOD_DM_SUCCESS", interaction.guildId, { user: user.username }));
       
       return interaction.reply({ embeds: [successEmbed] });
     } catch (error) {
       const errorEmbed = new EmbedBuilder()
         .setColor('Red')
-        .setDescription(client.language.getString("MOD_DM_ERROR", interaction.guild.id, { user: user.username }));
+        .setDescription(client.language.getString("MOD_DM_ERROR", interaction.guildId, { user: user.username }));
       
       return interaction.reply({ embeds: [errorEmbed] });
     }

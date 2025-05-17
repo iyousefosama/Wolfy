@@ -26,7 +26,7 @@ Those placeholders are mapped to their proper value depending on the language (l
 Whenever you use a translation key like `MODERATE_SUCCESS`, you provide both the `guildId` (for language) and the dynamic placeholders:
 
 ```js
-client.language.getString("MODERATE_SUCCESS", interaction.guild.id, {
+client.language.getString("MODERATE_SUCCESS", interaction.guildId, {
   action_done: "UNBAN", // this will be mapped internally to "إلغاء الحظر" in Arabic
   target: interaction.guild.name
 })
@@ -43,7 +43,7 @@ client.language.getString("MODERATE_SUCCESS", interaction.guild.id, {
 ```js
 if (!user.match(/\d{17,19}/)) {
     return interaction.reply({
-        content: client.language.getString("NO_ID", interaction.guild.id, { action: "UNBAN" }),
+        content: client.language.getString("NO_ID", interaction.guildId, { action: "UNBAN" }),
         ephemeral: true
     });
 }

@@ -14,28 +14,28 @@ module.exports = {
         let ticket;
         try {
             ticket = await ticketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
                 ephemeral: true,
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
-                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id),
+                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId),
                 ephemeral: true,
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLOSED", interaction.guild.id))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLOSED", interaction.guildId))],
                 ephemeral: true,
             });
         }
@@ -49,7 +49,7 @@ module.exports = {
 
         if (!Channel) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guild.id))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guildId))],
                 ephemeral: true,
             });
         }
@@ -61,19 +61,19 @@ module.exports = {
         });
 
         const button = new ButtonBuilder()
-            .setLabel(client.language.getString("TICKET_BUTTON_TRANSCRIPT", interaction.guild.id))
+            .setLabel(client.language.getString("TICKET_BUTTON_TRANSCRIPT", interaction.guildId))
             .setCustomId("btn_transcript")
             .setStyle("Secondary")
             .setEmoji("853495194863534081");
 
         const button2 = new ButtonBuilder()
-            .setLabel(client.language.getString("TICKET_BUTTON_REOPEN", interaction.guild.id))
+            .setLabel(client.language.getString("TICKET_BUTTON_REOPEN", interaction.guildId))
             .setCustomId("btn_reopen")
             .setStyle("Primary")
             .setEmoji("🔓");
 
         const button3 = new ButtonBuilder()
-            .setLabel(client.language.getString("TICKET_BUTTON_DELETE", interaction.guild.id))
+            .setLabel(client.language.getString("TICKET_BUTTON_DELETE", interaction.guildId))
             .setCustomId("btn_delete")
             .setStyle("Danger")
             .setEmoji("853496185443319809");
@@ -86,19 +86,19 @@ module.exports = {
             interaction.channel.send({
                 embeds: [new EmbedBuilder()
                     .setAuthor({
-                        name: client.language.getString("TICKET_CLOSED_BY", interaction.guild.id, {
+                        name: client.language.getString("TICKET_CLOSED_BY", interaction.guildId, {
                             user: interaction.user.tag
                         }),
                         iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
                     })
                     .setColor("#2F3136")
-                    .setDescription(client.language.getString("TICKET_CONTROL_DESCRIPTION", interaction.guild.id))],
+                    .setDescription(client.language.getString("TICKET_CONTROL_DESCRIPTION", interaction.guildId))],
                 components: [row]
             });
         } catch (err) {
             console.error(err);
             interaction.followUp({
-                content: client.language.getString("ERROR", interaction.guild.id),
+                content: client.language.getString("ERROR", interaction.guildId),
                 ephemeral: true,
             });
         }

@@ -58,7 +58,7 @@ module.exports = {
         })
         .catch((err) => {
             // Error handling if permission overwrite edit fails
-            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_LOCK_ERROR_EXECUTE", interaction.guild.id, { error: err.name }))] });
+            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_LOCK_ERROR_EXECUTE", interaction.guildId, { error: err.name }))] });
         });
         
     },

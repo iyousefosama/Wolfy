@@ -20,7 +20,7 @@ module.exports = {
     // Check if channel is a text channel
     if (channel.type !== ChannelType.GuildText) {
       return interaction.reply({ 
-        content: client.language.getString("TEXT_CHANNEL_ONLY", interaction.guild.id),
+        content: client.language.getString("TEXT_CHANNEL_ONLY", interaction.guildId),
         ephemeral: true 
       });
     }
@@ -43,7 +43,7 @@ module.exports = {
     
     const confirmEmbed = new EmbedBuilder()
       .setColor('Red')
-      .setDescription(client.language.getString("PURGE_CHANNEL_CONFIRM", interaction.guild.id, { channel: channel.toString() }))
+      .setDescription(client.language.getString("PURGE_CHANNEL_CONFIRM", interaction.guildId, { channel: channel.toString() }))
       .setFooter({ 
         text: interaction.user.tag, 
         iconURL: interaction.user.displayAvatarURL({ dynamic: true })
@@ -64,7 +64,7 @@ module.exports = {
       // Ensure the user who clicked is the command user
       if (buttonInteraction.user.id !== interaction.user.id) {
         return buttonInteraction.reply({ 
-          content: client.language.getString("NOT_COMMAND_USER", interaction.guild.id),
+          content: client.language.getString("NOT_COMMAND_USER", interaction.guildId),
           ephemeral: true 
         });
       }
@@ -72,7 +72,7 @@ module.exports = {
       if (buttonInteraction.customId === 'confirm_purge_channel') {
         const nukeEmbed = new EmbedBuilder()
           .setColor('Red')
-          .setDescription(client.language.getString("PURGE_CHANNEL_COUNTDOWN", interaction.guild.id));
+          .setDescription(client.language.getString("PURGE_CHANNEL_COUNTDOWN", interaction.guildId));
         
         await buttonInteraction.update({ 
           embeds: [nukeEmbed], 
@@ -99,7 +99,7 @@ module.exports = {
             // Send a success message in the new channel
             const successEmbed = new EmbedBuilder()
               .setColor('Green')
-              .setDescription(client.language.getString("PURGE_CHANNEL_SUCCESS", interaction.guild.id, { 
+              .setDescription(client.language.getString("PURGE_CHANNEL_SUCCESS", interaction.guildId, { 
                 user: interaction.user.toString() 
               }));
             
@@ -113,7 +113,7 @@ module.exports = {
             // If there was an error, update the interaction
             const errorEmbed = new EmbedBuilder()
               .setColor('Red')
-              .setDescription(client.language.getString("PURGE_CHANNEL_ERROR", interaction.guild.id));
+              .setDescription(client.language.getString("PURGE_CHANNEL_ERROR", interaction.guildId));
             
             await buttonInteraction.editReply({ 
               embeds: [errorEmbed], 
@@ -125,7 +125,7 @@ module.exports = {
       } else if (buttonInteraction.customId === 'cancel_purge_channel') {
         const cancelEmbed = new EmbedBuilder()
           .setColor('Green')
-          .setDescription(client.language.getString("COMMAND_CANCELLED", interaction.guild.id, { command: "purge-channel" }));
+          .setDescription(client.language.getString("COMMAND_CANCELLED", interaction.guildId, { command: "purge-channel" }));
         
         await buttonInteraction.update({ 
           embeds: [cancelEmbed], 
@@ -143,7 +143,7 @@ module.exports = {
         
         const timeoutEmbed = new EmbedBuilder()
           .setColor('Red')
-          .setDescription(client.language.getString("COMMAND_TIMEOUT", interaction.guild.id));
+          .setDescription(client.language.getString("COMMAND_TIMEOUT", interaction.guildId));
         
         await interaction.editReply({ 
           embeds: [timeoutEmbed], 

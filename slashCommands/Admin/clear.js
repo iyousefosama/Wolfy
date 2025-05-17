@@ -33,7 +33,7 @@ module.exports = {
 
     if (!quantity || quantity < 2 || quantity > 100) {
       return interaction.reply({
-        content: client.language.getString("CLEAR_QUANTITY", interaction.guild.id),
+        content: client.language.getString("CLEAR_QUANTITY", interaction.guildId),
         ephemeral: true
       });
     }

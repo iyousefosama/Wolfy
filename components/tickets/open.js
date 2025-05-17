@@ -21,18 +21,18 @@ module.exports = {
         let data;
         try {
             data = await schema.findOne({
-                Guild: interaction.guild.id,
+                Guild: interaction.guildId,
                 Category: parts[2]
             });
             if (!data) {
                 return interaction.followUp({
-                    content: client.language.getString("DATA_404", interaction.guild.id, { data: "category" }),
+                    content: client.language.getString("DATA_404", interaction.guildId, { data: "category" }),
                     ephemeral: true,
                 });
             }
         } catch (err) {
             interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
                 ephemeral: true,
             });
             return client.logDetailedError({
@@ -46,12 +46,12 @@ module.exports = {
 
         if (!category) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("DATA_404", interaction.guild.id, { data: "Category" }))],
+                embeds: [ErrorEmbed(client.language.getString("DATA_404", interaction.guildId, { data: "Category" }))],
                 ephemeral: true,
             });
         } else if (!data.Enabled) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("CMD_BLOCKED", interaction.guild.id, { commandName: "ticket" }))],
+                embeds: [ErrorEmbed(client.language.getString("CMD_BLOCKED", interaction.guildId, { commandName: "ticket" }))],
                 ephemeral: true,
             });
         }
@@ -59,13 +59,13 @@ module.exports = {
         let TicketData;
         try {
             TicketData = await TicketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 UserId: interaction.user.id,
                 Category: category.id
             });
             if (!TicketData) {
                 TicketData = await TicketSchema.create({
-                    guildId: interaction.guild.id,
+                    guildId: interaction.guildId,
                     UserId: interaction.user.id,
                     Category: category.id
                 });
@@ -73,13 +73,13 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return interaction.channel.send({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
             });
         }
 
         if (category.children.cache.has(TicketData.ChannelId)) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guild.id))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guildId))],
                 ephemeral: true,
             });
         }
@@ -88,7 +88,7 @@ module.exports = {
 
         const permissionOverwrites = [
             {
-                id: interaction.guild.id,
+                id: interaction.guildId,
                 deny: [
                     PermissionsBitField.Flags.SendMessages,
                     PermissionsBitField.Flags.ViewChannel,
@@ -129,18 +129,18 @@ module.exports = {
         })
             .then(async (channel) => {
                 interaction.followUp({
-                    embeds: [SuccessEmbed(client.language.getString("TICKET_OPEN_SUCCESS", interaction.guild.id))],
+                    embeds: [SuccessEmbed(client.language.getString("TICKET_OPEN_SUCCESS", interaction.guildId))],
                     ephemeral: true,
                 });
 
                 const close = new ButtonBuilder()
-                    .setLabel(client.language.getString("TICKET_BUTTON_CLOSE", interaction.guild.id, { default: "Close" }))
+                    .setLabel(client.language.getString("TICKET_BUTTON_CLOSE", interaction.guildId, { default: "Close" }))
                     .setCustomId("btn_close")
                     .setStyle("Secondary")
                     .setEmoji("🔒");
 
                 const claim = new ButtonBuilder()
-                    .setLabel(client.language.getString("TICKET_BUTTON_CLAIM", interaction.guild.id))
+                    .setLabel(client.language.getString("TICKET_BUTTON_CLAIM", interaction.guildId))
                     .setCustomId("btn_claim")
                     .setStyle("Success");
 
@@ -148,7 +148,7 @@ module.exports = {
 
                 const ticketEmbed = new discord.EmbedBuilder()
                     .setAuthor({
-                        name: client.language.getString("TICKET_WELCOME_TITLE", interaction.guild.id, { 
+                        name: client.language.getString("TICKET_WELCOME_TITLE", interaction.guildId, { 
                             user: interaction.user.tag,
                             default: `Welcome in your ticket ${interaction.user.tag}`
                         }),
@@ -158,9 +158,9 @@ module.exports = {
                         }),
                     })
                     .setDescription(data.Message ? data.Message.replace(/{user}/g, `${interaction.user}`) : [
-                        `<:tag:813830683772059748> ${client.language.getString("TICKET_WELCOME_DESCRIPTION", interaction.guild.id, { default: "Send here your message or question!" })}\n`,
-                        `> <:Humans:853495153280155668> ${client.language.getString("TICKET_WELCOME_USER", interaction.guild.id, { default: "User" })}: ${interaction.user}`,
-                        `> <:pp198:853494893439352842> ${client.language.getString("TICKET_WELCOME_USERID", interaction.guild.id, { default: "UserID" })}: \`${interaction.user.id}\``,
+                        `<:tag:813830683772059748> ${client.language.getString("TICKET_WELCOME_DESCRIPTION", interaction.guildId, { default: "Send here your message or question!" })}\n`,
+                        `> <:Humans:853495153280155668> ${client.language.getString("TICKET_WELCOME_USER", interaction.guildId, { default: "User" })}: ${interaction.user}`,
+                        `> <:pp198:853494893439352842> ${client.language.getString("TICKET_WELCOME_USERID", interaction.guildId, { default: "UserID" })}: \`${interaction.user.id}\``,
                     ].join("\n"))
                     .setTimestamp();
 
@@ -175,7 +175,7 @@ module.exports = {
                 TicketData.OpenTimeStamp = Math.floor(Date.now() / 1000);
                 await TicketData.save().catch((err) =>
                     channel.send(
-                        client.language.getString("ERR_DB", interaction.guild.id, { error: err.name })
+                        client.language.getString("ERR_DB", interaction.guildId, { error: err.name })
                     )
                 );
             });

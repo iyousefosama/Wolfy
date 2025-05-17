@@ -28,7 +28,7 @@ module.exports = {
     const user = options.getUser("target");
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guild.id, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
     };
 
     const member = await guild.members
@@ -36,25 +36,25 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guild.id), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guild.id, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
     }
 
     let data;
     try {
       data = await schema.findOne({
-        guildId: interaction.guild.id,
+        guildId: interaction.guildId,
         userId: member.id
       });
       
       if (!data) {
         data = await schema.create({
-          guildId: interaction.guild.id,
+          guildId: interaction.guildId,
           userId: member.id
         });
       }
@@ -66,11 +66,11 @@ module.exports = {
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
     
     if (!mutedRole) {
-      return interaction.reply({ content: client.language.getString("NO_MUTED_ROLE", interaction.guild.id), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("NO_MUTED_ROLE", interaction.guildId), ephemeral: true });
     }
     
     if (member.roles.cache.find(r => r.name.toLowerCase() !== 'muted' && data?.Muted !== true)) {
-      return interaction.reply({ content: client.language.getString("ALREADY_UNMUTED", interaction.guild.id), ephemeral: true });
+      return interaction.reply({ content: client.language.getString("ALREADY_UNMUTED", interaction.guildId), ephemeral: true });
     }
 
     try {
@@ -80,7 +80,7 @@ module.exports = {
       
       const unmute = new EmbedBuilder()
         .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-        .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guild.id, { 
+        .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
           action_done: "unmuted", 
           user: member.user.toString()
         }))
@@ -90,7 +90,7 @@ module.exports = {
       return interaction.reply({ embeds: [unmute] });
     } catch (error) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "UNMUTE" }), 
+        content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "UNMUTE" }), 
         ephemeral: true 
       });
     }

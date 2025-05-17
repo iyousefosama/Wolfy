@@ -50,23 +50,23 @@ module.exports = {
     let data;
     try {
       data = await schema.findOne({
-        GuildID: interaction.guild.id,
+        GuildID: interaction.guildId,
       });
       if (!data) {
         data = await schema.create({
-          GuildID: interaction.guild.id,
+          GuildID: interaction.guildId,
         });
       }
     } catch (err) {
       console.log(err);
       return interaction.reply(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
       );
     }
     
     if (!data.Mod.Level.isEnabled)
       return interaction.reply({
-        content: client.language.getString("LEVEL_DISABLED", interaction.guild.id, { 
+        content: client.language.getString("LEVEL_DISABLED", interaction.guildId, { 
           displayName: interaction.member.displayName,
           prefix: client.prefix
         }),
@@ -80,7 +80,7 @@ module.exports = {
       });
       Userdata = await Userschema.findOne({
         userId: user.id,
-        guildId: interaction.guild.id,
+        guildId: interaction.guildId,
       });
       if (!ecodata) {
         ecodata = await ecoschema.create({
@@ -88,7 +88,7 @@ module.exports = {
         });
         if (!Userdata || Userdata == null || Userdata == undefined) {
           return interaction.channel.send({
-            content: client.language.getString("LEVEL_NO_XP", interaction.guild.id, { 
+            content: client.language.getString("LEVEL_NO_XP", interaction.guildId, { 
               displayName: interaction.member.displayName 
             }),
           });
@@ -97,7 +97,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return interaction.channel.send(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guild.id, { error: err.name })
+        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
       );
     }
     var status = member.presence?.status;

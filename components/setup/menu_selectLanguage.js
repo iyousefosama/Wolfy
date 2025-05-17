@@ -16,20 +16,20 @@ module.exports = {
 
         if (!language) {
             return interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("LANGUAGE_404", interaction.guild.id))], 
+                embeds: [ErrorEmbed(client.language.getString("LANGUAGE_404", interaction.guildId))], 
                 ephemeral: true 
             });
         };
 
         await schema.findOneAndUpdate(
-            { GuildID: interaction.guild.id }, 
+            { GuildID: interaction.guildId }, 
             { Language: choice }, 
             { upsert: true }
         )
         .then(() => {
-            client.language.languageCache.set(interaction.guild.id, choice);
+            client.language.languageCache.set(interaction.guildId, choice);
             return interaction.reply({ 
-                embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guild.id, {
+                embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guildId, {
                     client: client.user.username, 
                     language: `${language.flag} ${language.name}`
                 }))], 
@@ -40,7 +40,7 @@ module.exports = {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
             return interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild.id))], 
+                embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guildId))], 
                 ephemeral: true 
             });
         });

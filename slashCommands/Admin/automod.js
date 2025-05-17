@@ -159,7 +159,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guild.id, { bot: client.user.username }),
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guildId, { bot: client.user.username }),
               },
             },
           ],
@@ -171,12 +171,12 @@ module.exports = {
             .edit(existingFlaggedRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("UPDATE_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         } else {
@@ -184,12 +184,12 @@ module.exports = {
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("CREATION_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         }
@@ -213,7 +213,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_SPAM", interaction.guild.id),
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_SPAM", interaction.guildId),
               },
             },
           ],
@@ -225,12 +225,12 @@ module.exports = {
             .edit(existingSpamMsgRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("UPDATE_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         } else {
@@ -238,12 +238,12 @@ module.exports = {
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("CREATION_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         }
@@ -270,7 +270,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_MENTIONS", interaction.guild.id),
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_MENTIONS", interaction.guildId),
               },
             },
           ],
@@ -282,12 +282,12 @@ module.exports = {
             .edit(existingMentionRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("UPDATE_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         } else {
@@ -295,12 +295,12 @@ module.exports = {
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("CREATION_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         }
@@ -327,7 +327,7 @@ module.exports = {
               metadata: {
                 channel: channel,
                 durationSeconds: 10,
-                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guild.id, { bot: client.user.username }),
+                customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guildId, { bot: client.user.username }),
               },
             },
           ],
@@ -339,12 +339,12 @@ module.exports = {
             .edit(existingKeywordRule.id, ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("UPDATE_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("UPDATE_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         } else {
@@ -352,12 +352,12 @@ module.exports = {
             .create(ruleData)
             .then(async (result) => {
               await interaction.editReply(
-                client.language.getString("CREATION_SUCCESS", interaction.guild.id, { element: "auto-moderation rule", group: guild.name })
+                client.language.getString("CREATION_SUCCESS", interaction.guildId, { element: "auto-moderation rule", group: guild.name })
               );
             })
             .catch(async (err) => {
               return await interaction.editReply(
-                client.language.getString("ERROR_EXEC", interaction.guild.id)
+                client.language.getString("ERROR_EXEC", interaction.guildId)
               );
             });
         }

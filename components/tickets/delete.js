@@ -14,29 +14,29 @@ module.exports = {
         await interaction.deferUpdate();
         try {
             const ticket = await ticketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
             const panel = await panelSchema.findOne({
-                Guild: interaction.guild.id,
+                Guild: interaction.guildId,
                 Category: interaction.channel.parentId
             });
 
             if (!ticket) {
-                return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guild.id));
+                return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId));
             }
 
             if (!ticket.IsClosed) {
                 return interaction.followUp({ 
-                    embeds: [ErrorEmbed(client.language.getString("TICKET_DELETE_NOT_CLOSED", interaction.guild.id, { default: 'Ticket should be closed before it can be deleted' }))], 
+                    embeds: [ErrorEmbed(client.language.getString("TICKET_DELETE_NOT_CLOSED", interaction.guildId, { default: 'Ticket should be closed before it can be deleted' }))], 
                     ephemeral: true 
                 });
             }
 
             await interaction.channel.send({ 
                 embeds: [
-                    ErrorEmbed(client.language.getString("TICKET_DELETE_COUNTDOWN", interaction.guild.id, { default: 'Ticket will be deleted in `5 seconds`!' }))
+                    ErrorEmbed(client.language.getString("TICKET_DELETE_COUNTDOWN", interaction.guildId, { default: 'Ticket will be deleted in `5 seconds`!' }))
                     .setAuthor({ 
                         name: interaction.user.username, 
                         iconURL: interaction.user.displayAvatarURL({ dynamic: true }) 
@@ -57,7 +57,7 @@ module.exports = {
                             languageId: "text",
                         },
                     ], {
-                        title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guild.id, { 
+                        title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guildId, { 
                             channel: interaction.channel.name,
                             default: `Chat transcript for ${interaction.channel.name}`
                         }),
@@ -68,22 +68,22 @@ module.exports = {
 
                     const fields = [
                         { 
-                            name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guild.id, { default: "Ticket transcript" }), 
-                            value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guild.id, { default: "View" })}](${response.url})`, 
+                            name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guildId, { default: "Ticket transcript" }), 
+                            value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guildId, { default: "View" })}](${response.url})`, 
                             inline: true 
                         },
                         { 
-                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guild.id, { default: "Opened by" }), 
+                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guildId, { default: "Opened by" }), 
                             value: `${TicketUser.user.tag}`, 
                             inline: true 
                         },
                         { 
-                            name: client.language.getString("TICKET_TRANSCRIPT_CLOSED_BY", interaction.guild.id, { default: "Closed by" }), 
+                            name: client.language.getString("TICKET_TRANSCRIPT_CLOSED_BY", interaction.guildId, { default: "Closed by" }), 
                             value: `${interaction.user.tag}`, 
                             inline: true 
                         },
                         { 
-                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guild.id, { default: "Opened At" }), 
+                            name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guildId, { default: "Opened At" }), 
                             value: `<t:${ticket.OpenTimeStamp}>`, 
                             inline: true 
                         }
@@ -92,7 +92,7 @@ module.exports = {
                     if (ticket.claimedBy) {
                         const mod = await interaction.guild.members.fetch(ticket.claimedBy).catch(() => null);
                         fields.push({ 
-                            name: client.language.getString("TICKET_TRANSCRIPT_CLAIMED_BY", interaction.guild.id, { default: "Claimed by" }), 
+                            name: client.language.getString("TICKET_TRANSCRIPT_CLAIMED_BY", interaction.guildId, { default: "Claimed by" }), 
                             value: `${mod.user.username}`, 
                             inline: true 
                         });
@@ -100,8 +100,8 @@ module.exports = {
 
                     const closedEmbed = new EmbedBuilder()
                         .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
-                        .setTitle(client.language.getString("TICKET_TRANSCRIPT_EMBED_TITLE", interaction.guild.id, { default: "Ticket Closed." }))
-                        .setDescription(client.language.getString("TICKET_TRANSCRIPT_EMBED_DESC", interaction.guild.id, { 
+                        .setTitle(client.language.getString("TICKET_TRANSCRIPT_EMBED_TITLE", interaction.guildId, { default: "Ticket Closed." }))
+                        .setDescription(client.language.getString("TICKET_TRANSCRIPT_EMBED_DESC", interaction.guildId, { 
                             channel: interaction.channel.name, 
                             guild: interaction.guild.name,
                             default: `<:Tag:836168214525509653> Ticket ${interaction.channel.name} at ${interaction.guild.name} has been closed!`
@@ -114,17 +114,17 @@ module.exports = {
                     await TicketUser.send({ embeds: [closedEmbed] }).catch(() => null);
                     panel.logs && (await client.channels.fetch(panel.logs).catch(() => null))?.send({ embeds: [closedEmbed] }).catch(() => null);
 
-                    await ticketSchema.findOneAndDelete({ guildId: interaction.guild.id, ChannelId: interaction.channel.id, Category: interaction.channel.parentId });
+                    await ticketSchema.findOneAndDelete({ guildId: interaction.guildId, ChannelId: interaction.channel.id, Category: interaction.channel.parentId });
                     await interaction.channel.delete();
                 } catch (err) {
                     console.error(err);
-                    interaction.followUp(client.language.getString("ERROR_EXEC", interaction.guild.id));
+                    interaction.followUp(client.language.getString("ERROR_EXEC", interaction.guildId));
                 }
             }, 5000);
         } catch (err) {
             console.error(err);
             interaction.followUp({ 
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }) 
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }) 
             });
         }
     },

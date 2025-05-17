@@ -38,25 +38,25 @@ module.exports = {
             .catch(() => interaction.member);
 
         if (!member) {
-            return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guild.id), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
         } else if (member.id === client.user.id) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
         } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
         } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
         } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guild.id, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
         };
 
         if (!nickname) {
             return member.setNickname(null, `Wolfy Nickname: ${interaction.user.username}`)
-                .then(() => interaction.reply(client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "NICKNAME", target: member.user.username })))
-                .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "NICKNAME" })));
+                .then(() => interaction.reply(client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "NICKNAME", target: member.user.username })))
+                .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "NICKNAME" })));
         }
 
         return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
-            .then(() => interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guild.id, { action_done: "NICKNAME", target: member.user.username }) }))
-            .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guild.id, { action: "NICKNAME" })));
+            .then(() => interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "NICKNAME", target: member.user.username }) }))
+            .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "NICKNAME" })));
     },
 };

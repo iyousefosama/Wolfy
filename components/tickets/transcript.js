@@ -15,20 +15,20 @@ module.exports = {
         let TicketData;
         try {
             TicketData = await TicketSchema.findOne({
-                guildId: interaction.guild.id,
+                guildId: interaction.guildId,
                 ChannelId: interaction.channel.id,
                 Category: interaction.channel.parentId,
             });
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guild.id, { error: err.name }),
+                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
             });
         }
 
         if (!TicketData || !TicketData.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_NOT_CLOSED", interaction.guild.id, { default: "This ticket is not closed!" }))],
+                embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_NOT_CLOSED", interaction.guildId, { default: "This ticket is not closed!" }))],
                 ephemeral: true,
             });
         }
@@ -49,7 +49,7 @@ module.exports = {
                         languageId: "text",
                     },
                 ], {
-                    title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guild.id, { 
+                    title: client.language.getString("TICKET_TRANSCRIPT_TITLE", interaction.guildId, { 
                         channel: interaction.channel.name,
                         default: `Chat transcript for ${interaction.channel.name}`
                     }),
@@ -58,7 +58,7 @@ module.exports = {
             } catch (e) {
                 console.error(e);
                 return interaction.followUp({
-                    content: client.language.getString("ERROR", interaction.guild.id),
+                    content: client.language.getString("ERROR", interaction.guildId),
                     ephemeral: true,
                 });
             }
@@ -70,25 +70,25 @@ module.exports = {
                     name: interaction.guild.name,
                     iconURL: interaction.guild.iconURL({ dynamic: true }),
                 })
-                .setTitle(client.language.getString("TICKET_TRANSCRIPT_LOGS_TITLE", interaction.guild.id, { default: "Ticket Logs." }))
-                .setDescription(client.language.getString("TICKET_TRANSCRIPT_LOGS_DESC", interaction.guild.id, {
+                .setTitle(client.language.getString("TICKET_TRANSCRIPT_LOGS_TITLE", interaction.guildId, { default: "Ticket Logs." }))
+                .setDescription(client.language.getString("TICKET_TRANSCRIPT_LOGS_DESC", interaction.guildId, {
                     channel: interaction.channel.name,
                     guild: interaction.guild.name,
                     default: `<:Tag:836168214525509653> ${interaction.channel.name} Ticket at ${interaction.guild.name}!`
                 }))
                 .addFields(
                     { 
-                        name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guild.id, { default: "Ticket transcript" }), 
-                        value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guild.id, { default: "View" })}](${response.url})`, 
+                        name: client.language.getString("TICKET_TRANSCRIPT_LINK", interaction.guildId, { default: "Ticket transcript" }), 
+                        value: `[${client.language.getString("TICKET_TRANSCRIPT_VIEW", interaction.guildId, { default: "View" })}](${response.url})`, 
                         inline: true 
                     },
                     { 
-                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guild.id, { default: "Opened by" }), 
+                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_BY", interaction.guildId, { default: "Opened by" }), 
                         value: `${TicketUser.tag}`, 
                         inline: true 
                     },
                     { 
-                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guild.id, { default: "Opened At" }), 
+                        name: client.language.getString("TICKET_TRANSCRIPT_OPENED_AT", interaction.guildId, { default: "Opened At" }), 
                         value: `<t:${TicketData.OpenTimeStamp}>`, 
                         inline: true 
                     }
@@ -103,13 +103,13 @@ module.exports = {
                 await interaction.user.send({ embeds: [embed] })
                 .then(() => {
                     return interaction.followUp({
-                        embeds: [InfoEmbed(client.language.getString("TICKET_TRANSCRIPT_SENT", interaction.guild.id, { default: "Sent transcript to your DM!" }))],
+                        embeds: [InfoEmbed(client.language.getString("TICKET_TRANSCRIPT_SENT", interaction.guildId, { default: "Sent transcript to your DM!" }))],
                         ephemeral: true,
                     });
                 })
                 .catch(() => {
                     return interaction.followUp({
-                        embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_DM_FAILED", interaction.guild.id, { default: "💢 I couldn't send the transcript to your **DM**!" }))],
+                        embeds: [ErrorEmbed(client.language.getString("TICKET_TRANSCRIPT_DM_FAILED", interaction.guildId, { default: "💢 I couldn't send the transcript to your **DM**!" }))],
                         ephemeral: true,
                     });
                 });
@@ -117,7 +117,7 @@ module.exports = {
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERROR_EXEC", interaction.guild.id),
+                content: client.language.getString("ERROR_EXEC", interaction.guildId),
                 ephemeral: true,
             });
         }
