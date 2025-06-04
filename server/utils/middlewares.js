@@ -1,11 +1,24 @@
 const getMutualGuilds = require("./helpers/getMutualGuilds");
 const { getUserGuilds, getBotGuilds } = require("../utils/services/getGuilds");
+const jwt = require('jsonwebtoken');
 
 const isAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        
+        if (!token) {
+            return res.status(401).json({ msg: "No token provided" });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ msg: "Token expired" });
+        }
+        return res.status(401).json({ msg: "Invalid token" });
     }
-    res.status(401).json({ msg: "Unauthorized" });
 };
 
 // Check if the user has permission to use the specified guild, Use with isAuthenticated middleware
@@ -34,10 +47,8 @@ const haveGuildPermissions = async (req, res, next) => {
         if (error.response?.status === 429) {
             return res.status(429).json({ msg: 'Rate limit exceeded. Please try again later.' });
         }
-        // TODO: If session is expired it throws an error
         if(error.response?.status === 401) {
-            res.status(401).json({ msg: 'Unauthorized' });
-            return res.redirect(process.env.BACKEND_URL + '/auth/login');
+            return res.status(401).json({ msg: 'Unauthorized' });
         }
         console.error(error);
         res.status(500).json({ msg: 'Failed to fetch guilds' });

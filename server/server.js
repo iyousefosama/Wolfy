@@ -1,8 +1,6 @@
 const express = require('express');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const cors = require("cors");
 const commands = require('../assets/json/commands-database.json');
 const authRoutes = require("./routes/authRoutes");
@@ -11,6 +9,7 @@ const actionsRoutes = require("./routes/actionsRoutes");
 const { rateLimit } = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const { info, success, error } = require('../util/console');
+const jwt = require('jsonwebtoken');
 
 /**
  * @param {import('../struct/Client')} client
@@ -20,57 +19,31 @@ module.exports = (client) => {
 
     const app = express()
 
+    // Configure CORS for production
     app.use(cors({
         origin: process.env.FRONTEND_URL,
-        methods: ['GET', 'POST', 'PATCH'],
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
         credentials: true,
+        allowedHeaders: ['Content-Type', 'Authorization']
     }));
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser());
 
-
     app.use(rateLimit({
         windowMs: 10 * 60 * 1000,
         limit: 300,
         standardHeaders: 'draft-7',
-        legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+        legacyHeaders: false,
     }));
 
     app.get('/', (req, res) => {
         res.send('Hello World!');
     });
 
-    const sessionOptions = {
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store: MongoStore.create({
-            mongoUrl: process.env.MONGO_URI,
-            collectionName: 'sessions',
-            ttl: 14 * 24 * 60 * 60,
-        }),
-        cookie: {
-            maxAge: 14 * 24 * 60 * 60 * 1000,
-        },
-    }
-
-    if (app.get('env') === 'production') {
-        /**
-         * TODO: Using JWT or buying custom domain for both front and back end because browsers wont support cross origin cookies
-         */
-        app.set('trust proxy', 1); // Should be set so cookie is set
-        sessionOptions.cookie.secure = true; // Doesn't send cookie over http
-        sessionOptions.cookie.sameSite = 'none'; // Needs secure to work
-    }
-
-    // Session setup
-    app.use(session(sessionOptions));
-
-
+    // Passport initialization
     app.use(passport.initialize());
-    app.use(passport.session());
 
     // Passport serialization
     passport.serializeUser((user, done) => {
@@ -88,7 +61,7 @@ module.exports = (client) => {
         callbackURL: process.env.DISCORD_REDIRECT_URI,
         scope: ['identify', 'email', 'guilds'],
     }, (accessToken, refreshToken, profile, done) => {
-        return done(null, profile);
+        return done(null, { ...profile, accessToken, refreshToken });
     }));
 
     app.get('/client-stats', (req, res) => {
@@ -144,7 +117,6 @@ module.exports = (client) => {
     app.use("/actions", attachClient, actionsRoutes);
 
     app.listen(port, () => success("🔆 Express server is running on port " + port))
-
 
     module.exports = app;
 }
