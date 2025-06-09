@@ -10,7 +10,6 @@ const eventsLoader = require("../Handler/EventHandler");
 const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
-const server = require("../server/server")
 const ComponentsListener = require("../Handler/ComponentsListener");
 const LanguageManager = require("../util/language/LanguageManager");
 const fs = require("fs");
@@ -260,9 +259,6 @@ module.exports = class WolfyClient extends Client {
     }
   };
 
-  expressServer() {
-    server(this)
-  }
 
   /**
    * Bulk add collections to the collection manager

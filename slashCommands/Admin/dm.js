@@ -48,8 +48,8 @@ module.exports = {
       .setDescription(`<a:Notification:811283631380234250> **${interaction.user.username}**: ${message}`)
       .setTimestamp()
       .setFooter({ 
-        text: interaction.guild.name, 
-        iconURL: interaction.guild.iconURL({ dynamic: true }) 
+        text: interaction.guild?.name, 
+        iconURL: interaction.guild?.iconURL({ dynamic: true }) 
       });
     
     try {

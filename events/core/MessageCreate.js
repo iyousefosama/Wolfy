@@ -87,23 +87,14 @@ module.exports = {
     try {
       // Permissions: To check for default permissions in the guild
       if (message.guild) {
-        if (
-          !message.channel
-            ?.permissionsFor(message.guild.members.me)
-            .has(PermissionsBitField.Flags.SendMessages)
-        ) {
+        const botPermissions = message.channel.permissionsFor(message.guild.members.me);
+        
+        if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
           return { executed: false, reason: "PERMISSION_SEND" };
-        } else {
-          // Do nothing..
         }
-        if (
-          !message.channel
-            ?.permissionsFor(message.guild.members.me)
-            .has(PermissionsBitField.Flags.ViewChannel)
-        ) {
+        
+        if (!botPermissions.has(PermissionsBitField.Flags.ViewChannel)) {
           return { executed: false, reason: "PERMISSION_VIEW_CHANNEL" };
-        } else {
-          // Do nothing..
         }
       }
 
@@ -111,20 +102,51 @@ module.exports = {
       if (!continueCommand) return;
 
       try {
-        cmd.execute(client, message, args, { executed: true }).then(() => {
-          // Start CmdManager function at ../util/functions/Manager bath
-          commandsManager(client, message, cmd);
-          client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
-            ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
-            : "DMS"
-            } sent: ${message.content}`)
-        });
+        await cmd.execute(client, message, args, { executed: true });
+        // Start CmdManager function at ../util/functions/Manager bath
+        commandsManager(client, message, cmd);
+        client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
+          ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
+          : "DMS"
+          } sent: ${message.content}`);
       } catch (error) {
         consoleUtil.error(error, "message-execute");
+        
+        // Handle permission errors specifically
+        if (error.code === 50013) {
+          const missingPerms = error.missingPermissions || [];
+          const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
+          
+          return message.reply({
+            embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, { 
+              permissions: permNames.join(', ')
+            }))]
+          });
+        }
+        
         message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
+        
+        // Log the error command attempt
+        client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
+          ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
+          : "DMS"
+          } failed: ${message.content} - ${error.message}`);
       }
     } catch (err) {
       console.log(err);
+      
+      // Handle permission errors specifically
+      if (err.code === 50013) {
+        const missingPerms = err.missingPermissions || [];
+        const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
+        
+        return message.reply({
+          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, { 
+            permissions: permNames.join(', ')
+          }))]
+        });
+      }
+      
       message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
     }
   },

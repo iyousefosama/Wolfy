@@ -17,23 +17,14 @@ module.exports = {
     try {
       // Permissions: To check for default permissions in the guild
       if (interaction.guild) {
-        if (
-          !interaction.channel
-            .permissionsFor(interaction.guild.members.me)
-            .has(PermissionsBitField.Flags.SendMessages)
-        ) {
+        const botPermissions = interaction.channel.permissionsFor(interaction.guild.members.me);
+        
+        if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
           return { executed: false, reason: "PERMISSION_SEND" };
-        } else {
-          // Do nothing..
         }
-        if (
-          !interaction.channel
-            .permissionsFor(interaction.guild.members.me)
-            .has(PermissionsBitField.Flags.ViewChannel)
-        ) {
+        
+        if (!botPermissions.has(PermissionsBitField.Flags.ViewChannel)) {
           return { executed: false, reason: "PERMISSION_VIEW_CHANNEL" };
-        } else {
-          // Do nothing..
         }
       }
     } catch (err) {
@@ -64,6 +55,20 @@ module.exports = {
       if (!continueCommand) return;
     } catch (error) {
       consoleUtil.error(error);
+      
+      // Handle permission errors specifically
+      if (error.code === 50013) {
+        const missingPerms = error.missingPermissions || [];
+        const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
+        
+        return interaction.reply({
+          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", interaction.guild?.id, { 
+            permissions: permNames.join(', ')
+          }))],
+          ephemeral: true
+        });
+      }
+      
       interaction.isRepliable
         ? await interaction.reply({
           content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
@@ -75,15 +80,27 @@ module.exports = {
     }
     try {
       //await interaction.deferReply().catch(() => {});
-      command.execute(client, interaction).then(() => {
-        client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
-          ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
-          : "DMS"
-          } used: /${interaction.commandName}`)
-      });
+      await command.execute(client, interaction);
+      client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
+        ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
+        : "DMS"
+        } used: /${interaction.commandName}`);
     } catch (error) {
       consoleUtil.error(error, "command-execute");
-
+      
+      // Handle permission errors specifically
+      if (error.code === 50013) {
+        const missingPerms = error.missingPermissions || [];
+        const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
+        
+        return interaction.reply({
+          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", interaction.guild?.id, { 
+            permissions: permNames.join(', ')
+          }))],
+          ephemeral: true
+        });
+      }
+      
       interaction.isRepliable
         ? await interaction.reply({
           content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
@@ -92,6 +109,12 @@ module.exports = {
         : interaction.editReply({
           content: client.language.getString("ERROR_EXEC", interaction.guild?.id),
         });
+        
+      // Log the error command attempt
+      client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
+        ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
+        : "DMS"
+        } failed: /${interaction.commandName} - ${error.message}`);
     }
   },
 };

@@ -518,7 +518,10 @@
     "description": "Translate from to any language you want!",
     "cooldown": 5,
     "guarded": false,
-    "clientPermissions": [],
+    "clientPermissions": [
+      "EmbedLinks",
+      "SendMessages"
+    ],
     "examples": [
       "w!translate ar Hello, my old friend."
     ],
@@ -915,6 +918,10 @@
     "description": "Shows the weather status in any country",
     "cooldown": 5,
     "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "SendMessages"
+    ],
     "examples": [
       "w!weather Cairo, egypt"
     ],
@@ -1016,6 +1023,11 @@
     "description": "The bot will reminde you for anything after a period of time.",
     "cooldown": 5,
     "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "SendMessages",
+      "UseExternalEmojis"
+    ],
     "examples": [
       "w!remind 5m To start my new project!",
       "w!remind 30s To skip this ad"
@@ -1899,6 +1911,10 @@
     "description": "Reverse the words you want!",
     "cooldown": 5,
     "guarded": false,
+    "clientPermissions": [
+      "EmbedLinks",
+      "SendMessages"
+    ],
     "examples": [
       "w!reverse Hello, everyone!",
       "w!reverse Hello, World!"
@@ -2327,6 +2343,11 @@
     "cooldown": 5,
     "guarded": false,
     "requiresDatabase": true,
+    "clientPermissions": [
+      "EmbedLinks",
+      "SendMessages",
+      "ManageChannels"
+    ],
     "examples": [
       "w!setleavermsg msg {tag} has just leaved {guildName} server!",
       "w!setleavermsg embed Member leaved, Member: {tag} JoinedAt: {joinedAt} MembersCount: {memberCount}"

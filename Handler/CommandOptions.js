@@ -111,8 +111,13 @@ const handleApplicationCommand = async (interaction, command, client) => {
                 interaction.guild.members.me
             );
             if (!clientPerms || !clientPerms.has(command.data.clientPermissions)) {
-                const parsedPermissions = parsePermissions(client.clientPermissions);
-                interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", interaction.guild?.id, { clientPermissions: parsedPermissions }))], ephemeral: true });
+                const parsedPermissions = parsePermissions(command.data.clientPermissions);
+                interaction.reply({ 
+                    embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", interaction.guild?.id, { 
+                        clientPermissions: parsedPermissions 
+                    }))], 
+                    ephemeral: true 
+                });
                 return false;
             }
         }
@@ -130,6 +135,31 @@ const handleApplicationCommand = async (interaction, command, client) => {
  */
 const handleMessageCommandcommand = async (message, command, args, client) => {
     const cmdName = command.name;
+
+    // Check basic permissions first
+    if (message.guild) {
+        const botPermissions = message.channel.permissionsFor(message.guild.members.me);
+        if (!botPermissions) {
+            message.channel.send({ 
+                embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", message.guild?.id, { 
+                    clientPermissions: "View Channel, Send Messages" 
+                }))]
+            });
+            return false;
+        }
+
+        // Check for basic required permissions
+        const basicPerms = ["ViewChannel", "SendMessages"];
+        const missingBasicPerms = basicPerms.filter(perm => !botPermissions.has(perm));
+        if (missingBasicPerms.length > 0) {
+            message.channel.send({ 
+                embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", message.guild?.id, { 
+                    clientPermissions: missingBasicPerms.join(", ") 
+                }))]
+            });
+            return false;
+        }
+    }
 
     if (message.guild) {
         // Check if command blocked in the guild
@@ -222,7 +252,12 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
             const authorPerms = message.channel.permissionsFor(message.member);
             if (!authorPerms || !authorPerms.has(command.permissions)) {
                 const parsedPermissions = parsePermissions(command.permissions);
-                message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", message.guild?.id, { commandName: cmdName, permissions: parsedPermissions}))] });
+                message.channel.send({ 
+                    embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", message.guild?.id, { 
+                        commandName: cmdName, 
+                        permissions: parsedPermissions
+                    }))]
+                });
                 return false;
             }
         }
@@ -236,7 +271,11 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
             );
             if (!clientPerms || !clientPerms.has(command.clientPermissions)) {
                 const parsedPermissions = parsePermissions(command.clientPermissions);
-                message.channel.send({ embeds: [ErrorEmbed(client.language.getString("CMD_PERMISSIONS", message.guild?.id, { permissions: parsedPermissions }))] });
+                message.channel.send({ 
+                    embeds: [ErrorEmbed(client.language.getString("CMD_BOT_PERMISSIONS", message.guild?.id, { 
+                        clientPermissions: parsedPermissions 
+                    }))]
+                });
                 return false;
             }
         }

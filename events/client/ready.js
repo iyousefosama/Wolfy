@@ -19,7 +19,6 @@ module.exports = {
  async execute(client) {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
-    client.expressServer();
     initReminders(client);
     setInterval(() => checkQuests(client), 1000 * 60 * 2); // 2 min.
     setInterval(async () => {
