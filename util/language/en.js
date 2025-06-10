@@ -28,6 +28,7 @@ module.exports = {
     LANGUAGE_404: "💢 The language you selected is not available!",
     CANNOT_MANAGE: "💢 I don't have the permissions to manage this **%group%**!",
     INTERACTION_TIMEOUT: "💢 Interaction timed out. Please try again.",
+    UNKNOWN_INTERACTION: "💢 This interaction has expired or already been responded to. Please try the command again.",
 
     // * PERMISSIONS & LIMITATIONS
     CMD_COOLDOWN: "⏳ Please cool down! (**%time_left%** second(s) left)",
