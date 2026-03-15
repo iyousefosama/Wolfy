@@ -2,7 +2,7 @@ const { Client, GuildMember, EmbedBuilder, AttachmentBuilder, ChannelType } = re
 const schema = require("../../schema/GuildSchema");
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
-const { profileImage } = require("discord-arts");
+const { Profile } = require("discord-arts");
 const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"guildMemberAdd">} */
@@ -131,9 +131,10 @@ function sendCustomEmbed(channel, embedData, member) {
  */
 async function sendImageCard(channel, member) {
   try {
-    const buffer = await profileImage(member.id, {
+    const buffer = await Profile(member.id, {
       customBackground: "https://i.imgur.com/2a2a2b.png",
-      borderColor: "#7289da"
+      borderColor: "#7289da",
+      presenceStatus: member.presence?.status || 'online'
     });
 
     const attachment = new AttachmentBuilder(buffer, { name: "Welcomer.png" });

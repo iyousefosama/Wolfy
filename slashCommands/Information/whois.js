@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const dayjs = require("dayjs");
+const relativeTime = require("dayjs/plugin/relativeTime");
 const axios = require("axios");
+
+dayjs.extend(relativeTime);
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -114,9 +117,9 @@ module.exports = {
             ? `https://cdn.discordapp.com/banners/${user.id}/${data.banner}${data.banner.startsWith("a_") ? ".gif?size=4096" : ".png?size=4096"}`
             : null;
 
-        const accountCreatedTime = moment.utc(user.createdAt).format('LT');
-        const accountCreatedDate = moment.utc(user.createdAt).format('LL');
-        const accountCreatedRelative = moment.utc(user.createdAt).fromNow();
+        const accountCreatedTime = dayjs(user.createdAt).format('LT');
+        const accountCreatedDate = dayjs(user.createdAt).format('LL');
+        const accountCreatedRelative = dayjs(user.createdAt).fromNow();
 
         const avatarUrl = user.displayAvatarURL({ dynamic: true, size: 1024 });
         const year = new Date().getFullYear();

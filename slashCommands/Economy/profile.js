@@ -1,6 +1,6 @@
 const schema = require('../../schema/Economy-Schema')
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { profileImage } = require("discord-arts");
+const { Profile } = require("discord-arts");
 const { AttachmentBuilder } = require('discord.js');
 
 /**
@@ -63,14 +63,15 @@ module.exports = {
         bio: data.profile.bio || 'No bio set',
         balance: `${data.credits || '0'} credits`,
         bankBalance: `${data.Bank?.balance?.credits || '0'} credits`,
-        birthday: data.profile.birthday || 'Not set',
+        birthday: data.profile?.birthday || 'Not set',
         tips: data.tips?.received || '0',
-        background: data.profile.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg'
+        background: data.profile?.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg'
       };
 
-      const buffer = await profileImage(member.id, {
+      const buffer = await Profile(member.id, {
         customBackground: profileData.background,
-        borderColor: data.profile.color || '#5C5959'
+        borderColor: data.profile?.color || '#5C5959',
+        presenceStatus: member.presence?.status || 'online'
       });
 
       const attachment = new AttachmentBuilder(buffer, { name: 'profile.png' });

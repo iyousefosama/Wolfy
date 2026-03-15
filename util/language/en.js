@@ -742,6 +742,7 @@ module.exports = {
     LEVEL_DISABLED: "\\❌ **%displayName%**, The **levels** command is disabled in this server!\nTo enable this feature, use the `%prefix%leveltoggle` command.",
     LEVEL_NO_XP: "\\❌ **%displayName%**, This member doesn't have any XP yet!",
     LEVEL_DATABASE_ERROR: "`❌ [DATABASE_ERR]:` The database responded with error: %error%",
+    LEVEL_ERROR: "❌ Failed to generate rank card. Please try again later.",
     
     // Leaderboard
     LEADERBOARD_TITLE: "%guildName%",

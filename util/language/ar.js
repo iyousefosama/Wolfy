@@ -570,6 +570,7 @@ module.exports = {
     LEVEL_DISABLED: "\\❌ **%displayName%**، أمر **المستويات** معطل في هذا الخادم!\nلتفعيل هذه الميزة، استخدم أمر `%prefix%leveltoggle`.",
     LEVEL_NO_XP: "\\❌ **%displayName%**، هذا العضو لم يحصل على أي نقاط خبرة بعد!",
     LEVEL_DATABASE_ERROR: "`❌ [خطأ_قاعدة_البيانات]:` استجابت قاعدة البيانات بالخطأ: %error%",
+    LEVEL_ERROR: "❌ فشل في إنشاء بطاقة الرتبة. يرجى المحاولة مرة أخرى لاحقاً.",
     
     // لوحة المتصدرين
     LEADERBOARD_TITLE: "%guildName%",

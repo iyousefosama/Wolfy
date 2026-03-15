@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const { profileImage } = require("discord-arts");
+const { Profile } = require("discord-arts");
 const schema = require("../../schema/GuildSchema");
 const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
@@ -67,7 +67,7 @@ module.exports = {
         userID: user.id,
       });
       Userdata = await Userschema.findOne({
-        userId: message.author.id,
+        userId: user.id,
         guildId: message.guild.id,
       });
       if (!ecodata) {
@@ -102,9 +102,18 @@ module.exports = {
     };
 
     try {
-      const buffer = await profileImage(user.id, {
-        rankData: rankData,
-        customBackground: rankData.background
+      const buffer = await Profile(user.id, {
+        customBackground: rankData.background,
+        presenceStatus: status || "online",
+        rankData: {
+          currentXp: Userdata.System.xp,
+          requiredXp: requiredXP,
+          rank: rankData.rank,
+          level: Userdata.System.level,
+          barColor: '#fcdce1',
+          levelColor: '#ada8c6',
+          autoColorRank: true
+        }
       });
       
       const attachment = new discord.AttachmentBuilder(buffer, {
@@ -113,6 +122,28 @@ module.exports = {
       message.channel.send({ files: [attachment] });
     } catch (err) {
       console.error("Error generating rank card:", err);
+      
+      // Check if it's a JSON parsing error (external service down)
+      if (err.type === 'invalid-json' || err.message.includes('invalid json response body')) {
+        // Provide a text-based fallback when external service is down
+        const embed = new discord.EmbedBuilder()
+          .setColor('#FF9900')
+          .setTitle(`📊 ${user.username}'s Rank Card`)
+          .setThumbnail(user.displayAvatarURL({ extension: "jpg", size: 256 }).replace(".gif", ".jpg"))
+          .addFields(
+            { name: '🏆 Rank', value: `#${rankData.rank}`, inline: true },
+            { name: '📈 Level', value: `${rankData.level}`, inline: true },
+            { name: '⭐ Current XP', value: `${rankData.currentXP.toLocaleString()}`, inline: true },
+            { name: '🎯 Required XP', value: `${rankData.requiredXP.toLocaleString()}`, inline: true },
+            { name: '📊 Progress', value: `${Math.round((rankData.currentXP / rankData.requiredXP) * 100)}%`, inline: true },
+            { name: '🟢 Status', value: rankData.status, inline: true }
+          )
+          .setFooter({ text: 'External rank card service is temporarily unavailable' })
+          .setTimestamp();
+        
+        return message.channel.send({ embeds: [embed] });
+      }
+      
       return message.channel.send("\❌ Failed to generate rank card");
     }
   },

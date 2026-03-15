@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const dayjs = require("dayjs");
+const relativeTime = require("dayjs/plugin/relativeTime");
 const axios = require("axios")
+
+dayjs.extend(relativeTime);
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -109,7 +112,7 @@ module.exports = {
                 { name: '<:pp198:853494893439352842> **ID: **', value: member.id || 'None', inline: true },
                 { name: '<a:pp472:853494788791861268> **Status: **', value: `${status || "<:offline:809995754021978112> Offline"}`, inline: true },
                 { name: '<:pp179:853495316186791977> **Game: **', value: `${activityNames ? activityNames : "None" || "None"}`, inline: true },
-                { name: '📆 **Account Created At: **', value: `${moment.utc(member.user.createdAt).format('LT') || 'None'} ${moment.utc(member.user.createdAt).format('LL') || 'None'} ${moment.utc(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
+                { name: '📆 **Account Created At: **', value: `${dayjs(member.user.createdAt).format('LT') || 'None'} ${dayjs(member.user.createdAt).format('LL') || 'None'} ${dayjs(member.user.createdAt).fromNow() || 'None'}` || 'None', inline: true },
                 { name: '📥 **Joined The Server At: **', value: `${dayjs(member.joinedAt).format("LT") || 'None'} ${dayjs(member.joinedAt).format('LL') || 'None'} ${dayjs(member.joinedAt).fromNow() || 'None'}` || 'None', inline: true },
                 { name: `🖼️ **Avatar: **`, value: `[Click here to view Avatar](${member.user.displayAvatarURL({ dynamic: true, size: 1024 }) || null})`, inline: false },
                 { name: "<:medal:898358296694628414> Flags", value: `${userFlags?.length ? userFlags?.map(flag => flags[flag]).join(", ") : 'None' || "None"}`, inline: false },

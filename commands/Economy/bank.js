@@ -1,7 +1,11 @@
 const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
 const dayjs = require("dayjs");
+const relativeTime = require("dayjs/plugin/relativeTime");
+const humanizeDuration = require("humanize-duration");
 const text = require("../../util/string");
+
+dayjs.extend(relativeTime);
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -71,11 +75,10 @@ module.exports = {
             message.author.username
           }**, you have <a:ShinyMoney:877975108038324224> **${text.commatize(
             credits
-          )}** credits in your bank account!\n\n⚠️ Check your bank after \`${moment
-            .duration(data.timer.banktime.timeout - now, "milliseconds")
-            .format(
-              "H [hours,] m [minutes, and] s [seconds]"
-            )}\` to get your reward! **(5% + 150)**`
+          )}** credits in your bank account!\n\n⚠️ Check your bank after \`${humanizeDuration(
+            data.timer.banktime.timeout - now,
+            { units: ['h', 'm', 's'], round: true }
+          )}\` to get your reward! **(5% + 150)**`
         )
         .setTimestamp();
       message.channel.send({ embeds: [embed] });
@@ -114,11 +117,10 @@ module.exports = {
                 message.author.username
               }**, Your new balance is <a:ShinyMoney:877975108038324224> **${text.commatize(
                 moneyadd
-              )}** credits in your bank account!\n\n⚠️ Check your bank again after \`${moment
-                .duration(data.timer.banktime.timeout - now, "milliseconds")
-                .format(
-                  "H [hours,] m [minutes, and] s [seconds]"
-                )}\` to get your next reward! **(5% + 150)**`
+              )}** credits in your bank account!\n\n⚠️ Check your bank again after \`${humanizeDuration(
+                data.timer.banktime.timeout - now,
+                { units: ['h', 'm', 's'], round: true }
+              )}\` to get your next reward! **(5% + 150)**`
             )
             .setTimestamp();
           message.channel.send({ embeds: [checkembed] });

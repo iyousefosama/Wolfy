@@ -1,5 +1,5 @@
 const schema = require('../../schema/Economy-Schema')
-const { profileImage } = require("discord-arts");
+const { Profile } = require("discord-arts");
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -49,14 +49,15 @@ module.exports = {
         bio: data.profile.bio || 'No bio set',
         balance: `${data.credits || '0'} credits`,
         bankBalance: `${data.Bank?.balance?.credits || '0'} credits`,
-        birthday: data.profile.birthday || 'Not set',
+        birthday: data.profile?.birthday || 'Not set',
         tips: data.tips?.received || '0',
-        background: data.profile.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg'
+        background: data.profile?.ProfileBackground || 'https://i.imgur.com/Ry73PG3.jpg'
       };
 
-      const buffer = await profileImage(member.id, {
+      const buffer = await Profile(member.id, {
         customBackground: profileData.background,
-        borderColor: data.profile.color || '#5C5959'
+        borderColor: data.profile?.color || '#5C5959',
+        presenceStatus: member.presence?.status || 'online'
       });
 
       return await message.channel.send({
