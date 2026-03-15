@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const moment = require("moment");
+const dayjs = require("dayjs");
 const axios = require("axios");
 
 /**
@@ -69,9 +69,9 @@ module.exports = {
                 }
 
                 if (member.joinedAt) {
-                    const serverJoinedTime = moment(member.joinedAt).format("LT");
-                    const serverJoinedDate = moment(member.joinedAt).format('LL');
-                    const serverJoinedRelative = moment(member.joinedAt).fromNow();
+                    const serverJoinedTime = dayjs(member.joinedAt).format("LT");
+                    const serverJoinedDate = dayjs(member.joinedAt).format('LL');
+                    const serverJoinedRelative = dayjs(member.joinedAt).fromNow();
                     joinedServerInfo = `${serverJoinedTime} ${serverJoinedDate} ${serverJoinedRelative}`;
                 }
             } catch (err) {

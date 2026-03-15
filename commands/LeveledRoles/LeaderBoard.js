@@ -1,9 +1,6 @@
+const discord = require("discord.js");
 const schema = require("../../schema/GuildSchema");
 const UserSchema = require("../../schema/LevelingSystem-Schema");
-const { Font, LeaderboardBuilder } = require("canvacord");
-
-// Load font
-Font.loadDefault();
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -73,29 +70,23 @@ module.exports = {
         })
       );
 
-      const lb = new LeaderboardBuilder()
-        .setHeader({
-          title: message.guild.name,
-          image: message.guild.iconURL({ dynamic: true }) || "", // Valid guild icon URL or empty string
-          subtitle: `${message.guild.memberCount} members`,
-        })
-        .setBackgroundColor("#808080")
-        .adjustCanvas()
-        .setVariant("horizontal")
-        .setBackground(
-          "https://i.postimg.cc/MGDW9f0K/00ab9fc5305f4ef7d11e00bad735a1b1.jpg"
-        )
-        .setPlayers(
-          leaderboardData.map((player) => ({
-            ...player,
-            avatar: player.avatar, // Provide a default avatar URL if it's empty
+      // Create text-based leaderboard embed
+      const embed = new discord.EmbedBuilder()
+        .setTitle(`${message.guild.name} Leaderboard`)
+        .setColor("Gold")
+        .setThumbnail(message.guild.iconURL({ dynamic: true, extension: "png" }) || null)
+        .setDescription(`${message.guild.memberCount} members`)
+        .addFields(
+          leaderboardData.map((player, index) => ({
+            name: `#${index + 1} ${player.displayName}`,
+            value: `**Level:** ${player.level} | **XP:** ${player.xp}`,
+            inline: false
           }))
-        );
+        )
+        .setTimestamp()
+        .setFooter({ text: message.guild.name });
 
-      const image = await lb.build({ format: "png" });
-
-      // Reply the image to the message
-      return message.reply({ files: [image] });
+      return message.reply({ embeds: [embed] });
     } catch (err) {
       console.log(err);
       message.channel.send(

@@ -1,6 +1,9 @@
 const { EmbedBuilder } = require('discord.js');
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
-const moment = require('moment');
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -62,7 +65,7 @@ module.exports = {
       return message.channel.send({
         embeds: [new EmbedBuilder()
           .setTitle(`<a:pp802:768864899543466006> Feedback already Send!`)
-          .setDescription(`You already send your **feedback** earlier!\nYou can send your feedback again after \`${moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+          .setDescription(`You already send your **feedback** earlier!\nYou can send your feedback again after \`${dayjs.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
           .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
           .setColor('Red')]
       })
@@ -75,7 +78,7 @@ module.exports = {
         .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ extension: 'png', dynamic: true }) })
         .setTitle('Re: Feedback/Report')
         .setDescription([
-          moment(new Date()).format('dddd, do MMMM YYYY'),
+          dayjs(new Date()).format('dddd, do MMMM YYYY'),
           `${message.guild.name}\u2000|\u2000#${message.channel.name}`,
           `Guild ID: ${message.guild.id}\u2000|\u2000Channel ID: ${message.channel.id}\u2000|\u2000User ID:${message.author.id}`,
           '\n',

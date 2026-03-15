@@ -2,8 +2,7 @@ const { Client, GuildMember, EmbedBuilder, AttachmentBuilder, ChannelType } = re
 const schema = require("../../schema/GuildSchema");
 const modifier = require(`${process.cwd()}/util/modifier`);
 const string = require(`${process.cwd()}/util/string`);
-const { GreetingsCard, Font } = require("canvacord");
-Font.loadDefault();
+const { profileImage } = require("discord-arts");
 const BEV = require("../../util/types/baseEvents");
 
 /** @type {BEV.BaseEvent<"guildMemberAdd">} */
@@ -131,27 +130,25 @@ function sendCustomEmbed(channel, embedData, member) {
  * @param {GuildMember} member - The member that joined.
  */
 async function sendImageCard(channel, member) {
-  const card = new GreetingsCard()
-    .setMemberCount(member.guild.memberCount)
-    .setAvatar(member.displayAvatarURL({ extension: "png", size: 1024 }))
-    .setDisplayName(member.user.username)
-    .setGuildName(member.guild.name)
-    .setType("welcome")
-    .setColor("border", "#7289da")
-    .setColor("username-box", "#eb403b")
-    .setColor("discriminator-box", "#2a2a2b")
-    .setColor("message", "#c19a6b")
-    .setColor("title", "#e6a54a")
-    .setColor("title-border", "#2a2a2b")
-    .setColor("background", "#2a2a2b");
+  try {
+    const buffer = await profileImage(member.id, {
+      customBackground: "https://i.imgur.com/2a2a2b.png",
+      borderColor: "#7289da"
+    });
 
-  const imageBuffer = await card.build();
-  const attachment = new AttachmentBuilder(imageBuffer, { name: "Welcomer.png" });
+    const attachment = new AttachmentBuilder(buffer, { name: "Welcomer.png" });
 
-  await channel.send({
-    content: `> Hey, welcome ${member} <a:Up:853495519455215627> `,
-    files: [attachment],
-  });
+    await channel.send({
+      content: `> Hey, welcome ${member} <a:Up:853495519455215627>\n\nYou are our **${string.ordinalize(member.guild.memberCount)}** member!`,
+      files: [attachment],
+    });
+  } catch (err) {
+    console.error('Error generating welcome card:', err);
+    // Fallback to text message
+    await channel.send({
+      content: `> Hey, welcome ${member} <a:Up:853495519455215627>\n\nYou are our **${string.ordinalize(member.guild.memberCount)}** member!`
+    });
+  }
 }
 
 /**

@@ -1,8 +1,13 @@
 const discord = require("discord.js");
 const tc = require("../../util/functions/TimeConvert");
 const cfl = require("../../util/functions/CapitalizedChar");
-const momentTz = require("moment-timezone");
+const dayjs = require("dayjs");
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
 const axios = require("axios");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -156,15 +161,15 @@ module.exports = {
 /**
  * Get the current time according to the given timezone.
  * @param {string} timezone
- * @returns {momentTz.Moment}
+ * @returns {dayjs.Dayjs}
  */
 function getCurrentTime(timezone) {
   try {
-    const now = momentTz().tz(timezone, false);
+    const now = dayjs().tz(timezone);
     return now;
   } catch (error) {
     console.error("Error getting current time:", error);
-    return momentTz(); // Fallback to local time if timezone fetch fails
+    return dayjs(); // Fallback to local time if timezone fetch fails
   }
 }
 
@@ -178,7 +183,7 @@ function getCurrentTime(timezone) {
 function getNextPrayerTime(timings, timezone, currentTime) {
   const prayerTimes = timings.map(([name, time]) => {
     const [hours, minutes] = time.split(":").map(Number);
-    const prayerTime = momentTz().tz(timezone).set({ hour: hours, minute: minutes, second: 0 });
+    const prayerTime = dayjs().tz(timezone).set({ hour: hours, minute: minutes, second: 0 });
     return {
       name,
       time,

@@ -1,6 +1,9 @@
 const { EmbedBuilder } = require('discord.js');
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
-const moment = require('moment');
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -68,7 +71,7 @@ module.exports = {
                     .setTitle(client.language.getString("FEEDBACK_ALREADY_SENT", interaction.guildId))
                     .setDescription(client.language.getString("FEEDBACK_COOLDOWN_MESSAGE", interaction.guildId, { 
                         username: interaction.user.username, 
-                        time: moment.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')
+                        time: dayjs.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')
                     }))
                     .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('Red')], ephemeral: true
@@ -82,7 +85,7 @@ module.exports = {
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ extension: 'png', dynamic: true }) })
                 .setTitle('Re: Feedback/Report')
                 .setDescription([
-                    moment(new Date()).format('dddd, do MMMM YYYY'),
+                    dayjs(new Date()).format('dddd, do MMMM YYYY'),
                     `${interaction.guild.name}\u2000|\u2000#${interaction.channel.name}`,
                     `Guild ID: ${interaction.guildId}\u2000|\u2000Channel ID: ${interaction.channel.id}\u2000|\u2000User ID:${interaction.user.id}`,
                     '\n',

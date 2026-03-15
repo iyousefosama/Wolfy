@@ -176,7 +176,7 @@ module.exports = class WolfyClient extends Client {
     this.logs = [];
 
     // Execute these internal functions once the bot is ready!!
-    this.once('ready', () => {
+    this.once('clientReady', () => {
       this.bootTime = Math.round(performance.now());
 
       this.loadSlashCommands("/slashCommands");

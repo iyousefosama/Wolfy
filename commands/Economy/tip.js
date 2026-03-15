@@ -1,5 +1,8 @@
 const discord = require('discord.js');
-const moment = require('moment');
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 const schema = require('../../schema/Economy-Schema')
 
 /**
@@ -45,7 +48,7 @@ module.exports = {
         let Box = quest?.current;
 
         if (tipper.tips.timestamp !== 0 && tipper.tips.timestamp - now > 0){
-          return message.channel.send(`\\❌ **${message.author.tag}**, You have already been used *tip* earlier! Please try again later. \`${moment.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')}\``);
+          return message.channel.send(`\\❌ **${message.author.tag}**, You have already been used *tip* earlier! Please try again later. \`${dayjs.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')}\``);
         } else if (!user){
           return message.channel.send(`\\❌ **${message.author.tag}**, Please mention the user to tip!`);
         };

@@ -1,7 +1,10 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require("../../schema/Economy-Schema");
-const moment = require("moment");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 const text = require("../../util/string");
 
 /**
@@ -73,7 +76,7 @@ module.exports = {
           client.language.getString("ECONOMY_BANK_STATUS", interaction.guild?.id, {
             username: interaction.user.username,
             credits: text.commatize(credits),
-            time: moment.duration(data.timer.banktime.timeout - now, "milliseconds").humanize()
+            time: dayjs.duration(data.timer.banktime.timeout - now, "milliseconds").humanize()
           })
         )
         .setTimestamp();
@@ -114,7 +117,7 @@ module.exports = {
               client.language.getString("ECONOMY_BANK_NEW_BALANCE", interaction.guild?.id, {
                 username: interaction.user.username,
                 credits: text.commatize(moneyadd),
-                time: moment.duration(data.timer.banktime.timeout - now, "milliseconds")
+                time: dayjs.duration(data.timer.banktime.timeout - now, "milliseconds")
                   .format("H [hours,] m [minutes, and] s [seconds]")
               })
             )

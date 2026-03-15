@@ -1,4 +1,4 @@
-const moment = require("moment");
+const dayjs = require("dayjs");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -51,7 +51,7 @@ module.exports = {
 
         messages = messages.filter(Boolean).map((message) => {
           return [
-            `[${moment(message.createdAt).format(
+            `[${dayjs(message.createdAt).format(
               "dddd, do MMMM YYYY hh:mm:ss"
             )}]`,
             `${message.author.tag} : ${message.content}\r\n\r\n`,

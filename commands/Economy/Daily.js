@@ -1,7 +1,10 @@
 const discord = require('discord.js');
 const schema = require('../../schema/Economy-Schema')
-const moment = require("moment");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
 const market = require('../../assets/json/market.json');
+
+dayjs.extend(duration);
 
 /**
  * @type {import("../../util/types/baseCommand")}
@@ -37,12 +40,12 @@ module.exports = {
             console.log(err)
         }
         const now = Date.now();
-        const duration = Math.floor(86400000)
+        const dailyDuration = Math.floor(86400000)
 
         if (data.timer.daily.timeout > now){
             const embed = new discord.EmbedBuilder()
             .setTitle(`<a:ShinyCoin:853495846984876063> daily already Claimed!`)
-            .setDescription(`\\❌ **${message.author.tag}**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in \`${moment.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
+            .setDescription(`\\❌ **${message.author.tag}**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in \`${dayjs.duration(data.timer.daily.timeout - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\``)
             .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) })
             .setColor('Red')
             message.channel.send({ embeds: [embed] })
@@ -92,7 +95,7 @@ module.exports = {
             data.progress.completed++;
             message.reply({ content: `\\✔️  You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`})
           }
-        data.timer.daily.timeout = Date.now() + duration;
+        data.timer.daily.timeout = Date.now() + dailyDuration;
         data.credits += Math.floor(amount);
         await data.save()
         .then(() => {

@@ -1,5 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
-const moment = require('moment');
+const dayjs = require("dayjs");
 const Page = require('../../util/Paginate');
 const { regions, verificationlvl } = require("../../util/constants/constants");
 
@@ -36,9 +36,9 @@ module.exports = {
     const formatVerificationLevel = verificationlvl[guild.verificationLevel] || "None";
     const formatBoostTier = guild.premiumTier || 'None';
     const formatBoostLevel = guild.premiumSubscriptionCount || '0';
-    const createdTime = moment(guild.createdTimestamp).format('LT');
-    const createdDate = moment(guild.createdTimestamp).format('LL');
-    const createdRelative = moment(guild.createdTimestamp).fromNow();
+    const createdTime = dayjs(guild.createdTimestamp).format('LT');
+    const createdDate = dayjs(guild.createdTimestamp).format('LL');
+    const createdRelative = dayjs(guild.createdTimestamp).fromNow();
 
     const pages = new Page(
       new EmbedBuilder()

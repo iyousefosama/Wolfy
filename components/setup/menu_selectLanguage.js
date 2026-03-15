@@ -1,4 +1,3 @@
-const schema = require("../../schema/GuildSchema");
 const { wolfyLanguages } = require("../../util/constants/constants");
 const { SuccessEmbed, ErrorEmbed } = require("../../util/modules/embeds");
 
@@ -21,13 +20,10 @@ module.exports = {
             });
         };
 
-        await schema.findOneAndUpdate(
-            { GuildID: interaction.guildId }, 
-            { Language: choice }, 
-            { upsert: true }
-        )
-        .then(() => {
-            client.language.languageCache.set(interaction.guildId, choice);
+        try {
+            // Use local storage instead of database
+            client.language.setGuildLanguage(interaction.guildId, choice);
+            
             return interaction.reply({ 
                 embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guildId, {
                     client: client.user.username, 
@@ -35,14 +31,13 @@ module.exports = {
                 }))], 
                 ephemeral: true 
             });
-        })
-        .catch((err) => {
+        } catch (err) {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
             return interaction.reply({ 
                 embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guildId))], 
                 ephemeral: true 
             });
-        });
+        }
     },
 };

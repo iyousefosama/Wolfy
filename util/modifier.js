@@ -1,5 +1,5 @@
 const text = require(`${process.cwd()}/util/string`);
-const moment = require('moment');
+const dayjs = require("dayjs");
 
 /**
  * 
@@ -16,7 +16,7 @@ async function modify(str, member){
     "{textChannelCount}": member.guild.channels.cache.filter( c => c.type === 'text').size,
     "{voiceChannelCount}": member.guild.channels.cache.filter( c => c.type === 'voice').size,
     "{createdAt}": member.user.createdAt,
-    "{createdAtMDY}": moment(member.user.createdAt).format('dddd, MMMM D YYYY'),
+    "{createdAtMDY}": dayjs(member.user.createdAt).format('dddd, MMMM D YYYY'),
     "{discriminator}": member.user.discriminator,
     "{displayColor}": member.displayColor,
     "{displayName}": member.displayName,
@@ -24,7 +24,7 @@ async function modify(str, member){
     "{guildIconDynamic}": member.guild.iconURL({ dynamic: true }),
     "{guildName}": member.guild.name,
     "{joinedAt}": member.joinedAt,
-    "{joinedAtMDY}": moment(member.joinedAt).format('dddd, MMMM D YYYY'),
+    "{joinedAtMDY}": dayjs(member.joinedAt).format('dddd, MMMM D YYYY'),
     "{memberCount}": member.guild.memberCount,
     "{tag}": member.user.tag,
     "{user}": member.user.username,

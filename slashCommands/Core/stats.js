@@ -6,7 +6,7 @@ const {
 } = require("@discordjs/builders");
 const { version, author } = require("../../package.json");
 const { release, cpus } = require("os");
-const moment = require(`moment`); // requiring moment
+const dayjs = require("dayjs"); // requiring dayjs
 const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
@@ -53,7 +53,7 @@ module.exports = {
         ${client.language.getString("STATS_USERNAME", interaction.guildId, { username: client.user.username })}
         ${client.language.getString("STATS_TAG", interaction.guildId, { tag: client.user.tag })}
         ${client.language.getString("STATS_ID", interaction.guildId, { id: client.user.id })}
-        ${client.language.getString("STATS_CREATED_AT", interaction.guildId, { date: moment(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm") })}
+        ${client.language.getString("STATS_CREATED_AT", interaction.guildId, { date: dayjs(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm") })}
         ${client.language.getString("STATS_DEVELOPER", interaction.guildId, { author })}
         ${client.language.getString("STATS_WEBSITE", interaction.guildId, { website: client.config.websites["website"] })}
         ${client.language.getString("STATS_VERSION", interaction.guildId, { version })}

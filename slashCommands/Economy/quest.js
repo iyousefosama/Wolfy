@@ -1,6 +1,9 @@
 const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
-const moment = require("moment");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 const { AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const file = new AttachmentBuilder("./assets/Images/treasure.png");
 const quests = require("../../assets/json/quests.json");
@@ -187,7 +190,7 @@ module.exports = {
           .setTitle(client.language.getString("ECONOMY_QUEST_TITLE", interaction.guild?.id))
           .setDescription(
             client.language.getString("ECONOMY_QUEST_DESCRIPTION", interaction.guild?.id, {
-              refresh_time: moment.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss"),
+              refresh_time: dayjs.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss"),
               completed: data.progress.completed,
               prefix: client.prefix
             })

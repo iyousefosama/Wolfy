@@ -2,7 +2,7 @@ const discord = require("discord.js");
 const { EmbedBuilder, version: discord_version } = require("discord.js"); // requiring discord modules
 const { version, author } = require("../../package.json");
 const { release, cpus } = require("os");
-const moment = require(`moment`); // requiring moment
+const dayjs = require("dayjs"); // requiring dayjs
 const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
 
@@ -62,7 +62,7 @@ module.exports = {
         <:Bot:841711382739157043> **Username:** ${client.user.username}
         <a:pp224:853495450111967253> **Tag:** ${client.user.tag}
         <:pp198:853494893439352842> **ID:** ${client.user.id}
-        📆 **Created At:** ${moment(client.user.createdAt).format(
+        📆 **Created At:** ${dayjs(client.user.createdAt).format(
           "DD-MM-YYYY [at] HH:mm"
         )}
         <:Developer:841321892060201021> **Developer:** ${author}

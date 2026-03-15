@@ -9,9 +9,9 @@ const LanguageManager = require("../../util/language/LanguageManager");
 const { CheckDeletedCategories } = require("../../util/helpers/removeDelCategories")
 const BEV = require("../../util/types/baseEvents");
 
-/** @type {BEV.BaseEvent<"ready">} */
+/** @type {BEV.BaseEvent<"clientReady">} */
 module.exports = {
-  name: 'ready',
+  name: 'clientReady',
   once: true,
   /**
    * @param {import('../../struct/Client')} client

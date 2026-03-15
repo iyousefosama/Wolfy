@@ -1,8 +1,12 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require('../../schema/Economy-Schema')
-const moment = require("moment");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
 const market = require('../../assets/json/market.json');
+
+dayjs.extend(duration);
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -50,7 +54,7 @@ module.exports = {
         .setDescription(
           client.language.getString("ECONOMY_DAILY_ALREADY_DESC", interaction.guild?.id, {
             username: interaction.user.tag,
-            time: moment.duration(data.timer.daily.timeout - now, "milliseconds")
+            time: dayjs.duration(data.timer.daily.timeout - now, "milliseconds")
               .format("H [hours,] m [minutes, and] s [seconds]")
           })
         )

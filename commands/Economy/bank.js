@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
-const moment = require("moment");
+const dayjs = require("dayjs");
 const text = require("../../util/string");
 
 /**

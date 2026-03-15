@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const moment = require('moment');
+const dayjs = require("dayjs");
 const schema = require('../../schema/Economy-Schema')
 
 /**
@@ -38,7 +38,7 @@ module.exports = {
         if (!date){
             return message.channel.send(`\\❌ **${message.author.tag}**, Please add the date`);
           } else {
-            date = moment(date, 'DD-MM');
+            date = dayjs(date, 'DD-MM');
       
             if (!date.isValid()){
               return message.channel.send(`\\❌ **${message.author.tag}**, Please add your date in DD-MM format`);

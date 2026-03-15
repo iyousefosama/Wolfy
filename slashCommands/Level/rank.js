@@ -1,9 +1,6 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { Font, RankCardBuilder } = require("canvacord");
-
-// load default font
-Font.loadDefault();
+const { profileImage } = require("discord-arts");
 const schema = require("../../schema/GuildSchema");
 const ecoschema = require("../../schema/Economy-Schema");
 const Userschema = require("../../schema/LevelingSystem-Schema");
@@ -102,23 +99,34 @@ module.exports = {
     }
     var status = member.presence?.status;
     const requiredXP = Userdata.System?.required;
-    const rank = new RankCardBuilder()
-      .setAvatar(user.displayAvatarURL({ extension: "png", size: 256 }))
-      .setBackground(ecodata.profile?.background || "") // https://i.imgur.com/299Kt1F.png
-      .setCurrentXP(Userdata.System.xp)
-      .setLevel(Userdata.System.level)
-      .setStatus(status || "online")
-      .setRequiredXP(requiredXP)
-      .setUsername(user.username);
-    await rank
-      .build({
-        format: "png",
-      })
-      .then((data) => {
-        const attachment = new discord.AttachmentBuilder(data, {
-          name: "RankCard.png",
-        });
-        interaction.reply({ files: [attachment], ephemeral: hide });
+    
+    const rankData = {
+      currentXP: Userdata.System.xp,
+      requiredXP: requiredXP,
+      level: Userdata.System.level,
+      rank: 1, // You may want to calculate actual rank
+      status: status || "online",
+      username: user.username,
+      avatar: user.displayAvatarURL({ extension: "png", size: 256 }),
+      background: ecodata.profile?.background || "https://i.imgur.com/299Kt1F.png"
+    };
+
+    try {
+      const buffer = await profileImage(user.id, {
+        rankData: rankData,
+        customBackground: rankData.background
       });
+      
+      const attachment = new discord.AttachmentBuilder(buffer, {
+        name: "RankCard.png",
+      });
+      interaction.reply({ files: [attachment], ephemeral: hide });
+    } catch (err) {
+      console.error("Error generating rank card:", err);
+      return interaction.reply({
+        content: client.language.getString("LEVEL_ERROR", interaction.guildId),
+        ephemeral: true
+      });
+    }
   },
 };

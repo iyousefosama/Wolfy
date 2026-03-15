@@ -1,5 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
-const moment = require('moment');
+const dayjs = require("dayjs");
 const Page = require('../../util/Paginate');
 const { regions, verificationlvl } = require("../../util/constants/constants");
 
@@ -49,7 +49,7 @@ module.exports = {
         `<a:pp891:853493740579717131> **Boost Tier:** ${guild.premiumTier || 'None'}`,
         `<a:pp989:853496185443319809> **Verification Level:** ${verificationlvl[guild.verificationLevel] || "None"}`,
         `<a:server_boosting:809994218759782411> **Boost Level:** ${guild.premiumSubscriptionCount || '0'}`,
-        `📆 **Created At:** ${moment(guild.createdTimestamp).format('LT')} ${moment(guild.createdTimestamp).format('LL')} ${moment(guild.createdTimestamp).fromNow()}\u200b`].join('\n')),
+        `📆 **Created At:** ${dayjs(guild.createdTimestamp).format('LT')} ${dayjs(guild.createdTimestamp).format('LL')} ${dayjs(guild.createdTimestamp).fromNow()}\u200b`].join('\n')),
       new EmbedBuilder()
         .setURL(icon)
         .setThumbnail(icon)

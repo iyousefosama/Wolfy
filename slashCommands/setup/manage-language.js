@@ -13,7 +13,7 @@ module.exports = {
         guildOnly: true,
         cooldown: 5,
         group: "Setup",
-        requiresDatabase: true,
+        requiresDatabase: false,
         clientPermissions: [],
         permissions: ["Administrator"],
     },

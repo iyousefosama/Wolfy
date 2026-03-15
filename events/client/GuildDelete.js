@@ -10,6 +10,9 @@ module.exports = {
       return;
     }
 
+    // Remove guild language from local storage
+    client.language.removeGuildLanguage(guild.id);
+
     const members = text.commatize(
       client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
     );

@@ -1,6 +1,9 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const moment = require('moment');
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 const schema = require('../../schema/Economy-Schema');
 
 /**
@@ -59,7 +62,7 @@ module.exports = {
       return interaction.reply({
         content: client.language.getString("ECONOMY_TIP_COOLDOWN", interaction.guild?.id, {
           username: interaction.user.tag,
-          time: moment.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')
+          time: dayjs.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')
         }),
         ephemeral: true
       });

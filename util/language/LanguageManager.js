@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const Guild = require('../../schema/language');
 const consoleUtil = require('../../util/console');
 
 // Import the generated LanguageKeys type
 const { LanguageKeys, PlaceholderTypes } = require('../types/LanguageKeys');
+
+const GUILD_LANGUAGES_FILE = path.join(process.cwd(), 'assets', 'json', 'guild-languages.json');
 
 class LanguageManager {
     constructor() {
@@ -83,68 +84,101 @@ class LanguageManager {
 
     async loadGuildLanguages() {
         try {
-            const guilds = await Guild.find();
+            // Ensure directory exists
+            const dir = path.dirname(GUILD_LANGUAGES_FILE);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
 
-            guilds.forEach(guild => {
-                this.languageCache.set(guild.guildId, guild.language);
-            });
+            // Create file if it doesn't exist
+            if (!fs.existsSync(GUILD_LANGUAGES_FILE)) {
+                fs.writeFileSync(GUILD_LANGUAGES_FILE, JSON.stringify({}), 'utf8');
+            }
+
+            // Load guild languages from local JSON file
+            const data = fs.readFileSync(GUILD_LANGUAGES_FILE, 'utf8');
+            const guildLanguages = JSON.parse(data);
+
+            // Populate the in-memory cache
+            for (const [guildId, language] of Object.entries(guildLanguages)) {
+                this.languageCache.set(guildId, language);
+            }
         } catch (error) {
             console.error('Error loading guild languages:', error);
         }
+    }
+
+    saveGuildLanguages() {
+        try {
+            const guildLanguages = Object.fromEntries(this.languageCache);
+            fs.writeFileSync(GUILD_LANGUAGES_FILE, JSON.stringify(guildLanguages, null, 2), 'utf8');
+        } catch (error) {
+            console.error('Error saving guild languages:', error);
+        }
+    }
+
+    setGuildLanguage(guildId, language) {
+        this.languageCache.set(guildId, language);
+        this.saveGuildLanguages();
+    }
+
+    removeGuildLanguage(guildId) {
+        this.languageCache.delete(guildId);
+        this.saveGuildLanguages();
     }
 
     getLanguage(guildId) {
         return this.languageCache.get(guildId) || 'en'; // Default to English if not set
     }
 
-/**
- * Get a localized string for a given key.
- * @template {keyof LanguageKeys} K
- * @param {K} key - The key for the localized string.
- * @param {string | PlaceholderTypes[K] | null} guildIdOrPlaceholders - The guild ID or placeholders object.
- * @param {PlaceholderTypes[K]} placeholders - The placeholders to replace in the string.
- * @returns {string} The localized string.
- */
-getString(key, guildIdOrPlaceholders = null, placeholders = {}) {
-    // Determine if the second argument is guildId or placeholders
-    let guildId = null;
-    if (typeof guildIdOrPlaceholders === 'string') {
-        // If the second argument is a string, treat it as guildId
-        guildId = guildIdOrPlaceholders;
-    } else if (typeof guildIdOrPlaceholders === 'object' && guildIdOrPlaceholders !== null) {
-        // If the second argument is an object, treat it as placeholders
-        placeholders = guildIdOrPlaceholders;
-    }
+    /**
+     * Get a localized string for a given key.
+     * @template {keyof LanguageKeys} K
+     * @param {K} key - The key for the localized string.
+     * @param {string | PlaceholderTypes[K] | null} guildIdOrPlaceholders - The guild ID or placeholders object.
+     * @param {PlaceholderTypes[K]} placeholders - The placeholders to replace in the string.
+     * @returns {string} The localized string.
+     */
+    getString(key, guildIdOrPlaceholders = null, placeholders = {}) {
+        // Determine if the second argument is guildId or placeholders
+        let guildId = null;
+        if (typeof guildIdOrPlaceholders === 'string') {
+            // If the second argument is a string, treat it as guildId
+            guildId = guildIdOrPlaceholders;
+        } else if (typeof guildIdOrPlaceholders === 'object' && guildIdOrPlaceholders !== null) {
+            // If the second argument is an object, treat it as placeholders
+            placeholders = guildIdOrPlaceholders;
+        }
 
-    // If guildId is not provided or is invalid, default to 'en'
-    const langCode = guildId && this.languageCache.has(guildId) ? this.getLanguage(guildId) : 'en';
-    const langData = this.languages.get(langCode);
+        // If guildId is not provided or is invalid, default to 'en'
+        const langCode = guildId && this.languageCache.has(guildId) ? this.getLanguage(guildId) : 'en';
+        const langData = this.languages.get(langCode);
 
-    if (!langData || !langData[key]) {
-        throw new Error(`Language key "${key}" not found for language "${langCode}"`);
-    }
+        if (!langData || !langData[key]) {
+            throw new Error(`Language key "${key}" not found for language "${langCode}"`);
+        }
 
-    let string = langData[key];
+        let string = langData[key];
 
-    // Check if the language file has a special mapping for placeholders
-    if (langData.PLACEHOLDER_MAPS) {
-        for (const [placeholder, value] of Object.entries(placeholders)) {
-            // Check if the placeholder exists inside PLACEHOLDER_MAPS
-            if (langData.PLACEHOLDER_MAPS[placeholder]?.[value]) {
-                string = string.replace(new RegExp(`%${placeholder}%`, 'g'), langData.PLACEHOLDER_MAPS[placeholder][value]);
-            } else {
+        // Check if the language file has a special mapping for placeholders
+        if (langData.PLACEHOLDER_MAPS) {
+            for (const [placeholder, value] of Object.entries(placeholders)) {
+                // Check if the placeholder exists inside PLACEHOLDER_MAPS
+                if (langData.PLACEHOLDER_MAPS[placeholder]?.[value]) {
+                    string = string.replace(new RegExp(`%${placeholder}%`, 'g'), langData.PLACEHOLDER_MAPS[placeholder][value]);
+                } else {
+                    string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
+                }
+            }
+        } else {
+            // Normal replacement if PLACEHOLDER_MAPS is not defined
+            for (const [placeholder, value] of Object.entries(placeholders)) {
                 string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
             }
         }
-    } else {
-        // Normal replacement if PLACEHOLDER_MAPS is not defined
-        for (const [placeholder, value] of Object.entries(placeholders)) {
-            string = string.replace(new RegExp(`%${placeholder}%`, 'g'), value);
-        }
-    }
 
-    return string;
-}
+        return string;
+    }
 }
 
 // Create a single instance of LanguageManager

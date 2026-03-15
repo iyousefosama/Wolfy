@@ -1,7 +1,10 @@
 const discord = require('discord.js')
 const schema = require('../../schema/GuildSchema')
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
-const moment = require("moment");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 const { ChannelType } = require('discord.js')
 
 /**
@@ -87,7 +90,7 @@ module.exports = {
         if (TimeOutData.suggestion > now) {
             const embed = new discord.EmbedBuilder()
                 .setTitle(`<a:pp802:768864899543466006> Suggestion Already Sent!`)
-                .setDescription(`\\❌ **${message.author.tag}**, You already sent your **suggestion** earlier!\nYou can send your suggestion again after \`${moment.duration(TimeOutData.suggestion - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\`.`)
+                .setDescription(`\\❌ **${message.author.tag}**, You already sent your **suggestion** earlier!\nYou can send your suggestion again after \`${dayjs.duration(TimeOutData.suggestion - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}\`.`)
                 .setFooter({ text: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setColor('Red');
             return message.channel.send({ embeds: [embed] });

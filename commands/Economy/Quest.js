@@ -1,7 +1,9 @@
 const discord = require("discord.js");
 const schema = require("../../schema/Economy-Schema");
-const moment = require("moment")
-const format = require("moment-duration-format");
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 
 const { AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const file = new AttachmentBuilder("./assets/Images/treasure.png");
@@ -158,10 +160,10 @@ module.exports = {
           })
           .setTitle("Daily Quests")
           .setDescription(
-            `Your daily quests will be refreshed in \`${moment
+            `Your daily quests will be refreshed in \`${dayjs
               .duration(data.progress.TimeReset - now, "milliseconds")
               /*.format("h [hrs], m [min], and s [sec]")*/
-              .format("hh:mm:ss")}\`\nYou completed ${
+              .format("HH:mm:ss")}\`\nYou completed ${
               data.progress.completed
             } out of 4 from your daily quests.\nOnce you complete all the quests type \`${
               client.prefix

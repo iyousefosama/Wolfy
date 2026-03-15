@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const moment = require('moment');
+const dayjs = require("dayjs");
 const schema = require('../../schema/Economy-Schema');
 
 /**
@@ -50,7 +50,7 @@ module.exports = {
     }
 
     const dateInput = interaction.options.getString("date");
-    const date = moment(dateInput, 'DD-MM');
+    const date = dayjs(dateInput, 'DD-MM');
     
     if (!date.isValid()) {
       return interaction.reply({
