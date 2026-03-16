@@ -179,6 +179,10 @@ module.exports = class WolfyClient extends Client {
     this.once('clientReady', () => {
       this.bootTime = Math.round(performance.now());
 
+      // Initialize AI Service
+      const aiService = require('../util/functions/aiService');
+      aiService.initialize(process.env.OPENROUTER_API_KEY);
+
       this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");
       return;

@@ -3,7 +3,13 @@ const mongoose = require('mongoose');
 const reminderSchema = new mongoose.Schema({
     userId: { 
         type: String, 
-        required: true 
+        required: true,
+        index: true
+    },
+    reminderId: {
+        type: String,
+        default: null,
+        index: true
     },
     time: { 
         type: Number, 
@@ -18,15 +24,25 @@ const reminderSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    guildId: {
+        type: String,
+        required: false
+    },
     active: {
         type: Boolean,
-        default: true
+        default: true,
+        index: true
+    },
+    sent: {
+        type: Boolean,
+        default: false
     }
 }, { 
     timestamps: true 
 });
 
-// Create index for faster queries
-reminderSchema.index({ userId: 1 });
+// Compound index for finding user's active reminders
+reminderSchema.index({ userId: 1, active: 1 });
+reminderSchema.index({ userId: 1, reminderId: 1 });
 
 module.exports = mongoose.model('Reminder', reminderSchema);
