@@ -1,150 +1,90 @@
-const discord = require("discord.js");
-const { Profile } = require("discord-arts");
-const schema = require("../../schema/GuildSchema");
-const ecoschema = require("../../schema/Economy-Schema");
-const Userschema = require("../../schema/LevelingSystem-Schema");
+const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { Profile } = require('discord-arts');
+const GuildSchema = require('../../schema/GuildSchema');
+const EconomySchema = require('../../schema/Economy-Schema');
+const LevelService = require('../../util/functions/LevelService');
 
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
   name: "rank",
-  aliases: ["level"],
-  dmOnly: false, //or false
-  guildOnly: true, //or false
-  args: false, //or false
-  usage: "",
+  aliases: ["level", "lvl"],
+  dmOnly: false,
+  guildOnly: true,
+  args: false,
+  usage: "[@user]",
   group: "LeveledRoles",
-  description: "Show your level & rank and your current and next xp",
-  cooldown: 5, //seconds(s)
-  guarded: false, //or false
+  description: "Show your or another user's level, rank, and XP progress",
+  cooldown: 5,
+  guarded: false,
   permissions: [],
-  clientPermissions: [
-    "EmbedLinks",
-    "UseExternalEmojis",
-    "AttachFiles",
-  ],
+  clientPermissions: ["EmbedLinks", "AttachFiles"],
   examples: ["@WOLF", ""],
-  
-  async execute(client, message, [user = ""]) {
-    const id = (user.match(/\d{17,19}/) || [])[0] || message.author.id;
-    message.channel.sendTyping();
 
-    if (message.guild) {
-      member = await message.guild.members
-        .fetch(id)
-        .catch(() => message.member);
-      user = member.user;
-    } else {
-      user = message.author;
+  async execute(client, message, args) {
+    const targetUser = args[0] ? 
+      await message.guild.members.fetch(args[0].match(/\d{17,19}/)?.[0]).catch(() => message.member) : 
+      message.member;
+
+    const user = targetUser.user;
+
+    // Check if leveling is enabled
+    const guildData = await GuildSchema.findOne({ GuildID: message.guild.id });
+    if (!guildData?.Mod?.Level?.isEnabled) {
+      return message.reply({
+        content: `❌ **${message.member.displayName}**, The leveling system is disabled in this server!\nTo enable it, use \`${client.prefix}leveltoggle\`.`
+      });
     }
 
-    let data;
-    let ecodata;
-    try {
-      data = await schema.findOne({
-        GuildID: message.guild.id,
-      });
-      if (!data) {
-        data = await schema.create({
-          GuildID: message.guild.id,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      message.channel.send(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
-    }
+    // Get user level data
+    const levelData = await LevelService.getUserData(message.guild.id, user.id);
+    const userRank = await LevelService.getUserRank(message.guild.id, user.id);
 
-    if (!data.Mod.Level.isEnabled)
-      return message.channel.send({
-        content: `\\❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
-      });
+    // Get economy data for background
+    const ecoData = await EconomySchema.findOne({ userID: user.id });
+    const background = ecoData?.profile?.background || "https://i.imgur.com/299Kt1F.png";
 
-    try {
-      ecodata = await ecoschema.findOne({
-        userID: user.id,
-      });
-      Userdata = await Userschema.findOne({
-        userId: user.id,
-        guildId: message.guild.id,
-      });
-      if (!ecodata) {
-        ecodata = await ecoschema.create({
-          userID: user.id,
-        });
-      }
-      if (!Userdata) {
-        return message.channel.send({
-          content: `\\❌ **${message.member.displayName}**, This member didn't get xp yet!`,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      message.channel.send(
-        `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`
-      );
-    }
-    
-    var status = member.presence?.status;
-    const requiredXP = Userdata.System.required;
-    
     const rankData = {
-      currentXP: Userdata.System.xp,
-      requiredXP: requiredXP,
-      level: Userdata.System.level,
-      rank: 1, // You may want to calculate actual rank
-      status: status || "online",
-      username: user.username,
-      avatar: user.displayAvatarURL({ extension: "jpg", size: 256 }).replace(".gif", ".jpg"),
-      background: ecodata.profile?.background || "https://i.imgur.com/299Kt1F.png"
+      currentXp: levelData.xp,
+      requiredXp: levelData.requiredXp,
+      level: levelData.level,
+      rank: userRank,
+      totalXp: levelData.totalXp,
+      messageCount: levelData.messageCount
     };
 
     try {
+      message.channel.sendTyping();
+
+      // Generate rank card
       const buffer = await Profile(user.id, {
-        customBackground: rankData.background,
-        presenceStatus: status || "online",
+        customBackground: background,
+        presenceStatus: targetUser.presence?.status || "online",
+        font: 'ROBOTO',
+        badgesFrame: true,
+        moreBackgroundBlur: true,
+        backgroundBrightness: 50,
         rankData: {
-          currentXp: Userdata.System.xp,
-          requiredXp: requiredXP,
+          currentXp: rankData.currentXp,
+          requiredXp: rankData.requiredXp,
           rank: rankData.rank,
-          level: Userdata.System.level,
+          level: rankData.level,
           barColor: '#fcdce1',
           levelColor: '#ada8c6',
           autoColorRank: true
         }
       });
-      
-      const attachment = new discord.AttachmentBuilder(buffer, {
-        name: "RankCard.png",
-      });
-      message.channel.send({ files: [attachment] });
+
+      const attachment = new AttachmentBuilder(buffer, { name: "RankCard.png" });
+      return message.reply({ files: [attachment] });
+
     } catch (err) {
-      console.error("Error generating rank card:", err);
-      
-      // Check if it's a JSON parsing error (external service down)
-      if (err.type === 'invalid-json' || err.message.includes('invalid json response body')) {
-        // Provide a text-based fallback when external service is down
-        const embed = new discord.EmbedBuilder()
-          .setColor('#FF9900')
-          .setTitle(`📊 ${user.username}'s Rank Card`)
-          .setThumbnail(user.displayAvatarURL({ extension: "jpg", size: 256 }).replace(".gif", ".jpg"))
-          .addFields(
-            { name: '🏆 Rank', value: `#${rankData.rank}`, inline: true },
-            { name: '📈 Level', value: `${rankData.level}`, inline: true },
-            { name: '⭐ Current XP', value: `${rankData.currentXP.toLocaleString()}`, inline: true },
-            { name: '🎯 Required XP', value: `${rankData.requiredXP.toLocaleString()}`, inline: true },
-            { name: '📊 Progress', value: `${Math.round((rankData.currentXP / rankData.requiredXP) * 100)}%`, inline: true },
-            { name: '🟢 Status', value: rankData.status, inline: true }
-          )
-          .setFooter({ text: 'External rank card service is temporarily unavailable' })
-          .setTimestamp();
-        
-        return message.channel.send({ embeds: [embed] });
-      }
-      
-      return message.channel.send("\❌ Failed to generate rank card");
+      console.error("[Rank Command] Error generating rank card:", err);
+
+      // Fallback to text-based embed
+      const embed = LevelService.buildRankEmbed(user, rankData);
+      return message.reply({ embeds: [embed] });
     }
-  },
+  }
 };

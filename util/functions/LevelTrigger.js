@@ -1,71 +1,89 @@
 const discord = require("discord.js");
-const schema = require("../../schema/GuildSchema");
-const UserSchema = require("../../schema/LevelingSystem-Schema");
+const GuildSchema = require("../../schema/GuildSchema");
+const LevelService = require('./LevelService');
 
 /**
+ * Level Trigger - Handles XP gain from messages
+ * Features: Cooldown system, level up notifications, role rewards
  * @param {import('discord.js').Message} message
  */
 const levelTrigger = async (message) => {
-    if (!message || message.author.bot) return;
+  if (!message || message.author.bot || !message.guild) return;
+
+  try {
+    // Check if leveling is enabled
+    const guildData = await GuildSchema.findOne({ GuildID: message.guild.id });
+    if (!guildData?.Mod?.Level?.isEnabled) return;
+
+    // Check cooldown
+    if (LevelService.isOnCooldown(message.guild.id, message.author.id)) return;
+
+    // Set cooldown
+    LevelService.setCooldown(message.guild.id, message.author.id);
+
+    // Add XP
+    const xpAmount = LevelService.getRandomXp();
+    const result = await LevelService.addXp(message.guild.id, message.author.id, xpAmount);
+
+    // Handle level up
+    if (result.leveledUp) {
+      await handleLevelUp(message, result.newLevel, guildData);
+    }
+  } catch (err) {
+    console.error('[LevelTrigger] Error:', err);
+  }
+};
+
+/**
+ * Handle level up notifications and role rewards
+ * @param {import('discord.js').Message} message
+ * @param {number} newLevel
+ * @param {Object} guildData
+ */
+async function handleLevelUp(message, newLevel, guildData) {
+  const userData = await LevelService.getUserData(message.guild.id, message.author.id);
+  
+  // Send notification if enabled
+  if (userData.notifications) {
+    const embed = new discord.EmbedBuilder()
+      .setAuthor({
+        name: message.author.username,
+        iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }),
+      })
+      .setDescription(
+        ` ${message.author}, You leveled up to **Level ${newLevel}!**`
+      )
+      .setColor("DarkGreen")
+      .setFooter({ text: `Keep chatting to reach level ${newLevel + 1}!` })
+      .setTimestamp();
 
     try {
-        const data = await schema.findOne({ GuildID: message.guild.id });
-        if (!data) return;
-
-        let Userdata = await UserSchema.findOne({
-            userId: message.author.id,
-            guildId: message.guild.id,
-        });
-
-        if (!Userdata) {
-            Userdata = await UserSchema.create({
-                userId: message.author.id,
-                guildId: message.guild.id,
-            });
-        }
-
-        if (!data.Mod?.Level?.isEnabled) return;
-
-        const randomXp = Math.floor(Math.random() * 46) + 1;
-        Userdata.System.xp += randomXp;
-
-        if (Userdata.System.xp >= Userdata.System.required) {
-            Userdata.System.level++;
-            Userdata.System.required = Math.floor((Userdata.System.level + 1) ** 2 * 100);
-            await Userdata.save();
-
-            const LevelUp = new discord.EmbedBuilder()
-                .setAuthor({
-                    name: message.author.username,
-                    iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }),
-                })
-                .setDescription(
-                    `${message.author}, You have leveled up to level **${Userdata.System.level}!** <a:pp330:853495519455215627>`
-                )
-                .setColor("DarkGreen")
-                .setTimestamp();
-
-            const sentMessage = await message.channel.send({ embeds: [LevelUp] });
-            setTimeout(() => sentMessage.delete().catch(() => null), 10000);
-
-            if (data.Mod.Level.Roles.length) {
-                const roleData = data.Mod.Level.Roles.find(x => x.Level === Userdata.System.level);
-                if (roleData) {
-                    const RoleToAdd = message.guild.roles.cache.get(roleData.RoleId);
-                    if (RoleToAdd) {
-                        message.member.roles.add(RoleToAdd).catch(() => null);
-                    }
-                }
-            }
-        } else {
-            await Userdata.save();
-        }
-    } catch (err) {
-        console.error(err);
-        message.channel.send(
-            `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.message}`
-        );
+      const sentMessage = await message.channel.send({ embeds: [embed] });
+      setTimeout(() => sentMessage.delete().catch(() => null), 15000);
+    } catch (error) {
+      console.error('[LevelTrigger] Failed to send level up message:', error);
     }
-};
+  }
+
+  // Assign level roles if configured
+  if (guildData.Mod?.Level?.Roles?.length > 0) {
+    const levelRoles = guildData.Mod.Level.Roles
+      .filter(r => r.Level <= newLevel)
+      .sort((a, b) => b.Level - a.Level); // Highest level first
+
+    // Get the highest level role the user qualifies for
+    const highestRole = levelRoles[0];
+    if (highestRole) {
+      try {
+        const role = message.guild.roles.cache.get(highestRole.RoleId);
+        if (role && !message.member.roles.cache.has(role.id)) {
+          await message.member.roles.add(role);
+        }
+      } catch (error) {
+        console.error('[LevelTrigger] Failed to assign level role:', error);
+      }
+    }
+  }
+}
 
 module.exports = levelTrigger;

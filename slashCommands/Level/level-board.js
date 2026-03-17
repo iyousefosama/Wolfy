@@ -1,90 +1,81 @@
-const discord = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const schema = require("../../schema/GuildSchema");
-const UserSchema = require("../../schema/LevelingSystem-Schema");
+const { EmbedBuilder } = require('discord.js');
+const GuildSchema = require('../../schema/GuildSchema');
+const LevelService = require('../../util/functions/LevelService');
+
+const MEDALS = ['🥇', '🥈', '🥉'];
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
 module.exports = {
   data: {
-    name: "level-board",
-    description: "Shows leaderboard for most leveled users",
-    group: "PUBLIC",
+    name: "leaderboard",
+    description: "Shows the server's XP leaderboard",
+    group: "Level",
     requiresDatabase: true,
     clientPermissions: [],
     guildOnly: true,
+    options: [
+      {
+        type: 4, // INTEGER
+        name: 'page',
+        description: 'Page number to view',
+        required: false,
+        min_value: 1,
+        max_value: 10
+      }
+    ]
   },
-  async execute(client, interaction) {
-    await interaction.deferReply().catch(() => {});
 
-    let data;
-    try {
-      data = await schema.findOne({
-        GuildID: interaction.guildId,
+  async execute(client, interaction) {
+    const page = interaction.options.getInteger('page') || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+
+    await interaction.deferReply();
+
+    const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });
+    if (!guildData?.Mod?.Level?.isEnabled) {
+      return interaction.editReply({
+        content: `❌ The leveling system is disabled! Use \`${client.prefix}leveltoggle\` to enable it.`
       });
-      if (!data || !data.Mod.Level.isEnabled) {
-        return await interaction.editReply({
-          content: client.language.getString("LEVEL_DISABLED", interaction.guildId, { 
-            displayName: interaction.member.displayName,
-            prefix: client.prefix
-          }),
-        });
+    }
+
+    try {
+      // Fetch leaderboard data
+      const leaderboard = await LevelService.getLeaderboard(interaction.guildId, limit + skip);
+      const pageData = leaderboard.slice(skip, skip + limit);
+
+      if (pageData.length === 0) {
+        return interaction.editReply("❌ No data found for this page.");
       }
 
-      // Fetch user data from the database
-      const usersData = await UserSchema.find({
-        guildId: interaction.guildId,
-      })
-        .sort({ "System.level": -1, "System.xp": -1 })
-        .limit(10); // Change the limit as needed
-
-      const leaderboardData = await Promise.all(
-        usersData.map(async (user, index) => {
-          let guildMember = interaction.guild.members.cache.get(user.userId);
-          if (!guildMember) {
-            guildMember = await interaction.guild.members
-              .fetch(user.userId)
-              .catch(() => {});
-          }
-          const { username, displayName } = guildMember?.user || {};
-          const { level = 1, xp = 0 } = user.System || {};
-
-          return {
-            avatar:
-              guildMember?.user?.displayAvatarURL({ extension: "jpg", dynamic: true }).replace(".gif", ".jpg") ||
-              "https://github.com/twlite.png",
-            username: username || "Unknown",
-            displayName: displayName || "Unknown",
-            level,
-            xp,
-            rank: index + 1,
-          };
+      // Build leaderboard entries
+      const entries = await Promise.all(
+        pageData.map(async (userData, index) => {
+          const rank = skip + index + 1;
+          const medal = rank <= 3 ? MEDALS[rank - 1] : `\`${rank.toString().padStart(2)}\``;
+          
+          const member = await interaction.guild.members.fetch(userData.userId).catch(() => null);
+          const name = member?.displayName || member?.user?.username || 'Unknown';
+          
+          return `${medal} **${name}** • Level ${userData.level} • ${userData.totalXp.toLocaleString()} XP`;
         })
       );
 
-      // Create text-based leaderboard embed
-      const embed = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("LEADERBOARD_TITLE", interaction.guildId, { guildName: interaction.guild.name }))
-        .setColor("Gold")
-        .setThumbnail(interaction.guild.iconURL({ dynamic: true, extension: "png" }) || null)
-        .setDescription(client.language.getString("LEADERBOARD_SUBTITLE", interaction.guildId, { memberCount: interaction.guild.memberCount }))
-        .addFields(
-          leaderboardData.map((player, index) => ({
-            name: `#${index + 1} ${player.displayName}`,
-            value: `**Level:** ${player.level} | **XP:** ${player.xp}`,
-            inline: false
-          }))
-        )
-        .setTimestamp()
-        .setFooter({ text: interaction.guild.name });
+      const embed = new EmbedBuilder()
+        .setTitle(`🏆 ${interaction.guild.name} Leaderboard`)
+        .setColor('Gold')
+        .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 256 }))
+        .setDescription(entries.join('\n') || 'No users found.')
+        .setFooter({ text: `Page ${page} • ${interaction.guild.memberCount} members` })
+        .setTimestamp();
 
-      return await interaction.editReply({ embeds: [embed] });
+      return interaction.editReply({ embeds: [embed] });
+
     } catch (err) {
-      console.error(err);
-      return await interaction.editReply(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
-      );
+      console.error('[Slash Leaderboard] Error:', err);
+      return interaction.editReply('❌ Failed to load leaderboard. Please try again later.');
     }
-  },
+  }
 };

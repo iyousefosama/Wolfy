@@ -36,8 +36,7 @@
     "snekfetch": "^4.0.4",
     "sourcebin": "^5.0.0",
     "sourcebin_js": "^0.0.3-ignore",
-    "uuid": "^10.0.0",
-    "weather-js": "^2.0.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",

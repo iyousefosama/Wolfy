@@ -1,71 +1,65 @@
-const schema = require("../../schema/GuildSchema");
+const { EmbedBuilder } = require('discord.js');
+const GuildSchema = require('../../schema/GuildSchema');
 
 /**
  * @type {import("../../util/types/baseCommand")}
  */
 module.exports = {
   name: "levelroles",
-  aliases: ["roles", "leveledroles", "level-roles"],
+  aliases: ["lvlroles", "leveledroles", "level-roles"],
   dmOnly: false,
   guildOnly: true,
   args: false,
   usage: "",
   group: "LeveledRoles",
-  description: "Show all level roles in the guild",
+  description: "Show all level roles in the server",
   cooldown: 10,
   guarded: false,
   permissions: [],
-  clientPermissions: ["UseExternalEmojis"],
+  clientPermissions: ["EmbedLinks"],
   examples: [],
-  /**
-   * 
-   * @param {import("discord.js").Client} client 
-   * @param {import("discord.js").Message} message 
-   * @param {String[]} args 
-   * 
-   */
-  async execute(client, message, args) {
-    message.channel.sendTyping();
 
+  async execute(client, message) {
     try {
-      const data = await schema.findOne({ GuildID: message.guild.id });
+      const guildData = await GuildSchema.findOne({ GuildID: message.guild.id });
 
-      if (!data) {
-        return message.channel.send(`❌ ${message.author}, There are no Level Roles yet!`);
-      }
-
-      if (!data.Mod.Level.isEnabled) {
-        return message.channel.send({
-          content: `❌ **${message.member.displayName}**, The **levels** system is disabled in this server!\nTo enable this feature, use the \`${client.prefix}leveltoggle\` command.`,
+      if (!guildData?.Mod?.Level?.isEnabled) {
+        return message.reply({
+          content: `❌ The leveling system is disabled!\nUse \`${client.prefix}leveltoggle\` to enable it.`
         });
       }
 
-      const roleIds = data.Mod.Level.Roles.map(role => role.RoleId);
+      const levelRoles = guildData.Mod.Level.Roles || [];
 
-      // Fetch the roles from the guild using their IDs
-      const roles = await Promise.all(roleIds.map(id => message.guild.roles.fetch(id)));
-      const rolesList = roles.map(role => role ? role.name : 'Unknown Role');
-      const levelsList = data.Mod.Level.Roles.map(role => role.Level);
-      const idList = roleIds;
-
-      if (rolesList.length === 0) {
-        return message.channel.send({
-          content: `❌ **${message.member.displayName}**, There are no leveled roles in this server!`,
-        });
+      if (levelRoles.length === 0) {
+        return message.reply('❌ No level roles have been configured yet.');
       }
 
-      const tableHeaders = `| Role                | Level | Role ID                |\n|---------------------|-------|------------------------|\n`;
-      const tableRows = rolesList.map((role, index) => {
-        return `| ${role.padEnd(19)} | ${String(levelsList[index]).padEnd(5)} | ${idList[index].padEnd(22)} |`;
-      }).join("\n");
+      // Sort by level
+      const sortedRoles = levelRoles.sort((a, b) => a.Level - b.Level);
 
-      return message.reply({
-        content: `\`\`\`${tableHeaders}${tableRows}\`\`\``
-      });
+      // Build role list
+      const roleList = await Promise.all(
+        sortedRoles.map(async (roleData) => {
+          const role = await message.guild.roles.fetch(roleData.RoleId).catch(() => null);
+          const roleName = role ? role.name : 'Unknown Role';
+          const roleMention = role ? `<@&${role.id}>` : 'Unknown';
+          return `**Level ${roleData.Level}** → ${roleMention} (${roleName})`;
+        })
+      );
+
+      const embed = new EmbedBuilder()
+        .setTitle('🏆 Level Roles')
+        .setColor('Gold')
+        .setDescription(roleList.join('\n'))
+        .setFooter({ text: `${levelRoles.length} role(s) configured` })
+        .setTimestamp();
+
+      return message.reply({ embeds: [embed] });
 
     } catch (err) {
-      console.error(err);
-      return message.channel.send(`❌ [DATABASE_ERR]: The database responded with error: ${err.name}`);
+      console.error('[LevelRoles] Error:', err);
+      return message.reply('❌ Failed to fetch level roles.');
     }
-  },
+  }
 };

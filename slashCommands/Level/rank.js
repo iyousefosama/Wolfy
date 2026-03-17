@@ -1,8 +1,8 @@
-const discord = require("discord.js");
-const { Profile } = require("discord-arts");
-const schema = require("../../schema/GuildSchema");
-const ecoschema = require("../../schema/Economy-Schema");
-const Userschema = require("../../schema/LevelingSystem-Schema");
+const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { Profile } = require('discord-arts');
+const GuildSchema = require('../../schema/GuildSchema');
+const EconomySchema = require('../../schema/Economy-Schema');
+const LevelService = require('../../util/functions/LevelService');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -10,160 +10,93 @@ const Userschema = require("../../schema/LevelingSystem-Schema");
 module.exports = {
   data: {
     name: "rank",
-    description: "Show your level & rank and your current and next xp!",
+    description: "Show your or another user's level, rank, and XP progress",
     dmOnly: false,
     guildOnly: true,
-    cooldown: 0,
-    group: "PUBLIC",
+    cooldown: 5,
+    group: "Level",
     requiresDatabase: true,
-    clientPermissions: [
-      "AttachFiles"
-    ],
+    clientPermissions: ["AttachFiles"],
     permissions: [],
     options: [
       {
         type: 6, // USER
-        name: 'target',
-        description: 'User to show the level for'
+        name: 'user',
+        description: 'User to check rank for (defaults to you)',
+        required: false
+      },
+      {
+        type: 5, // BOOLEAN
+        name: 'hide',
+        description: 'Hide the response (ephemeral)',
+        required: false
       }
     ]
   },
+
   async execute(client, interaction) {
-    // Defer reply immediately as image generation takes time
-    await interaction.deferReply({ ephemeral: interaction.options.getBoolean("hide") });
+    const target = interaction.options.getUser('user') || interaction.user;
+    const hide = interaction.options.getBoolean('hide') || false;
 
-    const target = interaction.options.getUser("target");
+    await interaction.deferReply({ ephemeral: hide });
 
-    const id = (target?.id.match(/\d{17,19}/) || [])[0] || interaction.user.id;
-
-    if (interaction.guild) {
-      member = await interaction.guild.members
-        .fetch(id)
-        .catch(() => interaction.member);
-      user = member.user;
-    } else {
-      user = interaction.user;
-    }
-
-    let data;
-    try {
-      data = await schema.findOne({
-        GuildID: interaction.guildId,
-      });
-      if (!data) {
-        data = await schema.create({
-          GuildID: interaction.guildId,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      return interaction.editReply(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
-      );
-    }
-
-    if (!data.Mod.Level.isEnabled)
+    // Check if leveling is enabled
+    const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });
+    if (!guildData?.Mod?.Level?.isEnabled) {
       return interaction.editReply({
-        content: client.language.getString("LEVEL_DISABLED", interaction.guildId, {
-          displayName: interaction.member.displayName,
-          prefix: client.prefix
-        }),
+        content: `❌ The leveling system is disabled in this server!\nUse \`${client.prefix}leveltoggle\` to enable it.`
       });
-
-    let ecodata;
-    let Userdata;
-    try {
-      ecodata = await ecoschema.findOne({
-        userID: user.id,
-      });
-      Userdata = await Userschema.findOne({
-        userId: user.id,
-        guildId: interaction.guildId,
-      });
-      if (!ecodata) {
-        ecodata = await ecoschema.create({
-          userID: user.id,
-        });
-        if (!Userdata || Userdata == null || Userdata == undefined) {
-          return interaction.editReply({
-            content: client.language.getString("LEVEL_NO_XP", interaction.guildId, {
-              displayName: interaction.member.displayName
-            }),
-          });
-        }
-      }
-    } catch (err) {
-      console.log(err);
-      return interaction.editReply(
-        client.language.getString("LEVEL_DATABASE_ERROR", interaction.guildId, { error: err.name })
-      );
     }
-    var status = member.presence?.status;
-    const requiredXP = Userdata.System?.required;
+
+    // Get member for presence status
+    const member = await interaction.guild.members.fetch(target.id).catch(() => interaction.member);
+
+    // Get user level data
+    const levelData = await LevelService.getUserData(interaction.guildId, target.id);
+    const userRank = await LevelService.getUserRank(interaction.guildId, target.id);
+
+    // Get economy data for background
+    const ecoData = await EconomySchema.findOne({ userID: target.id });
+    const background = ecoData?.profile?.background || "https://i.imgur.com/299Kt1F.png";
 
     const rankData = {
-      currentXP: Userdata.System.xp,
-      requiredXP: requiredXP,
-      level: Userdata.System.level,
-      rank: 1, // You may want to calculate actual rank
-      status: status || "online",
-      username: user.username,
-      avatar: user.displayAvatarURL({ extension: "png", size: 256 }),
-      background: ecodata.profile?.background || "https://i.imgur.com/299Kt1F.png"
+      currentXp: levelData.xp,
+      requiredXp: levelData.requiredXp,
+      level: levelData.level,
+      rank: userRank,
+      totalXp: levelData.totalXp,
+      messageCount: levelData.messageCount
     };
 
     try {
-      const buffer = await Profile(user.id, {
-        customBackground: rankData.background,
-        presenceStatus: status || "online",
+      // Generate rank card
+      const buffer = await Profile(target.id, {
+        customBackground: background,
+        presenceStatus: member.presence?.status || "online",
         font: 'ROBOTO',
         badgesFrame: true,
-        customDate: 'AWESOME!',
         moreBackgroundBlur: true,
         backgroundBrightness: 50,
         rankData: {
-          currentXp: Userdata.System.xp,
-          requiredXp: requiredXP,
+          currentXp: rankData.currentXp,
+          requiredXp: rankData.requiredXp,
           rank: rankData.rank,
-          level: Userdata.System.level,
+          level: rankData.level,
           barColor: '#fcdce1',
           levelColor: '#ada8c6',
           autoColorRank: true
         }
       });
 
-      const attachment = new discord.AttachmentBuilder(buffer, {
-        name: "RankCard.png",
-      });
-      interaction.editReply({ files: [attachment] });
+      const attachment = new AttachmentBuilder(buffer, { name: "RankCard.png" });
+      return interaction.editReply({ files: [attachment] });
+
     } catch (err) {
-      console.error("Error generating rank card:", err);
+      console.error("[Slash Rank] Error:", err);
 
-      // Check if it's a JSON parsing error (external service down)
-      if (err.type === 'invalid-json' || err.message.includes('invalid json response body')) {
-        // Provide a text-based fallback when external service is down
-        const embed = new discord.EmbedBuilder()
-          .setColor('#FF9900')
-          .setTitle(`📊 ${user.username}'s Rank Card`)
-          .setThumbnail(user.displayAvatarURL({ extension: "png", size: 256 }))
-          .addFields(
-            { name: '🏆 Rank', value: `#${rankData.rank}`, inline: true },
-            { name: '📈 Level', value: `${rankData.level}`, inline: true },
-            { name: '⭐ Current XP', value: `${rankData.currentXP.toLocaleString()}`, inline: true },
-            { name: '🎯 Required XP', value: `${rankData.requiredXP.toLocaleString()}`, inline: true },
-            { name: '📊 Progress', value: `${Math.round((rankData.currentXP / rankData.requiredXP) * 100)}%`, inline: true },
-            { name: '🟢 Status', value: rankData.status, inline: true }
-          )
-          .setFooter({ text: 'External rank card service is temporarily unavailable' })
-          .setTimestamp();
-
-        return interaction.editReply({ embeds: [embed] });
-      }
-
-      return interaction.editReply({
-        content: client.language.getString("LEVEL_ERROR", interaction.guildId),
-        ephemeral: true
-      });
+      // Fallback to text-based embed
+      const embed = LevelService.buildRankEmbed(target, rankData);
+      return interaction.editReply({ embeds: [embed] });
     }
-  },
+  }
 };
