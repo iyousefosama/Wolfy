@@ -3,7 +3,6 @@ const aiService = require("../../util/functions/aiService");
 const rateLimiter = require("../../util/functions/aiRateLimiter");
 const AIChatSchema = require("../../schema/AIChat-Schema");
 const consoleUtil = require("../../util/console");
-const AIReminderSkill = require("../../util/functions/aiReminderSkill");
 
 const BEV = require("../../util/types/baseEvents");
 
@@ -121,81 +120,14 @@ module.exports = {
             userMessage = "Hello!";
         }
 
-        // Initialize reminder skill
-        const reminderSkill = new AIReminderSkill(client);
-        
-        // Try to parse and handle reminder request
-        let reminderResult = null;
-        let reminderHandled = false;
-        
-        try {
-            reminderResult = await reminderSkill.handleReminderRequest(
-                userMessage, 
-                message.author.id, 
-                message.channel.id,
-                message.guild?.id
-            );
-            
-            // Handle different reminder actions
-            if (reminderResult) {
-                if (reminderResult.action === 'list') {
-                    // List reminders - let AI handle the response
-                    reminderHandled = false; // Let AI respond
-                } else if (reminderResult.action === 'cancel') {
-                    // Cancel reminder - show result immediately
-                    if (reminderResult.success) {
-                        await message.reply({
-                            content: `✅ ${reminderResult.message}`
-                        }).catch(() => {});
-                    } else {
-                        await message.reply({
-                            content: `❌ ${reminderResult.error}`
-                        }).catch(() => {});
-                    }
-                    reminderHandled = true;
-                } else if (reminderResult.action === 'set') {
-                    // Set reminder
-                    if (!reminderResult.success) {
-                        await message.reply({
-                            content: `⏰ ${reminderResult.error}`
-                        }).catch(() => {});
-                        reminderHandled = true;
-                    } else {
-                        reminderHandled = false; // Let AI confirm
-                    }
-                }
-            }
-        } catch (err) {
-            consoleUtil.error(err, "AIChat-reminder-parse");
-        }
-
         // Build system prompt
         const systemPrompt = aiService.buildSystemPrompt(client, userSettings.customInstructions);
-
-        // Add reminder context for AI
-        let userMessageWithContext = userMessage;
-        if (reminderResult) {
-            if (reminderResult.action === 'set' && reminderResult.success) {
-                const timeDisplay = reminderResult.details.timeString;
-                const replacementNote = reminderResult.isReplacement ? ' (replaced existing reminder)' : '';
-                userMessageWithContext += `
-
-[System note: A reminder has been successfully scheduled${replacementNote} for "${reminderResult.details.reason}" in ${timeDisplay}. Please acknowledge this naturally in your response without repeating command syntax.]`;
-            } else if (reminderResult.action === 'list' && reminderResult.reminders) {
-                const remindersList = reminderResult.reminders.map((r, i) => 
-                    `${i + 1}. "${r.reason}" - <t:${Math.floor(r.time/1000)}:R>${r.reminderId ? ` (ID: ${r.reminderId})` : ''}`
-                ).join('\n');
-                userMessageWithContext += `
-
-[System note: User has ${reminderResult.count} active reminders:\n${remindersList || 'No active reminders'}\n\nRespond conversationally about their reminders.]`;
-            }
-        }
 
         // Build message array for AI
         const messages = [
             { role: "system", content: systemPrompt },
             ...userSettings.getFormattedHistory(),
-            { role: "user", content: userMessageWithContext }
+            { role: "user", content: userMessage }
         ];
 
         // Add response length preference to system if needed
@@ -211,6 +143,7 @@ module.exports = {
         try {
             // Collect streaming response
             let fullResponse = "";
+            let completeResponse = ""; // Track complete response for history
             let messageSent = false;
             let lastMessage = null;
 
@@ -220,6 +153,7 @@ module.exports = {
                 model: userSettings.preferences?.model || aiService.defaultModel
             })) {
                 fullResponse += chunk;
+                completeResponse += chunk;
 
                 // Send new message if response is getting long (increased threshold)
                 if (fullResponse.length > 1800) {
@@ -260,9 +194,7 @@ module.exports = {
             // Save to conversation history if enabled
             if (userSettings.preferences?.useHistory !== false) {
                 await userSettings.addToHistory("user", userMessage);
-                // We need to reconstruct the full response since we cleared it after sending chunks
-                // For now, skip saving assistant response if it was split into multiple messages
-                // as we don't track the complete response across chunks
+                await userSettings.addToHistory("assistant", completeResponse || fullResponse || "I'm not sure how to respond to that. Could you rephrase your question?");
             }
 
         } catch (error) {

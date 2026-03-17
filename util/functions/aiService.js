@@ -3,26 +3,41 @@ const { OpenRouter } = require("@openrouter/sdk");
 /**
  * AI Service for Wolfy Bot
  * Provides OpenRouter AI integration with streaming support
+ * Uses only free OpenRouter models
  */
+
+// Available free models on OpenRouter (no API cost)
+const FREE_MODELS = [
+    { id: "arcee-ai/trinity-large-preview:free", name: "Trinity Large Preview", provider: "Arcee AI" },
+    { id: "qwen/qwen3-coder:free", name: "Qwen 3 Coder", provider: "Qwen" },
+    { id: "meta-llama/llama-4-scout:free", name: "Llama 4 Scout", provider: "Meta" },
+    { id: "mistralai/mistral-small-3.1-24b-instruct:free", name: "Mistral Small 3.1", provider: "Mistral" },
+    { id: "google/gemini-2.0-flash-exp:free", name: "Gemini 2.0 Flash", provider: "Google" },
+    { id: "huggingfaceh4/zephyr-7b-beta:free", name: "Zephyr 7B", provider: "Hugging Face" }
+];
 
 class AIService {
     constructor() {
         this.openrouter = null;
-        this.defaultModel = "arcee-ai/trinity-large-preview:free";
+        this.defaultModel = FREE_MODELS[0].id;
         this.isEnabled = false;
+        this.availableModels = FREE_MODELS;
     }
 
-    /**
-     * Initialize the AI service with API key
-     * @param {string} apiKey - OpenRouter API key
-     */
+    getAvailableModels() {
+        return this.availableModels;
+    }
+
+    isValidModel(modelId) {
+        return this.availableModels.some(m => m.id === modelId);
+    }
+
     initialize(apiKey) {
         if (!apiKey) {
             console.log("[AI Service] No API key provided, AI features disabled");
             this.isEnabled = false;
             return;
         }
-
         try {
             this.openrouter = new OpenRouter({ apiKey });
             this.isEnabled = true;
@@ -33,86 +48,55 @@ class AIService {
         }
     }
 
-    /**
-     * Get base system instructions for Wolfy AI
-     * @param {import('discord.js').Client} client - Discord client
-     * @returns {string} System instructions
-     */
     getBaseInstructions(client) {
-        return `You are Wolfy, an AI assistant integrated into a Discord bot called "Wolfy" and made by "WOLF". 
+        return `You are Wolfy, a highly intelligent AI assistant integrated into a Discord bot.
 
-Your personality:
-- Be friendly, conversational, and engaging - like chatting with a helpful friend
-- Use casual, natural language - avoid sounding like a robot or documentation
-- Show enthusiasm and warmth in your responses
-- Ask follow-up questions when appropriate to keep the conversation going
-- Use emojis occasionally to express emotion (but don't overdo it)
+Core Intelligence & Behavior:
+- Think critically and provide thoughtful, well-reasoned responses
+- Be conversational and engaging - adapt your tone to match the user's energy
+- Use natural language with nuance and sophistication
+- Be proactive in offering helpful suggestions and follow-up questions
+- Demonstrate understanding of context and remember conversation flow
+- Use creative problem-solving approaches when appropriate
 
-Your identity:
-- You are Wolfy, a helpful and friendly AI assistant for the Wolfy Discord bot
-- You were created to help users with various tasks, answer questions, and chat casually
-- You should be helpful, respectful, and engaging in your responses
+Communication Style:
+- Be warm and authentic, not robotic or overly formal
+- Use appropriate emojis to convey emotion and emphasis (1-3 per message)
+- Vary sentence structure and vocabulary for engaging conversation
+- Ask clarifying questions when user requests are ambiguous
+- Provide examples and analogies when explaining complex concepts
 
-What you can help with:
-- Chatting casually about any topic
-- Answering questions about the bot's features
-- Explaining how to use commands when asked
-- Providing information and assistance
-- Having fun conversations
+Knowledge & Capabilities:
+- Understand Discord features and can help with bot commands
+- Provide detailed explanations on a wide range of topics
+- Help with creative writing, brainstorming, and problem-solving
+- Offer practical advice and actionable suggestions
+- Recognize when to be concise vs when to be detailed
 
-When users ask about features:
-- Don't just list commands - explain them naturally in conversation
-- Example: Instead of "Commands: remind, economy, level", say "I can help you set reminders, check your economy stats, or see your level progress!"
-
-When responding:
-- Be conversational and natural, not robotic
-- Keep responses concise but friendly (Discord has message limits)
-- Use Discord markdown formatting when appropriate
-- If you don't know something, say so honestly and offer to help with something else
-- Never claim to be a human or other AI model like GPT - you are Wolfy
-- Follow Discord's Terms of Service and Community Guidelines
-- Do not provide instructions for harmful activities, NSFW content, or harassment
-
-Remember: You're having a chat with a friend, not reading from a manual!
-
-IMPORTANT - About setting reminders:
-- When a user asks you to set a reminder (e.g., "remind me to water plants in 5 minutes"), you DO NOT need to tell them how to use commands
-- Simply acknowledge that you've set the reminder for them and confirm what they'll be reminded about
-- For example: "Sure thing! I'll remind you to water the plants in 5 minutes 🌱"
-- The reminder system will handle the actual scheduling automatically
-- Never say things like "use !remind command" or give command syntax - that feels robotic`;
+Guidelines:
+- Prioritize helpfulness and accuracy in all responses
+- Use Discord markdown formatting for readability (bold, italics, code blocks)
+- Keep responses appropriately sized for Discord (under 1500 chars when possible)
+- Admit uncertainty and offer to research when unsure
+- Never claim to be human or other AI models - you are Wolfy
+- Follow Discord's Terms of Service and promote positive interactions`;
     }
 
-    /**
-     * Build complete system prompt with custom instructions
-     * @param {import('discord.js').Client} client - Discord client
-     * @param {string} customInstructions - Optional custom user instructions
-     * @returns {string} Complete system prompt
-     */
     buildSystemPrompt(client, customInstructions = "") {
         let prompt = this.getBaseInstructions(client);
-        
         if (customInstructions && customInstructions.trim()) {
             prompt += `\n\nUser's Custom Instructions:\n${customInstructions}`;
         }
-        
         return prompt;
     }
 
-    /**
-     * Validate custom instructions for Discord TOS compliance
-     * @param {string} instructions - Custom instructions to validate
-     * @returns {{valid: boolean, reason?: string}} Validation result
-     */
     validateInstructions(instructions) {
         if (!instructions || instructions.trim().length === 0) {
             return { valid: false, reason: "Instructions cannot be empty" };
         }
-
         if (instructions.length > 2000) {
             return { valid: false, reason: "Instructions must be under 2000 characters" };
         }
-
         const forbiddenPatterns = [
             /ignore\s+previous\s+instructions/gi,
             /disregard\s+(?:all\s+)?(?:prior|previous|system)\s+(?:instructions|prompts)/gi,
@@ -125,39 +109,28 @@ IMPORTANT - About setting reminders:
             /raid\s+(?:server|discord)/gi,
             /mass\s+(?:dm|mention|ping)/gi,
         ];
-
         for (const pattern of forbiddenPatterns) {
             if (pattern.test(instructions)) {
                 return { valid: false, reason: "Instructions contain potentially harmful or policy-violating content" };
             }
         }
-
         return { valid: true };
     }
 
-    /**
-     * Send a chat message to AI and get streaming response
-     * @param {Object} options - Chat options
-     * @param {Array<{role: string, content: string}>} options.messages - Message history
-     * @param {string} [options.model] - Model to use
-     * @param {boolean} [options.stream=true] - Whether to stream response
-     * @returns {AsyncGenerator<string>} Stream of response chunks
-     */
     async *chatStream({ messages, model, stream = true }) {
         if (!this.isEnabled || !this.openrouter) {
             yield "AI service is not available. Please contact the bot owner.";
             return;
         }
-
+        const validatedModel = this.isValidModel(model) ? model : this.defaultModel;
         try {
             const response = await this.openrouter.chat.send({
                 chatGenerationParams: {
-                    model: model || this.defaultModel,
+                    model: validatedModel,
                     messages,
                     stream
                 }
             });
-
             for await (const chunk of response) {
                 const content = chunk.choices[0]?.delta?.content;
                 if (content) {
@@ -170,27 +143,19 @@ IMPORTANT - About setting reminders:
         }
     }
 
-    /**
-     * Send a chat message and get complete response
-     * @param {Object} options - Chat options
-     * @param {Array<{role: string, content: string}>} options.messages - Message history
-     * @param {string} [options.model] - Model to use
-     * @returns {Promise<string>} Complete response
-     */
     async chatComplete({ messages, model }) {
         if (!this.isEnabled || !this.openrouter) {
             return "AI service is not available. Please contact the bot owner.";
         }
-
+        const validatedModel = this.isValidModel(model) ? model : this.defaultModel;
         try {
             const response = await this.openrouter.chat.send({
                 chatGenerationParams: {
-                    model: model || this.defaultModel,
+                    model: validatedModel,
                     messages,
                     stream: false
                 }
             });
-
             return response.choices[0]?.message?.content || "No response received.";
         } catch (error) {
             console.error("[AI Service] Chat error:", error);
@@ -198,14 +163,9 @@ IMPORTANT - About setting reminders:
         }
     }
 
-    /**
-     * Check if AI service is enabled
-     * @returns {boolean}
-     */
     isAvailable() {
         return this.isEnabled && this.openrouter !== null;
     }
 }
 
-// Export singleton instance
 module.exports = new AIService();

@@ -68,20 +68,20 @@ module.exports = {
             {
                 type: 1, // SUB_COMMAND
                 name: "model",
-                description: "Change the AI model (default: arcee-ai/trinity-large-preview:free)",
+                description: "Change the AI model (free models only)",
                 options: [
                     {
                         type: 3, // STRING
                         name: "name",
-                        description: "The model to use",
+                        description: "The free model to use",
                         required: true,
                         choices: [
                             { name: "Trinity Large Preview (Free)", value: "arcee-ai/trinity-large-preview:free" },
                             { name: "Qwen 3 Coder (Free)", value: "qwen/qwen3-coder:free" },
-                            { name: "Qwen 2.5 72B", value: "qwen/qwen-2.5-72b-instruct" },
-                            { name: "Llama 3.3 70B", value: "meta-llama/llama-3.3-70b-instruct" },
-                            { name: "DeepSeek V3", value: "deepseek/deepseek-chat" },
-                            { name: "Mistral 7B", value: "mistralai/mistral-7b-instruct" }
+                            { name: "Llama 4 Scout (Free)", value: "meta-llama/llama-4-scout:free" },
+                            { name: "Mistral Small 3.1 (Free)", value: "mistralai/mistral-small-3.1-24b-instruct:free" },
+                            { name: "Gemini 2.0 Flash (Free)", value: "google/gemini-2.0-flash-exp:free" },
+                            { name: "Zephyr 7B (Free)", value: "huggingfaceh4/zephyr-7b-beta:free" }
                         ]
                     }
                 ]
@@ -282,11 +282,19 @@ module.exports = {
             case "model": {
                 const model = interaction.options.getString("name");
                 
+                // Validate the model is in the free list
+                if (!aiService.isValidModel(model)) {
+                    return interaction.reply({
+                        content: "❌ Invalid or non-free model selected. Please choose from the available free models.",
+                        ephemeral: true
+                    });
+                }
+                
                 userSettings.preferences.model = model;
                 await userSettings.save();
 
                 return interaction.reply({
-                    content: `✅ AI model has been changed to: \`${model}\``,
+                    content: `✅ AI model changed to: \`${model}\` (Free tier)`,
                     ephemeral: true
                 });
             }
