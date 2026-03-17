@@ -71,10 +71,6 @@ module.exports = {
                         model: aiService.defaultModel
                     }
                 });
-            } else if (userSettings.preferences?.model === "qwen/qwen3-coder:free") {
-                // Update old model to new default
-                userSettings.preferences.model = aiService.defaultModel;
-                await userSettings.save();
             }
         } catch (err) {
             consoleUtil.error(err, "AIChat-fetch-settings");

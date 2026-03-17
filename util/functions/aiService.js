@@ -10,10 +10,10 @@ const { OpenRouter } = require("@openrouter/sdk");
 const FREE_MODELS = [
     { id: "arcee-ai/trinity-large-preview:free", name: "Trinity Large Preview", provider: "Arcee AI" },
     { id: "qwen/qwen3-coder:free", name: "Qwen 3 Coder", provider: "Qwen" },
-    { id: "meta-llama/llama-4-scout:free", name: "Llama 4 Scout", provider: "Meta" },
-    { id: "mistralai/mistral-small-3.1-24b-instruct:free", name: "Mistral Small 3.1", provider: "Mistral" },
-    { id: "google/gemini-2.0-flash-exp:free", name: "Gemini 2.0 Flash", provider: "Google" },
-    { id: "huggingfaceh4/zephyr-7b-beta:free", name: "Zephyr 7B", provider: "Hugging Face" }
+    { id: "stepfun/step-3.5-flash:free", name: "Step 3.5 Flash", provider: "Stepfun" },
+    { id: "z-ai/glm-4.5-air:free", name: "GLM 4.5 Air", provider: "Z-AI" },
+    { id: "meta-llama/llama-3.3-70b-instruct:free", name: "Llama 3.3 70B Instruct", provider: "Meta" },
+    { id: "openai/gpt-oss-120b:free", name: "GPT-OSS 120B", provider: "OpenAI" }
 ];
 
 class AIService {

@@ -78,10 +78,10 @@ module.exports = {
                         choices: [
                             { name: "Trinity Large Preview (Free)", value: "arcee-ai/trinity-large-preview:free" },
                             { name: "Qwen 3 Coder (Free)", value: "qwen/qwen3-coder:free" },
-                            { name: "Llama 4 Scout (Free)", value: "meta-llama/llama-4-scout:free" },
-                            { name: "Mistral Small 3.1 (Free)", value: "mistralai/mistral-small-3.1-24b-instruct:free" },
-                            { name: "Gemini 2.0 Flash (Free)", value: "google/gemini-2.0-flash-exp:free" },
-                            { name: "Zephyr 7B (Free)", value: "huggingfaceh4/zephyr-7b-beta:free" }
+                            { name: "Step 3.5 Flash (Free)", value: "stepfun/step-3.5-flash:free" },
+                            { name: "GLM 4.5 Air (Free)", value: "z-ai/glm-4.5-air:free" },
+                            { name: "Llama 3.3 70B Instruct (Free)", value: "meta-llama/llama-3.3-70b-instruct:free" },
+                            { name: "GPT-OSS 120B (Free)", value: "openai/gpt-oss-120b:free" }
                         ]
                     }
                 ]
