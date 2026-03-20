@@ -7,21 +7,20 @@ const schema = require('../../schema/GuildSchema');
 module.exports = {
     name: "infraction",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: false, //or false
+    dmOnly: false,
+    guildOnly: true,
+    args: false,
     usage: '',
     group: 'setup',
     description: 'To enable/disable/Edit infraction point protection system!',
-    cooldown: 5, //seconds(s)
-    guarded: false, //or false
+    cooldown: 5,
+    guarded: false,
     requiresDatabase: true,
     permissions: ["Administrator"],
     clientPermissions: ["ManageMessages"],
-    examples: [
-    ],
+    examples: [],
     async execute(client, message, [type = '', ...args]) {
-        let num = Number(args[0]); // Convert args[0] to a number
+        const num = Number(args[0]);
 
         let data;
         try {
@@ -35,52 +34,65 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
-            return message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`);
+            return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`);
         }
+
+        const persistGuildData = async () => {
+            await data.save();
+            client.setCachedGuildData(message.guild.id, data.toObject());
+        };
 
         if (type.toLowerCase() === 'kick') {
             if (!num) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, Please add the maximum number of infraction points to kick!`);
-            } else if (num < 1 || num > 10) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, Maximum infraction points can't be less than (1) and more than (10).`);
+                return message.channel.send(`\\âŒ **${message.member.displayName}**, Please add the maximum number of infraction points to kick!`);
+            }
+            if (num < 1 || num > 10) {
+                return message.channel.send(`\\âŒ **${message.member.displayName}**, Maximum infraction points can't be less than (1) and more than (10).`);
             }
 
-            if (!data.Infraction.Options) {
-                data.Infraction.Options = {};
+            if (!data.Mod.Infraction.Options) {
+                data.Mod.Infraction.Options = {};
             }
-            data.Infraction.Options.MaxkickP = num;
-            await data.save()
+            data.Mod.Infraction.Options.MaxkickP = num;
+            return persistGuildData()
                 .then(() => {
-                    message.channel.send(`\\✔️ ${message.member.displayName}, Successfully set the maximum number of \`kick\` infraction point(s) to **${num}**!`);
-                }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
-        } else if (type.toLowerCase() === 'ban') {
+                    message.channel.send(`\\âœ”ï¸ ${message.member.displayName}, Successfully set the maximum number of \`kick\` infraction point(s) to **${num}**!`);
+                }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+        }
+
+        if (type.toLowerCase() === 'ban') {
             if (!num) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, Please add the maximum number of infraction points to ban!`);
-            } else if (num < 10 || num > 20) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, Maximum infraction points can't be less than (10) and more than (20).`);
+                return message.channel.send(`\\âŒ **${message.member.displayName}**, Please add the maximum number of infraction points to ban!`);
+            }
+            if (num < 10 || num > 20) {
+                return message.channel.send(`\\âŒ **${message.member.displayName}**, Maximum infraction points can't be less than (10) and more than (20).`);
             }
 
-            if (!data.Infraction.Options) {
-                data.Infraction.Options = {};
+            if (!data.Mod.Infraction.Options) {
+                data.Mod.Infraction.Options = {};
             }
-            data.Infraction.Options.MaxbanP = num;
-            await data.save()
+            data.Mod.Infraction.Options.MaxbanP = num;
+            return persistGuildData()
                 .then(() => {
-                    message.channel.send(`\\✔️ ${message.member.displayName}, Successfully set the maximum number of \`ban\` infraction point(s) to **${num}**!`);
-                }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
-        } else if (!isNaN(num)) { // Check if num is a valid number
+                    message.channel.send(`\\âœ”ï¸ ${message.member.displayName}, Successfully set the maximum number of \`ban\` infraction point(s) to **${num}**!`);
+                }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+        }
+
+        if (!isNaN(num)) {
             if (num < 5000 || num > 604800000) {
-                return message.channel.send(`\\❌ **${message.member.displayName}**, Infraction point TimeReset can't be less than (5 Min) and more than (7 Days).`);
+                return message.channel.send(`\\âŒ **${message.member.displayName}**, Infraction point TimeReset can't be less than (5 Min) and more than (7 Days).`);
             }
 
             data.Mod.Infraction.TimeReset = num;
-            await data.save()
+            return persistGuildData()
                 .then(() => {
-                    message.channel.send(`\\✔️ ${message.member.displayName}, Successfully set \`TimeReset\` for infraction point(s) to **${num}**!`);
-                }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
-        } else if (type.toLowerCase() === 'toggle') {
+                    message.channel.send(`\\âœ”ï¸ ${message.member.displayName}, Successfully set \`TimeReset\` for infraction point(s) to **${num}**!`);
+                }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+        }
+
+        if (type.toLowerCase() === 'toggle') {
             data.Mod.Infraction.isEnabled = !data.Mod.Infraction.isEnabled;
-            await data.save()
+            return persistGuildData()
                 .then(() => {
                     const state = data.Mod.Infraction.isEnabled ? 'Enabled' : 'Disabled';
                     const embed = new discord.EmbedBuilder()
@@ -92,20 +104,20 @@ module.exports = {
                             `feature, use the \`${client.prefix}infraction toggle\` command.`
                         ].join(' '));
                     message.channel.send({ embeds: [embed] });
-                }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
-        } else {
-            const embed = new discord.EmbedBuilder()
-                .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
-                .setColor('738ADB')
-                .setDescription([
-                    `\`ban\` maximum infraction points is (**${data.Mod.Infraction.Options.MaxbanP}**)`,
-                    `\n\`kick\` maximum infraction points is (**${data.Mod.Infraction.Options.MaxkickP}**)`,
-                    `\nThe Infraction points \`TimeReset\` is (\`${data.Mod.Infraction.TimeReset}\`ms)`,
-                    `\nTo **${!data.Mod.Infraction.isEnabled ? 'enable' : 'disable'}** this`,
-                    `feature, use the \`${client.prefix}infraction toggle\` command.`
-                ].join(' '))
-                .setFooter({ text: `${client.prefix}infraction (kick/ban/toggle/(Time of Timereset)) (Number)`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            return message.channel.send({ embeds: [embed] });
+                }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
         }
+
+        const embed = new discord.EmbedBuilder()
+            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
+            .setColor('738ADB')
+            .setDescription([
+                `\`ban\` maximum infraction points is (**${data.Mod.Infraction.Options.MaxbanP}**)`,
+                `\n\`kick\` maximum infraction points is (**${data.Mod.Infraction.Options.MaxkickP}**)`,
+                `\nThe Infraction points \`TimeReset\` is (\`${data.Mod.Infraction.TimeReset}\`ms)`,
+                `\nTo **${!data.Mod.Infraction.isEnabled ? 'enable' : 'disable'}** this`,
+                `feature, use the \`${client.prefix}infraction toggle\` command.`
+            ].join(' '))
+            .setFooter({ text: `${client.prefix}infraction (kick/ban/toggle/(Time of Timereset)) (Number)`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+        return message.channel.send({ embeds: [embed] });
     }
 };

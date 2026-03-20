@@ -1,5 +1,4 @@
 const LevelSchema = require('../../schema/LevelingSystem-Schema');
-const GuildSchema = require('../../schema/GuildSchema');
 const { EmbedBuilder } = require('discord.js');
 
 /**
@@ -278,11 +277,16 @@ class LevelService {
    * @param {number} limit 
    * @returns {Promise<Array>}
    */
-  async getLeaderboard(guildId, limit = 10) {
+  async getLeaderboard(guildId, limit = 10, skip = 0) {
     return await LevelSchema.find({ guildId })
       .sort({ totalXp: -1 })
+      .skip(skip)
       .limit(limit)
       .lean();
+  }
+
+  async getLeaderboardCount(guildId) {
+    return LevelSchema.countDocuments({ guildId });
   }
 
   /**

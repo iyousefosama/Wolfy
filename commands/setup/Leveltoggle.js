@@ -7,20 +7,19 @@ const schema = require('../../schema/GuildSchema')
 module.exports = {
     name: "leveltoggle",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: false, //or false
+    dmOnly: false,
+    guildOnly: true,
+    args: false,
     usage: '',
     group: 'setup',
     description: 'To enable/disable levelRoles cmd',
-    cooldown: 5, //seconds(s)
-    guarded: false, //or false
+    cooldown: 5,
+    guarded: false,
     requiresDatabase: true,
     permissions: ["ManageMessages", "Administrator"],
     examples: [''],
 
   async execute(client, message, args) {
-          
         let data;
         try{
             data = await schema.findOne({
@@ -33,16 +32,16 @@ module.exports = {
             }
         } catch(err) {
             console.log(err)
-            message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+            return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
         }
 
         data.Mod.Level.isEnabled = !data.Mod.Level.isEnabled;
 
         data.save()
         .then(() => {
+          client.setCachedGuildData(message.guild.id, data.toObject());
           const state = ['Disabled', 'Enabled'][Number(data.Mod.Level.isEnabled)];
-          data.Mod.Level.isEnabled = data.Mod.Level.isEnabled;
-    
+
           const embed = new discord.EmbedBuilder()
             .setColor('Green')
             .setDescription([
@@ -52,6 +51,6 @@ module.exports = {
               `feature, use the \`${client.prefix}leveltoggle\` command.`
             ].join(' '))
             message.channel.send({ embeds: [embed] })
-          }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+          }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
 }
 }

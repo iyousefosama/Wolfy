@@ -7,13 +7,14 @@ const LevelService = require('./LevelService');
  * Features: Cooldown system, level up notifications, role rewards
  * @param {import('discord.js').Message} message
  */
-const levelTrigger = async (message) => {
+const levelTrigger = async (message, guildData = null) => {
   if (!message || message.author.bot || !message.guild) return;
 
   try {
     // Check if leveling is enabled
-    const guildData = await GuildSchema.findOne({ GuildID: message.guild.id });
-    if (!guildData?.Mod?.Level?.isEnabled) return;
+    const resolvedGuildData =
+      guildData ?? await GuildSchema.findOne({ GuildID: message.guild.id }).lean();
+    if (!resolvedGuildData?.Mod?.Level?.isEnabled) return;
 
     // Check cooldown
     if (LevelService.isOnCooldown(message.guild.id, message.author.id)) return;
@@ -27,7 +28,7 @@ const levelTrigger = async (message) => {
 
     // Handle level up
     if (result.leveledUp) {
-      await handleLevelUp(message, result.newLevel, guildData);
+      await handleLevelUp(message, result.newLevel, resolvedGuildData);
     }
   } catch (err) {
     console.error('[LevelTrigger] Error:', err);

@@ -7,18 +7,17 @@ const schema = require('../../schema/user-schema')
 module.exports = {
     name: "blacklist",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: false, //or false
-    args: true, //or false
+    dmOnly: false,
+    guildOnly: false,
+    args: true,
     usage: '<user>',
     group: 'developer',
-    cooldown: 5, //seconds(s)
-    guarded: false, //or false
+    cooldown: 5,
+    guarded: false,
     ownerOnly: true,
     permissions: [],
     
     async execute(client, message, [user = '', ...reason] ) {
-
     if (!user.match(/\d{17,19}/)){
         return message.channel.send({ content: `<a:pp802:768864899543466006> Please provide the ID of the user or mention to blacklist!`});
       };
@@ -63,14 +62,15 @@ module.exports = {
     data.Status.Blacklisted.reason = reason.join(' ') || 'Unspecified';
     await data.save()
     .then(() => {
-      user.send(`❌ ${user.tag}, You are blacklisted from using wolfy bot!\n\nReason:\n ${reason.join(' ') || 'Unspecified'}`).catch(() => null)
+      client.setCachedUserData(user.id, data.toObject());
+      user.send(`âŒ ${user.tag}, You are blacklisted from using wolfy bot!\n\nReason:\n ${reason.join(' ') || 'Unspecified'}`).catch(() => null)
       const done = new discord.EmbedBuilder()
       .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor(`Red`)
-      .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**\n• At: <t:${timestamp}>\n\n\`\`\`${reason.join(' ') || 'Unspecified'}\`\`\``)
+      .setDescription(`<a:pp399:768864799625838604> Successfully blacklisted **${user.tag}**\nâ€¢ At: <t:${timestamp}>\n\n\`\`\`${reason.join(' ') || 'Unspecified'}\`\`\``)
       .setTimestamp()
-      .setFooter({ text: `BlackList | \©️${new Date().getFullYear()} WOLFY` })
+      .setFooter({ text: `BlackList | \Â©ï¸${new Date().getFullYear()} WOLFY` })
       return message.channel.send({ embeds: [done] })
-      }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+      }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
 }

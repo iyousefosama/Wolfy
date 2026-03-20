@@ -7,13 +7,13 @@ const schema = require('../../schema/user-schema')
 module.exports = {
     name: "whitelist",
     aliases: [],
-    dmOnly: false, //or false
-    guildOnly: true, //or false
-    args: true, //or false
+    dmOnly: false,
+    guildOnly: true,
+    args: true,
     usage: '<user>',
     group: 'developer',
-    cooldown: 5, //seconds(s)
-    guarded: false, //or false
+    cooldown: 5,
+    guarded: false,
     ownerOnly: true,
     permissions: [],
     
@@ -59,13 +59,14 @@ module.exports = {
     data.Status.Blacklisted.current = false;
     await data.save()
     .then(() => {
+      client.setCachedUserData(user.id, data.toObject());
       const done = new discord.EmbedBuilder()
       .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({dynamic: true, size: 2048}) })
       .setColor(`GREEN`)
       .setDescription(`<a:pp399:768864799625838604> Successfully whitelisted **${user.tag}**`)
-      .setFooter({ text: `Whitelist | \©️${new Date().getFullYear()} WOLFY` })
+      .setFooter({ text: `Whitelist | \Â©ï¸${new Date().getFullYear()} WOLFY` })
       .setTimestamp()
       return message.channel.send({ embeds: [done] })
-      }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+      }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
     }
 }

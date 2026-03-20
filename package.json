@@ -21,7 +21,7 @@
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
     "discord-arts": "^0.7.1",
-    "discord.js": "^14.15.3",
+    "discord.js": "^14.25.1",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
     "he": "^1.2.0",
@@ -34,7 +34,7 @@
     "nodemon": "^3.1.9",
     "parse-ms": "^4.0.0",
     "snekfetch": "^4.0.4",
-    "sourcebin": "^5.0.0",
+    "sourcebin": "^4.3.6",
     "sourcebin_js": "^0.0.3-ignore",
     "uuid": "^10.0.0"
   },

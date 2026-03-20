@@ -1,13 +1,13 @@
-const schema = require('../../schema/GuildSchema')
 const UserSchema = require('../../schema/Infraction-Schema')
 const InfFunction = require('./Infraction')
 const { PermissionsBitField } = require('discord.js')
 
 /**
- * @param {import('discord.js').Client} client
+ * @param {import('../../struct/Client')} client
  * @param {import('discord.js').Message} message
+ * @param {Object | null} guildData
  */
-const checkMsg = async (client, message) => {
+const checkMsg = async (client, message, guildData = null) => {
   if (!message) {
     return;
   }
@@ -15,17 +15,32 @@ const checkMsg = async (client, message) => {
   if (message.author == client.user) return;
   if (message.author.bot) {
     return;
-  };
+  }
   if (!message.guild) {
     return;
-  };
+  }
 
-  let GuildData;
+  let resolvedGuildData = guildData;
+
+  try {
+    if (!resolvedGuildData) {
+      resolvedGuildData = await client.getCachedGuildData(message.guild.id);
+    }
+  } catch (err) {
+    console.log(err)
+    return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+  }
+
+  if (message.author.id === message.guild.ownerId) {
+    return;
+  } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
+    return;
+  } else if (!resolvedGuildData?.Mod?.AntiLink?.isEnabled) {
+    return;
+  }
+
   let data;
   try {
-    GuildData = await schema.findOne({
-      GuildID: message.guild.id
-    })
     data = await UserSchema.findOne({
       guildId: message.guild.id,
       userId: message.author.id
@@ -38,25 +53,21 @@ const checkMsg = async (client, message) => {
     }
   } catch (err) {
     console.log(err)
-    message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+    return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
   }
 
-  if (message.author.id === message.guild.ownerId) {
+  if (!data) {
     return;
-  } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
-    return;
-  } else if (!GuildData || !data || !GuildData.Mod.AntiLink?.isEnabled) {
-    return;
-  } else {
-    // Do nothing..
-  };
+  }
 
-
-  if (message.content.toLowerCase().includes(`http://`) || message.content.toLowerCase().includes(`https://`) || message.content.toLowerCase().includes(`discord.gg/`)) {
+  if (
+    message.content.toLowerCase().includes(`http://`) ||
+    message.content.toLowerCase().includes(`https://`) ||
+    message.content.toLowerCase().includes(`discord.gg/`)
+  ) {
     message.delete().then(() => {
       setTimeout(async () => {
-        if (GuildData.Mod.Infraction?.isEnabled) {
-          // Start the Infraction for links at ../util/functions/Infraction bath
+        if (resolvedGuildData.Mod.Infraction?.isEnabled) {
           InfFunction.Infraction(client, message)
         } else {
           return message.channel?.send({ content: `${message.author}, Links and discord invites are not allowed in this server!` })

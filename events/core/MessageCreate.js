@@ -1,7 +1,4 @@
 const { PermissionsBitField, ChannelType } = require("discord.js");
-const userSchema = require("../../schema/user-schema");
-const schema = require("../../schema/GuildSchema");
-const block = require("../../schema/blockcmd");
 const consoleUtil = require("../../util/console");
 const { ErrorEmbed } = require("../../util/modules/embeds");
 const { commandsManager, level, wordFilter, linkProtection } = require('../../util/functions/moderationUtils');
@@ -17,26 +14,33 @@ module.exports = {
     if (message.author.bot) {
       return;
     }
-    
-    let data;
+
+    let data = null;
     let prefix;
+    let errorReplied = false;
+    const replyWithError = async (payload) => {
+      if (errorReplied) {
+        return;
+      }
+
+      errorReplied = true;
+      return message.reply(payload).catch(() => null);
+    };
+
     if (message.guild) {
       if (client.database?.connected) {
-        // Start Leveling up function at ../util/functions/LevelTrigger bath
-        level(message);
-        // Start Warning for badwords function at ../util/functions/BadWordsFilter bath
-        wordFilter(client, message);
-        // Start anti-links protection function at ../util/functions/AntiLinks bath
-        linkProtection(client, message);
-
         try {
-          data = await schema.findOne({
-            GuildID: message.guild.id,
-          });
+          data = await client.getCachedGuildData(message.guild.id);
         } catch (err) {
           console.log(err);
-          message.channel.send(client.language.getString("ERR_DB", message.guild?.id, { error: err.name }));
+          await message.channel.send(
+            client.language.getString("ERR_DB", message.guild?.id, { error: err.name })
+          ).catch(() => null);
         }
+
+        level(message, data);
+        wordFilter(client, message, data);
+        linkProtection(client, message, data);
       }
 
       const serverprefix = data?.prefix || "Not Set";
@@ -45,6 +49,7 @@ module.exports = {
         return message.reply(client.language.getString("PREFIX", message.guild.id, { PREFIX: client.prefix, SERVERPREFIX: serverprefix}));
       }
     }
+
     if (message.channel?.type === ChannelType.DM) {
       prefix = client.prefix;
     } else if (message.content.startsWith("wolfy")) {
@@ -53,46 +58,58 @@ module.exports = {
       prefix = client.prefix;
     } else if (data && data.prefix) {
       prefix = data.prefix;
-    };
+    }
 
     if (!prefix || !message.content.startsWith(prefix)) {
       return { executed: false, reason: "PREFIX" };
     }
+
     const args = message.content.slice(prefix.length).split(/ +/g);
     const commandName = args.shift().toLowerCase();
     const cmd =
       client.commands.get(commandName) ||
-      //+ aliases: [""],
       client.commands.find(
-        (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+        (command) => command.aliases && command.aliases.includes(commandName)
       );
 
     if (commandName.length < 1) return { executed: false, reason: "NOT_FOUND" };
-    if (!cmd)
+    if (!cmd) {
       return (
         message.channel.send({
           content: client.language.getString("CMD_404", message.guild?.id, { commandName: commandName }),
         }),
         { executed: false, reason: "NOT_FOUND" }
       );
-    //+ Blacklisted
+    }
+
+    let userData = null;
     try {
-      UserData = await userSchema.findOne({
-        userId: message.author.id,
-      });
+      userData = await client.getCachedUserData(message.author.id);
     } catch (err) {
       console.log(err);
-      message.channel.send(client.language.getString("ERR_DB", message.guild?.id, { error: err.name }));
+      await message.channel.send(
+        client.language.getString("ERR_DB", message.guild?.id, { error: err.name })
+      ).catch(() => null);
     }
+
+    if (
+      userData?.Status?.Blacklisted?.current &&
+      !client.owners.includes(message.author.id)
+    ) {
+      const reason = userData.Status.Blacklisted.reason || "Unspecified";
+      return message.channel.send({
+        content: `\`❌ [BLACKLISTED]:\` You are blacklisted from using Wolfy.\nReason: ${reason}`,
+      }).catch(() => null);
+    }
+
     try {
-      // Permissions: To check for default permissions in the guild
       if (message.guild) {
         const botPermissions = message.channel.permissionsFor(message.guild.members.me);
-        
+
         if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
           return { executed: false, reason: "PERMISSION_SEND" };
         }
-        
+
         if (!botPermissions.has(PermissionsBitField.Flags.ViewChannel)) {
           return { executed: false, reason: "PERMISSION_VIEW_CHANNEL" };
         }
@@ -103,7 +120,6 @@ module.exports = {
 
       try {
         await cmd.execute(client, message, args, { executed: true });
-        // Start CmdManager function at ../util/functions/Manager bath
         commandsManager(client, message, cmd);
         client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
           ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
@@ -111,22 +127,20 @@ module.exports = {
           } sent: ${message.content}`);
       } catch (error) {
         consoleUtil.error(error, "message-execute");
-        
-        // Handle permission errors specifically
+
         if (error.code === 50013) {
           const missingPerms = error.missingPermissions || [];
-          const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
-          
-          return message.reply({
-            embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, { 
+          const permNames = missingPerms.map((perm) => perm.toLowerCase().replace(/_/g, ' '));
+
+          return replyWithError({
+            embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, {
               permissions: permNames.join(', ')
             }))]
           });
         }
-        
-        message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
-        
-        // Log the error command attempt
+
+        await replyWithError({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
+
         client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
           ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
           : "DMS"
@@ -134,20 +148,19 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      
-      // Handle permission errors specifically
+
       if (err.code === 50013) {
         const missingPerms = err.missingPermissions || [];
-        const permNames = missingPerms.map(perm => perm.toLowerCase().replace(/_/g, ' '));
-        
-        return message.reply({
-          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, { 
+        const permNames = missingPerms.map((perm) => perm.toLowerCase().replace(/_/g, ' '));
+
+        return replyWithError({
+          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, {
             permissions: permNames.join(', ')
           }))]
         });
       }
-      
-      message.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
+
+      await replyWithError({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
     }
   },
 };

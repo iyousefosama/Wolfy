@@ -8,6 +8,8 @@ class RateLimiter {
         // Storage for user message timestamps
         this.userTimestamps = new Map();
         this.globalTimestamps = [];
+        this.MAX_USER_CACHE_SIZE = 10000;
+        this.MAX_GLOBAL_TIMESTAMPS = 2000;
         
         // Configuration
         this.config = {
@@ -115,6 +117,10 @@ class RateLimiter {
      */
     record(userId) {
         const now = Date.now();
+
+        if (this.userTimestamps.size >= this.MAX_USER_CACHE_SIZE) {
+            this.cleanup();
+        }
         
         // Add to user timestamps
         const userTimestamps = this.userTimestamps.get(userId) || [];
@@ -123,6 +129,9 @@ class RateLimiter {
 
         // Add to global timestamps
         this.globalTimestamps.push(now);
+        if (this.globalTimestamps.length > this.MAX_GLOBAL_TIMESTAMPS) {
+            this.globalTimestamps = this.globalTimestamps.slice(-this.MAX_GLOBAL_TIMESTAMPS);
+        }
     }
 
     /**

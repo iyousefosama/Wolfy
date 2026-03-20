@@ -7,7 +7,6 @@ const consoleUtil = require(`${process.cwd()}/util/console`);
  * @returns {Promise<Message|undefined>}
  */
 function unhandledRejection([ error, ...args], client){
-
   const channel = client.channels.cache.get(client.config.channels.debug);
   const timezone = 2;
   const offset = 60000 * (new Date().getTimezoneOffset() - (-timezone * 60));
@@ -15,12 +14,10 @@ function unhandledRejection([ error, ...args], client){
 
   if (!channel){
     return Promise.resolve(console.log(error));
-  } else {
-    // do nothing
-  };
+  }
 
   consoleUtil.error(`${error.name} caught!\nat ${time}`)
-  return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
+  return channel.send(`\\ðŸ›  ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
     error.stack.split('\n').splice(0,5)
     .join('\n').split(process.cwd()).join('MAIN_PROCESS')
   }\n.....\n\`\`\``);
@@ -40,12 +37,10 @@ function uncaughtException([ error, ...args ], client){
 
   if (!channel){
     return Promise.resolve(console.log(error));
-  } else {
-    // do nothing
-  };
+  }
 
   consoleUtil.error(`${error.name} caught!\nat ${time}`)
-  return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
+  return channel.send(`\\ðŸ›  ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
     error.stack.split('\n').splice(0,5)
     .join('\n').split(process.cwd()).join('MAIN_PROCESS')
   }\n.....\n\`\`\``);
@@ -65,12 +60,10 @@ function handledDebug([ error, ...args ], client){
 
   if (!channel){
     return Promise.resolve(console.log(error));
-  } else {
-    // do nothing
-  };
+  }
 
   consoleUtil.error(`${error.name} caught!\nat ${time}`)
-  return channel.send(`\\🛠 ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
+  return channel.send(`\\ðŸ›  ${error.name} caught!\n\`${time}\`\n\`\`\`xl\n${
     error.stack.split('\n').splice(0,5)
     .join('\n').split(process.cwd()).join('MAIN_PROCESS')
   }\n.....\n\`\`\``);
@@ -89,13 +82,12 @@ function handledDebug([ error, ...args ], client){
   return `${weeks[new Date( parseInt(y), m - 1, d ).getDay()]} ${months[m - 1]} ${d} ${parseInt(y)} ${h == 0 ? 12 : h > 12 ? h - 12 : h }:${min}:${s} ${a ? a : h < 12 ? 'AM' : 'PM'} JST`
 };
 
-// registered functions to use
 const registers = { unhandledRejection, uncaughtException, handledDebug };
 
 module.exports = function processEvents(event, args, client){
   if (registers[event]){
     return registers[event](args, client);
-  } else {
-    return consoleUtil.warn(`Function for process#event '${event}' not registered at /util/ProcessEvents.js`,'[BOT PROCESS]');
-  };
+  }
+
+  return consoleUtil.warn(`Function for process#event '${event}' not registered at /util/ProcessEvents.js`,'[BOT PROCESS]');
 };

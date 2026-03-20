@@ -12,6 +12,7 @@ const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 const ComponentsListener = require("../Handler/ComponentsListener");
 const LanguageManager = require("../util/language/LanguageManager");
+const GuildCache = require("../util/cache/GuildCache");
 const fs = require("fs");
 
 /**
@@ -28,7 +29,7 @@ module.exports = class WolfyClient extends Client {
 
     // Initialize bot, log on terminal when instantiated.
     console.log(`Initializing the client. Please wait...`);
-    fs.writeFileSync('./terminal.log', '', 'utf-8');
+    fs.promises.writeFile('./terminal.log', '', 'utf-8').catch(console.error);
 
     /**
  * @type  {Collection<string, import("../util/types/baseComponent")>}
@@ -38,7 +39,16 @@ module.exports = class WolfyClient extends Client {
     this.cooldowns = new Collection();
     this.components = new Collection();
     this.language = LanguageManager;
+    this.guildSettingsCache = new GuildCache(300000);
+    this.userDataCache = new GuildCache(300000);
     new ComponentsListener(this);
+
+    const cacheCleanupInterval = setInterval(() => {
+      this.guildSettingsCache.cleanup();
+      this.userDataCache.cleanup();
+    }, 300000);
+
+    cacheCleanupInterval.unref?.();
 
     /**
      * The default prefix this bot instance will be using.
@@ -73,9 +83,7 @@ module.exports = class WolfyClient extends Client {
 
     if (settings.database?.enable === true) {
       this.database = new Mongoose(this, settings.database);
-    } else {
-      // Do nothing..
-    };
+    }
 
     /**
      * Counter for messages received and sent by the bot
@@ -109,9 +117,7 @@ module.exports = class WolfyClient extends Client {
      */
     if (typeof settings.channels?.debug === 'string') {
       this.config.channels.debug = settings.channels.debug;
-    } else {
-      // Do nothing...
-    };
+    }
 
     /**
      * Channel ID used by the bot to send vote messages
@@ -119,9 +125,7 @@ module.exports = class WolfyClient extends Client {
      */
     if (typeof settings.channels?.votes === 'string') {
       this.config.channels.votes = settings.channels.votes;
-    } else {
-      // Do nothing...
-    };
+    }
 
     /**
      * Channel ID used by the bot to send uploads messages
@@ -129,9 +133,7 @@ module.exports = class WolfyClient extends Client {
      */
     if (typeof settings.channels?.uploads === 'string') {
       this.config.channels.uploads = settings.channels.uploads;
-    } else {
-      // Do nothing...
-    };
+    }
 
     /**
  * Channel ID used for the chatbot
@@ -139,9 +141,7 @@ module.exports = class WolfyClient extends Client {
  */
     if (typeof settings.channels?.chatbot === 'string') {
       this.config.channels.chatbot = settings.channels.chatbot;
-    } else {
-      // Do nothing...
-    };
+    }
 
     /**
 * Channel ID used for the changelogs
@@ -149,24 +149,16 @@ module.exports = class WolfyClient extends Client {
 */
     if (typeof settings.channels?.changelogs === 'string') {
       this.config.channels.changelogs = settings.channels.changelogs;
-    } else {
-      // Do nothing...
-    };
+    }
 
     /**
      * Array of {@link User} IDs that will be considered by the bot it's owner.
      * Will be used by {@link CommandHandler} when attempting to read ownerOnly commands.
      * @type {?string[]}
      */
-    if (Array.isArray(settings.owners)) {
-      if (settings.owners.length) {
-        this.config.owners = settings.owners;
-      } else {
-        // Do nothing
-      };
-    } else {
-      // Do nothing
-    };
+    if (Array.isArray(settings.owners) && settings.owners.length) {
+      this.config.owners = settings.owners;
+    }
 
 
     /**
@@ -193,9 +185,9 @@ module.exports = class WolfyClient extends Client {
     this.on('messageCreate', message => {
       if (message.author.id === this.user.id) {
         return this.messages.sent++;
-      } else {
-        return this.messages.received++;
-      };
+      }
+
+      return this.messages.received++;
     });
   };
 
@@ -258,9 +250,10 @@ module.exports = class WolfyClient extends Client {
         throw new Error(`Component ${Component.name} already registered`);
       }*/
       this.ComponentsAction.set(Component.name, Component);
-    } else {
-      this.debug(`Skipping Component ${Component.name}. Disabled!`);
+      return;
     }
+
+    this.debug(`Skipping Component ${Component.name}. Disabled!`);
   };
 
 
@@ -300,9 +293,9 @@ module.exports = class WolfyClient extends Client {
       process.on(event, (...args) => {
         if (config.ignore && typeof config.ignore === 'boolean') {
           return;
-        } else {
-          return processEvents(event, args, this);
-        };
+        }
+
+        return processEvents(event, args, this);
       });
     };
   };
@@ -361,6 +354,80 @@ module.exports = class WolfyClient extends Client {
    */
   get prefix() {
     return this.config.prefix;
+  };
+
+  async getCachedGuildData(guildId, options = {}) {
+    if (!guildId || !this.database?.connected) {
+      return null;
+    }
+
+    const { force = false } = options;
+
+    if (!force) {
+      const cached = this.guildSettingsCache.get(guildId);
+      if (cached !== undefined) {
+        return cached;
+      }
+    }
+
+    const GuildSchema = require("../schema/GuildSchema");
+    const data = await GuildSchema.findOne({ GuildID: guildId }).lean();
+    this.guildSettingsCache.set(guildId, data ?? null);
+    return data ?? null;
+  };
+
+  async getCachedUserData(userId, options = {}) {
+    if (!userId || !this.database?.connected) {
+      return null;
+    }
+
+    const { force = false } = options;
+
+    if (!force) {
+      const cached = this.userDataCache.get(userId);
+      if (cached !== undefined) {
+        return cached;
+      }
+    }
+
+    const UserSchema = require("../schema/user-schema");
+    const data = await UserSchema.findOne({ userId }).lean();
+    this.userDataCache.set(userId, data ?? null);
+    return data ?? null;
+  };
+
+  setCachedGuildData(guildId, data) {
+    if (!guildId) {
+      return null;
+    }
+
+    this.guildSettingsCache.set(guildId, data ?? null);
+    return data ?? null;
+  };
+
+  setCachedUserData(userId, data) {
+    if (!userId) {
+      return null;
+    }
+
+    this.userDataCache.set(userId, data ?? null);
+    return data ?? null;
+  };
+
+  clearCachedGuildData(guildId) {
+    if (!guildId) {
+      return false;
+    }
+
+    return this.guildSettingsCache.delete(guildId);
+  };
+
+  clearCachedUserData(userId) {
+    if (!userId) {
+      return false;
+    }
+
+    return this.userDataCache.delete(userId);
   };
 
   /**

@@ -240,11 +240,10 @@ const handleMessageCommandcommand = async (message, command, args, client) => {
         }
     }
     timestamps.set(message.author.id, now);
-    setTimeout(
-        () => timestamps.delete(message.author.id),
-        cooldownAmount,
-        delete client.CoolDownCurrent[message.author.id]
-    );
+    setTimeout(() => {
+        timestamps.delete(message.author.id);
+        delete client.CoolDownCurrent[message.author.id];
+    }, cooldownAmount);
 
     //+ permissions: [""],
     if (command.permissions && command.permissions.length > 0) {
