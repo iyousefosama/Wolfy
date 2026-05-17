@@ -70,7 +70,23 @@ class ComponentsListener {
                 }
 
                 if (interaction.isModalSubmit()) {
-                    const component = client.ComponentsAction.get(interaction.customId);
+                    // Try exact match first, then fall back to prefix match
+                    // so dynamic customIds (e.g. giveaway_modal_123_2_...) are routed
+                    // to a component registered under the base name (giveaway_modal).
+                    // We sort by key length descending so longer specific prefixes
+                    // (like 'giveaway_modal') match before generic ones (like 'giveaway').
+                    let component = client.ComponentsAction.get(interaction.customId);
+
+                    if (!component) {
+                        const sortedComponents = Array.from(client.ComponentsAction.entries())
+                            .sort((a, b) => b[0].length - a[0].length);
+                        for (const [name, comp] of sortedComponents) {
+                            if (interaction.customId.startsWith(name)) {
+                                component = comp;
+                                break;
+                            }
+                        }
+                    }
 
                     if (!component) return;
 

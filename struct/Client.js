@@ -161,6 +161,8 @@ module.exports = class WolfyClient extends Client {
     }
 
 
+
+
     /**
      * Logs for this bot.
      * @type {array}
@@ -177,7 +179,22 @@ module.exports = class WolfyClient extends Client {
 
       this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");
-      return;
+
+      // Bootstrap the Giveaway system — re-schedules timers that survived a restart.
+      if (this.database) {
+        const bootstrapGiveaways = () => {
+          const { getManager } = require("../util/modules/GiveawayManager");
+          getManager(this).resumeAll().catch(e => console.error("[GiveawayManager] resumeAll error on boot:", e));
+        };
+
+        if (this.database.connected) {
+          bootstrapGiveaways();
+        } else {
+          this.database.db.connection.once('connected', () => {
+            bootstrapGiveaways();
+          });
+        }
+      }
     });
 
 
