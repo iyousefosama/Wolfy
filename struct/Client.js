@@ -14,6 +14,7 @@ const ComponentsListener = require("../Handler/ComponentsListener");
 const LanguageManager = require("../util/language/LanguageManager");
 const GuildCache = require("../util/cache/GuildCache");
 const fs = require("fs");
+const server = require("../util/functions/server")
 
 /**
  * Optimized hub for interacting with the discord API
@@ -179,6 +180,8 @@ module.exports = class WolfyClient extends Client {
 
       this.loadSlashCommands("/slashCommands");
       this.loadComponents("/components");
+      server();
+
 
       // Bootstrap the Giveaway system — re-schedules timers that survived a restart.
       if (this.database) {
