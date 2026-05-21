@@ -19,7 +19,11 @@ module.exports = async (client) => {
       const remainingTime = userData.timerEnd - now;
 
       setTimeout(async () => {
-        await schema.deleteOne({ userID: userData.userID });
+        try {
+          await schema.deleteOne({ userID: userData.userID });
+        } catch (error) {
+          console.error(`[ManagerCheck] Failed to delete user ${userData.userID}:`, error);
+        }
       }, remainingTime * 1000);
     }
   } catch (error) {

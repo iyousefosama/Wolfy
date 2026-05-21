@@ -69,15 +69,27 @@ module.exports = {
     const Debug = await client.channels.cache.get(client.config.channels.debug) || await client.channels.cache.get("877130715337220136");
     const botname = client.user.username;
     setTimeout(async function () {
-      const webhooks = await Debug?.fetchWebhooks()
-      let webhook = webhooks?.filter((w) =>/*w.type === "Incoming" &&*/ w.token).first();
-      if (!webhook) {
-        webhook = await Debug?.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension: 'png', dynamic: true, size: 128 }) })
-      } else if (webhooks.size <= 10) {
-        // Do no thing...
+      try {
+        if (!Debug) return;
+        let webhook = null;
+        try {
+          const webhooks = await Debug.fetchWebhooks();
+          webhook = webhooks.filter((w) => w.token).first();
+          if (!webhook) {
+            webhook = await Debug.createWebhook({ name: botname, avatar: client.user.displayAvatarURL({ extension: 'png', dynamic: true, size: 128 }) });
+          }
+        } catch (err) {
+          console.error("[ready] Failed to get/create reboot notification webhook. Falling back to direct sending. Error:", err.message);
+        }
+
+        if (webhook) {
+          await webhook.send({ content: message, embeds: [embed] }).catch(() => {});
+        } else {
+          await Debug.send({ content: message, embeds: [embed] }).catch(() => {});
+        }
+      } catch (err) {
+        console.error("[ready] Uncaught error inside reboot notification timeout:", err);
       }
-      webhook?.send({ content: message, embeds: [embed] })
-        .catch(() => { });
     }, 5000);
 
     // add more functions on ready  event callback function...

@@ -149,13 +149,17 @@ class GiveawayManager {
     const safeDelay = Math.min(delayMs, MAX_DELAY);
 
     const handle = setTimeout(async () => {
-      this._timers.delete(messageId);
+      try {
+        this._timers.delete(messageId);
 
-      if (delayMs > MAX_DELAY) {
-        // We hit the cap — re-schedule the remainder.
-        this._scheduleEnd(messageId, delayMs - MAX_DELAY);
-      } else {
-        await this.end(messageId, { auto: true });
+        if (delayMs > MAX_DELAY) {
+          // We hit the cap — re-schedule the remainder.
+          this._scheduleEnd(messageId, delayMs - MAX_DELAY);
+        } else {
+          await this.end(messageId, { auto: true });
+        }
+      } catch (err) {
+        console.error(`[GiveawayManager] Error in scheduled end-timer for message ${messageId}:`, err);
       }
     }, safeDelay);
 

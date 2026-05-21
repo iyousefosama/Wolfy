@@ -50,7 +50,11 @@ const manager = async (client, message, cmd) => {
 
       await cmdData.save();
       setTimeout(async () => {
-        await schema.deleteOne({ userID: message.author.id });
+        try {
+          await schema.deleteOne({ userID: message.author.id });
+        } catch (error) {
+          console.error(`[Manager] Failed to delete user ${message.author.id}:`, error);
+        }
       }, deleteDuration * 1000);
     }
 

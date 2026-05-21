@@ -39,32 +39,46 @@ const sendLogsToWebhook = async (client, channel, embed) => {
   sending.get(guildId).set(channelId, true);
 
   setTimeout(async () => {
-    const botname = client.user.username;
-    const webhooks = await channel.fetchWebhooks();
-    let webhook = webhooks.find((w) => w.token);
+    try {
+      const botname = client.user.username;
+      let webhook = null;
 
-    if (!webhook) {
-      webhook = await channel.createWebhook({
-        name: botname,
-        avatar: client.user.displayAvatarURL({ extension: "png", dynamic: true, size: 128 }),
-      });
-    }
+      try {
+        const webhooks = await channel.fetchWebhooks();
+        webhook = webhooks.find((w) => w.token);
 
-    while (logs.get(guildId).get(channelId).length > 0) {
-      const embedsToSend = logs.get(guildId).get(channelId).slice(0, 10).filter(embed => Object.keys(embed.data).length > 0);
-
-      if (embedsToSend.length > 0) {
-        await webhook.send({ embeds: embedsToSend }).catch(console.error);
+        if (!webhook) {
+          webhook = await channel.createWebhook({
+            name: botname,
+            avatar: client.user.displayAvatarURL({ extension: "png", dynamic: true, size: 128 }),
+          });
+        }
+      } catch (err) {
+        console.warn(`[sendLogsToWebhook] Webhook fetch/creation failed (likely missing ManageWebhooks permission). Falling back to direct channel send. Error: ${err.message}`);
       }
-      
-      logs.get(guildId).set(channelId, logs.get(guildId).get(channelId).slice(10)); // Remove the sent embeds from the logs
-    }
 
-    sending.get(guildId).delete(channelId); // Finished sending logs for this channel
-    
-    // Clean up sending map if empty
-    if (sending.get(guildId).size === 0) {
-      sending.delete(guildId);
+      while (logs.get(guildId).get(channelId).length > 0) {
+        const embedsToSend = logs.get(guildId).get(channelId).slice(0, 10).filter(embed => Object.keys(embed.data).length > 0);
+
+        if (embedsToSend.length > 0) {
+          if (webhook) {
+            await webhook.send({ embeds: embedsToSend }).catch(console.error);
+          } else {
+            await channel.send({ embeds: embedsToSend }).catch(console.error);
+          }
+        }
+        
+        logs.get(guildId).set(channelId, logs.get(guildId).get(channelId).slice(10)); // Remove the sent embeds from the logs
+      }
+    } catch (e) {
+      console.error("[sendLogsToWebhook] Uncaught error inside timeout:", e);
+    } finally {
+      sending.get(guildId)?.delete(channelId); // Finished sending logs for this channel
+      
+      // Clean up sending map if empty
+      if (sending.get(guildId)?.size === 0) {
+        sending.delete(guildId);
+      }
     }
   }, 40000); // 40 seconds delay
 };
@@ -171,41 +185,47 @@ const debugLog = async (client, error) => {
  * @returns 
  */
 const sendWebhook = async (client, embed) => {
-  const channel = client.channels.cache.get(client.config.channels.debug)
+  const channel = client.channels.cache.get(client.config.channels.debug);
 
   if (!channel) {
     return Promise.resolve(console.error("[sendWebhook fn] error: channel not found"));
-  } else {
-    // do nothing
-  };
+  }
 
   const botname = client.user.username;
-  const webhooks = await channel?.fetchWebhooks();
   Embedlogs.push(embed);
-  setTimeout(async function () {
-    let webhook = await webhooks.filter((w) => w.token).first();
 
-    if (!webhook) {
-      webhook = await channel.createWebhook({
-        name: botname,
-        avatar: client.user.displayAvatarURL({
-          extension: "png",
-          dynamic: true,
-          size: 128,
-        }),
-      })(botname, {
-        avatar: client.user.displayAvatarURL({
-          extension: "png",
-          dynamic: true,
-          size: 128,
-        }),
-      });
-    } else if (webhooks.size <= 10) {
-      // Do no thing...
-    }
-    while (Embedlogs.length > 0) {
-      webhook.send({ embeds: Embedlogs.slice(0, 10) }).catch(() => { });
-      Embedlogs = Embedlogs.slice(10); // Remove the sent embeds from the logs
+  setTimeout(async function () {
+    try {
+      let webhook = null;
+      try {
+        const webhooks = await channel.fetchWebhooks();
+        webhook = webhooks.filter((w) => w.token).first();
+
+        if (!webhook) {
+          webhook = await channel.createWebhook({
+            name: botname,
+            avatar: client.user.displayAvatarURL({
+              extension: "png",
+              dynamic: true,
+              size: 128,
+            }),
+          });
+        }
+      } catch (err) {
+        console.error("[sendWebhook] Failed to get/create webhook. Falling back to direct sending. Error:", err.message);
+      }
+
+      while (Embedlogs.length > 0) {
+        const embedsToSend = Embedlogs.slice(0, 10);
+        if (webhook) {
+          await webhook.send({ embeds: embedsToSend }).catch(console.error);
+        } else {
+          await channel.send({ embeds: embedsToSend }).catch(console.error);
+        }
+        Embedlogs = Embedlogs.slice(10); // Remove the sent embeds from the logs
+      }
+    } catch (e) {
+      console.error("[sendWebhook] Uncaught error inside timeout:", e);
     }
   }, 40000);
 }
