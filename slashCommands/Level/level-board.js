@@ -9,7 +9,7 @@ const MEDALS = ['🥇', '🥈', '🥉'];
  */
 module.exports = {
   data: {
-    name: "leaderboard",
+    name: "level-leaderboard",
     description: "Shows the server's XP leaderboard",
     group: "Level",
     requiresDatabase: true,
