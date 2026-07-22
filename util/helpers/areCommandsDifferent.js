@@ -54,10 +54,13 @@ module.exports = (existingCommand, localCommand, skipIntegrationContexts = false
     const existing = existingCommand.integration_types;
     const local = localCommand.integration_types;
 
-    // Only compare if both have the field - Discord API might not return these fields
-    // even after they're set, so we can't reliably detect changes after the first update
-    if (!existing || !local) return false;
-
+    // If local has values but existing doesn't, need to add them
+    if (local && local.length > 0 && !existing) return true;
+    // If existing has values but local doesn't, need to remove them
+    if (existing && existing.length > 0 && !local) return true;
+    // If both don't have values, no difference
+    if (!local && !existing) return false;
+    // If both have values, compare them
     if (existing.length !== local.length) return true;
     for (let i = 0; i < existing.length; i++) {
       if (existing[i] !== local[i]) return true;
@@ -70,10 +73,13 @@ module.exports = (existingCommand, localCommand, skipIntegrationContexts = false
     const existing = existingCommand.contexts;
     const local = localCommand.contexts;
 
-    // Only compare if both have the field - Discord API might not return these fields
-    // even after they're set, so we can't reliably detect changes after the first update
-    if (!existing || !local) return false;
-
+    // If local has values but existing doesn't, need to add them
+    if (local && local.length > 0 && !existing) return true;
+    // If existing has values but local doesn't, need to remove them
+    if (existing && existing.length > 0 && !local) return true;
+    // If both don't have values, no difference
+    if (!local && !existing) return false;
+    // If both have values, compare them
     if (existing.length !== local.length) return true;
     for (let i = 0; i < existing.length; i++) {
       if (existing[i] !== local[i]) return true;
