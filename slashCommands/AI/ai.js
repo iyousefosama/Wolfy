@@ -16,6 +16,8 @@ module.exports = {
         guildOnly: false,
         cooldown: 5,
         group: "Utility",
+        integration_types: [0, 1],
+        contexts: [0, 1, 2],
         requiresDatabase: true,
         clientPermissions: [],
         permissions: [],
@@ -130,7 +132,7 @@ module.exports = {
         let userSettings;
         try {
             userSettings = await AIChatSchema.findOne({ userId: interaction.user.id });
-            
+
             if (!userSettings) {
                 userSettings = await AIChatSchema.create({
                     userId: interaction.user.id
@@ -147,7 +149,7 @@ module.exports = {
         switch (subcommand) {
             case "instructions": {
                 const instructions = interaction.options.getString("text");
-                
+
                 // Validate instructions
                 const validation = aiService.validateInstructions(instructions);
                 if (!validation.valid) {
@@ -188,12 +190,12 @@ module.exports = {
 
             case "toggle": {
                 const enabled = interaction.options.getBoolean("enabled");
-                
+
                 userSettings.isEnabled = enabled;
                 await userSettings.save();
 
                 return interaction.reply({
-                    content: enabled 
+                    content: enabled
                         ? "✅ AI chat has been **enabled** for you. You can now chat with me in DMs or by mentioning me!"
                         : "✅ AI chat has been **disabled** for you. I won't respond to your messages anymore.",
                     ephemeral: true
@@ -202,7 +204,7 @@ module.exports = {
 
             case "settings": {
                 const settings = userSettings.preferences;
-                
+
                 const currentModel = settings?.model || DEFAULT_MODEL_ID;
                 const modelLabel = aiService.getModelDisplayName(currentModel);
 
@@ -228,7 +230,7 @@ module.exports = {
                             },
                             {
                                 name: "Custom Instructions",
-                                value: userSettings.customInstructions 
+                                value: userSettings.customInstructions
                                     ? `Set (${userSettings.customInstructions.length} chars)`
                                     : "Not set",
                                 inline: true
@@ -264,7 +266,7 @@ module.exports = {
                             },
                             {
                                 name: "First Used",
-                                value: stats.firstUsedAt 
+                                value: stats.firstUsedAt
                                     ? `<t:${Math.floor(stats.firstUsedAt.getTime() / 1000)}:R>`
                                     : "Never",
                                 inline: true
@@ -293,7 +295,7 @@ module.exports = {
 
             case "model": {
                 const model = interaction.options.getString("name");
-                
+
                 // Validate the model is in the free list
                 if (!aiService.isValidModel(model)) {
                     return interaction.reply({
@@ -301,7 +303,7 @@ module.exports = {
                         ephemeral: true
                     });
                 }
-                
+
                 userSettings.preferences.model = model;
                 await userSettings.save();
 
@@ -317,7 +319,7 @@ module.exports = {
 
             case "length": {
                 const preference = interaction.options.getString("preference");
-                
+
                 userSettings.preferences.responseLength = preference;
                 await userSettings.save();
 
