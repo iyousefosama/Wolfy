@@ -157,7 +157,7 @@ module.exports = {
             {
               type: action,
               metadata: {
-                channel: channel,
+                channel: channel.id,
                 durationSeconds: 10,
                 customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guildId, { bot: client.user.username }),
               },
@@ -211,7 +211,7 @@ module.exports = {
             {
               type: action,
               metadata: {
-                channel: channel,
+                channel: channel.id,
                 durationSeconds: 10,
                 customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_SPAM", interaction.guildId),
               },
@@ -268,7 +268,7 @@ module.exports = {
             {
               type: action,
               metadata: {
-                channel: channel,
+                channel: channel.id,
                 durationSeconds: 10,
                 customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_MENTIONS", interaction.guildId),
               },
@@ -325,7 +325,7 @@ module.exports = {
             {
               type: action,
               metadata: {
-                channel: channel,
+                channel: channel.id,
                 durationSeconds: 10,
                 customMessage: client.language.getString("CMD_AUTOMOD_MESSAGE_FLAGGED", interaction.guildId, { bot: client.user.username }),
               },

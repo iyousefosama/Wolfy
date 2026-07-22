@@ -39,7 +39,10 @@ const badWordChecker = async (client, message, guildData = null) => {
       return;
     }
 
-    if (data.Mod.BadWordsFilter.BDW.some(word => message.content.toLowerCase().includes(word))) {
+    const bdwList = data.Mod.BadWordsFilter.BDW.filter(w => typeof w === 'string' && w.trim().length > 0);
+    if (bdwList.length === 0) return;
+
+    if (bdwList.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
       message.delete().then(msg => {
         setTimeout(async () => {
           const reason = `Automoderator: This word is banned, watch your language.`
@@ -64,36 +67,37 @@ const badWordChecker = async (client, message, guildData = null) => {
             },
             {
               upsert: true,
+              new: true,
             },
           );
-          const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
+          const warnCount = warnAddData ? warnAddData.warnings.length : 1;
           const warnGrammar = warnCount === 1 ? '' : 's';
           if (warnCount >= 20) {
-            return msg.channel.send({ content: `\\âš ï¸ **${message.author.username}**, This word is banned, watch your language.` })
+            return msg.channel.send({ content: `⚠️ **${message.author.username}**, This word is banned, watch your language.` }).catch(() => {});
           }
 
           const warnEmbed = new EmbedBuilder()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
             .setColor('#e6a54a')
-            .setTitle(`âš ï¸ Warned **${message.author.username}**`)
-            .setDescription(`â€¢ **Warn Reason:** ${reason}\nâ€¢ **Warning${warnGrammar} Count:** ${warnCount}\nâ€¢ **Warned By:** ${client.user.tag}`)
+            .setTitle(`⚠️ Warned **${message.author.username}**`)
+            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
             .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          message.channel.send({ embeds: [warnEmbed] })
+          message.channel.send({ embeds: [warnEmbed] }).catch(() => {});
 
           const dmembed = new EmbedBuilder()
             .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
             .setColor('#e6a54a')
-            .setTitle(`âš ï¸ Warned **${message.author.username}**`)
-            .setDescription(`â€¢ **Warn Reason:** ${reason}\nâ€¢ **Warning${warnGrammar} Count:** ${warnCount}\nâ€¢ **Warned By:** ${client.user.tag}`)
+            .setTitle(`⚠️ Warned **${message.author.username}**`)
+            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
             .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
 
           try {
-            await message.author.send({ embeds: [dmembed] })
+            await message.author.send({ embeds: [dmembed] });
           } catch (error) {
             return;
           }
-        }, 1000)
-      })
+        }, 1000);
+      }).catch(() => {});
     }
 };
 

@@ -106,6 +106,37 @@ const guildSchema = new mongoose.Schema({
     },
     AntiLink: {
       isEnabled: { type: Boolean, default: false },
+      whitelist: { type: Array, default: [] },
+      blacklist: { type: Array, default: [] },
+      scamDetection: { type: Boolean, default: true },
+      allowedDomains: { type: Array, default: [] },
+      action: { type: String, default: 'delete' }, // delete, mute, ban
+      logChannel: { type: String, default: null }
+    },
+    AntiRaid: {
+      isEnabled: { type: Boolean, default: false },
+      maxJoinsPerMinute: { type: Number, default: 5 },
+      minAccountAge: { type: Number, default: 86400000 }, // 24 hours in ms
+      action: { type: String, default: 'mute' }, // mute, kick, ban
+      logChannel: { type: String, default: null },
+      lockdownDuration: { type: Number, default: 300000 } // 5 minutes in ms
+    },
+    AntiBot: {
+      isEnabled: { type: Boolean, default: false },
+      maxMessagesPerMinute: { type: Number, default: 10 },
+      maxSameLinks: { type: Number, default: 3 },
+      action: { type: String, default: 'mute' }, // mute, kick, ban
+      logChannel: { type: String, default: null },
+      suspiciousPatterns: { type: Array, default: [] }
+    },
+    AntiSpam: {
+      isEnabled: { type: Boolean, default: false },
+      maxCapsPercentage: { type: Number, default: 70 },
+      minCapsLength: { type: Number, default: 5 },
+      maxEmojis: { type: Number, default: 10 },
+      maxDuplicates: { type: Number, default: 3 },
+      action: { type: String, default: 'delete' }, // delete, mute, warn
+      logChannel: { type: String, default: null }
     },
     Infraction: {
       isEnabled: { type: Boolean, default: false },

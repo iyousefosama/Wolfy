@@ -31,7 +31,12 @@ module.exports = {
             }
         } catch(err) {
             console.log(err)
-            return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+            return message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+        }
+
+        if (!data.Mod) data.Mod = {};
+        if (!data.Mod.BadWordsFilter) {
+          data.Mod.BadWordsFilter = { isEnabled: false, BDW: [] };
         }
 
         data.Mod.BadWordsFilter.isEnabled = !data.Mod.BadWordsFilter.isEnabled;
@@ -50,6 +55,6 @@ module.exports = {
               `feature, use the \`${client.prefix}badwordstoggle\` command.`
             ].join(' '))
           message.channel.send({ embeds: [embed] })
-          }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+          }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
 }
 }

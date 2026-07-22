@@ -2,6 +2,8 @@ const { PermissionFlagsBits } = require("discord.js");
 const aiService = require("../../util/functions/aiService");
 const AIChatSchema = require("../../schema/AIChat-Schema");
 const rateLimiter = require("../../util/functions/aiRateLimiter");
+const { DEFAULT_MODEL_ID, getSlashCommandChoices } = require("../../util/functions/aiModels");
+const { sendAiResponse } = require("../../util/functions/aiConversation");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -75,14 +77,7 @@ module.exports = {
                         name: "name",
                         description: "The free model to use",
                         required: true,
-                        choices: [
-                            { name: "Trinity Large Preview (Free)", value: "arcee-ai/trinity-large-preview:free" },
-                            { name: "Qwen 3 Coder (Free)", value: "qwen/qwen3-coder:free" },
-                            { name: "Step 3.5 Flash (Free)", value: "stepfun/step-3.5-flash:free" },
-                            { name: "GLM 4.5 Air (Free)", value: "z-ai/glm-4.5-air:free" },
-                            { name: "Llama 3.3 70B Instruct (Free)", value: "meta-llama/llama-3.3-70b-instruct:free" },
-                            { name: "GPT-OSS 120B (Free)", value: "openai/gpt-oss-120b:free" }
-                        ]
+                        choices: getSlashCommandChoices()
                     }
                 ]
             },
@@ -101,6 +96,20 @@ module.exports = {
                             { name: "Medium (balanced)", value: "medium" },
                             { name: "Long (detailed replies)", value: "long" }
                         ]
+                    }
+                ]
+            },
+            {
+                type: 1, // SUB_COMMAND
+                name: "chat",
+                description: "Send a prompt to the AI in this channel so everyone can see the reply",
+                options: [
+                    {
+                        type: 3,
+                        name: "prompt",
+                        description: "The prompt to send to the AI",
+                        required: true,
+                        max_length: 2000
                     }
                 ]
             }
@@ -194,6 +203,9 @@ module.exports = {
             case "settings": {
                 const settings = userSettings.preferences;
                 
+                const currentModel = settings?.model || DEFAULT_MODEL_ID;
+                const modelLabel = aiService.getModelDisplayName(currentModel);
+
                 return interaction.reply({
                     embeds: [{
                         title: "🤖 Your AI Settings",
@@ -206,7 +218,7 @@ module.exports = {
                             },
                             {
                                 name: "Model",
-                                value: settings?.model || "qwen/qwen3-coder:free",
+                                value: modelLabel,
                                 inline: true
                             },
                             {
@@ -293,8 +305,12 @@ module.exports = {
                 userSettings.preferences.model = model;
                 await userSettings.save();
 
+                const modelDisplayName = aiService.getModelDisplayName(model);
+                const isAutoModel = model === "auto" || model === "openrouter/auto" || model === "openrouter/free";
+                const suffix = isAutoModel ? " (uses the default free model automatically)" : " (Free tier)";
+
                 return interaction.reply({
-                    content: `✅ AI model changed to: \`${model}\` (Free tier)`,
+                    content: `✅ AI model changed to: \`${modelDisplayName}\`${suffix}`,
                     ephemeral: true
                 });
             }
@@ -315,6 +331,47 @@ module.exports = {
                     content: `✅ Response length preference set to **${preference}** (${descriptions[preference]}).`,
                     ephemeral: true
                 });
+            }
+
+            case "chat": {
+                const prompt = interaction.options.getString("prompt");
+
+                if (!prompt || !prompt.trim()) {
+                    return interaction.reply({
+                        content: "❌ Please provide a prompt to send to the AI.",
+                        ephemeral: true
+                    });
+                }
+
+                await interaction.deferReply();
+                rateLimiter.record(interaction.user.id);
+
+                try {
+                    const responseText = await sendAiResponse({
+                        client,
+                        message: {
+                            reply: async (payload) => interaction.followUp(payload)
+                        },
+                        userSettings,
+                        userMessage: prompt.trim(),
+                        replyToMessage: {
+                            reply: async (payload) => interaction.followUp(payload)
+                        },
+                        aiServiceInstance: aiService
+                    });
+
+                    if (userSettings.preferences?.useHistory !== false) {
+                        await userSettings.addToHistory("user", prompt.trim());
+                        await userSettings.addToHistory("assistant", responseText);
+                    }
+
+                    return;
+                } catch (error) {
+                    console.error("[AI Command] Chat error:", error);
+                    return interaction.followUp({
+                        content: "❌ Sorry, I encountered an error while generating a response."
+                    });
+                }
             }
 
             default:

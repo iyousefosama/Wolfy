@@ -32,7 +32,20 @@ module.exports = {
             }
         } catch(err) {
             console.log(err)
-            return message.channel.send(`\`âŒ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+            return message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
+        }
+
+        if (!data.Mod) data.Mod = {};
+        if (!data.Mod.AntiLink) {
+          data.Mod.AntiLink = {
+            isEnabled: false,
+            whitelist: [],
+            blacklist: [],
+            scamDetection: true,
+            allowedDomains: [],
+            action: 'delete',
+            logChannel: null
+          };
         }
 
         data.Mod.AntiLink.isEnabled = !data.Mod.AntiLink.isEnabled;
@@ -51,6 +64,6 @@ module.exports = {
               `feature, use the \`${client.prefix}antilinktoggle\` command.`
             ].join(' '))
           message.channel.send({ embeds: [embed] })
-          }).catch(() => message.channel.send(`\`âŒ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
+          }).catch(() => message.channel.send(`\`❌ [DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`));
 }
 }

@@ -3,6 +3,7 @@ const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime");
 const MuteSchema = require('../../schema/Mute-Schema')
 const { logEvent } = require("../../util/logHandler");
+const antiRaid = require('../../util/functions/AntiRaid');
 
 dayjs.extend(relativeTime);
 
@@ -11,6 +12,9 @@ module.exports = {
   name: 'guildMemberAdd',
   async execute(client, member) {
     if (!member) return;
+
+    // Run anti-raid protection
+    await antiRaid(client, member).catch(err => console.log('Anti-raid error:', err));
 
     const mutedata = await MuteSchema.findOne({ guildId: member.guild.id, userId: member.id }).catch(() => null);
 

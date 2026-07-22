@@ -3,6 +3,7 @@ const aiService = require("../../util/functions/aiService");
 const rateLimiter = require("../../util/functions/aiRateLimiter");
 const AIChatSchema = require("../../schema/AIChat-Schema");
 const consoleUtil = require("../../util/console");
+const { sendAiResponse } = require("../../util/functions/aiConversation");
 
 const BEV = require("../../util/types/baseEvents");
 

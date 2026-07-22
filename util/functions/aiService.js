@@ -1,4 +1,9 @@
 const { OpenRouter } = require("@openrouter/sdk");
+const {
+    DEFAULT_MODEL_ID,
+    getAvailableModels,
+    normalizeModelId
+} = require("./aiModels");
 
 /**
  * AI Service for Wolfy Bot
@@ -6,30 +11,35 @@ const { OpenRouter } = require("@openrouter/sdk");
  * Uses only free OpenRouter models
  */
 
-// Available free models on OpenRouter (no API cost)
-const FREE_MODELS = [
-    { id: "arcee-ai/trinity-large-preview:free", name: "Trinity Large Preview", provider: "Arcee AI" },
-    { id: "qwen/qwen3-coder:free", name: "Qwen 3 Coder", provider: "Qwen" },
-    { id: "stepfun/step-3.5-flash:free", name: "Step 3.5 Flash", provider: "Stepfun" },
-    { id: "z-ai/glm-4.5-air:free", name: "GLM 4.5 Air", provider: "Z-AI" },
-    { id: "meta-llama/llama-3.3-70b-instruct:free", name: "Llama 3.3 70B Instruct", provider: "Meta" },
-    { id: "openai/gpt-oss-120b:free", name: "GPT-OSS 120B", provider: "OpenAI" }
-];
-
 class AIService {
     constructor() {
         this.openrouter = null;
-        this.defaultModel = FREE_MODELS[0].id;
+        this.defaultModel = DEFAULT_MODEL_ID;
         this.isEnabled = false;
-        this.availableModels = FREE_MODELS;
+        this.availableModels = getAvailableModels();
     }
 
     getAvailableModels() {
         return this.availableModels;
     }
 
+    getModelDisplayName(modelId) {
+        const { getModelDisplayName } = require("./aiModels");
+        return getModelDisplayName(modelId);
+    }
+
+    resolveModel(modelId) {
+        const normalizedModelId = normalizeModelId(modelId);
+        if (!normalizedModelId || normalizedModelId === DEFAULT_MODEL_ID) {
+            return this.defaultModel;
+        }
+
+        return this.isValidModel(normalizedModelId) ? normalizedModelId : this.defaultModel;
+    }
+
     isValidModel(modelId) {
-        return this.availableModels.some(m => m.id === modelId);
+        const { isValidModel } = require("./aiModels");
+        return isValidModel(modelId);
     }
 
     initialize(apiKey) {
@@ -122,7 +132,7 @@ Guidelines:
             yield "AI service is not available. Please contact the bot owner.";
             return;
         }
-        const validatedModel = this.isValidModel(model) ? model : this.defaultModel;
+        const validatedModel = this.resolveModel(model);
         try {
             const response = await this.openrouter.chat.send({
                 chatGenerationParams: {
@@ -147,7 +157,7 @@ Guidelines:
         if (!this.isEnabled || !this.openrouter) {
             return "AI service is not available. Please contact the bot owner.";
         }
-        const validatedModel = this.isValidModel(model) ? model : this.defaultModel;
+        const validatedModel = this.resolveModel(model);
         try {
             const response = await this.openrouter.chat.send({
                 chatGenerationParams: {

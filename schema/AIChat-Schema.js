@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { DEFAULT_MODEL_ID } = require('../util/functions/aiModels');
 
 const aiChatSchema = new mongoose.Schema({
     userId: {
@@ -42,7 +43,7 @@ const aiChatSchema = new mongoose.Schema({
         // Preferred AI model
         model: {
             type: String,
-            default: "arcee-ai/trinity-large-preview:free"
+            default: DEFAULT_MODEL_ID
         },
         // Whether to include conversation history
         useHistory: {

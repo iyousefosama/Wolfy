@@ -62,7 +62,7 @@ exports.Infraction = async function (client, message) {
       return message.channel.send(`\\❌ | ${message.author} I couldn't ban that user!`)
     };
 
-    return message.guild.members.ban(member, { reason: `Wolfy BAN: ${reason || 'Unspecified'}` })
+    return message.guild.members.ban(message.member, { reason: `Wolfy BAN: ${reason || 'Unspecified'}` })
       .then(() => message.channel.send({ content: `\`Wolfy AutoMod BAN:\` ${reason || 'Unspecified'}` }))
       .catch(() => message.channel.send(`\\❌ | ${message.author}, Unable to ban **${message.member.user.tag}**!`));
   } else {
