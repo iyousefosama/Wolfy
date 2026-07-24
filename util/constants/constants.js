@@ -173,3 +173,19 @@ module.exports.malGenres = {
   seinen: 42,
   josei: 43
 };
+
+module.exports.colors = {
+  AI: '#98D8C8',
+  UTILITY: '#98D8C8',
+  ADMIN: '#FFB6C1',
+  MODERATION: '#FFB6C1',
+  ECONOMY: '#FFD700',
+  INFORMATION: '#87CEEB',
+  BOT: '#DDA0DD',
+  CORE: '#DDA0DD',
+  FUN: '#FFA07A',
+  SETUP: '#98FB98',
+  LEVEL: '#9370DB',
+  ERROR: '#FF6B6B',
+  SUCCESS: '#98FF98'
+};

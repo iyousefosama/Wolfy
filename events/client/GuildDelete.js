@@ -1,4 +1,5 @@
 const discord = require("discord.js");
+const { colors } = require("../../util/constants/constants");
 const text = require("../../util/string");
 const BEV = require("../../util/types/baseEvents");
 
@@ -9,9 +10,6 @@ module.exports = {
     if (!guild || !guild.available) {
       return;
     }
-
-    // Remove guild language from local storage
-    client.language.removeGuildLanguage(guild.id);
 
     const members = text.commatize(
       client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)
@@ -33,16 +31,16 @@ module.exports = {
       console.error("Error fetching guild owner:", err);
       return { displayName: "Unknown", displayAvatarURL: () => "", id: "Unknown" };
     });
-    const msg = `<:sad:887894229785903114> I have **left** a \`server\`!`;
+    const msg = `😢 I have **left** a \`server\`!`;
 
     const left = new discord.EmbedBuilder()
       .setAuthor({ name: guildName, iconURL: guildIcon })
-      .setColor("#FF5733")
+      .setColor(colors.ERROR)
       .setThumbnail(guildIcon)
       .setDescription(
         [
-          `<a:pp224:853495450111967253> Guild**:** ${guildName}(\`${guild.id}\`)`,
-          `<:pp833:853495153280155668> Members count**:** ${guild.memberCount}`,
+          `🏷️ Guild**:** ${guildName}(\`${guild.id}\`)`,
+          `👥 Members count**:** ${guild.memberCount}`,
           `\n\`\`\`diff`,
           `- Current guilds: ${guilds}`,
           `- Total members: ${members}`,

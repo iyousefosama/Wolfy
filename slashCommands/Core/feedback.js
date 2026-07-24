@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const TimeoutSchema = require('../../schema/TimeOut-Schema')
 const dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
+const { colors } = require('../../util/constants/constants');
 
 dayjs.extend(duration);
 
@@ -47,7 +48,7 @@ module.exports = {
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }), ephemeral: true })
+            await interaction.reply({ content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, ephemeral: true })
             client.logDetailedError({
                 error: err,
                 eventType: "DATABASE_ERR",
@@ -56,32 +57,29 @@ module.exports = {
         }
 
         if (feedback.length > 1000) {
-            return interaction.reply({ content: client.language.getString("FEEDBACK_TOO_LONG", interaction.guildId), ephemeral: true })
+            return interaction.reply({ content: `❌ Please make your report brief and short! (MAX 1000 characters!)`, ephemeral: true })
         };
 
         const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
         if (!owner) {
-            return interaction.reply({ content: client.language.getString("FEEDBACK_OWNER_UNAVAILABLE", interaction.guildId), ephemeral: true });
+            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, ephemeral: true });
         };
 
         if (TimeOutData.feedback > now) {
             return interaction.reply({
                 embeds: [new EmbedBuilder()
-                    .setTitle(client.language.getString("FEEDBACK_ALREADY_SENT", interaction.guildId))
-                    .setDescription(client.language.getString("FEEDBACK_COOLDOWN_MESSAGE", interaction.guildId, { 
-                        username: interaction.user.username, 
-                        time: dayjs.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')
-                    }))
-                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setColor('Red')], ephemeral: true
+                    .setTitle(`📤 Feedback already Send!`)
+                    .setDescription(`❌ **${interaction.user.username}**, You already send your **feedback** earlier!\nYou can send your feedback again after ${dayjs.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}`)
+                    .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setColor(colors.ERROR)], ephemeral: true
             })
         } else {
             TimeOutData.feedback = Math.floor(Date.now() + duration);
             
             await TimeOutData.save()
             const embed = new EmbedBuilder()
-                .setColor('Orange')
+                .setColor(colors.BOT)
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ extension: 'png', dynamic: true }) })
                 .setTitle('Re: Feedback/Report')
                 .setDescription([
@@ -105,8 +103,8 @@ module.exports = {
                         '```'
                     ].join('\n')
                 })
-            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: client.language.getString("FEEDBACK_SENT", interaction.guildId), ephemeral: true }))
-                .catch(() => interaction.reply({ content: client.language.getString("FEEDBACK_DMS_CLOSED", interaction.guildId, { username: owner.username }), ephemeral: true }));
+            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: `✅ Feedback Sent!`, ephemeral: true }))
+                .catch(() => interaction.reply({ content: `💢 **${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, ephemeral: true }));
         }
     },
 };

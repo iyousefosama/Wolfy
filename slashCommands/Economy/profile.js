@@ -52,7 +52,7 @@ module.exports = {
       }
     } catch (err) {
       return interaction.editReply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
     }
 

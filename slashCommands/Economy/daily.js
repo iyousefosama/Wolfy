@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require('../../schema/Economy-Schema')
 const dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
+const { colors } = require('../../util/constants/constants');
 
 const market = require('../../assets/json/market.json');
 
@@ -37,7 +38,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -50,22 +51,20 @@ module.exports = {
 
     if (data.timer.daily.timeout > now) {
       const embed = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_DAILY_ALREADY_TITLE", interaction.guild?.id))
+        .setColor(colors.ERROR)
+        .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+        .setTitle(`🪙 Daily already Claimed!`)
         .setDescription(
-          client.language.getString("ECONOMY_DAILY_ALREADY_DESC", interaction.guild?.id, {
-            username: interaction.user.tag,
-            time: dayjs.duration(data.timer.daily.timeout - now, "milliseconds")
-              .format("H [hours,] m [minutes, and] s [seconds]")
-          })
+          `❌ **${interaction.user.tag}**, You already **claimed** your daily reward!\n\n⚠️ Your daily will reset in ${dayjs.duration(data.timer.daily.timeout - now, "milliseconds").format("H [hours,] m [minutes, and] s [seconds]")}`
         )
         .setFooter({
-          text: interaction.user.username,
+          text: `Requested by ${interaction.user.username}`,
           iconURL: interaction.user.displayAvatarURL({
             dynamic: true,
             size: 2048,
           }),
         })
-        .setColor("Red");
+        .setTimestamp()
       interaction.reply({ embeds: [embed] });
     } else {
       let moneyget = Math.floor(500);
@@ -118,9 +117,7 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          }),
+          content: `✅ You received: 💰 ${quest.reward} from this command quest.`,
         });
       }
       data.timer.daily.timeout = Date.now() + duration;
@@ -129,39 +126,25 @@ module.exports = {
         .save()
         .then(() => {
           const embed = new discord.EmbedBuilder()
-            .setTitle(client.language.getString("ECONOMY_DAILY_CLAIMED_TITLE", interaction.guild?.id))
+            .setColor(colors.ECONOMY)
+            .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+            .setTitle(`🪙 Claimed daily!`)
             .setDescription(
-              client.language.getString("ECONOMY_DAILY_CLAIMED_DESC", interaction.guild?.id, {
-                username: interaction.user.tag,
-                amount: Math.floor(amount),
-                item_reward: itemreward 
-                  ? client.language.getString("ECONOMY_DAILY_ITEM_REWARD", interaction.guild?.id, {
-                      item_name: item.name,
-                      item_desc: item.description
-                    })
-                  : "",
-                streak_status: streakreset
-                  ? client.language.getString("ECONOMY_DAILY_STREAK_LOST", interaction.guild?.id)
-                  : client.language.getString("ECONOMY_DAILY_STREAK_CURRENT", interaction.guild?.id, {
-                      streak: data.streak.current
-                    })
-              })
+              `💰 **${interaction.user.tag}**, You received **${Math.floor(amount)}** from daily reward!${itemreward ? `\n✅ You received: **${item.name} - ${item.description}** from daily rewards.` : ""}${streakreset ? `\n⚠️ **Streak Lost**: You haven't got your succeeding daily reward.` : `\n🔥 Current Daily Streak (x${data.streak.current})`}`
             )
             .setFooter({
-              text: client.language.getString("ECONOMY_DAILY_FOOTER", interaction.guild?.id),
+              text: `Requested by ${interaction.user.username}`,
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 size: 2048,
               }),
             })
-            .setColor("#E6CEA0");
+            .setTimestamp()
           interaction.reply({ embeds: [embed] });
         })
         .catch((err) =>
           interaction.reply({
-            content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, { 
-              error: err.message 
-            })
+            content: `❌ [DATABASE_ERR]: Unable to save the document to the database. Please try again later! ${err.message}`
           })
         );
     }

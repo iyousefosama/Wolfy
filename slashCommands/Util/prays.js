@@ -5,6 +5,7 @@ const dayjs = require("dayjs");
 const utc = require("dayjs/plugin/utc");
 const timezone = require("dayjs/plugin/timezone");
 const axios = require("axios");
+const { colors } = require("../../util/constants/constants");
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -51,7 +52,7 @@ module.exports = {
 
       if (response.data.code !== 200) {
         return interaction.reply({
-          content: client.language.getString("PRAYS_INVALID", interaction.guildId, { user: interaction.user }),
+          content: `❌ | ${interaction.user}, Please provide a valid city name!`,
           ephemeral: true,
         });
       }
@@ -75,17 +76,15 @@ module.exports = {
 
       // Create the embed with the prayer times and the current time
       const embed = new discord.EmbedBuilder()
+        .setColor(colors.UTILITY)
         .setAuthor({
           name: interaction.user.username,
           iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
         })
-        .setTitle(client.language.getString("PRAYS_TITLE", interaction.guildId, { 
-          city: capitalizedCity, 
-          country: capitalizedCountry 
-        }))
+        .setTitle(`Prayer Times for ${capitalizedCity}, ${capitalizedCountry}`)
         .addFields(
           {
-            name: client.language.getString("PRAY_DATE", interaction.guildId, { default: "<:star:888264104026992670> Date" }),
+            name: "⭐ Date",
             value: `<t:${currentTime}>`,
             inline: false,
           },
@@ -95,7 +94,7 @@ module.exports = {
       // Add prayer times fields
       if (timings.Fajr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_FAJR", interaction.guildId, { default: "Fajr" }),
+          name: "Fajr",
           value: tc.tConvert(timings.Fajr),
           inline: true,
         });
@@ -103,7 +102,7 @@ module.exports = {
       
       if (timings.Sunrise) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_SUNRISE", interaction.guildId, { default: "Sunrise" }),
+          name: "Sunrise",
           value: tc.tConvert(timings.Sunrise),
           inline: true,
         });
@@ -111,7 +110,7 @@ module.exports = {
       
       if (timings.Dhuhr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_DHUHR", interaction.guildId, { default: "Dhuhr" }),
+          name: "Dhuhr",
           value: tc.tConvert(timings.Dhuhr),
           inline: true,
         });
@@ -119,7 +118,7 @@ module.exports = {
       
       if (timings.Asr) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_ASR", interaction.guildId, { default: "Asr" }),
+          name: "Asr",
           value: tc.tConvert(timings.Asr),
           inline: true,
         });
@@ -127,7 +126,7 @@ module.exports = {
       
       if (timings.Maghrib) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_MAGHRIB", interaction.guildId, { default: "Maghrib" }),
+          name: "Maghrib",
           value: tc.tConvert(timings.Maghrib),
           inline: true,
         });
@@ -135,14 +134,14 @@ module.exports = {
       
       if (timings.Isha) {
         embed.addFields({
-          name: client.language.getString("PRAY_NAME_ISHA", interaction.guildId, { default: "Isha" }),
+          name: "Isha",
           value: tc.tConvert(timings.Isha),
           inline: true,
         });
       }
       
       embed.setFooter({
-        text: client.language.getString("PRAYS_FOOTER", interaction.guildId, { year }),
+        text: `Prayer Times | ©${year} Wolfy`,
         iconURL: client.user.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
@@ -151,7 +150,7 @@ module.exports = {
     } catch (error) {
       console.error("Error in execute function:", error);
       interaction.reply({
-        content: client.language.getString("PRAYS_ERROR", interaction.guildId, { user: interaction.user }),
+        content: `❌ I couldn't find prayer times for that location!`,
         ephemeral: true,
       });
     }

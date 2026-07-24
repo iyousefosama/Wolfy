@@ -1,3 +1,6 @@
+const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
+
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
@@ -30,14 +33,14 @@ module.exports = {
       
       if (!voiceChannel) {
         return interaction.reply({ 
-          content: client.language.getString("NO_VOICE_CHANNEL", interaction.guildId), 
+          content: "❌ You need to be in a voice channel to kick everyone!",
           ephemeral: true 
         });
       }
       
       if (voiceChannel.members.size <= 1) {
         return interaction.reply({ 
-          content: client.language.getString("NO_MEMBERS_IN_VOICE", interaction.guildId), 
+          content: "❌ There are no other members in this voice channel!",
           ephemeral: true 
         });
       }
@@ -54,10 +57,15 @@ module.exports = {
       
       try {
         await Promise.all(kickPromises);
-        return interaction.reply(client.language.getString("VOICE_KICK_ALL_SUCCESS", interaction.guildId));
+        const embed = new EmbedBuilder()
+          .setColor(colors.ADMIN)
+          .setTitle("✅ Voice Kick Successful")
+          .setDescription("Successfully kicked everyone from the voice channel!")
+          .setTimestamp();
+        return interaction.reply({ embeds: [embed] });
       } catch (error) {
         return interaction.reply({ 
-          content: client.language.getString("VOICE_KICK_ERROR", interaction.guildId), 
+          content: "❌ There was an error while kicking users from the voice channel!",
           ephemeral: true 
         });
       }
@@ -66,7 +74,7 @@ module.exports = {
     // Handle specific user kick
     if (!target.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("NO_ID", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ Please provide a valid user ID or mention!",
         ephemeral: true 
       });
     }
@@ -77,32 +85,32 @@ module.exports = {
     
     if (!targetMember) {
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_FOUND", interaction.guildId), 
+        content: "❌ User not found!",
         ephemeral: true 
       });
     } else if (targetMember.id === interaction.user.id) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ You can't kick yourself!",
         ephemeral: true 
       });
     } else if (targetMember.id === client.user.id) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ You can't kick me!",
         ephemeral: true 
       });
     } else if (targetMember.id === guild.ownerId) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ You can't kick the server owner!",
         ephemeral: true 
       });
     } else if (client.owners.includes(targetMember.id)) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ You can't kick my developer!",
         ephemeral: true 
       });
     } else if (interaction.member.roles.highest.position <= targetMember.roles.highest.position) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "VOICE_KICK" }), 
+        content: "❌ You can't kick that user because they have a higher role!",
         ephemeral: true 
       });
     }
@@ -110,23 +118,24 @@ module.exports = {
     // Check if user is in a voice channel
     if (!targetMember.voice.channel) {
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_IN_VOICE", interaction.guildId), 
+        content: "❌ That user is not in a voice channel!",
         ephemeral: true 
       });
     }
     
     try {
       await targetMember.voice.setChannel(null);
-      return interaction.reply(
-        client.language.getString("VOICE_KICK_SUCCESS", interaction.guildId, { 
-          target: targetMember.user.username 
-        })
-      );
+      const embed = new EmbedBuilder()
+        .setColor(colors.ADMIN)
+        .setTitle("✅ Voice Kick Successful")
+        .setDescription(`Successfully kicked **${targetMember.user.username}** from the voice channel!`)
+        .setTimestamp();
+      return interaction.reply({ embeds: [embed] });
     } catch (error) {
       return interaction.reply({ 
-        content: client.language.getString("VOICE_KICK_ERROR", interaction.guildId), 
+        content: "❌ There was an error while kicking that user!",
         ephemeral: true 
       });
     }
-  },
-}; 
+  }
+};

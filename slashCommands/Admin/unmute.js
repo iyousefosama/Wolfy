@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/Mute-Schema');
 
 /**
@@ -28,7 +29,7 @@ module.exports = {
     const user = options.getUser("target");
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ Please type the id or mention the user to unmute.", ephemeral: true });
     };
 
     const member = await guild.members
@@ -36,13 +37,13 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
+      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot unmute yourself!", ephemeral: true });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot unmute me!", ephemeral: true });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "UNMUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You can't unmute that user because he/she has a higher role than yours!", ephemeral: true });
     }
 
     let data;
@@ -60,17 +61,17 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      return interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true });
+      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", ephemeral: true });
     }
 
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
     
     if (!mutedRole) {
-      return interaction.reply({ content: client.language.getString("NO_MUTED_ROLE", interaction.guildId), ephemeral: true });
+      return interaction.reply({ content: "❌ There is no muted role in this guild!", ephemeral: true });
     }
     
-    if (member.roles.cache.find(r => r.name.toLowerCase() !== 'muted' && data?.Muted !== true)) {
-      return interaction.reply({ content: client.language.getString("ALREADY_UNMUTED", interaction.guildId), ephemeral: true });
+    if (!member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted !== true) {
+      return interaction.reply({ content: "❌ User is already unmuted!", ephemeral: true });
     }
 
     try {
@@ -79,18 +80,16 @@ module.exports = {
       await data.save();
       
       const unmute = new EmbedBuilder()
+        .setColor(colors.ADMIN)
         .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-        .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
-          action_done: "unmuted", 
-          user: member.user.toString()
-        }))
+        .setDescription(`✅ Successfully **unmuted** ${member.user.toString}!`)
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
         .setTimestamp();
       
       return interaction.reply({ embeds: [unmute] });
     } catch (error) {
       return interaction.reply({ 
-        content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "UNMUTE" }), 
+        content: "❌ I couldn't unmute that user!", 
         ephemeral: true 
       });
     }

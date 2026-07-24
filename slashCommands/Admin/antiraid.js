@@ -1,4 +1,5 @@
 const GuildSchema = require('../../schema/GuildSchema');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -90,7 +91,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return await interaction.editReply(
-        client.language.getString("ERROR_EXEC", interaction.guildId)
+        "💢 There was an error while executing this command!"
       );
     }
 
@@ -194,7 +195,11 @@ module.exports = {
         const isEnabled = !!antiRaidConfig.isEnabled;
 
         const statusEmbed = {
-          color: isEnabled ? 0x00ff00 : 0xff0000,
+          color: isEnabled ? colors.SUCCESS : colors.ERROR,
+          author: {
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL()
+          },
           title: `🛡️ Anti-Raid Status - ${isEnabled ? 'Enabled' : 'Disabled'}`,
           fields: [
             { name: 'Max Joins/Minute', value: (antiRaidConfig.maxJoinsPerMinute || 5).toString(), inline: true },
@@ -203,6 +208,10 @@ module.exports = {
             { name: 'Lockdown Duration', value: `${(antiRaidConfig.lockdownDuration || 300000) / 1000} seconds`, inline: true },
             { name: 'Log Channel', value: antiRaidConfig.logChannel ? `<#${antiRaidConfig.logChannel}>` : 'Not set', inline: true }
           ],
+          footer: {
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.displayAvatarURL()
+          },
           timestamp: new Date()
         };
         await interaction.editReply({ embeds: [statusEmbed] });

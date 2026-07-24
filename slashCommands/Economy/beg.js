@@ -1,6 +1,10 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const schema = require('../../schema/Economy-Schema');
+const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+
+dayjs.extend(duration);
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -31,7 +35,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -47,9 +51,7 @@ module.exports = {
     
     if (data.timer.beg.timeout > now) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BEG_COOLDOWN", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `❌ **${interaction.user.tag}**, You have already been given some *coins* earlier! Please try again later.`
       });
     }
 
@@ -74,9 +76,7 @@ module.exports = {
       data.progress.completed++;
       await data.save();
       await interaction.reply({ 
-        content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-          reward: quest.reward 
-        })
+        content: `✅ You received: 💰 ${quest.reward} from this command quest.`
       });
     }
     
@@ -87,16 +87,12 @@ module.exports = {
       .then(() => {
         if (!quest || Box < quest?.progress || quest?.received) {
           interaction.reply({
-            content: client.language.getString("ECONOMY_BEG_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              amount: moneyget,
-              giver: ppl[givers]
-            })
+            content: `💵 **${interaction.user.tag}**, You received **💰 ${moneyget}** from ${ppl[givers]}.`
           });
         }
       })
       .catch((err) => interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       }));
   },
 }; 

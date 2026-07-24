@@ -18,7 +18,7 @@ module.exports = {
         // Check if a game is already running in the guild
         if (currentGames[guild.id]) {
             return interaction.reply({ 
-                content: client.language.getString("CMD_GUESS_ALREADY_RUNNING", guild.id),
+                content: "A guess the number game is already running in this server! 😄",
                 ephemeral: true 
             });
         }
@@ -27,7 +27,7 @@ module.exports = {
         const number = Math.floor(Math.random() * 499) + 1;
 
         await interaction.reply({
-            embeds: [InfoEmbed(client.language.getString("CMD_GUESS_STARTED", guild.id))]
+            embeds: [InfoEmbed("🎉 Guess the number game has started! I'm thinking of a number between 1 and 500! You have 30 seconds to guess!")]
         });
 
         const filter = m => !m.author.bot;
@@ -56,13 +56,7 @@ module.exports = {
                 
                 await interaction.followUp({
                     embeds: [SuccessEmbed(
-                        client.language.getString("CMD_GUESS_WINNER", guild.id, {
-                            user: msg.author.toString(),
-                            username: msg.author.username,
-                            number: number,
-                            count: participants.length,
-                            participants: participantNames
-                        })
+                        `🎉 **${msg.author.username}** has won! The number was **${number}**!\n\nWe had **${participants.length}** participants: ${participantNames}`
                     )]
                 });
                 return collector.stop(msg.author.username);
@@ -73,9 +67,9 @@ module.exports = {
             }
 
             if (parsedNumber < number) {
-                msg.reply(client.language.getString("CMD_GUESS_SMALLER", guild.id, { number: parsedNumber }));
+                msg.reply(`⬆️ **${parsedNumber}** is too small!`);
             } else if (parsedNumber > number) {
-                msg.reply(client.language.getString("CMD_GUESS_BIGGER", guild.id, { number: parsedNumber }));
+                msg.reply(`⬇️ **${parsedNumber}** is too big!`);
             }
         });
 
@@ -83,7 +77,7 @@ module.exports = {
             delete currentGames[guild.id];
             if (reason === "time") {
                 return interaction.followUp({
-                    embeds: [ErrorEmbed(client.language.getString("CMD_GUESS_TIMEOUT", guild.id, { number: number }))]
+                    embeds: [ErrorEmbed(`⏰ Time's up! The number was **${number}**!`)]
                 });
             }
         });

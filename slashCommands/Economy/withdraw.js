@@ -41,7 +41,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -52,10 +52,7 @@ module.exports = {
 
     if (!data || data.Bank.balance.credits === null || data.Bank.info.Enabled == false) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_NO_BANK_ACCOUNT", interaction.guild?.id, { 
-          username: interaction.user.tag, 
-          prefix: client.prefix 
-        })
+        content: `\\❌ **${interaction.user.tag}**, You don't have a *bank* yet! To create one, use \`/register\`.`
       });
     } else {
       let withdrawAmount;
@@ -69,25 +66,15 @@ module.exports = {
 
       if (!withdrawAmount || isNaN(withdrawAmount)) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_WITHDRAW_INVALID", interaction.guild?.id, { 
-            username: interaction.user.tag, 
-            amount: amt 
-          })
+          content: `\\❌ **${interaction.user.tag}**, [ **${amt}** ] is not a valid amount!`
         });
       } else if (withdrawAmount < 500) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_WITHDRAW_MIN", interaction.guild?.id, { 
-            username: interaction.user.tag 
-          })
+          content: `\\❌ **${interaction.user.tag}**, The amount to be withdrawn must be at least **500**.`
         });
       } else if (withdrawAmount * 1.1 > data.Bank.balance.credits) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_WITHDRAW_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            balance: text.commatize(data.Bank.balance.credits),
-            shortAmount: text.commatize(withdrawAmount - data.Bank.balance.credits + Math.ceil(withdrawAmount * 0.05)),
-            prefix: client.prefix
-          })
+          content: `\\❌ **${interaction.user.tag}**, You don't have enough credits in your bank to proceed with this transaction.\n You only have **${text.commatize(data.Bank.balance.credits)}** left, **${text.commatize(withdrawAmount - data.Bank.balance.credits + Math.ceil(withdrawAmount * 0.05))}** less than the amount you want to withdraw (Transaction fee of 5% included)\nTo withdraw all credits instead, please use \`/withdraw amount:all\`.`
         });
       }
 
@@ -96,14 +83,11 @@ module.exports = {
 
       return data.save()
         .then(() => interaction.reply({
-          content: client.language.getString("ECONOMY_WITHDRAW_SUCCESS", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            amount: text.commatize(Math.floor(withdrawAmount / 1.1))
-          })
+          content: `<:moneytransfer:892745164324474900> **${interaction.user.tag}**, You Successfully withdrawn **${text.commatize(Math.floor(withdrawAmount / 1.1))}** credits from your bank! (+5% fee).`
         }))
         .catch((err) => interaction.reply({
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     }
   },
-}; 
+};

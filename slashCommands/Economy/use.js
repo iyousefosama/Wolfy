@@ -38,7 +38,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -53,9 +53,7 @@ module.exports = {
     
     if (!item) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_USE_NOT_OWNED", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, You do not have this item in your inventory!`,
         ephemeral: true
       });
     }
@@ -64,18 +62,14 @@ module.exports = {
     
     if (!metadata) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_USE_UNAVAILABLE", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, This item can no longer be used!`,
         ephemeral: true
       });
     }
     
     if (metadata.assets?.link == null) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_USE_UNUSABLE", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, You can't use this item!`,
         ephemeral: true
       });
     }
@@ -85,14 +79,11 @@ module.exports = {
     try {
       await data.save();
       interaction.reply({
-        content: client.language.getString("ECONOMY_USE_SUCCESS", interaction.guild?.id, { 
-          username: interaction.user.tag,
-          item_name: metadata.name
-        })
+        content: `\\✔️ **${interaction.user.tag}**, Successfully used **${metadata.name}!**`
       });
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
     }

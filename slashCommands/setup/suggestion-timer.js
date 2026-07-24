@@ -33,9 +33,7 @@ module.exports = {
 
         if (!time || !ms(time)) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_SUGGESTION_TIMER_INVALID", interaction.guild?.id, {
-                    username: interaction.user.username
-                }), 
+                content: `\\❌ **${interaction.user.username}**, Please provide a valid time in seconds (min 30, max 3600)!`, 
                 ephemeral: true 
             });
         }
@@ -52,9 +50,7 @@ module.exports = {
             }
         } catch (err) {
             await interaction.reply({ 
-                content: client.language.getString("ERR_DB", interaction.guild?.id, {
-                    error: err.name
-                }), 
+                content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, 
                 ephemeral: true 
             });
             throw new Error(err);
@@ -62,7 +58,7 @@ module.exports = {
 
         if (!data.Mod.Suggestion.isEnabled) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_SUGGESTION_TIMER_DISABLED", interaction.guild?.id), 
+                content: `\\❌ Suggestions are not enabled! To enable, type \`/toggle suggestions\``, 
                 ephemeral: true 
             });
         }
@@ -72,10 +68,7 @@ module.exports = {
             .then(() => {
                 interaction.reply({
                     embeds: [SuccessEmbed(
-                        client.language.getString("SETUP_SUGGESTION_TIMER_SUCCESS", interaction.guild?.id, {
-                            username: interaction.user.username,
-                            time: time
-                        })
+                        `\\✔️ **${interaction.user.username}**, Successfully set suggestion cooldown to ${time}!`
                     )]
                 })
             })

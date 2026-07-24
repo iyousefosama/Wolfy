@@ -2,6 +2,7 @@ const discord = require('discord.js');
 const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime");
 const axios = require("axios");
+const { colors } = require('../../util/constants/constants');
 
 dayjs.extend(relativeTime);
 
@@ -31,11 +32,11 @@ module.exports = {
     async execute(client, interaction) {
         let user = interaction.options.getUser('target') ?? interaction.user;
         let member = interaction.member;
-        let activityNames = client.language.getString("WHOIS_ACTIVITY_NONE", interaction.guildId);
-        let status = client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guildId);
-        let rolesValue = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
-        let permissionsValue = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
-        let joinedServerInfo = client.language.getString("WHOIS_ROLES_NONE", interaction.guildId);
+        let activityNames = "None";
+        let status = "🔴 Offline";
+        let rolesValue = "None";
+        let permissionsValue = "None";
+        let joinedServerInfo = "None";
 
         if (interaction.guild) {
             try {
@@ -47,10 +48,10 @@ module.exports = {
 
                 if (member.presence?.status) {
                     const statuses = {
-                        dnd: client.language.getString("WHOIS_STATUS_DND", interaction.guildId),
-                        online: client.language.getString("WHOIS_STATUS_ONLINE", interaction.guildId),
-                        idle: client.language.getString("WHOIS_STATUS_IDLE", interaction.guildId),
-                        offline: client.language.getString("WHOIS_STATUS_OFFLINE", interaction.guildId)
+                        dnd: "⛔ Do Not Disturb",
+                        online: "🟢 Online",
+                        idle: "🟡 Idle",
+                        offline: "🔴 Offline"
                     };
                     status = statuses[member.presence.status] || statuses.offline;
                 }
@@ -66,7 +67,7 @@ module.exports = {
 
                 const perms = member.permissions?.toArray();
                 if (perms?.includes("Administrator")) {
-                    permissionsValue = client.language.getString("WHOIS_ADMINISTRATOR", interaction.guildId);
+                    permissionsValue = "🔨 Administrator";
                 } else if (perms?.length) {
                     permissionsValue = perms.map(p => `\`${p.split('_').map(x => x[0] + x.slice(1).toLowerCase()).join(' ')}\``).join(", ");
                 }
@@ -83,29 +84,29 @@ module.exports = {
         }
 
         const flags = {
-            DiscordEmployee: client.language.getString("USER_FLAG_EMPLOYEE", interaction.guildId),
-            DiscordPartner: client.language.getString("USER_FLAG_PARTNER", interaction.guildId),
-            HypeSquadEvents: client.language.getString("USER_FLAG_HYPESQUAD_EVENTS", interaction.guildId),
-            HypeSquadOnlineHouse1: client.language.getString("USER_FLAG_BRAVERY", interaction.guildId),
-            HypeSquadOnlineHouse2: client.language.getString("USER_FLAG_BRILLIANCE", interaction.guildId),
-            HypeSquadOnlineHouse3: client.language.getString("USER_FLAG_BALANCE", interaction.guildId),
-            BugHunterLevel1: client.language.getString("USER_FLAG_BUG_HUNTER_1", interaction.guildId),
-            BugHunterLevel2: client.language.getString("USER_FLAG_BUG_HUNTER_2", interaction.guildId),
-            HouseBravery: client.language.getString("USER_FLAG_BRAVERY", interaction.guildId),
-            HouseBrilliance: client.language.getString("USER_FLAG_BRILLIANCE", interaction.guildId),
-            HouseBalance: client.language.getString("USER_FLAG_BALANCE", interaction.guildId),
-            EarlySupporter: client.language.getString("USER_FLAG_EARLY_SUPPORTER", interaction.guildId),
-            TeamPseudoUser: client.language.getString("USER_FLAG_TEAM_USER", interaction.guildId),
-            System: client.language.getString("USER_FLAG_SYSTEM", interaction.guildId),
-            VerifiedBot: client.language.getString("USER_FLAG_VERIFIED_BOT", interaction.guildId),
-            VerifiedDeveloper: client.language.getString("USER_FLAG_VERIFIED_DEVELOPER", interaction.guildId),
-            ActiveDeveloper: client.language.getString("USER_FLAG_ACTIVE_DEVELOPER", interaction.guildId)
+            DiscordEmployee: "👷 Discord Employee",
+            DiscordPartner: "🤝 Discord Partner",
+            HypeSquadEvents: "🎉 HypeSquad Events",
+            HypeSquadOnlineHouse1: "🔥 HypeSquad Bravery",
+            HypeSquadOnlineHouse2: "💡 HypeSquad Brilliance",
+            HypeSquadOnlineHouse3: "⚖️ HypeSquad Balance",
+            BugHunterLevel1: "🐛 Bug Hunter (Level 1)",
+            BugHunterLevel2: "🐛 Bug Hunter (Level 2)",
+            HouseBravery: "🔥 HypeSquad Bravery",
+            HouseBrilliance: "💡 HypeSquad Brilliance",
+            HouseBalance: "⚖️ HypeSquad Balance",
+            EarlySupporter: "⭐ Early Supporter",
+            TeamPseudoUser: "Team User",
+            System: "🤖 System",
+            VerifiedBot: "✅ Verified Bot",
+            VerifiedDeveloper: "✅ Verified Bot Developer",
+            ActiveDeveloper: "🧑‍💻 Active Developer"
         };
 
         const userFlags = user.flags?.toArray();
         const flagsValue = userFlags?.length
             ? userFlags.map(flag => flags[flag] ?? flag).join(", ")
-            : client.language.getString("USER_FLAG_NONE", interaction.guildId);
+            : "None";
 
         const data = await axios.get(`https://discord.com/api/users/${user.id}`, {
             headers: {
@@ -125,41 +126,42 @@ module.exports = {
         const year = new Date().getFullYear();
 
         const userEmbed = new discord.EmbedBuilder()
+            .setColor(colors.INFORMATION)
             .setAuthor({
-                name: client.language.getString("WHOIS_AUTHOR", interaction.guildId, { displayName: member?.displayName || user.username }),
+                name: `User information of ${member?.displayName || user.username}`,
                 iconURL: avatarUrl,
                 url: avatarUrl
             })
             .addFields(
-                { name: client.language.getString("WHOIS_DISPLAYNAME", interaction.guildId), value: member?.displayName || user.username },
-                { name: client.language.getString("WHOIS_USERNAME", interaction.guildId), value: user.username },
+                { name: "🏷️ Display Name", value: member?.displayName || user.username },
+                { name: "👤 Username", value: user.username },
                 { name: '\u200B', value: '\u200B' },
-                { name: client.language.getString("WHOIS_ID", interaction.guildId), value: user.id, inline: true },
-                { name: client.language.getString("WHOIS_STATUS", interaction.guildId), value: status, inline: true },
-                { name: client.language.getString("WHOIS_GAME", interaction.guildId), value: activityNames, inline: true },
+                { name: "🆔 ID", value: user.id, inline: true },
+                { name: "💬 Status", value: status, inline: true },
+                { name: "🎮 Game", value: activityNames, inline: true },
                 {
-                    name: client.language.getString("WHOIS_ACCOUNT_CREATED", interaction.guildId),
+                    name: "📅 Account Created At",
                     value: `${accountCreatedTime} ${accountCreatedDate} ${accountCreatedRelative}`,
                     inline: true
                 },
                 {
-                    name: client.language.getString("WHOIS_JOINED_SERVER", interaction.guildId),
+                    name: "📥 Joined The Server At",
                     value: joinedServerInfo,
                     inline: true
                 },
                 {
-                    name: client.language.getString("WHOIS_AVATAR", interaction.guildId),
-                    value: `[${client.language.getString("WHOIS_AVATAR_LINK", interaction.guildId)}](${avatarUrl})`,
+                    name: "🖼️ Avatar",
+                    value: `[Click here to view Avatar](${avatarUrl})`,
                     inline: false
                 },
-                { name: client.language.getString("WHOIS_FLAGS", interaction.guildId), value: flagsValue, inline: false },
-                { name: client.language.getString("WHOIS_ROLES", interaction.guildId), value: rolesValue, inline: false },
-                { name: client.language.getString("WHOIS_PERMISSIONS", interaction.guildId), value: permissionsValue, inline: false }
+                { name: "🎖️ Flags", value: flagsValue, inline: false },
+                { name: "🎭 Roles", value: rolesValue, inline: false },
+                { name: "🔐 Permissions", value: permissionsValue, inline: false }
             )
             .setThumbnail(avatarUrl)
             .setImage(bannerUrl)
             .setFooter({
-                text: client.language.getString("WHOIS_FOOTER", interaction.guildId, { year }),
+                text: `User info. | ©${year} Wolfy`,
                 iconURL: client.user.displayAvatarURL({ dynamic: true })
             })
             .setTimestamp();

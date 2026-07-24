@@ -1,4 +1,5 @@
 const GuildSchema = require('../../schema/GuildSchema');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -140,7 +141,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return await interaction.editReply(
-        client.language.getString("ERROR_EXEC", interaction.guildId)
+        "💢 There was an error while executing this command!"
       );
     }
 
@@ -347,7 +348,11 @@ module.exports = {
         const allowed = antiLink.allowedDomains || [];
 
         const statusEmbed = {
-          color: isEnabled ? 0x00ff00 : 0xff0000,
+          color: isEnabled ? colors.SUCCESS : colors.ERROR,
+          author: {
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL()
+          },
           title: `🔗 Anti-Link Status - ${isEnabled ? 'Enabled' : 'Disabled'}`,
           fields: [
             { name: 'Action', value: antiLink.action || 'delete', inline: true },
@@ -357,6 +362,10 @@ module.exports = {
             { name: 'Blacklisted Domains', value: blacklist.length > 0 ? blacklist.slice(0, 5).join(', ') + (blacklist.length > 5 ? '...' : '') : 'None', inline: false },
             { name: 'Allowed Domains', value: allowed.length > 0 ? allowed.slice(0, 5).join(', ') + (allowed.length > 5 ? '...' : '') : 'None', inline: false }
           ],
+          footer: {
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.displayAvatarURL()
+          },
           timestamp: new Date()
         };
         await interaction.editReply({ embeds: [statusEmbed] });

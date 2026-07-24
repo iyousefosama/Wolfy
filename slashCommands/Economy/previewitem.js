@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require('../../util/constants/constants');
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 
@@ -33,32 +34,24 @@ module.exports = {
     
     if (!selected) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_PREVIEW_INVALID", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Could not find the item with that ID!`,
         ephemeral: true
       });
     }
     
     if (selected.assets?.link == null) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_PREVIEW_UNAVAILABLE", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, There is no preview for this item!`,
         ephemeral: true
       });
     }
     
     const embed = new discord.EmbedBuilder()
-      .setColor(9807270)
+      .setColor(colors.ECONOMY)
       .setImage(selected.assets.link);
     
     return interaction.reply({
-      content: client.language.getString("ECONOMY_PREVIEW_DETAILS", interaction.guild?.id, { 
-        item_name: selected.name,
-        item_type: selected.type,
-        item_price: text.commatize(selected.price)
-      }),
+      content: `> \`Item Name:\` **${selected.name}**, \`Item Type:\` **${selected.type}**, \`Item Price:\` **${text.commatize(selected.price)}**`,
       embeds: [embed]
     });
   },

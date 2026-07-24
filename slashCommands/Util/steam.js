@@ -3,6 +3,7 @@ const snekfetch = require('snekfetch');
 const { decode } = require('he');
 const html2md = require('html2markdown');
 const text = require('../../util/string');
+const { colors } = require('../../util/constants/constants');
 
 module.exports = {
     data: {
@@ -42,7 +43,7 @@ module.exports = {
 
                 if (!search.body.items.length) {
                     return interaction.reply({ 
-                        content: client.language.getString("STEAM_NOT_FOUND", interaction.guildId, { user: interaction.user })
+                        content: `❌ | ${interaction.user}, I couldn't find that game on Steam!`
                     });
                 }
 
@@ -76,62 +77,67 @@ module.exports = {
                 const discount = data.price_overview && data.price_overview.discount_percent ? data.price_overview.discount_percent : 0;
 
                 const embed = new discord.EmbedBuilder()
-                    .setColor(0x101D2F)
+                    .setColor(colors.UTILITY)
                     .setAuthor({ name: 'Steam', iconURL: 'https://i.imgur.com/xxr2UBZ.png', url: 'http://store.steampowered.com/' })
-                    .setTitle(client.language.getString("STEAM_TITLE", interaction.guildId, { game: data.name }))
+                    .setTitle(`${data.name} on Steam`)
                     .setURL(`http://store.steampowered.com/app/${data.steam_appid}`)
                     .setImage(tiny_image)
                     .addFields({ 
-                        name: client.language.getString("STEAM_PRICE", interaction.guildId, { price }),
-                        value: discount > 0 ? client.language.getString("STEAM_DISCOUNT", interaction.guildId, { discount }) : '\u200b',
+                        name: "**Price:**",
+                        value: price,
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_METASCORE", interaction.guildId, { default: '❯\u2000Metascore' }), 
+                        name: "**Discount:**", 
+                        value: discount > 0 ? `${discount}%` : '\u200b', 
+                        inline: true 
+                    })
+                    .addFields({ 
+                        name: "❯\u2000Metascore", 
                         value: `•\u2000 ${data.metacritic ? data.metacritic.score : '???'}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_REVIEWS_COUNT", interaction.guildId, { default: '❯\u2000Reviews' }), 
+                        name: "❯\u2000Reviews", 
                         value: `•\u2000 ${data.recommendations ? data.recommendations.total : '???'}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_PLATFORMS", interaction.guildId, { default: '❯\u2000Platforms' }), 
+                        name: "❯\u2000Platforms", 
                         value: `•\u2000 ${platforms.join(', ') || 'None'}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_RELEASE", interaction.guildId, { date: data.release_date ? data.release_date.date : '???' }), 
+                        name: "❯\u2000Release Date", 
                         value: `•\u2000 ${data.release_date ? data.release_date.date : '???'}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_DLC_COUNT", interaction.guildId, { default: '❯\u2000DLC Count' }), 
+                        name: "❯\u2000DLC Count", 
                         value: `•\u2000 ${data.dlc ? data.dlc.length : 0}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_DEVELOPERS", interaction.guildId, { default: '❯\u2000Developers' }), 
+                        name: "❯\u2000Developers", 
                         value: `•\u2000 ${data.developers ? data.developers.join(', ') || '???' : '???'}`,
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_PUBLISHERS", interaction.guildId, { default: '❯\u2000Publishers' }), 
+                        name: "❯\u2000Publishers", 
                         value: `•\u2000 ${data.publishers ? data.publishers.join(', ') || '???' : '???'}`, 
                         inline: true 
                     })
                     .addFields({ 
-                        name: client.language.getString("STEAM_GENRES", interaction.guildId, { default: '❯\u2000Genres' }), 
+                        name: "❯\u2000Genres", 
                         value: `${data.genres ? data.genres.map(m => `• ${m.description}`).join('\n') || '???' : '???'}`, 
                         inline: true 
                     })
                     .addFields([
                         { name: '\u200b', value: text.truncate(decode(data.detailed_description.replace(/(<([^>]+)>)/ig, ' ')), 980) },
-                        { name: client.language.getString("STEAM_LANGUAGES", interaction.guildId, { default: '❯\u2000Supported Languages' }), value: `•\u2000${text.truncate(html2md(data.supported_languages))}` },
+                        { name: "❯\u2000Supported Languages", value: `•\u2000${text.truncate(html2md(data.supported_languages))}` },
                     ])
                     .setFooter({ 
-                        text: client.language.getString("STEAM_FOOTER", interaction.guildId, { year })
+                        text: `Steam Game Info | ©${year} Wolfy`
                     })
                     .setTimestamp();
                 
@@ -139,7 +145,7 @@ module.exports = {
             } catch (error) {
                 console.error(error);
                 return interaction.reply({ 
-                    content: client.language.getString("STEAM_ERROR", interaction.guildId, { user: interaction.user }),
+                    content: `❌ | ${interaction.user}, Something went wrong, please try again later!`,
                     ephemeral: true 
                 });
             }

@@ -44,9 +44,7 @@ module.exports = {
     
     if (amount <= 0) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_SELL_INVALID_AMOUNT", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, please provide a valid item amount greater than 0.`,
         ephemeral: true
       });
     }
@@ -63,7 +61,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -83,11 +81,7 @@ module.exports = {
     if (item === 'coal') {
       if (data.inv.Coal < amount) {
         return interaction.reply({ 
-          content: client.language.getString("ECONOMY_SELL_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: "coal",
-            available: data.inv.Coal
-          }),
+          content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Coal}** coal in your inventory!`,
           ephemeral: true
         });
       }
@@ -99,27 +93,19 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: client.language.getString("ECONOMY_SELL_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              item: "<:e_:887034070842900552> Coal",
-              amount: finall
-            })
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887034070842900552> Coal** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
             ephemeral: true 
           });
         });
     } else if (item === 'stone') {
       if (data.inv.Stone < amount) {
         return interaction.reply({ 
-          content: client.language.getString("ECONOMY_SELL_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: "stone",
-            available: data.inv.Stone
-          }),
+          content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Stone}** stone in your inventory!`,
           ephemeral: true
         });
       }
@@ -131,27 +117,19 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: client.language.getString("ECONOMY_SELL_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              item: "<:e_:887031111790764092> Stone",
-              amount: finall
-            })
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887031111790764092> Stone** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
             ephemeral: true 
           });
         });
     } else if (item === 'iron') {
       if (data.inv.Iron < amount) {
         return interaction.reply({ 
-          content: client.language.getString("ECONOMY_SELL_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: "iron",
-            available: data.inv.Iron
-          }),
+          content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Iron}** iron in your inventory!`,
           ephemeral: true
         });
       }
@@ -163,27 +141,19 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: client.language.getString("ECONOMY_SELL_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              item: "<:e_:887034687472689192> Iron",
-              amount: finall
-            })
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887034687472689192> Iron** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
             ephemeral: true 
           });
         });
     } else if (item === 'gold') {
       if (data.inv.Gold < amount) {
         return interaction.reply({ 
-          content: client.language.getString("ECONOMY_SELL_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: "gold",
-            available: data.inv.Gold
-          }),
+          content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Gold}** gold in your inventory!`,
           ephemeral: true
         });
       }
@@ -195,27 +165,19 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: client.language.getString("ECONOMY_SELL_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              item: "<:e_:887036608874967121> Gold",
-              amount: finall
-            })
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887036608874967121> Gold** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
             ephemeral: true 
           });
         });
     } else if (item === 'diamond') {
       if (data.inv.Diamond < amount) {
         return interaction.reply({ 
-          content: client.language.getString("ECONOMY_SELL_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: "diamond",
-            available: data.inv.Diamond
-          }),
+          content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Diamond}** diamond in your inventory!`,
           ephemeral: true
         });
       }
@@ -227,26 +189,19 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: client.language.getString("ECONOMY_SELL_SUCCESS", interaction.guild?.id, { 
-              username: interaction.user.tag,
-              item: "<a:Diamond:877975082868301824> Diamond",
-              amount: finall
-            })
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<a:Diamond:877975082868301824> Diamond** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
             ephemeral: true 
           });
         });
     } else {
       const nulle = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_SELL_UNKNOWN_ITEM_TITLE", interaction.guild?.id))
-        .setDescription(client.language.getString("ECONOMY_SELL_UNKNOWN_ITEM_DESC", interaction.guild?.id, {
-          username: interaction.user.username,
-          item: item
-        }))
+        .setTitle("<a:Wrong:812104211361693696> Unknown item!")
+        .setDescription(`**${interaction.user.username}**, **${item}** this item is not from the items listed in the inventory!`)
         .setFooter({ 
           text: interaction.user.username, 
           iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) 
@@ -256,4 +211,4 @@ module.exports = {
       return interaction.reply({ embeds: [nulle], ephemeral: true });
     }
   },
-}; 
+};

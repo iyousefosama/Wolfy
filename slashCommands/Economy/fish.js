@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/Economy-Schema')
 
 /**
@@ -31,7 +32,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -46,20 +47,19 @@ module.exports = {
     
     if (!item) {
       const nulle = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_FISH_MISSING_ITEM_TITLE", interaction.guild?.id))
-        .setDescription(client.language.getString("ECONOMY_FISH_MISSING_ITEM_DESC", interaction.guild?.id, {
-          username: interaction.user.username
-        }))
+        .setTitle("❌ Missing item!")
+        .setDescription(`**${interaction.user.username}**, you didn't buy the **FishingPole** item from the shop!
+Use \`/market\` to show the market.`)
         .setFooter({ 
           text: interaction.user.username, 
           iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) 
         })
-        .setColor('Red');
+        .setColor(colors.ERROR);
       return interaction.reply({ embeds: [nulle] });
     }
 
     await interaction.reply({ 
-      content: client.language.getString("ECONOMY_FISH_STARTED", interaction.guild?.id) 
+      content: "> ⏳ Fishing from the pond..." 
     });
     
     let moneyget;
@@ -72,15 +72,11 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: trash,
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${trash}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 33) {
       const common = ["CommonFish 🐟"];
@@ -103,24 +99,18 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: common[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${common[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 15) {
       const uncommon = ["UncommonFish 🐠"];
@@ -143,27 +133,21 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: uncommon[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${uncommon[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 12) {
-      const rare = ["RareFish <:fish:886630455795933264>"];
+      const rare = ["RareFish 🐟"];
       moneyget = Math.floor(Math.random() * 240) + 150;
       data.credits += Math.floor(moneyget);
       
@@ -183,27 +167,21 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: rare[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${rare[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 2) {
-      const epic = ["EpicFish <:e_:886630455175159818>"];
+      const epic = ["EpicFish 🐠"];
       moneyget = Math.floor(Math.random() * 650) + 250;
       data.credits += Math.floor(moneyget);
       
@@ -223,24 +201,18 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: epic[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${epic[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 0.80) {
       const legendary = ["LegendaryFish <:fish:892685979918426112>"];
@@ -263,27 +235,21 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: legendary[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${legendary[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 0.20) {
-      const Mythic = ["MythicFish <:carp:892687082621902859>"];
+      const Mythic = ["MythicFish 🐋"];
       moneyget = Math.floor(Math.random() * 1500) + 860;
       data.credits += Math.floor(moneyget);
       
@@ -303,30 +269,22 @@ module.exports = {
         );
         data.progress.completed++;
         interaction.channel.send({
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
         });
       }
       
       await data.save()
         .then(() => {
           interaction.editReply({ 
-            content: client.language.getString("ECONOMY_FISH_CAUGHT", interaction.guild?.id, {
-              username: interaction.user.tag,
-              catch: Mythic[0],
-              amount: moneyget
-            })
+            content: `🎣 **${interaction.user.tag}**, you caught: **${Mythic[0]}** from the Pool and got 💰 **${moneyget}**!`
           });
         })
         .catch((err) => interaction.editReply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else {
       interaction.editReply({ 
-        content: client.language.getString("ECONOMY_FISH_NOTHING", interaction.guild?.id, {
-          username: interaction.user.tag
-        })
+        content: `🚫 **${interaction.user.tag}**, you caught: **😞 Nothing**`
       });
     }
   },

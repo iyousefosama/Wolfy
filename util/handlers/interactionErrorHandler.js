@@ -17,7 +17,7 @@ async function handleInteractionError(error, interaction, client) {
         try {
             if (interaction.isRepliable()) {
                 await interaction.followUp({
-                    embeds: [ErrorEmbed(client.language.getString("UNKNOWN_INTERACTION", interaction.guild?.id))],
+                    embeds: [ErrorEmbed("💢 This interaction has expired or already been responded to. Please try the command again.")],
                     ephemeral: true
                 });
             }
@@ -33,7 +33,7 @@ async function handleInteractionError(error, interaction, client) {
         try {
             if (interaction.isRepliable()) {
                 await interaction.followUp({
-                    embeds: [ErrorEmbed(client.language.getString("INTERACTION_TIMEOUT", interaction.guild?.id))],
+                    embeds: [ErrorEmbed("💢 Interaction timed out. Please try again.")],
                     ephemeral: true
                 });
             }
@@ -47,7 +47,7 @@ async function handleInteractionError(error, interaction, client) {
     try {
         if (interaction.isRepliable()) {
             await interaction.reply({
-                embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guild?.id))],
+                embeds: [ErrorEmbed("💢 There was an error while executing this command!")],
                 ephemeral: true
             });
         }
@@ -56,4 +56,4 @@ async function handleInteractionError(error, interaction, client) {
     }
 }
 
-module.exports = handleInteractionError; 
+module.exports = handleInteractionError;

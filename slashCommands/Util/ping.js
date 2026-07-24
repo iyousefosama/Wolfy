@@ -1,4 +1,5 @@
 const discord = require("discord.js");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -20,8 +21,8 @@ module.exports = {
       }
     ],
     clientPermissions: [
-      "EmbedLinks",
-      "ReadMessageHistory"
+        "EmbedLinks",
+        "ReadMessageHistory"
     ],
 
     /*
@@ -49,11 +50,8 @@ module.exports = {
     
     // Create single embed with ping information
     const pingEmbed = new discord.EmbedBuilder()
-      .setColor("Green")
-      .setDescription(client.language.getString("PING", interaction.guild?.id, { 
-        ping, 
-        ws_ping 
-      }));
+      .setColor(colors.SUCCESS)
+      .setDescription(`The Ping of the bot is \`${ping}ms\`!\n\`🤖\` API Latency is \`${ws_ping}ms\`!`);
 
     // Send a single response
     return interaction.editReply({ embeds: [pingEmbed] }).catch(() => null);

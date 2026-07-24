@@ -46,41 +46,39 @@ module.exports = {
         .setThumbnail(icon)
         .setTimestamp()
         .setDescription([
-          client.language.getString("SERVER_STATS_GENERAL", guild.id, { name }),
-          client.language.getString("SERVER_STATS_NAME", guild.id, { name }),
-          client.language.getString("SERVER_STATS_ID", guild.id, { id: guild.id }),
-          client.language.getString("SERVER_STATS_OWNER", guild.id, { owner }),
-          client.language.getString("SERVER_STATS_REGION", guild.id, { region: formatRegion }),
-          client.language.getString("SERVER_STATS_BOOST_TIER", guild.id, { tier: formatBoostTier }),
-          client.language.getString("SERVER_STATS_VERIFICATION", guild.id, { level: formatVerificationLevel }),
-          client.language.getString("SERVER_STATS_BOOST_LEVEL", guild.id, { level: formatBoostLevel }),
-          client.language.getString("SERVER_STATS_CREATED_AT", guild.id, { 
-            time: createdTime, 
-            date: createdDate, 
-            relative: createdRelative 
-          })
+          `**%name% General stats**
+`,
+          `🇳 **Name:** %name%`,
+          `🆔 **ID:** ${guild.id}`,
+          `👑 **Owner:** %owner%`,
+          `🌐 **Region:** ${formatRegion}`,
+          `📊 **Boost Tier:** ${formatBoostTier}`,
+          `🛡️ **Verification Level:** ${formatVerificationLevel}`,
+          `<a:server_boosting:809994218759782411> **Boost Level:** ${formatBoostLevel}`,
+          `📆 **Created At:** ${createdTime} ${createdDate} ${createdRelative}`
         ].join('\n')),
       new EmbedBuilder()
         .setURL(icon)
         .setThumbnail(icon)
         .setTimestamp()
         .setDescription([
-          client.language.getString("SERVER_STATS_DETAILS", guild.id, { name }),
-          client.language.getString("SERVER_STATS_ROLE_COUNT", guild.id, { count: roles.length }),
-          client.language.getString("SERVER_STATS_EMOJI_COUNT", guild.id, { count: emojis.size }),
-          client.language.getString("SERVER_STATS_NORMAL_EMOJI", guild.id, { count: emojis.filter(emoji => !emoji.animated).size }),
-          client.language.getString("SERVER_STATS_ANIMATED_EMOJI", guild.id, { count: emojis.filter(emoji => emoji.animated).size }),
-          client.language.getString("SERVER_STATS_MEMBER_COUNT", guild.id, { count: memberCount }),
-          client.language.getString("SERVER_STATS_HUMANS", guild.id, { count: members.filter(member => !member.user.bot).size }),
-          client.language.getString("SERVER_STATS_BOTS", guild.id, { count: members.filter(member => member.user.bot).size }),
-          client.language.getString("SERVER_STATS_TEXT_CHANNELS", guild.id, { count: channels.filter(channel => channel.type === ChannelType.GuildText).size }),
-          client.language.getString("SERVER_STATS_VOICE_CHANNELS", guild.id, { count: channels.filter(channel => channel.type === ChannelType.GuildVoice).size })
+          `**%name% stats**
+`,
+          `🏷️ **Role Count:** ${roles.length}`,
+          `😀 **Emoji Count:** ${emojis.size}`,
+          `😀 **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`,
+          `🏷️ **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`,
+          `<a:pp754:768867196302524426> **Member Count:** ${memberCount}`,
+          `👥 **Humans:** ${members.filter(member => !member.user.bot).size}`,
+          `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`,
+          `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildText).size}`,
+          `**Voice Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildVoice).size}`
         ].join('\n'))
     );
 
     const createRow = () => {
       const button = new ButtonBuilder()
-        .setLabel(client.language.getString("SERVER_STATS_BUTTON_PREV", guild.id))
+        .setLabel("Prev")
         .setCustomId("prevPage")
         .setStyle('Primary')
         .setEmoji("890490643548352572");
@@ -92,7 +90,7 @@ module.exports = {
         .setDisabled(true);
 
       const button2 = new ButtonBuilder()
-        .setLabel(client.language.getString("SERVER_STATS_BUTTON_NEXT", guild.id))
+        .setLabel("Next")
         .setCustomId("nextPage")
         .setStyle('Primary')
         .setEmoji("890490558492061736");

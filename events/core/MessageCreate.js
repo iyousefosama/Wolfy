@@ -34,7 +34,7 @@ module.exports = {
         } catch (err) {
           console.log(err);
           await message.channel.send(
-            client.language.getString("ERR_DB", message.guild?.id, { error: err.name })
+            `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
           ).catch(() => null);
         }
 
@@ -48,7 +48,7 @@ module.exports = {
       const serverprefix = data?.prefix || "Not Set";
 
       if (message.content === "prefix") {
-        return message.reply(client.language.getString("PREFIX", message.guild.id, { PREFIX: client.prefix, SERVERPREFIX: serverprefix}));
+        return message.reply(`My prefix is \`${client.prefix}\`, The custom prefix is \`${serverprefix}\`.`);
       }
     }
 
@@ -78,7 +78,7 @@ module.exports = {
     if (!cmd) {
       return (
         message.channel.send({
-          content: client.language.getString("CMD_404", message.guild?.id, { commandName: commandName }),
+          content: `\\❌ There is no command with name or alias \`${commandName}\`!`,
         }),
         { executed: false, reason: "NOT_FOUND" }
       );
@@ -90,7 +90,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       await message.channel.send(
-        client.language.getString("ERR_DB", message.guild?.id, { error: err.name })
+        `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       ).catch(() => null);
     }
 
@@ -135,13 +135,11 @@ module.exports = {
           const permNames = missingPerms.map((perm) => perm.toLowerCase().replace(/_/g, ' '));
 
           return replyWithError({
-            embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, {
-              permissions: permNames.join(', ')
-            }))]
+            embeds: [ErrorEmbed(`💢 The bot requires the following permissions: ${permNames.join(', ')}!`)]
           });
         }
 
-        await replyWithError({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
+        await replyWithError({ embeds: [ErrorEmbed("💢 There was an error while executing this command!")] });
 
         client.LogCmd(message, false, `${new Date()} ${message.author.tag}|(${message.author.id}) in ${message.guild
           ? `${message.guild.name}(${message.guild.id}) | #${message.channel.name}(${message.channel.id})`
@@ -156,13 +154,11 @@ module.exports = {
         const permNames = missingPerms.map((perm) => perm.toLowerCase().replace(/_/g, ' '));
 
         return replyWithError({
-          embeds: [ErrorEmbed(client.language.getString("BOT_PERMS_REQ", message.guild?.id, {
-            permissions: permNames.join(', ')
-          }))]
+          embeds: [ErrorEmbed(`💢 The bot requires the following permissions: ${permNames.join(', ')}!`)]
         });
       }
 
-      await replyWithError({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", message.guild?.id))] });
+      await replyWithError({ embeds: [ErrorEmbed("💢 There was an error while executing this command!")] });
     }
   },
 };

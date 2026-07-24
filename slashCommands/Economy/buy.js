@@ -41,7 +41,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -54,11 +54,9 @@ module.exports = {
     
     if (!item || item == null) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BUY_INVALID", interaction.guild?.id, { 
-          username: interaction.user.tag,
-          prefix: client.prefix,
-          random_id: Math.floor(Math.random() * market.length)
-        })
+        content: `\\❌ **${interaction.user.tag}**, Could not find this \`item ID\`!
+The proper usage for this command would be \`/buy item:[item id]\`.
+Example: \`/buy item:${Math.floor(Math.random() * market.length)}\``
       });
     }
     
@@ -67,17 +65,12 @@ module.exports = {
     
     if (old) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BUY_ALREADY", interaction.guild?.id, { 
-          username: interaction.user.tag
-        })
+        content: `\\❌ **${interaction.user.tag}**, you already have this item in your inventory`
       });
     } else if (data.credits < total) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BUY_INSUFFICIENT", interaction.guild?.id, { 
-          username: interaction.user.tag,
-          missing: text.commatize(total - data.credits),
-          item: item.name
-        })
+        content: `\\❌ **${interaction.user.tag}**, You do not have enough credits to proceed with this transaction!
+You need **${text.commatize(total - data.credits)}** more for **${item.name}**`
       });
     } else {
       data.profile.inventory.push({
@@ -88,14 +81,10 @@ module.exports = {
       
       return data.save()
         .then(() => interaction.reply({
-          content: client.language.getString("ECONOMY_BUY_SUCCESS", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            item: item.name,
-            price: text.commatize(item.price)
-          })
+          content: `🎒 **${interaction.user.tag}**, Successfully purchased **${item.name}!** for \`${text.commatize(item.price)}\``
         }))
         .catch((err) => interaction.reply({
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     }
   },

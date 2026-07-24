@@ -39,7 +39,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -54,9 +54,7 @@ module.exports = {
     
     if (!date.isValid()) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BIRTHDAY_INVALID_FORMAT", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Please add your date in DD-MM format (e.g., 26-09 for September 26)`,
         ephemeral: true
       });
     }
@@ -66,16 +64,11 @@ module.exports = {
     try {
       await data.save();
       interaction.reply({
-        content: client.language.getString("ECONOMY_BIRTHDAY_UPDATED", interaction.guild?.id, { 
-          username: interaction.user.tag,
-          birthday: date.format('Do MMMM')
-        })
+        content: `\\✔️ **${interaction.user.tag}**, Successfully updated your birthday to \`${date.format('Do MMMM')}\`!`
       });
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ECONOMY_BIRTHDAY_UPDATE_FAILED", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Your birthday update failed!`,
         ephemeral: true
       });
     }

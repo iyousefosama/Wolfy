@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require('../../util/constants/constants');
 const schema = require("../../schema/Economy-Schema");
 const text = require("../../util/string");
 
@@ -31,17 +32,15 @@ module.exports = {
 
       const embed = new discord.EmbedBuilder()
         .setAuthor({
-          name: client.language.getString("ECONOMY_LEADERBOARD_AUTHOR", interaction.guild?.id, { 
-            username: client.user.username 
-          }),
+          name: `${client.user.username}'s Leaderboard`,
           iconURL: client.user.displayAvatarURL({
             dynamic: true,
             format: "png",
             size: 512,
           }),
         })
-        .setColor("738ADB")
-        .setTitle(client.language.getString("ECONOMY_LEADERBOARD_TITLE", interaction.guild?.id))
+        .setColor(colors.BOT)
+        .setTitle("💰 Credits Leaderboard!")
         .setTimestamp();
 
       for (let i = 0; i < members.length; i++) {
@@ -50,7 +49,7 @@ module.exports = {
         const bal = members[i].credits;
         const positionEmoji =
           i === 0
-            ? "<:medal:898358296694628414>"
+            ? "🏅"
             : i === 1
               ? "🥈"
               : i === 2
@@ -58,10 +57,7 @@ module.exports = {
                 : `*${i + 1}.*`;
 
         embed.addFields({
-          name: client.language.getString("ECONOMY_LEADERBOARD_ENTRY", interaction.guild?.id, {
-            position: positionEmoji,
-            username: user.tag
-          }),
+          name: `${positionEmoji} ${user.tag}`,
           value: `\`${text.commatize(bal)}\``,
           inline: false
         });
@@ -73,9 +69,7 @@ module.exports = {
       );
       if (userPosition !== -1) {
         embed.setFooter({
-          text: client.language.getString("ECONOMY_LEADERBOARD_FOOTER", interaction.guild?.id, { 
-            position: userPosition + 1 
-          }),
+          text: `Your position is ${userPosition + 1}!`,
           iconURL: interaction.user.displayAvatarURL({
             dynamic: true,
             size: 1024,
@@ -86,7 +80,7 @@ module.exports = {
       await interaction.editReply({ embeds: [embed] });
     } catch (err) {
       await interaction.editReply({
-        content: client.language.getString("ECONOMY_DB_RETRIEVE_ERROR", interaction.guild?.id),
+        content: "`❌ [DATABASE_ERR]:` Unable to retrieve data from the database. Please try again later!",
       });
       return client.logDetailedError({
         error: err,

@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/Economy-Schema');
 const market = require('../../assets/json/market.json');
 
@@ -32,7 +33,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -47,15 +48,15 @@ module.exports = {
 
     if (!item && !item2 && !item3) {
       const nulle = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_MINE_MISSING_ITEM_TITLE", interaction.guild?.id))
-        .setDescription(client.language.getString("ECONOMY_MINE_MISSING_ITEM_DESC", interaction.guild?.id, {
-          username: interaction.user.username
-        }))
+        .setTitle("❌ Missing item!")
+        .setDescription(`**${interaction.user.username}**, you didn't buy a pickaxe to mine yet!
+
+Use \`/market\` to show the market.`)
         .setFooter({ 
           text: interaction.user.username, 
           iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) 
         })
-        .setColor('Red');
+        .setColor(colors.ERROR);
       return interaction.reply({ embeds: [nulle] });
     }
 
@@ -78,9 +79,7 @@ module.exports = {
       );
       data.progress.completed++;
       interaction.channel.send({
-        content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-          reward: quest.reward 
-        })
+        content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
       });
     }
 
@@ -89,153 +88,89 @@ module.exports = {
 
     // Stone pickaxe mining outcomes
     if (item && !item2 && !item3 && Math.random() * 100 < 55) {
-      const stone = ["Stone <:e_:887031111790764092>"];
+      const stone = ["Stone 🪨"];
       itemget = Math.floor(Math.random() * 16) + 4;
       data.inv.Stone += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_STONE_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: stone[0]
-      });
+      responseMessage = `⛏️ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${stone[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item && !item2 && !item3 && Math.random() * 100 < 35) {
-      const coal = ["Coal <:e_:887034070842900552>"];
+      const coal = ["Coal 🪙"];
       itemget = Math.floor(Math.random() * 6) + 6;
       data.inv.Coal += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_STONE_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: coal[0]
-      });
+      responseMessage = `⛏️ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${coal[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item && !item2 && !item3 && Math.random() * 100 < 5) {
-      const iron = ["Iron <:e_:887034687472689192>"];
+      const iron = ["Iron 🧪"];
       itemget = Math.floor(Math.random() * 5) + 2;
       data.inv.Iron += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_STONE_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: iron[0]
-      });
+      responseMessage = `⛏️ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${iron[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item && !item2 && !item3 && Math.random() * 100 < 3) {
-      const gold = ["Gold <:e_:887036608874967121>"];
+      const gold = ["Gold 🌟"];
       itemget = Math.floor(Math.random() * 2) + 1;
       data.inv.Gold += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_STONE_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: gold[0]
-      });
+      responseMessage = `⛏️ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${gold[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item && !item2 && !item3 && Math.random() * 100 < 2) {
-      const diamond = ["Diamond <a:Diamond:877975082868301824>"];
+      const diamond = ["Diamond 💎"];
       itemget = Math.floor(Math.random() * 1) + 1;
       data.inv.Diamond += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_STONE_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: diamond[0]
-      });
+      responseMessage = `⛏️ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${diamond[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     }
     // Iron pickaxe mining outcomes
     else if (item2 && !item3 && Math.random() * 100 < 30) {
-      const stone = ["Stone <:e_:887031111790764092>"];
+      const stone = ["Stone 🪨"];
       itemget = Math.floor(Math.random() * 25) * 4 + 1;
       data.inv.Stone += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_IRON_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: stone[0]
-      });
+      responseMessage = `🪙 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${stone[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item2 && !item3 && Math.random() * 100 < 10) {
-      const coal = ["Coal <:e_:887034070842900552>"];
+      const coal = ["Coal 🪙"];
       itemget = Math.floor(Math.random() * 8) * 4 + 1;
       data.inv.Coal += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_IRON_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: coal[0]
-      });
+      responseMessage = `🪙 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${coal[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item2 && !item3 && Math.random() * 100 < 40) {
-      const iron = ["Iron <:e_:887034687472689192>"];
+      const iron = ["Iron 🧪"];
       itemget = Math.floor(Math.random() * 8) * 2 + 1;
       data.inv.Iron += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_IRON_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: iron[0]
-      });
+      responseMessage = `🪙 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${iron[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item2 && !item3 && Math.random() * 100 < 10) {
-      const gold = ["Gold <:e_:887036608874967121>"];
+      const gold = ["Gold 🌟"];
       itemget = Math.floor(Math.random() * 6) * 2 + 1;
       data.inv.Gold += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_IRON_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: gold[0]
-      });
+      responseMessage = `🪙 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${gold[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item2 && !item3 && Math.random() * 100 < 10) {
-      const diamond = ["Diamond <a:Diamond:877975082868301824>"];
+      const diamond = ["Diamond 💎"];
       itemget = Math.floor(Math.random() * 4) * 2 + 1;
       data.inv.Diamond += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_IRON_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: diamond[0]
-      });
+      responseMessage = `🪙 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${diamond[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     }
     // Diamond pickaxe mining outcomes
     else if (item3 && Math.random() * 100 < 15) {
-      const stone = ["Stone <:e_:887031111790764092>"];
+      const stone = ["Stone 🪨"];
       itemget = Math.floor(Math.random() * 64) * 2 + 1;
       data.inv.Stone += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DIAMOND_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: stone[0]
-      });
+      responseMessage = `💎 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${stone[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item3 && Math.random() * 100 < 5) {
-      const coal = ["Coal <:e_:887034070842900552>"];
+      const coal = ["Coal 🪙"];
       itemget = Math.floor(Math.random() * 32) * 2 + 1;
       data.inv.Coal += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DIAMOND_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: coal[0]
-      });
+      responseMessage = `💎 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${coal[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item3 && Math.random() * 100 < 45) {
-      const iron = ["Iron <:e_:887034687472689192>"];
+      const iron = ["Iron 🧪"];
       itemget = Math.floor(Math.random() * 16) * 2 + 1;
       data.inv.Iron += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DIAMOND_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: iron[0]
-      });
+      responseMessage = `💎 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${iron[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item3 && Math.random() * 100 < 25) {
-      const gold = ["Gold <:e_:887036608874967121>"];
+      const gold = ["Gold 🌟"];
       itemget = Math.floor(Math.random() * 8) * 3 + 1;
       data.inv.Gold += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DIAMOND_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: gold[0]
-      });
+      responseMessage = `💎 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${gold[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else if (item3 && Math.random() * 100 < 10) {
-      const diamond = ["Diamond <a:Diamond:877975082868301824>"];
+      const diamond = ["Diamond 💎"];
       itemget = Math.floor(Math.random() * 12) * 2 + 1;
       data.inv.Diamond += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DIAMOND_PICKAXE", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: diamond[0]
-      });
+      responseMessage = `💎 **${interaction.user.tag}**, you mine: \`+${itemget}\` **${diamond[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     } else {
-      const stone = ["Stone <:e_:887031111790764092>"];
+      const stone = ["Stone 🪨"];
       itemget = Math.floor(Math.random() * 6) + 1;
       data.inv.Stone += Math.floor(itemget);
-      responseMessage = client.language.getString("ECONOMY_MINE_DEFAULT", interaction.guild?.id, {
-        username: interaction.user.tag,
-        amount: itemget,
-        item: stone[0]
-      });
+      responseMessage = `\\❌ **${interaction.user.tag}**, you mine: \`+${itemget}\` **${stone[0]}** you can see this item count and sell it from your inv by \`/inv type:mining\`!`;
     }
 
     await data.save()
@@ -244,7 +179,7 @@ module.exports = {
       })
       .catch((err) => {
         interaction.reply({ 
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
           ephemeral: true
         });
       });

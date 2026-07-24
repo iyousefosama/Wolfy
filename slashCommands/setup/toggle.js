@@ -45,17 +45,13 @@ module.exports = {
                     })
                     if (!data.Mod.Logs?.channel) {
                         return interaction.editReply({ 
-                            content: client.language.getString("SETUP_TOGGLE_NO_CHANNEL", interaction.guild?.id, {
-                                feature: "logs"
-                            }), 
+                            content: `\\❌ You didn't set logs channel yet!`, 
                             ephemeral: true 
                         });
                     }
                 } catch (err) {
                     await interaction.editReply({ 
-                        content: client.language.getString("ERR_DB", interaction.guild?.id, {
-                            error: err.name
-                        }), 
+                        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, 
                         ephemeral: true 
                     });
                     throw new Error(err);
@@ -65,25 +61,16 @@ module.exports = {
 
                 await data.save()
                     .then(() => {
-                        const statusKey = data.Mod.Logs.isEnabled ? "ENABLED" : "DISABLED";
+                        const status = data.Mod.Logs.isEnabled ? `enabled` : `disabled`;
+                        const nextAction = !data.Mod.Logs.isEnabled ? "re-enable" : "disable";
 
                         interaction.editReply({
                             embeds: [SuccessEmbed(
-                                client.language.getString("SETUP_TOGGLE_SUCCESS", interaction.guild?.id, {
-                                    username: interaction.user.username,
-                                    feature: "logs",
-                                    status: statusKey
-                                }) + "\n\n" + 
-                                client.language.getString("SETUP_TOGGLE_NEXT_ACTION", interaction.guild?.id, {
-                                    action: !data.Mod.Logs.isEnabled ? "re-enable" : "disable",
-                                    feature: "logs"
-                                })
+                                `\\✔️ **${interaction.user.username}**, Successfully ${status} feature \`logs\`!\n\nTo **${nextAction}** this feature, use the \`/toggle logs\` command.`
                             )]
                         })
                     }).catch((err) => interaction.editReply({ 
-                        content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, {
-                            error: err.message
-                        }), 
+                        content: `\\❌ [DATABASE_ERR]: Unable to save the document to the database, please try again later!`, 
                         ephemeral: true 
                     }));
             }
@@ -96,17 +83,13 @@ module.exports = {
                     })
                     if (!data.Mod.Suggestion?.channel) {
                         return interaction.editReply({ 
-                            content: client.language.getString("SETUP_TOGGLE_NO_CHANNEL", interaction.guild?.id, {
-                                feature: "suggestions"
-                            }), 
+                            content: `\\❌ You didn't set suggestions channel yet!`, 
                             ephemeral: true 
                         });
                     }
                 } catch (err) {
                     await interaction.editReply({ 
-                        content: client.language.getString("ERR_DB", interaction.guild?.id, {
-                            error: err.name
-                        }), 
+                        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, 
                         ephemeral: true 
                     });
                     throw new Error(err);
@@ -116,25 +99,16 @@ module.exports = {
 
                 await data.save()
                     .then(() => {
-                        const statusKey = data.Mod.Suggestion.isEnabled ? "ENABLED" : "DISABLED";
+                        const status = data.Mod.Suggestion.isEnabled ? `enabled` : `disabled`;
+                        const nextAction = !data.Mod.Suggestion.isEnabled ? "re-enable" : "disable";
 
                         interaction.editReply({
                             embeds: [SuccessEmbed(
-                                client.language.getString("SETUP_TOGGLE_SUCCESS", interaction.guild?.id, {
-                                    username: interaction.user.username,
-                                    feature: "suggestions",
-                                    status: statusKey
-                                }) + "\n\n" + 
-                                client.language.getString("SETUP_TOGGLE_NEXT_ACTION", interaction.guild?.id, {
-                                    action: !data.Mod.Suggestion.isEnabled ? "re-enable" : "disable",
-                                    feature: "suggestions"
-                                })
+                                `\\✔️ **${interaction.user.username}**, Successfully ${status} feature \`suggestions\`!\n\nTo **${nextAction}** this feature, use the \`/toggle suggestions\` command.`
                             )]
                         })
                     }).catch((err) => interaction.editReply({ 
-                        content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, {
-                            error: err.message
-                        }), 
+                        content: `\\❌ [DATABASE_ERR]: Unable to save the document to the database, please try again later!`, 
                         ephemeral: true 
                     }));
             }

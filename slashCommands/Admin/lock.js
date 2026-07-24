@@ -1,8 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const { SuccessEmbed, ErrorEmbed, InfoEmbed } = require("../../util/modules/embeds")
-/**
- * @type {import("../../util/types/baseCommandSlash")}
- */
+const { colors } = require("../../util/constants/constants");
+
 module.exports = {
     data: {
         name: "lock",
@@ -37,29 +35,39 @@ module.exports = {
         const reason = options.getString("message");
         
         if (!channel) {
-            return interaction.reply({ content: client.language.getString("NOT_VALIDID", interaction.guildId, { group: "CHANNEL" }), ephemeral: true });
+            return interaction.reply({ content: "❌ | Please provide a valid **channel ID**!", ephemeral: true });
         } else if (!channel.permissionsFor(guild.members.me).has('ManageChannels')) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MANAGE", interaction.guildId, { group: "CHANNEL"}), ephemeral: true });
+            return interaction.reply({ content: "❌ | I don't have the permissions to manage this **channel**!", ephemeral: true });
         }
         
         // Check if channel is already locked
         if (!channel.permissionsFor(guild.roles.everyone).has('SendMessages')) {
-            return interaction.reply({ embeds: [ErrorEmbed(client.language.getString("LOCKED_UNLOCKED_ALREADY", interaction.guildId, { action_done: "LOCK" }))], ephemeral: true });
+            return interaction.reply({ content: "❌ | The channel is already **locked**!", ephemeral: true });
         }
         
         // Proceed to lock the channel
-        return channel.permissionOverwrites.edit(guild.roles.everyone, {
-            SendMessages: false
-        }, `Wolfy lock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`)
-        .then(() => {
+        try {
+            await channel.permissionOverwrites.edit(guild.roles.everyone, {
+                SendMessages: false
+            }, `Wolfy lock cmd: ${interaction.user.tag}: ${reason || "No reason specified"}`);
+            
             // Success message and notification in the channel
-            channel.send({ embeds: [ErrorEmbed(`${reason || ""}`).setTitle(client.language.getString("CMD_LOCK_MESSAGE_TITLE", interaction.guildId))] }).catch(() => null);
-            interaction.reply({ embeds: [InfoEmbed(client.language.getString("CMD_LOCK_SUCCESS", interaction.guildID))] });
-        })
-        .catch((err) => {
-            // Error handling if permission overwrite edit fails
-            interaction.reply({ embeds: [ErrorEmbed(client.language.getString("CMD_LOCK_ERROR_EXECUTE", interaction.guildId, { error: err.name }))] });
-        });
-        
+            if (reason) {
+                const lockMessageEmbed = new EmbedBuilder()
+                    .setColor(colors.ADMIN)
+                    .setTitle("🔒 Channel locked")
+                    .setDescription(reason)
+                    .setTimestamp();
+                channel.send({ embeds: [lockMessageEmbed] }).catch(() => null);
+            }
+            
+            const replyEmbed = new EmbedBuilder()
+                .setColor(colors.ADMIN)
+                .setDescription(`✅ Locked channel ${channel}`)
+                .setTimestamp();
+            return interaction.reply({ embeds: [replyEmbed] });
+        } catch (error) {
+            return interaction.reply({ content: `❌ | There was an error while executing this command! ${error.name}`, ephemeral: true });
+        }
     },
 };

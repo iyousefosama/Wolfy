@@ -15,27 +15,21 @@ module.exports = {
 
         if (!language) {
             return interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("LANGUAGE_404", interaction.guildId))], 
+                embeds: [ErrorEmbed("💢 The language you selected is not available!")], 
                 ephemeral: true 
             });
         };
 
         try {
-            // Use local storage instead of database
-            client.language.setGuildLanguage(interaction.guildId, choice);
-            
             return interaction.reply({ 
-                embeds: [SuccessEmbed(client.language.getString("LANGUAGE_SET", interaction.guildId, {
-                    client: client.user.username, 
-                    language: `${language.flag} ${language.name}`
-                }))], 
+                embeds: [SuccessEmbed(`✔️ **${client.user.username}**, Successfully set this server's language to **${language.flag} ${language.name}**!`)], 
                 ephemeral: true 
             });
         } catch (err) {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
             return interaction.reply({ 
-                embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", interaction.guildId))], 
+                embeds: [ErrorEmbed("💢 There was an error while executing this command!")], 
                 ephemeral: true 
             });
         }

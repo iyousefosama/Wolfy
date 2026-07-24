@@ -4,6 +4,7 @@ const AIChatSchema = require("../../schema/AIChat-Schema");
 const rateLimiter = require("../../util/functions/aiRateLimiter");
 const { DEFAULT_MODEL_ID, getSlashCommandChoices } = require("../../util/functions/aiModels");
 const { sendAiResponse } = require("../../util/functions/aiConversation");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -211,7 +212,7 @@ module.exports = {
                 return interaction.reply({
                     embeds: [{
                         title: "🤖 Your AI Settings",
-                        color: 0x5865F2,
+                        color: colors.AI,
                         fields: [
                             {
                                 name: "AI Status",
@@ -257,7 +258,7 @@ module.exports = {
                 return interaction.reply({
                     embeds: [{
                         title: "📊 Your AI Usage Statistics",
-                        color: 0x5865F2,
+                        color: colors.AI,
                         fields: [
                             {
                                 name: "Total Messages",
@@ -349,16 +350,25 @@ module.exports = {
                 rateLimiter.record(interaction.user.id);
 
                 try {
+                    // Create a wrapper object that simulates a Discord message for sendAiResponse
+                    const fakeMessage = {
+                        reply: async (payload) => {
+                            // Check if we've already sent a reply
+                            if (!interaction.replied) {
+                                return interaction.editReply(payload);
+                            } else {
+                                return interaction.followUp(payload);
+                            }
+                        },
+                        channel: interaction.channel
+                    };
+
                     const responseText = await sendAiResponse({
                         client,
-                        message: {
-                            reply: async (payload) => interaction.followUp(payload)
-                        },
+                        message: fakeMessage,
                         userSettings,
                         userMessage: prompt.trim(),
-                        replyToMessage: {
-                            reply: async (payload) => interaction.followUp(payload)
-                        },
+                        replyToMessage: fakeMessage,
                         aiServiceInstance: aiService
                     });
 

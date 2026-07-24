@@ -1,3 +1,4 @@
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/GuildSchema')
 
 /**
@@ -29,14 +30,12 @@ module.exports = {
 
         if (!prefix) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_PREFIX_MISSING", interaction.guild?.id), 
+                content: "❌ No new prefix detected! Please type the new prefix.", 
                 ephemeral: true 
             });
         } else if (prefix.length > 5) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_PREFIX_TOO_LONG", interaction.guild?.id, {
-                    max_length: 5
-                }), 
+                content: "❌ Invalid prefix. Prefixes cannot be longer than 5 characters!", 
                 ephemeral: true 
             });
         } else {
@@ -53,9 +52,7 @@ module.exports = {
                 }
             } catch (err) {
                 await interaction.reply({ 
-                    content: client.language.getString("ERR_DB", interaction.guild?.id, { 
-                        error: err.name 
-                    }), 
+                    content: "`❌ [DATABASE_ERR]:` The database responded with an error!", 
                     ephemeral: true 
                 })
                 throw new Error(err);
@@ -65,20 +62,15 @@ module.exports = {
             await data.save()
                 .then(() => {
                     const isPrefixRemoved = !data.prefix;
+                    const action = isPrefixRemoved 
+                        ? "removed this server's prefix!\nTo add prefix, simply pass the desired prefix as parameter." 
+                        : `set this server's prefix to \`${data.prefix}\`!\nTo remove the prefix, just pass in \`reset\` or \`clear\` as parameter.`;
+                    
                     return interaction.reply(
-                        client.language.getString("SETUP_PREFIX_SUCCESS", interaction.guild?.id, {
-                            username: interaction.user.username,
-                            action: isPrefixRemoved ? 
-                                client.language.getString("SETUP_PREFIX_REMOVED", interaction.guild?.id) :
-                                client.language.getString("SETUP_PREFIX_SET", interaction.guild?.id, {
-                                    prefix: data.prefix
-                                })
-                        })
+                        `✅ **${interaction.user.username}**, Successfully ${action}`
                     );
                 }).catch((err) => interaction.reply(
-                    client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, {
-                        error: err.message
-                    })
+                    "`❌ [DATABASE_ERR]:` The database responded with an error!"
                 ));
         }
     }

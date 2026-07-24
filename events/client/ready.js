@@ -2,10 +2,10 @@ const text = require(`${process.cwd()}/util/string`);
 const consoleUtil = require(`${process.cwd()}/util/console`);
 const { EmbedBuilder, ActivityType, Client } = require('discord.js')
 const { version } = require('../../package.json');
+const { colors } = require('../../util/constants/constants');
 const ManagerCheck = require("../../util/functions/ManagerCheck");
 const { initReminders } = require("../../util/functions/reminder");
 const checkQuests = require("../../util/functions/checkQuests")
-const LanguageManager = require("../../util/language/LanguageManager");
 const { CheckDeletedCategories } = require("../../util/helpers/removeDelCategories")
 const BEV = require("../../util/types/baseEvents");
 
@@ -15,8 +15,8 @@ module.exports = {
   once: true,
   /**
    * @param {import('../../struct/Client')} client
-  */
- async execute(client) {
+   */
+  async execute(client) {
     await new Promise(r => setTimeout(r, 3500))
     consoleUtil.success(`🤖 ${client.user.username} is now Online! (Loaded in ${client.bootTime} ms)`);
     initReminders(client);
@@ -27,14 +27,13 @@ module.exports = {
       });
   }, 1000 * 60 * 2); // 2 min.
     ManagerCheck(client)
-    await LanguageManager.loadGuildLanguages();
 
     /*======================================================
        Sends a notification to a log channel (if available)
        that the bot has rebooted
     ======================================================*/
 
-    const icon = '<a:Settings:841321893750505533>'
+    const icon = '⚙️'
     const servers = text.commatize(client.guilds.cache.size);
     const members = text.commatize(client.guilds.cache.reduce((a, b) => a + b.memberCount, 0));
     const commands = client.commands?.size;
@@ -43,7 +42,7 @@ module.exports = {
     const message = `${icon} \`[ ${version} ]\` **REBOOT**`;
 
     const embed = new EmbedBuilder()
-      .setColor('Grey')
+      .setColor(colors.BOT)
       .setDescription([
         '```properties',
         `Servers: ${servers}`,

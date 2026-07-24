@@ -31,7 +31,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -44,15 +44,11 @@ module.exports = {
     
     if (data.Bank.info.Enabled == true) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_REGISTER_ALREADY", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `\\❌ **${interaction.user.tag}**, You already registered a bank account!`
       });
     } else if (credits < 8000) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_REGISTER_INSUFFICIENT", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `\\❌ **${interaction.user.tag}**, You don't have **8,000** credits yet to create a bank account!`
       });
     } else {
       data.credits -= Math.floor(8000);
@@ -61,13 +57,11 @@ module.exports = {
       
       return data.save()
         .then(() => interaction.reply({
-          content: client.language.getString("ECONOMY_REGISTER_SUCCESS", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            amount: data.Bank.balance.credits
-          })
+          content: `\\✔️ **${interaction.user.tag}**, Successfully created **🏦 Bank account** You received **${data.Bank.balance.credits}** as a gift!
+ *Bank cost* 💰 \`-5,000\``
         }))
         .catch((err) => interaction.reply({
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     }
   },

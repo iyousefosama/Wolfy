@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const TicketSchema = require("../../schema/Ticket-Schema");
 const { ErrorEmbed } = require("../../util/modules/embeds");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -21,17 +22,17 @@ module.exports = {
         } catch (err) {
             console.log(err);
             interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
+                content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
                 ephemeral: true
             });
         }
         if (!ticket) {
-            return interaction.channel.send(client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId));
+            return interaction.channel.send("💢 I can't find this guild `data` in the database!");
         }
 
         if (!ticket.IsClosed) {
             return interaction.followUp({ 
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_OPEN", interaction.guildId))], 
+                embeds: [ErrorEmbed("Ticket is already open!")], 
                 ephemeral: true 
             });
         }
@@ -52,20 +53,18 @@ module.exports = {
                             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
                         })
                         .setDescription(
-                            client.language.getString("TICKET_REOPENED_BY", interaction.guildId, {
-                                user: interaction.user.tag
-                            })
+                            `Re-opened by ${interaction.user.tag}`
                         )
                         .setFooter({
                             text: client.user.username,
                             iconURL: client.user.displayAvatarURL({ dynamic: true }),
                         })
-                        .setColor("Green")]
+                        .setColor(colors.SUCCESS)]
                 });
             })
             .catch(() => {
                 interaction.channel.send({
-                    content: client.language.getString("ERROR", interaction.guildId),
+                    content: "💢 An error has occurred, please try again later.",
                 });
             });
     },

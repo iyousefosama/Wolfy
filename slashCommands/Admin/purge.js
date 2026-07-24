@@ -1,3 +1,6 @@
+const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
+
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
@@ -35,7 +38,7 @@ module.exports = {
     
     if (!user.id.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("INVALID_ID", interaction.guildId),
+        content: "❌ Please provide a valid Discord ID!", 
         ephemeral: true 
       });
     }
@@ -46,7 +49,7 @@ module.exports = {
       // Check if trying to purge owner's messages
       if (member.id === guild.ownerId) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "PURGE" }),
+          content: "❌ You cannot purge the server owner's messages!", 
           ephemeral: true 
         });
       }
@@ -54,7 +57,7 @@ module.exports = {
       // Validate amount
       if (amount < 2 || amount > 100) {
         return interaction.reply({ 
-          content: client.language.getString("INVALID_AMOUNT", interaction.guildId, { min: 2, max: 100 }), 
+          content: "❌ Please provide a number of messages between 2 and 100!", 
           ephemeral: true 
         });
       }
@@ -72,25 +75,23 @@ module.exports = {
       const messagesToDelete = userMessages.first(amount);
       
       if (messagesToDelete.length === 0) {
-        return interaction.editReply(
-          client.language.getString("NO_MESSAGES_TO_DELETE", interaction.guildId, { user: user.tag })
-        );
+        return interaction.editReply(`❌ No messages to delete from **${user.tag}**!`);
       }
       
       // Bulk delete messages
       await channel.bulkDelete(messagesToDelete, true);
       
-      return interaction.editReply(
-        client.language.getString("PURGE_SUCCESS", interaction.guildId, { 
-          amount: messagesToDelete.length, 
-          user: user.tag 
-        })
-      );
+      const embed = new EmbedBuilder()
+        .setColor(colors.ADMIN)
+        .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+        .setDescription(`✅ Successfully purged **${messagesToDelete.length}** messages from **${user.tag}**!`)
+        .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+        .setTimestamp();
+      
+      return interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.error(error);
-      return interaction.editReply(
-        client.language.getString("PURGE_ERROR", interaction.guildId, { user: user.tag })
-      );
+      return interaction.editReply(`❌ I couldn't purge messages from **${user.tag}**!`);
     }
   },
-}; 
+};

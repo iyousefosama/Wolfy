@@ -38,7 +38,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -52,9 +52,7 @@ module.exports = {
     
     if (bioText.length > 200) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_BIO_LIMIT", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Bio text limit! (max 200 characters)`,
         ephemeral: true
       });
     }
@@ -64,15 +62,11 @@ module.exports = {
     try {
       await data.save();
       interaction.reply({
-        content: client.language.getString("ECONOMY_BIO_UPDATED", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `\\✔️ **${interaction.user.tag}**, Successfully set your profile bio!`
       });
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ECONOMY_BIO_UPDATE_FAILED", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Your bio update failed!`,
         ephemeral: true
       });
     }

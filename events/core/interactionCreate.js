@@ -41,7 +41,7 @@ module.exports = {
 
     if (!command) {
       return interaction
-        .reply({ embeds: [ErrorEmbed(client.language.getString("ERROR", interaction.guild?.id))], ephemeral: true })
+        .reply({ embeds: [ErrorEmbed("💢 An error has occurred, please try again later.")], ephemeral: true })
         .catch((error) => handleInteractionError(error, interaction, client));
     } else if (interaction.user.bot) {
       return;

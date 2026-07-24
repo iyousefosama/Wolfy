@@ -41,7 +41,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -52,10 +52,7 @@ module.exports = {
 
     if (!data || data.Bank.balance.credits === null || data.Bank.info.Enabled == false) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_NO_BANK_ACCOUNT", interaction.guild?.id, { 
-          username: interaction.user.tag, 
-          prefix: client.prefix 
-        })
+        content: `\\❌ **${interaction.user.tag}**, You don't have a *bank* yet! To create one, use \`/register\`.`
       });
     } else {
       let depositAmount;
@@ -71,38 +68,26 @@ module.exports = {
 
       if (!depositAmount || isNaN(depositAmount)) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_DEPOSIT_INVALID", interaction.guild?.id, { 
-            username: interaction.user.tag, 
-            amount: amt || 0 
-          })
+          content: `\\❌ **${interaction.user.tag}**, [ **${amt || 0}** ] is not a valid amount!`
         });
       } else if (depositAmount < 500) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_DEPOSIT_MIN", interaction.guild?.id, { 
-            username: interaction.user.tag 
-          })
+          content: `\\❌ **${interaction.user.tag}**, The amount to be deposited must be at least **500**.`
         });
       } else if (data.Bank.balance.credits + depositAmount > 100000) {
         data.Bank.balance.credits = Math.floor(100000);
         return data.save()
           .then(() => {
             interaction.reply({
-              content: client.language.getString("ECONOMY_BANK_OVERFLOW", interaction.guild?.id, { 
-                username: interaction.user.tag 
-              })
+              content: `\\❌ **${interaction.user.tag}**, Your bank is overflowed please withdraw some money from your bank.`
             });
           })
           .catch((err) => interaction.reply({
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+            content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
           }));
       } else if (depositAmount * 1.05 > data.credits) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_DEPOSIT_INSUFFICIENT", interaction.guild?.id, { 
-            username: interaction.user.tag,
-            balance: text.commatize(data.credits),
-            shortAmount: text.commatize(depositAmount - data.credits + Math.ceil(depositAmount * 0.05)),
-            prefix: client.prefix
-          })
+          content: `\\❌ **${interaction.user.tag}**, You don't have enough credits in your wallet to proceed with this transaction.\n You only have **${text.commatize(data.credits)}** left, **${text.commatize(depositAmount - data.credits + Math.ceil(depositAmount * 0.05))}** less than the amount you want to deposit (Transaction fee of 5% included)\nTo deposit all credits instead, please use \`/deposit amount:all\`.`
         });
       }
 
@@ -124,9 +109,7 @@ module.exports = {
         data.progress.completed++;
         await data.save();
         await interaction.reply({ 
-          content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-            reward: quest.reward 
-          })
+          content: `\\✔️ You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`
         });
       }
 
@@ -137,16 +120,13 @@ module.exports = {
         .then(() => {
           if (!quest || Box < quest?.progress || quest?.received) {
             interaction.reply({
-              content: client.language.getString("ECONOMY_DEPOSIT_SUCCESS", interaction.guild?.id, { 
-                username: interaction.user.tag,
-                amount: text.commatize(Math.floor(depositAmount / 1.05))
-              })
+              content: `<:moneytransfer:892745164324474900> **${interaction.user.tag}**, you Successfully deposited **${text.commatize(Math.floor(depositAmount / 1.05))}** credits to your bank! (+5% fee).`
             });
           }
         })
         .catch((err) => interaction.reply({
-          content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+          content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     }
   },
-}; 
+};

@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const LevelService = require('../../util/functions/LevelService');
 
 /**
@@ -22,7 +23,7 @@ module.exports = {
       const notifications = await LevelService.toggleNotifications(interaction.guildId, interaction.user.id);
       
       const embed = new EmbedBuilder()
-        .setColor(notifications ? 'Green' : 'Red')
+        .setColor(notifications ? colors.SUCCESS : colors.ERROR)
         .setTitle('🔔 Level Notifications')
         .setDescription(
           notifications 

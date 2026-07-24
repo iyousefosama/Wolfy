@@ -2,6 +2,7 @@ const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const _ = require('lodash');
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const market = require('../../assets/json/market.json');
 const text = require('../../util/string');
 const schema = require('../../schema/Economy-Schema');
@@ -42,7 +43,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -64,27 +65,21 @@ module.exports = {
     // Create pages of items
     const pages = _.chunk(selected, 24).map((chunk, i, o) => {
       return new EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_MARKET_TITLE", interaction.guild?.id))
-        .setColor('Grey')
-        .setURL(client.language.getString("ECONOMY_MARKET_URL", interaction.guild?.id))
+        .setTitle("Wolfy's Market")
+        .setColor(colors.BOT)
+        .setURL("https://wolfy.yoyojoe.repl.co/")
         .setFooter({ 
-          text: client.language.getString("ECONOMY_MARKET_FOOTER", interaction.guild?.id, {
-            year: new Date().getFullYear(),
-            current_page: i+1,
-            total_pages: o.length
-          })
+          text: `Wolfy's Market | \u00A9${new Date().getFullYear()} Wolfy   \u2022   Page ${i+1} of ${o.length}`
         })
         .addFields(...chunk.map(item => {
           return {
             inline: true,
             name: `\`[${item.id}]\` ${item.name}`,
-            value: client.language.getString("ECONOMY_MARKET_ITEM_DETAILS", interaction.guild?.id, {
-              description: item.description,
-              type: item.type,
-              price: text.commatize(item.price),
-              preview_command: item.type != "Item" ? client.language.getString("ECONOMY_MARKET_PREVIEW_COMMAND", interaction.guild?.id, { item_id: item.id }) : '',
-              purchase_command: client.language.getString("ECONOMY_MARKET_PURCHASE_COMMAND", interaction.guild?.id, { item_id: item.id })
-            })
+            value: `${item.description}
+Type: *${item.type}*
+Price: *${text.commatize(item.price)}*
+${item.type != "Item" ? `Check Preview : \`/previewitem id:${item.id}\`` : ''}
+${item.type != "Item" ? `Purchase: \`/buy item:${item.id}\`` : ''}`
           };
         }));
     });
@@ -107,9 +102,7 @@ module.exports = {
       data.progress.completed++;
       await data.save();
       interaction.channel.send({
-        content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-          reward: quest.reward 
-        })
+        content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
       });
     }
 
@@ -176,4 +169,4 @@ module.exports = {
       }).catch(() => {});
     });
   }
-}; 
+};

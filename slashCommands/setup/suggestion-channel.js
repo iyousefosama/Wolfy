@@ -34,16 +34,12 @@ module.exports = {
 
         if (!channel || channel.type !== ChannelType.GuildText) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_INVALID", interaction.guild?.id, {
-                    username: interaction.user.username
-                }), 
+                content: `\\❌ **${interaction.user.username}**, Please provide a valid channel!`, 
                 ephemeral: true 
             });
         } else if (!channel.permissionsFor(guild.members.me).has('SendMessages')) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_NO_PERMS", interaction.guild?.id, {
-                    channel: channel
-                }), 
+                content: `\\❌ I need you to give me permission to send messages on ${channel} and try again.`, 
                 ephemeral: true 
             });
         };
@@ -60,9 +56,7 @@ module.exports = {
             }
         } catch (err) {
             await interaction.reply({ 
-                content: client.language.getString("ERR_DB", interaction.guild?.id, {
-                    error: err.name
-                }), 
+                content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, 
                 ephemeral: true 
             });
             throw new Error(err);
@@ -70,9 +64,7 @@ module.exports = {
 
         if (data.Mod.Suggestion.channel !== null && channel.id == data.Mod.Suggestion.channel) {
             return interaction.reply({ 
-                content: client.language.getString("SETUP_SUGGESTION_CHANNEL_ALREADY_SET", interaction.guild?.id, {
-                    channel: channel
-                }), 
+                content: `\\❌ Suggestions channel is already set to ${channel}!`, 
                 ephemeral: true 
             });
         }
@@ -80,18 +72,18 @@ module.exports = {
         data.Mod.Suggestion.channel = channel.id
         await data.save()
             .then(() => {
+                const disabledMsg = !data.Mod.Suggestion.isEnabled ? 
+                    `\\⚠️ Suggestions channel is disabled! To enable, type \`/toggle suggestions\`` :
+                    `To disable this feature, use the \`/toggle suggestions\` command.`;
+                
                 interaction.reply({
                     embeds: [new discord.EmbedBuilder()
                         .setColor('DarkGreen')
                         .setDescription([
                             '<a:Correct:812104211386728498>\u2000|\u2000',
-                            client.language.getString("SETUP_SUGGESTION_CHANNEL_SUCCESS", interaction.guild?.id, {
-                                username: interaction.user.username,
-                                channel: channel
-                            }) + '\n\n',
-                            !data.Mod.Suggestion.isEnabled ? 
-                                client.language.getString("SETUP_SUGGESTION_CHANNEL_DISABLED", interaction.guild?.id) :
-                                client.language.getString("SETUP_SUGGESTION_CHANNEL_DISABLE_TIP", interaction.guild?.id)
+                            `Successfully set the Suggestions channel to ${channel}!`,
+                            '\n\n',
+                            disabledMsg
                         ].join(''))]
                 })
             })

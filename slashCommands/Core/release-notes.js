@@ -7,6 +7,7 @@ const {
 } = require("discord.js");
 const notes = require("../../schema/releasenotes-Schema");
 const { ErrorEmbed } = require("../../util/modules/embeds");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -72,29 +73,26 @@ module.exports = {
         break;
       case "view":
         if (data.length == 0) {
-          await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("RELEASE_NOTES_NONE", interaction.guildId))] });
+          await interaction.reply({ embeds: [ErrorEmbed("❌ No release notes found!")] });
         } else {
           await data.forEach(async (value) => {
             const embed = new EmbedBuilder()
-              .setColor(`#c19a6b`)
+              .setColor(colors.BOT)
               .setAuthor({
                 name: client.user.username,
                 iconURL: client.user.displayAvatarURL({ dynamic: true }),
               })
               .setDescription(
                 [
-                  client.language.getString("RELEASE_NOTES_TITLE", interaction.guildId, { 
-                    username: client.user.username, 
-                    version: value.Version 
-                  }),
+                  `📢 **${client.user.username} - Version ${value.Version}**`,
                   value.Title ? `${value.Title}` : ``,
-                  client.language.getString("RELEASE_NOTES_UPDATES", interaction.guildId, { updates: value.Updates }),
-                  client.language.getString("RELEASE_NOTES_DATE", interaction.guildId, { timestamp: Math.floor(value.Date / 1000) }),
+                  `📝 **Updates:**\n${value.Updates}`,
+                  `📅 **Release Date:** <t:${Math.floor(value.Date / 1000)}:F>`,
                 ].join("\n\n")
               )
               .setFooter({
-                text: interaction.guild?.name ? interaction.guild.name : client.user.username,
-                iconURL: interaction.guild?.iconURL({ dynamic: true }) ? interaction.guild.iconURL({ dynamic: true }) : client.user.displayAvatarURL({ dynamic: true }),
+                text: `Requested by ${interaction.user.username}`,
+                iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
               })
               .setTimestamp();
 

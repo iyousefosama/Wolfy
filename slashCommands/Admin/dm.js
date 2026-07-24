@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -34,38 +35,40 @@ module.exports = {
     
     if (!message.trim()) {
       return interaction.reply({ 
-        content: client.language.getString("EMPTY_MESSAGE", interaction.guildId), 
+        content: "❌ You can't send an empty message!", 
         ephemeral: true 
       });
     }
     
-    const dmEmbed = new EmbedBuilder()
+    const dmembed = new EmbedBuilder()
       .setAuthor({ 
         name: interaction.user.username, 
         iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
       })
-      .setColor('Aqua')
-      .setDescription(`<a:Notification:811283631380234250> **${interaction.user.username}**: ${message}`)
+      .setColor(colors.ADMIN)
+      .setDescription(`📩 **${interaction.user.username}**: ${message}`)
       .setTimestamp()
       .setFooter({ 
         text: interaction.guild?.name, 
-        iconURL: interaction.guild?.iconURL({ dynamic: true }) 
+        iconURL: interaction.guild?.iconURL({ dynamic: true, size: 2048 }) 
       });
     
     try {
-      await user.send({ embeds: [dmEmbed] });
+      await user.send({ embeds: [dmembed] });
       
       const successEmbed = new EmbedBuilder()
-        .setColor('Green')
-        .setDescription(client.language.getString("MOD_DM_SUCCESS", interaction.guildId, { user: user.username }));
+        .setColor(colors.SUCCESS)
+        .setDescription(`✅ Successfully sent a DM to **${user.username}**!`)
+        .setTimestamp();
       
-      return interaction.reply({ embeds: [successEmbed] });
+      return interaction.reply({ embeds: [successEmbed], ephemeral: true });
     } catch (error) {
       const errorEmbed = new EmbedBuilder()
-        .setColor('Red')
-        .setDescription(client.language.getString("MOD_DM_ERROR", interaction.guildId, { user: user.username }));
+        .setColor(colors.ERROR)
+        .setDescription(`❌ I couldn't send a DM to **${user.username}**! They might have DMs turned off.`)
+        .setTimestamp();
       
-      return interaction.reply({ embeds: [errorEmbed] });
+      return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
     }
   },
-}; 
+};

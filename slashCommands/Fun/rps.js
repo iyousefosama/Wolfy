@@ -1,5 +1,5 @@
 const discord = require("discord.js");
-const { SuccessEmbed } = require("../../util/modules/embeds");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -36,7 +36,6 @@ module.exports = {
         ]
     },
     async execute(client, interaction) {
-        const guildId = interaction.guildId;
         const userChoice = interaction.options.getString("choice");
         const choices = ["rock", "paper", "scissors"];
         const botChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -51,34 +50,34 @@ module.exports = {
         // Determine the result
         let result;
         if (userChoice === botChoice) {
-            result = client.language.getString("RPS_TIE", guildId);
+            result = "It's a tie! 🤝";
         } else if (
             (userChoice === "rock" && botChoice === "scissors") ||
             (userChoice === "paper" && botChoice === "rock") ||
             (userChoice === "scissors" && botChoice === "paper")
         ) {
-            result = client.language.getString("RPS_WIN", guildId);
+            result = "You win! 🎉";
         } else {
-            result = client.language.getString("RPS_LOSE", guildId);
+            result = "You lose! 😞";
         }
         
         // Create and send embed
         const embed = new discord.EmbedBuilder()
-            .setColor(client.config.color)
-            .setTitle(client.language.getString("RPS_TITLE", guildId))
+            .setColor(colors.FUN)
+            .setTitle("Rock Paper Scissors")
             .addFields(
                 { 
-                    name: client.language.getString("RPS_YOUR_CHOICE", guildId), 
+                    name: "Your choice", 
                     value: `${emojis[userChoice]} ${userChoice.charAt(0).toUpperCase() + userChoice.slice(1)}`, 
                     inline: true 
                 },
                 { 
-                    name: client.language.getString("RPS_BOT_CHOICE", guildId), 
+                    name: "Bot's choice", 
                     value: `${emojis[botChoice]} ${botChoice.charAt(0).toUpperCase() + botChoice.slice(1)}`, 
                     inline: true 
                 },
                 { 
-                    name: client.language.getString("RPS_RESULT", guildId), 
+                    name: "Result", 
                     value: result, 
                     inline: false 
                 }

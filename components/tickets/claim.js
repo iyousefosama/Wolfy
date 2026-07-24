@@ -27,26 +27,26 @@ module.exports = {
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERR_DB", interaction.guildId, { error: err.name }),
+                content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
                 ephemeral: true,
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
-                content: client.language.getString("TICKET_DATA_NOT_FOUND", interaction.guildId),
+                content: "💢 I can't find this guild `data` in the database!",
                 ephemeral: true,
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_CLAIM_CLOSED", interaction.guildId, { default: "Ticket can't be claimed because it's closed!" }))],
+                embeds: [ErrorEmbed("Ticket can't be claimed because it's closed!")],
                 ephemeral: true,
             });
         } else if (ticket.IsClaimed) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_ALREADY_CLAIMED", interaction.guildId, { default: "Ticket is already claimed!" }))],
+                embeds: [ErrorEmbed("Ticket is already claimed!")],
                 ephemeral: true,
             })
         }
@@ -56,28 +56,28 @@ module.exports = {
 
         if (!Channel) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_CHANNEL_NOT_FOUND", interaction.guildId))],
+                embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
                 ephemeral: true,
             });
         }
 
         if (!modsRole) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_NOT_SET", interaction.guildId, { default: "The panel \`mods-role\` is not set!" }))],
+                embeds: [ErrorEmbed("The panel `mods-role` is not set!")],
                 ephemeral: true,
             });
         }
 
         if (!interaction.member.roles.cache.has(modsRole.id)) {
             return interaction.followUp({
-                embeds: [ErrorEmbed(client.language.getString("TICKET_MODROLE_REQUIRED", interaction.guildId, { role: modsRole.toString(), default: `You need to have ${modsRole} in order to claim this ticket!` }))],
+                embeds: [ErrorEmbed(`You need to have ${modsRole} in order to claim this ticket!`)],
                 ephemeral: true,
             });
         }
 
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             return interaction.followUp({
-                content: client.language.getString("BOT_PERMS_REQ", interaction.guildId, { permissions: "ManageChannels" }),
+                content: "💢 The bot requires the following permissions: ManageChannels!",
                 ephemeral: true,
             });
         }
@@ -109,12 +109,12 @@ module.exports = {
             ticket.claimedBy = interaction.user.id;
             await ticket.save();
             interaction.channel.send({ 
-                embeds: [InfoEmbed(client.language.getString("TICKET_CLAIMED_BY", interaction.guildId, { user: interaction.user.toString() }))] 
+                embeds: [InfoEmbed(`Claimed by ${interaction.user.toString()}`)] 
             });
         } catch (err) {
             console.error(err);
             return interaction.followUp({
-                content: client.language.getString("ERROR_EXEC", interaction.guildId),
+                content: "💢 There was an error while executing this command!",
                 ephemeral: true,
             });
         }

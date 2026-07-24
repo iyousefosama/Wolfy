@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const axios = require("axios");
 const { ErrorEmbed } = require("../../util/modules/embeds");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -37,11 +38,11 @@ module.exports = {
     } catch (error) {
       if (error.response?.status === 404) {
         return interaction.reply({
-          embeds: [ErrorEmbed(client.language.getString("MCUSER_NOT_FOUND", interaction.guild?.id, { name: query }))],
+          embeds: [ErrorEmbed(`💢 I couldn't find the user \`${query}\` in Minecraft API!`)],
         });
       } else {
         return interaction.reply({
-          content: client.language.getString("MCUSER_ERROR", interaction.guild?.id, { user: interaction.user }),
+          content: `❌ | ${interaction.user}, Something went wrong, please try again later!`,
         });
       }
     }
@@ -65,27 +66,27 @@ module.exports = {
         name: interaction.user.tag,
         iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
       })
-      .setTitle(client.language.getString("MCUSER_TITLE", interaction.guild?.id, { username: user.name }))
+      .setTitle(`${user.name}'s Minecraft Profile`)
       .addFields(
-        { name: client.language.getString("MCUSER_USERNAME", interaction.guild?.id), value: user.name, inline: true },
-        { name: client.language.getString("MCUSER_UUID", interaction.guild?.id), value: `\`${user.id}\`` },
+        { name: "**Username:**", value: user.name, inline: true },
+        { name: "**UUID:**", value: `\`${user.id}\`` },
         {
-          name: client.language.getString("MCUSER_SKIN", interaction.guild?.id),
-          value: `[${client.language.getString("MCUSER_DOWNLOAD_SKIN", interaction.guild?.id)}](https://minotar.net/download/${user.name})`,
+          name: "**Skin:**",
+          value: `[Download Skin](https://minotar.net/download/${user.name})`,
           inline: true,
         },
         {
           name: "NameMC:",
-          value: `[${client.language.getString("MCUSER_NAMEMC", interaction.guild?.id)}](https://mine.ly/${user.name}.1)`,
+          value: `[View on NameMC](https://mine.ly/${user.name}.1)`,
           inline: true,
         }
       )
       .setImage(`https://visage.surgeplay.com/full/512/${user.id}.png`)
       .setThumbnail(`https://minotar.net/helm/${user.name}/100.png`)
-      .setColor("#2c2f33")
+      .setColor(colors.UTILITY)
       .setTimestamp()
       .setFooter({
-        text: client.language.getString("MCUSER_FOOTER", interaction.guild?.id, { year }),
+        text: `Minecraft User Info | ©${year} Wolfy`,
         iconURL: interaction.guild?.iconURL({ dynamic: true }),
       });
 

@@ -1,4 +1,5 @@
 const GuildSchema = require('../../schema/GuildSchema');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -93,7 +94,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return await interaction.editReply(
-        client.language.getString("ERROR_EXEC", interaction.guildId)
+        "💢 There was an error while executing this command!"
       );
     }
 
@@ -209,7 +210,11 @@ module.exports = {
         const patterns = antiBotConfig.suspiciousPatterns || [];
 
         const statusEmbed = {
-          color: isEnabled ? 0x00ff00 : 0xff0000,
+          color: isEnabled ? colors.SUCCESS : colors.ERROR,
+          author: {
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL()
+          },
           title: `🤖 Anti-Bot Status - ${isEnabled ? 'Enabled' : 'Disabled'}`,
           fields: [
             { name: 'Max Messages/Minute', value: (antiBotConfig.maxMessagesPerMinute || 10).toString(), inline: true },
@@ -218,6 +223,10 @@ module.exports = {
             { name: 'Log Channel', value: antiBotConfig.logChannel ? `<#${antiBotConfig.logChannel}>` : 'Not set', inline: true },
             { name: 'Suspicious Patterns', value: patterns.length > 0 ? patterns.slice(0, 5).join(', ') + (patterns.length > 5 ? '...' : '') : 'None', inline: false }
           ],
+          footer: {
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.displayAvatarURL()
+          },
           timestamp: new Date()
         };
         await interaction.editReply({ embeds: [statusEmbed] });

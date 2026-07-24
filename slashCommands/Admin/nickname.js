@@ -1,3 +1,6 @@
+const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
+
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */
@@ -38,25 +41,41 @@ module.exports = {
             .catch(() => interaction.member);
 
         if (!member) {
-            return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
+            return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
         } else if (member.id === client.user.id) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change my nickname!", ephemeral: true });
         } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change the server owner's nickname!", ephemeral: true });
         } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
-        } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-            return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "NICKNAME" }), ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change my developer's nickname!", ephemeral: true });
+        } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
+            return interaction.reply({ content: "❌ You can't change the nickname for this user because they have a higher role!", ephemeral: true });
         };
 
-        if (!nickname) {
-            return member.setNickname(null, `Wolfy Nickname: ${interaction.user.username}`)
-                .then(() => interaction.reply(client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "NICKNAME", target: member.user.username })))
-                .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "NICKNAME" })));
-        }
+        try {
+            if (!nickname) {
+                await member.setNickname(null, `Wolfy Nickname: ${interaction.user.username}`);
+                const embed = new EmbedBuilder()
+                    .setColor(colors.ADMIN)
+                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setDescription(`Successfully reset the nickname for **${member.user.username}**!`)
+                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setTimestamp();
+                return interaction.reply({ embeds: [embed] });
+            }
 
-        return member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`)
-            .then(() => interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "NICKNAME", target: member.user.username }) }))
-            .catch(() => interaction.reply(client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "NICKNAME" })));
+            await member.setNickname(nickname, `Wolfy Nickname: ${interaction.user.username}`);
+            const embed = new EmbedBuilder()
+                .setColor(colors.ADMIN)
+                .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                .setDescription([
+                    `Successfully changed **${member.user.username}**'s nickname to **${nickname}**!`,
+                ].join('\n'))
+                .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                .setTimestamp();
+            return interaction.reply({ embeds: [embed] });
+        } catch (error) {
+            return interaction.reply({ content: "❌ I couldn't change the nickname for this user!", ephemeral: true });
+        }
     },
 };

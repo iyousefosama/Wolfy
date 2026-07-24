@@ -1,4 +1,5 @@
 const GuildSchema = require('../../schema/GuildSchema');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -97,7 +98,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       return await interaction.editReply(
-        client.language.getString("ERROR_EXEC", interaction.guildId)
+        "💢 There was an error while executing this command!"
       );
     }
 
@@ -204,7 +205,11 @@ module.exports = {
         const isEnabled = !!antiSpamConfig.isEnabled;
 
         const statusEmbed = {
-          color: isEnabled ? 0x00ff00 : 0xff0000,
+          color: isEnabled ? colors.SUCCESS : colors.ERROR,
+          author: {
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL()
+          },
           title: `⚠️ Anti-Spam Status - ${isEnabled ? 'Enabled' : 'Disabled'}`,
           fields: [
             { name: 'Max Caps %', value: `${antiSpamConfig.maxCapsPercentage || 70}%`, inline: true },
@@ -214,6 +219,10 @@ module.exports = {
             { name: 'Action', value: antiSpamConfig.action || 'delete', inline: true },
             { name: 'Log Channel', value: antiSpamConfig.logChannel ? `<#${antiSpamConfig.logChannel}>` : 'Not set', inline: true }
           ],
+          footer: {
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.displayAvatarURL()
+          },
           timestamp: new Date()
         };
         await interaction.editReply({ embeds: [statusEmbed] });

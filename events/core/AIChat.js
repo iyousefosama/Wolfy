@@ -41,7 +41,7 @@ module.exports = {
         if (!rateCheck.allowed) {
             if (isDM) {
                 await message.reply({
-                    content: `â³ ${rateCheck.reason} (Try again in ${rateLimiter.formatRetryAfter(rateCheck.retryAfter)})`,
+                    content: `⏳ ${rateCheck.reason} (Try again in ${rateLimiter.formatRetryAfter(rateCheck.retryAfter)})`,
                     allowedMentions: { repliedUser: false }
                 }).catch(() => {});
             }
@@ -68,7 +68,7 @@ module.exports = {
         if (userSettings.moderation?.banned) {
             if (isDM) {
                 await message.reply({
-                    content: "âŒ You are not allowed to use the AI chat feature.",
+                    content: "❌ You are not allowed to use the AI chat feature.",
                     allowedMentions: { repliedUser: false }
                 }).catch(() => {});
             }
@@ -99,79 +99,28 @@ module.exports = {
             userMessage = "Hello!";
         }
 
-        const systemPrompt = aiService.buildSystemPrompt(client, userSettings.customInstructions);
-        const messages = [
-            { role: "system", content: systemPrompt },
-            ...userSettings.getFormattedHistory(),
-            { role: "user", content: userMessage }
-        ];
-
-        if (userSettings.preferences?.responseLength === 'short') {
-            messages[0].content += "\n\nKeep your responses concise and brief (under 500 characters if possible).";
-        } else if (userSettings.preferences?.responseLength === 'long') {
-            messages[0].content += "\n\nProvide detailed and comprehensive responses.";
-        }
-
         rateLimiter.record(message.author.id);
 
         try {
-            let fullResponse = "";
-            let completeResponse = "";
-            let messageSent = false;
-            let lastMessage = null;
-
-            for await (const chunk of aiService.chatStream({
-                messages,
-                model: userSettings.preferences?.model || aiService.defaultModel
-            })) {
-                fullResponse += chunk;
-                completeResponse += chunk;
-
-                if (fullResponse.length > 1800) {
-                    const contentToSend = fullResponse.substring(0, 1990);
-
-                    if (!messageSent) {
-                        lastMessage = await message.reply({
-                            content: contentToSend + (fullResponse.length > 1990 ? "..." : "")
-                        }).catch(() => null);
-                        messageSent = true;
-                    } else if (lastMessage) {
-                        lastMessage = await message.reply({
-                            content: contentToSend + (fullResponse.length > 1990 ? "..." : "")
-                        }).catch(() => null);
-                    }
-
-                    fullResponse = "";
-                }
-            }
-
-            if (fullResponse.trim()) {
-                const finalResponse = fullResponse.length > 1990
-                    ? fullResponse.substring(0, 1987) + "..."
-                    : fullResponse;
-
-                await message.reply({
-                    content: finalResponse
-                }).catch(() => {});
-            } else if (!messageSent) {
-                await message.reply({
-                    content: "I'm not sure how to respond to that. Could you rephrase your question?"
-                }).catch(() => {});
-            }
+            const completeResponse = await sendAiResponse({
+                client,
+                message,
+                userSettings,
+                userMessage,
+                replyToMessage: message,
+                aiServiceInstance: aiService
+            });
 
             if (userSettings.preferences?.useHistory !== false) {
                 await userSettings.addToHistory("user", userMessage);
-                await userSettings.addToHistory(
-                    "assistant",
-                    completeResponse || fullResponse || "I'm not sure how to respond to that. Could you rephrase your question?"
-                );
+                await userSettings.addToHistory("assistant", completeResponse);
             }
 
         } catch (error) {
             consoleUtil.error(error, "AIChat-response");
 
             await message.reply({
-                content: "âŒ Sorry, I encountered an error while generating a response. Please try again later."
+                content: "❌ Sorry, I encountered an error while generating a response. Please try again later."
             }).catch(() => {});
         }
     }

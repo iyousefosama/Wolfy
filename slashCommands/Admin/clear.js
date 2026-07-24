@@ -1,4 +1,5 @@
 const dayjs = require("dayjs");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -33,7 +34,7 @@ module.exports = {
 
     if (!quantity || quantity < 2 || quantity > 100) {
       return interaction.reply({
-        content: client.language.getString("CLEAR_QUANTITY", interaction.guildId),
+        content: "💢 Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)",
         ephemeral: true
       });
     }
@@ -89,7 +90,7 @@ module.exports = {
 
         return await interaction.channel
           .send({
-            content: client.language.getString("CLEAR_SUCCESS", guild.id, { count: count }),
+            content: `✨ Successfully deleted \`${count}\` messages from this channel!`,
           })
           .then((msg) => {
             setTimeout(() => {

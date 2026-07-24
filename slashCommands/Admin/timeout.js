@@ -1,8 +1,7 @@
 const ms = require('ms');
+const { EmbedBuilder } = require("discord.js");
+const { colors } = require("../../util/constants/constants");
 
-/**
- * @type {import("../../util/types/baseCommandSlash")}
- */
 module.exports = {
     data: {
         name: "timeout",
@@ -43,7 +42,7 @@ module.exports = {
         const member = await guild.members.fetch(user.id).catch(() => null);
 
         if (!member) {
-            return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
+            return interaction.reply({ content: "❌ | User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
         }
 
         const isSelf = member.id === interaction.user.id;
@@ -52,16 +51,16 @@ module.exports = {
         const isDeveloper = client.owners && client.owners.includes(member.id);
         const hasHigherRole = interaction.member.roles.highest.position <= member.roles.highest.position;
 
-        if (isSelf) return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "TIMEOUT" }), ephemeral: true });
-        if (isBot) return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "TIMEOUT" }), ephemeral: true });
-        if (isOwner) return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "TIMEOUT" }), ephemeral: true });
-        if (isDeveloper) return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "TIMEOUT" }), ephemeral: true });
-        if (hasHigherRole) return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "TIMEOUT" }), ephemeral: true });
+        if (isSelf) return interaction.reply({ content: "❌ | You cannot **timeout** yourself!", ephemeral: true });
+        if (isBot) return interaction.reply({ content: "❌ | You cannot **timeout** me!", ephemeral: true });
+        if (isOwner) return interaction.reply({ content: "❌ | You cannot **timeout** the server owner!", ephemeral: true });
+        if (isDeveloper) return interaction.reply({ content: "❌ | You cannot **timeout** my developer through me!", ephemeral: true });
+        if (hasHigherRole) return interaction.reply({ content: "❌ | You can't **timeout** that user because he/she has a higher role than yours!", ephemeral: true });
 
         let timeoutDuration = ms(time);
 
         if (timeoutDuration === undefined && time !== "0") {
-            return interaction.reply({ content: client.language.getString("NOT_VALID_TIME_INSEC", interaction.guildId), ephemeral: true });
+            return interaction.reply({ content: "❌ | Please provide a valid time for the timeout!", ephemeral: true });
         }
 
         if (time === "0") {
@@ -71,13 +70,31 @@ module.exports = {
         try {
             if (timeoutDuration !== null) {
                 await member.timeout(timeoutDuration, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
-                interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "TIMEOUT", target: member.user.username }) });
+                const embed = new EmbedBuilder()
+                    .setColor(colors.ADMIN)
+                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setDescription([
+                        `Successfully **timed out** the user **${member.user.username}** for ${time}!`,
+                        !reason ? '' : `- Reason: ${reason}`
+                    ].join('\n'))
+                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setTimestamp();
+                return interaction.reply({ embeds: [embed] });
             } else {
                 await member.timeout(null, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
-                interaction.reply({ content: client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "TIMEOUT_REMOVED", target: member.user.username }) });
+                const embed = new EmbedBuilder()
+                    .setColor(colors.ADMIN)
+                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setDescription([
+                        `Successfully removed **timeout** for the user **${member.user.username}**!`,
+                        !reason ? '' : `- Reason: ${reason}`
+                    ].join('\n'))
+                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setTimestamp();
+                return interaction.reply({ embeds: [embed] });
             }
         } catch (err) {
-            interaction.reply({ content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "timeout" }), ephemeral: true });
+            return interaction.reply({ content: "❌ | I couldn't **timeout** that user!", ephemeral: true });
         }
     }
 };

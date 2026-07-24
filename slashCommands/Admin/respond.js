@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/GuildSchema');
 
 /**
@@ -54,7 +55,7 @@ module.exports = {
     // Check if reason is too long
     if (reason.length > 1024) {
       return interaction.reply({ 
-        content: client.language.getString("REASON_TOO_LONG", interaction.guildId, { max: 1024 }),
+        content: "❌ The reason can't be longer than 1024 characters!",
         ephemeral: true 
       });
     }
@@ -68,14 +69,14 @@ module.exports = {
       
       if (!data) {
         return interaction.reply({ 
-          content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guildId, { command: "setSuggch" }),
+          content: "❌ Please set a suggestion channel first!",
           ephemeral: true 
         });
       }
     } catch (err) {
       console.log(err);
       return interaction.reply({ 
-        content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`,
+        content: `❌ [DATABASE_ERR]: The database responded with an error! ${err.name}`,
         ephemeral: true 
       });
     }
@@ -84,7 +85,7 @@ module.exports = {
     
     if (!channelID) {
       return interaction.reply({ 
-        content: client.language.getString("NO_SUGGESTION_CHANNEL", interaction.guildId, { command: "setSuggch" }),
+        content: "❌ Please set a suggestion channel first!",
         ephemeral: true 
       });
     }
@@ -93,7 +94,7 @@ module.exports = {
     
     if (!channel) {
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_CHANNEL_NOT_FOUND", interaction.guildId, { command: "setSuggch" }),
+        content: "❌ The suggestion channel was not found!",
         ephemeral: true 
       });
     }
@@ -108,7 +109,7 @@ module.exports = {
           !(suggestion.embeds[0].title || '').endsWith('Suggestion')) {
         
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_NOT_FOUND", interaction.guildId),
+          content: "❌ That message is not a valid suggestion!",
           ephemeral: true 
         });
       }
@@ -116,7 +117,7 @@ module.exports = {
       // Check if suggestion already has a response
       if (suggestion.embeds[0].fields.length > 1) {
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_ALREADY_RESPONDED", interaction.guildId),
+          content: "❌ That suggestion already has a response!",
           ephemeral: true 
         });
       }
@@ -124,7 +125,7 @@ module.exports = {
       // Check if the bot can edit the message
       if (!suggestion.editable) {
         return interaction.reply({ 
-          content: client.language.getString("SUGGESTION_NOT_EDITABLE", interaction.guildId),
+          content: "❌ I can't edit that message!",
           ephemeral: true 
         });
       }
@@ -141,7 +142,7 @@ module.exports = {
       const updatedEmbed = new EmbedBuilder()
         .setTitle(originalEmbed.title)
         .setDescription(originalEmbed.description)
-        .setColor(action === 'accept' ? 'DarkGreen' : 'Red')
+        .setColor(colors.ADMIN)
         .setTimestamp(new Date(originalEmbed.timestamp))
         .setFooter(originalEmbed.footer);
       
@@ -157,16 +158,16 @@ module.exports = {
       await suggestion.edit({ embeds: [updatedEmbed] });
       
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_RESPONDED", interaction.guildId, { action: action }),
+        content: `✅ Successfully ${action}ed the suggestion!`,
         ephemeral: true 
       });
       
     } catch (error) {
       console.error(error);
       return interaction.reply({ 
-        content: client.language.getString("SUGGESTION_RESPONSE_ERROR", interaction.guildId),
+        content: "❌ There was an error while responding to the suggestion!",
         ephemeral: true 
       });
     }
-  },
-}; 
+  }
+};

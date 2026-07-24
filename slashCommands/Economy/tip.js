@@ -44,7 +44,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -60,10 +60,7 @@ module.exports = {
     
     if (tipper.tips.timestamp !== 0 && tipper.tips.timestamp - now > 0) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_TIP_COOLDOWN", interaction.guild?.id, {
-          username: interaction.user.tag,
-          time: dayjs.duration(tipper.tips.timestamp - now).format('H [hours,] m [minutes, and] s [seconds]')
-        }),
+        content: `\\❌ **${interaction.user.tag}**, You have already used *tip* earlier! Please try again later. \`${dayjs.duration(tipper.tips.timestamp - now).format('H [hours}\``,
         ephemeral: true
       });
     }
@@ -72,23 +69,17 @@ module.exports = {
     
     if (!member) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_TIP_USER_NOT_FOUND", interaction.guild?.id, {
-          username: interaction.user.tag
-        }),
+        content: `\\❌ **${interaction.user.tag}**, Could not find this user!`,
         ephemeral: true
       });
     } else if (member.id === interaction.user.id) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_TIP_SELF", interaction.guild?.id, {
-          username: interaction.user.tag
-        }),
+        content: `\\❌ **${interaction.user.tag}**, You cannot tip yourself!`,
         ephemeral: true
       });
     } else if (member.user.bot) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_TIP_BOT", interaction.guild?.id, {
-          username: interaction.user.tag
-        }),
+        content: `\\❌ **${interaction.user.tag}**, You cannot tip a bot!`,
         ephemeral: true
       });
     }
@@ -104,7 +95,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -132,9 +123,7 @@ module.exports = {
       tipper.progress.completed++;
       await tipper.save();
       interaction.channel.send({
-        content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-          reward: quest.reward 
-        })
+        content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
       });
     }
     
@@ -145,14 +134,11 @@ module.exports = {
     try {
       await Promise.all([Friend.save(), tipper.save()]);
       interaction.reply({
-        content: client.language.getString("ECONOMY_TIP_SUCCESS", interaction.guild?.id, {
-          username: interaction.user.tag,
-          target: member.user.tag
-        })
+        content: `\\✔️ **${interaction.user.tag}**, Successfully tipped **${member.user.tag}**.`
       });
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, { error: err.name }),
+        content: `\\❌ \`[DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`,
         ephemeral: true
       });
     }

@@ -55,7 +55,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -71,9 +71,7 @@ module.exports = {
           iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) 
         })
         .setColor('#2F3136')
-        .setTitle(client.language.getString("ECONOMY_INV_MINING_TITLE", interaction.guild?.id, {
-          username: interaction.user.username
-        }))
+        .setTitle(`<a:BackPag:776670895371714570> ${interaction.user.username}'s mining Inventory!`)
         .addFields(
           { name: '<:e_:887034070842900552> Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
           { name: '<:e_:887031111790764092> Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
@@ -83,9 +81,7 @@ module.exports = {
         )
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setFooter({ 
-          text: client.language.getString("ECONOMY_INV_MINING_FOOTER", interaction.guild?.id, {
-            prefix: client.prefix
-          }),
+          text: `${client.prefix}sell [item] (amount)`,
           iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) 
         })
         .setTimestamp();
@@ -97,17 +93,10 @@ module.exports = {
     const pages = new Pages(_.chunk(data.profile.inventory, 25).map((chunk, i, o) => {
       return new EmbedBuilder()
         .setColor('Grey')
-        .setTitle(client.language.getString("ECONOMY_INV_TITLE", interaction.guild?.id, {
-          username: interaction.user.tag
-        }))
+        .setTitle(`${interaction.user.tag}'s Inventory`)
         .setURL('https://wolfy.yoyojoe.repl.co/')
         .setFooter({ 
-          text: client.language.getString("ECONOMY_INV_FOOTER", interaction.guild?.id, {
-            username: interaction.user.tag,
-            year: new Date().getFullYear(),
-            current_page: i+1,
-            total_pages: o.length
-          })
+          text: `${interaction.user.tag}'s Inventory | \u00A9${new Date().getFullYear()} Wolfy   \u2022   Page ${i+1} of ${o.length}`
         })
         .addFields(...chunk.sort((A,B) => A.id - B.id).map(d => {
           const item = market.find(x => x.id == d.id);
@@ -115,9 +104,9 @@ module.exports = {
             inline: true,
             name: `\`[${item.id}]\` ${item.name}`,
             value: [
-              `${client.language.getString("ECONOMY_INV_ITEM_TYPE", interaction.guild?.id)}: *${item.type}*`,
-              `${client.language.getString("ECONOMY_INV_ITEM_PRICE", interaction.guild?.id)}: *${Math.floor(item.price / 0.7)}*`,
-              item.type != "Item" ? `${client.language.getString("ECONOMY_INV_ITEM_USE", interaction.guild?.id)}: \`/use item:${item.id}\`` : ''
+              `Type: *${item.type}*`,
+              `Selling Price: *${Math.floor(item.price / 0.7)}*`,
+              item.type != "Item" ? `Use: \`/use item:${item.id}\`` : ''
             ].join('\n')
           };
         }));
@@ -125,9 +114,7 @@ module.exports = {
     
     if (!pages.size) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_INV_EMPTY", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `\\❌ **${interaction.user.tag}**, your inventory is empty.`
       });
     }
     
@@ -135,7 +122,7 @@ module.exports = {
     const miningButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Primary)
       .setEmoji('853495153280155668')
-      .setLabel(client.language.getString("ECONOMY_INV_MINING_BUTTON", interaction.guild?.id))
+      .setLabel("Mining inventory")
       .setCustomId("mining_inventory");
       
     // Navigation buttons
@@ -182,9 +169,7 @@ module.exports = {
             iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) 
           })
           .setColor('#2F3136')
-          .setTitle(client.language.getString("ECONOMY_INV_MINING_TITLE", interaction.guild?.id, {
-            username: interaction.user.username
-          }))
+          .setTitle(`<a:BackPag:776670895371714570> ${interaction.user.username}'s mining Inventory!`)
           .addFields(
             { name: '<:e_:887034070842900552> Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
             { name: '<:e_:887031111790764092> Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
@@ -194,9 +179,7 @@ module.exports = {
           )
           .setURL('https://Wolfy.yoyojoe.repl.co')
           .setFooter({ 
-            text: client.language.getString("ECONOMY_INV_MINING_FOOTER", interaction.guild?.id, {
-              prefix: client.prefix
-            }),
+            text: `${client.prefix}sell [item] (amount)`,
             iconURL: interaction.user.displayAvatarURL({dynamic: true, size: 2048}) 
           })
           .setTimestamp();
@@ -228,4 +211,4 @@ module.exports = {
       }).catch(() => null);
     });
   },
-}; 
+};

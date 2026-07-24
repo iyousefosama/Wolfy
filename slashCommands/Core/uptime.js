@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 
 module.exports = {
     data: {
@@ -27,13 +28,13 @@ module.exports = {
 
         let time = ms(client.uptime);
         var uptime = new discord.EmbedBuilder()
-            .setColor(`DarkGreen`)
-            .setDescription(client.language.getString("UPTIME", interaction.guildId, {
-                days: time.days,
-                hours: time.hours,
-                minutes: time.minutes,
-                seconds: time.seconds
-            }));
+            .setColor(colors.BOT)
+            .setDescription(`⏱️ **I have been online** \`${time.days}\` **days, \`${time.hours}\` hours, \`${time.minutes}\` minutes, \`${time.seconds}\` seconds**`)
+            .setFooter({
+                text: `Requested by ${interaction.user.username}`,
+                iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+            })
+            .setTimestamp();
         var msg = interaction.reply({ embeds: [uptime], ephemeral: hide });
     },
 };

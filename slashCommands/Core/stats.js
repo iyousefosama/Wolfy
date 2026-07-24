@@ -9,6 +9,7 @@ const { release, cpus } = require("os");
 const dayjs = require("dayjs"); // requiring dayjs
 const { heapUsed, heapTotal } = process.memoryUsage();
 const text = require("../../util/string");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -37,64 +38,67 @@ module.exports = {
     );
 
     const embed = new EmbedBuilder()
-      .setAuthor({
-        name: client.user.username,
-        iconURL: client.user.displayAvatarURL({
-          dynamic: true,
-          extension: "png",
-          size: 512,
-        }),
-      })
-      .setTitle(client.language.getString("STATS_TITLE", interaction.guildId, { username: client.user.username }))
-      .setURL(client.config.websites["website"])
-      .setThumbnail(client.user.displayAvatarURL())
-      .setDescription(
-        `${client.language.getString("STATS_GENERAL", interaction.guildId)}
-        ${client.language.getString("STATS_USERNAME", interaction.guildId, { username: client.user.username })}
-        ${client.language.getString("STATS_TAG", interaction.guildId, { tag: client.user.tag })}
-        ${client.language.getString("STATS_ID", interaction.guildId, { id: client.user.id })}
-        ${client.language.getString("STATS_CREATED_AT", interaction.guildId, { date: dayjs(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm") })}
-        ${client.language.getString("STATS_DEVELOPER", interaction.guildId, { author })}
-        ${client.language.getString("STATS_WEBSITE", interaction.guildId, { website: client.config.websites["website"] })}
-        ${client.language.getString("STATS_VERSION", interaction.guildId, { version })}
-        ━━━━━━━━━━━━━━━━━━
-        ${client.language.getString("STATS_SYSTEM", interaction.guildId)}
-        ${client.language.getString("STATS_MEMORY_TOTAL", interaction.guildId, { memory: (heapTotal / 1024 / 1024).toFixed(0) })}
-        ${client.language.getString("STATS_MEMORY_USED", interaction.guildId, { memory: (heapUsed / 1024 / 1024).toFixed(0) })}
-        ${client.language.getString("STATS_OS", interaction.guildId, { os: process.platform, release })}
-        ${client.language.getString("STATS_DISCORD_JS", interaction.guildId, { version: discord_version })}
-        ${client.language.getString("STATS_NODE", interaction.guildId, { version: process.version })}
-        ${client.language.getString("STATS_CPU", interaction.guildId, { cpu: cpus()[0].model })}
+          .setColor(colors.BOT)
+          .setAuthor({
+            name: client.user.username,
+            iconURL: client.user.displayAvatarURL({
+              dynamic: true,
+              extension: "png",
+              size: 512,
+            }),
+          })
+          .setTitle(`${client.user.username} Bot's stats`)
+          .setURL(client.config.websites["website"])
+          .setThumbnail(client.user.displayAvatarURL())
+          .setDescription(
+            `**General**
+🤖 **Username:** ${client.user.username}
+🏷️ **Tag:** ${client.user.tag}
+🆔 **ID:** ${client.user.id}
+📆 **Created At:** ${dayjs(client.user.createdAt).format("DD-MM-YYYY [at] HH:mm")}
+👨‍💻 **Developer:** ${author}
+💡 [**Bot Website**](${client.config.websites["website"]})
+**Version:** \`${version}\`
+━━━━━━━━━━━━━━━━━━━
+**System**
+🧠 **Memory Total** (heapTotal): **[ ${(heapTotal / 1024 / 1024).toFixed(0)} MB ]**
+🧠 **Memory Used** (heapUsed): **[ ${(heapUsed / 1024 / 1024).toFixed(0)} MB ]**
+🖥️ **OS:** ${process.platform} ${release}
+🔧 **discordJS:** v${discord_version}
+💻 **Node:** ${process.version}
+✨ **CPU:** ${cpus()[0].model}
         `
-      )
-      .addFields(
-        {
-          name: client.language.getString("STATS_COMMANDS", interaction.guildId),
-          value: [
-            client.language.getString("STATS_TEXT_COMMANDS", interaction.guildId, { count: client.commands.size }),
-            client.language.getString("STATS_SLASH_COMMANDS", interaction.guildId, { count: SlashCommands }),
-          ].join("\n"),
-          inline: true,
-        },
-        {
-          name: client.language.getString("STATS_GUILDS", interaction.guildId),
-          value: `\`\`\`${client.guilds.cache.size}\`\`\``,
-        },
-        {
-          name: client.language.getString("STATS_CHANNELS", interaction.guildId),
-          value: `\`\`\`${client.channels.cache.size}\`\`\``,
-        },
-        {
-          name: client.language.getString("STATS_MEMBERS", interaction.guildId),
-          value: `\`\`\`${members}\`\`\``,
-        }
-      );
+          )
+          .addFields(
+            {
+              name: "⭐ Commands Stats",
+              value: [
+                `🏷️ Text Commands: \`${client.commands.size}\``,
+                `⚡ Slash Commands: \`${SlashCommands}\``,
+              ].join("\n"),
+              inline: true,
+            },
+            {
+              name: "🌐 Guilds",
+              value: `\`\`\`${client.guilds.cache.size}\`\`\``,
+            },
+            {
+              name: "⌨️ Channels",
+              value: `\`\`\`${client.channels.cache.size}\`\`\``,
+            },
+            {
+              name: "👥 Members",
+              value: `\`\`\`${members}\`\`\``,
+            }
+          )
+          .setFooter({
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+          })
+          .setTimestamp();
 
     interaction.reply({
-      content: client.language.getString("STATS_VIEWING", interaction.guildId, { 
-        username: client.user.username, 
-        user: interaction.user.username 
-      }),
+      content: `> **Viewing ${client.user.username}'s stats for • [  ${interaction.user.username}  ]**`,
       embeds: [embed],
     });
   },

@@ -1,4 +1,5 @@
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const GuildSchema = require('../../schema/GuildSchema');
 const LevelService = require('../../util/functions/LevelService');
 
@@ -98,7 +99,7 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-          .setColor('Blue')
+          .setColor(colors.LEVEL)
           .setTitle('✅ Level Updated')
           .setDescription(`**${target.user.username}** is now at **Level ${result.level}**`)
           .addFields(
@@ -123,7 +124,7 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-          .setColor('Green')
+          .setColor(colors.LEVEL)
           .setTitle('✅ XP Added')
           .setDescription(`Added **${amount.toLocaleString()} XP** to **${target.user.username}**`)
           .addFields(
@@ -157,7 +158,7 @@ module.exports = {
           return interaction.editReply({
             embeds: [
               new EmbedBuilder()
-                .setColor('Orange')
+                .setColor(colors.LEVEL)
                 .setTitle('✅ User XP Reset')
                 .setDescription(`**${target.user.username}**'s XP and level data has been reset.`)
                 .setTimestamp()
@@ -168,7 +169,7 @@ module.exports = {
           return interaction.editReply({
             embeds: [
               new EmbedBuilder()
-                .setColor('Red')
+                .setColor(colors.LEVEL)
                 .setTitle('⚠️ Server XP Reset')
                 .setDescription('All XP and level data for this server has been reset.')
                 .setTimestamp()

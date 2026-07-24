@@ -1,6 +1,6 @@
-/**
- * @type {import("../../util/types/baseCommandSlash")}
- */
+const { EmbedBuilder } = require("discord.js");
+const { colors } = require("../../util/constants/constants");
+
 module.exports = {
     data: {
         name: "unban",
@@ -23,7 +23,7 @@ module.exports = {
             {
                 type: 3, // STRING
                 name: 'reason',
-                description: 'The reason of the unban',
+                description: 'The reason for the unban',
                 required: false
             }
         ]
@@ -34,21 +34,23 @@ module.exports = {
         const reason = options.getString("reason");
 
         if (!user.match(/\d{17,19}/)) {
-            return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "UNBAN" }), ephemeral: true });
-        };
+            return interaction.reply({ content: "❌ | Please type the id or mention the user to **unban**.", ephemeral: true });
+        }
 
-        return guild.members.unban(user, { reason: `Wolfy Unban: ${interaction.user.username}: ${reason || 'None'}`})
-        .then(() => {
+        try {
+            await guild.members.unban(user, { reason: `Wolfy Unban: ${interaction.user.username}: ${reason || 'None'}` });
             const embed = new EmbedBuilder()
+                .setColor(colors.ADMIN)
                 .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setDescription([
-                    client.language.getString("MODERATE_SUCCESS", interaction.guildId, { action_done: "UNBAN", target: interaction.guild.name }),
-                    !reason ? '' : client.language.getString("MODERATE_REASON", interaction.guildId, { action: "UNBAN", reason: reason || 'Unspecified' })
+                    `Successfully **unbanned** the user from ${interaction.guild.name}!`,
+                    !reason ? '' : `- Unban reason: ${reason || 'Unspecified'}`
                 ].join('\n'))
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setTimestamp();
             return interaction.reply({ embeds: [embed] });
-        })
-        .catch(() => interaction.reply({ content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "UNBAN" }), ephemeral: true }));
+        } catch (error) {
+            return interaction.reply({ content: "❌ | I couldn't **unban** that user!", ephemeral: true });
+        }
     },
 };

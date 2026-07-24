@@ -93,29 +93,21 @@ module.exports = {
                 if (command.cmd.length == 0) {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_NOT_FOUND", interaction.guild?.id, {
-                                username: interaction.user.username,
-                                command: command.query
-                            })
+                            `\\❌ **${interaction.user.username}**, Command \`${command.query}\` not found!`
                         )], 
                         ephemeral: true 
                     });
                 } else if (command.cmd === "Already Blocked") {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_ALREADY_BLOCKED", interaction.guild?.id, {
-                                username: interaction.user.username,
-                                command: command.query
-                            })
+                            `\\❌ **${interaction.user.username}**, Command \`${command.query}\` is already blocked!`
                         )], 
                         ephemeral: true 
                     });
                 } else if (command.cmd === "block-command") {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_CANNOT_BLOCK_SELF", interaction.guild?.id, {
-                                command: command.query
-                            })
+                            `\\❌ You cannot block \`${command.query}\`!`
                         )], 
                         ephemeral: true 
                     });
@@ -124,11 +116,7 @@ module.exports = {
                 await schema.create({ Guild: guild.id, Command: command.cmd });
                 interaction.reply({ 
                     embeds: [SuccessEmbed(
-                        client.language.getString("SETUP_BLOCK_SUCCESS", interaction.guild?.id, {
-                            username: interaction.user.username,
-                            action: "BLOCK",
-                            command: command.query
-                        })
+                        `\\✔️ **${interaction.user.username}**, Successfully blocked command \`${command.query}\`!`
                     )]
                 });
             }
@@ -139,20 +127,14 @@ module.exports = {
                 if (command.cmd.length == 0) {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_NOT_FOUND", interaction.guild?.id, {
-                                username: interaction.user.username,
-                                command: command.query
-                            })
+                            `\\❌ **${interaction.user.username}**, Command \`${command.query}\` not found!`
                         )], 
                         ephemeral: true 
                     });
                 } else if (command.cmd !== "Already Blocked") {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_ALREADY_UNBLOCKED", interaction.guild?.id, {
-                                username: interaction.user.username,
-                                command: command.query
-                            })
+                            `\\❌ **${interaction.user.username}**, Command \`${command.query}\` is already unblocked!`
                         )], 
                         ephemeral: true 
                     });
@@ -161,11 +143,7 @@ module.exports = {
                 await schema.deleteOne({ Guild: guild.id, Command: command.toRemove });
                 interaction.reply({ 
                     embeds: [SuccessEmbed(
-                        client.language.getString("SETUP_BLOCK_SUCCESS", interaction.guild?.id, {
-                            username: interaction.user.username,
-                            action: "UNBLOCK",
-                            command: command.query
-                        })
+                        `\\✔️ **${interaction.user.username}**, Successfully unblocked command \`${command.query}\`!`
                     )]
                 });
             }
@@ -176,7 +154,7 @@ module.exports = {
                 if (data.length == 0) {
                     return interaction.reply({ 
                         embeds: [ErrorEmbed(
-                            client.language.getString("SETUP_BLOCK_NO_BLOCKED", interaction.guild?.id)
+                            `\\❌ There are no blocked commands in this server!`
                         )], 
                         ephemeral: true 
                     });
@@ -188,9 +166,7 @@ module.exports = {
                 })
                 interaction.reply({ 
                     embeds: [InfoEmbed(
-                        client.language.getString("SETUP_BLOCK_LIST", interaction.guild?.id, {
-                            commands: text.joinArray(Names)
-                        })
+                        `<a:Mod:853496185443319809> Blocked commands: ${text.joinArray(Names)}`
                     )]
                 });
             }
@@ -201,7 +177,7 @@ module.exports = {
 
                 interaction.reply({ 
                     embeds: [SuccessEmbed(
-                        client.language.getString("SETUP_BLOCK_CLEAR_SUCCESS", interaction.guild?.id)
+                        `<a:Mod:853496185443319809> All blocked commands have been successfully cleared!`
                     )]
                 });
             }

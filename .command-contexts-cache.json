@@ -1,1 +1,12 @@
-{}
+{
+  "global-ai": true,
+  "global-help": true,
+  "global-invite": true,
+  "global-stats": true,
+  "global-whois": true,
+  "global-avatar": true,
+  "global-mcuser": true,
+  "global-ping": true,
+  "global-prays": true,
+  "global-remindme": true
+}

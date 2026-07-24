@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -35,7 +36,7 @@ module.exports = {
     
     if (!userId.match(/\d{17,19}/)) {
       return interaction.reply({ 
-        content: client.language.getString("INVALID_ID", interaction.guildId),
+        content: "❌ | Please provide a valid Discord ID!",
         ephemeral: true 
       });
     }
@@ -49,7 +50,7 @@ module.exports = {
       
       if (member) {
         return interaction.reply({ 
-          content: client.language.getString("USER_IN_SERVER", interaction.guildId, { command: "ban" }),
+          content: "❌ | This user is in the server! Please use the regular `ban` command instead!",
           ephemeral: true 
         });
       }
@@ -57,7 +58,7 @@ module.exports = {
       // Check if user is the owner
       if (user.id === guild.ownerId) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "BAN" }),
+          content: "❌ | You cannot hackban the server owner!",
           ephemeral: true 
         });
       }
@@ -65,7 +66,7 @@ module.exports = {
       // Check if user is the command executor
       if (user.id === interaction.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "BAN" }),
+          content: "❌ | You cannot hackban yourself!",
           ephemeral: true 
         });
       }
@@ -73,7 +74,7 @@ module.exports = {
       // Check if user is the bot
       if (user.id === client.user.id) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "BAN" }),
+          content: "❌ | You cannot hackban me!",
           ephemeral: true 
         });
       }
@@ -81,34 +82,39 @@ module.exports = {
       // Check if user is a developer
       if (client.owners.includes(user.id)) {
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "BAN" }),
+          content: "❌ | You cannot hackban my developer!",
           ephemeral: true 
         });
       }
       
       // Create confirmation buttons
       const confirmButton = new ButtonBuilder()
-        .setLabel(client.language.getString("BUTTON_CONFIRM", interaction.guildId))
+        .setLabel("Confirm")
         .setCustomId('confirm_hackban')
         .setStyle('Success')
-        .setEmoji('812104211386728498');
+        .setEmoji('✅');
       
       const cancelButton = new ButtonBuilder()
-        .setLabel(client.language.getString("BUTTON_CANCEL", interaction.guildId))
+        .setLabel("Cancel")
         .setCustomId('cancel_hackban')
         .setStyle('Danger')
-        .setEmoji('812104211361693696');
+        .setEmoji('❌');
       
       const row = new ActionRowBuilder()
         .addComponents(confirmButton, cancelButton);
       
       const confirmEmbed = new EmbedBuilder()
-        .setColor('Red')
-        .setDescription(client.language.getString("CONFIRMATION_MESSAGE", interaction.guildId, { target: user.tag, action: "HACKBAN" }))
+        .setColor(colors.ADMIN)
+        .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+        .setDescription([
+          `Are you sure you want to hackban **${user.tag}**?`,
+          !reason ? '' : `- Reason: ${reason}`
+        ].join('\n'))
         .setFooter({ 
-          text: interaction.user.tag, 
-          iconURL: interaction.user.displayAvatarURL({ dynamic: true })
-        });
+          text: interaction.user.username, 
+          iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
+        })
+        .setTimestamp();
       
       const response = await interaction.reply({ 
         embeds: [confirmEmbed], 
@@ -125,7 +131,7 @@ module.exports = {
         // Ensure the user who clicked is the command user
         if (buttonInteraction.user.id !== interaction.user.id) {
           return buttonInteraction.reply({ 
-            content: client.language.getString("NOT_COMMAND_USER", interaction.guildId),
+            content: "❌ | You are not the one who executed this command!",
             ephemeral: true 
           });
         }
@@ -137,8 +143,17 @@ module.exports = {
             });
             
             const banEmbed = new EmbedBuilder()
-              .setColor('Green')
-              .setDescription(client.language.getString("MODERATED_SUCCESSFULLY", interaction.guildId, { action_done: "HACKBAN", target: user.username }));
+              .setColor(colors.ADMIN)
+              .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+              .setDescription([
+                `Successfully hackbanned **${user.username}**!`,
+                !reason ? '' : `- Reason: ${reason}`
+              ].join('\n'))
+              .setFooter({ 
+                text: interaction.user.username, 
+                iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
+              })
+              .setTimestamp();
             
             // Update the original message
             await buttonInteraction.update({ 
@@ -147,15 +162,21 @@ module.exports = {
             });
           } catch (error) {
             await buttonInteraction.update({ 
-              content: `Failed to ban **${user.tag}**!`,
+              content: `❌ | Failed to hackban **${user.tag}**!`,
               embeds: [],
               components: [] 
             });
           }
         } else if (buttonInteraction.customId === 'cancel_hackban') {
           const cancelEmbed = new EmbedBuilder()
-            .setColor('Red')
-            .setDescription(client.language.getString("CANCELLED_ACTION", interaction.guildId, { action: "HACKBAN" }));
+            .setColor(colors.ADMIN)
+            .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+            .setDescription("Hackban cancelled!")
+            .setFooter({ 
+              text: interaction.user.username, 
+              iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
+            })
+            .setTimestamp();
           
           await buttonInteraction.update({ 
             embeds: [cancelEmbed], 
@@ -172,8 +193,14 @@ module.exports = {
           const disabledRow = new ActionRowBuilder().addComponents(confirmButton, cancelButton);
           
           const timeoutEmbed = new EmbedBuilder()
-            .setColor('Red')
-            .setDescription(client.language.getString("INTERACTION_TIMEOUT", interaction.guildId, { action: "HACKBAN" }));
+            .setColor(colors.ADMIN)
+            .setAuthor({ name: user.username, iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+            .setDescription("Hackban cancelled due to inactivity!")
+            .setFooter({ 
+              text: interaction.user.username, 
+              iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
+            })
+            .setTimestamp();
           
           await interaction.editReply({ 
             embeds: [timeoutEmbed], 
@@ -185,7 +212,7 @@ module.exports = {
     } catch (error) {
       // If user could not be found
       return interaction.reply({ 
-        content: client.language.getString("USER_NOT_FOUND", interaction.guildId),
+        content: "❌ | User not found!",
         ephemeral: true 
       });
     }

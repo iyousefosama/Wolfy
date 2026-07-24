@@ -24,10 +24,7 @@ module.exports = {
             
             const option = new StringSelectMenuOptionBuilder()
                 .setLabel(lang.name)
-                .setDescription(client.language.getString("SETUP_LANGUAGE_OPTION_DESC", interaction.guild?.id, {
-                    language: lang.name,
-                    bot_name: client.user.username
-                }))
+                .setDescription(`Select ${lang.name} as ${client.user.username} language`)
                 .setValue(lang.code)
                 .setEmoji(lang.flag);
                 
@@ -39,15 +36,15 @@ module.exports = {
 
         const select = new StringSelectMenuBuilder()
             .setCustomId('menu_language-select')
-            .setPlaceholder(client.language.getString("LANGUAGE_SELECT_MENU_PLACEHOLDER", interaction.guild?.id))
+            .setPlaceholder("Make a selection!")
             .addOptions(...Selectoptions);
 
         const row = new ActionRowBuilder()
             .addComponents(select);
 
         return interaction.reply({ 
-            content: client.language.getString("SETUP_SELECT_LANGUAGE", interaction.guild?.id),
-            embeds: [WarningEmbed(client.language.getString("LANGUAGE_WARNING", interaction.guild?.id))],
+            content: "Please select a language from the dropdown menu below:",
+            embeds: [WarningEmbed("The language model is currently in development and may not be 100% accurate. Also currently it only supports slash commands.")],
             components: [row], 
             ephemeral: true 
         });

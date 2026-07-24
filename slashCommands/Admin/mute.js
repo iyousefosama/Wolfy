@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/Mute-Schema');
 
 /**
@@ -35,7 +36,7 @@ module.exports = {
     const reason = options.getString("reason") || 'Unspecified';
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: client.language.getString("NO_ID", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ Please type the id or mention the user to **mute**.", ephemeral: true });
     };
 
     const member = await guild.members
@@ -43,17 +44,17 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: client.language.getString("USER_NOT_FOUND", interaction.guildId), ephemeral: true });
+      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_SELF", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** yourself!", ephemeral: true });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_BOT", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** me!", ephemeral: true });
     } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_OWNER", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** a server owner!", ephemeral: true });
     } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_DEV", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** my developer through me!", ephemeral: true });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: client.language.getString("CANNOT_MODERATE_HIGHER", interaction.guildId, { action: "MUTE" }), ephemeral: true });
+      return interaction.reply({ content: "❌ You can't **mute** that user because he/she has a higher role than yours!", ephemeral: true });
     }
 
     let data;
@@ -71,12 +72,12 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      return interaction.reply({ content: `\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`, ephemeral: true });
+      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", ephemeral: true });
     }
 
     // Check if member is already muted
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted == true) {
-      return interaction.reply({ content: client.language.getString("ALREADY_MUTED", interaction.guildId), ephemeral: true });
+      return interaction.reply({ content: "❌ User is already **muted**!", ephemeral: true });
     }
 
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
@@ -87,13 +88,13 @@ module.exports = {
         .setLabel(`Yes`)
         .setCustomId("create_mute_role")
         .setStyle('Success')
-        .setEmoji("758141943833690202");
+        .setEmoji("✅");
       
       const button2 = new ButtonBuilder()
         .setLabel(`No`)
         .setCustomId("cancel_mute_cmd")
         .setStyle('Danger')
-        .setEmoji("888264104081522698");
+        .setEmoji("❌");
       
       const row = new ActionRowBuilder()
         .addComponents(button, button2);
@@ -101,8 +102,8 @@ module.exports = {
       const Embed = new EmbedBuilder()
         .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
         .setTimestamp()
-        .setDescription(client.language.getString("NO_MUTE_ROLE", interaction.guildId))
-        .setColor('Red');
+        .setDescription("ℹ️ There is no `muted` role in this guild. Would you like to generate one?")
+        .setColor(colors.ADMIN);
       
       const response = await interaction.reply({ embeds: [Embed], components: [row], fetchReply: true });
       
@@ -111,20 +112,20 @@ module.exports = {
       collector.on('collect', async (buttonInteraction) => {
         // Check if the user who clicked the button is the one who initiated the command
         if (buttonInteraction.user.id !== interaction.user.id) {
-          return buttonInteraction.reply({ content: client.language.getString("NOT_COMMAND_USER", interaction.guildId), ephemeral: true });
+          return buttonInteraction.reply({ content: "❌ You are not the one who initiated this command!", ephemeral: true });
         }
         
         if (buttonInteraction.customId === 'create_mute_role') {
           if (guild.roles.cache.size >= 250) {
             return buttonInteraction.reply({ 
-              content: client.language.getString("TOO_MANY_ROLES", interaction.guildId), 
+              content: "❌ Failed to create `muted` role! Your server has too many roles! **[250]**", 
               ephemeral: true 
             });
           }
           
           if (!interaction.channel.permissionsFor(guild.members.me).has('ManageChannels')) {
             return buttonInteraction.reply({ 
-              content: client.language.getString("MISSING_PERMISSIONS", interaction.guildId, { permission: "ManageChannels" }), 
+              content: "❌ I don't have permission to manage channels!", 
               ephemeral: true 
             });
           }
@@ -150,7 +151,7 @@ module.exports = {
             });
             
             await buttonInteraction.reply({ 
-              content: client.language.getString("ROLE_CREATED", interaction.guildId, { role: mutedRole.name }), 
+              content: "✅ Muted role created successfully!", 
               ephemeral: true 
             });
             
@@ -160,12 +161,9 @@ module.exports = {
             await data.save();
             
             const muteEmbed = new EmbedBuilder()
+              .setColor(colors.ADMIN)
               .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-              .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
-                action_done: "muted", 
-                user: member.user.toString(),
-                reason: reason
-              }))
+              .setDescription(`✅ Successfully **muted** ${member.user.toString}!`)
               .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
               .setTimestamp();
             
@@ -173,13 +171,13 @@ module.exports = {
           } catch (error) {
             console.error(error);
             return buttonInteraction.reply({ 
-              content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "MUTE" }), 
+              content: "❌ I couldn't **mute** that user!", 
               ephemeral: true 
             });
           }
         } else if (buttonInteraction.customId === 'cancel_mute_cmd') {
           await buttonInteraction.reply({ 
-            content: client.language.getString("COMMAND_CANCELLED", interaction.guildId, { command: "mute" }), 
+            content: "❌ Command cancelled!", 
             ephemeral: true 
           });
           
@@ -208,12 +206,9 @@ module.exports = {
         await data.save();
         
         const muteEmbed = new EmbedBuilder()
+          .setColor(colors.ADMIN)
           .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          .setDescription(client.language.getString("MUTE_UNMUTE_SUCCESS", interaction.guildId, { 
-            action_done: "muted", 
-            user: member.user.toString(),
-            reason: reason
-          }))
+          .setDescription(`✅ Successfully **muted** ${member.user.toString}!`)
           .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
           .setTimestamp();
         
@@ -221,10 +216,10 @@ module.exports = {
       } catch (error) {
         console.error(error);
         return interaction.reply({ 
-          content: client.language.getString("CANNOT_MODERATE", interaction.guildId, { action: "MUTE" }), 
+          content: "❌ I couldn't **mute** that user!", 
           ephemeral: true 
         });
       }
     }
   },
-}; 
+};

@@ -54,7 +54,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name }),
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
         ephemeral: true
       });
       return client.logDetailedError({
@@ -90,9 +90,7 @@ module.exports = {
       data.progress.TimeReset = Math.floor(now + duration);
       await data.save();
       return interaction.reply({
-        content: client.language.getString("ECONOMY_QUEST_REFRESHED", interaction.guild?.id, { 
-          username: interaction.user.tag 
-        })
+        content: `✅ **${interaction.user.tag}**, your daily quests have been refreshed!`
       });
     }
 
@@ -104,35 +102,23 @@ module.exports = {
             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
           })
           .setDescription(
-            client.language.getString("ECONOMY_QUEST_NOT_COMPLETED", interaction.guild?.id, {
-              completed: data.progress.completed,
-              completed_message: data.progress.completed
-                ? client.language.getString("ECONOMY_QUEST_PARTIAL_COMPLETE", interaction.guild?.id, {
-                    completed: data.progress.completed
-                  })
-                : ""
-            })
+            `⚠️ **Not enough quests completed!**\nYou must complete at least 4 of your daily quests.\n${data.progress.completed ? `You currently completed ${data.progress.completed} out of 4` : ""}`
           )
           .setFooter({
-            text: client.language.getString("FOOTER_COPYRIGHT", interaction.guild?.id, {
-              user_tag: interaction.user.tag,
-              year: new Date().getFullYear()
-            }),
+            text: `${interaction.user.tag} | \u00A9${new Date().getFullYear()} Wolfy`,
             iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .setTimestamp();
         return interaction.reply({ embeds: [NotNow] });
       } else if (data.progress.claimed) {
         return interaction.reply({
-          content: client.language.getString("ECONOMY_QUEST_ALREADY_CLAIMED", interaction.guild?.id, { 
-            username: interaction.user.tag 
-          })
+          content: `⚠️ **${interaction.user.tag}**, you have already claimed your daily quest reward!`
         });
       }
       let moneyget = Math.floor(500);
       const rewardables = market.filter((x) => ![5, 20].includes(x.id));
       const item = rewardables[Math.floor(Math.random() * rewardables.length)];
-      itemreward = false;
+      let itemreward = false;
       const old = data.profile.inventory.find((x) => x.id === item.id);
       if (old) {
         //Do nothing..
@@ -148,21 +134,12 @@ module.exports = {
         .save()
         .then(() => {
           const embed = new discord.EmbedBuilder()
-            .setTitle(client.language.getString("ECONOMY_QUEST_CLAIM_TITLE", interaction.guild?.id))
+            .setTitle("🎁 Daily Quest Reward")
             .setDescription(
-              client.language.getString("ECONOMY_QUEST_CLAIM_DESC", interaction.guild?.id, {
-                username: interaction.user.tag,
-                amount: Math.floor(moneyget),
-                item_reward: itemreward
-                  ? client.language.getString("ECONOMY_QUEST_ITEM_REWARD", interaction.guild?.id, {
-                      item_name: item.name,
-                      item_desc: item.description
-                    })
-                  : ""
-              })
+              `🎉 **${interaction.user.tag}**, you received **${Math.floor(moneyget)}** from daily quest reward!${itemreward ? `\n\\✔️ You received: **${item.name} - ${item.description}** as a bonus reward.` : ""}`
             )
             .setFooter({
-              text: client.language.getString("ECONOMY_QUEST_CLAIM_FOOTER", interaction.guild?.id),
+              text: "Complete your daily quests for more rewards!",
               iconURL: interaction.user.displayAvatarURL({
                 dynamic: true,
                 size: 2048,
@@ -173,9 +150,7 @@ module.exports = {
         })
         .catch((err) =>
           interaction.reply({
-            content: client.language.getString("ECONOMY_DB_SAVE_ERROR", interaction.guild?.id, { 
-              error: err.message 
-            }),
+            content: `\\❌ [DATABASE_ERR]: Unable to save the document to the database, please try again later!`,
             ephemeral: true
           })
         );
@@ -187,20 +162,13 @@ module.exports = {
             name: interaction.user.username,
             iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
           })
-          .setTitle(client.language.getString("ECONOMY_QUEST_TITLE", interaction.guild?.id))
+          .setTitle("Daily Quests")
           .setDescription(
-            client.language.getString("ECONOMY_QUEST_DESCRIPTION", interaction.guild?.id, {
-              refresh_time: dayjs.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss"),
-              completed: data.progress.completed,
-              prefix: client.prefix
-            })
+            `Your daily quests will be refreshed in \`${dayjs.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss")}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix}quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`
           )
           .setThumbnail("attachment://treasure.png")
           .setFooter({
-            text: client.language.getString("FOOTER_COPYRIGHT", interaction.guild?.id, {
-              user_tag: interaction.user.tag,
-              year: new Date().getFullYear()
-            }),
+            text: `${interaction.user.tag} | \u00A9${new Date().getFullYear()} Wolfy`,
             iconURL: interaction.user.avatarURL({ dynamic: true }),
           })
           .addFields(
@@ -214,14 +182,8 @@ module.exports = {
                 return {
                   inline: false,
                   name:
-                    client.language.getString("ECONOMY_QUEST_NAME_FORMAT", interaction.guild?.id, {
-                      quest_name: quest.name,
-                      current: dataquest.current,
-                      total: dataquest.progress
-                    }),
-                  value: client.language.getString("ECONOMY_QUEST_REWARDS", interaction.guild?.id, {
-                    amount: quest.reward
-                  }),
+                    `${quest.name} (${dataquest.current}/${dataquest.progress})`,
+                  value: `**Rewards:** <a:ShinyMoney:877975108038324224> \`${quest.reward}\` credits`,
                 };
               })
           );

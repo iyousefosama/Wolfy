@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require('../../util/constants/constants');
 const schema = require('../../schema/Economy-Schema');
 
 /**
@@ -30,9 +31,7 @@ module.exports = {
     
     if (friend.id === interaction.user.id) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_COOKIE_SELF", interaction.guild?.id, { 
-          username: interaction.user.tag
-        })
+        content: `\\❌ **${interaction.user.tag}**, You can't give yourself a cookie!`
       });
     }
     
@@ -59,7 +58,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -74,16 +73,14 @@ module.exports = {
     
     if (!item && data.cookies.givecookies >= 350) {
       const embed = new discord.EmbedBuilder()
-        .setTitle(client.language.getString("ECONOMY_COOKIE_MISSING_ITEM_TITLE", interaction.guild?.id))
-        .setDescription(client.language.getString("ECONOMY_COOKIE_MISSING_ITEM_DESC", interaction.guild?.id, {
-          username: interaction.user.username,
-          prefix: client.prefix
-        }))
+        .setTitle("❌ Missing item!")
+        .setDescription(`**${interaction.user.username}**, You can only give \`350\` cookies for free you should now buy **UltimateCookie Machine**!
+Type \`/buy item:2\` to buy the item.`)
         .setFooter({ 
           text: interaction.user.username, 
           iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) 
         })
-        .setColor('Red');
+        .setColor(colors.ERROR);
         
       return interaction.reply({ embeds: [embed] });
     }
@@ -111,29 +108,24 @@ module.exports = {
       await data.save();
       await friendData.save();
       return interaction.reply({ 
-        content: client.language.getString("ECONOMY_QUEST_REWARD", interaction.guild?.id, { 
-          reward: quest.reward 
-        })
+        content: `\\💰 You've completed a quest and received **${quest.reward}** Credits as reward!`
       });
     }
     
     return Promise.all([data.save(), friendData.save()])
       .then(() => {
         const embed = new discord.EmbedBuilder()
-          .setTitle(client.language.getString("ECONOMY_COOKIE_GIVEN_TITLE", interaction.guild?.id))
-          .setDescription(client.language.getString("ECONOMY_COOKIE_GIVEN_DESC", interaction.guild?.id, {
-            username: interaction.user.username,
-            friend: friend,
-            money: moneyget,
-            received: data.cookies.totalcookies,
-            given: data.cookies.givecookies
-          }))
+          .setTitle("<a:Cookie:853495749370839050> Cookie is given!")
+          .setDescription(`**${interaction.user.username}**, gave ${friend} a cookie!
+💰 ${interaction.user.username} got (\`+${moneyget}\`) credits for being a nice friend!
+
+📥 ${data.cookies.totalcookies} | 📤 ${data.cookies.givecookies}`)
           .setColor('#E6CEA0');
           
         interaction.reply({ embeds: [embed] });
       })
       .catch((err) => interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       }));
   },
 }; 

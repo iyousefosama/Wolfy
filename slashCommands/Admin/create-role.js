@@ -1,6 +1,5 @@
-const discord = require("discord.js");
-const { ErrorEmbed, SuccessEmbed } = require("../../util/modules/embeds");
-const { capitalize } = require("../../util/functions/function");
+const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -36,26 +35,22 @@ module.exports = {
     const { guild, options } = interaction;
     const name = options.getString("name");
     let color = options.getString("color");
-    const guildId = interaction.guildId;
 
     try {
       // Check role limit first
       if (guild.roles.cache.size >= 250) {
         return interaction.reply({ 
-          embeds: [ErrorEmbed(client.language.getString("CREATING_ROLE_FAILED_250", guildId, { role: name }))], 
+          content: "❌ Your server has too many roles to create another one!", 
           ephemeral: true 
         });
       }
 
       // Process color
       if (color) {
-        color = capitalize(color);
-        // Validate color - use a try/catch to handle invalid colors gracefully
-        if (!discord.Colors[color]) {
-          color = discord.Colors.Default;
+        // Validate color
+        if (!/^#([0-9A-Fa-f]{6})$/.test(color) && !['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White', 'Gray', 'Grey'].includes(color)) {
+          color = null;
         }
-      } else {
-        color = discord.Colors.Default;
       }
 
       // Create the role
@@ -65,19 +60,18 @@ module.exports = {
         reason: `Created by ${interaction.user.tag}`
       });
 
-      return interaction.reply({ 
-        embeds: [SuccessEmbed(client.language.getString("CREATION_SUCCESS", guildId, { 
-          element: role.name + " " + `(${role.id})`, 
-          group: "ROLE" 
-        }))]
-      });
+      const embed = new EmbedBuilder()
+        .setColor(colors.ADMIN)
+        .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+        .setDescription(`✅ Successfully created role **${role.name}** (${role.id})!`)
+        .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+        .setTimestamp();
+      
+      return interaction.reply({ embeds: [embed] });
     } catch (err) {
       console.error(`Error creating role: ${err}`);
       return interaction.reply({ 
-        embeds: [ErrorEmbed(client.language.getString("CREATING_ROLE_FAILED", guildId, { 
-          role: name, 
-          err_name: err.name
-        }))],
+        content: `❌ I couldn't create role **${name}**! ${err.name}`, 
         ephemeral: true 
       });
     }

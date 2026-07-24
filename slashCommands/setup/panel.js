@@ -166,9 +166,7 @@ module.exports = {
 
         if (data) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_CREATE_ALREADY_EXISTS", guild.id, {
-              category: category.toString()
-            }))], 
+            embeds: [ErrorEmbed(`\\❌ Ticket category is already set to ${category.toString()}!`)], 
             ephemeral: true 
           });
         }
@@ -181,9 +179,7 @@ module.exports = {
 
         if (panelCount >= maxPanels) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_CREATE_LIMIT_REACHED", guild.id, {
-              max_panels: maxPanels
-            }))], 
+            embeds: [ErrorEmbed(`\\❌ You can only have \`${maxPanels}\` ticket panels in the server!`)], 
             ephemeral: true 
           });
         }
@@ -206,16 +202,13 @@ module.exports = {
           panelCount = await schema.find({ Guild: guild.id }).countDocuments();
 
           interaction.reply({ 
-            embeds: [SuccessEmbed(client.language.getString("PANEL_CREATE_SUCCESS", guild.id, {
-              category: category.toString(),
-              count: panelCount
-            }))], 
+            embeds: [SuccessEmbed(`✔️ A new ticket panel is set to ${category.toString()}!\nYour server currently has \`${panelCount}\` ticket panels.`)], 
             ephemeral: true 
           });
         } catch (err) {
           console.error("Error creating panel:", err);
           interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_CREATE_ERROR", guild.id))], 
+            embeds: [ErrorEmbed("\\❌ An error occurred while creating the ticket panel. Please try again later.")], 
             ephemeral: true 
           });
         }
@@ -226,17 +219,13 @@ module.exports = {
 
         if (!toRemove) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_DELETE_NOT_FOUND", guild.id, {
-              category: category.toString()
-            }))], 
+            embeds: [ErrorEmbed(`\\❌ There is no ticket panel set to ${category.toString()}!`)], 
             ephemeral: true 
           });
         }
 
         interaction.reply({ 
-          embeds: [SuccessEmbed(client.language.getString("PANEL_DELETE_SUCCESS", guild.id, {
-            category: category.toString()
-          }))],
+          embeds: [SuccessEmbed(`✔️ Ticket panel is deleted with category ${category.toString()}!`)],
           ephemeral: true 
         });
         break;
@@ -254,15 +243,13 @@ module.exports = {
 
         if (deletedCount === 0) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_REMOVE_DELETED_NONE", guild.id))], 
+            embeds: [ErrorEmbed("\\❌ No deleted categories panels were found!")], 
             ephemeral: true 
           });
         }
 
         interaction.reply({ 
-          embeds: [SuccessEmbed(client.language.getString("PANEL_REMOVE_DELETED_SUCCESS", guild.id, {
-            count: deletedCount
-          }))], 
+          embeds: [SuccessEmbed(`✔️ Removed ${deletedCount} panel(s) that were deleted!`)], 
           ephemeral: true 
         });
         break;
@@ -272,9 +259,7 @@ module.exports = {
 
         if (!toEdit) {
           return interaction.reply({
-            embeds: [ErrorEmbed(client.language.getString("PANEL_EDIT_NOT_FOUND", guild.id, {
-              category: category.toString()
-            }))],
+            embeds: [ErrorEmbed(`\\❌ ${category.toString()} is not a valid panel category!`)],
             ephemeral: true
           });
         }
@@ -285,37 +270,27 @@ module.exports = {
 
         if (enabled !== null && enabled !== toEdit.Enabled) {
           updateFields.Enabled = enabled;
-          updates.push(client.language.getString("PANEL_EDIT_ENABLED", guild.id, {
-            value: enabled ? 
-              client.language.getString("PANEL_LIST_ENABLED", guild.id) : 
-              client.language.getString("PANEL_LIST_DISABLED", guild.id)
-          }));
+          updates.push(`- Enabled: \`${enabled ? "Yes" : "No"}\``);
         }
 
         if (message && message !== toEdit.Message) {
           updateFields.Message = message;
-          updates.push(client.language.getString("PANEL_EDIT_MESSAGE", guild.id, {
-            value: message
-          }));
+          updates.push(`- Message: \`${message}\``);
         }
 
         if (role && role.id !== toEdit.Role) {
           updateFields.ModRole = role.id;
-          updates.push(client.language.getString("PANEL_EDIT_ROLE", guild.id, {
-            value: role.toString()
-          }));
+          updates.push(`- Role: ${role.toString()}`);
         }
 
         if (logs && logs.id !== toEdit.logs) {
           updateFields.logs = logs.id;
-          updates.push(client.language.getString("PANEL_EDIT_LOGS", guild.id, {
-            value: logs.toString()
-          }));
+          updates.push(`- Logs: ${logs.toString()}`);
         }
 
         if (Object.keys(updateFields).length === 0) {
           return interaction.reply({
-            embeds: [ErrorEmbed(client.language.getString("PANEL_EDIT_NO_CHANGES", guild.id))],
+            embeds: [ErrorEmbed("\\❌ No changes detected. Please provide new values for the fields you want to update.")],
             ephemeral: true
           });
         }
@@ -328,17 +303,13 @@ module.exports = {
           );
 
           return interaction.reply({
-            embeds: [SuccessEmbed(client.language.getString("PANEL_EDIT_SUCCESS", guild.id, {
-              updates: updates.join("\n")
-            }))],
+            embeds: [SuccessEmbed(`✔️ Ticket panel updated successfully:\n${updates.join("\n")}`)],
             ephemeral: true
           });
         } catch (err) {
           console.error("Error updating panel:", err);
           return interaction.reply({
-            embeds: [ErrorEmbed(client.language.getString("PANEL_EDIT_ERROR", guild.id, {
-              error: err.name
-            }))],
+            embeds: [ErrorEmbed(`\\❌ [DATABASE_ERR]: The database responded with error: ${err.name}`)],
             ephemeral: true
           });
         }
@@ -347,7 +318,7 @@ module.exports = {
 
         if (!panels || panels.length === 0) {
           return interaction.reply({
-            embeds: [ErrorEmbed(client.language.getString("PANEL_LIST_NONE", guild.id))],
+            embeds: [ErrorEmbed("\\❌ There are no ticket panels in the server!")],
             ephemeral: true,
           });
         }
@@ -373,35 +344,33 @@ module.exports = {
                 inline: false
               },
               {
-                name: client.language.getString("PANEL_LIST_ENABLED_LABEL", guild.id),
-                value: panel.Enabled ? 
-                  client.language.getString("PANEL_LIST_ENABLED", guild.id) : 
-                  client.language.getString("PANEL_LIST_DISABLED", guild.id),
+                name: "Enabled:",
+                value: panel.Enabled ? "Yes" : "No",
                 inline: true
               },
               {
-                name: client.language.getString("PANEL_LIST_TIME_CREATED", guild.id),
+                name: "Time Created:",
                 value: `<t:${Math.floor(panel.createdAt.getTime() / 1000)}:R>`,
                 inline: true
               },
               {
-                name: client.language.getString("PANEL_LIST_ADMIN", guild.id),
+                name: "Admin:",
                 value: panel.Admin,
                 inline: true
               },
               {
-                name: client.language.getString("PANEL_LIST_MOD_ROLE", guild.id),
-                value: panel.ModRole ? panel.ModRole : client.language.getString("PANEL_LIST_NONE_VALUE", guild.id),
+                name: "Mod Role:",
+                value: panel.ModRole ? panel.ModRole : "None",
                 inline: true
               },
               {
-                name: client.language.getString("PANEL_LIST_LOGS", guild.id),
-                value: panel.logs ? panel.logs : client.language.getString("PANEL_LIST_NONE_VALUE", guild.id),
+                name: "Logs:",
+                value: panel.logs ? panel.logs : "None",
                 inline: true
               },
               {
-                name: client.language.getString("PANEL_LIST_CUSTOM_MESSAGE", guild.id),
-                value: panel.Message ? panel.Message : client.language.getString("PANEL_LIST_NOT_SET", guild.id),
+                name: "Custom message:",
+                value: panel.Message ? panel.Message : "Not set.",
                 inline: false
               },
               {
@@ -417,25 +386,17 @@ module.exports = {
           for (let i = 0; i < embedFields.length; i += 25) {
             const embed = new EmbedBuilder()
               .setAuthor({
-                name: client.language.getString("PANEL_LIST_TITLE", guild.id, {
-                  guild_name: guild.name
-                }),
+                name: `${guild.name} Panels list`,
                 iconURL: guild.iconURL({ dynamic: true }),
               })
               .setDescription(
-                client.language.getString("PANEL_LIST_DESCRIPTION", guild.id, {
-                  count: panels.length
-                })
+                `There are \`${panels.length}\` ticket panels in the server!`
               )
               .setFields(embedFields.slice(i, i + 25))
               .setFooter({
                 text: [
-                  client.language.getString("PANEL_LIST_FOOTER", guild.id, {
-                    year: new Date().getFullYear()
-                  }),
-                  deleted > 0 ? client.language.getString("PANEL_LIST_DELETED_NOTICE", guild.id, {
-                    count: deleted
-                  }) : "",
+                  `Ticket Panel | \u00A9${new Date().getFullYear()} Wolfy`,
+                  deleted > 0 ? `Deleted ${deleted} unregistered panel(s)` : "",
                 ].join("\n"),
                 iconURL: client.user.avatarURL({ dynamic: true }),
               })
@@ -502,25 +463,17 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setAuthor({
-            name: client.language.getString("PANEL_LIST_TITLE", guild.id, {
-              guild_name: guild.name
-            }),
+            name: `${guild.name} Panels list`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(
-            client.language.getString("PANEL_LIST_DESCRIPTION", guild.id, {
-              count: panels.length
-            })
+            `There are \`${panels.length}\` ticket panels in the server!`
           )
           .setFields(embedFields)
           .setFooter({
             text: [
-              client.language.getString("PANEL_LIST_FOOTER", guild.id, {
-                year: new Date().getFullYear()
-              }),
-              deleted > 0 ? client.language.getString("PANEL_LIST_DELETED_NOTICE", guild.id, {
-                count: deleted
-              }) : ""
+              `Ticket Panel | \u00A9${new Date().getFullYear()} Wolfy`,
+              deleted > 0 ? `Deleted ${deleted} unregistered panel(s)` : ""
             ].join("\n"),
             iconURL: client.user.avatarURL({ dynamic: true }),
           })
@@ -533,9 +486,7 @@ module.exports = {
 
         if (!panel) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_SEND_NOT_FOUND", guild.id, {
-              category: category.toString()
-            }))], 
+            embeds: [ErrorEmbed(`\\❌ There is no ticket panel set to ${category.toString()}!`)], 
             ephemeral: true 
           });
         }
@@ -544,14 +495,12 @@ module.exports = {
           await sendPanelEmbed(client, interaction);
           
           interaction.reply({ 
-            embeds: [SuccessEmbed(client.language.getString("PANEL_SEND_SUCCESS", guild.id, {
-              channel: channel.toString()
-            }))], 
+            embeds: [SuccessEmbed(`✔️ Panel embed sent to ${channel.toString()}!`)], 
             ephemeral: true 
           });
         } catch (error) {
           return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("PANEL_SEND_ERROR", guild.id))], 
+            embeds: [ErrorEmbed("\\❌ An error occurred while sending panel embed to channel. Please try again later.")], 
             ephemeral: true 
           });
         }
@@ -572,7 +521,7 @@ const sendPanelEmbed = async (client, interaction, message) => {
   const channel = interaction.options.getChannel("channel")
 
   const button = new ButtonBuilder()
-    .setLabel(client.language.getString("PANEL_EMBED_BUTTON", guild.id))
+    .setLabel("Open ticket")
     .setCustomId(`btn_ticket_${category.id}`)
     .setEmoji("📩")
     .setStyle("Primary");
@@ -582,17 +531,15 @@ const sendPanelEmbed = async (client, interaction, message) => {
       new EmbedBuilder()
         .setColor("Red")
         .setAuthor({
-          name: client.language.getString("PANEL_EMBED_TITLE", guild.id),
+          name: "Tickets",
           iconURL: guild.iconURL({ dynamic: true }),
         })
         .setDescription(
           message ? message :
-            client.language.getString("PANEL_EMBED_DESCRIPTION", guild.id)
+            "React with 📩 to create your ticket!"
         )
         .setFooter({
-          text: client.language.getString("PANEL_EMBED_FOOTER", guild.id, {
-            year: new Date().getFullYear()
-          }),
+          text: `Ticket Panel | \u00A9${new Date().getFullYear()} Wolfy`,
           iconURL: client.user.avatarURL({ dynamic: true }),
         })
         .setTimestamp()

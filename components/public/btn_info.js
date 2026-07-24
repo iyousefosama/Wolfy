@@ -1,5 +1,6 @@
 // Import necessary classes from discord.js
 const { EmbedBuilder } = require("discord.js")
+const { colors } = require("../../util/constants/constants")
 
 /**
  * @type {import("../../util/types/baseComponent")}
@@ -12,19 +13,16 @@ module.exports = {
   async action(client, interaction, parts) {
     // Create an embed message
     const embed = new EmbedBuilder()
-      .setTitle(client.language.getString("BTN_INFO_TITLE", interaction.guildId, { default: "Test buttons show" }))
-      .setDescription(client.language.getString("BTN_INFO_DESCRIPTION", interaction.guildId, { default: "That's an example for embed message from a button" }))
-      .setColor("DarkVividPink")
+      .setTitle("Test buttons show")
+      .setDescription("That's an example for embed message from a button")
+      .setColor(colors.BOT)
       .setTimestamp()
       .setAuthor({ 
         name: client.user.username, 
         iconURL: client.user.displayAvatarURL() 
       })
       .setFooter({
-        text: client.language.getString("BTN_INFO_FOOTER", interaction.guildId, { 
-          username: interaction.user.username,
-          default: `Requested By: ${interaction.user.username}`
-        }),
+        text: `Requested By: ${interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL(),
       });
     // Reply to the interaction with the embed message

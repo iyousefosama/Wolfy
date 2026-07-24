@@ -1,3 +1,6 @@
+const { AttachmentBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
+
 /**
  * @type {import("../../util/types/baseCommandSlash")}
  */

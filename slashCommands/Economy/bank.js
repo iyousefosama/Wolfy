@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { colors } = require("../../util/constants/constants");
 const schema = require("../../schema/Economy-Schema");
 const dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
@@ -36,7 +37,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: "`❌ [DATABASE_ERR]:` The database responded with an error!"
       });
       return client.logDetailedError({
         error: err,
@@ -53,10 +54,7 @@ module.exports = {
       data.Bank.info.Enabled == false
     ) {
       return interaction.reply({
-        content: client.language.getString("ECONOMY_NO_BANK_ACCOUNT", interaction.guild?.id, { 
-          username: interaction.user.tag, 
-          prefix: client.prefix 
-        })
+        content: `❌ **${interaction.user.tag}**, you don't have a bank account yet! To create one, type \`${client.prefix}register\`.`
       });
     }
 
@@ -71,15 +69,12 @@ module.exports = {
             size: 2048,
           }),
         })
-        .setColor("Grey")
+        .setColor(colors.ECONOMY)
         .setDescription(
-          client.language.getString("ECONOMY_BANK_STATUS", interaction.guild?.id, {
-            username: interaction.user.username,
-            credits: text.commatize(credits),
-            time: dayjs.duration(data.timer.banktime.timeout - now, "milliseconds").humanize()
-          })
+          `🏦 **${interaction.user.username}**, you have 💰 **${text.commatize(credits)}** credits in your bank account!\n\n⚠️ Check your bank after ${dayjs.duration(data.timer.banktime.timeout - now, "milliseconds").humanize()} to get your reward! **(5% + 150)**`
         )
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) });
       interaction.reply({ embeds: [embed] });
     } else if (data.Bank.balance.credits + moneyadd > 100000) {
       data.timer.banktime.timeout = Date.now() + duration;
@@ -88,14 +83,12 @@ module.exports = {
         .save()
         .then(() => {
           interaction.reply({
-            content: client.language.getString("ECONOMY_BANK_OVERFLOW", interaction.guild?.id, { 
-              username: interaction.user.tag 
-            })
+            content: `❌ **${interaction.user.tag}**, your bank is overflowing! Please withdraw some money from your bank.`
           });
         })
         .catch((err) =>
           interaction.reply({
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+            content: "`❌ [DATABASE_ERR]:` The database responded with an error!"
           })
         );
     } else {
@@ -112,21 +105,17 @@ module.exports = {
                 size: 2048,
               }),
             })
-            .setColor("DarkGreen")
+            .setColor(colors.ECONOMY)
             .setDescription(
-              client.language.getString("ECONOMY_BANK_NEW_BALANCE", interaction.guild?.id, {
-                username: interaction.user.username,
-                credits: text.commatize(moneyadd),
-                time: dayjs.duration(data.timer.banktime.timeout - now, "milliseconds")
-                  .format("H [hours,] m [minutes, and] s [seconds]")
-              })
+              `🏦 **${interaction.user.username}**, your new balance is 💰 **${text.commatize(moneyadd)}** credits in your bank account!\n\n⚠️ Check your bank again after ${dayjs.duration(data.timer.banktime.timeout - now, "milliseconds").format("H [hours,] m [minutes, and] s [seconds]")} to get your next reward! **(5% + 150)**`
             )
+            .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setTimestamp();
           interaction.reply({ embeds: [checkembed] });
         })
         .catch((err) =>
           interaction.reply({
-            content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+            content: "`❌ [DATABASE_ERR]:` The database responded with an error!"
           })
         );
     }

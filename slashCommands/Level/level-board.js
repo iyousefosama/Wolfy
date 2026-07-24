@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const GuildSchema = require('../../schema/GuildSchema');
 const LevelService = require('../../util/functions/LevelService');
 
@@ -65,7 +66,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setTitle(`🏆 ${interaction.guild.name} Leaderboard`)
-        .setColor('Gold')
+        .setColor(colors.LEVEL)
         .setThumbnail(interaction.guild.iconURL({ dynamic: true, size: 256 }))
         .setDescription(entries.join('\n') || 'No users found.')
         .setFooter({ text: `Page ${page} • ${interaction.guild.memberCount} members` })

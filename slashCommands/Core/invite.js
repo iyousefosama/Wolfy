@@ -1,5 +1,6 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const file = new AttachmentBuilder("./assets/Images/background.gif")
+const { colors } = require("../../util/constants/constants")
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -23,20 +24,21 @@ module.exports = {
 },
   async execute(client, interaction) {
     const embed = new EmbedBuilder()
+      .setColor(colors.BOT)
       .setAuthor({
         name: client.user.username,
         iconURL: client.user.displayAvatarURL(),
       })
-      .setTitle(client.language.getString("INVITE_TITLE", interaction.guildId, { username: client.user.username }))
+      .setTitle(`${client.user.username} Links`)
       .setDescription(
-        client.language.getString("INVITE_DESCRIPTION", interaction.guildId, { username: interaction.user.username })
+        `🍪 **Hey, ${interaction.user.username}**, here are some special links for you!\n\nYou can support our bot by voting for it on top.gg.`
       )
       .setThumbnail(client.user.displayAvatarURL())
       .setImage("attachment://background.gif")
       .setURL(client.config.websites["website"])
       .setTimestamp()
       .setFooter({
-        text: interaction.user.username,
+        text: `Requested by ${interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL(),
       });
 
@@ -44,28 +46,28 @@ module.exports = {
     // Define button data in an array
     const buttonData = [
       { 
-        label: client.language.getString("INVITE_BUTTON_SUPPORT", interaction.guildId), 
+        label: "Support", 
         Url: client.config.websites["support"], 
         style: 'Link', 
-        emoji: '853495153280155668' 
+        emoji: '🆘' 
       },
       { 
-        label: client.language.getString("INVITE_BUTTON_ADD", interaction.guildId), 
+        label: "Add wolfy", 
         Url: client.config.websites["invite"], 
         style: 'Link', 
-        emoji: '841711382739157043' 
+        emoji: '➕' 
       },
       { 
-        label: client.language.getString("INVITE_BUTTON_TOPGG", interaction.guildId), 
+        label: "Top.gg", 
         Url: client.config.websites["top.gg"], 
         style: 'Link', 
-        emoji: '853496052899381258' 
+        emoji: '⭐' 
       },
       { 
-        label: client.language.getString("INVITE_BUTTON_DASHBOARD", interaction.guildId), 
+        label: "DASHBOARD", 
         Url: client.config.websites["website"], 
         style: 'Link', 
-        emoji: '853495912775942154' 
+        emoji: '🌐' 
       },
     ];
 

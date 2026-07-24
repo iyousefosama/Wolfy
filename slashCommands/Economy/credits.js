@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const discord = require("discord.js");
 const text = require("../../util/string");
 const schema = require("../../schema/Economy-Schema");
+const { colors } = require("../../util/constants/constants");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -53,7 +54,7 @@ module.exports = {
       }
     } catch (err) {
       interaction.reply({
-        content: client.language.getString("ERR_DB", interaction.guild?.id, { error: err.name })
+        content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
       });
       return client.logDetailedError({
         error: err,
@@ -68,28 +69,16 @@ module.exports = {
       data.timer.daily.timeout - Date.now() > 0;
     const bal = new discord.EmbedBuilder()
       .setAuthor({
-        name: client.language.getString("ECONOMY_WALLET_TITLE", interaction.guild?.id, { username: user.username }),
-        iconURL: user.displayAvatarURL({ dynamic: true, size: 2048 }),
+        name: client.user.username,
+        iconURL: client.user.displayAvatarURL(),
       })
-      .setColor("Grey")
+      .setColor(colors.ECONOMY)
+      .setTitle(`${user.username}'s wallet`)
       .setDescription(
-        client.language.getString("ECONOMY_WALLET_DESCRIPTION", interaction.guild?.id, {
-          credits: text.commatize(credits),
-          bank_balance: data.Bank.balance.credits !== null
-            ? client.language.getString("ECONOMY_BANK_BALANCE", interaction.guild?.id, { 
-                balance: text.commatize(bank) 
-              })
-            : client.language.getString("ECONOMY_NO_BANK", interaction.guild?.id, { 
-                username: user.tag, 
-                prefix: client.prefix 
-              }),
-          daily_status: dailyUsed
-            ? client.language.getString("ECONOMY_DAILY_CLAIMED", interaction.guild?.id)
-            : client.language.getString("ECONOMY_DAILY_AVAILABLE", interaction.guild?.id)
-        })
+        `💰 Credits balance is \`${text.commatize(credits)}\`!\n${data.Bank.balance.credits !== null ? `🏦 Bank balance is \`${text.commatize(bank)}\`!` : `❌ **${user.tag}**, Don't have a *bank* yet! To create one, type \`${client.prefix}register\`.`}\n\n━━━━━━━━━━━━━━\n${dailyUsed ? `✅ Daily reward is **claimed**!` : `⚠️ Daily reward is **available**!`}`
       )
       .setFooter({
-        text: interaction.user.tag,
+        text: `Requested by ${interaction.user.username}`,
         iconURL: interaction.user.displayAvatarURL({
           dynamic: true,
           size: 2048,

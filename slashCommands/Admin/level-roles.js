@@ -1,4 +1,5 @@
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { colors } = require('../../util/constants/constants');
 const GuildSchema = require('../../schema/GuildSchema');
 
 /**
@@ -98,7 +99,7 @@ module.exports = {
           return interaction.editReply({
             embeds: [
               new EmbedBuilder()
-                .setColor('Red')
+                .setColor(colors.LEVEL)
                 .setTitle('❌ Cannot Assign Role')
                 .setDescription(`I cannot assign the role ${role} because it's positioned higher than my highest role.`)
                 .setFooter({ text: 'Please move my role above this role in server settings.' })
@@ -126,7 +127,7 @@ module.exports = {
         return interaction.editReply({
           embeds: [
             new EmbedBuilder()
-              .setColor('Green')
+              .setColor(colors.LEVEL)
               .setTitle('✅ Level Role Added')
               .setDescription(`${role} will be given at **Level ${level}**`)
               .addFields(
@@ -145,7 +146,7 @@ module.exports = {
           return interaction.editReply({
             embeds: [
               new EmbedBuilder()
-                .setColor('Red')
+                .setColor(colors.LEVEL)
                 .setTitle('❌ Role Not Found')
                 .setDescription(`${role} is not configured as a level reward.`)
             ]
@@ -159,7 +160,7 @@ module.exports = {
         return interaction.editReply({
           embeds: [
             new EmbedBuilder()
-              .setColor('Orange')
+              .setColor(colors.LEVEL)
               .setTitle('✅ Level Role Removed')
               .setDescription(`Removed ${role} from level **${oldLevel}** rewards`)
               .setTimestamp()
@@ -174,7 +175,7 @@ module.exports = {
           return interaction.editReply({
             embeds: [
               new EmbedBuilder()
-                .setColor('Gold')
+                .setColor(colors.LEVEL)
                 .setTitle('🏆 Level Roles')
                 .setDescription('No level roles have been configured yet.')
                 .setFooter({ text: 'Use /level-roles add to create rewards' })

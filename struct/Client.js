@@ -11,7 +11,6 @@ const Mongoose = require(`./Mongoose`);
 const processEvents = require(`../util/processEvents`);
 const { commandLog, debugLog, logDetailedError } = require("../util/functions/client");
 const ComponentsListener = require("../Handler/ComponentsListener");
-const LanguageManager = require("../util/language/LanguageManager");
 const GuildCache = require("../util/cache/GuildCache");
 const fs = require("fs");
 const server = require("../util/functions/server")
@@ -39,7 +38,6 @@ module.exports = class WolfyClient extends Client {
     this.ComponentsAction = new Collection();
     this.cooldowns = new Collection();
     this.components = new Collection();
-    this.language = LanguageManager;
     this.guildSettingsCache = new GuildCache(300000);
     this.userDataCache = new GuildCache(300000);
     new ComponentsListener(this);

@@ -112,11 +112,11 @@ module.exports = {
                     await manageSeparatedLogs(client, interaction);
                     break;
                 default:
-                    await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR_EXEC", guild.id))], ephemeral: true });
+                    await interaction.reply({ embeds: [ErrorEmbed("💢 There was an error while executing this command!")], ephemeral: true });
             }
         } catch (error) {
             console.error("Error executing logs command:", error);
-            await interaction.reply({ embeds: [ErrorEmbed(client.language.getString("ERROR", guild.id))], ephemeral: true });
+            await interaction.reply({ embeds: [ErrorEmbed("💢 An error has occurred, please try again later.")], ephemeral: true });
         }
     },
 };
@@ -137,17 +137,14 @@ async function setSeparatedLogs(client, interaction, options) {
 
         if (channel) {
             logData.Mod.Logs.separated[key] = { channel: channel.id, isEnabled: true }; // Merge new data
-            editedMsg.push(client.language.getString("LOGS_SET_SEPARATED_UPDATED", guild.id, {
-                log_name: logType.name,
-                channel: `<#${channel.id}>`
-            }));
+            editedMsg.push(`- ${logType.name} set to <#${channel.id}>`);
         }
     }
 
     // If no valid channels were provided and existing logs are empty, return an error
     if (Object.keys(logData.Mod.Logs.separated).length === 0) {
         return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("LOGS_SET_SEPARATED_NO_CHANNELS", guild.id))], 
+            embeds: [ErrorEmbed("❌ No valid channels were provided to update.")], 
             ephemeral: true 
         });
     }
@@ -160,12 +157,10 @@ async function setSeparatedLogs(client, interaction, options) {
     );
 
     // Get success message with appropriate warning if needed
-    let successMessage = client.language.getString("LOGS_SET_SEPARATED_SUCCESS", guild.id);
+    let successMessage = "✔️ Separated logs have been updated successfully!";
     
     if (data.Mod.Logs.type !== "separated") {
-        successMessage += "\n" + client.language.getString("LOGS_SET_SEPARATED_TYPE_WARNING", guild.id, {
-            type: data.Mod.Logs.type
-        });
+        successMessage += "\n" + `⚠️ Logs type is set to \`${data.Mod.Logs.type}\`! To change type, execute \`/logs edit logs-type [separated]\``;
     }
 
     // Send success message
@@ -186,16 +181,14 @@ async function setAllLogs(client, interaction, options) {
     const data = await schema.findOneAndUpdate({ GuildID: guild.id }, { $set: logData }, { upsert: true });
     
     // Build success message with appropriate warnings if needed
-    let successMessage = client.language.getString("LOGS_SET_GLOBAL_SUCCESS", guild.id);
+    let successMessage = "✔️ All logs have been set to the specified channel!";
     
     if (!data?.Mod?.Logs?.isEnabled) {
-        successMessage += "\n" + client.language.getString("LOGS_SET_GLOBAL_DISABLED_WARNING", guild.id);
+        successMessage += "\n" + "⚠️ Logs channel is disabled! To enable, execute `/logs edit global-status [true]`";
     }
     
     if (data?.Mod?.Logs?.type !== "global") {
-        successMessage += "\n" + client.language.getString("LOGS_SET_GLOBAL_TYPE_WARNING", guild.id, {
-            type: data?.Mod?.Logs?.type || "unknown"
-        });
+        successMessage += "\n" + `⚠️ Logs type is set to \`${data?.Mod?.Logs?.type || "unknown"}\`! To change type, execute \`/logs edit logs-type [global]\``;
     }
     
     await interaction.reply({
@@ -212,7 +205,7 @@ async function editLogs(client, interaction, options) {
     const logData = await schema.findOne({ GuildID: guild.id });
     if (!logData || !logData.Mod?.Logs) {
         return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("LOGS_EDIT_NO_CONFIG", guild.id))], 
+            embeds: [ErrorEmbed("❌ No logs configuration found for this server.")], 
             ephemeral: true 
         });
     }
@@ -223,23 +216,19 @@ async function editLogs(client, interaction, options) {
     // Handle logs type change
     if (logsType) {
         updateFields["Mod.Logs.type"] = logsType;
-        successUpdates.push(client.language.getString("LOGS_EDIT_TYPE_CHANGED", guild.id, {
-            type: logsType
-        }));
+        successUpdates.push(`Logs type has been set to **${logsType}**. `);
     }
 
     // Handle global logs status toggle
     if (globalStatus !== null && globalStatus !== undefined) {
         updateFields["Mod.Logs.isEnabled"] = globalStatus;
-        successUpdates.push(client.language.getString("LOGS_EDIT_STATUS_CHANGED", guild.id, {
-            status: globalStatus ? "ENABLED" : "DISABLED"
-        }));
+        successUpdates.push(`Global logs have been **${globalStatus ? "ENABLED" : "DISABLED"}**. `);
     }
 
     // If no updates were made, return an error
     if (Object.keys(updateFields).length === 0) {
         return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("LOGS_EDIT_NO_OPTIONS", guild.id))], 
+            embeds: [ErrorEmbed("❌ No valid options were provided to update.")], 
             ephemeral: true 
         });
     }
@@ -249,9 +238,7 @@ async function editLogs(client, interaction, options) {
 
     // Send success message
     await interaction.reply({
-        embeds: [SuccessEmbed(client.language.getString("LOGS_EDIT_SUCCESS", guild.id, {
-            updates: successUpdates.join("")
-        }))],
+        embeds: [SuccessEmbed(`✔️ ${successUpdates.join("")}`)],
         ephemeral: true
     });
 }
@@ -261,7 +248,7 @@ async function listLogs(client, interaction) {
 
     if (!logData || !logData.Mod?.Logs) {
         return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("LOGS_LIST_NO_CONFIG", guild.id))], 
+            embeds: [ErrorEmbed("❌ No logs configuration found for this server.")], 
             ephemeral: true 
         });
     }
@@ -270,31 +257,31 @@ async function listLogs(client, interaction) {
 
     // Create the base embed
     const embed = new EmbedBuilder()
-        .setTitle(client.language.getString("LOGS_LIST_TITLE", guild.id))
-        .setDescription(client.language.getString("LOGS_LIST_DESCRIPTION", guild.id))
+        .setTitle("Logs Configuration")
+        .setDescription("Current logs settings for this server:")
         .addFields(
             { 
-                name: client.language.getString("LOGS_LIST_LOGS_ENABLED", guild.id), 
+                name: "Logs Enabled", 
                 value: logs.isEnabled ? 
-                    client.language.getString("LOGS_LIST_ENABLED", guild.id) : 
-                    client.language.getString("LOGS_LIST_DISABLED", guild.id), 
+                    "Yes" : 
+                    "No", 
                 inline: true 
             },
             { 
-                name: client.language.getString("LOGS_LIST_LOGS_TYPE", guild.id), 
-                value: logs.type || client.language.getString("LOGS_LIST_NOT_SET", guild.id), 
+                name: "Logs Type", 
+                value: logs.type || "Not set", 
                 inline: true 
             },
             { 
-                name: client.language.getString("LOGS_LIST_ALL_LOGS_CHANNEL", guild.id), 
+                name: "All Logs Channel", 
                 value: logs.channel ? 
                     `<#${logs.channel}>` : 
-                    client.language.getString("LOGS_LIST_NOT_SET", guild.id), 
+                    "Not set", 
                 inline: true 
             },
             { 
-                name: client.language.getString("LOGS_LIST_SEPARATED_LOGS", guild.id), 
-                value: client.language.getString("LOGS_LIST_DESCRIPTION", guild.id), 
+                name: "Separated Logs", 
+                value: "Current logs settings for this server:", 
                 inline: false 
             },
             ...await separatedList(client, logs, guild.id)
@@ -309,7 +296,7 @@ async function manageSeparatedLogs(client, interaction) {
 
     if (!logData || !logData.Mod?.Logs) {
         return interaction.reply({ 
-            embeds: [ErrorEmbed(client.language.getString("LOGS_EDIT_NO_CONFIG", guild.id))], 
+            embeds: [ErrorEmbed("❌ No logs configuration found for this server.")], 
             ephemeral: true 
         });
     }
@@ -318,8 +305,8 @@ async function manageSeparatedLogs(client, interaction) {
 
     // Create the base embed
     const embed = new EmbedBuilder()
-        .setTitle(client.language.getString("LOGS_MANAGE_SEPARATED_TITLE", guild.id))
-        .setDescription(client.language.getString("LOGS_MANAGE_SEPARATED_DESCRIPTION", guild.id))
+        .setTitle("Separated Logs Configuration")
+        .setDescription("✨ Manage separated logs events using **configurations** below\nToggle events **status** by pressing their button")
         .addFields(await separatedList(client, logs, guild.id));
 
     const msg = await interaction.reply({ 
@@ -336,7 +323,7 @@ async function manageSeparatedLogs(client, interaction) {
 
         if (!log) {
             return button.reply({ 
-                content: client.language.getString("LOGS_MANAGE_SEPARATED_NOT_FOUND", guild.id), 
+                content: "This log type is not set.", 
                 ephemeral: true 
             });
         }
@@ -354,12 +341,9 @@ async function manageSeparatedLogs(client, interaction) {
         });
         
         button.reply({
-            embeds: [InfoEmbed(client.language.getString("LOGS_MANAGE_SEPARATED_LOG_TOGGLED", guild.id, {
-                log_type: logType,
-                status: log.isEnabled ? 
-                    client.language.getString("LOGS_LIST_ENABLED", guild.id) : 
-                    client.language.getString("LOGS_LIST_DISABLED", guild.id)
-            }))],
+            embeds: [InfoEmbed(`${logType} logs has been set to **${log.isEnabled ? 
+                    "Yes" : 
+                    "No"}**.`)],
             ephemeral: true
         });
     });
@@ -396,11 +380,11 @@ async function separatedList(client, logs, guildId) {
         if (log?.channel) {
             value = `<#${log.channel}> (\`${
                 log.isEnabled ? 
-                client.language.getString("LOGS_LIST_ENABLED", guildId) : 
-                client.language.getString("LOGS_LIST_DISABLED", guildId)
+                "Yes" : 
+                "No"
             }\`)`;
         } else {
-            value = client.language.getString("LOGS_MANAGE_SEPARATED_NOT_SET", guildId);
+            value = "Not set";
         }
         
         fields.push({ name: logType.name, value, inline: true });

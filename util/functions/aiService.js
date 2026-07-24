@@ -1,6 +1,7 @@
 const { OpenRouter } = require("@openrouter/sdk");
 const {
     DEFAULT_MODEL_ID,
+    FREE_MODELS,
     getAvailableModels,
     normalizeModelId
 } = require("./aiModels");
@@ -132,45 +133,159 @@ Guidelines:
             yield "AI service is not available. Please contact the bot owner.";
             return;
         }
+
+        // Get list of models to try
+        const modelsToTry = [];
         const validatedModel = this.resolveModel(model);
-        try {
-            const response = await this.openrouter.chat.send({
-                chatGenerationParams: {
-                    model: validatedModel,
-                    messages,
-                    stream
-                }
-            });
-            for await (const chunk of response) {
-                const content = chunk.choices[0]?.delta?.content;
-                if (content) {
-                    yield content;
-                }
-            }
-        } catch (error) {
-            console.error("[AI Service] Chat error:", error);
-            yield "Sorry, I encountered an error while processing your request.";
+        if (validatedModel === DEFAULT_MODEL_ID) {
+            // If using auto, first try the free router, then all individual free models
+            modelsToTry.push(DEFAULT_MODEL_ID);
+            modelsToTry.push(...FREE_MODELS.map(m => m.id));
+        } else {
+            // If using specific model, try that first then others as fallback
+            modelsToTry.push(validatedModel);
+            modelsToTry.push(DEFAULT_MODEL_ID);
+            modelsToTry.push(...FREE_MODELS.map(m => m.id).filter(id => id !== validatedModel));
         }
+
+        let lastError = null;
+        for (const tryModel of modelsToTry) {
+            try {
+                // Try different parameter formats for @openrouter/sdk compatibility
+                let response;
+                try {
+                    response = await this.openrouter.chat.send({
+                        model: tryModel,
+                        messages,
+                        stream
+                    });
+                } catch (err1) {
+                    try {
+                        response = await this.openrouter.chat.send({
+                            chatGenerationParams: {
+                                model: tryModel,
+                                messages,
+                                stream
+                            }
+                        });
+                    } catch (err2) {
+                        response = await this.openrouter.chat.send({
+                            chatRequest: {
+                                model: tryModel,
+                                messages,
+                                stream
+                            }
+                        });
+                    }
+                }
+
+                let buffer = '';
+                for await (const chunk of response) {
+                    const content = chunk.choices[0]?.delta?.content;
+                    if (content) {
+                        buffer += content;
+
+                        // Check for and filter out safety lines
+                        // First, check if we have a complete line to check
+                        while (buffer.includes('\n')) {
+                            const newlineIndex = buffer.indexOf('\n');
+                            const line = buffer.slice(0, newlineIndex + 1);
+                            buffer = buffer.slice(newlineIndex + 1);
+
+                            // Skip safety-related lines
+                            if (!line.trim().toLowerCase().includes('safety')) {
+                                yield line;
+                            }
+                        }
+                    }
+                }
+
+                // Yield any remaining content in buffer (checking for safety)
+                if (buffer && !buffer.trim().toLowerCase().includes('safety')) {
+                    yield buffer;
+                }
+
+                // If we got here, the model worked - no need to try others
+                return;
+
+            } catch (error) {
+                console.error(`[AI Service] Chat error with model ${tryModel}:`, error);
+                lastError = error;
+                // Continue to try next model
+            }
+        }
+
+        // If all models failed
+        console.error("[AI Service] All models failed");
+        yield "Sorry, I encountered an error while processing your request.";
     }
 
     async chatComplete({ messages, model }) {
         if (!this.isEnabled || !this.openrouter) {
             return "AI service is not available. Please contact the bot owner.";
         }
+
+        // Get list of models to try
+        const modelsToTry = [];
         const validatedModel = this.resolveModel(model);
-        try {
-            const response = await this.openrouter.chat.send({
-                chatGenerationParams: {
-                    model: validatedModel,
-                    messages,
-                    stream: false
-                }
-            });
-            return response.choices[0]?.message?.content || "No response received.";
-        } catch (error) {
-            console.error("[AI Service] Chat error:", error);
-            return "Sorry, I encountered an error while processing your request.";
+        if (validatedModel === DEFAULT_MODEL_ID) {
+            // If using auto, first try the free router, then all individual free models
+            modelsToTry.push(DEFAULT_MODEL_ID);
+            modelsToTry.push(...FREE_MODELS.map(m => m.id));
+        } else {
+            // If using specific model, try that first then others as fallback
+            modelsToTry.push(validatedModel);
+            modelsToTry.push(DEFAULT_MODEL_ID);
+            modelsToTry.push(...FREE_MODELS.map(m => m.id).filter(id => id !== validatedModel));
         }
+
+        let lastError = null;
+        for (const tryModel of modelsToTry) {
+            try {
+                let response;
+                try {
+                    response = await this.openrouter.chat.send({
+                        model: tryModel,
+                        messages,
+                        stream: false
+                    });
+                } catch (err1) {
+                    try {
+                        response = await this.openrouter.chat.send({
+                            chatGenerationParams: {
+                                model: tryModel,
+                                messages,
+                                stream: false
+                            }
+                        });
+                    } catch (err2) {
+                        response = await this.openrouter.chat.send({
+                            chatRequest: {
+                                model: tryModel,
+                                messages,
+                                stream: false
+                            }
+                        });
+                    }
+                }
+
+                let content = response.choices[0]?.message?.content || "No response received.";
+
+                // Filter out safety lines
+                content = content.split('\n').filter(line => !line.trim().toLowerCase().includes('safety')).join('\n');
+
+                return content.trim() || "No response received.";
+
+            } catch (error) {
+                console.error(`[AI Service] ChatComplete error with model ${tryModel}:`, error);
+                lastError = error;
+                // Continue to try next model
+            }
+        }
+
+        // If all models failed
+        console.error("[AI Service] All models failed (chatComplete)");
+        return "Sorry, I encountered an error while processing your request.";
     }
 
     isAvailable() {

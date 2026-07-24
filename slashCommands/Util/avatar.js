@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ChannelType } = require('discord.js');
 const https = require('https');
+const { colors } = require('../../util/constants/constants');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -48,7 +49,7 @@ module.exports = {
     if (subcommand === 'server' && interaction.guild) {
       if (interaction.channel.type !== ChannelType.GuildText) {
         return interaction.reply({ 
-          content: client.language.getString("AVATAR_SERVER_DM_ERROR", interaction.guildId, { user: interaction.user }), 
+          content: `❌ | ${interaction.user}, This option can only be used in text channels!`, 
           ephemeral: true 
         });
       }
@@ -56,13 +57,13 @@ module.exports = {
       const serverIconURL = interaction.guild.iconURL({ dynamic: true, size: 1024 });
 
       const embed = new EmbedBuilder()
-        .setColor("#ed7947")
+        .setColor(colors.UTILITY)
         .setAuthor({ name: interaction.guild.name, iconURL: serverIconURL })
-        .setDescription(`[**${client.language.getString("AVATAR_SERVER_TITLE", interaction.guildId, { guildName: interaction.guild.name })}**](${serverIconURL})`)
+        .setDescription(`[**${interaction.guild.name} avatar link**](${serverIconURL})`)
         .setURL(serverIconURL)
         .setImage(serverIconURL)
         .setFooter({ 
-          text: client.language.getString("AVATAR_SERVER_FOOTER", interaction.guildId, { user: interaction.user.tag, year }), 
+          text: `${interaction.user.tag} | ©${year} Wolfy`, 
           iconURL: interaction.user.displayAvatarURL({ dynamic: true }) 
         })
         .setTimestamp();
@@ -72,7 +73,7 @@ module.exports = {
 
     // For user avatar (either /avatar user or fallback)
     let user = interaction.options.getUser('target') || interaction.user;
-    let color = user.id === interaction.user.id ? '738ADB' : '#ed7947';
+    let color = colors.UTILITY;
     let avatarURL = user.displayAvatarURL({ dynamic: true, size: 1024, extension: 'gif' });
 
     https
@@ -83,18 +84,18 @@ module.exports = {
 
         if (!avatarURL) {
           return interaction.reply({ 
-            content: client.language.getString("AVATAR_NOT_FOUND", interaction.guildId, { user: interaction.user })
+            content: `❌ | ${interaction.user}, I can't find an avatar for this user!`
           });
         }
 
         const embed = new EmbedBuilder()
           .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
           .setColor(color)
-          .setDescription(`[**${client.language.getString("AVATAR_USER_TITLE", interaction.guildId, { username: user.tag })}**](${avatarURL})`)
+          .setDescription(`[**${user.tag} avatar link**](${avatarURL})`)
           .setURL(avatarURL)
           .setImage(avatarURL)
           .setFooter({ 
-            text: client.language.getString("AVATAR_FOOTER", interaction.guildId, { username: user.username, year }), 
+            text: `${user.username}'s avatar | ©${year} Wolfy`, 
             iconURL: interaction.guild?.iconURL({ dynamic: true }) 
           })
           .setTimestamp();
@@ -104,7 +105,7 @@ module.exports = {
       .on('error', (error) => {
         console.error(error);
         interaction.reply({ 
-          content: client.language.getString("AVATAR_ERROR", interaction.guildId, { user: interaction.user })
+          content: `❌ | ${interaction.user}, Something went wrong, please try again later!`
         });
       })
       .end();
