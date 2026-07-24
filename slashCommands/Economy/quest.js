@@ -55,7 +55,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -151,7 +151,7 @@ module.exports = {
         .catch((err) =>
           interaction.reply({
             content: `\\❌ [DATABASE_ERR]: Unable to save the document to the database, please try again later!`,
-            ephemeral: true
+            flags: ['Ephemeral']
           })
         );
     }
@@ -164,7 +164,7 @@ module.exports = {
           })
           .setTitle("Daily Quests")
           .setDescription(
-            `Your daily quests will be refreshed in \`${dayjs.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss")}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix}quest claim\` to claim your final reward!\n\n<:star:888264104026992670> Your Progress:`
+            `Your daily quests will be refreshed in \`${dayjs.duration(data.progress.TimeReset - now, "milliseconds").format("hh:mm:ss")}\`\nYou completed ${data.progress.completed} out of 4 from your daily quests.\nOnce you complete all the quests type \`${client.prefix}quest claim\` to claim your final reward!\n\n⭐ Your Progress:`
           )
           .setThumbnail("attachment://treasure.png")
           .setFooter({
@@ -183,7 +183,7 @@ module.exports = {
                   inline: false,
                   name:
                     `${quest.name} (${dataquest.current}/${dataquest.progress})`,
-                  value: `**Rewards:** <a:ShinyMoney:877975108038324224> \`${quest.reward}\` credits`,
+                  value: `**Rewards:** 💰 \`${quest.reward}\` credits`,
                 };
               })
           );

@@ -23,21 +23,21 @@ module.exports = {
             console.error(err);
             return interaction.followUp({
                 content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
                 content: "💢 I can't find this guild `data` in the database!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("Ticket is already closed!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -51,7 +51,7 @@ module.exports = {
         if (!Channel) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -98,7 +98,7 @@ module.exports = {
             console.error(err);
             interaction.followUp({
                 content: "💢 An error has occurred, please try again later.",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
     },

@@ -28,7 +28,7 @@ module.exports = {
     // Reply to the interaction with the embed message
     interaction.reply({
       embeds: [embed],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   },
 };

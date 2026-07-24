@@ -41,15 +41,15 @@ module.exports = {
             .catch(() => interaction.member);
 
         if (!member) {
-            return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
+            return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", flags: ['Ephemeral'] });
         } else if (member.id === client.user.id) {
-            return interaction.reply({ content: "❌ You cannot change my nickname!", ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change my nickname!", flags: ['Ephemeral'] });
         } else if (member.id === guild.ownerId) {
-            return interaction.reply({ content: "❌ You cannot change the server owner's nickname!", ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change the server owner's nickname!", flags: ['Ephemeral'] });
         } else if (client.owners.includes(member.id)) {
-            return interaction.reply({ content: "❌ You cannot change my developer's nickname!", ephemeral: true });
+            return interaction.reply({ content: "❌ You cannot change my developer's nickname!", flags: ['Ephemeral'] });
         } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-            return interaction.reply({ content: "❌ You can't change the nickname for this user because they have a higher role!", ephemeral: true });
+            return interaction.reply({ content: "❌ You can't change the nickname for this user because they have a higher role!", flags: ['Ephemeral'] });
         };
 
         try {
@@ -75,7 +75,7 @@ module.exports = {
                 .setTimestamp();
             return interaction.reply({ embeds: [embed] });
         } catch (error) {
-            return interaction.reply({ content: "❌ I couldn't change the nickname for this user!", ephemeral: true });
+            return interaction.reply({ content: "❌ I couldn't change the nickname for this user!", flags: ['Ephemeral'] });
         }
     },
 };

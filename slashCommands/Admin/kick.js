@@ -37,7 +37,7 @@ module.exports = {
     const reason = options.getString("reason");
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: `❌ | Please type the id or mention the user to **kick**.`, ephemeral: true });
+      return interaction.reply({ content: `❌ | Please type the id or mention the user to **kick**.`, flags: ['Ephemeral'] });
     };
 
     const member = await guild.members
@@ -45,19 +45,19 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: `❌ | User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
+      return interaction.reply({ content: `❌ | User could not be found! Please ensure the supplied ID is valid.`, flags: ['Ephemeral'] });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **kick** yourself!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **kick** yourself!`, flags: ['Ephemeral'] });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **kick** me!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **kick** me!`, flags: ['Ephemeral'] });
     } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: `❌ | You cannot **kick** a server owner!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **kick** a server owner!`, flags: ['Ephemeral'] });
     } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: `❌ | You cannot **kick** my developer through me!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **kick** my developer through me!`, flags: ['Ephemeral'] });
     } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-      return interaction.reply({ content: `❌ | You can't **kick** that user because he/she has a higher role than yours!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You can't **kick** that user because he/she has a higher role than yours!`, flags: ['Ephemeral'] });
     } else if (!member.kickable) {
-      return interaction.reply({ content: `❌ | I couldn't **kick** that user!`, ephemeral: true })
+      return interaction.reply({ content: `❌ | I couldn't **kick** that user!`, flags: ['Ephemeral'] })
     };
 
     const kick = new EmbedBuilder()
@@ -71,6 +71,6 @@ module.exports = {
       .setTimestamp()
     return member.kick({ reason: `Wolfy KICK: ${interaction.user.username}: ${reason || 'Unspecified'}` })
       .then(_member => interaction.reply({ embeds: [kick] }))
-      .catch(() => interaction.reply({ content: `❌ | I couldn't **kick** that user!`, ephemeral: true }));
+      .catch(() => interaction.reply({ content: `❌ | I couldn't **kick** that user!`, flags: ['Ephemeral'] }));
   },
 };

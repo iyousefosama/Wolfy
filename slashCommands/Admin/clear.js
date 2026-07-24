@@ -35,7 +35,7 @@ module.exports = {
     if (!quantity || quantity < 2 || quantity > 100) {
       return interaction.reply({
         content: "💢 Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)",
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 

@@ -35,14 +35,14 @@ module.exports = {
     if (!selected) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Could not find the item with that ID!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
     if (selected.assets?.link == null) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, There is no preview for this item!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     

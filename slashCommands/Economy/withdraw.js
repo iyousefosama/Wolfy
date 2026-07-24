@@ -83,7 +83,7 @@ module.exports = {
 
       return data.save()
         .then(() => interaction.reply({
-          content: `<:moneytransfer:892745164324474900> **${interaction.user.tag}**, You Successfully withdrawn **${text.commatize(Math.floor(withdrawAmount / 1.1))}** credits from your bank! (+5% fee).`
+          content: `💸 **${interaction.user.tag}**, You Successfully withdrawn **${text.commatize(Math.floor(withdrawAmount / 1.1))}** credits from your bank! (+5% fee).`
         }))
         .catch((err) => interaction.reply({
           content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`

@@ -88,7 +88,7 @@ module.exports = {
             .setDescription(`\\❌ **${message.author.tag}**, There is no \`muted\` role in this guild,\n\nWould you like to generate one?`)
             .setColor('Red')
         const msg = await message.reply({ embeds: [Embed], components: [row] })
-        const collector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
+        const collector = msg.createComponentCollector({ time: 15000, fetch: true });
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '98541984198419841'){
@@ -96,11 +96,11 @@ module.exports = {
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
 
                 if (message.guild.roles.cache.size >= 250) {
-                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Failed to generate a \`Muted\` role. Your server has too many roles! **[250]**`, ephemeral: true})
+                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Failed to generate a \`Muted\` role. Your server has too many roles! **[250]**`, flags: ['Ephemeral']})
                 }
 
                 if (!message.channel.permissionsFor(message.guild.members.me).has('MANAGE_CHANNELS')) {
-                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, I do not have the proper permissions to create this role! \`MANAGE_CHANNELS\``, ephemeral: true})
+                    return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, I do not have the proper permissions to create this role! \`MANAGE_CHANNELS\``, flags: ['Ephemeral']})
                 }
 
                 await message.guild.roles.create({
@@ -119,7 +119,7 @@ module.exports = {
                                     })
                                 }
                             })
-                    await interactionCreate.reply({ content: `<:Verify:841711383191879690> A \`${role.name}\` role has been created!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `<:Verify:841711383191879690> A \`${role.name}\` role has been created!`, flags: ['Ephemeral']})
                 }).catch(() => {
                     return interactionCreate.reply({ content: `\\❌ **${message.author.tag}**, Something went wrong while creating the muted role!`})
                 })
@@ -144,7 +144,7 @@ module.exports = {
                 }
                 if(interactionCreate.customId === '8749481894198419841'){
                     if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
-                    interactionCreate.reply({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`mute\` command!`, ephemeral: true})
+                    interactionCreate.reply({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`mute\` command!`, flags: ['Ephemeral']})
                     button.setDisabled(true)
                     button2.setDisabled(true)
                     const newrow = new ActionRowBuilder()

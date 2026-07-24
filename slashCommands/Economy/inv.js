@@ -71,13 +71,13 @@ module.exports = {
           iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) 
         })
         .setColor('#2F3136')
-        .setTitle(`<a:BackPag:776670895371714570> ${interaction.user.username}'s mining Inventory!`)
+        .setTitle(`◀️ ${interaction.user.username}'s mining Inventory!`)
         .addFields(
-          { name: '<:e_:887034070842900552> Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
-          { name: '<:e_:887031111790764092> Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
-          { name: '<:e_:887034687472689192> Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
-          { name: '<:e_:887036608874967121> Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
-          { name: '<a:Diamond:877975082868301824> Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
+          { name: '⛏️ Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
+          { name: '🪨 Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
+          { name: '🔩 Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
+          { name: '✨ Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
+          { name: '💎 Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
         )
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setFooter({ 
@@ -121,24 +121,24 @@ module.exports = {
     // Mining inventory button
     const miningButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Primary)
-      .setEmoji('853495153280155668')
+      .setEmoji('⛏️')
       .setLabel("Mining inventory")
       .setCustomId("mining_inventory");
       
     // Navigation buttons
     const prevButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Secondary)
-      .setEmoji('890490643548352572')
+      .setEmoji('◀️')
       .setCustomId("prev_page");
       
     const nextButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Secondary)
-      .setEmoji('890490558492061736')
+      .setEmoji('▶️')
       .setCustomId("next_page");
       
     const closeButton = new ButtonBuilder()
       .setStyle(ButtonStyle.Danger)
-      .setEmoji('888264104081522698')
+      .setEmoji('❌')
       .setCustomId("close_menu");
     
     const row = new ActionRowBuilder().addComponents(prevButton, nextButton, closeButton, miningButton);
@@ -152,11 +152,11 @@ module.exports = {
     const response = await interaction.reply({ 
       embeds: [pages.firstPage], 
       components: [row],
-      fetchReply: true
+      withResponse: true
     });
     
     // Create collector for button interactions
-    const collector = response.createMessageComponentCollector({ 
+    const collector = response.createComponentCollector({ 
       filter: i => i.user.id === interaction.user.id,
       time: 90000 
     });
@@ -169,13 +169,13 @@ module.exports = {
             iconURL: client.user.displayAvatarURL({dynamic: true, size: 2048}) 
           })
           .setColor('#2F3136')
-          .setTitle(`<a:BackPag:776670895371714570> ${interaction.user.username}'s mining Inventory!`)
+          .setTitle(`◀️ ${interaction.user.username}'s mining Inventory!`)
           .addFields(
-            { name: '<:e_:887034070842900552> Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
-            { name: '<:e_:887031111790764092> Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
-            { name: '<:e_:887034687472689192> Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
-            { name: '<:e_:887036608874967121> Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
-            { name: '<a:Diamond:877975082868301824> Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
+            { name: '⛏️ Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
+            { name: '🪨 Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
+            { name: '🔩 Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
+            { name: '✨ Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
+            { name: '💎 Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
           )
           .setURL('https://Wolfy.yoyojoe.repl.co')
           .setFooter({ 
@@ -184,7 +184,7 @@ module.exports = {
           })
           .setTimestamp();
           
-        await i.reply({ embeds: [mineInv], ephemeral: true });
+        await i.reply({ embeds: [mineInv], flags: ['Ephemeral'] });
       } 
       else if (i.customId === 'prev_page') {
         await i.update({ embeds: [pages.previous()], components: [row] });

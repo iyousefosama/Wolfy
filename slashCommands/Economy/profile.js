@@ -33,7 +33,7 @@ module.exports = {
     if (member.user.bot) {
       return interaction.reply({ 
         content: `\\❌ Bots cannot earn XP!`,
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
 

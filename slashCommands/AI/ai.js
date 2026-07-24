@@ -125,7 +125,7 @@ module.exports = {
         if (!aiService.isAvailable() && subcommand !== "stats" && subcommand !== "settings") {
             return interaction.reply({
                 content: "❌ AI service is currently unavailable. Please contact the bot owner.",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
 
@@ -143,7 +143,7 @@ module.exports = {
             console.error("[AI Command] Error fetching user settings:", err);
             return interaction.reply({
                 content: "❌ An error occurred while accessing your settings. Please try again later.",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
 
@@ -156,7 +156,7 @@ module.exports = {
                 if (!validation.valid) {
                     return interaction.reply({
                         content: `❌ Invalid instructions: ${validation.reason}`,
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
@@ -166,7 +166,7 @@ module.exports = {
 
                 return interaction.reply({
                     content: "✅ Your custom AI instructions have been set! The AI will now follow these guidelines when responding to you.",
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -176,7 +176,7 @@ module.exports = {
 
                 return interaction.reply({
                     content: "✅ Your custom AI instructions have been cleared. The AI will now use default behavior.",
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -185,7 +185,7 @@ module.exports = {
 
                 return interaction.reply({
                     content: "✅ Your conversation history with the AI has been cleared.",
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -199,7 +199,7 @@ module.exports = {
                     content: enabled
                         ? "✅ AI chat has been **enabled** for you. You can now chat with me in DMs or by mentioning me!"
                         : "✅ AI chat has been **disabled** for you. I won't respond to your messages anymore.",
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -247,7 +247,7 @@ module.exports = {
                         },
                         timestamp: new Date()
                     }],
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -290,7 +290,7 @@ module.exports = {
                         },
                         timestamp: new Date()
                     }],
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -301,7 +301,7 @@ module.exports = {
                 if (!aiService.isValidModel(model)) {
                     return interaction.reply({
                         content: "❌ Invalid or non-free model selected. Please choose from the available free models.",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
@@ -314,7 +314,7 @@ module.exports = {
 
                 return interaction.reply({
                     content: `✅ AI model changed to: \`${modelDisplayName}\`${suffix}`,
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -332,7 +332,7 @@ module.exports = {
 
                 return interaction.reply({
                     content: `✅ Response length preference set to **${preference}** (${descriptions[preference]}).`,
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
 
@@ -342,7 +342,7 @@ module.exports = {
                 if (!prompt || !prompt.trim()) {
                     return interaction.reply({
                         content: "❌ Please provide a prompt to send to the AI.",
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
                 }
 
@@ -389,7 +389,7 @@ module.exports = {
             default:
                 return interaction.reply({
                     content: "❌ Unknown subcommand.",
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
         }
     }

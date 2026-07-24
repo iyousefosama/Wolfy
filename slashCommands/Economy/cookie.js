@@ -115,7 +115,7 @@ Type \`/buy item:2\` to buy the item.`)
     return Promise.all([data.save(), friendData.save()])
       .then(() => {
         const embed = new discord.EmbedBuilder()
-          .setTitle("<a:Cookie:853495749370839050> Cookie is given!")
+          .setTitle("🍪 Cookie is given!")
           .setDescription(`**${interaction.user.username}**, gave ${friend} a cookie!
 💰 ${interaction.user.username} got (\`+${moneyget}\`) credits for being a nice friend!
 

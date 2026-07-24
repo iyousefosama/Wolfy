@@ -56,7 +56,7 @@ module.exports = {
     if (reason.length > 1024) {
       return interaction.reply({ 
         content: "❌ The reason can't be longer than 1024 characters!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -70,14 +70,14 @@ module.exports = {
       if (!data) {
         return interaction.reply({ 
           content: "❌ Please set a suggestion channel first!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
     } catch (err) {
       console.log(err);
       return interaction.reply({ 
         content: `❌ [DATABASE_ERR]: The database responded with an error! ${err.name}`,
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -86,7 +86,7 @@ module.exports = {
     if (!channelID) {
       return interaction.reply({ 
         content: "❌ Please set a suggestion channel first!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -95,7 +95,7 @@ module.exports = {
     if (!channel) {
       return interaction.reply({ 
         content: "❌ The suggestion channel was not found!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -110,7 +110,7 @@ module.exports = {
         
         return interaction.reply({ 
           content: "❌ That message is not a valid suggestion!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -118,7 +118,7 @@ module.exports = {
       if (suggestion.embeds[0].fields.length > 1) {
         return interaction.reply({ 
           content: "❌ That suggestion already has a response!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -126,7 +126,7 @@ module.exports = {
       if (!suggestion.editable) {
         return interaction.reply({ 
           content: "❌ I can't edit that message!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -159,14 +159,14 @@ module.exports = {
       
       return interaction.reply({ 
         content: `✅ Successfully ${action}ed the suggestion!`,
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
       
     } catch (error) {
       console.error(error);
       return interaction.reply({ 
         content: "❌ There was an error while responding to the suggestion!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
   }

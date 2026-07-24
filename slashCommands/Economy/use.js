@@ -39,7 +39,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -54,7 +54,7 @@ module.exports = {
     if (!item) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, You do not have this item in your inventory!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -63,14 +63,14 @@ module.exports = {
     if (!metadata) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, This item can no longer be used!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
     if (metadata.assets?.link == null) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, You can't use this item!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -84,7 +84,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
   },

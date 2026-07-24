@@ -153,39 +153,39 @@ module.exports = {
                 ].join('\n'))
 
             const responses = {
-                "info": { embeds: [info], ephemeral: true },
-                "search": { embeds: [search], ephemeral: true },
-                "util": { embeds: [Utl], ephemeral: true },
-                "moderator": { embeds: [moderator], ephemeral: true },
-                "fun": { embeds: [Fun], ephemeral: true },
-                "setup": { embeds: [setup], ephemeral: true },
-                "bot": { embeds: [bot], ephemeral: true },
-                "level": { embeds: [level], ephemeral: true },
-                "eco": { embeds: [Eco], ephemeral: true },
-                "all": { embeds: [allCmds], ephemeral: true }
+                "info": { embeds: [info], flags: ['Ephemeral'] },
+                "search": { embeds: [search], flags: ['Ephemeral'] },
+                "util": { embeds: [Utl], flags: ['Ephemeral'] },
+                "moderator": { embeds: [moderator], flags: ['Ephemeral'] },
+                "fun": { embeds: [Fun], flags: ['Ephemeral'] },
+                "setup": { embeds: [setup], flags: ['Ephemeral'] },
+                "bot": { embeds: [bot], flags: ['Ephemeral'] },
+                "level": { embeds: [level], flags: ['Ephemeral'] },
+                "eco": { embeds: [Eco], flags: ['Ephemeral'] },
+                "all": { embeds: [allCmds], flags: ['Ephemeral'] }
             };
 
-            if (!responses[EmbedName.toLowerCase()]) return message.reply({ content: "\\❗ Invalid embed name!", ephemeral: true });
+            if (!responses[EmbedName.toLowerCase()]) return message.reply({ content: "\\❗ Invalid embed name!", flags: ['Ephemeral'] });
 
             return message.reply(responses[EmbedName.toLowerCase()]);
         } else {
             const msg = await message.reply({ embeds: [help], components: rows })
-            const collector = msg.createMessageComponentCollector({ time: 1800000, fetch: true });
+            const collector = msg.createComponentCollector({ time: 1800000, fetch: true });
 
             collector.on('collect', async interaction => {
                 const { customId, member, user } = interaction;
 
                 // Define responses based on customId
                 const responses = {
-                    "1": { embeds: [info], ephemeral: true },
-                    "2": { embeds: [search], ephemeral: true },
-                    "3": { embeds: [Utl], ephemeral: true },
-                    "4": { embeds: [moderator], ephemeral: true },
-                    "5": { embeds: [Fun], ephemeral: true },
-                    "6": { embeds: [setup], ephemeral: true },
-                    "7": { embeds: [bot], ephemeral: true },
-                    "8": { embeds: [level], ephemeral: true },
-                    "9": { embeds: [Eco], ephemeral: true },
+                    "1": { embeds: [info], flags: ['Ephemeral'] },
+                    "2": { embeds: [search], flags: ['Ephemeral'] },
+                    "3": { embeds: [Utl], flags: ['Ephemeral'] },
+                    "4": { embeds: [moderator], flags: ['Ephemeral'] },
+                    "5": { embeds: [Fun], flags: ['Ephemeral'] },
+                    "6": { embeds: [setup], flags: ['Ephemeral'] },
+                    "7": { embeds: [bot], flags: ['Ephemeral'] },
+                    "8": { embeds: [level], flags: ['Ephemeral'] },
+                    "9": { embeds: [Eco], flags: ['Ephemeral'] },
                 };
 
                 // Respond based on customId

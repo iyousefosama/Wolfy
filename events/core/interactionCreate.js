@@ -40,8 +40,9 @@ module.exports = {
     );
 
     if (!command) {
+      console.log(`[WARNING] Unknown command executed: /${interaction.commandName}`);
       return interaction
-        .reply({ embeds: [ErrorEmbed("💢 An error has occurred, please try again later.")], ephemeral: true })
+        .reply({ embeds: [ErrorEmbed("💢 An error has occurred, please try again later.")], flags: ['Ephemeral'] })
         .catch((error) => handleInteractionError(error, interaction, client));
     } else if (interaction.user.bot) {
       return;

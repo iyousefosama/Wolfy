@@ -40,7 +40,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -55,7 +55,7 @@ module.exports = {
     if (!date.isValid()) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Please add your date in DD-MM format (e.g., 26-09 for September 26)`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -69,7 +69,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Your birthday update failed!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
   },

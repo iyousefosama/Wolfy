@@ -34,14 +34,14 @@ module.exports = {
       if (!voiceChannel) {
         return interaction.reply({ 
           content: "❌ You need to be in a voice channel to kick everyone!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
       if (voiceChannel.members.size <= 1) {
         return interaction.reply({ 
           content: "❌ There are no other members in this voice channel!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -66,7 +66,7 @@ module.exports = {
       } catch (error) {
         return interaction.reply({ 
           content: "❌ There was an error while kicking users from the voice channel!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
     }
@@ -75,7 +75,7 @@ module.exports = {
     if (!target.match(/\d{17,19}/)) {
       return interaction.reply({ 
         content: "❌ Please provide a valid user ID or mention!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -86,32 +86,32 @@ module.exports = {
     if (!targetMember) {
       return interaction.reply({ 
         content: "❌ User not found!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     } else if (targetMember.id === interaction.user.id) {
       return interaction.reply({ 
         content: "❌ You can't kick yourself!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     } else if (targetMember.id === client.user.id) {
       return interaction.reply({ 
         content: "❌ You can't kick me!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     } else if (targetMember.id === guild.ownerId) {
       return interaction.reply({ 
         content: "❌ You can't kick the server owner!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     } else if (client.owners.includes(targetMember.id)) {
       return interaction.reply({ 
         content: "❌ You can't kick my developer!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     } else if (interaction.member.roles.highest.position <= targetMember.roles.highest.position) {
       return interaction.reply({ 
         content: "❌ You can't kick that user because they have a higher role!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -119,7 +119,7 @@ module.exports = {
     if (!targetMember.voice.channel) {
       return interaction.reply({ 
         content: "❌ That user is not in a voice channel!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -134,7 +134,7 @@ module.exports = {
     } catch (error) {
       return interaction.reply({ 
         content: "❌ There was an error while kicking that user!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
   }

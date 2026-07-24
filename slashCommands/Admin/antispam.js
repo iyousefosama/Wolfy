@@ -88,7 +88,7 @@ module.exports = {
   },
   async execute(client, interaction) {
     const { guild, options } = interaction;
-    await interaction.deferReply({ ephemeral: true }).catch(() => {});
+    await interaction.deferReply({ flags: ['Ephemeral'] }).catch(() => {});
 
     const sub = options.getSubcommand();
     let guildData;

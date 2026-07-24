@@ -90,12 +90,12 @@ module.exports = {
         };
     
         const msg = await message.channel.send({ embeds: [pages.firstPage], components: [row] });
-        const Butcollector = msg.createMessageComponentCollector({ time: 15000, fetch: true });
+        const Butcollector = msg.createComponentCollector({ time: 15000, fetch: true });
 
         Butcollector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '652196854196854984'){
                 if (!interactionCreate.member.id == message.author.id) return interactionCreate.deferUpdate()
-                interactionCreate.reply({ embeds: [Mineinv], ephemeral: true})
+                interactionCreate.reply({ embeds: [Mineinv], flags: ['Ephemeral']})
                 }
     })
         Butcollector.on('end', message => {

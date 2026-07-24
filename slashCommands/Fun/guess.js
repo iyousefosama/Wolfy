@@ -19,7 +19,7 @@ module.exports = {
         if (currentGames[guild.id]) {
             return interaction.reply({ 
                 content: "A guess the number game is already running in this server! 😄",
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         }
 

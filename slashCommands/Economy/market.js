@@ -116,13 +116,13 @@ ${item.type != "Item" ? `Purchase: \`/buy item:${item.id}\`` : ''}`
     const prevButton = new ButtonBuilder()
       .setCustomId('prev')
       .setStyle(ButtonStyle.Primary)
-      .setEmoji('890490643548352572') // Previous emoji
+      .setEmoji('◀️')
       .setDisabled(true);
 
     const nextButton = new ButtonBuilder()
       .setCustomId('next')
       .setStyle(ButtonStyle.Primary)
-      .setEmoji('890490558492061736'); // Next emoji
+      .setEmoji('▶️');
 
     const row = new ActionRowBuilder().addComponents(prevButton, nextButton);
 
@@ -130,11 +130,11 @@ ${item.type != "Item" ? `Purchase: \`/buy item:${item.id}\`` : ''}`
     const response = await interaction.reply({
       embeds: [pages[currentPage]],
       components: [row],
-      fetchReply: true
+      withResponse: true
     });
 
     // Create collector for button interactions
-    const collector = response.createMessageComponentCollector({
+    const collector = response.createComponentCollector({
       filter: i => i.user.id === interaction.user.id,
       time: 90000 // 1.5 minutes
     });

@@ -215,7 +215,7 @@ Use \`/market\` to show the market.`)
           content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`
         }));
     } else if (Math.random() * 100 < 0.80) {
-      const legendary = ["LegendaryFish <:fish:892685979918426112>"];
+      const legendary = ["LegendaryFish 🐟"];
       moneyget = Math.floor(Math.random() * 890) + 560;
       data.credits += Math.floor(moneyget);
       

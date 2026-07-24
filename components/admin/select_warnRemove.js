@@ -17,7 +17,7 @@ module.exports = {
         if (!uuid.validate(selectedWarnId)) {
             return interaction.reply({
                 content: '❌ Please provide a valid warn id.',
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -31,7 +31,7 @@ module.exports = {
         if (!warnedUserResult) {
             return interaction.reply({
                 content: '❌ No warnings found for this user.',
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -41,7 +41,7 @@ module.exports = {
         if (!warningExists) {
             return interaction.reply({
                 content: '❌ The specified warn ID does not exist.',
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -65,7 +65,7 @@ module.exports = {
         if (!getRemovedWarnedUser) {
             return interaction.reply({
                 content: '❌ Warned user not found in the guild.',
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -75,7 +75,7 @@ module.exports = {
 
         interaction.reply({ 
             content: `🛡️ | Successfully deleted **${getRemovedWarnedUser.user.tag}** warning, they now have **${warnedRemoveCount}** warning${warnedRemoveGrammar}!`, 
-            ephemeral: true 
+            flags: ['Ephemeral'] 
         });
     },
 };

@@ -146,7 +146,7 @@ module.exports = {
                 console.error(error);
                 return interaction.reply({ 
                     content: `❌ | ${interaction.user}, Something went wrong, please try again later!`,
-                    ephemeral: true 
+                    flags: ['Ephemeral'] 
                 });
             }
         })();

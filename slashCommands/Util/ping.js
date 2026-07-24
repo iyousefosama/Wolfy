@@ -42,7 +42,7 @@ module.exports = {
     const hide = interaction.options.getBoolean("hide");
     
     // Defer reply to calculate ping accurately
-    await interaction.deferReply({ ephemeral: hide }).catch(() => {});
+    await interaction.deferReply({ flags: hide ? ['Ephemeral'] : [] }).catch(() => {});
     
     // Calculate ping
     const ping = Date.now() - interaction.createdTimestamp;

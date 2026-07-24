@@ -41,7 +41,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
                 client.CoolDownCurrent[userId] = true;
                 interaction.reply({
                     embeds: [InfoEmbed(`⏳ Please cool down! (**${timeLeft.toFixed(0)}** second(s) left)`)],
-                    ephemeral: true,
+                    flags: ['Ephemeral'],
                 });
                 return false;
             }
@@ -65,19 +65,19 @@ const handleApplicationCommand = async (interaction, command, client) => {
         if (blockdata) {
             interaction.reply({
                 embeds: [ErrorEmbed(`💢 \`${cmdName}\` command is blocked in this server!`)],
-                ephemeral: true
+                flags: ['Ephemeral']
             })
             return false;
         }
     }
     if (command.data.guildOnly && interaction.channel.type === ChannelType.DM) {
-        interaction.reply({ embeds: [ErrorEmbed("💢 I can't execute that command inside DMs!")], ephemeral: true });
+        interaction.reply({ embeds: [ErrorEmbed("💢 I can't execute that command inside DMs!")], flags: ['Ephemeral'] });
         return false;
     }
 
 
     if (command.data.ownerOnly && !client.owners.includes(interaction.user.id)) {
-        interaction.reply({ embeds: [ErrorEmbed(`The command \`${cmdName}\` is limited for developers only!`)], ephemeral: true });
+        interaction.reply({ embeds: [ErrorEmbed(`The command \`${cmdName}\` is limited for developers only!`)], flags: ['Ephemeral'] });
         return false;
     }
 
@@ -98,7 +98,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
         if (interaction.guild) {
             if (!interaction.member.permissions.has(command.data.permissions)) {
                 const parsedPermissions = parsePermissions(command.data.permissions);
-                interaction.reply({ embeds: [ErrorEmbed(`💢 You don't have \`${parsedPermissions}\` to use **${cmdName}** command.`)], ephemeral: true });
+                interaction.reply({ embeds: [ErrorEmbed(`💢 You don't have \`${parsedPermissions}\` to use **${cmdName}** command.`)], flags: ['Ephemeral'] });
                 return false;
             }
         }
@@ -114,7 +114,7 @@ const handleApplicationCommand = async (interaction, command, client) => {
                 const parsedPermissions = parsePermissions(command.data.clientPermissions);
                 interaction.reply({ 
                     embeds: [ErrorEmbed(`💢 The bot is missing \`${parsedPermissions}\` permission(s)!`)], 
-                    ephemeral: true 
+                    flags: ['Ephemeral'] 
                 });
                 return false;
             }

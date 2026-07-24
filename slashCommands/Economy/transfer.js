@@ -49,33 +49,33 @@ module.exports = {
     if (!user) {
       return interaction.reply({
         content: "\\❌ | User could not be found! Please ensure the supplied ID is valid.",
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
     if (user.id === interaction.user.id) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to yourself!`,
-        ephemeral: true
+        content: `❌ | ${interaction.user}, You cannot transfer credits to yourself!`,
+        flags: ['Ephemeral']
       });
     }
 
     if (user.id === client.user.id) {
       return interaction.reply({
-        content: `<a:Wrong:812104211361693696> | ${interaction.user}, You cannot transfer credits to me!`,
-        ephemeral: true
+        content: `❌ | ${interaction.user}, You cannot transfer credits to me!`,
+        flags: ['Ephemeral']
       });
     }
 
     if (!amount || amount === "Nothing" || isNaN(amount)) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, \`${amount}\` is not a valid amount!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     } else if (amount < 100 || amount > 50000) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, only valid amount to transfer is between **100** and **50,000**!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
@@ -100,7 +100,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -112,12 +112,12 @@ module.exports = {
     if (Math.ceil(amount * 1.1) > data.credits) {
       interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Insufficient credits! You only have **${data.credits}** in your wallet! (10% fee applies)`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     } else {
       const amountToAdd = amount / 1.1;
       await interaction.reply({
-        content: `<a:iNFO:853495450111967253> **${interaction.user.tag}**, Are you sure you want to transfer **${text.commatize(amountToAdd)}** to ${user}(10% fee applies)? Your new balance will be **${Math.floor(data.credits - amount * 1.1)}**! \`(y/n)\``,
+        content: `ℹ️ **${interaction.user.tag}**, Are you sure you want to transfer **${text.commatize(amountToAdd)}** to ${user}(10% fee applies)? Your new balance will be **${Math.floor(data.credits - amount * 1.1)}**! \`(y/n)\``,
       });
       const filter = (_message) =>
         interaction.user.id === _message.author.id &&
@@ -134,8 +134,8 @@ module.exports = {
 
       if (!proceed) {
         return interaction.editReply({
-          content: `<a:Wrong:812104211361693696> | ${interaction.user}, Cancelled the \`transfer\` command!`,
-          ephemeral: true
+          content: `❌ | ${interaction.user}, Cancelled the \`transfer\` command!`,
+          flags: ['Ephemeral']
         });
       }
 
@@ -149,13 +149,13 @@ module.exports = {
       return Promise.all([data.save(), FriendData.save()])
         .then(() =>
           interaction.editReply({
-            content: `<a:Money:836169035191418951> **${interaction.user.tag}**, Successfully transferred \`${text.commatize(Math.floor(amount))}\` to **${user}**!`
+            content: `💵 **${interaction.user.tag}**, Successfully transferred \`${text.commatize(Math.floor(amount))}\` to **${user}**!`
           })
         )
         .catch((err) =>
           interaction.editReply({
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true
+            flags: ['Ephemeral']
           })
         );
     }

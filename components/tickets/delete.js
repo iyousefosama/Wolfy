@@ -31,7 +31,7 @@ module.exports = {
             if (!ticket.IsClosed) {
                 return interaction.followUp({ 
                     embeds: [ErrorEmbed("Ticket should be closed before it can be deleted")], 
-                    ephemeral: true 
+                    flags: ['Ephemeral'] 
                 });
             }
 

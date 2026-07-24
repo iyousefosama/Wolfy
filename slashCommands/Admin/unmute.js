@@ -29,7 +29,7 @@ module.exports = {
     const user = options.getUser("target");
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: "❌ Please type the id or mention the user to unmute.", ephemeral: true });
+      return interaction.reply({ content: "❌ Please type the id or mention the user to unmute.", flags: ['Ephemeral'] });
     };
 
     const member = await guild.members
@@ -37,13 +37,13 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
+      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", flags: ['Ephemeral'] });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: "❌ You cannot unmute yourself!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot unmute yourself!", flags: ['Ephemeral'] });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: "❌ You cannot unmute me!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot unmute me!", flags: ['Ephemeral'] });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: "❌ You can't unmute that user because he/she has a higher role than yours!", ephemeral: true });
+      return interaction.reply({ content: "❌ You can't unmute that user because he/she has a higher role than yours!", flags: ['Ephemeral'] });
     }
 
     let data;
@@ -61,17 +61,17 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", ephemeral: true });
+      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", flags: ['Ephemeral'] });
     }
 
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
     
     if (!mutedRole) {
-      return interaction.reply({ content: "❌ There is no muted role in this guild!", ephemeral: true });
+      return interaction.reply({ content: "❌ There is no muted role in this guild!", flags: ['Ephemeral'] });
     }
     
     if (!member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted !== true) {
-      return interaction.reply({ content: "❌ User is already unmuted!", ephemeral: true });
+      return interaction.reply({ content: "❌ User is already unmuted!", flags: ['Ephemeral'] });
     }
 
     try {
@@ -90,7 +90,7 @@ module.exports = {
     } catch (error) {
       return interaction.reply({ 
         content: "❌ I couldn't unmute that user!", 
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
   },

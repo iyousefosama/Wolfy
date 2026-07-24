@@ -48,7 +48,7 @@ module.exports = {
                 })
             }
         } catch (err) {
-            await interaction.reply({ content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, ephemeral: true })
+            await interaction.reply({ content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`, flags: ['Ephemeral'] })
             client.logDetailedError({
                 error: err,
                 eventType: "DATABASE_ERR",
@@ -57,13 +57,13 @@ module.exports = {
         }
 
         if (feedback.length > 1000) {
-            return interaction.reply({ content: `❌ Please make your report brief and short! (MAX 1000 characters!)`, ephemeral: true })
+            return interaction.reply({ content: `❌ Please make your report brief and short! (MAX 1000 characters!)`, flags: ['Ephemeral'] })
         };
 
         const owner = await client.users.fetch(client.owners[0]).catch(() => null);
 
         if (!owner) {
-            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, ephemeral: true });
+            return interaction.reply({ content: `💢 Couldn't contact \`owner\`!`, flags: ['Ephemeral'] });
         };
 
         if (TimeOutData.feedback > now) {
@@ -72,7 +72,7 @@ module.exports = {
                     .setTitle(`📤 Feedback already Send!`)
                     .setDescription(`❌ **${interaction.user.username}**, You already send your **feedback** earlier!\nYou can send your feedback again after ${dayjs.duration(TimeOutData.feedback - now, 'milliseconds').format('H [hours,] m [minutes, and] s [seconds]')}`)
                     .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setColor(colors.ERROR)], ephemeral: true
+                    .setColor(colors.ERROR)], flags: ['Ephemeral']
             })
         } else {
             TimeOutData.feedback = Math.floor(Date.now() + duration);
@@ -103,8 +103,8 @@ module.exports = {
                         '```'
                     ].join('\n')
                 })
-            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: `✅ Feedback Sent!`, ephemeral: true }))
-                .catch(() => interaction.reply({ content: `💢 **${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, ephemeral: true }));
+            owner.send({ embeds: [embed] }).then(() => interaction.reply({ content: `✅ Feedback Sent!`, flags: ['Ephemeral'] }))
+                .catch(() => interaction.reply({ content: `💢 **${owner.username}** is currently not accepting any Feedbacks right now via DMs.`, flags: ['Ephemeral'] }));
         }
     },
 };

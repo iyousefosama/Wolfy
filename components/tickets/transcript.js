@@ -30,7 +30,7 @@ module.exports = {
         if (!TicketData || !TicketData.IsClosed) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("This ticket is not closed!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -57,7 +57,7 @@ module.exports = {
                 console.error(e);
                 return interaction.followUp({
                     content: "💢 An error has occurred, please try again later.",
-                    ephemeral: true,
+                    flags: ['Ephemeral'],
                 });
             }
 
@@ -98,13 +98,13 @@ module.exports = {
                 .then(() => {
                     return interaction.followUp({
                         embeds: [InfoEmbed("Sent transcript to your DM!")],
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
                 })
                 .catch(() => {
                     return interaction.followUp({
                         embeds: [ErrorEmbed("💢 I couldn't send the transcript to your **DM**!")],
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
                 });
             
@@ -112,7 +112,7 @@ module.exports = {
             console.error(err);
             return interaction.followUp({
                 content: "💢 There was an error while executing this command!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
     },

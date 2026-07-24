@@ -37,7 +37,7 @@ module.exports = {
     const reason = options.getString("reason");
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: `❌ | Please type the id or mention the user to **ban**.`, ephemeral: true });
+      return interaction.reply({ content: `❌ | Please type the id or mention the user to **ban**.`, flags: ['Ephemeral'] });
     };
 
     const member = await guild.members
@@ -45,19 +45,19 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: `❌ | User could not be found! Please ensure the supplied ID is valid.`, ephemeral: true });
+      return interaction.reply({ content: `❌ | User could not be found! Please ensure the supplied ID is valid.`, flags: ['Ephemeral'] });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **ban** yourself!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **ban** yourself!`, flags: ['Ephemeral'] });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **ban** me!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **ban** me!`, flags: ['Ephemeral'] });
     } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: `❌ | You cannot **ban** a server owner!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **ban** a server owner!`, flags: ['Ephemeral'] });
     } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: `❌ | You cannot **ban** my developer through me!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You cannot **ban** my developer through me!`, flags: ['Ephemeral'] });
     } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-      return interaction.reply({ content: `❌ | You can't **ban** that user because he/she has a higher role than yours!`, ephemeral: true });
+      return interaction.reply({ content: `❌ | You can't **ban** that user because he/she has a higher role than yours!`, flags: ['Ephemeral'] });
     } else if (!member.bannable) {
-      return interaction.reply({ content: `❌ | I couldn't **ban** that user!`, ephemeral: true })
+      return interaction.reply({ content: `❌ | I couldn't **ban** that user!`, flags: ['Ephemeral'] })
     };
 
     const ban = new EmbedBuilder()

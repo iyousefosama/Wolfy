@@ -21,7 +21,7 @@ module.exports = {
 
   async action(client, interaction) {
     // Immediately defer ephemerally so we never time out on the 3-second window.
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: ['Ephemeral'] });
 
     const { getManager } = require('../../util/modules/GiveawayManager');
     const manager  = getManager(client);

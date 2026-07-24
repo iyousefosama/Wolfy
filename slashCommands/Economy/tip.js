@@ -45,7 +45,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -60,8 +60,8 @@ module.exports = {
     
     if (tipper.tips.timestamp !== 0 && tipper.tips.timestamp - now > 0) {
       return interaction.reply({
-        content: `\\❌ **${interaction.user.tag}**, You have already used *tip* earlier! Please try again later. \`${dayjs.duration(tipper.tips.timestamp - now).format('H [hours}\``,
-        ephemeral: true
+        content: `\\❌ **${interaction.user.tag}**, You have already used *tip* earlier! Please try again later. \`${dayjs.duration(tipper.tips.timestamp - now).format('H [hours]')}\``,
+        flags: ['Ephemeral']
       });
     }
     
@@ -70,17 +70,17 @@ module.exports = {
     if (!member) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Could not find this user!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     } else if (member.id === interaction.user.id) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, You cannot tip yourself!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     } else if (member.user.bot) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, You cannot tip a bot!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -96,7 +96,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -139,7 +139,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `\\❌ \`[DATABASE_ERR]:\` Unable to save the document to the database, please try again later!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
   },

@@ -25,8 +25,19 @@ module.exports = (directory, exceptions = []) => {
       // Attach the file path to each command object
       commandObject.filePath = commandFile;
 
-      if (exceptions.includes(commandObject.name)) {
+      const commandName = commandObject.data?.name || commandObject.name;
+
+      if (!commandName) {
         continue;
+      }
+
+      if (exceptions.includes(commandName)) {
+        continue;
+      }
+
+      // Ensure the command has a top-level name for consistency
+      if (!commandObject.name) {
+        commandObject.name = commandName;
       }
 
       localCommands.push(commandObject);

@@ -33,7 +33,7 @@ module.exports = {
         if(data.Mod.smroles.id !== parts[2]) {
             return interaction.reply({ 
                 content: "💢 This select menu is outdated!", 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             })
         }
 
@@ -54,7 +54,7 @@ module.exports = {
         if (!selectedRole) {
             return interaction.reply({
                 content: "💢 `role` can not be found!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -64,14 +64,14 @@ module.exports = {
                 .then(() => {
                     interaction.reply({
                         content: `👥 Successfully removed ${selectedRole} from you!`,
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
                 })
                 .catch(
                     async (err) =>
                         await interaction.reply({
                             content: `❌ Failed to remove the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                 );
         } else {
@@ -80,14 +80,14 @@ module.exports = {
                 .then(() => {
                     interaction.reply({
                         content: `✨ Successfully added ${selectedRole} for you!`,
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
                 })
                 .catch(
                     async (err) =>
                         await interaction.reply({
                             content: `❌ Failed to add the role **${selectedRole}** for ${member.user.tag}, \`${err.message}\`!`,
-                            ephemeral: true
+                            flags: ['Ephemeral']
                         })
                 );
         }

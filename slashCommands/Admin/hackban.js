@@ -37,7 +37,7 @@ module.exports = {
     if (!userId.match(/\d{17,19}/)) {
       return interaction.reply({ 
         content: "❌ | Please provide a valid Discord ID!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -51,7 +51,7 @@ module.exports = {
       if (member) {
         return interaction.reply({ 
           content: "❌ | This user is in the server! Please use the regular `ban` command instead!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -59,7 +59,7 @@ module.exports = {
       if (user.id === guild.ownerId) {
         return interaction.reply({ 
           content: "❌ | You cannot hackban the server owner!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -67,7 +67,7 @@ module.exports = {
       if (user.id === interaction.user.id) {
         return interaction.reply({ 
           content: "❌ | You cannot hackban yourself!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -75,7 +75,7 @@ module.exports = {
       if (user.id === client.user.id) {
         return interaction.reply({ 
           content: "❌ | You cannot hackban me!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -83,7 +83,7 @@ module.exports = {
       if (client.owners.includes(user.id)) {
         return interaction.reply({ 
           content: "❌ | You cannot hackban my developer!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -119,11 +119,11 @@ module.exports = {
       const response = await interaction.reply({ 
         embeds: [confirmEmbed], 
         components: [row],
-        fetchReply: true
+        withResponse: true
       });
       
       // Create collector for button interactions
-      const collector = response.createMessageComponentCollector({ 
+      const collector = response.createComponentCollector({ 
         time: 30000 // 30 seconds
       });
       
@@ -132,7 +132,7 @@ module.exports = {
         if (buttonInteraction.user.id !== interaction.user.id) {
           return buttonInteraction.reply({ 
             content: "❌ | You are not the one who executed this command!",
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         }
         
@@ -213,7 +213,7 @@ module.exports = {
       // If user could not be found
       return interaction.reply({ 
         content: "❌ | User not found!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
   },

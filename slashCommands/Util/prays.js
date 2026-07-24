@@ -53,7 +53,7 @@ module.exports = {
       if (response.data.code !== 200) {
         return interaction.reply({
           content: `❌ | ${interaction.user}, Please provide a valid city name!`,
-          ephemeral: true,
+          flags: ['Ephemeral'],
         });
       }
 
@@ -151,7 +151,7 @@ module.exports = {
       console.error("Error in execute function:", error);
       interaction.reply({
         content: `❌ I couldn't find prayer times for that location!`,
-        ephemeral: true,
+        flags: ['Ephemeral'],
       });
     }
   },

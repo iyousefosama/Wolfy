@@ -42,7 +42,7 @@ module.exports = {
         const member = await guild.members.fetch(user.id).catch(() => null);
 
         if (!member) {
-            return interaction.reply({ content: "❌ | User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
+            return interaction.reply({ content: "❌ | User could not be found! Please ensure the supplied ID is valid.", flags: ['Ephemeral'] });
         }
 
         const isSelf = member.id === interaction.user.id;
@@ -51,16 +51,16 @@ module.exports = {
         const isDeveloper = client.owners && client.owners.includes(member.id);
         const hasHigherRole = interaction.member.roles.highest.position <= member.roles.highest.position;
 
-        if (isSelf) return interaction.reply({ content: "❌ | You cannot **timeout** yourself!", ephemeral: true });
-        if (isBot) return interaction.reply({ content: "❌ | You cannot **timeout** me!", ephemeral: true });
-        if (isOwner) return interaction.reply({ content: "❌ | You cannot **timeout** the server owner!", ephemeral: true });
-        if (isDeveloper) return interaction.reply({ content: "❌ | You cannot **timeout** my developer through me!", ephemeral: true });
-        if (hasHigherRole) return interaction.reply({ content: "❌ | You can't **timeout** that user because he/she has a higher role than yours!", ephemeral: true });
+        if (isSelf) return interaction.reply({ content: "❌ | You cannot **timeout** yourself!", flags: ['Ephemeral'] });
+        if (isBot) return interaction.reply({ content: "❌ | You cannot **timeout** me!", flags: ['Ephemeral'] });
+        if (isOwner) return interaction.reply({ content: "❌ | You cannot **timeout** the server owner!", flags: ['Ephemeral'] });
+        if (isDeveloper) return interaction.reply({ content: "❌ | You cannot **timeout** my developer through me!", flags: ['Ephemeral'] });
+        if (hasHigherRole) return interaction.reply({ content: "❌ | You can't **timeout** that user because he/she has a higher role than yours!", flags: ['Ephemeral'] });
 
         let timeoutDuration = ms(time);
 
         if (timeoutDuration === undefined && time !== "0") {
-            return interaction.reply({ content: "❌ | Please provide a valid time for the timeout!", ephemeral: true });
+            return interaction.reply({ content: "❌ | Please provide a valid time for the timeout!", flags: ['Ephemeral'] });
         }
 
         if (time === "0") {
@@ -94,7 +94,7 @@ module.exports = {
                 return interaction.reply({ embeds: [embed] });
             }
         } catch (err) {
-            return interaction.reply({ content: "❌ | I couldn't **timeout** that user!", ephemeral: true });
+            return interaction.reply({ content: "❌ | I couldn't **timeout** that user!", flags: ['Ephemeral'] });
         }
     }
 };

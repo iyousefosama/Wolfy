@@ -109,7 +109,7 @@ module.exports = {
         data.progress.completed++;
         await data.save();
         await interaction.reply({ 
-          content: `\\✔️ You received: <a:ShinyMoney:877975108038324224> **${quest.reward}** from this command quest.`
+          content: `\\✔️ You received: 💰 **${quest.reward}** from this command quest.`
         });
       }
 
@@ -120,7 +120,7 @@ module.exports = {
         .then(() => {
           if (!quest || Box < quest?.progress || quest?.received) {
             interaction.reply({
-              content: `<:moneytransfer:892745164324474900> **${interaction.user.tag}**, you Successfully deposited **${text.commatize(Math.floor(depositAmount / 1.05))}** credits to your bank! (+5% fee).`
+              content: `💸 **${interaction.user.tag}**, you Successfully deposited **${text.commatize(Math.floor(depositAmount / 1.05))}** credits to your bank! (+5% fee).`
             });
           }
         })

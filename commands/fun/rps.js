@@ -31,7 +31,7 @@ module.exports = {
         const userOption = options.find(option => option.name === userChoice);
 
         if (!userOption) {
-            return interaction.reply({ content: `You must select a valid option! \`i.e.\` **${options.map(option => option.name).join(', ')}.**`, ephemeral: true });
+            return interaction.reply({ content: `You must select a valid option! \`i.e.\` **${options.map(option => option.name).join(', ')}.**`, flags: ['Ephemeral'] });
         }
 
         message.channel.send({ content: `${message.author}, I choose...` }).then(msg => {

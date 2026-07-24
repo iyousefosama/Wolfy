@@ -16,21 +16,21 @@ module.exports = {
         if (!language) {
             return interaction.reply({ 
                 embeds: [ErrorEmbed("💢 The language you selected is not available!")], 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         };
 
         try {
             return interaction.reply({ 
                 embeds: [SuccessEmbed(`✔️ **${client.user.username}**, Successfully set this server's language to **${language.flag} ${language.name}**!`)], 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         } catch (err) {
             client.logDetailedError({ error: err, eventType: `COMPONENT_ERROR`, interaction });
             console.log(err);
             return interaction.reply({ 
                 embeds: [ErrorEmbed("💢 There was an error while executing this command!")], 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         }
     },

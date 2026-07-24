@@ -46,15 +46,15 @@ module.exports = {
         .setThumbnail(icon)
         .setTimestamp()
         .setDescription([
-          `**%name% General stats**
+          `**${name} General stats**
 `,
-          `🇳 **Name:** %name%`,
+          `🇳 **Name:** ${name}`,
           `🆔 **ID:** ${guild.id}`,
           `👑 **Owner:** %owner%`,
           `🌐 **Region:** ${formatRegion}`,
           `📊 **Boost Tier:** ${formatBoostTier}`,
           `🛡️ **Verification Level:** ${formatVerificationLevel}`,
-          `<a:server_boosting:809994218759782411> **Boost Level:** ${formatBoostLevel}`,
+          `🚀 **Boost Level:** ${formatBoostLevel}`,
           `📆 **Created At:** ${createdTime} ${createdDate} ${createdRelative}`
         ].join('\n')),
       new EmbedBuilder()
@@ -68,7 +68,7 @@ module.exports = {
           `😀 **Emoji Count:** ${emojis.size}`,
           `😀 **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`,
           `🏷️ **Animated Emoji Count:** ${emojis.filter(emoji => emoji.animated).size}`,
-          `<a:pp754:768867196302524426> **Member Count:** ${memberCount}`,
+          `👥 **Member Count:** ${memberCount}`,
           `👥 **Humans:** ${members.filter(member => !member.user.bot).size}`,
           `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`,
           `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildText).size}`,
@@ -81,7 +81,7 @@ module.exports = {
         .setLabel("Prev")
         .setCustomId("prevPage")
         .setStyle('Primary')
-        .setEmoji("890490643548352572");
+        .setEmoji("◀️");
 
       const buttonmid = new ButtonBuilder()
         .setLabel(`${pages.currentIndex + 1}/${pages.size}`)
@@ -93,19 +93,18 @@ module.exports = {
         .setLabel("Next")
         .setCustomId("nextPage")
         .setStyle('Primary')
-        .setEmoji("890490558492061736");
+        .setEmoji("▶️");
 
       return new ActionRowBuilder().addComponents(button, buttonmid, button2);
     };
 
     const msg = await interaction.reply({
       embeds: [pages.currentPage],
-      components: [createRow()],
-      fetchReply: true
+      components: [createRow()]
     });
 
     const filter = i => i.user.id === interaction.user.id;
-    const collector = msg.createMessageComponentCollector({ filter, time: 180000 });
+    const collector = msg.createComponentCollector({ filter, time: 180000 });
 
     collector.on('collect', async interactionCreate => {
       await interactionCreate.deferUpdate();

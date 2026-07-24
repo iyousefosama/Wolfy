@@ -22,7 +22,7 @@ module.exports = {
     if (channel.type !== ChannelType.GuildText) {
       return interaction.reply({ 
         content: "❌ This command can only be used in text channels!", 
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -54,11 +54,11 @@ module.exports = {
     const response = await interaction.reply({ 
       embeds: [confirmEmbed], 
       components: [row],
-      fetchReply: true
+      withResponse: true
     });
     
     // Create collector for button interactions
-    const collector = response.createMessageComponentCollector({ 
+    const collector = response.createComponentCollector({ 
       time: 30000 // 30 seconds
     });
     
@@ -67,7 +67,7 @@ module.exports = {
       if (buttonInteraction.user.id !== interaction.user.id) {
         return buttonInteraction.reply({ 
           content: "❌ You are not the one who executed this command!", 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       

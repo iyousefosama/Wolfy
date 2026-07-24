@@ -23,7 +23,7 @@ module.exports = {
             console.log(err);
             interaction.followUp({
                 content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
         if (!ticket) {
@@ -33,7 +33,7 @@ module.exports = {
         if (!ticket.IsClosed) {
             return interaction.followUp({ 
                 embeds: [ErrorEmbed("Ticket is already open!")], 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         }
         const Channel = interaction.guild.channels.cache.get(ticket.ChannelId);

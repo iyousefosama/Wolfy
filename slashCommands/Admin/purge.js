@@ -39,7 +39,7 @@ module.exports = {
     if (!user.id.match(/\d{17,19}/)) {
       return interaction.reply({ 
         content: "❌ Please provide a valid Discord ID!", 
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -50,7 +50,7 @@ module.exports = {
       if (member.id === guild.ownerId) {
         return interaction.reply({ 
           content: "❌ You cannot purge the server owner's messages!", 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -58,12 +58,12 @@ module.exports = {
       if (amount < 2 || amount > 100) {
         return interaction.reply({ 
           content: "❌ Please provide a number of messages between 2 and 100!", 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
       // Defer reply since message fetching might take time
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply({ flags: ['Ephemeral'] });
       
       // Fetch messages
       const messages = await channel.messages.fetch({ limit: 100 });

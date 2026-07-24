@@ -27,13 +27,13 @@ module.exports = {
             if (!data) {
                 return interaction.followUp({
                     content: "💢 category can not be found!",
-                    ephemeral: true,
+                    flags: ['Ephemeral'],
                 });
             }
         } catch (err) {
             interaction.followUp({
                 content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
             return client.logDetailedError({
                 error: err,
@@ -47,12 +47,12 @@ module.exports = {
         if (!category) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("💢 Category can not be found!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         } else if (!data.Enabled) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("💢 `ticket` command is blocked in this server!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -80,7 +80,7 @@ module.exports = {
         if (category.children.cache.has(TicketData.ChannelId)) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("Ticket is already open!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -130,7 +130,7 @@ module.exports = {
             .then(async (channel) => {
                 interaction.followUp({
                     embeds: [SuccessEmbed("Ticket opened successfully!")],
-                    ephemeral: true,
+                    flags: ['Ephemeral'],
                 });
 
                 const close = new ButtonBuilder()

@@ -38,7 +38,7 @@ module.exports = {
     const target = interaction.options.getUser('user') || interaction.user;
     const hide = interaction.options.getBoolean('hide') || false;
 
-    await interaction.deferReply({ ephemeral: hide });
+    await interaction.deferReply({ flags: hide ? ['Ephemeral'] : [] });
 
     // Check if leveling is enabled
     const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });

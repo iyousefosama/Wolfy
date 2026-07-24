@@ -244,7 +244,7 @@ module.exports = {
         .addOptions(Arr)
     );
 
-    await message.channel.send({ embeds: [FinallEmb], ephemeral: true });
+    await message.channel.send({ embeds: [FinallEmb], flags: ['Ephemeral'] });
 
     const filter = (msg) => msg.author.id == message.author.id;
 
@@ -269,7 +269,7 @@ module.exports = {
 
       await message.reply({
         content: `**${message.author.username}**, type the channel id!`,
-        ephemeral: true,
+        flags: ['Ephemeral'],
       });
 
       let thchannel = await message.channel.awaitMessages({ filter, max: 1 });
@@ -315,7 +315,7 @@ module.exports = {
     } else {
       return message.reply({
         content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`,
-        ephemeral: true,
+        flags: ['Ephemeral'],
       });
     }
   },

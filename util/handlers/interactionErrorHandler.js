@@ -18,7 +18,7 @@ async function handleInteractionError(error, interaction, client) {
             if (interaction.isRepliable()) {
                 await interaction.followUp({
                     embeds: [ErrorEmbed("💢 This interaction has expired or already been responded to. Please try the command again.")],
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
         } catch (e) {
@@ -34,7 +34,7 @@ async function handleInteractionError(error, interaction, client) {
             if (interaction.isRepliable()) {
                 await interaction.followUp({
                     embeds: [ErrorEmbed("💢 Interaction timed out. Please try again.")],
-                    ephemeral: true
+                    flags: ['Ephemeral']
                 });
             }
         } catch (e) {
@@ -48,7 +48,7 @@ async function handleInteractionError(error, interaction, client) {
         if (interaction.isRepliable()) {
             await interaction.reply({
                 embeds: [ErrorEmbed("💢 There was an error while executing this command!")],
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
     } catch (e) {

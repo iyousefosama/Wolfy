@@ -39,7 +39,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -53,7 +53,7 @@ module.exports = {
     if (bioText.length > 200) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Bio text limit! (max 200 characters)`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -67,7 +67,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, Your bio update failed!`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
   },

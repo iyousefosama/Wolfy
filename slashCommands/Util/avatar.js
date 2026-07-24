@@ -50,7 +50,7 @@ module.exports = {
       if (interaction.channel.type !== ChannelType.GuildText) {
         return interaction.reply({ 
           content: `❌ | ${interaction.user}, This option can only be used in text channels!`, 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
 

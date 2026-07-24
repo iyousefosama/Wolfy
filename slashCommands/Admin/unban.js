@@ -34,7 +34,7 @@ module.exports = {
         const reason = options.getString("reason");
 
         if (!user.match(/\d{17,19}/)) {
-            return interaction.reply({ content: "❌ | Please type the id or mention the user to **unban**.", ephemeral: true });
+            return interaction.reply({ content: "❌ | Please type the id or mention the user to **unban**.", flags: ['Ephemeral'] });
         }
 
         try {
@@ -50,7 +50,7 @@ module.exports = {
                 .setTimestamp();
             return interaction.reply({ embeds: [embed] });
         } catch (error) {
-            return interaction.reply({ content: "❌ | I couldn't **unban** that user!", ephemeral: true });
+            return interaction.reply({ content: "❌ | I couldn't **unban** that user!", flags: ['Ephemeral'] });
         }
     },
 };

@@ -37,7 +37,7 @@ module.exports = {
     if (!user.id.match(/\d{17,19}/)) {
       return interaction.reply({ 
         content: "❌ | Please provide a valid Discord ID!",
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -49,32 +49,32 @@ module.exports = {
       if (member.id === interaction.user.id) {
         return interaction.reply({ 
           content: "❌ | You cannot softban yourself!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else if (member.id === client.user.id) {
         return interaction.reply({ 
           content: "❌ | You cannot softban me!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else if (member.id === guild.ownerId) {
         return interaction.reply({ 
           content: "❌ | You cannot softban the server owner!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else if (client.owners.includes(member.id)) {
         return interaction.reply({ 
           content: "❌ | You cannot softban my developer!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
         return interaction.reply({ 
           content: "❌ | You can't softban that user because he/she has a higher role than yours!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else if (!member.bannable) {
         return interaction.reply({ 
           content: "❌ | I couldn't softban that user!",
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
       
@@ -118,13 +118,13 @@ module.exports = {
       if (interaction.deferred) {
         return interaction.editReply({ 
           content: `❌ | I couldn't softban **${user.tag}**!`,
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       } else {
         // If not deferred yet
         return interaction.reply({ 
           content: `❌ | I couldn't softban **${user.tag}**!`,
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
     }

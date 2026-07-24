@@ -35,14 +35,14 @@ module.exports = {
         const reason = options.getString("message");
         
         if (!channel) {
-            return interaction.reply({ content: "❌ | Please provide a valid **channel ID**!", ephemeral: true });
+            return interaction.reply({ content: "❌ | Please provide a valid **channel ID**!", flags: ['Ephemeral'] });
         } else if (!channel.permissionsFor(guild.members.me).has('ManageChannels')) {
-            return interaction.reply({ content: "❌ | I don't have the permissions to manage this **channel**!", ephemeral: true });
+            return interaction.reply({ content: "❌ | I don't have the permissions to manage this **channel**!", flags: ['Ephemeral'] });
         }
         
         // Check if channel is already unlocked
         if (channel.permissionsFor(guild.roles.everyone).has('SendMessages')) {
-            return interaction.reply({ content: "❌ | The channel is already **unlocked**!", ephemeral: true });
+            return interaction.reply({ content: "❌ | The channel is already **unlocked**!", flags: ['Ephemeral'] });
         }
         
         // Proceed to unlock the channel
@@ -67,7 +67,7 @@ module.exports = {
                 .setTimestamp();
             return interaction.reply({ embeds: [replyEmbed] });
         } catch (error) {
-            return interaction.reply({ content: `❌ | There was an error while executing this command! ${error.name}`, ephemeral: true });
+            return interaction.reply({ content: `❌ | There was an error while executing this command! ${error.name}`, flags: ['Ephemeral'] });
         }
     },
 };

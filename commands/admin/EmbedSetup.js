@@ -64,7 +64,7 @@ module.exports = {
         .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})})
 
         const msg = await message.reply({ embeds: [embed], components: [row, row2], fetch: true })
-        const collector = msg.createMessageComponentCollector({ time: 860000, errors: ['time'] })
+        const collector = msg.createComponentCollector({ time: 860000, errors: ['time'] })
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '84994859419841841'){
@@ -75,7 +75,7 @@ module.exports = {
                 const newrow2 = new ActionRowBuilder()
                 .addComponents(button6, button7);
                 msg.edit({embeds: [embed], components: [newrow, newrow2] }).catch(() => null)
-                await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed description!`, ephemeral: true})
+                await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed description!`, flags: ['Ephemeral']})
 
                 const filter = msg => msg.author.id == message.author.id;
 
@@ -84,13 +84,13 @@ module.exports = {
                 else if(desc.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                 desc = desc.first().content
                 if(desc.length > 4026) {
-                message.reply({ content: `\\❌ **${message.author.username}**, Embed description should be 4026 characters or less!`, ephemeral: true})
+                message.reply({ content: `\\❌ **${message.author.username}**, Embed description should be 4026 characters or less!`, flags: ['Ephemeral']})
                 return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                 }
                 TurnButtonsOn()
                 embed.setDescription(desc)
-                msg.edit({ embeds: [embed], components: [row, row2] }).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
-                await message.reply({ content: `**${message.author.username}**, Successfully set the embed description!`, ephemeral: true})
+                msg.edit({ embeds: [embed], components: [row, row2] }).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, flags: ['Ephemeral']}))
+                await message.reply({ content: `**${message.author.username}**, Successfully set the embed description!`, flags: ['Ephemeral']})
                 }
                 if(interactionCreate.customId === '8419684198419841'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
@@ -100,7 +100,7 @@ module.exports = {
                     const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
-                    await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed title!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed title!`, flags: ['Ephemeral']})
 
                     const filter = msg => msg.author.id == message.author.id;
     
@@ -109,13 +109,13 @@ module.exports = {
                     else if(title.first().content == `${client.prefix}embedsetup`) return message.channel.send({ content: `<:error:888264104081522698>  **|** **${message.author.tag}**, Cancelled the \`embedsetup\` command!`})
                     title = title.first().content
                     if(title.length > 246) {
-                        message.reply({ content: `\\❌ **${message.author.username}**, Embed title should be 246 characters or less!`, ephemeral: true})
+                        message.reply({ content: `\\❌ **${message.author.username}**, Embed title should be 246 characters or less!`, flags: ['Ephemeral']})
                         return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                         }
                     TurnButtonsOn()
                     embed.setTitle(title)
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
-                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed title!`, ephemeral: true})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, flags: ['Ephemeral']}))
+                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed title!`, flags: ['Ephemeral']})
                 }
                 if(interactionCreate.customId === '984198419841984198'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
@@ -125,7 +125,7 @@ module.exports = {
                     const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
-                    await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed color!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `**${message.author.username}**, Type the embed color!`, flags: ['Ephemeral']})
 
                     const filter = msg => msg.author.id == message.author.id;
     
@@ -140,11 +140,11 @@ module.exports = {
                     } catch {
                     embed.setColor('Red')
                     TurnButtonsOn()
-                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed color!`, ephemeral: true})
+                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed color!`, flags: ['Ephemeral']})
                     return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
-                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed color!`, ephemeral: true})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, flags: ['Ephemeral']}))
+                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed color!`, flags: ['Ephemeral']})
                 }
                 if(interactionCreate.customId === '968419841984198419'){
                     if (interactionCreate.member.id !== message.author.id) return interactionCreate.deferUpdate()
@@ -154,7 +154,7 @@ module.exports = {
                     const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
-                    await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of embed thumbnail link!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of embed thumbnail link!`, flags: ['Ephemeral']})
 
                     const filter = msg => msg.author.id == message.author.id;
     
@@ -165,12 +165,12 @@ module.exports = {
                     try {
                     TurnButtonsOn()
                     embed.setThumbnail(thumb)
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
-                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed thumbnail!`, ephemeral: true})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, flags: ['Ephemeral']}))
+                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed thumbnail!`, flags: ['Ephemeral']})
                     } catch {
                     embed.setThumbnail('https://cdn.discordapp.com/avatars/821655420410003497/9633a398fbdb33906862000c39d813cd.png?size=512')
                     TurnButtonsOn()
-                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed thumbnail!`, ephemeral: true})
+                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed thumbnail!`, flags: ['Ephemeral']})
                     return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
                 }
@@ -182,7 +182,7 @@ module.exports = {
                     const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]}).catch(() => null)
-                    await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of the embed image!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `**${message.author.username}**, Send the attachment of the embed image!`, flags: ['Ephemeral']})
 
                     const filter = msg => msg.author.id == message.author.id;
     
@@ -193,12 +193,12 @@ module.exports = {
                     try {
                     embed.setImage(img)
                     TurnButtonsOn()
-                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, ephemeral: true}))
-                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed image!`, ephemeral: true})
+                    msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => message.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, I can't edit the embed message!`, flags: ['Ephemeral']}))
+                    await message.reply({ content: `**${message.author.username}**, Successfully set the embed image!`, flags: ['Ephemeral']})
                     } catch {
                     embed.setImage('https://cdn.discordapp.com/attachments/830926767728492565/874773027177512960/c7d26cb2902f21277d32ad03e7a21139.gif')
                     TurnButtonsOn()
-                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed image!`, ephemeral: true})
+                    message.reply({ content: `\\❌ **${message.author.username}**, Unable to set the embed image!`, flags: ['Ephemeral']})
                     return msg.edit({ embeds: [embed], components: [row, row2]}).catch(() => null)
                     }
                 }
@@ -217,7 +217,7 @@ module.exports = {
                     .setTimestamp()
                     .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048})});
 
-                    await interactionCreate.reply({ embeds: [FinallEmb], ephemeral: true})
+                    await interactionCreate.reply({ embeds: [FinallEmb], flags: ['Ephemeral']})
 
                     const filter = msg => msg.author.id == message.author.id;
     
@@ -227,7 +227,7 @@ module.exports = {
                     } else if(thmsg.first().content == '2') {
                         const filter = msg => msg.author.id == message.author.id;
 
-                        await message.reply({ content: `**${message.author.username}**, type the channel id!`, ephemeral: true})
+                        await message.reply({ content: `**${message.author.username}**, type the channel id!`, flags: ['Ephemeral']})
 
                         let thchannel = await message.channel.awaitMessages({ filter, max: 1 })
                         thchannel = thchannel.first().content
@@ -263,7 +263,7 @@ module.exports = {
                           .setFooter({ text: message.author.tag, iconURL: message.author.displayAvatarURL({dynamic: true, size: 2048}) });
                           message.channel.send({ embeds: [dnEmbed]})
                     } else {
-                        message.reply({ content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`, ephemeral: true })
+                        message.reply({ content: `<:error:888264104081522698>  **|**  That is an invalid response. Please try again.`, flags: ['Ephemeral'] })
                         TurnButtonsOn()
                         return msg.edit({ embeds: [embed], components: [row, row2]})
                     }
@@ -276,7 +276,7 @@ module.exports = {
                     const newrow2 = new ActionRowBuilder()
                     .addComponents(button6, button7);
                     msg.edit({embeds: [embed], components: [newrow, newrow2]})
-                    await interactionCreate.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, Cancelled the \`embedsetup\` command!`, ephemeral: true})
+                    await interactionCreate.reply({ content: `<:error:888264104081522698>  | **${message.author.tag}**, Cancelled the \`embedsetup\` command!`, flags: ['Ephemeral']})
                     }
 
                     function TurnButtonsOn() {

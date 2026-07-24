@@ -17,7 +17,7 @@ module.exports = {
   },
 
   async execute(client, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: ['Ephemeral'] });
 
     try {
       const notifications = await LevelService.toggleNotifications(interaction.guildId, interaction.user.id);

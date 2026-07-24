@@ -36,7 +36,7 @@ module.exports = {
     const reason = options.getString("reason") || 'Unspecified';
 
     if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: "❌ Please type the id or mention the user to **mute**.", ephemeral: true });
+      return interaction.reply({ content: "❌ Please type the id or mention the user to **mute**.", flags: ['Ephemeral'] });
     };
 
     const member = await guild.members
@@ -44,17 +44,17 @@ module.exports = {
       .catch(() => null);
 
     if (!member) {
-      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", ephemeral: true });
+      return interaction.reply({ content: "❌ User could not be found! Please ensure the supplied ID is valid.", flags: ['Ephemeral'] });
     } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: "❌ You cannot **mute** yourself!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** yourself!", flags: ['Ephemeral'] });
     } else if (member.id === client.user.id) {
-      return interaction.reply({ content: "❌ You cannot **mute** me!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** me!", flags: ['Ephemeral'] });
     } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: "❌ You cannot **mute** a server owner!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** a server owner!", flags: ['Ephemeral'] });
     } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: "❌ You cannot **mute** my developer through me!", ephemeral: true });
+      return interaction.reply({ content: "❌ You cannot **mute** my developer through me!", flags: ['Ephemeral'] });
     } else if (interaction.member.roles.highest.position <= member.roles.highest.position) {
-      return interaction.reply({ content: "❌ You can't **mute** that user because he/she has a higher role than yours!", ephemeral: true });
+      return interaction.reply({ content: "❌ You can't **mute** that user because he/she has a higher role than yours!", flags: ['Ephemeral'] });
     }
 
     let data;
@@ -72,12 +72,12 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", ephemeral: true });
+      return interaction.reply({ content: "`❌ [DATABASE_ERR]:` The database responded with an error!", flags: ['Ephemeral'] });
     }
 
     // Check if member is already muted
     if (member.roles.cache.find(r => r.name.toLowerCase() === 'muted') && data?.Muted == true) {
-      return interaction.reply({ content: "❌ User is already **muted**!", ephemeral: true });
+      return interaction.reply({ content: "❌ User is already **muted**!", flags: ['Ephemeral'] });
     }
 
     let mutedRole = guild.roles.cache.find(roles => roles.name.toLowerCase() === "muted");
@@ -105,28 +105,28 @@ module.exports = {
         .setDescription("ℹ️ There is no `muted` role in this guild. Would you like to generate one?")
         .setColor(colors.ADMIN);
       
-      const response = await interaction.reply({ embeds: [Embed], components: [row], fetchReply: true });
+      const response = await interaction.reply({ embeds: [Embed], components: [row], withResponse: true });
       
-      const collector = response.createMessageComponentCollector({ time: 15000 });
+      const collector = response.createComponentCollector({ time: 15000 });
       
       collector.on('collect', async (buttonInteraction) => {
         // Check if the user who clicked the button is the one who initiated the command
         if (buttonInteraction.user.id !== interaction.user.id) {
-          return buttonInteraction.reply({ content: "❌ You are not the one who initiated this command!", ephemeral: true });
+          return buttonInteraction.reply({ content: "❌ You are not the one who initiated this command!", flags: ['Ephemeral'] });
         }
         
         if (buttonInteraction.customId === 'create_mute_role') {
           if (guild.roles.cache.size >= 250) {
             return buttonInteraction.reply({ 
               content: "❌ Failed to create `muted` role! Your server has too many roles! **[250]**", 
-              ephemeral: true 
+              flags: ['Ephemeral'] 
             });
           }
           
           if (!interaction.channel.permissionsFor(guild.members.me).has('ManageChannels')) {
             return buttonInteraction.reply({ 
               content: "❌ I don't have permission to manage channels!", 
-              ephemeral: true 
+              flags: ['Ephemeral'] 
             });
           }
           
@@ -152,7 +152,7 @@ module.exports = {
             
             await buttonInteraction.reply({ 
               content: "✅ Muted role created successfully!", 
-              ephemeral: true 
+              flags: ['Ephemeral'] 
             });
             
             // Mute the member
@@ -172,13 +172,13 @@ module.exports = {
             console.error(error);
             return buttonInteraction.reply({ 
               content: "❌ I couldn't **mute** that user!", 
-              ephemeral: true 
+              flags: ['Ephemeral'] 
             });
           }
         } else if (buttonInteraction.customId === 'cancel_mute_cmd') {
           await buttonInteraction.reply({ 
             content: "❌ Command cancelled!", 
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
           
           // Disable buttons
@@ -217,7 +217,7 @@ module.exports = {
         console.error(error);
         return interaction.reply({ 
           content: "❌ I couldn't **mute** that user!", 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
     }

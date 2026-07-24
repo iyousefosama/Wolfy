@@ -25,7 +25,7 @@ module.exports = {
   enabled: true,
 
   async action(client, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: ['Ephemeral'] });
 
     try {
       // ── Decode options from customId ──────────────────────────────────────

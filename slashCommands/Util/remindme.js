@@ -107,7 +107,7 @@ async function handleSetReminder(client, interaction) {
   if (!timeMs) {
     return interaction.reply({
       embeds: [ErrorEmbed("Please provide a valid time format (e.g., `5m`, `2h`, `1d`, `30s`)")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 
@@ -118,14 +118,14 @@ async function handleSetReminder(client, interaction) {
   if (timeMs > maxTime) {
     return interaction.reply({
       embeds: [ErrorEmbed("Reminders cannot be set for more than 7 days in the future")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 
   if (timeMs < minTime) {
     return interaction.reply({
       embeds: [ErrorEmbed("Reminders must be at least 30 seconds in the future")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 
@@ -138,7 +138,7 @@ async function handleSetReminder(client, interaction) {
   if (activeCount >= 10) {
     return interaction.reply({
       embeds: [ErrorEmbed("You have reached the maximum of 10 active reminders. Use `/remindme list` to see them or `/remindme stopall` to clear them.")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 
@@ -169,13 +169,13 @@ async function handleSetReminder(client, interaction) {
       .setFooter({ text: silent ? 'Silent mode enabled' : 'Use /remindme list to view all reminders' })
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed], ephemeral: silent });
+    await interaction.reply({ embeds: [embed], flags: silent ? ['Ephemeral'] : [] });
 
   } catch (err) {
     console.error('Error setting reminder:', err);
     return interaction.reply({
       embeds: [ErrorEmbed(`Failed to set reminder: ${err.message}`)],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 }
@@ -194,7 +194,7 @@ async function handleListReminders(client, interaction) {
     if (reminders.length === 0) {
       return interaction.reply({
         embeds: [InfoEmbed("You have no active reminders. Use `/remindme set` to create one!")],
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
@@ -217,13 +217,13 @@ async function handleListReminders(client, interaction) {
     embed.addFields(reminderFields);
     embed.setFooter({ text: 'Use /remindme stop <number> to cancel a specific reminder' });
 
-    await interaction.reply({ embeds: [embed], ephemeral: true });
+    await interaction.reply({ embeds: [embed], flags: ['Ephemeral'] });
 
   } catch (err) {
     console.error('Error listing reminders:', err);
     return interaction.reply({
       embeds: [ErrorEmbed("Failed to retrieve your reminders")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 }
@@ -237,7 +237,7 @@ async function handleStopReminder(client, interaction) {
   if (index < 1) {
     return interaction.reply({
       embeds: [ErrorEmbed("Please provide a valid reminder number (1 or higher)")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 
@@ -252,14 +252,14 @@ async function handleStopReminder(client, interaction) {
     if (reminders.length === 0) {
       return interaction.reply({
         embeds: [ErrorEmbed("You have no active reminders to cancel")],
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
     if (index > reminders.length) {
       return interaction.reply({
         embeds: [ErrorEmbed(`Invalid reminder number. You only have ${reminders.length} active reminder(s). Use /remindme list to see them.`)],
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
@@ -288,7 +288,7 @@ async function handleStopReminder(client, interaction) {
     console.error('Error cancelling reminder:', err);
     return interaction.reply({
       embeds: [ErrorEmbed("Failed to cancel the reminder")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 }
@@ -308,7 +308,7 @@ async function handleStopAllReminders(client, interaction) {
     if (cancelledCount === 0) {
       return interaction.reply({
         embeds: [ErrorEmbed("You have no active reminders to cancel")],
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
 
@@ -334,7 +334,7 @@ async function handleStopAllReminders(client, interaction) {
     console.error('Error cancelling all reminders:', err);
     return interaction.reply({
       embeds: [ErrorEmbed("Failed to cancel reminders")],
-      ephemeral: true
+      flags: ['Ephemeral']
     });
   }
 }

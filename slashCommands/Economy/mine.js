@@ -180,7 +180,7 @@ Use \`/market\` to show the market.`)
       .catch((err) => {
         interaction.reply({ 
           content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       });
   },

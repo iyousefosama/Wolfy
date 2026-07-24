@@ -36,7 +36,7 @@ module.exports = {
     if (!message.trim()) {
       return interaction.reply({ 
         content: "❌ You can't send an empty message!", 
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
     
@@ -61,14 +61,14 @@ module.exports = {
         .setDescription(`✅ Successfully sent a DM to **${user.username}**!`)
         .setTimestamp();
       
-      return interaction.reply({ embeds: [successEmbed], ephemeral: true });
+      return interaction.reply({ embeds: [successEmbed], flags: ['Ephemeral'] });
     } catch (error) {
       const errorEmbed = new EmbedBuilder()
         .setColor(colors.ERROR)
         .setDescription(`❌ I couldn't send a DM to **${user.username}**! They might have DMs turned off.`)
         .setTimestamp();
       
-      return interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+      return interaction.reply({ embeds: [errorEmbed], flags: ['Ephemeral'] });
     }
   },
 };

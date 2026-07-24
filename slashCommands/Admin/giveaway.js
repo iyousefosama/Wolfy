@@ -156,13 +156,13 @@ module.exports = {
       if (!durationMs || durationMs < 10_000) {
         return interaction.reply({
           content: '❌ Invalid duration. Use a format like `10m`, `2h`, or `1d`. Minimum is 10 seconds.',
-          ephemeral: true,
+          flags: ['Ephemeral'],
         });
       }
       if (durationMs > ms('30d')) {
         return interaction.reply({
           content: '❌ Duration cannot exceed 30 days.',
-          ephemeral: true,
+          flags: ['Ephemeral'],
         });
       }
 
@@ -206,7 +206,7 @@ module.exports = {
     }
 
     // ── Shared helper: defer so heavy DB ops don't time out ─────────────────
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: ['Ephemeral'] });
     const messageId = interaction.options.getString('message_id', true);
 
     try {

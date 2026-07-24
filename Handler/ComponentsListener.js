@@ -13,7 +13,7 @@ class ComponentsListener {
                 if (component?.public === false && interaction.user.id !== interaction.message.interaction.user.id) {
                     await interaction.reply({
                         content: config.messages.COMPONENT_NOT_PUBLIC,
-                        ephemeral: true
+                        flags: ['Ephemeral']
                     });
 
                     return false;

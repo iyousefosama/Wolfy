@@ -35,6 +35,6 @@ module.exports = {
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true })
             })
             .setTimestamp();
-        var msg = interaction.reply({ embeds: [uptime], ephemeral: hide });
+        var msg = interaction.reply({ embeds: [uptime], flags: hide ? ['Ephemeral'] : [] });
     },
 };

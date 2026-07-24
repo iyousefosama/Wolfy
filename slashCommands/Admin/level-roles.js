@@ -72,7 +72,7 @@ module.exports = {
   },
 
   async execute(client, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: ['Ephemeral'] });
 
     const subcommand = interaction.options.getSubcommand();
     const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });

@@ -94,7 +94,7 @@ module.exports = {
     });
 
     const filter = i => i.user.id === message.author.id;
-    const collector = msg.createMessageComponentCollector({ filter, time: 180000 });
+    const collector = msg.createComponentCollector({ filter, time: 180000 });
 
     collector.on('collect', async interaction => {
       await interaction.deferUpdate();

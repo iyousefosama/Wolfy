@@ -81,15 +81,15 @@ module.exports = {
         switch (subCommandName) {
             case 'add':
                 if (user.id === interaction.guild.ownerId) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** a server owner!", ephemeral: true });
+                    return interaction.reply({ content: "\\❌ | You cannot **warn** a server owner!", flags: ['Ephemeral'] });
                 };
 
                 if (user.id === interaction.user.id) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** yourself!", ephemeral: true });
+                    return interaction.reply({ content: "\\❌ | You cannot **warn** yourself!", flags: ['Ephemeral'] });
                 };
 
                 if (user.id === client.user.id) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** me!", ephemeral: true });
+                    return interaction.reply({ content: "\\❌ | You cannot **warn** me!", flags: ['Ephemeral'] });
                 };
 
                 const warnObj = {
@@ -139,7 +139,7 @@ module.exports = {
                 });
 
                 if (!warnedResult || warnedResult.warnings.length === 0) {
-                    return interaction.reply({ content: `💢 Looks like ${user.tag} don't have any \`warnings\` yet!`, ephemeral: true });
+                    return interaction.reply({ content: `💢 Looks like ${user.tag} don't have any \`warnings\` yet!`, flags: ['Ephemeral'] });
                 }
 
                 const embed = new EmbedBuilder()
@@ -184,7 +184,7 @@ module.exports = {
                         .addOptions(options)
                 );
 
-                interaction.reply({ embeds: [embed], components: [selectMenu], ephemeral: true });
+                interaction.reply({ embeds: [embed], components: [selectMenu], flags: ['Ephemeral'] });
 
                 break;
 
@@ -217,7 +217,7 @@ module.exports = {
                 } else {
                     interaction.reply({
                         content: "💢 Please provide a valid warn ID!",
-                        ephemeral: true,
+                        flags: ['Ephemeral'],
                     });
                 }
 

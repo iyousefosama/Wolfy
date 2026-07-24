@@ -45,7 +45,7 @@ module.exports = {
     if (amount <= 0) {
       return interaction.reply({
         content: `\\❌ **${interaction.user.tag}**, please provide a valid item amount greater than 0.`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
     }
     
@@ -62,7 +62,7 @@ module.exports = {
     } catch (err) {
       interaction.reply({
         content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-        ephemeral: true
+        flags: ['Ephemeral']
       });
       return client.logDetailedError({
         error: err,
@@ -82,7 +82,7 @@ module.exports = {
       if (data.inv.Coal < amount) {
         return interaction.reply({ 
           content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Coal}** coal in your inventory!`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       }
       
@@ -93,20 +93,20 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887034070842900552> Coal** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **⛏️ Coal** for 💰 \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         });
     } else if (item === 'stone') {
       if (data.inv.Stone < amount) {
         return interaction.reply({ 
           content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Stone}** stone in your inventory!`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       }
       
@@ -117,20 +117,20 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887031111790764092> Stone** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **🪨 Stone** for 💰 \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         });
     } else if (item === 'iron') {
       if (data.inv.Iron < amount) {
         return interaction.reply({ 
           content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Iron}** iron in your inventory!`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       }
       
@@ -141,20 +141,20 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887034687472689192> Iron** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **🔩 Iron** for 💰 \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         });
     } else if (item === 'gold') {
       if (data.inv.Gold < amount) {
         return interaction.reply({ 
           content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Gold}** gold in your inventory!`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       }
       
@@ -165,20 +165,20 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<:e_:887036608874967121> Gold** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **✨ Gold** for 💰 \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         });
     } else if (item === 'diamond') {
       if (data.inv.Diamond < amount) {
         return interaction.reply({ 
           content: `\\❌ **${interaction.user.tag}**, You only have **${data.inv.Diamond}** diamond in your inventory!`,
-          ephemeral: true
+          flags: ['Ephemeral']
         });
       }
       
@@ -189,18 +189,18 @@ module.exports = {
       await data.save()
         .then(() => {
           interaction.reply({ 
-            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **<a:Diamond:877975082868301824> Diamond** for <a:ShinyMoney:877975108038324224> \`+${finall}\`!`
+            content: `\\✔️ **${interaction.user.tag}**, Successfully sold **💎 Diamond** for 💰 \`+${finall}\`!`
           });
         })
         .catch(err => {
           interaction.reply({ 
             content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-            ephemeral: true 
+            flags: ['Ephemeral'] 
           });
         });
     } else {
       const nulle = new discord.EmbedBuilder()
-        .setTitle("<a:Wrong:812104211361693696> Unknown item!")
+        .setTitle("❌ Unknown item!")
         .setDescription(`**${interaction.user.username}**, **${item}** this item is not from the items listed in the inventory!`)
         .setFooter({ 
           text: interaction.user.username, 
@@ -208,7 +208,7 @@ module.exports = {
         })
         .setColor('Red');
       
-      return interaction.reply({ embeds: [nulle], ephemeral: true });
+      return interaction.reply({ embeds: [nulle], flags: ['Ephemeral'] });
     }
   },
 };

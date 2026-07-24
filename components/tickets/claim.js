@@ -28,26 +28,26 @@ module.exports = {
             console.error(err);
             return interaction.followUp({
                 content: `💢 [DATABASE_ERR]: The database responded with error: ${err.name}`,
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (!ticket) {
             return interaction.followUp({
                 content: "💢 I can't find this guild `data` in the database!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (ticket.IsClosed) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("Ticket can't be claimed because it's closed!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         } else if (ticket.IsClaimed) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("Ticket is already claimed!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             })
         }
 
@@ -57,28 +57,28 @@ module.exports = {
         if (!Channel) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("I can't find the channel associated with this ticket!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (!modsRole) {
             return interaction.followUp({
                 embeds: [ErrorEmbed("The panel `mods-role` is not set!")],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (!interaction.member.roles.cache.has(modsRole.id)) {
             return interaction.followUp({
                 embeds: [ErrorEmbed(`You need to have ${modsRole} in order to claim this ticket!`)],
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             return interaction.followUp({
                 content: "💢 The bot requires the following permissions: ManageChannels!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
 
@@ -115,7 +115,7 @@ module.exports = {
             console.error(err);
             return interaction.followUp({
                 content: "💢 There was an error while executing this command!",
-                ephemeral: true,
+                flags: ['Ephemeral'],
             });
         }
     },

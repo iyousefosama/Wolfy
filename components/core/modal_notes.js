@@ -37,7 +37,7 @@ module.exports = {
             });
             return await interaction.reply({ 
                 embeds: [ErrorEmbed(`💢 [DATABASE_ERR]: The database responded with error: ${error.name}`)], 
-                ephemeral: true 
+                flags: ['Ephemeral'] 
             });
         }
 
@@ -45,7 +45,7 @@ module.exports = {
         if (!changeLogs) {
             return interaction.reply({ 
                 embeds: [ErrorEmbed("❌ Couldn't find changelogs channel, but updated documents!")],
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
 
@@ -70,7 +70,7 @@ module.exports = {
 
         await interaction.reply({
             embeds: [SuccessEmbed("✅ Your submission was received successfully!")],
-            ephemeral: true,
+            flags: ['Ephemeral'],
         });
     },
 };

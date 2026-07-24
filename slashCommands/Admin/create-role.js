@@ -41,7 +41,7 @@ module.exports = {
       if (guild.roles.cache.size >= 250) {
         return interaction.reply({ 
           content: "❌ Your server has too many roles to create another one!", 
-          ephemeral: true 
+          flags: ['Ephemeral'] 
         });
       }
 
@@ -72,7 +72,7 @@ module.exports = {
       console.error(`Error creating role: ${err}`);
       return interaction.reply({ 
         content: `❌ I couldn't create role **${name}**! ${err.name}`, 
-        ephemeral: true 
+        flags: ['Ephemeral'] 
       });
     }
   },
