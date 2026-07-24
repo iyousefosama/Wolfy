@@ -1,11 +1,9 @@
 const discord = require('discord.js');
-const { EmbedBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const schema = require('../../schema/Economy-Schema');
 const _ = require('lodash');
 const Pages = require('../../util/Paginate');
 const market = require('../../assets/json/market.json');
-const { ActionRowBuilder, ButtonBuilder } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -73,11 +71,11 @@ module.exports = {
         .setColor('#2F3136')
         .setTitle(`◀️ ${interaction.user.username}'s mining Inventory!`)
         .addFields(
-          { name: '⛏️ Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
-          { name: '🪨 Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
-          { name: '🔩 Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
-          { name: '✨ Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
-          { name: '💎 Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
+          { name: '⛏️ Coal', value: `\`\`\`${data.inv?.Coal || 0}\`\`\``},
+          { name: '🪨 Stone', value: `\`\`\`${data.inv?.Stone || 0}\`\`\``},
+          { name: '🔩 Iron', value: `\`\`\`${data.inv?.Iron || 0}\`\`\``},
+          { name: '✨ Gold', value: `\`\`\`${data.inv?.Gold || 0}\`\`\``},
+          { name: '💎 Diamond', value: `\`\`\`${data.inv?.Diamond || 0}\`\`\``}
         )
         .setURL('https://Wolfy.yoyojoe.repl.co')
         .setFooter({ 
@@ -90,7 +88,12 @@ module.exports = {
     }
     
     // Regular inventory
-    const pages = new Pages(_.chunk(data.profile.inventory, 25).map((chunk, i, o) => {
+    // Filter out items that don't exist in the market anymore to prevent crashes
+    const validInventory = (data.profile?.inventory || []).filter(d => {
+      return d && d.id && market.some(x => x.id == d.id);
+    });
+
+    const pages = new Pages(_.chunk(validInventory, 25).map((chunk, i, o) => {
       return new EmbedBuilder()
         .setColor('Grey')
         .setTitle(`${interaction.user.tag}'s Inventory`)
@@ -152,11 +155,11 @@ module.exports = {
     const response = await interaction.reply({ 
       embeds: [pages.firstPage], 
       components: [row],
-      withResponse: true
+      fetchReply: true // Fixed to correctly fetch the Message object
     });
     
     // Create collector for button interactions
-    const collector = response.createComponentCollector({ 
+    const collector = response.createMessageComponentCollector({ // Fixed method name
       filter: i => i.user.id === interaction.user.id,
       time: 90000 
     });
@@ -171,11 +174,11 @@ module.exports = {
           .setColor('#2F3136')
           .setTitle(`◀️ ${interaction.user.username}'s mining Inventory!`)
           .addFields(
-            { name: '⛏️ Coal', value: `\`\`\`${data.inv.Coal}\`\`\``},
-            { name: '🪨 Stone', value: `\`\`\`${data.inv.Stone}\`\`\``},
-            { name: '🔩 Iron', value: `\`\`\`${data.inv.Iron}\`\`\``},
-            { name: '✨ Gold', value: `\`\`\`${data.inv.Gold}\`\`\``},
-            { name: '💎 Diamond', value: `\`\`\`${data.inv.Diamond}\`\`\``}
+            { name: '⛏️ Coal', value: `\`\`\`${data.inv?.Coal || 0}\`\`\``},
+            { name: '🪨 Stone', value: `\`\`\`${data.inv?.Stone || 0}\`\`\``},
+            { name: '🔩 Iron', value: `\`\`\`${data.inv?.Iron || 0}\`\`\``},
+            { name: '✨ Gold', value: `\`\`\`${data.inv?.Gold || 0}\`\`\``},
+            { name: '💎 Diamond', value: `\`\`\`${data.inv?.Diamond || 0}\`\`\``}
           )
           .setURL('https://Wolfy.yoyojoe.repl.co')
           .setFooter({ 

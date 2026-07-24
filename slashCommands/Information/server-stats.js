@@ -1,5 +1,9 @@
-const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, ChannelType, ButtonStyle } = require('discord.js');
 const dayjs = require("dayjs");
+const relativeTime = require('dayjs/plugin/relativeTime');
+const localizedFormat = require('dayjs/plugin/localizedFormat');
+dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
 const Page = require('../../util/Paginate');
 const { regions, verificationlvl } = require("../../util/constants/constants");
 
@@ -42,28 +46,26 @@ module.exports = {
 
     const pages = new Page(
       new EmbedBuilder()
-        .setURL(icon)
+        .setURL(icon || 'https://discord.com')
         .setThumbnail(icon)
         .setTimestamp()
         .setDescription([
-          `**${name} General stats**
-`,
+          `**${name} General stats**\n`,
           `🇳 **Name:** ${name}`,
           `🆔 **ID:** ${guild.id}`,
-          `👑 **Owner:** %owner%`,
+          `👑 **Owner:** ${owner.user.tag}`,
           `🌐 **Region:** ${formatRegion}`,
           `📊 **Boost Tier:** ${formatBoostTier}`,
           `🛡️ **Verification Level:** ${formatVerificationLevel}`,
           `🚀 **Boost Level:** ${formatBoostLevel}`,
-          `📆 **Created At:** ${createdTime} ${createdDate} ${createdRelative}`
+          `📆 **Created At:** ${createdTime} ${createdDate} (${createdRelative})`
         ].join('\n')),
       new EmbedBuilder()
-        .setURL(icon)
+        .setURL(icon || 'https://discord.com')
         .setThumbnail(icon)
         .setTimestamp()
         .setDescription([
-          `**%name% stats**
-`,
+          `**${name} stats**\n`, // Fixed %name% placeholder
           `🏷️ **Role Count:** ${roles.length}`,
           `😀 **Emoji Count:** ${emojis.size}`,
           `😀 **Normal Emoji Count:** ${emojis.filter(emoji => !emoji.animated).size}`,
@@ -72,7 +74,7 @@ module.exports = {
           `👥 **Humans:** ${members.filter(member => !member.user.bot).size}`,
           `🤖 **Bots:** ${members.filter(member => member.user.bot).size}`,
           `⌨️ **Text Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildText).size}`,
-          `**Voice Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildVoice).size}`
+          `🎤 **Voice Channels:** ${channels.filter(channel => channel.type === ChannelType.GuildVoice).size}`
         ].join('\n'))
     );
 
@@ -80,19 +82,19 @@ module.exports = {
       const button = new ButtonBuilder()
         .setLabel("Prev")
         .setCustomId("prevPage")
-        .setStyle('Primary')
+        .setStyle(ButtonStyle.Primary) // Fixed style enum
         .setEmoji("◀️");
 
       const buttonmid = new ButtonBuilder()
         .setLabel(`${pages.currentIndex + 1}/${pages.size}`)
         .setCustomId("currentPage")
-        .setStyle('Secondary')
+        .setStyle(ButtonStyle.Secondary) // Fixed style enum
         .setDisabled(true);
 
       const button2 = new ButtonBuilder()
         .setLabel("Next")
         .setCustomId("nextPage")
-        .setStyle('Primary')
+        .setStyle(ButtonStyle.Primary) // Fixed style enum
         .setEmoji("▶️");
 
       return new ActionRowBuilder().addComponents(button, buttonmid, button2);
@@ -100,21 +102,24 @@ module.exports = {
 
     const msg = await interaction.reply({
       embeds: [pages.currentPage],
-      components: [createRow()]
+      components: [createRow()],
+      fetchReply: true // Fixed fetchReply requirement
     });
 
     const filter = i => i.user.id === interaction.user.id;
-    const collector = msg.createComponentCollector({ filter, time: 180000 });
+    // Fixed method name for Discord.js v14
+    const collector = msg.createMessageComponentCollector({ filter, time: 180000 });
 
     collector.on('collect', async interactionCreate => {
       await interactionCreate.deferUpdate();
       if (interactionCreate.customId === 'prevPage') {
-        msg.edit({
+        // Using interaction.editReply to handle the edit safely
+        interaction.editReply({
           embeds: [pages.previous()],
           components: [createRow()]
         });
       } else if (interactionCreate.customId === 'nextPage') {
-        msg.edit({
+        interaction.editReply({
           embeds: [pages.next()],
           components: [createRow()]
         });
@@ -122,8 +127,13 @@ module.exports = {
     });
 
     collector.on('end', async () => {
-      const disabledRow = createRow().components.forEach(button => button.setDisabled(true));
-      msg.edit({ embeds: [pages.currentPage], components: [disabledRow] }).catch(() => null);
+      // Fixed the undefined bug caused by .forEach
+      const disabledRow = createRow();
+      disabledRow.components.forEach(button => button.setDisabled(true));
+      
+      interaction.editReply({ 
+        components: [disabledRow] 
+      }).catch(() => null);
     });
   }
 };
