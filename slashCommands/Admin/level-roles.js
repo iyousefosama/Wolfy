@@ -9,7 +9,7 @@ module.exports = {
   data: {
     name: "level-roles",
     description: "Manage level reward roles",
-    group: "Admin",
+    group: "Moderation",
     requiresDatabase: true,
     clientPermissions: [],
     guildOnly: true,

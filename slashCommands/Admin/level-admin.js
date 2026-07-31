@@ -10,7 +10,7 @@ module.exports = {
   data: {
     name: "level-admin",
     description: "Level system admin commands",
-    group: "Admin",
+    group: "Moderation",
     requiresDatabase: true,
     clientPermissions: [],
     guildOnly: true,

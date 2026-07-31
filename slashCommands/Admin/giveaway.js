@@ -26,7 +26,7 @@ module.exports = {
     guildOnly: true,
     dmOnly: false,
     cooldown: 3,
-    group: 'Admin',
+    group: 'Moderation',
     requiresDatabase: true,
     clientPermissions: ['SendMessages', 'EmbedLinks'],
     permissions: ['ManageGuild'],

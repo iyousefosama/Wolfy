@@ -16,7 +16,7 @@ module.exports = {
   data: {
     name: "panel",
     description: "Manage tickets panel in the server",
-    group: "Ticket",
+    group: "Setup",
     requiresDatabase: true,
     dmOnly: false,
     guildOnly: true,
