@@ -108,7 +108,8 @@ async function sendAiResponse({
 
     for await (const chunk of aiServiceInstance.chatStream({
         messages,
-        model: userSettings.preferences?.model || aiServiceInstance.defaultModel
+        model: userSettings.preferences?.model || aiServiceInstance.defaultModel,
+        userSettings
     })) {
         fullResponse += chunk;
         completeResponse += chunk;

@@ -9,7 +9,7 @@ const {
 /**
  * AI Service for Wolfy Bot
  * Provides OpenRouter AI integration with streaming support
- * Uses only free OpenRouter models
+ * Supports both free OpenRouter models and custom API keys/models
  */
 
 class AIService {
@@ -57,6 +57,35 @@ class AIService {
             console.error("[AI Service] Failed to initialize:", error);
             this.isEnabled = false;
         }
+    }
+
+    /**
+     * Create a custom OpenRouter client for a user's personal API key
+     * @param {string} apiKey - User's custom API key
+     * @param {string} [baseUrl] - Optional custom base URL
+     * @returns {Object} OpenRouter client instance
+     */
+    createCustomClient(apiKey, baseUrl) {
+        try {
+            const config = { apiKey };
+            if (baseUrl && baseUrl.trim()) {
+                config.baseURL = baseUrl.trim();
+            }
+            return new OpenRouter(config);
+        } catch (error) {
+            console.error("[AI Service] Failed to create custom client:", error);
+            return null;
+        }
+    }
+
+    /**
+     * Check if a model is a custom model (not in the free list)
+     * @param {string} modelId - Model ID to check
+     * @param {Array} customModels - Array of custom model objects
+     * @returns {boolean}
+     */
+    isCustomModel(modelId, customModels = []) {
+        return customModels.some(m => m.id === modelId);
     }
 
     getBaseInstructions(client) {
@@ -128,7 +157,104 @@ Guidelines:
         return { valid: true };
     }
 
-    async *chatStream({ messages, model, stream = true }) {
+    /**
+     * Send a chat request using either the bot's global API or a user's custom API
+     * @param {Object} options
+     * @param {Array} options.messages - Chat messages
+     * @param {string} options.model - Model ID to use
+     * @param {boolean} [options.stream=true] - Whether to stream the response
+     * @param {Object} [options.userSettings] - User settings for custom API
+     * @returns {AsyncGenerator} Stream of response chunks
+     */
+    async *chatStream({ messages, model, stream = true, userSettings = null }) {
+        // Determine if we should use custom API
+        const useCustomApi = userSettings && userSettings.hasCustomApi && userSettings.hasCustomApi();
+        const customModels = userSettings?.customModels || [];
+
+        if (useCustomApi) {
+            // Use user's custom API
+            const customClient = this.createCustomClient(
+                userSettings.customApiKey,
+                userSettings.customApiUrl
+            );
+
+            if (!customClient) {
+                yield "❌ Failed to initialize your custom API connection. Please check your API key and try again.";
+                return;
+            }
+
+            // Determine which model to use with custom API
+            let modelToUse = model || this.defaultModel;
+            
+            // If model is auto/free, use the first custom model or fall back to a default
+            if (modelToUse === DEFAULT_MODEL_ID || modelToUse === 'auto' || modelToUse === 'openrouter/auto') {
+                if (customModels.length > 0) {
+                    modelToUse = customModels[0].id;
+                } else {
+                    // No custom models defined, use a sensible default
+                    modelToUse = 'openrouter/auto';
+                }
+            }
+
+            try {
+                let response;
+                try {
+                    response = await customClient.chat.send({
+                        model: modelToUse,
+                        messages,
+                        stream
+                    });
+                } catch (err1) {
+                    try {
+                        response = await customClient.chat.send({
+                            chatGenerationParams: {
+                                model: modelToUse,
+                                messages,
+                                stream
+                            }
+                        });
+                    } catch (err2) {
+                        response = await customClient.chat.send({
+                            chatRequest: {
+                                model: modelToUse,
+                                messages,
+                                stream
+                            }
+                        });
+                    }
+                }
+
+                let buffer = '';
+                for await (const chunk of response) {
+                    const content = chunk.choices[0]?.delta?.content;
+                    if (content) {
+                        buffer += content;
+
+                        while (buffer.includes('\n')) {
+                            const newlineIndex = buffer.indexOf('\n');
+                            const line = buffer.slice(0, newlineIndex + 1);
+                            buffer = buffer.slice(newlineIndex + 1);
+
+                            if (!line.trim().toLowerCase().includes('safety')) {
+                                yield line;
+                            }
+                        }
+                    }
+                }
+
+                if (buffer && !buffer.trim().toLowerCase().includes('safety')) {
+                    yield buffer;
+                }
+
+                return;
+            } catch (error) {
+                console.error(`[AI Service] Custom API chat error with model ${modelToUse}:`, error);
+                yield `❌ Error with your custom API: ${error.message || 'Unknown error'}. Please check your API key and model configuration.`;
+                return;
+            }
+        }
+
+        // Use bot's global API (existing logic)
         if (!this.isEnabled || !this.openrouter) {
             yield "AI service is not available. Please contact the bot owner.";
             return;
@@ -138,11 +264,9 @@ Guidelines:
         const modelsToTry = [];
         const validatedModel = this.resolveModel(model);
         if (validatedModel === DEFAULT_MODEL_ID) {
-            // If using auto, first try the free router, then all individual free models
             modelsToTry.push(DEFAULT_MODEL_ID);
             modelsToTry.push(...FREE_MODELS.map(m => m.id));
         } else {
-            // If using specific model, try that first then others as fallback
             modelsToTry.push(validatedModel);
             modelsToTry.push(DEFAULT_MODEL_ID);
             modelsToTry.push(...FREE_MODELS.map(m => m.id).filter(id => id !== validatedModel));
@@ -151,7 +275,6 @@ Guidelines:
         let lastError = null;
         for (const tryModel of modelsToTry) {
             try {
-                // Try different parameter formats for @openrouter/sdk compatibility
                 let response;
                 try {
                     response = await this.openrouter.chat.send({
@@ -185,14 +308,11 @@ Guidelines:
                     if (content) {
                         buffer += content;
 
-                        // Check for and filter out safety lines
-                        // First, check if we have a complete line to check
                         while (buffer.includes('\n')) {
                             const newlineIndex = buffer.indexOf('\n');
                             const line = buffer.slice(0, newlineIndex + 1);
                             buffer = buffer.slice(newlineIndex + 1);
 
-                            // Skip safety-related lines
                             if (!line.trim().toLowerCase().includes('safety')) {
                                 yield line;
                             }
@@ -200,40 +320,94 @@ Guidelines:
                     }
                 }
 
-                // Yield any remaining content in buffer (checking for safety)
                 if (buffer && !buffer.trim().toLowerCase().includes('safety')) {
                     yield buffer;
                 }
 
-                // If we got here, the model worked - no need to try others
                 return;
-
             } catch (error) {
                 console.error(`[AI Service] Chat error with model ${tryModel}:`, error);
                 lastError = error;
-                // Continue to try next model
             }
         }
 
-        // If all models failed
         console.error("[AI Service] All models failed");
         yield "Sorry, I encountered an error while processing your request.";
     }
 
-    async chatComplete({ messages, model }) {
+    async chatComplete({ messages, model, userSettings = null }) {
+        // Determine if we should use custom API
+        const useCustomApi = userSettings && userSettings.hasCustomApi && userSettings.hasCustomApi();
+        const customModels = userSettings?.customModels || [];
+
+        if (useCustomApi) {
+            const customClient = this.createCustomClient(
+                userSettings.customApiKey,
+                userSettings.customApiUrl
+            );
+
+            if (!customClient) {
+                return "❌ Failed to initialize your custom API connection. Please check your API key and try again.";
+            }
+
+            let modelToUse = model || this.defaultModel;
+            
+            if (modelToUse === DEFAULT_MODEL_ID || modelToUse === 'auto' || modelToUse === 'openrouter/auto') {
+                if (customModels.length > 0) {
+                    modelToUse = customModels[0].id;
+                } else {
+                    modelToUse = 'openrouter/auto';
+                }
+            }
+
+            try {
+                let response;
+                try {
+                    response = await customClient.chat.send({
+                        model: modelToUse,
+                        messages,
+                        stream: false
+                    });
+                } catch (err1) {
+                    try {
+                        response = await customClient.chat.send({
+                            chatGenerationParams: {
+                                model: modelToUse,
+                                messages,
+                                stream: false
+                            }
+                        });
+                    } catch (err2) {
+                        response = await customClient.chat.send({
+                            chatRequest: {
+                                model: modelToUse,
+                                messages,
+                                stream: false
+                            }
+                        });
+                    }
+                }
+
+                let content = response.choices[0]?.message?.content || "No response received.";
+                content = content.split('\n').filter(line => !line.trim().toLowerCase().includes('safety')).join('\n');
+                return content.trim() || "No response received.";
+            } catch (error) {
+                console.error(`[AI Service] Custom API chatComplete error:`, error);
+                return `❌ Error with your custom API: ${error.message || 'Unknown error'}.`;
+            }
+        }
+
+        // Use bot's global API
         if (!this.isEnabled || !this.openrouter) {
             return "AI service is not available. Please contact the bot owner.";
         }
 
-        // Get list of models to try
         const modelsToTry = [];
         const validatedModel = this.resolveModel(model);
         if (validatedModel === DEFAULT_MODEL_ID) {
-            // If using auto, first try the free router, then all individual free models
             modelsToTry.push(DEFAULT_MODEL_ID);
             modelsToTry.push(...FREE_MODELS.map(m => m.id));
         } else {
-            // If using specific model, try that first then others as fallback
             modelsToTry.push(validatedModel);
             modelsToTry.push(DEFAULT_MODEL_ID);
             modelsToTry.push(...FREE_MODELS.map(m => m.id).filter(id => id !== validatedModel));
@@ -270,20 +444,14 @@ Guidelines:
                 }
 
                 let content = response.choices[0]?.message?.content || "No response received.";
-
-                // Filter out safety lines
                 content = content.split('\n').filter(line => !line.trim().toLowerCase().includes('safety')).join('\n');
-
                 return content.trim() || "No response received.";
-
             } catch (error) {
                 console.error(`[AI Service] ChatComplete error with model ${tryModel}:`, error);
                 lastError = error;
-                // Continue to try next model
             }
         }
 
-        // If all models failed
         console.error("[AI Service] All models failed (chatComplete)");
         return "Sorry, I encountered an error while processing your request.";
     }

@@ -21,6 +21,40 @@ const aiChatSchema = new mongoose.Schema({
         default: true
     },
 
+    // Custom API key for using user's own OpenRouter API key
+    customApiKey: {
+        type: String,
+        default: ""
+    },
+
+    // Custom API base URL (defaults to OpenRouter)
+    customApiUrl: {
+        type: String,
+        default: "https://openrouter.ai/api/v1"
+    },
+
+    // Whether the user is using a custom API
+    usesCustomApi: {
+        type: Boolean,
+        default: false
+    },
+
+    // Custom models for this user (stored as JSON string array)
+    customModels: [{
+        id: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        provider: {
+            type: String,
+            default: "Custom"
+        }
+    }],
+
     // Conversation history for context (limited to last 10 messages)
     conversationHistory: [{
         role: {
@@ -127,6 +161,31 @@ aiChatSchema.methods.getFormattedHistory = function() {
         role: msg.role,
         content: msg.content
     }));
+};
+
+// Method to check if user has custom API configured
+aiChatSchema.methods.hasCustomApi = function() {
+    return this.usesCustomApi && this.customApiKey && this.customApiKey.trim().length > 0;
+};
+
+// Method to get all available models for this user (including custom ones)
+aiChatSchema.methods.getAvailableModels = function() {
+    const { getAvailableModels } = require('../util/functions/aiModels');
+    const baseModels = getAvailableModels();
+    
+    if (this.hasCustomApi() && this.customModels.length > 0) {
+        // Mix free models with custom models (user can use both)
+        return [
+            ...baseModels,
+            ...this.customModels.map(m => ({
+                id: m.id,
+                name: `${m.name} (Custom)`,
+                provider: m.provider || 'Custom'
+            }))
+        ];
+    }
+    
+    return baseModels;
 };
 
 module.exports = mongoose.model('AIChat', aiChatSchema);
