@@ -59,19 +59,50 @@ module.exports = {
 
     try {
       await command.execute(client, interaction);
+
+      // Build extra info for console log (subcommand + options)
+      const extra = [];
+      if (interaction.options) {
+        const sub = interaction.options.getSubcommand(false);
+        const group = interaction.options.getSubcommandGroup(false);
+        if (sub) extra.push(group ? `[${group} ${sub}]` : `[${sub}]`);
+
+        const opts = interaction.options._hoistedOptions || [];
+        if (opts.length > 0) {
+          const parts = opts.map(o => `${o.name}=${String(o.value).length > 60 ? String(o.value).slice(0, 60) + '…' : o.value}`);
+          extra.push(`{${parts.join(', ')}}`);
+        }
+      }
+      const extraStr = extra.length > 0 ? ' ' + extra.join(' ') : '';
+
       client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
         ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
         : "DMS"
-        } used: /${interaction.commandName}`);
+        } used: /${interaction.commandName}${extraStr}`);
     } catch (error) {
       consoleUtil.error(error, "command-execute");
       await handleInteractionError(error, interaction, client);
-      
+
+      // Build extra info for console log (subcommand + options)
+      const extra = [];
+      if (interaction.options) {
+        const sub = interaction.options.getSubcommand(false);
+        const group = interaction.options.getSubcommandGroup(false);
+        if (sub) extra.push(group ? `[${group} ${sub}]` : `[${sub}]`);
+
+        const opts = interaction.options._hoistedOptions || [];
+        if (opts.length > 0) {
+          const parts = opts.map(o => `${o.name}=${String(o.value).length > 60 ? String(o.value).slice(0, 60) + '…' : o.value}`);
+          extra.push(`{${parts.join(', ')}}`);
+        }
+      }
+      const extraStr = extra.length > 0 ? ' ' + extra.join(' ') : '';
+
       // Log the error command attempt
       client.LogCmd(interaction, true, `${new Date()} (/) ${interaction.user.username}|(${interaction.user.id}) in ${interaction.guild
         ? `${interaction.guild.name}(${interaction.guildId}) | #${interaction.channel.name}(${interaction.channel.id})`
         : "DMS"
-        } failed: /${interaction.commandName} - ${error.message}`);
+        } failed: /${interaction.commandName}${extraStr} - ${error.message}`);
     }
   }
 };

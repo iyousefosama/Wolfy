@@ -104,6 +104,29 @@ const commandLog = async (client, e, isSlash = false, message) => {
     ? e.commandName
     : e.content.slice(client.config.prefix.length).trim();
 
+  // Extract subcommand and options info for slash commands
+  let subcommandInfo = null;
+  let optionsInfo = null;
+
+  if (isSlash && e.options) {
+    const subcommand = e.options.getSubcommand(false);
+    const subcommandGroup = e.options.getSubcommandGroup(false);
+
+    if (subcommand) {
+      subcommandInfo = subcommandGroup
+        ? `${subcommandGroup} ${subcommand}`
+        : subcommand;
+    }
+
+    // Get all provided options (exclude subcommand/subcommandGroup type entries)
+    const providedOptions = e.options._hoistedOptions || [];
+    if (providedOptions.length > 0) {
+      optionsInfo = providedOptions
+        .map(opt => `**${opt.name}:** \`${opt.value}\``)
+        .join('\n');
+    }
+  }
+
   const logEm = new EmbedBuilder()
     .setTitle("System Log")
     .setAuthor({
@@ -122,6 +145,22 @@ const commandLog = async (client, e, isSlash = false, message) => {
         value: cmdName || "Unknown",
         inline: true,
       },
+      ...(subcommandInfo
+        ? [{
+            name: "Subcommand",
+            value: `**${subcommandInfo}**`,
+            inline: false,
+          }]
+        : []
+      ),
+      ...(optionsInfo
+        ? [{
+            name: "Options",
+            value: optionsInfo,
+            inline: false,
+          }]
+        : []
+      ),
       {
         name: "User",
         value: `**${user.username}**(\`${user.id}\`)`,
