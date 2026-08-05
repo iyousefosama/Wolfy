@@ -1,212 +1,161 @@
-const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { buildModerationEmbed } = require('../moderation/embeds');
+const {
+  isExempt, getGuildData, executeAction, sendLogEmbed, sendModerationEmbed,
+  createTracker, getTrackerEntry, cleanOldMessages,
+  hasZalgoText, extractUrls,
+  isHandled, tryMarkHandled,
+} = require('../moderation/core');
 
-/**
- * In-memory tracking for spam detection per user
- * Structure: Map<guildId_userId, { messages: Array<{timestamp, content}>, duplicateCount: number, lastContent: string }>
- */
-const spamTracker = new Map();
+const spamTracker = createTracker();
+const DUPLICATE_WINDOW = 30000; // 30 seconds
 
-/**
- * Get or create tracker for a user
- */
-function getUserTracker(guildId, userId) {
-  const key = `${guildId}_${userId}`;
-  if (!spamTracker.has(key)) {
-    spamTracker.set(key, { messages: [], duplicateCount: 0, lastContent: '' });
-  }
-  return spamTracker.get(key);
-}
-
-/**
- * Clean old messages from tracker (older than 1 minute)
- */
-function cleanOldMessages(tracker) {
-  const now = Date.now();
-  const oneMinuteAgo = now - 60000;
-  tracker.messages = tracker.messages.filter(msg => msg.timestamp > oneMinuteAgo);
-}
-
-/**
- * Calculate percentage of uppercase letters
- */
+/** Calculate uppercase percentage */
 function calculateCapsPercentage(text) {
-  if (text.length === 0) return 0;
+  if (!text) return 0;
   const letters = text.replace(/[^a-zA-Z]/g, '');
-  if (letters.length === 0) return 0;
-  const uppercase = letters.replace(/[^A-Z]/g, '').length;
-  return (uppercase / letters.length) * 100;
+  if (!letters.length) return 0;
+  const upper = letters.replace(/[^A-Z]/g, '').length;
+  return (upper / letters.length) * 100;
 }
 
-/**
- * Count emojis in text
- */
+/** Count emojis in text */
 function countEmojis(text) {
-  const emojiRegex = /[\p{Emoji}]/gu;
-  const matches = text.match(emojiRegex);
-  return matches ? matches.length : 0;
+  return (text.match(/[\p{Emoji}]/gu) || []).length;
 }
 
-/**
- * Check for spam behavior
- * @param {string} content
- * @param {Object} tracker
- * @param {Object} config
- * @returns {Object} - { isSpam: boolean, reason: string }
- */
+/** Count user & role mentions in text */
+function countMentions(content) {
+  return (content.match(/<@[&!]?\d+>/g) || []).length;
+}
+
+/** Count identical messages sent within the duplicate window */
+function countRecentDuplicates(content, messages) {
+  const cutoff = Date.now() - DUPLICATE_WINDOW;
+  return messages.filter(m => m.timestamp > cutoff && m.content === content).length;
+}
+
+/** Detect repeated lines / copypasta spam */
+function hasRepeatedLines(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length < 3) return false;
+  const freq = {};
+  for (const l of lines) freq[l] = (freq[l] || 0) + 1;
+  return Object.values(freq).some(c => c >= 3);
+}
+
+/** Check spam behavior */
 function checkSpam(content, tracker, config) {
-  // Check caps lock
-  if (content.length >= config.minCapsLength) {
-    const capsPercent = calculateCapsPercentage(content);
-    if (capsPercent >= config.maxCapsPercentage) {
-      return {
-        isSpam: true,
-        reason: `Excessive caps lock: ${Math.round(capsPercent)}% uppercase`
-      };
+  // Message rate limit
+  if (config.maxMessagesPerMinute && tracker.messages.length >= config.maxMessagesPerMinute) {
+    return { isSpam: true, reason: `Message rate limit: ${tracker.messages.length} messages/minute` };
+  }
+
+  // Caps lock check
+  if (content.length >= (config.minCapsLength || 5)) {
+    const caps = calculateCapsPercentage(content);
+    if (caps >= (config.maxCapsPercentage || 70)) {
+      return { isSpam: true, reason: `Excessive caps lock: ${Math.round(caps)}% uppercase` };
     }
   }
 
-  // Check emoji spam
+  // Emoji spam
   const emojiCount = countEmojis(content);
-  if (emojiCount > config.maxEmojis) {
-    return {
-      isSpam: true,
-      reason: `Too many emojis: ${emojiCount} emojis`
-    };
+  if (emojiCount > (config.maxEmojis || 10)) {
+    return { isSpam: true, reason: `Too many emojis: ${emojiCount} emojis` };
   }
 
-  // Check duplicate messages
-  if (content === tracker.lastContent) {
-    tracker.duplicateCount++;
-    if (tracker.duplicateCount >= config.maxDuplicates) {
-      return {
-        isSpam: true,
-        reason: `Duplicate message spam: ${tracker.duplicateCount} duplicates`
-      };
+  // Mention spam (users AND roles)
+  if (config.maxMentions) {
+    const mentions = countMentions(content);
+    if (mentions > config.maxMentions) {
+      return { isSpam: true, reason: `Mention spam: ${mentions} mentions` };
     }
-  } else {
-    tracker.duplicateCount = 0;
-    tracker.lastContent = content;
+  }
+
+  // Link spam
+  if (config.maxLinksPerMessage) {
+    const links = extractUrls(content).length;
+    if (links > config.maxLinksPerMessage) {
+      return { isSpam: true, reason: `Too many links: ${links} links` };
+    }
+  }
+
+  // Zalgo text
+  if (hasZalgoText(content)) {
+    return { isSpam: true, reason: 'Zalgo text detected (excessive combining characters)' };
+  }
+
+  // Repeated-lines / copypasta
+  if (hasRepeatedLines(content)) {
+    return { isSpam: true, reason: 'Repeated line spam detected' };
+  }
+
+  // Duplicate messages within a short window
+  if (config.maxDuplicates) {
+    const dups = countRecentDuplicates(content, tracker.messages);
+    if (dups >= (config.maxDuplicates || 3)) {
+      return { isSpam: true, reason: `Duplicate message spam: ${dups} duplicates` };
+    }
   }
 
   return { isSpam: false, reason: '' };
 }
 
 /**
- * Main anti-spam function to be called on message create
  * @param {import('../../struct/Client')} client
  * @param {import('discord.js').Message} message
  * @param {Object | null} guildData
  */
 const antiSpam = async (client, message, guildData = null) => {
-  if (!message || !message.guild) return;
-  if (message.author.bot) return;
-  if (message.author === client.user) return;
+  if (!message || !message.guild || message.author.bot || message.author === client.user) return;
+  if (isHandled(message)) return;
 
-  let resolvedGuildData = guildData;
+  const resolved = guildData || await getGuildData(client, message.guild.id);
+  if (!resolved?.Mod?.AntiSpam?.isEnabled) return;
 
-  try {
-    if (!resolvedGuildData) {
-      resolvedGuildData = await client.getCachedGuildData(message.guild.id);
-    }
-  } catch (err) {
-    console.log(err);
-    return;
-  }
-
-  if (!resolvedGuildData?.Mod?.AntiSpam?.isEnabled) return;
-
-  // Skip owners and admins
-  if (message.author.id === message.guild.ownerId) return;
-  if (message.channel?.permissionsFor(message.member)?.has(PermissionsBitField.Flags.Administrator)) return;
-
-  const antiSpamConfig = resolvedGuildData.Mod.AntiSpam;
-  const guild = message.guild;
-  const userId = message.author.id;
+  const config = resolved.Mod.AntiSpam;
+  if (isExempt(message, config)) return;
 
   // Track message
-  const tracker = getUserTracker(guild.id, userId);
-  tracker.messages.push({
-    timestamp: Date.now(),
-    content: message.content
-  });
-
+  const tracker = getTrackerEntry(spamTracker, `${message.guild.id}_${message.author.id}`);
+  tracker.messages.push({ timestamp: Date.now(), content: message.content });
   cleanOldMessages(tracker);
 
-  // Check for spam
-  const checkResult = checkSpam(message.content, tracker, antiSpamConfig);
+  const result = checkSpam(message.content, tracker, config);
 
-  if (checkResult.isSpam) {
-    const action = antiSpamConfig.action;
+  if (result.isSpam) {
+    if (!tryMarkHandled(message)) return;
 
-    // Log to configured channel
-    if (antiSpamConfig.logChannel) {
-      const logChannel = guild.channels.cache.get(antiSpamConfig.logChannel);
-      if (logChannel) {
-        const embed = new EmbedBuilder()
-          .setColor('#ff9900')
-          .setTitle('⚠️ Spam Detected')
-          .addFields(
-            { name: 'User', value: `${message.author.tag} (${userId})`, inline: true },
-            { name: 'Channel', value: `<#${message.channel.id}>`, inline: true },
-            { name: 'Reason', value: checkResult.reason, inline: true },
-            { name: 'Action', value: action, inline: true }
-          )
-          .setTimestamp();
-        await logChannel.send({ embeds: [embed] }).catch(() => {});
-      }
-    }
+    const action = config.action || 'delete';
 
-    // Perform action
-    if (action === 'delete') {
-      await message.delete().catch(() => {});
-      await message.channel.send({
-        content: `🚫 ${message.author}, please stop spamming.`
-      }).then(msg => setTimeout(() => msg.delete().catch(() => {}), 5000)).catch(() => {});
-    } else if (action === 'mute') {
-      await message.delete().catch(() => {});
-      if (message.member?.moderatable) {
-        await message.member.timeout(600000, 'Anti-Spam: Spam detected').catch(async () => {
-          const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-          if (muteRole) {
-            await message.member.roles.add(muteRole, 'Anti-Spam: Spam detected').catch(() => {});
-          }
-        });
-      } else {
-        const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-        if (muteRole) {
-          await message.member.roles.add(muteRole, 'Anti-Spam: Spam detected').catch(() => {});
-        }
-      }
-      await message.channel.send({
-        content: `🔒 ${message.author} has been muted for spamming.`
-      }).then(msg => setTimeout(() => msg.delete().catch(() => {}), 5000)).catch(() => {});
-    } else if (action === 'warn') {
-      await message.channel.send({
-        content: `⚠️ ${message.author}, ${checkResult.reason}. Please stop spamming.`
-      }).then(msg => setTimeout(() => msg.delete().catch(() => {}), 10000)).catch(() => {});
-    }
+    const logEmbed = buildModerationEmbed(client, message, {
+      title: '⚠️ Spam Detected',
+      reason: result.reason,
+      action, moduleName: 'Anti-Spam',
+      content: message.content,
+    });
+    await sendLogEmbed(message.guild, config.logChannel, logEmbed);
+
+    await executeAction(client, message, action, result.reason, 'Anti-Spam');
+
+    await sendModerationEmbed(client, message, {
+      title: '⚠️ Spam Detected',
+      reason: result.reason,
+      action, moduleName: 'Anti-Spam',
+      autoDelete: 5000,
+    });
   }
 };
 
-/**
- * Clear tracker for a user
- * @param {string} guildId
- * @param {string} userId
- */
+/** Clear tracker for user */
 function clearSpamTracker(guildId, userId) {
-  const key = `${guildId}_${userId}`;
-  spamTracker.delete(key);
+  spamTracker.delete(`${guildId}_${userId}`);
 }
 
-/**
- * Clear all trackers for a guild
- * @param {string} guildId
- */
+/** Clear all trackers for guild */
 function clearGuildSpamTrackers(guildId) {
   for (const key of spamTracker.keys()) {
-    if (key.startsWith(`${guildId}_`)) {
-      spamTracker.delete(key);
-    }
+    if (key.startsWith(`${guildId}_`)) spamTracker.delete(key);
   }
 }
 

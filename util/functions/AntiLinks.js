@@ -1,62 +1,45 @@
-const UserSchema = require('../../schema/Infraction-Schema')
-const InfFunction = require('./Infraction')
-const { PermissionsBitField, EmbedBuilder } = require('discord.js')
+const { buildModerationEmbed } = require('../moderation/embeds');
+const {
+  extractDomain, isExempt, getGuildData,
+  executeAction, sendLogEmbed, sendModerationEmbed,
+  extractMessageUrls, detectObfuscatedUrls,
+  isTrustedDomain, analyzeUrl, hasScamText,
+  isHandled, tryMarkHandled, createTracker, getTrackerEntry,
+} = require('../moderation/core');
 
-// Known scam domains and patterns
-const SCAM_DOMAINS = [
-  'steamcommunitty.com', 'strearncommunitry.com', 'stearncommunity.com',
-  'discord-gift.com', 'discordnitro.com', 'free-discord-nitro.com',
-  'fortnite-itemshop.com', 'freefortnite.com', 'v-bucks-generator.com',
-  'robux-generator.com', 'freerobux.com', 'roblox-itemshop.com',
-  'steam-gift.com', 'freesteamgames.com', 'steamwallet.com',
-  'google-play-gift.com', 'itunes-gift.com', 'amazon-gift.com',
-  'bitcoingenerator.com', 'freebitcoin.com', 'ethereum-generator.com'
-];
+/** A URL is considered a scam when its score reaches this threshold */
+const SCAM_THRESHOLD = 90;
 
-const SCAM_PATTERNS = [
-  /free\s*(nitro|robux|v-bucks|steam|gift|bitcoin|ethereum)/i,
-  /generator/i,
-  /claim\s*your\s*(reward|gift|prize)/i,
-  /verify\s*your\s*account/i,
-  /steam\s*community/i,
-  /discord\s*gift/i
-];
+/** Repeat offenders escalate their action within this window */
+const VIOLATION_WINDOW = 10 * 60 * 1000; // 10 minutes
+const ACTION_ORDER = ['delete', 'warn', 'mute', 'kick', 'ban'];
+const linkTracker = createTracker();
 
-/**
- * Extract URLs from message content
- */
-function extractUrls(content) {
-  const urlRegex = /(https?:\/\/[^\s]+)|(discord\.gg\/[^\s]+)/gi;
-  return content.match(urlRegex) || [];
+/** Escalate action for repeat scam/spam offenders */
+function computeAction(baseAction, violations) {
+  const base = ACTION_ORDER.indexOf(baseAction);
+  if (base === -1) return baseAction;
+  const recent = violations.filter(v => Date.now() - v < VIOLATION_WINDOW).length;
+  let step = 0;
+  if (recent >= 4) step = 2;
+  else if (recent >= 2) step = 1;
+  return ACTION_ORDER[Math.min(base + step, ACTION_ORDER.length - 1)];
 }
 
-/**
- * Extract domain from URL
- */
-function extractDomain(url) {
-  try {
-    if (url.includes('discord.gg/')) return 'discord.gg';
-    const hostname = new URL(url).hostname;
-   return hostname.replace('www.', '');
-  } catch {
-    return null;
+/** Clean expired violations from the tracker */
+function cleanOldViolations(tracker, window = VIOLATION_WINDOW) {
+  if (Array.isArray(tracker.violations)) {
+    tracker.violations = tracker.violations.filter(v => Date.now() - v < window);
   }
 }
 
-/**
- * Check if URL is a known scam
- */
-function isScamUrl(url) {
-  const domain = extractDomain(url);
-  if (!domain) return false;
-  
-  // Check against known scam domains
-  if (SCAM_DOMAINS.some(scamDomain => domain.includes(scamDomain))) {
-    return true;
-  }
-  
-  // Check against scam patterns in URL
-  return SCAM_PATTERNS.some(pattern => pattern.test(url));
+/** Is a domain allowed by the server's allow-lists (whitelist / allowedDomains) */
+function isAllowedDomain(domain, url, config) {
+  const lists = [...(config.whitelist || []), ...(config.allowedDomains || [])];
+  if (!lists.length) return false;
+  const d = (domain || '').toLowerCase();
+  const u = (url || '').toLowerCase();
+  return lists.some(a => a && (d.includes(a.toLowerCase()) || u.includes(a.toLowerCase())));
 }
 
 /**
@@ -65,153 +48,116 @@ function isScamUrl(url) {
  * @param {Object | null} guildData
  */
 const checkMsg = async (client, message, guildData = null) => {
-  if (!message) {
-    return;
-  }
+  if (!message || !message.guild) return;
+  if (message.author === client.user || message.author.bot) return;
+  if (isHandled(message)) return;
 
-  if (message.author == client.user) return;
-  if (message.author.bot) {
-    return;
-  }
-  if (!message.guild) {
-    return;
-  }
+  const resolved = guildData || await getGuildData(client, message.guild.id);
+  if (!resolved?.Mod?.AntiLink?.isEnabled) return;
 
-  let resolvedGuildData = guildData;
+  const config = resolved.Mod.AntiLink;
+  if (isExempt(message, config)) return;
 
-  try {
-    if (!resolvedGuildData) {
-      resolvedGuildData = await client.getCachedGuildData(message.guild.id);
-    }
-  } catch (err) {
-    console.log(err)
-    return message.channel.send(`\`❌ [DATABASE_ERR]:\` The database responded with error: ${err.name}`)
-  }
+  const urls = extractMessageUrls(message);
+  const obfuscated = detectObfuscatedUrls(message.content || '');
+  if (urls.length === 0 && obfuscated.length === 0) return;
 
-  if (message.author.id === message.guild.ownerId) {
-    return;
-  } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
-    return;
-  } else if (!resolvedGuildData?.Mod?.AntiLink?.isEnabled) {
-    return;
-  }
-
-  const antiLinkConfig = resolvedGuildData.Mod.AntiLink;
-  const urls = extractUrls(message.content);
-  
-  if (urls.length === 0) return;
-
-  let shouldBlock = false;
-  let reason = '';
-  let blockedUrls = [];
+  const mode = config.mode || 'scam';
+  const blocks = [];
 
   for (const url of urls) {
-    const domain = extractDomain(url);
-    const domainLower = domain ? domain.toLowerCase() : '';
-    const urlLower = url.toLowerCase();
-    
-    // Check whitelist first
-    if (antiLinkConfig.whitelist && antiLinkConfig.whitelist.length > 0) {
-      const isWhitelisted = antiLinkConfig.whitelist.some(allowed => {
-        const allowedLower = allowed.toLowerCase();
-        return domainLower.includes(allowedLower) || urlLower.includes(allowedLower);
-      });
-      if (isWhitelisted) continue;
-    }
-    
-    // Check blacklist
-    if (antiLinkConfig.blacklist && antiLinkConfig.blacklist.length > 0) {
-      const isBlacklisted = antiLinkConfig.blacklist.some(blocked => {
-        const blockedLower = blocked.toLowerCase();
-        return domainLower.includes(blockedLower) || urlLower.includes(blockedLower);
-      });
-      if (isBlacklisted) {
-        shouldBlock = true;
-        reason = 'Blacklisted link detected';
-        blockedUrls.push(url);
-        continue;
-      }
-    }
-    
-    // Check allowed domains
-    if (antiLinkConfig.allowedDomains && antiLinkConfig.allowedDomains.length > 0) {
-      const isAllowed = antiLinkConfig.allowedDomains.some(allowed => {
-        const allowedLower = allowed.toLowerCase();
-        return domainLower.includes(allowedLower) || urlLower.includes(allowedLower);
-      });
-      if (!isAllowed) {
-        shouldBlock = true;
-        reason = 'Link not in allowed domains';
-        blockedUrls.push(url);
-        continue;
-      }
-    } else if (!antiLinkConfig.blacklist || antiLinkConfig.blacklist.length === 0) {
-      // If neither allowedDomains nor blacklist is set, block any non-whitelisted link when AntiLink is enabled
-      shouldBlock = true;
-      reason = 'Links are disabled in this server';
-      blockedUrls.push(url);
+    const domain = extractDomain(url)?.toLowerCase() || '';
+    const bl = config.blacklist || [];
+
+    // Allow-lists always win
+    if (isAllowedDomain(domain, url, config)) continue;
+
+    // Blacklist always blocked
+    const blHit = bl.some(b => b && (domain.includes(b.toLowerCase()) || url.toLowerCase().includes(b.toLowerCase())));
+    if (blHit) {
+      blocks.push({ url, reason: 'Blacklisted domain detected', reasons: [`\`${domain}\` is blacklisted`] });
       continue;
     }
-    
-    // Scam detection
-    if (antiLinkConfig.scamDetection && isScamUrl(url)) {
-      shouldBlock = true;
-      reason = 'Potential scam link detected';
-      blockedUrls.push(url);
-    }
-  }
 
-  if (shouldBlock && blockedUrls.length > 0) {
-    const action = antiLinkConfig.action || 'delete';
-    
-    // Log to channel if configured
-    if (antiLinkConfig.logChannel) {
-      const logChannel = message.guild.channels.cache.get(antiLinkConfig.logChannel);
-      if (logChannel) {
-        const logEmbed = new EmbedBuilder()
-          .setColor('#ff0000')
-          .setTitle('🔗 Link Blocked')
-          .addFields(
-            { name: 'User', value: `${message.author.tag} (${message.author.id})`, inline: true },
-            { name: 'Channel', value: `<#${message.channel.id}>`, inline: true },
-            { name: 'Reason', value: reason, inline: true },
-            { name: 'Blocked URLs', value: blockedUrls.slice(0, 5).join('\n'), inline: false },
-            { name: 'Action', value: action, inline: true }
-          )
-          .setTimestamp();
-        logChannel.send({ embeds: [logEmbed] }).catch(() => {});
+    if (mode === 'strict') {
+      blocks.push({ url, reason: 'Links are disabled in this server', reasons: [] });
+    } else if (mode === 'whitelist') {
+      blocks.push({ url, reason: 'Link is not allowed in this server', reasons: [`\`${domain}\` is not in the allow-list`] });
+    } else if (mode === 'scam') {
+      if (config.scamDetection !== false) {
+        const result = analyzeUrl(url);
+        if (result.score >= SCAM_THRESHOLD) {
+          blocks.push({ url, reason: 'Potential scam link detected', reasons: result.reasons });
+        }
       }
     }
-    
-    message.delete().then(() => {
-      setTimeout(async () => {
-        // Perform action based on configuration
-        if (action === 'mute') {
-          if (message.member?.moderatable) {
-            await message.member.timeout(600000, 'Anti-Link: Blocked link').catch(async () => {
-              const muteRole = message.guild.roles.cache.find(role => role.name === 'Muted');
-              if (muteRole) {
-                await message.member.roles.add(muteRole, 'Anti-Link: Blocked link').catch(() => {});
-              }
-            });
-          }
-        } else if (action === 'ban') {
-          if (message.member?.bannable) {
-            await message.member.ban({ reason: 'Anti-Link: Blocked scam/malicious link' }).catch(() => {});
-          }
-        }
-        
-        // Send infraction if enabled
-        if (resolvedGuildData.Mod?.Infraction?.isEnabled) {
-          InfFunction.Infraction(client, message);
-        } else {
-          return message.channel?.send({ 
-            content: `🚫 ${message.author}, ${reason}!` 
-          }).then(msg => setTimeout(() => msg.delete().catch(() => {}), 5000)).catch(() => {});
-        }
-      }, 100);
-    }).catch(() => {});
+    // mode 'blacklist': handled entirely by the blacklist check above
   }
+
+  // Obfuscated links are always blocked (except in blacklist-only mode)
+  if (obfuscated.length > 0 && mode !== 'blacklist') {
+    for (const ob of obfuscated) {
+      blocks.push({ url: ob, reason: 'Obfuscated link detected', reasons: ['Link hidden with spaces / brackets'] });
+    }
+  }
+
+  // Scam attempt: scam language + a non-trusted link (catches "scam trying")
+  if (blocks.length === 0 && mode === 'scam' && config.scamDetection !== false) {
+    if (hasScamText(message.content || '') && urls.length > 0) {
+      const untrusted = urls.find(u => {
+        const d = extractDomain(u);
+        return !isTrustedDomain(d) && !isAllowedDomain(d, u, config);
+      });
+      if (untrusted) {
+        blocks.push({
+          url: untrusted,
+          reason: 'Scam language used with an untrusted link',
+          reasons: ['Suspicious scam phrasing next to a link'],
+        });
+      }
+    }
+  }
+
+  if (blocks.length === 0) return;
+
+  // Prevent other modules from double-processing this message
+  if (!tryMarkHandled(message)) return;
+
+  // Track violations and escalate repeat offenders
+  const tracker = getTrackerEntry(linkTracker, `${message.guild.id}_${message.author.id}`, { violations: [] });
+  cleanOldViolations(tracker);
+  tracker.violations.push(Date.now());
+  const action = computeAction(config.action || 'delete', tracker.violations);
+
+  const uniqueUrls = [...new Set(blocks.map(b => b.url))];
+  const detectedPatterns = [...new Set(blocks.flatMap(b => b.reasons))];
+  const reason = blocks[0].reason;
+  const highSeverity = action !== 'delete' && action !== 'warn';
+
+  const logEmbed = buildModerationEmbed(client, message, {
+    title: '🔗 Link Blocked',
+    reason, action, moduleName: 'Anti-Link',
+    urls: uniqueUrls, content: message.content,
+    detectedPatterns,
+    severity: highSeverity ? 'high' : 'low',
+  });
+  await sendLogEmbed(message.guild, config.logChannel, logEmbed);
+
+  await executeAction(client, message, action, reason, 'Anti-Link');
+
+  await sendModerationEmbed(client, message, {
+    title: '🔗 Link Blocked',
+    reason, action, moduleName: 'Anti-Link',
+    urls: uniqueUrls,
+    autoDelete: 5000,
+    severity: highSeverity ? 'high' : 'low',
+  });
 };
 
+/** Reset the violation tracker for a user */
+function clearLinkTracker(guildId, userId) {
+  linkTracker.delete(`${guildId}_${userId}`);
+}
+
 module.exports = checkMsg;
+module.exports.clearLinkTracker = clearLinkTracker;

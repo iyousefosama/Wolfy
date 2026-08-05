@@ -70,6 +70,9 @@ const settings = {
         devGuild: process.env.DEV_GUILD,
         forceUpdate: false,
         DELETE_ALL: false,
+        // Delete commands on Discord that no longer exist as local files.
+        // Set to false to keep stale commands around during development.
+        cleanupRemoved: true,
     },
 
     // * Array of owners recognized by the bot. ID here will be given access to

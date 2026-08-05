@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const { ChannelType } = require("discord.js");
 const { logEvent } = require("../../util/logHandler");
+const { wordFilter, linkProtection, antiSpam, antiBot, honeyPot } = require("../../util/functions/moderationUtils");
 
 const BEV = require("../../util/types/baseEvents");
 
@@ -9,6 +10,20 @@ module.exports = {
   name: "messageUpdate",
   async execute(client, oldMessage, newMessage) {
     if (oldMessage.channel.type === ChannelType.DM || !oldMessage.author || oldMessage.author.bot || oldMessage.embeds.length > 0) return;
+
+    // Re-scan edited messages through the auto-moderation system
+    if (client.database?.connected && newMessage.guild && newMessage.content !== oldMessage.content) {
+      try {
+        const data = await client.getCachedGuildData(newMessage.guild.id);
+        await wordFilter(client, newMessage, data).catch(() => {});
+        await linkProtection(client, newMessage, data).catch(() => {});
+        await antiSpam(client, newMessage, data).catch(() => {});
+        await antiBot(client, newMessage, data).catch(() => {});
+        await honeyPot(client, newMessage, data).catch(() => {});
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
     const file = newMessage.attachments.first()?.url;
     const timestamp = Math.floor(Date.now() / 1000);

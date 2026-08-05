@@ -131,6 +131,26 @@ module.exports = async (client, directory) => {
       }
     }
 
+    // 🧹 CLEANUP_REMOVED: Delete commands registered on Discord that no longer
+    // have a matching local command file (e.g. old automod/antilink/antibot
+    // commands after they were removed from the repo).
+    if (slashCommands.cleanupRemoved !== false) {
+      const localNames = new Set(
+        localCommands
+          .filter((c) => !c.data?.deleted && !c.deleted)
+          .map((c) => (c.data?.name ?? c.name))
+          .filter(Boolean),
+      );
+
+      for (const [cmdId, cmd] of applicationCommands.cache) {
+        if (!localNames.has(cmd.name)) {
+          await applicationCommands.delete(cmdId);
+          delete contextsCache[guildId ? `${guildId}-${cmd.name}` : `global-${cmd.name}`];
+          info(`🗑 Deleted stale command "${cmd.name}" (no local file).`);
+        }
+      }
+    }
+
     // Save cache after processing all commands
     saveCache(contextsCache);
   } catch (err) {

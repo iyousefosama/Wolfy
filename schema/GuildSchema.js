@@ -103,15 +103,22 @@ const guildSchema = new mongoose.Schema({
     BadWordsFilter: {
       BDW: { type: Array, default: [] },
       isEnabled: { type: Boolean, default: false },
+      action: { type: String, default: 'delete' }, // delete, warn, mute
+      logChannel: { type: String, default: null },
+      bypassRoles: { type: Array, default: [] },
+      bypassChannels: { type: Array, default: [] },
     },
     AntiLink: {
       isEnabled: { type: Boolean, default: false },
+      mode: { type: String, default: 'scam' }, // scam, strict, whitelist, blacklist
       whitelist: { type: Array, default: [] },
       blacklist: { type: Array, default: [] },
       scamDetection: { type: Boolean, default: true },
       allowedDomains: { type: Array, default: [] },
       action: { type: String, default: 'delete' }, // delete, mute, ban
-      logChannel: { type: String, default: null }
+      logChannel: { type: String, default: null },
+      bypassRoles: { type: Array, default: [] },
+      bypassChannels: { type: Array, default: [] },
     },
     AntiRaid: {
       isEnabled: { type: Boolean, default: false },
@@ -127,16 +134,30 @@ const guildSchema = new mongoose.Schema({
       maxSameLinks: { type: Number, default: 3 },
       action: { type: String, default: 'mute' }, // mute, kick, ban
       logChannel: { type: String, default: null },
-      suspiciousPatterns: { type: Array, default: [] }
+      suspiciousPatterns: { type: Array, default: [] },
+      minAccountAge: { type: Number, default: 86400000 }, // 24 hours in ms
+      requireVerified: { type: Boolean, default: false },
+      bypassRoles: { type: Array, default: [] },
     },
     AntiSpam: {
       isEnabled: { type: Boolean, default: false },
+      maxMessagesPerMinute: { type: Number, default: 10 },
       maxCapsPercentage: { type: Number, default: 70 },
       minCapsLength: { type: Number, default: 5 },
       maxEmojis: { type: Number, default: 10 },
       maxDuplicates: { type: Number, default: 3 },
+      maxMentions: { type: Number, default: 5 },
+      maxLinksPerMessage: { type: Number, default: 3 },
       action: { type: String, default: 'delete' }, // delete, mute, warn
-      logChannel: { type: String, default: null }
+      logChannel: { type: String, default: null },
+      bypassRoles: { type: Array, default: [] },
+      bypassChannels: { type: Array, default: [] },
+    },
+    HoneyPot: {
+      isEnabled: { type: Boolean, default: false },
+      channel: { type: String, default: null },
+      action: { type: String, default: 'kick' }, // kick, ban
+      logChannel: { type: String, default: null },
     },
     Infraction: {
       isEnabled: { type: Boolean, default: false },

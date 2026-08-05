@@ -1,7 +1,8 @@
-const { EmbedBuilder } = require('discord.js')
-const uuid = require('uuid');
-const warnSchema = require('../../schema/Warning-Schema')
-const { PermissionsBitField } = require('discord.js')
+const { buildModerationEmbed } = require('../moderation/embeds');
+const {
+  isExempt, getGuildData, executeAction, sendLogEmbed, sendModerationEmbed,
+  containsLeetspeak, isHandled, tryMarkHandled,
+} = require('../moderation/core');
 
 /**
  * @param {import('../../struct/Client')} client
@@ -9,96 +10,45 @@ const { PermissionsBitField } = require('discord.js')
  * @param {Object | null} guildData
  */
 const badWordChecker = async (client, message, guildData = null) => {
-    if (!message) {
-      return;
-    }
+  if (!message || !message.guild || message.author.bot || message.author === client.user) return;
+  if (isHandled(message)) return;
 
-    if (!message.guild || message.author.bot) return;
-    if (message.author == client.user) return;
-    if (message.author.bot) {
-      return;
-    }
+  const resolved = guildData || await getGuildData(client, message.guild.id);
+  if (!resolved?.Mod?.BadWordsFilter?.isEnabled) return;
 
-    let data = guildData;
-    if (!data && message.guild) {
-      try {
-        data = await client.getCachedGuildData(message.guild.id)
-        if (!data) return;
-      } catch (err) {
-        console.log(err)
-      }
-    }
+  const config = resolved.Mod.BadWordsFilter;
+  if (isExempt(message, config)) return;
 
-    if (message.author.id === message.guild.ownerId) {
-      return;
-    } else if (message.channel?.permissionsFor(message.member).has(PermissionsBitField.Flags.Administrator)) {
-      return;
-    } else if (!data?.Mod?.BadWordsFilter?.isEnabled) {
-      return;
-    } else if (data.Mod.BadWordsFilter.BDW == null || data.Mod.BadWordsFilter.BDW.length == 0) {
-      return;
-    }
+  const bdwList = (config.BDW || []).filter(w => typeof w === 'string' && w.trim().length > 0);
+  if (bdwList.length === 0) return;
 
-    const bdwList = data.Mod.BadWordsFilter.BDW.filter(w => typeof w === 'string' && w.trim().length > 0);
-    if (bdwList.length === 0) return;
+  const contentLower = message.content.toLowerCase();
+  const foundWord = bdwList.find(word => {
+    const w = word.toLowerCase();
+    return contentLower.includes(w) || containsLeetspeak(message.content, w);
+  });
 
-    if (bdwList.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
-      message.delete().then(msg => {
-        setTimeout(async () => {
-          const reason = `Automoderator: This word is banned, watch your language.`
-          const warnObj = {
-            authorId: client.user.id,
-            timestamp: Math.floor(Date.now() / 1000),
-            warnId: uuid.v4(),
-            reason: reason,
-          };
+  if (!foundWord) return;
 
-          const warnAddData = await warnSchema.findOneAndUpdate(
-            {
-              guildId: message.guild.id,
-              userId: message.author.id,
-            },
-            {
-              guildId: message.guild.id,
-              userId: message.author.id,
-              $push: {
-                warnings: warnObj,
-              },
-            },
-            {
-              upsert: true,
-              new: true,
-            },
-          );
-          const warnCount = warnAddData ? warnAddData.warnings.length : 1;
-          const warnGrammar = warnCount === 1 ? '' : 's';
-          if (warnCount >= 20) {
-            return msg.channel.send({ content: `⚠️ **${message.author.username}**, This word is banned, watch your language.` }).catch(() => {});
-          }
+  if (!tryMarkHandled(message)) return;
 
-          const warnEmbed = new EmbedBuilder()
-            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
-            .setColor('#e6a54a')
-            .setTitle(`⚠️ Warned **${message.author.username}**`)
-            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-          message.channel.send({ embeds: [warnEmbed] }).catch(() => {});
+  const action = config.action || 'delete';
+  const reason = `Banned word detected: \`${foundWord}\``;
 
-          const dmembed = new EmbedBuilder()
-            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL({ dynamic: true, size: 2048 }) })
-            .setColor('#e6a54a')
-            .setTitle(`⚠️ Warned **${message.author.username}**`)
-            .setDescription(`• **Warn Reason:** ${reason}\n• **Warning${warnGrammar} Count:** ${warnCount}\n• **Warned By:** ${client.user.tag}`)
-            .setFooter({ text: client.user.tag, iconURL: client.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+  const logEmbed = buildModerationEmbed(client, message, {
+    title: '🚫 Bad Word Filtered',
+    reason, action, moduleName: 'Bad Words Filter',
+    content: message.content,
+  });
+  await sendLogEmbed(message.guild, config.logChannel, logEmbed);
 
-          try {
-            await message.author.send({ embeds: [dmembed] });
-          } catch (error) {
-            return;
-          }
-        }, 1000);
-      }).catch(() => {});
-    }
+  await executeAction(client, message, action, reason, 'Bad Words Filter');
+
+  await sendModerationEmbed(client, message, {
+    title: '🚫 Bad Word Filtered',
+    reason, action, moduleName: 'Bad Words Filter',
+    autoDelete: 5000,
+  });
 };
 
 module.exports = badWordChecker;

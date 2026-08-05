@@ -1987,30 +1987,6 @@
     "permissions": []
   },
   {
-    "name": "antilinktoggle",
-    "aliases": [
-      "anti-link-toggle"
-    ],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable Anti-Links protection!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageMessages"
-    ],
-    "examples": [
-      "w!antilinktoggle"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
     "name": "setleaverch",
     "aliases": [
       "setleaverchannel",
@@ -2264,48 +2240,6 @@
     ],
     "permissions": [
       "ManageChannels",
-      "Administrator"
-    ]
-  },
-  {
-    "name": "badwords",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "(<add> | <remove>) <word>",
-    "group": "setup",
-    "description": "Add/remove/show blacklisted words for the current guild.",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "clientPermissions": [
-      "ManageMessages"
-    ],
-    "examples": [
-      "w!badwords bad"
-    ],
-    "permissions": [
-      "Administrator"
-    ]
-  },
-  {
-    "name": "badwordstoggle",
-    "aliases": [],
-    "dmOnly": false,
-    "guildOnly": true,
-    "args": false,
-    "usage": "",
-    "group": "setup",
-    "description": "To enable/disable badwords filter!",
-    "cooldown": 5,
-    "guarded": false,
-    "requiresDatabase": true,
-    "examples": [
-      "w!badwordstoggle"
-    ],
-    "permissions": [
-      "ManageMessages",
       "Administrator"
     ]
   },

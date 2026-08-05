@@ -1,7 +1,7 @@
 const { PermissionsBitField, ChannelType } = require("discord.js");
 const consoleUtil = require("../../util/console");
 const { ErrorEmbed } = require("../../util/modules/embeds");
-const { commandsManager, level, wordFilter, linkProtection, antiBot, antiSpam } = require('../../util/functions/moderationUtils');
+const { commandsManager, level, wordFilter, linkProtection, antiBot, antiSpam, honeyPot } = require('../../util/functions/moderationUtils');
 const { handleMessageCommandcommand} = require("../../Handler/CommandOptions");
 
 const BEV = require("../../util/types/baseEvents");
@@ -39,10 +39,11 @@ module.exports = {
         }
 
         level(message, data);
-        wordFilter(client, message, data);
-        linkProtection(client, message, data);
-        antiBot(client, message, data);
-        antiSpam(client, message, data);
+        await wordFilter(client, message, data).catch(() => {});
+        await linkProtection(client, message, data).catch(() => {});
+        await antiBot(client, message, data).catch(() => {});
+        await antiSpam(client, message, data).catch(() => {});
+        await honeyPot(client, message, data).catch(() => {});
       }
 
       const serverprefix = data?.prefix || "Not Set";

@@ -1,5 +1,7 @@
-const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const dayjs = require('dayjs');
+const { buildModerationEmbed } = require('../moderation/embeds');
+const { getGuildData, sendLogEmbed, executeAction } = require('../moderation/core');
 
 /**
  * In-memory tracking for raid detection per guild
@@ -104,17 +106,7 @@ async function deactivateLockdown(client, guild, config) {
 const antiRaid = async (client, member, guildData = null) => {
   if (!member || !member.guild) return;
 
-  let resolvedGuildData = guildData;
-
-  try {
-    if (!resolvedGuildData) {
-      resolvedGuildData = await client.getCachedGuildData(member.guild.id);
-    }
-  } catch (err) {
-    console.log(err);
-    return;
-  }
-
+  const resolvedGuildData = guildData || await getGuildData(client, member.guild.id);
   if (!resolvedGuildData?.Mod?.AntiRaid?.isEnabled) return;
 
   const antiRaidConfig = resolvedGuildData.Mod.AntiRaid;
@@ -131,39 +123,23 @@ const antiRaid = async (client, member, guildData = null) => {
   const accountAge = Date.now() - member.user.createdTimestamp;
   if (accountAge < antiRaidConfig.minAccountAge) {
     const action = antiRaidConfig.action;
+    const reason = `Account too new (${Math.round(accountAge / 3600000)}h old)`;
 
-    // Log to configured channel
-    if (antiRaidConfig.logChannel) {
-      const logChannel = guild.channels.cache.get(antiRaidConfig.logChannel);
-      if (logChannel) {
-        const embed = new EmbedBuilder()
-          .setColor('#ff9900')
-          .setTitle('⚠️ Suspicious Account Detected')
-          .addFields(
-            { name: 'User', value: `${member.user.tag} (${member.user.id})`, inline: true },
-            { name: 'Account Age', value: dayjs(member.user.createdAt).fromNow(), inline: true },
-            { name: 'Action', value: action, inline: true }
-          )
-          .setTimestamp();
-        await logChannel.send({ embeds: [embed] }).catch(() => {});
-      }
-    }
+    // Build and send log embed
+    const logEmbed = buildModerationEmbed(client, { author: member.user, guild, channel: guild.systemChannel }, {
+      title: '⚠️ Suspicious Account Detected',
+      reason, action, moduleName: 'Anti-Raid',
+      content: `${member.user.tag} (${member.user.id})\nCreated: ${dayjs(member.user.createdAt).fromNow()}`,
+    });
+    await sendLogEmbed(guild, antiRaidConfig.logChannel, logEmbed);
 
     // Perform action
-    if (action === 'kick') {
-      if (member.kickable) await member.kick('Anti-Raid: Account too new').catch(() => {});
-    } else if (action === 'ban') {
-      if (member.bannable) await member.ban({ reason: 'Anti-Raid: Account too new' }).catch(() => {});
-    } else if (action === 'mute') {
-      if (member.moderatable) {
-        await member.timeout(600000, 'Anti-Raid: Account too new').catch(async () => {
-          const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-          if (muteRole) await member.roles.add(muteRole, 'Anti-Raid: Account too new').catch(() => {});
-        });
-      } else {
-        const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-        if (muteRole) await member.roles.add(muteRole, 'Anti-Raid: Account too new').catch(() => {});
-      }
+    if (member.moderatable) {
+      await executeAction(client, { member, guild, author: member.user, channel: guild.systemChannel, delete: async () => {} }, action, reason, 'Anti-Raid');
+    } else if (action === 'kick' && member.kickable) {
+      await member.kick(`Anti-Raid: ${reason}`).catch(() => {});
+    } else if (action === 'ban' && member.bannable) {
+      await member.ban({ reason: `Anti-Raid: ${reason}` }).catch(() => {});
     }
     return;
   }
@@ -180,21 +156,21 @@ const antiRaid = async (client, member, guildData = null) => {
   // If lockdown is active, take action against new joins
   if (tracker.lockdownActive) {
     const action = antiRaidConfig.action;
+    const reason = 'Lockdown active - raid detected';
 
-    if (action === 'kick') {
-      if (member.kickable) await member.kick('Anti-Raid: Lockdown active').catch(() => {});
-    } else if (action === 'ban') {
-      if (member.bannable) await member.ban({ reason: 'Anti-Raid: Lockdown active' }).catch(() => {});
-    } else if (action === 'mute') {
-      if (member.moderatable) {
-        await member.timeout(600000, 'Anti-Raid: Lockdown active').catch(async () => {
-          const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-          if (muteRole) await member.roles.add(muteRole, 'Anti-Raid: Lockdown active').catch(() => {});
-        });
-      } else {
-        const muteRole = guild.roles.cache.find(role => role.name === 'Muted');
-        if (muteRole) await member.roles.add(muteRole, 'Anti-Raid: Lockdown active').catch(() => {});
-      }
+    const logEmbed = buildModerationEmbed(client, { author: member.user, guild, channel: guild.systemChannel }, {
+      title: '🚨 Raid Lockdown Action',
+      reason, action, moduleName: 'Anti-Raid',
+      content: `${member.user.tag} joined during active lockdown`,
+    });
+    await sendLogEmbed(guild, antiRaidConfig.logChannel, logEmbed);
+
+    if (member.moderatable) {
+      await executeAction(client, { member, guild, author: member.user, channel: guild.systemChannel, delete: async () => {} }, action, reason, 'Anti-Raid');
+    } else if (action === 'kick' && member.kickable) {
+      await member.kick(`Anti-Raid: ${reason}`).catch(() => {});
+    } else if (action === 'ban' && member.bannable) {
+      await member.ban({ reason: `Anti-Raid: ${reason}` }).catch(() => {});
     }
   }
 };
