@@ -5,18 +5,13 @@
  * ─────────────────────────
  * Handles the modal submission from /giveaway create.
  *
- * The customId encodes all options set in the slash command:
- *   giveaway_modal_<durationMs>_<winners>_<channelId>_<reqRoleId|0>_<bypassRoleId|0>
+ * The slash command stores the create options in-memory (GiveawayModalState)
+ * under a short random key and embeds only that key in the customId:
+ *   giveaway_modal_<stateKey>
  *
- * The ComponentsListener routes modal submits by exact customId match, but our
- * customId is dynamic (contains encoded data). We handle this by registering
- * with a prefix-matched name pattern and the listener will route it.
- *
- * IMPORTANT: The ComponentsListener in this project does:
- *   client.ComponentsAction.get(interaction.customId)
- * for modals — meaning it looks up the *exact* customId. Since ours is dynamic
- * we register as "giveaway_modal" and patch the listener to do a startsWith
- * fallback (see notes at bottom of this file).
+ * The ComponentsListener routes modal submits by exact customId match, then
+ * falls back to prefix matching, so registering under the base name
+ * "giveaway_modal" still catches our dynamic customId.
  *
  * @type {import('../../util/types/baseComponent')}
  */
@@ -28,14 +23,24 @@ module.exports = {
     await interaction.deferReply({ flags: ['Ephemeral'] });
 
     try {
-      // ── Decode options from customId ──────────────────────────────────────
-      // Format: giveaway_modal_<durationMs>_<winners>_<channelId>_<reqRole>_<bypassRole>
-      const parts        = interaction.customId.split('_');
-      const durationMs   = parseInt(parts[2], 10);
-      const winnerCount  = parseInt(parts[3], 10);
-      const channelId    = parts[4];
-      const reqRoleId    = parts[5] !== '0' ? parts[5] : null;
-      const bypassRoleId = parts[6] !== '0' ? parts[6] : null;
+      // ── Load options from the state map ───────────────────────────────────
+      const stateKey = interaction.customId.split('_')[2];
+      const { takeModalState } = require('../../util/modules/GiveawayModalState');
+      const state = takeModalState(stateKey);
+
+      if (!state) {
+        return interaction.editReply({
+          content: '❌ This giveaway session has expired. Please run `/giveaway create` again.',
+        });
+      }
+
+      const {
+        durationMs,
+        winnerCount,
+        channelId,
+        requiredRoleId,
+        bypassRoleId,
+      } = state;
 
       const prize       = interaction.fields.getTextInputValue('prize').trim();
       const description = interaction.fields.getTextInputValue('description')?.trim() ?? '';
@@ -61,8 +66,8 @@ module.exports = {
         description,
         durationMs,
         winnerCount,
-        requiredRoles: reqRoleId    ? [reqRoleId]    : [],
-        bypassRoles:   bypassRoleId ? [bypassRoleId] : [],
+        requiredRoles: requiredRoleId ? [requiredRoleId] : [],
+        bypassRoles:   bypassRoleId   ? [bypassRoleId]   : [],
       });
 
       return interaction.editReply({

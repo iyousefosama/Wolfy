@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const { colors } = require("../../util/constants/constants");
 
 module.exports = {
@@ -16,13 +16,13 @@ module.exports = {
         ],
         options: [
             {
-                type: 7, // CHANNEL
+                type: ApplicationCommandOptionType.Channel,
                 name: 'channel',
                 description: 'Channel to lock',
                 required: true
             },
             {
-                type: 3, // STRING
+                type: ApplicationCommandOptionType.String,
                 name: 'message',
                 description: 'Message to send to the locked channel',
                 required: false

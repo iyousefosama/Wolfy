@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
 
 /**
@@ -16,13 +16,13 @@ module.exports = {
     permissions: ["Administrator"],
     options: [
       {
-        type: 6, // USER
+        type: ApplicationCommandOptionType.User,
         name: 'user',
         description: 'The user to send the DM to',
         required: true
       },
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'message',
         description: 'The message to send to the user',
         required: true
@@ -62,7 +62,7 @@ module.exports = {
         .setTimestamp();
       
       return interaction.reply({ embeds: [successEmbed], flags: ['Ephemeral'] });
-    } catch (error) {
+    } catch {
       const errorEmbed = new EmbedBuilder()
         .setColor(colors.ERROR)
         .setDescription(`❌ I couldn't send a DM to **${user.username}**! They might have DMs turned off.`)

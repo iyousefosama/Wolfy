@@ -1,5 +1,7 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
+
+const VALID_COLOR_NAMES = ['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White', 'Gray', 'Grey'];
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -18,15 +20,27 @@ module.exports = {
     ],
     options: [
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'name',
         description: 'The name of the role',
         required: true
       },
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'color',
-        description: 'Color of role',
+        description: 'Color of role (hex like #5865F2 or a name like Red)',
+        required: false
+      },
+      {
+        type: ApplicationCommandOptionType.Boolean,
+        name: 'hoist',
+        description: 'Display this role separately in the member list',
+        required: false
+      },
+      {
+        type: ApplicationCommandOptionType.Boolean,
+        name: 'mentionable',
+        description: 'Allow anyone to mention this role',
         required: false
       }
     ]
@@ -34,45 +48,55 @@ module.exports = {
   async execute(client, interaction) {
     const { guild, options } = interaction;
     const name = options.getString("name");
-    let color = options.getString("color");
+    const color = options.getString("color");
+    const hoist = options.getBoolean("hoist") ?? false;
+    const mentionable = options.getBoolean("mentionable") ?? false;
 
     try {
-      // Check role limit first
       if (guild.roles.cache.size >= 250) {
-        return interaction.reply({ 
-          content: "❌ Your server has too many roles to create another one!", 
-          flags: ['Ephemeral'] 
+        return interaction.reply({
+          content: "❌ Your server has too many roles to create another one!",
+          flags: ['Ephemeral']
         });
       }
 
-      // Process color
+      let roleColor = null;
       if (color) {
-        // Validate color
-        if (!/^#([0-9A-Fa-f]{6})$/.test(color) && !['Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Black', 'White', 'Gray', 'Grey'].includes(color)) {
-          color = null;
+        const valid = /^#([0-9A-Fa-f]{6})$/.test(color) || VALID_COLOR_NAMES.includes(color);
+        if (!valid) {
+          return interaction.reply({
+            content: `❌ Invalid color! Use a hex value like \`#5865F2\` or a name like \`Red\`.`,
+            flags: ['Ephemeral']
+          });
         }
+        roleColor = color;
       }
 
-      // Create the role
       const role = await guild.roles.create({
-        name: name,
-        color: color,
-        reason: `Created by ${interaction.user.tag}`
+        name,
+        color: roleColor,
+        hoist,
+        mentionable,
+        reason: `Created by ${interaction.user.username}`
       });
 
       const embed = new EmbedBuilder()
         .setColor(colors.ADMIN)
         .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-        .setDescription(`✅ Successfully created role **${role.name}** (${role.id})!`)
+        .setDescription([
+          `✅ Successfully created role **${role.name}** (${role.id})!`,
+          hoist ? '- Displayed separately in the member list' : null,
+          mentionable ? '- Mentionable by anyone' : null
+        ].filter(Boolean).join('\n'))
         .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
         .setTimestamp();
-      
+
       return interaction.reply({ embeds: [embed] });
     } catch (err) {
       console.error(`Error creating role: ${err}`);
-      return interaction.reply({ 
-        content: `❌ I couldn't create role **${name}**! ${err.name}`, 
-        flags: ['Ephemeral'] 
+      return interaction.reply({
+        content: `❌ I couldn't create role **${name}**! ${err.name}`,
+        flags: ['Ephemeral']
       });
     }
   },

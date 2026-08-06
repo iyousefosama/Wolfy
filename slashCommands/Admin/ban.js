@@ -1,5 +1,6 @@
-const { EmbedBuilder } = require("discord.js");
-const { colors } = require("../../util/constants/constants");
+const { ApplicationCommandOptionType } = require("discord.js");
+const { checkModerationTarget } = require("../../util/moderation/targetChecks");
+const { buildActionEmbed } = require("../../util/moderation/embeds");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -18,13 +19,13 @@ module.exports = {
     ],
     options: [
       {
-        type: 6, // USER
+        type: ApplicationCommandOptionType.User,
         name: 'target',
         description: 'The user to kick from server',
         required: true
       },
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'reason',
         description: 'The reason of the kick',
         required: false
@@ -33,45 +34,25 @@ module.exports = {
   },
   async execute(client, interaction) {
     const { guild, options } = interaction;
-    const user = options.getUser("target");
     const reason = options.getString("reason");
 
-    if (!user.id.match(/\d{17,19}/)) {
-      return interaction.reply({ content: `❌ | Please type the id or mention the user to **ban**.`, flags: ['Ephemeral'] });
-    };
+    const check = await checkModerationTarget(client, interaction, 'ban');
+    if (!check.ok) {
+      return interaction.reply({ content: check.content, flags: ['Ephemeral'] });
+    }
+    const { member } = check;
 
-    const member = await guild.members
-      .fetch(user.id.match(/\d{17,19}/)[0])
-      .catch(() => null);
-
-    if (!member) {
-      return interaction.reply({ content: `❌ | User could not be found! Please ensure the supplied ID is valid.`, flags: ['Ephemeral'] });
-    } else if (member.id === interaction.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **ban** yourself!`, flags: ['Ephemeral'] });
-    } else if (member.id === client.user.id) {
-      return interaction.reply({ content: `❌ | You cannot **ban** me!`, flags: ['Ephemeral'] });
-    } else if (member.id === guild.ownerId) {
-      return interaction.reply({ content: `❌ | You cannot **ban** a server owner!`, flags: ['Ephemeral'] });
-    } else if (client.owners.includes(member.id)) {
-      return interaction.reply({ content: `❌ | You cannot **ban** my developer through me!`, flags: ['Ephemeral'] });
-    } else if (interaction.member.roles.highest.position < member.roles.highest.position) {
-      return interaction.reply({ content: `❌ | You can't **ban** that user because he/she has a higher role than yours!`, flags: ['Ephemeral'] });
-    } else if (!member.bannable) {
-      return interaction.reply({ content: `❌ | I couldn't **ban** that user!`, flags: ['Ephemeral'] })
-    };
-
-    const ban = new EmbedBuilder()
-      .setColor(colors.ADMIN)
-      .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-      .setDescription([
-        `Successfully **banned** the user from ${interaction.guild.name}!`,
-        !reason ? '' : `- Ban reason: ${reason || 'Unspecified'}`
-      ].join('\n'))
-      .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-      .setTimestamp()
+    const embed = buildActionEmbed({
+      target: member,
+      executor: interaction.user,
+      description: [
+        `Successfully **banned** the user from ${guild.name}!`,
+        reason ? `- Ban reason: ${reason}` : ''
+      ].join('\n'),
+    });
 
     return guild.members.ban(member, { reason: `Wolfy BAN: ${interaction.user.username}: ${reason || 'Unspecified'}` })
-      .then(() => interaction.reply({ embeds: [ban] }))
-      .catch(() => interaction.reply({ content: `❌ | I couldn't **ban** that user!`, ephermal: true }));
+      .then(() => interaction.reply({ embeds: [embed] }))
+      .catch(() => interaction.reply({ content: `❌ | I couldn't **ban** that user!`, flags: ['Ephemeral'] }));
   },
 };

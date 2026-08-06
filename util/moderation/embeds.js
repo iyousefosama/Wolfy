@@ -92,4 +92,30 @@ function buildModerationEmbed(client, message, options) {
   return embed;
 }
 
-module.exports = { buildModerationEmbed };
+/**
+ * Build a consistent "manual moderation action" embed for slash commands.
+ * Author = the target member, footer = the moderator who ran the command.
+ *
+ * @param {object} params
+ * @param {import('discord.js').GuildMember} params.target - member the action was applied to
+ * @param {import('discord.js').User} params.executor - user who ran the command
+ * @param {string} params.description - success/result description
+ * @param {string} [params.color] - embed color (defaults to colors.ADMIN)
+ * @returns {EmbedBuilder}
+ */
+function buildActionEmbed({ target, executor, description, color = colors.ADMIN }) {
+  return new EmbedBuilder()
+    .setColor(color)
+    .setAuthor({
+      name: target.user.username,
+      iconURL: target.user.displayAvatarURL({ dynamic: true, size: 2048 }),
+    })
+    .setDescription(description)
+    .setFooter({
+      text: executor.username,
+      iconURL: executor.displayAvatarURL({ dynamic: true, size: 2048 }),
+    })
+    .setTimestamp();
+}
+
+module.exports = { buildModerationEmbed, buildActionEmbed };

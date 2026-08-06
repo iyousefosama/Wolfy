@@ -88,7 +88,7 @@ module.exports = {
             .setDescription(`\\❌ **${message.author.tag}**, There is no \`muted\` role in this guild,\n\nWould you like to generate one?`)
             .setColor('Red')
         const msg = await message.reply({ embeds: [Embed], components: [row] })
-        const collector = msg.createComponentCollector({ time: 15000, fetch: true });
+        const collector = msg.createMessageComponentCollector({ time: 15000 });
 
         collector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '98541984198419841'){

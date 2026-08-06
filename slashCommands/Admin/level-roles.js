@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits, ApplicationCommandOptionType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
 const GuildSchema = require('../../schema/GuildSchema');
 
@@ -16,18 +16,18 @@ module.exports = {
     permissions: [PermissionFlagsBits.ManageGuild],
     options: [
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "add",
         description: "Add a role reward for a specific level",
         options: [
           {
-            type: 8, // ROLE
+            type: ApplicationCommandOptionType.Role,
             name: "role",
             description: "Role to give when user reaches the level",
             required: true
           },
           {
-            type: 4, // INTEGER
+            type: ApplicationCommandOptionType.Integer,
             name: "level",
             description: "Level required to get this role (1-1000)",
             required: true,
@@ -37,12 +37,12 @@ module.exports = {
         ]
       },
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "remove",
         description: "Remove a level role reward",
         options: [
           {
-            type: 8, // ROLE
+            type: ApplicationCommandOptionType.Role,
             name: "role",
             description: "Role to remove from level rewards",
             required: true
@@ -50,18 +50,18 @@ module.exports = {
         ]
       },
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "list",
         description: "Show all level role rewards",
         options: []
       },
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "clear",
         description: "Remove all level role rewards",
         options: [
           {
-            type: 5, // BOOLEAN
+            type: ApplicationCommandOptionType.Boolean,
             name: "confirm",
             description: "Confirm clearing all level roles",
             required: true
@@ -75,19 +75,34 @@ module.exports = {
     await interaction.deferReply({ flags: ['Ephemeral'] });
 
     const subcommand = interaction.options.getSubcommand();
-    const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });
+    const guildData = await client.getCachedGuildData(interaction.guildId);
 
     if (!guildData) {
       return interaction.editReply('❌ Guild data not found. Please try again later.');
     }
 
     // Ensure Level config exists
-    if (!guildData.Mod.Level) {
+    if (!guildData.Mod?.Level) {
+      guildData.Mod = guildData.Mod ?? {};
       guildData.Mod.Level = { isEnabled: false, Roles: [], type: 'default' };
     }
-    if (!guildData.Mod.Level.Roles) {
+    if (!Array.isArray(guildData.Mod.Level.Roles)) {
       guildData.Mod.Level.Roles = [];
     }
+
+    /**
+     * Persist the Roles array to the DB and refresh the guild-data cache.
+     * The cached object is a lean doc (no .save()), so we write atomically.
+     */
+    const persist = async (roles) => {
+      await GuildSchema.updateOne(
+        { GuildID: interaction.guildId },
+        { $set: { 'Mod.Level.Roles': roles } },
+        { upsert: true }
+      );
+      guildData.Mod.Level.Roles = roles;
+      client.setCachedGuildData(interaction.guildId, guildData);
+    };
 
     switch (subcommand) {
       case 'add': {
@@ -108,21 +123,15 @@ module.exports = {
         }
 
         // Remove existing entry for this role if any
-        const existingIndex = guildData.Mod.Level.Roles.findIndex(r => r.RoleId === role.id);
-        if (existingIndex !== -1) {
-          guildData.Mod.Level.Roles.splice(existingIndex, 1);
-        }
+        const roles = guildData.Mod.Level.Roles.filter(r => r.RoleId !== role.id);
 
         // Add new role reward
-        guildData.Mod.Level.Roles.push({
-          RoleId: role.id,
-          Level: level
-        });
+        roles.push({ RoleId: role.id, Level: level });
 
         // Sort by level
-        guildData.Mod.Level.Roles.sort((a, b) => a.Level - b.Level);
+        roles.sort((a, b) => a.Level - b.Level);
 
-        await guildData.save();
+        await persist(roles);
 
         return interaction.editReply({
           embeds: [
@@ -131,7 +140,7 @@ module.exports = {
               .setTitle('✅ Level Role Added')
               .setDescription(`${role} will be given at **Level ${level}**`)
               .addFields(
-                { name: 'Total Rewards', value: `${guildData.Mod.Level.Roles.length} role(s)`, inline: true }
+                { name: 'Total Rewards', value: `${roles.length} role(s)`, inline: true }
               )
               .setTimestamp()
           ]
@@ -154,8 +163,8 @@ module.exports = {
         }
 
         const oldLevel = guildData.Mod.Level.Roles[existingIndex].Level;
-        guildData.Mod.Level.Roles.splice(existingIndex, 1);
-        await guildData.save();
+        const roles = guildData.Mod.Level.Roles.filter(r => r.RoleId !== role.id);
+        await persist(roles);
 
         return interaction.editReply({
           embeds: [
@@ -213,8 +222,7 @@ module.exports = {
         }
 
         const count = guildData.Mod.Level.Roles.length;
-        guildData.Mod.Level.Roles = [];
-        await guildData.save();
+        await persist([]);
 
         return interaction.editReply({
           embeds: [

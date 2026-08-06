@@ -1,6 +1,11 @@
 const ms = require('ms');
-const { EmbedBuilder } = require("discord.js");
-const { colors } = require("../../util/constants/constants");
+const { ApplicationCommandOptionType } = require("discord.js");
+const { checkModerationTarget } = require("../../util/moderation/targetChecks");
+const { buildActionEmbed } = require("../../util/moderation/embeds");
+
+// Discord API limit: timeout can't exceed 28 days.
+const MAX_TIMEOUT_MS = 28 * 24 * 60 * 60 * 1000;
+const MIN_TIMEOUT_MS = 10_000;
 
 module.exports = {
     data: {
@@ -14,19 +19,19 @@ module.exports = {
         permissions: ["ModerateMembers"],
         options: [
             {
-                type: 6, // USER
+                type: ApplicationCommandOptionType.User,
                 name: 'target',
                 description: 'The user to timeout',
                 required: true
             },
             {
-                type: 3, // STRING
+                type: ApplicationCommandOptionType.String,
                 name: 'time',
-                description: 'The duration of the timeout (e.g., 5h), or type "0" to remove timeout',
+                description: 'Duration (e.g. 30m, 2h, 1d) or type "0" to remove timeout',
                 required: true
             },
             {
-                type: 3, // STRING
+                type: ApplicationCommandOptionType.String,
                 name: 'reason',
                 description: 'The reason for the timeout',
                 required: false
@@ -34,66 +39,63 @@ module.exports = {
         ]
     },
     async execute(client, interaction) {
-        const { guild, options } = interaction;
-        const user = options.getUser("target");
+        const { options } = interaction;
         const time = options.getString("time");
         const reason = options.getString("reason") || 'Unspecified';
 
-        const member = await guild.members.fetch(user.id).catch(() => null);
-
-        if (!member) {
-            return interaction.reply({ content: "❌ | User could not be found! Please ensure the supplied ID is valid.", flags: ['Ephemeral'] });
+        const check = await checkModerationTarget(client, interaction, 'timeout');
+        if (!check.ok) {
+            return interaction.reply({ content: check.content, flags: ['Ephemeral'] });
         }
+        const { member } = check;
 
-        const isSelf = member.id === interaction.user.id;
-        const isBot = member.id === client.user.id;
-        const isOwner = member.id === guild.ownerId;
-        const isDeveloper = client.owners && client.owners.includes(member.id);
-        const hasHigherRole = interaction.member.roles.highest.position <= member.roles.highest.position;
-
-        if (isSelf) return interaction.reply({ content: "❌ | You cannot **timeout** yourself!", flags: ['Ephemeral'] });
-        if (isBot) return interaction.reply({ content: "❌ | You cannot **timeout** me!", flags: ['Ephemeral'] });
-        if (isOwner) return interaction.reply({ content: "❌ | You cannot **timeout** the server owner!", flags: ['Ephemeral'] });
-        if (isDeveloper) return interaction.reply({ content: "❌ | You cannot **timeout** my developer through me!", flags: ['Ephemeral'] });
-        if (hasHigherRole) return interaction.reply({ content: "❌ | You can't **timeout** that user because he/she has a higher role than yours!", flags: ['Ephemeral'] });
-
-        let timeoutDuration = ms(time);
-
-        if (timeoutDuration === undefined && time !== "0") {
-            return interaction.reply({ content: "❌ | Please provide a valid time for the timeout!", flags: ['Ephemeral'] });
-        }
-
+        // "0" removes an existing timeout
         if (time === "0") {
-            timeoutDuration = null;
+            try {
+                await member.timeout(null, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
+                const embed = buildActionEmbed({
+                    target: member,
+                    executor: interaction.user,
+                    description: [
+                        `Successfully removed **timeout** for the user **${member.user.username}**!`,
+                        reason ? `- Reason: ${reason}` : ''
+                    ].join('\n'),
+                });
+                return interaction.reply({ embeds: [embed] });
+            } catch {
+                return interaction.reply({ content: "❌ | I couldn't remove the **timeout** for that user!", flags: ['Ephemeral'] });
+            }
         }
+
+        const durationMs = ms(time);
+        if (!durationMs || durationMs < MIN_TIMEOUT_MS) {
+            return interaction.reply({
+                content: "❌ | Please provide a valid duration (minimum 10 seconds). Examples: `30m`, `2h`, `1d`.",
+                flags: ['Ephemeral']
+            });
+        }
+        if (durationMs > MAX_TIMEOUT_MS) {
+            return interaction.reply({
+                content: "❌ | Timeout cannot exceed **28 days**.",
+                flags: ['Ephemeral']
+            });
+        }
+
+        const expiresAt = Math.floor((Date.now() + durationMs) / 1000);
 
         try {
-            if (timeoutDuration !== null) {
-                await member.timeout(timeoutDuration, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
-                const embed = new EmbedBuilder()
-                    .setColor(colors.ADMIN)
-                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setDescription([
-                        `Successfully **timed out** the user **${member.user.username}** for ${time}!`,
-                        !reason ? '' : `- Reason: ${reason}`
-                    ].join('\n'))
-                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setTimestamp();
-                return interaction.reply({ embeds: [embed] });
-            } else {
-                await member.timeout(null, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
-                const embed = new EmbedBuilder()
-                    .setColor(colors.ADMIN)
-                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setDescription([
-                        `Successfully removed **timeout** for the user **${member.user.username}**!`,
-                        !reason ? '' : `- Reason: ${reason}`
-                    ].join('\n'))
-                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
-                    .setTimestamp();
-                return interaction.reply({ embeds: [embed] });
-            }
-        } catch (err) {
+            await member.timeout(durationMs, `Wolfy TIMEOUT: ${interaction.user.username}: ${reason}`);
+            const embed = buildActionEmbed({
+                target: member,
+                executor: interaction.user,
+                description: [
+                    `Successfully **timed out** the user **${member.user.username}** for ${time}.`,
+                    reason ? `- Reason: ${reason}` : '',
+                    `- Expires: <t:${expiresAt}:F> (<t:${expiresAt}:R>)`
+                ].join('\n'),
+            });
+            return interaction.reply({ embeds: [embed] });
+        } catch {
             return interaction.reply({ content: "❌ | I couldn't **timeout** that user!", flags: ['Ephemeral'] });
         }
     }

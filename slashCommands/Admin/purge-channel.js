@@ -1,5 +1,6 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ChannelType } = require('discord.js');
+const { EmbedBuilder, ChannelType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
+const { confirmAction } = require('../../util/moderation/confirmAction');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -17,150 +18,69 @@ module.exports = {
   },
   async execute(client, interaction) {
     const { channel, guild } = interaction;
-    
-    // Check if channel is a text channel
+
     if (channel.type !== ChannelType.GuildText) {
-      return interaction.reply({ 
-        content: "❌ This command can only be used in text channels!", 
-        flags: ['Ephemeral'] 
+      return interaction.reply({
+        content: "❌ This command can only be used in text channels!",
+        flags: ['Ephemeral']
       });
     }
-    
-    // Create confirmation buttons
-    const confirmButton = new ButtonBuilder()
-      .setLabel('Yes')
-      .setCustomId('confirm_purge_channel')
-      .setStyle('Success')
-      .setEmoji('✅');
-    
-    const cancelButton = new ButtonBuilder()
-      .setLabel('No')
-      .setCustomId('cancel_purge_channel')
-      .setStyle('Danger')
-      .setEmoji('❌');
-    
-    const row = new ActionRowBuilder()
-      .addComponents(confirmButton, cancelButton);
-    
+
     const confirmEmbed = new EmbedBuilder()
       .setColor(colors.ADMIN)
       .setDescription(`⚠️ Are you sure you want to purge **${channel}**? This will delete and recreate the channel!`)
-      .setFooter({ 
-        text: interaction.user.tag, 
+      .setFooter({
+        text: interaction.user.username,
         iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
       })
       .setTimestamp();
-    
-    const response = await interaction.reply({ 
-      embeds: [confirmEmbed], 
-      components: [row],
-      withResponse: true
+
+    const confirmed = await confirmAction(interaction, {
+      embeds: [confirmEmbed],
+      confirmId: 'confirm_purge_channel',
+      cancelId: 'cancel_purge_channel',
+      confirmLabel: 'Yes',
+      cancelLabel: 'No',
     });
-    
-    // Create collector for button interactions
-    const collector = response.createComponentCollector({ 
-      time: 30000 // 30 seconds
-    });
-    
-    collector.on('collect', async (buttonInteraction) => {
-      // Ensure the user who clicked is the command user
-      if (buttonInteraction.user.id !== interaction.user.id) {
-        return buttonInteraction.reply({ 
-          content: "❌ You are not the one who executed this command!", 
-          flags: ['Ephemeral'] 
+    if (!confirmed) return;
+
+    const nukeEmbed = new EmbedBuilder()
+      .setColor(colors.ADMIN)
+      .setDescription("⏱️ Purging channel in 3 seconds...");
+
+    await interaction.editReply({ embeds: [nukeEmbed], components: [] }).catch(() => null);
+
+    setTimeout(async () => {
+      try {
+        const { name, parent, topic, nsfw, rateLimitPerUser, permissionOverwrites } = channel;
+
+        const newChannel = await guild.channels.create({
+          name,
+          type: ChannelType.GuildText,
+          parent: parent ? parent.id : null,
+          topic,
+          nsfw,
+          rateLimitPerUser,
+          permissionOverwrites: permissionOverwrites.cache
         });
-      }
-      
-      if (buttonInteraction.customId === 'confirm_purge_channel') {
-        const nukeEmbed = new EmbedBuilder()
+
+        const successEmbed = new EmbedBuilder()
           .setColor(colors.ADMIN)
-          .setDescription("⏱️ Purging channel in 3 seconds...");
-        
-        await buttonInteraction.update({ 
-          embeds: [nukeEmbed], 
-          components: [] 
-        });
-        
-        // Wait 3 seconds before purging
-        setTimeout(async () => {
-          try {
-            // Get channel properties for recreating
-            const { name, parent, topic, nsfw, rateLimitPerUser, permissionOverwrites } = channel;
-            
-            // Create a new channel with the same properties
-            const newChannel = await guild.channels.create({
-              name,
-              type: ChannelType.GuildText,
-              parent: parent ? parent.id : null,
-              topic,
-              nsfw,
-              rateLimitPerUser,
-              permissionOverwrites: permissionOverwrites.cache
-            });
-            
-            // Send a success message in the new channel
-            const successEmbed = new EmbedBuilder()
-              .setColor(colors.ADMIN)
-              .setDescription(`✅ Channel purged by ${interaction.user.toString()}`)
-              .setTimestamp();
-            
-            await newChannel.send({ embeds: [successEmbed] });
-            
-            // Delete the old channel
-            await channel.delete();
-          } catch (error) {
-            console.error(error);
-            
-            // If there was an error, update the interaction
-            const errorEmbed = new EmbedBuilder()
-              .setColor(colors.ERROR)
-              .setDescription("❌ There was an error while trying to purge the channel!");
-            
-            await buttonInteraction.editReply({ 
-              embeds: [errorEmbed], 
-              components: [] 
-            }).catch(() => null);
-          }
-        }, 3000);
-        
-      } else if (buttonInteraction.customId === 'cancel_purge_channel') {
-        const cancelEmbed = new EmbedBuilder()
-          .setColor(colors.ADMIN)
-          .setDescription("✅ Channel purge cancelled!")
-          .setFooter({ 
-            text: interaction.user.tag, 
-            iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
-          })
+          .setDescription(`✅ Channel purged by ${interaction.user.toString()}`)
           .setTimestamp();
-        
-        await buttonInteraction.update({ 
-          embeds: [cancelEmbed], 
-          components: [] 
-        });
+
+        await newChannel.send({ embeds: [successEmbed] });
+
+        await channel.delete();
+      } catch (error) {
+        console.error(error);
+
+        const errorEmbed = new EmbedBuilder()
+          .setColor(colors.ERROR)
+          .setDescription("❌ There was an error while trying to purge the channel!");
+
+        await interaction.editReply({ embeds: [errorEmbed], components: [] }).catch(() => null);
       }
-    });
-    
-    collector.on('end', async (collected) => {
-      if (collected.size === 0) {
-        // If no buttons were clicked, disable them
-        confirmButton.setDisabled(true);
-        cancelButton.setDisabled(true);
-        const disabledRow = new ActionRowBuilder().addComponents(confirmButton, cancelButton);
-        
-        const timeoutEmbed = new EmbedBuilder()
-          .setColor(colors.ADMIN)
-          .setDescription("⏱️ Channel purge timed out!")
-          .setFooter({ 
-            text: interaction.user.tag, 
-            iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 })
-          })
-          .setTimestamp();
-        
-        await interaction.editReply({ 
-          embeds: [timeoutEmbed], 
-          components: [disabledRow] 
-        }).catch(() => null);
-      }
-    });
+    }, 3000);
   },
 };

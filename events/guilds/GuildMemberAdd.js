@@ -18,9 +18,11 @@ module.exports = {
 
     const mutedata = await MuteSchema.findOne({ guildId: member.guild.id, userId: member.id }).catch(() => null);
 
-    if (mutedata?.Muted == true) {
+    // Native timeouts persist across re-joins automatically, so only re-apply the
+    // legacy "Muted" role when there is no active timeout (old role-based mutes).
+    if (mutedata?.Muted == true && !member.communicationDisabledUntilTimestamp) {
       let mutedRole = member.guild.roles?.cache.find(roles => roles.name === "Muted")
-      member.roles.add(mutedRole, `Wolfy AUTOMUTE`).catch(() => null)
+      if (mutedRole) member.roles.add(mutedRole, `Wolfy AUTOMUTE`).catch(() => null)
     }
 
     const Add = new discord.EmbedBuilder()

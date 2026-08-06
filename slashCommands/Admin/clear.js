@@ -1,5 +1,5 @@
 const dayjs = require("dayjs");
-const { colors } = require("../../util/constants/constants");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -18,7 +18,7 @@ module.exports = {
     ],
     options: [
       {
-        type: 4, // INTEGER
+        type: ApplicationCommandOptionType.Integer,
         name: 'quantity',
         description: 'The total messages to delete from the current channel',
         required: true
@@ -26,12 +26,12 @@ module.exports = {
     ]
   },
   async execute(client, interaction) {
-    const { guild, options } = interaction;
-    await interaction.deferReply().catch(() => { })
+    const { guild, channel } = interaction;
 
-    let quantity = options.getInteger("quantity") || 2;
+    let quantity = interaction.options.getInteger("quantity") ?? 2;
     quantity = Math.round(quantity);
 
+    // Validate BEFORE deferring so we can reply (not editReply) on failure.
     if (!quantity || quantity < 2 || quantity > 100) {
       return interaction.reply({
         content: "💢 Please provide the quantity of messages to be deleted which must be greater than two (2) and less than one hundred (100)",
@@ -39,65 +39,48 @@ module.exports = {
       });
     }
 
-    interaction
-      .deleteReply()
-      .catch(() => null)
-      .then(() => interaction.channel.bulkDelete(quantity, true))
-      .then(async (messages) => {
-        const count = messages.size;
-        const _id = Math.random().toString(36).slice(-7);
-        const debug = await client.channels.cache.get(
-          client.config.channels.debug
-        );
+    await interaction.deferReply().catch(() => { });
 
-        messages = messages.filter(Boolean).map((message) => {
-          return [
-            `[${dayjs(message.createdAt).format(
-              "dddd, do MMMM YYYY hh:mm:ss"
-            )}]`,
-            `${message.author.tag} : ${message.content}\r\n\r\n`,
-          ].join(" ");
-        });
+    let messages;
+    try {
+      messages = await channel.bulkDelete(quantity, true);
+    } catch {
+      return interaction.editReply({
+        content: "❌ I couldn't delete messages in this channel!",
+        flags: ['Ephemeral']
+      }).catch(() => null);
+    }
 
-        messages.push(
-          `Messages Cleared on ![](${guild.iconURL({
-            size: 32,
-          })}) **${guild.name}** - **#${interaction.channel.name
-          }** --\r\n\r\n`
-        );
-        messages = messages.reverse().join("");
+    const count = messages.size;
 
-        const res = debug
-          ? await debug
-            .send({
-              content: `\`\`\`BULKDELETE FILE - ServerID: ${guild.id} ChannelID: ${interaction.channel.id} AuthorID: ${interaction.user.id}\`\`\``,
-              files: [
-                {
-                  attachment: Buffer.from(messages),
-                  name: `bulkdlt-${_id}.txt`,
-                },
-              ],
-            })
-            .then((message) => [
-              message.attachments.first().url,
-              message.attachments.first().id,
-            ])
-            .catch(() => ["", null])
-          : ["", null];
+    // Non-blocking debug dump of the deleted content (best-effort).
+    const debug = client.channels.cache.get(client.config.channels.debug);
+    if (debug) {
+      const _id = Math.random().toString(36).slice(-7);
+      const lines = [...messages.values()]
+        .filter(Boolean)
+        .map((message) => (
+          `[${dayjs(message.createdAt).format("dddd, do MMMM YYYY hh:mm:ss")}] ` +
+          `${message.author.username} : ${message.content}\r\n\r\n`
+        ))
+        .reverse();
+      lines.unshift(
+        `Messages Cleared on ![](${guild.iconURL({ size: 32 })}) **${guild.name}** - **#${channel.name}** --\r\n\r\n`
+      );
 
-        const url = (res[0].match(/\d{17,19}/) || [])[0];
-        const id = res[1];
+      await debug.send({
+        content: `\`\`\`BULKDELETE FILE - ServerID: ${guild.id} ChannelID: ${channel.id} AuthorID: ${interaction.user.id}\`\`\``,
+        files: [
+          {
+            attachment: Buffer.from(lines.join("")),
+            name: `bulkdlt-${_id}.txt`,
+          },
+        ],
+      }).catch(() => null);
+    }
 
-        return await interaction.channel
-          .send({
-            content: `✨ Successfully deleted \`${count}\` messages from this channel!`,
-          })
-          .then((msg) => {
-            setTimeout(() => {
-              msg.delete().catch(() => null);
-            }, 10000);
-          })
-          .catch(() => null);
-      });
+    return interaction.editReply({
+      content: `✨ Successfully deleted \`${count}\` messages from this channel!`,
+    }).catch(() => null);
   },
 };

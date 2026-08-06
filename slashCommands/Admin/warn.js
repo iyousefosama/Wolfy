@@ -1,6 +1,7 @@
-const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js')
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ApplicationCommandOptionType } = require('discord.js')
 const uuid = require('uuid');
 const warnSchema = require('../../schema/Warning-Schema')
+const { checkModerationTarget } = require('../../util/moderation/targetChecks')
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -20,18 +21,18 @@ module.exports = {
         ],
         options: [
             {
-                type: 1, // SUB_COMMAND
+                type: ApplicationCommandOptionType.Subcommand,
                 name: 'add',
                 description: 'Warns a user!',
                 options: [
                     {
-                        type: 6, // USER
+                        type: ApplicationCommandOptionType.User,
                         name: 'target',
                         description: 'The user to warn.',
                         required: true
                     },
                     {
-                        type: 3, // STRING
+                        type: ApplicationCommandOptionType.String,
                         name: 'reason',
                         description: 'Enter the reason for the warn',
                         required: true
@@ -39,18 +40,18 @@ module.exports = {
                 ]
             },
             {
-                type: 1, // SUB_COMMAND
+                type: ApplicationCommandOptionType.Subcommand,
                 name: 'remove',
                 description: 'Remove a warn from the user!',
                 options: [
                     {
-                        type: 6, // USER
+                        type: ApplicationCommandOptionType.User,
                         name: 'target',
                         description: 'The user to remove the warn',
                         required: true
                     },
                     {
-                        type: 3, // STRING
+                        type: ApplicationCommandOptionType.String,
                         name: 'warnid',
                         description: 'Enter the warn id from (warnings list)',
                         required: true
@@ -58,12 +59,12 @@ module.exports = {
                 ]
             },
             {
-                type: 1, // SUB_COMMAND
+                type: ApplicationCommandOptionType.Subcommand,
                 name: 'list',
                 description: 'Get the list of warns for the user',
                 options: [
                     {
-                        type: 6, // USER
+                        type: ApplicationCommandOptionType.User,
                         name: 'target',
                         description: 'Select a user',
                         required: true
@@ -73,24 +74,35 @@ module.exports = {
         ]
     },
     async execute(client, interaction) {
-        const subCommandName = interaction.options._subcommand;
+        const subCommandName = interaction.options.getSubcommand();
         let reason = interaction.options.getString('reason');
         let warnid = interaction.options.getString('warnid');
         let user = interaction.options.getUser('target');
 
         switch (subCommandName) {
-            case 'add':
-                if (user.id === interaction.guild.ownerId) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** a server owner!", flags: ['Ephemeral'] });
-                };
-
-                if (user.id === interaction.user.id) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** yourself!", flags: ['Ephemeral'] });
-                };
-
-                if (user.id === client.user.id) {
-                    return interaction.reply({ content: "\\❌ | You cannot **warn** me!", flags: ['Ephemeral'] });
-                };
+            case 'add': {
+                // Warn can target users that already left the guild, so only run
+                // the full guard chain when the member is still present.
+                const targetMember = await interaction.guild.members.fetch(user.id).catch(() => null);
+                if (targetMember) {
+                    const check = await checkModerationTarget(client, interaction, 'warn', { member: targetMember });
+                    if (!check.ok) {
+                        return interaction.reply({ content: check.content, flags: ['Ephemeral'] });
+                    }
+                } else {
+                    if (user.id === interaction.guild.ownerId) {
+                        return interaction.reply({ content: "❌ | You cannot **warn** a server owner!", flags: ['Ephemeral'] });
+                    }
+                    if (user.id === interaction.user.id) {
+                        return interaction.reply({ content: "❌ | You cannot **warn** yourself!", flags: ['Ephemeral'] });
+                    }
+                    if (user.id === client.user.id) {
+                        return interaction.reply({ content: "❌ | You cannot **warn** me!", flags: ['Ephemeral'] });
+                    }
+                    if (client.owners && client.owners.includes(user.id)) {
+                        return interaction.reply({ content: "❌ | You cannot **warn** my developer through me!", flags: ['Ephemeral'] });
+                    }
+                }
 
                 const warnObj = {
                     authorId: interaction.user.id,
@@ -118,46 +130,47 @@ module.exports = {
                 const warnCount = warnAddData ? warnAddData.warnings.length + 1 : 1;
                 const warnGrammar = warnCount === 1 ? '' : 's';
 
-                interaction.reply({ content: `Successfully **warned** the ${user.tag}!` });
+                interaction.reply({ content: `Successfully **warned** the ${user.username}!` });
                 const dmembed = new EmbedBuilder()
-                    .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#e6a54a')
                     .setTitle(`You have been warned by ${interaction.user.username}`)
-                    .setDescription(`You have been warned for **${reason}** by ${interaction.user.tag}!\n\nYou now have **${warnCount}** warning${warnGrammar} in total.`)
+                    .setDescription(`You have been warned for **${reason}** by ${interaction.user.username}!\n\nYou now have **${warnCount}** warning${warnGrammar} in total.`)
                     .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
                 try {
                     await user.send({ embeds: [dmembed] })
-                } catch (error) {
+                } catch {
                     return;
                 }
                 break;
+            }
 
-            case 'list':
+            case 'list': {
                 const warnedResult = await warnSchema.findOne({
                     guildId: interaction.guildId,
                     userId: user.id,
                 });
 
                 if (!warnedResult || warnedResult.warnings.length === 0) {
-                    return interaction.reply({ content: `💢 Looks like ${user.tag} don't have any \`warnings\` yet!`, flags: ['Ephemeral'] });
+                    return interaction.reply({ content: `💢 Looks like ${user.username} don't have any \`warnings\` yet!`, flags: ['Ephemeral'] });
                 }
 
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: `${interaction.user.username}'s Warnings List`, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setColor('#2F3136')
-                    .setFooter({ text: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
+                    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                     .setTimestamp();
 
                 for (const warning of warnedResult.warnings) {
                     const { authorId, timestamp, warnId, reason } = warning;
 
                     const getModeratorUser = interaction.guild.members.cache.find(
-                        user => user.id === authorId
+                        modUser => modUser.id === authorId
                     );
 
                     if (getModeratorUser) {
                         embed.addFields({
-                            name: `Warning by ${getModeratorUser.user.tag} (ID: ${warnId})`,
+                            name: `Warning by ${getModeratorUser.user.username} (ID: ${warnId})`,
                             value: `Reason: **${reason}**\nWarned at: <t:${timestamp}:F>`
                         });
                     } else {
@@ -187,8 +200,9 @@ module.exports = {
                 interaction.reply({ embeds: [embed], components: [selectMenu], flags: ['Ephemeral'] });
 
                 break;
+            }
 
-            case 'remove':
+            case 'remove': {
                 const validateUUID = uuid.validate(warnid);
 
                 if (validateUUID) {
@@ -203,16 +217,11 @@ module.exports = {
                     );
 
                     const getRemovedWarnedUser = interaction.guild.members.cache.find(
-                        (user) => user.id === warnedRemoveData.userId,
+                        (removedUser) => removedUser.id === warnedRemoveData.userId,
                     );
 
-                    const warnedRemoveCount = warnedRemoveData
-                        ? warnedRemoveData.warnings.length - 1
-                        : 0;
-                    const warnedRemoveGrammar = warnedRemoveCount === 1 ? '' : 's';
-
                     interaction.reply({
-                        content: `Successfully **removed warning for** the user from ${getRemovedWarnedUser.user.tag}!`,
+                        content: `Successfully **removed warning for** the user from ${getRemovedWarnedUser.user.username}!`,
                     });
                 } else {
                     interaction.reply({
@@ -222,6 +231,7 @@ module.exports = {
                 }
 
                 break;
+            }
         }
     },
 };

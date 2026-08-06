@@ -99,7 +99,7 @@ module.exports = {
 
         const filter = i => i.user.id === message.author.id;
 
-        const collector = msg.createComponentCollector({ filter, fetch: true  })
+        const collector = msg.createMessageComponentCollector({ filter })
 
         let timeout = setTimeout(()=> collector.stop(), 180000)
     

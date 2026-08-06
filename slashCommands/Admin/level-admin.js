@@ -1,6 +1,5 @@
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits, ApplicationCommandOptionType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
-const GuildSchema = require('../../schema/GuildSchema');
 const LevelService = require('../../util/functions/LevelService');
 
 /**
@@ -17,18 +16,18 @@ module.exports = {
     permissions: [PermissionFlagsBits.ManageGuild],
     options: [
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "set",
         description: "Set a user's level directly",
         options: [
           {
-            type: 6, // USER
+            type: ApplicationCommandOptionType.User,
             name: "user",
             description: "User to set level for",
             required: true
           },
           {
-            type: 4, // INTEGER
+            type: ApplicationCommandOptionType.Integer,
             name: "level",
             description: "Level to set (1-1000)",
             required: true,
@@ -38,18 +37,18 @@ module.exports = {
         ]
       },
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "addxp",
         description: "Add XP to a user",
         options: [
           {
-            type: 6, // USER
+            type: ApplicationCommandOptionType.User,
             name: "user",
             description: "User to add XP to",
             required: true
           },
           {
-            type: 4, // INTEGER
+            type: ApplicationCommandOptionType.Integer,
             name: "amount",
             description: "Amount of XP to add (1-100000)",
             required: true,
@@ -59,18 +58,18 @@ module.exports = {
         ]
       },
       {
-        type: 1, // SUB_COMMAND
+        type: ApplicationCommandOptionType.Subcommand,
         name: "reset",
         description: "Reset a user's or all XP",
         options: [
           {
-            type: 5, // BOOLEAN
+            type: ApplicationCommandOptionType.Boolean,
             name: "confirm",
             description: "Confirm reset action",
             required: true
           },
           {
-            type: 6, // USER
+            type: ApplicationCommandOptionType.User,
             name: "user",
             description: "User to reset (omit for all)",
             required: false
@@ -85,15 +84,27 @@ module.exports = {
 
     const subcommand = interaction.options.getSubcommand();
 
+    /** Resolve the target member from the 'user' option (fetch if not cached). */
+    const getTargetMember = async () => {
+      const targetUser = interaction.options.getUser('user');
+      if (!targetUser) return null;
+      const cached = interaction.options.getMember('user');
+      if (cached) return cached;
+      return interaction.guild.members.fetch(targetUser.id).catch(() => null);
+    };
+
     switch (subcommand) {
       case 'set': {
-        const target = interaction.options.getMember('user');
+        const target = await getTargetMember();
+        if (!target) {
+          return interaction.editReply('❌ User could not be found in this server!');
+        }
         const level = interaction.options.getInteger('level');
 
         const result = await LevelService.setLevel(interaction.guildId, target.id, level);
 
         // Assign level roles if configured
-        const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });
+        const guildData = await client.getCachedGuildData(interaction.guildId);
         if (guildData?.Mod?.Level?.Roles?.length > 0) {
           await LevelService.assignLevelRoles(target, level, guildData.Mod.Level.Roles);
         }
@@ -112,13 +123,16 @@ module.exports = {
       }
 
       case 'addxp': {
-        const target = interaction.options.getMember('user');
+        const target = await getTargetMember();
+        if (!target) {
+          return interaction.editReply('❌ User could not be found in this server!');
+        }
         const amount = interaction.options.getInteger('amount');
 
         const result = await LevelService.addXpDirect(interaction.guildId, target.id, amount);
 
         // Assign level roles if user leveled up
-        const guildData = await GuildSchema.findOne({ GuildID: interaction.guildId });
+        const guildData = await client.getCachedGuildData(interaction.guildId);
         if (result.leveledUp && guildData?.Mod?.Level?.Roles?.length > 0) {
           await LevelService.assignLevelRoles(target, result.newLevel, guildData.Mod.Level.Roles);
         }
@@ -151,7 +165,7 @@ module.exports = {
           return interaction.editReply('❌ Please confirm the reset action.');
         }
 
-        const target = interaction.options.getMember('user');
+        const target = await getTargetMember();
 
         if (target) {
           await LevelService.resetUser(interaction.guildId, target.id);

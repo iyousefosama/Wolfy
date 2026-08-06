@@ -127,14 +127,18 @@ ${item.type != "Item" ? `Purchase: \`/buy item:${item.id}\`` : ''}`
     const row = new ActionRowBuilder().addComponents(prevButton, nextButton);
 
     // Send the initial message with buttons
-    const response = await interaction.reply({
+    const callbackResponse = await interaction.reply({
       embeds: [pages[currentPage]],
       components: [row],
       withResponse: true
     });
 
+    // withResponse:true resolves to an InteractionCallbackResponse; the real
+    // Message we collect on lives at .resource.message.
+    const msg = callbackResponse?.resource?.message ?? (await interaction.fetchReply());
+
     // Create collector for button interactions
-    const collector = response.createComponentCollector({
+    const collector = msg.createMessageComponentCollector({
       filter: i => i.user.id === interaction.user.id,
       time: 90000 // 1.5 minutes
     });

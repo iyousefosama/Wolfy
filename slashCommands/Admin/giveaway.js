@@ -166,19 +166,19 @@ module.exports = {
         });
       }
 
-      // Store options in the customId so we can read them from the modal submit handler.
-      // Format: giveaway_modal_<durationMs>_<winners>_<channelId>_<reqRole|0>_<bypassRole|0>
-      const customId = [
-        'giveaway_modal',
+      // Keep the options out of the customId: store them under a short random
+      // key and only embed that key, so the modal handler can look them up.
+      const { setModalState } = require('../../util/modules/GiveawayModalState');
+      const stateKey = setModalState({
         durationMs,
         winnerCount,
-        targetChannel.id,
-        requiredRole?.id  ?? '0',
-        bypassRole?.id    ?? '0',
-      ].join('_');
+        channelId: targetChannel.id,
+        requiredRoleId: requiredRole?.id ?? null,
+        bypassRoleId: bypassRole?.id ?? null,
+      });
 
       const modal = new ModalBuilder()
-        .setCustomId(customId)
+        .setCustomId(`giveaway_modal_${stateKey}`)
         .setTitle('🎉 Create a Giveaway');
 
       const prizeInput = new TextInputBuilder()

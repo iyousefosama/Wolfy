@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const { colors } = require("../../util/constants/constants");
 
 module.exports = {
@@ -15,13 +15,13 @@ module.exports = {
         ],
         options: [
             {
-                type: 3, // USER
+                type: ApplicationCommandOptionType.String,
                 name: 'target',
                 description: 'The id of user to unban',
                 required: true
             },
             {
-                type: 3, // STRING
+                type: ApplicationCommandOptionType.String,
                 name: 'reason',
                 description: 'The reason for the unban',
                 required: false
@@ -49,7 +49,7 @@ module.exports = {
                 .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL({ dynamic: true, size: 2048 }) })
                 .setTimestamp();
             return interaction.reply({ embeds: [embed] });
-        } catch (error) {
+        } catch {
             return interaction.reply({ content: "❌ | I couldn't **unban** that user!", flags: ['Ephemeral'] });
         }
     },

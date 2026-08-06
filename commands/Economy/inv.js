@@ -90,7 +90,7 @@ module.exports = {
         };
     
         const msg = await message.channel.send({ embeds: [pages.firstPage], components: [row] });
-        const Butcollector = msg.createComponentCollector({ time: 15000, fetch: true });
+        const Butcollector = msg.createMessageComponentCollector({ time: 15000 });
 
         Butcollector.on('collect', async interactionCreate => {
             if(interactionCreate.customId === '652196854196854984'){

@@ -1,6 +1,5 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { colors } = require('../../util/constants/constants');
-const schema = require('../../schema/GuildSchema');
 
 /**
  * @type {import("../../util/types/baseCommandSlash")}
@@ -13,17 +12,18 @@ module.exports = {
     guildOnly: true,
     cooldown: 3,
     group: "Moderation",
+    requiresDatabase: true,
     clientPermissions: [],
     permissions: ["Administrator"],
     options: [
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'messageid',
         description: 'The ID of the suggestion message',
         required: true
       },
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'action',
         description: 'Whether to accept or deny the suggestion',
         required: true,
@@ -39,7 +39,7 @@ module.exports = {
         ]
       },
       {
-        type: 3, // STRING
+        type: ApplicationCommandOptionType.String,
         name: 'reason',
         description: 'The reason for accepting or denying the suggestion',
         required: true
@@ -61,27 +61,15 @@ module.exports = {
     }
     
     // Fetch guild data to get suggestion channel
-    let data;
-    try {
-      data = await schema.findOne({
-        GuildID: interaction.guildId
-      });
-      
-      if (!data) {
-        return interaction.reply({ 
-          content: "❌ Please set a suggestion channel first!",
-          flags: ['Ephemeral'] 
-        });
-      }
-    } catch (err) {
-      console.log(err);
+    const data = await client.getCachedGuildData(interaction.guildId);
+    if (!data) {
       return interaction.reply({ 
-        content: `❌ [DATABASE_ERR]: The database responded with an error! ${err.name}`,
+        content: "❌ Please set a suggestion channel first!",
         flags: ['Ephemeral'] 
       });
     }
     
-    const channelID = data.Mod.Suggestion.channel;
+    const channelID = data.Mod?.Suggestion?.channel;
     
     if (!channelID) {
       return interaction.reply({ 
@@ -113,9 +101,12 @@ module.exports = {
           flags: ['Ephemeral'] 
         });
       }
-      
-      // Check if suggestion already has a response
-      if (suggestion.embeds[0].fields.length > 1) {
+
+      // The suggestion embed's first field is the Status field. While it is
+      // still "Under Review" the suggestion has no response; once a response
+      // is applied it is replaced and a Reason field is appended.
+      const statusField = suggestion.embeds[0].fields?.[0];
+      if (!statusField || statusField.value !== 'Under Review') {
         return interaction.reply({ 
           content: "❌ That suggestion already has a response!",
           flags: ['Ephemeral'] 
